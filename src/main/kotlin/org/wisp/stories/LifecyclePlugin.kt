@@ -2,6 +2,8 @@ package org.wisp.stories
 
 import com.fs.starfarer.api.BaseModPlugin
 import com.thoughtworks.xstream.XStream
+import org.wisp.stories.dragons.DragonsQuest1BarEvent
+import org.wisp.stories.dragons.DragonsQuest1Intel
 import org.wisp.stories.wispLib.MOD_NAME
 import org.wisp.stories.wispLib.di
 import org.wisp.stories.wispLib.i
@@ -26,6 +28,9 @@ class LifecyclePlugin : BaseModPlugin() {
      */
     override fun configureXStream(x: XStream) {
         super.configureXStream(x)
+
+        x.alias("DragonsQuest1Intel", DragonsQuest1Intel::class.java)
+        x.alias("DragonsQuest1BarEvent", DragonsQuest1BarEvent::class.java)
     }
 
 

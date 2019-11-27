@@ -25,6 +25,9 @@ object DragonsQuest {
             }
             .firstOrNull()
 
+    /**
+     * Find a planet with life somewhere near the center
+     */
     fun findAndTagDragonPlanet() {
         if (dragonPlanet == null) {
             val system = try {
@@ -38,6 +41,7 @@ object DragonsQuest {
                     }
                     .random()
             } catch (e: Exception) {
+                // Can crash if no planets are found
                 di.errorReporter.reportCrash(e)
                 return
             }
@@ -48,5 +52,6 @@ object DragonsQuest {
 
     fun startQuest1() {
         isQuest1Started = true
+        di.intelManager.addIntel(DragonsQuest1Intel())
     }
 }
