@@ -1,0 +1,11 @@
+{
+    "id": "stories",
+    "name": "Stories",
+    "author": "Wispborne",
+    "utility": "false",
+    "version": "1.0.0",
+    "description": "Adds a collection of quests.",
+    "gameVersion": "0.9.1a",
+    "jars":["jars/Stories.jar"],
+    "modPlugin":"com.wisp.stories.LifecyclePlugin"
+}
