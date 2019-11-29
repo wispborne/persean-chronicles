@@ -19,7 +19,7 @@ object PersistentDataWrapper {
         di.sector.persistentData.remove(createPrefixedKey(key))
     }
 
-    private fun createPrefixedKey(key: String) = if (key.startsWith('$')) key else "$${MOD_PREFIX}${key}"
+    private fun createPrefixedKey(key: String) = if (key.startsWith('$')) key else "$${MOD_PREFIX}_$key"
 }
 
 class PersistentData<T>(private val prefKey: String?, private val defaultValue: T? = null) {

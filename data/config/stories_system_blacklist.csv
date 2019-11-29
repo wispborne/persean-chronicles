@@ -1,0 +1,3 @@
+id,systemId,isBlacklisted,priority
+# pick a guid or something random,#the id of the system to configure,"# true if no active gates, false if active gates are allowed","# allows mods to override each other, the highest value wins. If mod A makes corvus blacklisted with priority 1, mod B can un-blacklist it with priority 2. This allows mods to resolve conflicts."
+#asdfasdf3f3f,#corvus,#TRUE,#1

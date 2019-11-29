@@ -34,8 +34,8 @@ abstract class IntelDefinition(
         val bulletPointPadding = 10f
     }
 
-    private val startLocationCopy: SectorEntityToken?
-    private val endLocationCopy: SectorEntityToken?
+    protected val startLocationCopy: SectorEntityToken?
+    protected val endLocationCopy: SectorEntityToken?
 
     init {
         isImportant = important

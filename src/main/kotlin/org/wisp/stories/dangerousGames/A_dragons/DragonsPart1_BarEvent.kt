@@ -1,11 +1,11 @@
-package org.wisp.stories.dragons
+package org.wisp.stories.dangerousGames.A_dragons
 
 import org.lwjgl.input.Keyboard
 import org.wisp.stories.questLib.BarEventDefinition
 import org.wisp.stories.wispLib.di
 
-class DragonsQuest1BarEvent : BarEventDefinition<DragonsQuest1BarEvent>(
-    shouldShowEvent = { DragonsQuest.isQuest1Complete != true && DragonsQuest.dragonPlanet != null },
+class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
+    shouldShowEvent = { DragonsQuest.isDragonQuestPart1Started != true && DragonsQuest.dragonPlanet != null },
     interactionPrompt = {
         addPara {
             "The moment you pass through the spaceport bar's door, a strong drink is pressed into your hand. " +
@@ -22,7 +22,7 @@ class DragonsQuest1BarEvent : BarEventDefinition<DragonsQuest1BarEvent>(
             onPageShown = {
                 addPara {
                     "As you make your way over, you note that everyone in the bar has the same drink you do. " +
-                            "In the middle of the crowd, a large, heavily muscled and tattooed man is gesticulating wildly, apparently telling a story."
+                            "In the middle of the crowd, a large, heavily muscled, and tattooed man is gesticulating wildly, apparently telling a story."
                 }
             },
             options = listOf(
@@ -82,7 +82,7 @@ class DragonsQuest1BarEvent : BarEventDefinition<DragonsQuest1BarEvent>(
                 Option(
                     text = { "Leave" },
                     onOptionSelected = {
-                        DragonsQuest.startQuest1()
+                        DragonsQuest.startQuest1(startLocation = this.dialog.interactionTarget)
                         it.close(hideQuestOfferAfterClose = true)
                     }
                 )
@@ -90,8 +90,8 @@ class DragonsQuest1BarEvent : BarEventDefinition<DragonsQuest1BarEvent>(
         )
     )
 ) {
-    override fun createInstanceOfSelf() = DragonsQuest1BarEvent()
+    override fun createInstanceOfSelf() = DragonsPart1_BarEvent()
 
-    fun playerLastName(): String =
+    private fun playerLastName(): String =
         di.sector.playerPerson.name?.last?.ifBlank { null } ?: di.sector.playerPerson.nameString ?: "No-Name"
 }

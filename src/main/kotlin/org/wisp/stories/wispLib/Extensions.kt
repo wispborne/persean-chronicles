@@ -1,6 +1,8 @@
 package org.wisp.stories.wispLib
 
 import com.fs.starfarer.api.campaign.*
+import com.fs.starfarer.api.campaign.comm.IntelInfoPlugin
+import com.fs.starfarer.api.campaign.comm.IntelManagerAPI
 import com.fs.starfarer.api.util.Misc
 import org.lwjgl.util.vector.Vector2f
 import kotlin.math.pow
@@ -43,3 +45,6 @@ internal fun Vector2f.isInsideCircle(
 
 internal fun InteractionDialogPlugin.show(campaignUIAPI: CampaignUIAPI, targetEntity: SectorEntityToken) =
     campaignUIAPI.showInteractionDialog(this, targetEntity)
+
+internal fun <T : IntelInfoPlugin> IntelManagerAPI.findFirst(intelClass: Class<T>): T? =
+    this.getFirstIntel(intelClass) as? T

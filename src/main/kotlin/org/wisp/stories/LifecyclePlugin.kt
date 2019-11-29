@@ -2,9 +2,11 @@ package org.wisp.stories
 
 import com.fs.starfarer.api.BaseModPlugin
 import com.thoughtworks.xstream.XStream
-import org.wisp.stories.dragons.DragonsQuest1BarEvent
-import org.wisp.stories.dragons.DragonsQuest1Intel
+import org.wisp.stories.dangerousGames.A_dragons.DragonsPart1_BarEvent
+import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest_Intel
+import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest
 import org.wisp.stories.wispLib.MOD_NAME
+import org.wisp.stories.wispLib.MOD_PREFIX
 import org.wisp.stories.wispLib.di
 import org.wisp.stories.wispLib.i
 
@@ -17,6 +19,8 @@ class LifecyclePlugin : BaseModPlugin() {
     override fun onGameLoad(newGame: Boolean) {
         super.onGameLoad(newGame)
         applyBlacklistTagsToSystems()
+
+        DragonsQuest.findAndTagDragonPlanetIfNeeded()
     }
 
     override fun beforeGameSave() {
@@ -29,8 +33,15 @@ class LifecyclePlugin : BaseModPlugin() {
     override fun configureXStream(x: XStream) {
         super.configureXStream(x)
 
-        x.alias("DragonsQuest1Intel", DragonsQuest1Intel::class.java)
-        x.alias("DragonsQuest1BarEvent", DragonsQuest1BarEvent::class.java)
+        // DO NOT CHANGE THESE STRINGS, DOING SO WILL BREAK SAVE GAMES
+        val aliases = listOf(
+            DragonsQuest_Intel::class to "DragonsQuest_Intel",
+            DragonsPart1_BarEvent::class to "DragonsPart1_BarEvent",
+            CampaignPlugin::class to "CampaignPlugin"
+        )
+
+        // Prepend with mod prefix so the classes don't conflict with anything else getting serialized
+        aliases.forEach { x.alias("${MOD_PREFIX}_${it.second}", it.first.java) }
     }
 
 

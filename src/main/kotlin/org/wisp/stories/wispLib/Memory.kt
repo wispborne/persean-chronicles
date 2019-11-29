@@ -16,5 +16,5 @@ class Memory(private val memoryApi: MemoryAPI) {
         memoryApi.unset(createPrefixedKey(key))
     }
 
-    private fun createPrefixedKey(key: String) = if (key.startsWith('$')) key else "$${MOD_PREFIX}${key}"
+    private fun createPrefixedKey(key: String) = if (key.startsWith('$')) key else "$${MOD_PREFIX}_${key}"
 }

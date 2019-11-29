@@ -5,6 +5,7 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.CampaignUIAPI
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import org.wisp.stories.isBlacklisted
+import org.wisp.stories.isValidSystemForQuest
 import java.awt.Color
 import kotlin.reflect.KProperty
 
@@ -12,6 +13,10 @@ object Utilities {
     fun getSystems(): List<StarSystemAPI> =
         di.sector.starSystems
             .filterNot { it.isBlacklisted }
+
+    fun getSystemsForQuestTarget(): List<StarSystemAPI> =
+        di.sector.starSystems
+            .filter { it.isValidSystemForQuest }
 }
 
 class CrashReporter(private val modName: String, private val modAuthor: String?, private val di: Di) {
