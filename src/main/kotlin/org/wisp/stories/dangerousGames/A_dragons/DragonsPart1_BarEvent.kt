@@ -5,7 +5,7 @@ import org.wisp.stories.questLib.BarEventDefinition
 import org.wisp.stories.wispLib.di
 
 class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
-    shouldShowEvent = { DragonsQuest.isDragonQuestPart1Started != true && DragonsQuest.dragonPlanet != null },
+    shouldShowEvent = { DragonsQuest.stage == DragonsQuest.Stage.NotStarted && DragonsQuest.dragonPlanet != null },
     interactionPrompt = {
         addPara {
             "The moment you pass through the spaceport bar's door, a strong drink is pressed into your hand. " +

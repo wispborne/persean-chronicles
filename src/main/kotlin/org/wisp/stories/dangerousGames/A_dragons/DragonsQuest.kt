@@ -16,21 +16,22 @@ object DragonsQuest {
         "jungle"
     )
 
-    var isDragonQuestPart1Started: Boolean? by PersistentData("isDragonQuestPart1Started")
-        private set
-    var isDragonQuestPart1Complete: Boolean? by PersistentData("isDragonQuestPart1Complete")
-        private set
+    /**
+     * Where the player is in the quest.
+     * Note: Should be in order of completion.
+     */
+    enum class Stage {
+        NotStarted,
+        GoToPlanet,
+        ReturnToStart,
+        FailedByAbandoning,
+        Done
+    }
 
-    var isDragonQuestPart2Started: Boolean? by PersistentData("isDragonQuestPart2Started")
-        private set
-    var isDragonQuestPart2Complete: Boolean? by PersistentData("isDragonQuestPart2Complete")
-        private set
-
-    val isDragonQuestComplete: Boolean
-        get() = isDragonQuestPart1Complete == true
-                && isDragonQuestPart2Complete == true
-
-    var didFailByLeavingOthersToGetEaten: Boolean? by PersistentData("didFailByLeavingToGetEaten", false)
+    /**
+     * @since 1.0
+     */
+    var stage: Stage by PersistentData("dragonQuestStage", Stage.NotStarted)
         private set
 
     val dragonPlanet: SectorEntityToken?
@@ -68,21 +69,17 @@ object DragonsQuest {
     }
 
     fun startQuest1(startLocation: SectorEntityToken) {
-        isDragonQuestPart1Started = true
+        stage = Stage.GoToPlanet
         di.intelManager.addIntel(DragonsQuest_Intel(startLocation))
     }
 
-    fun failedByLeavingToGetEatenByDragons() {
-        didFailByLeavingOthersToGetEaten = true
+    fun failQuestByLeavingToGetEatenByDragons() {
+        stage = Stage.FailedByAbandoning
         di.intelManager.findFirst(DragonsQuest_Intel::class.java)
             ?.endAfterDelay()
     }
 
-    fun completePart1() {
-        isDragonQuestPart1Complete = true
-    }
-
     fun startPart2() {
-        isDragonQuestPart2Started = true
+        stage = Stage.ReturnToStart
     }
 }

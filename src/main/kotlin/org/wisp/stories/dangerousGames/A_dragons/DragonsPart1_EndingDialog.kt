@@ -88,7 +88,7 @@ class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialo
                 Option(
                     text = { "Exit" },
                     onOptionSelected = {
-                        DragonsQuest.failedByLeavingToGetEatenByDragons()
+                        DragonsQuest.failQuestByLeavingToGetEatenByDragons()
                         it.close(hideQuestOfferAfterClose = true)
                     }
                 )
@@ -140,7 +140,6 @@ class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialo
                 Option(
                     text = { "Leave" },
                     onOptionSelected = {
-                        DragonsQuest.completePart1()
                         DragonsQuest.startPart2()
                         it.close(true)
                     }

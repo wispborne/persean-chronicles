@@ -12,15 +12,15 @@ import org.wisp.stories.wispLib.di
 
 /**
  * @param iconPath get via [com.fs.starfarer.api.SettingsAPI.getSpriteName]
- * @param infoCreator the small summary on the left Intel panel sidebar
- * @param smallDescriptionCreator the intel description on the right Intel panel sidebar
+ * @param subtitleCreator the small summary on the left Intel panel sidebar
+ * @param descriptionCreator the intel description on the right Intel panel sidebar
  */
 abstract class IntelDefinition(
-    @Transient var title: (IntelDefinition.() -> String)? = null,
     @Transient var iconPath: (IntelDefinition.() -> String)? = null,
+    @Transient var title: (IntelDefinition.() -> String)? = null,
+    @Transient var subtitleCreator: (IntelDefinition.(info: TooltipMakerAPI?) -> Unit)? = null,
     var durationInDays: Float = Float.NaN,
-    @Transient var infoCreator: (IntelDefinition.(info: TooltipMakerAPI?) -> Unit)? = null,
-    @Transient var smallDescriptionCreator: (IntelDefinition.(info: TooltipMakerAPI, width: Float, height: Float) -> Unit)? = null,
+    @Transient var descriptionCreator: (IntelDefinition.(info: TooltipMakerAPI, width: Float, height: Float) -> Unit)? = null,
     val showDaysSinceCreated: Boolean = false,
     val intelTags: List<String>,
     startLocation: SectorEntityToken? = null,
@@ -66,8 +66,8 @@ abstract class IntelDefinition(
         val newInstance = createInstanceOfSelf()
         title = newInstance.title
         iconPath = newInstance.iconPath
-        infoCreator = newInstance.infoCreator
-        smallDescriptionCreator = newInstance.smallDescriptionCreator
+        subtitleCreator = newInstance.subtitleCreator
+        descriptionCreator = newInstance.descriptionCreator
         @Suppress("SENSELESS_COMPARISON")
         if (removeIntelIfAnyOfTheseEntitiesDie == null) removeIntelIfAnyOfTheseEntitiesDie = emptyList()
 
@@ -105,18 +105,18 @@ abstract class IntelDefinition(
                 padding = 0f
             ) { title!!.invoke(this@IntelDefinition) }
         }
-        infoCreator?.invoke(this, info)
+        subtitleCreator?.invoke(this, info)
     }
 
     final override fun createSmallDescription(info: TooltipMakerAPI, width: Float, height: Float) {
-        smallDescriptionCreator?.invoke(this, info, width, height)
+        descriptionCreator?.invoke(this, info, width, height)
 
         if (showDaysSinceCreated && daysSincePlayerVisible > 0) {
             addDays(info, "ago.", daysSincePlayerVisible, Misc.getTextColor(), bulletPointPadding)
         }
     }
 
-    final override fun hasSmallDescription(): Boolean = smallDescriptionCreator != null
+    final override fun hasSmallDescription(): Boolean = descriptionCreator != null
 
     override fun getIcon(): String = iconPath?.invoke(this@IntelDefinition)
         ?: di.settings.getSpriteName("intel", "fleet_log")
