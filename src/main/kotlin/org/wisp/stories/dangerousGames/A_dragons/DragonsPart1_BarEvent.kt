@@ -3,12 +3,13 @@ package org.wisp.stories.dangerousGames.A_dragons
 import org.lwjgl.input.Keyboard
 import org.wisp.stories.questLib.BarEventDefinition
 import org.wisp.stories.wispLib.di
+import org.wisp.stories.wispLib.lastName
 
 class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
     shouldShowEvent = { DragonsQuest.stage == DragonsQuest.Stage.NotStarted && DragonsQuest.dragonPlanet != null },
     interactionPrompt = {
         addPara {
-            "The moment you pass through the spaceport bar's door, a strong drink is pressed into your hand. " +
+            "The moment you pass through the bar door, a strong drink is pressed into your hand. " +
                     "You look at it, dumbfounded, and then look up to the waiter who gave it to you. " +
                     "\"Compliments of Mr. Karengo,\" he says, nodding his head towards a crowd of people, mostly young men, before moving on."
         }
@@ -59,7 +60,7 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
             options = listOf(
                 Option(
                     text = {
-                        "\"Captain ${playerLastName()}, at your service. We leave at dawn!\""
+                        "\"Captain ${di.sector.playerPerson.lastName}, at your service. We leave at dawn!\""
                     },
                     onOptionSelected = {
                         it.goToPage(3)
@@ -76,7 +77,7 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
             id = 3,
             onPageShown = {
                 "You wake up significantly after dawn with empty bottles and unconscious men strewn all over your ship. " +
-                        "Karengo gives you a crooked smile, shielding his eyes from the light. \"Alright, ${playerLastName()},\" he says, \"let's do this.\""
+                        "Karengo gives you a crooked smile, shielding his eyes from the light. \"Alright, ${di.sector.playerPerson.lastName},\" he says, \"let's do this.\""
             },
             options = listOf(
                 Option(
@@ -91,7 +92,4 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
     )
 ) {
     override fun createInstanceOfSelf() = DragonsPart1_BarEvent()
-
-    private fun playerLastName(): String =
-        di.sector.playerPerson.name?.last?.ifBlank { null } ?: di.sector.playerPerson.nameString ?: "No-Name"
 }

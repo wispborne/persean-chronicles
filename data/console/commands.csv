@@ -1,0 +1,2 @@
+command,class,tags,syntax,help
+Stories_DangerousGames_ResetDragonQuest,org.wisp.stories.dangerousGames.ResetDragonsQuestCommand,"stories,campaign",Stories_DangerousGames_ResetDragonQuest,Reset the Dragonriders quest in the Dangerous Games storyline of the Stories mod.

@@ -20,7 +20,6 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken) : IntelDefinition(
                 }
     },
     subtitleCreator = { info: TooltipMakerAPI? ->
-
         if (DragonsQuest.stage == DragonsQuest.Stage.GoToPlanet) {
             info?.addPara {
                 "Take the group to ${DragonsQuest.dragonPlanet?.fullName}"
@@ -33,17 +32,26 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken) : IntelDefinition(
     },
     descriptionCreator = { info, width, _ ->
         val part1Color =
-            if (DragonsQuest.stage != DragonsQuest.Stage.GoToPlanet) Misc.getGrayColor()
+            if (DragonsQuest.stage > DragonsQuest.Stage.GoToPlanet) Misc.getGrayColor()
             else Misc.getTextColor()
 
         info.addPara(textColor = part1Color) {
             "A lively man named Karengo and a few passionate youth are traveling with you to see the draconic animals " +
                     "on \"${DragonsQuest.dragonPlanet?.fullName} in the ${DragonsQuest.dragonPlanet?.starSystem?.baseName} system."
         }
+        val part2Color =
+            if (DragonsQuest.stage > DragonsQuest.Stage.ReturnToStart) Misc.getGrayColor()
+            else Misc.getTextColor()
 
         if (DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart) {
-            info.addPara {
+            info.addPara(textColor = part2Color) {
                 "Return to ${startLocation.fullName} in ${startLocation.starSystem?.baseName}"
+            }
+        }
+
+        if(DragonsQuest.stage == DragonsQuest.Stage.FailedByAbandoning) {
+            info.addPara(textColor = part2Color) {
+                "You abandoned the Dragonriders to their deaths on ${startLocation.starSystem?.baseName}"
             }
         }
     },

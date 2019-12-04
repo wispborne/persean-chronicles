@@ -129,12 +129,6 @@ class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialo
                             " they respond enthusiastically, rocketing you away from the mountain and into the safety of patrolled airspace." +
                             " From the cabin comes the sound of back-slapping and, surprisingly, a sob."
                 }
-                addPara {
-                    "As you fuel up, Karengo herds the seven surviving men out of the ship. " +
-                            "\"Meet us at the spaceport tonight, yeah?\" he says to you. \"This day deserves a celebration.\"" +
-                            " You nod, but can't help but notice red eyes and wet cheeks among the rest of the Dragonriders as they shuffle off."
-                }
-
             },
             options = listOf(
                 Option(
