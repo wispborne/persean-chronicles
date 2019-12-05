@@ -9,7 +9,7 @@
     #
     # Bitbucket, GitHub, and other online repositories make excellent hosts.
     #
-    # "masterVersionFile":"http://www.example.com",
+    "masterVersionFile":"https://raw.githubusercontent.com/davidwhitman/stories/master/stories.version",
 
     # The name that is displayed in-game for your mod
     "modName":"Stories",

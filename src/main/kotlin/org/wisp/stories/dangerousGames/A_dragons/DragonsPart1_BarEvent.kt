@@ -35,7 +35,7 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
                 ),
                 Option(
                     text = { "Leave" },
-                    onOptionSelected = { it.close(true) },
+                    onOptionSelected = { it.close(hideQuestOfferAfterClose = false) },
                     shortcut = Shortcut(Keyboard.KEY_ESCAPE)
                 )
             )
