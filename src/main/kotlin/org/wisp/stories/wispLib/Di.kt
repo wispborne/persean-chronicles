@@ -37,7 +37,7 @@ class Di {
         get() = Global.getFactory()
 
     val errorReporter: CrashReporter =
-        CrashReporter(modName = "Gates Awakened", modAuthor = "Wisp (aka Wispborne)", di = this)
+        CrashReporter(modName = "Stories", modAuthor = "Wisp (aka Wispborne)", di = this)
 }
 
 /**

@@ -79,7 +79,6 @@ object DragonsQuest {
     }
 
     fun startQuest1(startLocation: SectorEntityToken) {
-        findAndTagDragonPlanetIfNeeded()
         stage = Stage.GoToPlanet
         di.intelManager.addIntel(DragonsQuest_Intel(startLocation))
     }

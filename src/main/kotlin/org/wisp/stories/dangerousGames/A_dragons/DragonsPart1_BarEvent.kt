@@ -1,5 +1,7 @@
 package org.wisp.stories.dangerousGames.A_dragons
 
+import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
+import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import org.lwjgl.input.Keyboard
 import org.wisp.stories.questLib.BarEventDefinition
 import org.wisp.stories.wispLib.di
@@ -92,4 +94,8 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
     )
 ) {
     override fun createInstanceOfSelf() = DragonsPart1_BarEvent()
+}
+
+class DragonsPart1_BarEventCreator : BaseBarEventCreator() {
+    override fun createBarEvent(): PortsideBarEvent = DragonsPart1_BarEvent().buildBarEvent()
 }

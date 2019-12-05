@@ -1,10 +1,12 @@
 package org.wisp.stories
 
 import com.fs.starfarer.api.BaseModPlugin
+import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.thoughtworks.xstream.XStream
 import org.wisp.stories.dangerousGames.A_dragons.DragonsPart1_BarEvent
-import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest_Intel
+import org.wisp.stories.dangerousGames.A_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest
+import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest_Intel
 import org.wisp.stories.wispLib.MOD_NAME
 import org.wisp.stories.wispLib.MOD_PREFIX
 import org.wisp.stories.wispLib.di
@@ -21,6 +23,14 @@ class LifecyclePlugin : BaseModPlugin() {
         applyBlacklistTagsToSystems()
 
         DragonsQuest.findAndTagDragonPlanetIfNeeded()
+
+        val barEventManager = BarEventManager.getInstance()
+
+        if (DragonsQuest.stage == DragonsQuest.Stage.NotStarted
+            && !barEventManager.hasEventCreator(DragonsPart1_BarEventCreator::class.java)
+        ) {
+            barEventManager.addEventCreator(DragonsPart1_BarEventCreator())
+        }
     }
 
     override fun beforeGameSave() {
