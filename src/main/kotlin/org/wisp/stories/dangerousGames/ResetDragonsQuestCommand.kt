@@ -15,7 +15,7 @@ class ResetDragonsQuestCommand : BaseCommand {
 
         DragonsQuest.stage = DragonsQuest.Stage.NotStarted
         di.intelManager.findFirst(DragonsQuest_Intel::class.java)?.endImmediately()
-        DragonsQuest.findAndTagDragonPlanetIfNeeded(forceTagPlanet = true)
+        DragonsQuest.clearDragonPlanetTag()
         Console.showMessage("Quest reset. You didn't ditch those guys, right?")
         return BaseCommand.CommandResult.SUCCESS
     }

@@ -59,8 +59,8 @@ abstract class BarEventDefinition<S : InteractionDefinition<S>>(
                         BarEventManager.getInstance().notifyWasInteractedWith(event)
                     }
 
-                    noContinue = true
                     done = true
+                    noContinue = true
                 }
             }
 
@@ -93,6 +93,7 @@ abstract class BarEventDefinition<S : InteractionDefinition<S>>(
             override fun init(dialog: InteractionDialogAPI) {
                 super.init(dialog)
                 this.done = false
+                this.noContinue = false
                 dialog.visualPanel.showPersonInfo(this.person, true)
                 onInteractionStarted(this@BarEventDefinition as S)
 

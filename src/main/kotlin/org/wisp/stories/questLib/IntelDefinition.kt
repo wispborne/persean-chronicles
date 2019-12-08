@@ -40,8 +40,8 @@ abstract class IntelDefinition(
     init {
         isImportant = important
 
-        startLocationCopy = startLocation?.let { BreadcrumbIntel.makeDoubleWithSameOrbit(it) }
-        endLocationCopy = endLocation?.let { BreadcrumbIntel.makeDoubleWithSameOrbit(it) }
+        startLocationCopy = startLocation//?.let { BreadcrumbIntel.makeDoubleWithSameOrbit(it) }
+        endLocationCopy = endLocation//?.let { BreadcrumbIntel.makeDoubleWithSameOrbit(it) }
 
         iconPath?.run { di.settings.loadTexture(this.invoke(this@IntelDefinition)) }
 

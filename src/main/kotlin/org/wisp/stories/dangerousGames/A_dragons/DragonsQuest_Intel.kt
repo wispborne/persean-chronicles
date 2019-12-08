@@ -8,7 +8,7 @@ import org.wisp.stories.questLib.IntelDefinition
 import org.wisp.stories.questLib.addPara
 import org.wisp.stories.wispLib.empty
 
-class DragonsQuest_Intel(startLocation: SectorEntityToken) : IntelDefinition(
+class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     iconPath = { DragonsQuest.iconPath },
     title = {
         "Dangerous Games: The Dragonriders" +
@@ -42,10 +42,14 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken) : IntelDefinition(
             if (DragonsQuest.stage > DragonsQuest.Stage.ReturnToStart) Misc.getGrayColor()
             else Misc.getTextColor()
 
-        if (DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart) {
+        if (DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart || DragonsQuest.stage == DragonsQuest.Stage.Done) {
             info.addPara(textColor = part2Color) {
                 "Return to ${startLocation.name} in ${startLocation.starSystem?.baseName}"
             }
+        }
+
+        if (DragonsQuest.stage == DragonsQuest.Stage.Done) {
+            info.addPara { "The surviving men were returned home, having gotten more adventure than they bargained for." }
         }
 
         if (DragonsQuest.stage == DragonsQuest.Stage.FailedByAbandoning) {
@@ -55,9 +59,10 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken) : IntelDefinition(
         }
     },
     startLocation = startLocation,
+    endLocation = endLocation,
     intelTags = listOf(
         Tags.INTEL_STORY
     )
 ) {
-    override fun createInstanceOfSelf() = DragonsQuest_Intel(startLocationCopy!!)
+    override fun createInstanceOfSelf() = DragonsQuest_Intel(startLocationCopy!!, endLocationCopy!!)
 }

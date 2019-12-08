@@ -11,19 +11,20 @@ class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialo
             onPageShown = {
                 addPara {
                     "Karengo guides you down through the atmosphere of ${planetName()}" +
-                            (if (DragonsQuest.dragonPlanet?.market?.factionId != null)
+                            (if (isPlanetColonized())
                                 ", steering clear of the usual tourist areas and, you realize, of the local law enforcement"
                             else String.empty) +
                             ". As you're putting down in a clearing halfway up a mountain, " +
                             "there's an otherworldly screech and your ship lurches violently to one side. If you hadn't been strapped in, " +
-                            "you would surely have been thrown to the floor."
+                            "you would have been thrown to the floor."
                 }
                 addPara {
                     "\"Look lively, boys!\" Karengo is the only person still standing. \"Your chariot awaits!\" " +
                             "In short order, he double-checks the jetpacks on the backs of each of the men, or \"Dragonriders\", " +
                             "as they creatively branded themselves during their first night of the voyage. Karengo opens the side " +
-                            "hatch and hurls the Dragonriders out the door before following himself. You land and pull up every external camera you have to watch the action."
+                            "hatch and hurls the Dragonriders out the door before following himself."
                 }
+                addPara { "You land and pull up every external camera you have to watch the action." }
 
             },
             options = listOf(
@@ -112,10 +113,15 @@ class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialo
                 }
             },
             options = listOf(
-                Option(text = { "Swear and take off" }, onOptionSelected = {
-                    addPara { "\"Pignuts,\" you mutter to yourself." }
-                    it.goToPage(Pages.TakeOff)
-                })
+                Option(text = { "Take off" },
+                    onOptionSelected = {
+                        it.goToPage(Pages.TakeOff)
+                    }),
+                Option(text = { "Swear and take off" },
+                    onOptionSelected = {
+                        addPara { "\"Pignuts,\" you mutter to yourself." }
+                        it.goToPage(Pages.TakeOff)
+                    })
             )
         ),
         Page(
@@ -123,16 +129,16 @@ class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialo
             onPageShown = {
                 addPara {
                     "The ship takes off quickly enough to make you temporarily light-headed. " +
-                            "\"GET ON!\" a Dragonrider shouts over the PA as you position the ship just below the raging dragon with Karengo attached." +
+                            "\"GET ON!\" shouts one of the men over the PA as you position the ship just below the raging dragon with Karengo attached." +
                             " Scales bounce off the roof like diamonds. He lets go of his death grip on the dragon and free falls toward you," +
                             " only slowing at the last possible moment before dropping through the top hatch. You hit the engines hard and" +
-                            " they respond enthusiastically, rocketing you away from the mountain and into the safety of patrolled airspace." +
+                            " they respond enthusiastically, rocketing you away from the mountain${if (isPlanetColonized()) " and into the safety of patrolled airspace" else String.empty}." +
                             " From the cabin comes the sound of back-slapping and, surprisingly, a sob."
                 }
             },
             options = listOf(
                 Option(
-                    text = { "Leave" },
+                    text = { "Leave to take the men back home" },
                     onOptionSelected = {
                         DragonsQuest.startPart2()
                         it.close(true)
@@ -151,4 +157,6 @@ class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialo
         TakeOffAlone,
         TakeOff
     }
+
+    private fun isPlanetColonized() = DragonsQuest.dragonPlanet?.activePerson != null
 }

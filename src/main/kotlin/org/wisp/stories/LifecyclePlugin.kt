@@ -22,8 +22,6 @@ class LifecyclePlugin : BaseModPlugin() {
         super.onGameLoad(newGame)
         applyBlacklistTagsToSystems()
 
-        DragonsQuest.findAndTagDragonPlanetIfNeeded()
-
         val barEventManager = BarEventManager.getInstance()
 
         if (DragonsQuest.stage == DragonsQuest.Stage.NotStarted

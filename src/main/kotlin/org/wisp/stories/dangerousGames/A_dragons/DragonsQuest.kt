@@ -1,6 +1,7 @@
 package org.wisp.stories.dangerousGames.A_dragons
 
 import com.fs.starfarer.api.campaign.SectorEntityToken
+import com.fs.starfarer.api.campaign.StarSystemAPI
 import org.wisp.stories.wispLib.*
 
 /**
@@ -46,20 +47,21 @@ object DragonsQuest {
             }
             .firstOrNull()
 
-    /**
-     * Find a planet with life somewhere near the center
-     */
-    fun findAndTagDragonPlanetIfNeeded(forceTagPlanet: Boolean = false) {
-        if (forceTagPlanet) {
-            while (dragonPlanet != null) {
-                di.logger.i { "Removing tag $TAG_DRAGON_PLANET from planet ${dragonPlanet?.fullName} in ${dragonPlanet?.starSystem?.baseName}" }
-                dragonPlanet?.removeTag(TAG_DRAGON_PLANET)
-            }
+    fun clearDragonPlanetTag() {
+        while (dragonPlanet != null) {
+            di.logger.i { "Removing tag $TAG_DRAGON_PLANET from planet ${dragonPlanet?.fullName} in ${dragonPlanet?.starSystem?.baseName}" }
+            dragonPlanet?.removeTag(TAG_DRAGON_PLANET)
         }
+    }
 
+    /**
+     * Find a planet with life somewhere near the center, excluding player's current location.
+     */
+    fun findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem: StarSystemAPI?) {
         if (dragonPlanet == null) {
             val system = try {
                 Utilities.getSystemsForQuestTarget()
+                    .filter { it.id != playersCurrentStarSystem?.id }
                     .sortedBy { it.distanceFromCenterOfSector }
                     .flatMap { it.planets }
                     .filter { planet -> DRAGON_PLANET_TYPES.any { it == planet.typeId } }
@@ -82,7 +84,7 @@ object DragonsQuest {
 
     fun startQuest1(startLocation: SectorEntityToken) {
         stage = Stage.GoToPlanet
-        di.intelManager.addIntel(DragonsQuest_Intel(startLocation))
+        di.intelManager.addIntel(DragonsQuest_Intel(startLocation, dragonPlanet!!))
     }
 
     fun failQuestByLeavingToGetEatenByDragons() {
