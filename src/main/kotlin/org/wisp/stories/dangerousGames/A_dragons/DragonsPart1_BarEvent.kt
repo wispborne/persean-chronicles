@@ -70,7 +70,7 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
                 ),
                 Option(
                     text = { "Stay silent" },
-                    onOptionSelected = { it.close(hideQuestOfferAfterClose = true) },
+                    onOptionSelected = { it.close(hideQuestOfferAfterClose = false) },
                     shortcut = Shortcut(Keyboard.KEY_ESCAPE)
                 )
             )

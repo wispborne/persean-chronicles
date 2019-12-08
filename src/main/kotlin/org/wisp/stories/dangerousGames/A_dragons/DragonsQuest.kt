@@ -18,6 +18,8 @@ object DragonsQuest {
         "US_jungle" // Unknown Skies
     )
 
+    const val iconPath = "graphics/icons/wispStories_dragon.png"
+
     /**
      * Where the player is in the quest.
      * Note: Should be in order of completion.

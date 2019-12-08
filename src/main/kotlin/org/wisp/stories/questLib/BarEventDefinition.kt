@@ -120,6 +120,17 @@ abstract class BarEventDefinition<S : InteractionDefinition<S>>(
                 page.onPageShown(this@BarEventDefinition as S)
                 page.options.forEach { option ->
                     dialog.optionPanel.addOption(option.text(this@BarEventDefinition as S), option.id)
+
+                    if (option.shortcut != null) {
+                        dialog.optionPanel.setShortcut(
+                            option.id,
+                            option.shortcut.code,
+                            option.shortcut.holdCtrl,
+                            option.shortcut.holdAlt,
+                            option.shortcut.holdShift,
+                            false
+                        )
+                    }
                 }
             }
         }

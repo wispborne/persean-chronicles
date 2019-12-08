@@ -31,6 +31,9 @@ class LifecyclePlugin : BaseModPlugin() {
         ) {
             barEventManager.addEventCreator(DragonsPart1_BarEventCreator())
         }
+
+        // Register this so we can intercept and replace interactions
+        di.sector.registerPlugin(CampaignPlugin())
     }
 
     override fun beforeGameSave() {

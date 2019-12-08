@@ -22,11 +22,12 @@ repositories {
 }
 
 dependencies {
-    val kotlinVersionInLazyLib = "1.3.60"
+    val kotlinVersionInLazyLib = "1.3.61"
 
     // Get kotlin sdk from LazyLib during runtime, only use it here during compile time
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersionInLazyLib")
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersionInLazyLib")
+
 
     compileOnly(fileTree("$starsectorModDirectory/LazyLib/jars") { include("*.jar") })
     compileOnly(fileTree("$starsectorModDirectory/Console Commands/jars") { include("*.jar") })

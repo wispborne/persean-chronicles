@@ -1,6 +1,5 @@
 package org.wisp.stories.dangerousGames.A_dragons
 
-import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
@@ -10,7 +9,7 @@ import org.wisp.stories.questLib.addPara
 import org.wisp.stories.wispLib.empty
 
 class DragonsQuest_Intel(startLocation: SectorEntityToken) : IntelDefinition(
-    iconPath = { (DragonsQuest.dragonPlanet as? PlanetAPI)?.customEntitySpec?.iconName ?: String.empty },
+    iconPath = { DragonsQuest.iconPath },
     title = {
         "Dangerous Games: The Dragonriders" +
                 when (DragonsQuest.stage) {
@@ -22,11 +21,11 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken) : IntelDefinition(
     subtitleCreator = { info: TooltipMakerAPI? ->
         if (DragonsQuest.stage == DragonsQuest.Stage.GoToPlanet) {
             info?.addPara {
-                "Take the group to ${DragonsQuest.dragonPlanet?.fullName}"
+                "Take the group to ${DragonsQuest.dragonPlanet?.name}"
             }
         } else if (DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart) {
             info?.addPara {
-                "Return the group back to ${startLocation.fullName} in ${startLocation.starSystem?.baseName}"
+                "Return the group back to ${startLocation.name} in ${startLocation.starSystem?.baseName}"
             }
         }
     },
@@ -37,7 +36,7 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken) : IntelDefinition(
 
         info.addPara(textColor = part1Color) {
             "A lively man named Karengo and a few passionate youth are traveling with you to see the draconic animals " +
-                    "on \"${DragonsQuest.dragonPlanet?.fullName} in the ${DragonsQuest.dragonPlanet?.starSystem?.baseName} system."
+                    "on ${DragonsQuest.dragonPlanet?.name} in the ${DragonsQuest.dragonPlanet?.starSystem?.baseName} system."
         }
         val part2Color =
             if (DragonsQuest.stage > DragonsQuest.Stage.ReturnToStart) Misc.getGrayColor()
@@ -45,11 +44,11 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken) : IntelDefinition(
 
         if (DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart) {
             info.addPara(textColor = part2Color) {
-                "Return to ${startLocation.fullName} in ${startLocation.starSystem?.baseName}"
+                "Return to ${startLocation.name} in ${startLocation.starSystem?.baseName}"
             }
         }
 
-        if(DragonsQuest.stage == DragonsQuest.Stage.FailedByAbandoning) {
+        if (DragonsQuest.stage == DragonsQuest.Stage.FailedByAbandoning) {
             info.addPara(textColor = part2Color) {
                 "You abandoned the Dragonriders to their deaths on ${startLocation.starSystem?.baseName}"
             }
