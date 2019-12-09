@@ -3,8 +3,6 @@ package org.wisp.stories.questLib
 import com.fs.starfarer.api.campaign.InteractionDialogAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.characters.FullName
-import com.fs.starfarer.api.impl.campaign.ids.Factions
-import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventWithPerson
 
@@ -14,11 +12,12 @@ abstract class BarEventDefinition<S : InteractionDefinition<S>>(
     @Transient var textToStartInteraction: S.() -> String,
     onInteractionStarted: S.() -> Unit,
     pages: List<Page<S>>,
-    val personRank: String = Ranks.CITIZEN,
-    val personFaction: String = Factions.INDEPENDENT,
-    val personGender: FullName.Gender = FullName.Gender.ANY,
-    val personPost: String = Ranks.CITIZEN,
-    val personPortrait: String? = null
+    val personRank: String? = null,
+    val personFaction: String? = null,
+    val personGender: FullName.Gender? = null,
+    val personPost: String? = null,
+    val personPortrait: String? = null,
+    val personName: FullName? = null
 ) : InteractionDefinition<S>(
     onInteractionStarted = onInteractionStarted,
     pages = pages
@@ -92,6 +91,11 @@ abstract class BarEventDefinition<S : InteractionDefinition<S>>(
              */
             override fun init(dialog: InteractionDialogAPI) {
                 super.init(dialog)
+
+                if (this@BarEventDefinition.personName != null) {
+                    this.person.apply { name = this@BarEventDefinition.personName }
+                }
+
                 this.done = false
                 this.noContinue = false
                 dialog.visualPanel.showPersonInfo(this.person, true)
@@ -134,6 +138,21 @@ abstract class BarEventDefinition<S : InteractionDefinition<S>>(
                     }
                 }
             }
+
+            override fun getPersonFaction(): String? = this@BarEventDefinition.personFaction
+                ?: super.getPersonFaction()
+
+            override fun getPersonGender(): FullName.Gender? = this@BarEventDefinition.personGender
+                ?: super.getPersonGender()
+
+            override fun getPersonPortrait(): String? = this@BarEventDefinition.personPortrait
+                ?: super.getPersonPortrait()
+
+            override fun getPersonPost(): String? = this@BarEventDefinition.personPost
+                ?: super.getPersonPost()
+
+            override fun getPersonRank(): String? = this@BarEventDefinition.personRank
+                ?: super.getPersonRank()
         }
     }
 }

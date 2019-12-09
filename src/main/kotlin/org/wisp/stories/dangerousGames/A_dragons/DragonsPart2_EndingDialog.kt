@@ -11,7 +11,7 @@ class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialo
             id = 1,
             onPageShown = {
                 addPara {
-                    "As you land and fuel up, Karengo herds the seven surviving men out of the ship. " +
+                    "As you land and fuel up, Charengo herds the seven surviving men out of the ship. " +
                             "\"Meet us at the bar, yeah?\" he says to you. \"This day deserves a celebration.\"" +
                             " You nod, but can't help but notice red eyes and wet cheeks among the rest of the Dragonriders as they shuffle off."
                 }
@@ -28,12 +28,12 @@ class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialo
             onPageShown = {
                 addPara {
                     "Later that day, you spot the Dragonriders at a corner table of the bar. " +
-                            "The men, with the exception of Karengo, appear subdued. "
+                            "The men, with the exception of Charengo, appear subdued. "
                 }
                 addPara {
                     "\"How goes it, ${di.sector.playerPerson.lastName}?\" he asks. " +
                             "\"We were just raising a glass to mission success - made possible by you, of course. " +
-                            "Great flying, brother.\" The bartender arrives with a round of drinks and Karengo raises one. " +
+                            "Great flying, brother.\" The bartender arrives with a round of drinks and Charengo raises one. " +
                             "\"To the Dragonriders!\" he says."
                 }
             },
@@ -45,14 +45,14 @@ class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialo
                 Option(
                     text = { "\"To our fallen friends!\"" },
                     onOptionSelected = {
-                        addPara { "Karengo gives you an unreadable look and lowers his glass." }
+                        addPara { "Charengo gives you an unreadable look and lowers his glass." }
                         it.goToPage(3)
                     }
                 ),
                 Option(
                     text = { "\"I'm good, thanks.\"" },
                     onOptionSelected = {
-                        addPara { "Karengo gives you an unreadable look and lowers his glass." }
+                        addPara { "Charengo gives you an unreadable look and lowers his glass." }
                         it.goToPage(3)
                     }
                 )
@@ -71,7 +71,7 @@ class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialo
                 Option(
                     text = { "\"I can't accept their money. It's not right.\"" },
                     onOptionSelected = {
-                        addPara { "Karengo shrugs and doesn't take it back." }
+                        addPara { "Charengo shrugs and doesn't take it back." }
                         it.goToPage(4)
                     }
                 )
