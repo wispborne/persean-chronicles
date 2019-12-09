@@ -89,19 +89,29 @@ object DragonsQuest {
     fun failQuestByLeavingToGetEatenByDragons() {
         stage = Stage.FailedByAbandoning
         di.intelManager.findFirst(DragonsQuest_Intel::class.java)
-            ?.endAfterDelay()
+            ?.apply {
+                endAfterDelay()
+                sendUpdateIfPlayerHasIntel(null, false)
+            }
+
     }
 
     fun startPart2() {
         stage = Stage.ReturnToStart
         di.intelManager.findFirst(DragonsQuest_Intel::class.java)
-            ?.flipStartAndEndLocations()
+            ?.apply {
+                flipStartAndEndLocations()
+                sendUpdateIfPlayerHasIntel(null, false)
+            }
     }
 
     fun finishStage2() {
         di.sector.playerFleet.cargo.credits.add(rewardCredits.toFloat())
         stage = Stage.Done
         di.intelManager.findFirst(DragonsQuest_Intel::class.java)
-            ?.endAfterDelay()
+            ?.apply {
+                endAfterDelay()
+                sendUpdateIfPlayerHasIntel(null, false)
+            }
     }
 }
