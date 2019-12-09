@@ -37,7 +37,7 @@ class CampaignPlugin : BaseCampaignPlugin() {
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
             // Finish Dragonriders by landing at quest-giving planet
-            interactionTarget.id == di.intelManager.findFirst(DragonsQuest_Intel::class.java)?.startLocationCopy?.id
+            interactionTarget.id == di.intelManager.findFirst(DragonsQuest_Intel::class.java)?.endLocation?.id
                     && DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart ->
                 PluginPick(
                     DragonsPart2_EndingDialog().build(),

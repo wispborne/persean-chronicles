@@ -14,7 +14,7 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
         "Dangerous Games: The Dragonriders" +
                 when (DragonsQuest.stage) {
                     DragonsQuest.Stage.FailedByAbandoning -> " - Failed"
-                    DragonsQuest.Stage.Done -> " - Done"
+                    DragonsQuest.Stage.Done -> " - Completed"
                     else -> String.empty
                 }
     },
@@ -64,5 +64,5 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
         Tags.INTEL_STORY
     )
 ) {
-    override fun createInstanceOfSelf() = DragonsQuest_Intel(startLocationCopy!!, endLocationCopy!!)
+    override fun createInstanceOfSelf() = DragonsQuest_Intel(startLocation!!, endLocation!!)
 }

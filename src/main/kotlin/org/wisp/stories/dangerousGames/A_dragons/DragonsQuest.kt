@@ -20,6 +20,7 @@ object DragonsQuest {
     )
 
     const val iconPath = "graphics/icons/wispStories_dragon.png"
+    const val rewardCredits: Int = 95000
 
     /**
      * Where the player is in the quest.
@@ -35,8 +36,6 @@ object DragonsQuest {
 
     /** @since 1.0 */
     internal var stage: Stage by PersistentData(key = "dragonQuestStage", defaultValue = Stage.NotStarted)
-
-    const val rewardCredits: Int = 950000
 
     val dragonPlanet: SectorEntityToken?
         get() = Utilities.getSystems()
@@ -95,6 +94,8 @@ object DragonsQuest {
 
     fun startPart2() {
         stage = Stage.ReturnToStart
+        di.intelManager.findFirst(DragonsQuest_Intel::class.java)
+            ?.flipStartAndEndLocations()
     }
 
     fun finishStage2() {

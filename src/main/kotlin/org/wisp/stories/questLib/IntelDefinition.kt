@@ -23,8 +23,8 @@ abstract class IntelDefinition(
     @Transient var descriptionCreator: (IntelDefinition.(info: TooltipMakerAPI, width: Float, height: Float) -> Unit)? = null,
     val showDaysSinceCreated: Boolean = false,
     val intelTags: List<String>,
-    startLocation: SectorEntityToken? = null,
-    endLocation: SectorEntityToken? = null,
+    var startLocation: SectorEntityToken? = null,
+    var endLocation: SectorEntityToken? = null,
     var removeIntelIfAnyOfTheseEntitiesDie: List<SectorEntityToken> = emptyList(),
     var soundName: String? = null,
     important: Boolean = false
@@ -34,14 +34,8 @@ abstract class IntelDefinition(
         val bulletPointPadding = 10f
     }
 
-    val startLocationCopy: SectorEntityToken?
-    val endLocationCopy: SectorEntityToken?
-
     init {
         isImportant = important
-
-        startLocationCopy = startLocation//?.let { BreadcrumbIntel.makeDoubleWithSameOrbit(it) }
-        endLocationCopy = endLocation//?.let { BreadcrumbIntel.makeDoubleWithSameOrbit(it) }
 
         iconPath?.run { di.settings.loadTexture(this.invoke(this@IntelDefinition)) }
 
@@ -75,13 +69,19 @@ abstract class IntelDefinition(
         return this
     }
 
+    fun flipStartAndEndLocations() {
+        val oldEnd = endLocation
+        endLocation = startLocation
+        startLocation = oldEnd
+    }
+
     final override fun addGenericButton(info: TooltipMakerAPI?, width: Float, text: String?, data: Any?): ButtonAPI {
         return super.addGenericButton(info, width, text, data)
     }
 
     override fun shouldRemoveIntel(): Boolean {
         if (removeIntelIfAnyOfTheseEntitiesDie.any { !it.isAlive }
-            || endLocationCopy?.isAlive == false) {
+            || endLocation?.isAlive == false) {
             return true
         }
 
@@ -138,22 +138,21 @@ abstract class IntelDefinition(
     override fun getSmallDescriptionTitle(): String? = title?.invoke(this@IntelDefinition)
 
     override fun getMapLocation(map: SectorMapAPI?): SectorEntityToken? =
-        endLocationCopy?.starSystem?.center
-            ?: endLocationCopy
+        endLocation?.starSystem?.center
+            ?: endLocation
 
     override fun getArrowData(map: SectorMapAPI?): MutableList<IntelInfoPlugin.ArrowData>? {
-        if (startLocationCopy == null)
-            return null
+        val startLocationInner = startLocation ?: return null
 
         // If start and end are same, no arrow
-        if (startLocationCopy.containingLocation == endLocationCopy?.containingLocation
-            && startLocationCopy.containingLocation?.isHyperspace != true
+        if (startLocationInner.containingLocation == endLocation?.containingLocation
+            && startLocationInner.containingLocation?.isHyperspace != true
         ) {
             return null
         }
 
         return mutableListOf(
-            IntelInfoPlugin.ArrowData(startLocationCopy, endLocationCopy)
+            IntelInfoPlugin.ArrowData(startLocationInner, endLocation)
                 .apply {
                     color = factionForUIColors?.baseUIColor
                 })

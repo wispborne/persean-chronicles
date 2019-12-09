@@ -54,8 +54,8 @@ abstract class BarEventDefinition<S : InteractionDefinition<S>>(
             private val navigator = object :
                 InteractionDefinition<*>.PageNavigator() {
 
-                override fun close(hideQuestOfferAfterClose: Boolean) {
-                    if (hideQuestOfferAfterClose) {
+                override fun close(doNotOfferAgain: Boolean) {
+                    if (doNotOfferAgain) {
                         BarEventManager.getInstance().notifyWasInteractedWith(event)
                     }
 
