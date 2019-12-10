@@ -9,7 +9,7 @@ import org.wisp.stories.wispLib.di
 import org.wisp.stories.wispLib.lastName
 
 class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
-    shouldShowEvent = { DragonsQuest.stage == DragonsQuest.Stage.NotStarted },
+    shouldShowEvent = { DragonsQuest.shouldOfferQuest(it) },
     interactionPrompt = {
         DragonsQuest.findAndTagDragonPlanetIfNeeded(di.sector.playerFleet.starSystem)
         addPara {
@@ -26,7 +26,7 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
             id = 1,
             onPageShown = {
                 addPara {
-                    "As you make your way over, you note that everyone in the bar has the same drink you do. " +
+                    "As you make your way over, you note that nearly everyone in the bar has the same drink you do. " +
                             "In the middle of the crowd, a large, heavily muscled, and tattooed man is gesticulating wildly, apparently telling a story."
                 }
             },
@@ -37,7 +37,7 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
                 ),
                 Option(
                     text = { "Leave" },
-                    onOptionSelected = { it.close(hideQuestOfferAfterClose = false) },
+                    onOptionSelected = { it.close(doNotOfferAgain = false) },
                     shortcut = Shortcut(Keyboard.KEY_ESCAPE)
                 )
             )
@@ -72,7 +72,7 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
                 ),
                 Option(
                     text = { "Stay silent" },
-                    onOptionSelected = { it.close(hideQuestOfferAfterClose = false) },
+                    onOptionSelected = { it.close(doNotOfferAgain = false) },
                     shortcut = Shortcut(Keyboard.KEY_ESCAPE)
                 )
             )
@@ -90,7 +90,7 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
                     text = { "Leave" },
                     onOptionSelected = {
                         DragonsQuest.startQuest1(startLocation = this.dialog.interactionTarget)
-                        it.close(hideQuestOfferAfterClose = true)
+                        it.close(doNotOfferAgain = true)
                     }
                 )
             )

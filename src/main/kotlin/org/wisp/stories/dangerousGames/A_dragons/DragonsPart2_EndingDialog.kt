@@ -91,7 +91,7 @@ class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialo
                     onOptionSelected = {
                         DragonsQuest.finishStage2()
                         val interactionTarget = dialog.interactionTarget
-                        it.close(hideQuestOfferAfterClose = true)
+                        it.close(doNotOfferAgain = true)
                         // Show normal planet dialog after quest finishes
                         di.sector.campaignUI.showInteractionDialog(interactionTarget)
                     }

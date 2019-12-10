@@ -53,7 +53,11 @@ class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialo
                 Option(
                     text = { "Announce that you're leaving" },
                     onOptionSelected = { it.goToPage(Pages.TellEveryoneToGetOnBoard) }),
-                Option(text = { "Stay" }, onOptionSelected = { it.goToPage(Pages.StayAfterThingHitsShip) })
+                Option(
+                    text = { "Stay" }, onOptionSelected = { it.goToPage(Pages.StayAfterThingHitsShip) }),
+                Option(
+                    text = { "Take off, leaving everybody else behind" },
+                    onOptionSelected = { it.goToPage(Pages.AbandonEveryone) })
             )
         ),
         Page(
@@ -73,11 +77,11 @@ class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialo
                     onOptionSelected = { it.goToPage(Pages.TellEveryoneToGetOnBoard) }),
                 Option(
                     text = { "Take off, leaving everybody else behind" },
-                    onOptionSelected = { it.goToPage(Pages.TakeOffAlone) })
+                    onOptionSelected = { it.goToPage(Pages.AbandonEveryone) })
             )
         ),
         Page(
-            id = Pages.TakeOffAlone,
+            id = Pages.AbandonEveryone,
             onPageShown = {
                 addPara {
                     "The ship takes off with a roar at your touch. Between the cries of the dragons, " +
@@ -90,7 +94,7 @@ class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialo
                     text = { "Exit" },
                     onOptionSelected = {
                         DragonsQuest.failQuestByLeavingToGetEatenByDragons()
-                        it.close(hideQuestOfferAfterClose = true)
+                        it.close(doNotOfferAgain = true)
                     }
                 )
             )
@@ -141,7 +145,7 @@ class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialo
                     text = { "Leave to take the men back home" },
                     onOptionSelected = {
                         DragonsQuest.startPart2()
-                        it.close(true)
+                        it.close(doNotOfferAgain = true)
                     }
                 )
             )
@@ -154,7 +158,7 @@ class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialo
     enum class Pages {
         TellEveryoneToGetOnBoard,
         StayAfterThingHitsShip,
-        TakeOffAlone,
+        AbandonEveryone,
         TakeOff
     }
 

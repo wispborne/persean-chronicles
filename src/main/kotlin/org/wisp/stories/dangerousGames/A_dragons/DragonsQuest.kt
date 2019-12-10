@@ -2,6 +2,7 @@ package org.wisp.stories.dangerousGames.A_dragons
 
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
+import com.fs.starfarer.api.campaign.econ.MarketAPI
 import org.wisp.stories.wispLib.*
 
 /**
@@ -46,12 +47,9 @@ object DragonsQuest {
             }
             .firstOrNull()
 
-    fun clearDragonPlanetTag() {
-        while (dragonPlanet != null) {
-            di.logger.i { "Removing tag $TAG_DRAGON_PLANET from planet ${dragonPlanet?.fullName} in ${dragonPlanet?.starSystem?.baseName}" }
-            dragonPlanet?.removeTag(TAG_DRAGON_PLANET)
-        }
-    }
+    fun shouldOfferQuest(marketAPI: MarketAPI): Boolean =
+        stage == Stage.NotStarted
+                && marketAPI.starSystem != null // No Prism Freeport, just normal systems
 
     /**
      * Find a planet with life somewhere near the center, excluding player's current location.
@@ -78,6 +76,13 @@ object DragonsQuest {
             }
 
             system.addTag(TAG_DRAGON_PLANET)
+        }
+    }
+
+    fun clearDragonPlanetTag() {
+        while (dragonPlanet != null) {
+            di.logger.i { "Removing tag $TAG_DRAGON_PLANET from planet ${dragonPlanet?.fullName} in ${dragonPlanet?.starSystem?.baseName}" }
+            dragonPlanet?.removeTag(TAG_DRAGON_PLANET)
         }
     }
 

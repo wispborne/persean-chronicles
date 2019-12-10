@@ -2,8 +2,8 @@ package org.wisp.stories.questLib
 
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.comm.IntelInfoPlugin
+import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.intel.BaseIntelPlugin
-import com.fs.starfarer.api.impl.campaign.intel.misc.BreadcrumbIntel
 import com.fs.starfarer.api.ui.ButtonAPI
 import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
@@ -23,8 +23,8 @@ abstract class IntelDefinition(
     @Transient var descriptionCreator: (IntelDefinition.(info: TooltipMakerAPI, width: Float, height: Float) -> Unit)? = null,
     val showDaysSinceCreated: Boolean = false,
     val intelTags: List<String>,
-    var startLocation: SectorEntityToken? = null,
-    var endLocation: SectorEntityToken? = null,
+    var startLocation: MarketAPI? = null,
+    var endLocation: MarketAPI? = null,
     var removeIntelIfAnyOfTheseEntitiesDie: List<SectorEntityToken> = emptyList(),
     var soundName: String? = null,
     important: Boolean = false
@@ -81,7 +81,7 @@ abstract class IntelDefinition(
 
     override fun shouldRemoveIntel(): Boolean {
         if (removeIntelIfAnyOfTheseEntitiesDie.any { !it.isAlive }
-            || endLocation?.isAlive == false) {
+            || endLocation?.planetEntity?.isAlive == false) {
             return true
         }
 
@@ -139,7 +139,7 @@ abstract class IntelDefinition(
 
     override fun getMapLocation(map: SectorMapAPI?): SectorEntityToken? =
         endLocation?.starSystem?.center
-            ?: endLocation
+            ?: endLocation?.planetEntity
 
     override fun getArrowData(map: SectorMapAPI?): MutableList<IntelInfoPlugin.ArrowData>? {
         val startLocationInner = startLocation ?: return null
@@ -152,7 +152,7 @@ abstract class IntelDefinition(
         }
 
         return mutableListOf(
-            IntelInfoPlugin.ArrowData(startLocationInner, endLocation)
+            IntelInfoPlugin.ArrowData(startLocationInner?.planetEntity, endLocation?.planetEntity)
                 .apply {
                     color = factionForUIColors?.baseUIColor
                 })

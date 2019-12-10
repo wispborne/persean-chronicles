@@ -63,7 +63,7 @@ abstract class InteractionDefinition<S : InteractionDefinition<S>>(
             showPage(page)
         }
 
-        open fun close(hideQuestOfferAfterClose: Boolean) {
+        open fun close(doNotOfferAgain: Boolean) {
             dialog.dismiss()
         }
 

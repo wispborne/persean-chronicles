@@ -58,11 +58,11 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
             }
         }
     },
-    startLocation = startLocation,
-    endLocation = endLocation,
+    startLocation = startLocation.market,
+    endLocation = endLocation.market,
     intelTags = listOf(
         Tags.INTEL_STORY
     )
 ) {
-    override fun createInstanceOfSelf() = DragonsQuest_Intel(startLocation!!, endLocation!!)
+    override fun createInstanceOfSelf() = DragonsQuest_Intel(startLocation!!.planetEntity, endLocation!!.planetEntity)
 }
