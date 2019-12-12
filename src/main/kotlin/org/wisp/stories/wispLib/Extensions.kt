@@ -4,6 +4,8 @@ import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.campaign.comm.IntelInfoPlugin
 import com.fs.starfarer.api.campaign.comm.IntelManagerAPI
 import com.fs.starfarer.api.characters.PersonAPI
+import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
+import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import com.fs.starfarer.api.util.Misc
 import org.lwjgl.util.vector.Vector2f
 import kotlin.math.pow
@@ -54,3 +56,7 @@ internal val PersonAPI.lastName: String
     get() = this.name?.last?.ifBlank { null }
         ?: this.nameString
         ?: "No-Name"
+
+internal fun <T : BaseBarEventCreator> BarEventManager.removeBarEventCreator(barEventCreatorClass: Class<T>) {
+    setTimeout(barEventCreatorClass, 0f)
+}

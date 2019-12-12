@@ -22,6 +22,7 @@ object DragonsQuest {
 
     const val iconPath = "graphics/icons/wispStories_dragon.png"
     const val rewardCredits: Int = 95000
+    const val minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet = 5
 
     /**
      * Where the player is in the quest.
@@ -36,7 +37,7 @@ object DragonsQuest {
     }
 
     /** @since 1.0 */
-    internal var stage: Stage by PersistentData(key = "dragonQuestStage", defaultValue = Stage.NotStarted)
+    var stage: Stage by PersistentData(key = "dragonQuestStage", defaultValue = Stage.NotStarted)
 
     val dragonPlanet: SectorEntityToken?
         get() = Utilities.getSystems()
@@ -59,6 +60,7 @@ object DragonsQuest {
             val system = try {
                 Utilities.getSystemsForQuestTarget()
                     .filter { it.id != playersCurrentStarSystem?.id }
+                    .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet }
                     .sortedBy { it.distanceFromCenterOfSector }
                     .flatMap { it.planets }
                     .filter { planet -> DRAGON_PLANET_TYPES.any { it == planet.typeId } }

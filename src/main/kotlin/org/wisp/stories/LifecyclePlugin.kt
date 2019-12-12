@@ -14,10 +14,6 @@ import org.wisp.stories.wispLib.i
 
 class LifecyclePlugin : BaseModPlugin() {
 
-    override fun onNewGameAfterTimePass() {
-        super.onNewGameAfterTimePass()
-    }
-
     override fun onGameLoad(newGame: Boolean) {
         super.onGameLoad(newGame)
         applyBlacklistTagsToSystems()
@@ -48,7 +44,9 @@ class LifecyclePlugin : BaseModPlugin() {
         val aliases = listOf(
             DragonsQuest_Intel::class to "DragonsQuest_Intel",
             DragonsPart1_BarEvent::class to "DragonsPart1_BarEvent",
-            CampaignPlugin::class to "CampaignPlugin"
+            DragonsPart1_BarEventCreator::class to "DragonsPart1_BarEventCreator",
+            CampaignPlugin::class to "CampaignPlugin",
+            DragonsQuest.Stage::class to "DragonsQuest.Stage"
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized
