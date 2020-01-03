@@ -10,7 +10,7 @@ class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialo
             id = 1,
             onPageShown = {
                 addPara {
-                    "Charengo guides you down through the atmosphere of ${planetName()}" +
+                    "The men load into a shuttle and Charengo directs you down through the atmosphere of ${planetName()}" +
                             (if (isPlanetColonized())
                                 ", steering clear of the usual tourist areas and, you realize, of the local law enforcement"
                             else String.empty) +
