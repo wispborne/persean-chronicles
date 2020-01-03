@@ -1,0 +1,32 @@
+version: 2.1
+jobs:
+    build:
+        docker:
+            - image: cibuilds/github:0.13
+        steps:
+            - checkout
+            - run:
+                  name: "Create Mod Zipfile"
+                  command: |
+                      chmod +x ./.circleci/zipMod.sh
+                      ./.circleci/zipMod.sh
+                  shell: /bin/sh
+            - store_artifacts:
+                  path: artifacts/
+            - run:
+                  name: "Publish Release on GitHub"
+                  command: |
+                      VERSION=$(git describe --tags)
+                      echo "-u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/"
+                      ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
+
+workflows:
+    version: 2
+    main:
+        jobs:
+            - build:
+                  filters:
+                      tags:
+                          only: /.*/ #/^\d+\.\d+\.\d+$/
+                      branches:
+                          ignore: /.*/
