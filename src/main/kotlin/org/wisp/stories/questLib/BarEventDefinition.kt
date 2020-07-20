@@ -123,20 +123,22 @@ abstract class BarEventDefinition<S : InteractionDefinition<S>>(
                 dialog.optionPanel.clearOptions()
 
                 page.onPageShown(this@BarEventDefinition as S)
-                page.options.forEach { option ->
-                    dialog.optionPanel.addOption(option.text(this@BarEventDefinition as S), option.id)
+                page.options
+                    .filter { it.showIf(this@BarEventDefinition) }
+                    .forEach { option ->
+                        dialog.optionPanel.addOption(option.text(this@BarEventDefinition as S), option.id)
 
-                    if (option.shortcut != null) {
-                        dialog.optionPanel.setShortcut(
-                            option.id,
-                            option.shortcut.code,
-                            option.shortcut.holdCtrl,
-                            option.shortcut.holdAlt,
-                            option.shortcut.holdShift,
-                            false
-                        )
+                        if (option.shortcut != null) {
+                            dialog.optionPanel.setShortcut(
+                                option.id,
+                                option.shortcut.code,
+                                option.shortcut.holdCtrl,
+                                option.shortcut.holdAlt,
+                                option.shortcut.holdShift,
+                                false
+                            )
+                        }
                     }
-                }
             }
 
             override fun getPersonFaction(): String? = this@BarEventDefinition.personFaction
