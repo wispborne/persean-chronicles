@@ -68,39 +68,46 @@ Heed the beginnings to live.
   _(move west)_
   goto west-bad-wall
 
-  **label east-bad-morgawrii**
+### East Bad Morgawrii
+
 Small schools of fish flit past as you guide your small fleet to the east. Out of the darkness, some sort of small whale crashes into your ship, setting off a couple of proximity alarms but causing no damage. It isn't until you hear screaming, distorted by the speakers, that it becomes clear what you just saw; the "small whale" was a just a flipper of something much, much larger.
 "Morgawrii!" shouts Karengo, "Turn around! Turn around!"
+
   _(go back)_
 
 Hauling on the controls, you spin your ship around. Leviathan shapes rise from below, stirring the water around your ship as it speeds to safety.
   goto end-fail
 
-  **label south-bad-vents**
+### South Bad Vents
+
 Small schools of fish flit past as you guide your small fleet to the south. The swirling clouds of emissions seem to get thicker and thicker, until there's no reason to look at anything but the ship compass. The screen beeps once and a blip disappears.
 "Elias?" Karengo asks. "Your transmitter just cut out."
 When there's no response, he swears. "Everybody go back." he broadcasts. "Something's wrong."
+
   _(go back)_
 
 You spin your ship around and hear a loud crunch come from outside - your shields have just impacted something large and solid. The outer lights shine off falling stone and it suddenly it all comes together; you've led everybody through a field of hydrothermal vents that rise for tens of meters off the bottom, obscured by their own noxious clouds.
 You guide your ship back to safety, toppling a couple more underwater smokestacks as you go.
+
   goto end-fail
 
-  **label west-bad-wall**
+### West Bad Wall
+
 Small schools of fish flit past as you guide your small fleet to the west. Minutes pass with no sign of danger, and finally Karengo broadcasts, "Good work, <first>. Looks like this is the way forward."
-"Last one there's a rotton fish eye!" shouts Elias, and your screen shows his subpod leap forward and gain on you, followed quickly by others'.
+"Last one there's a rotten fish eye!" shouts Elias, and your screen shows his subpod leap forward and gain on you, followed quickly by others'.
 Then, without warning, a proximity sensor goes off at the same time your outer lights show a wall directly in front, stretching for as far as you can see.
 "Stop!" shouts Karengo, "It's the end of the cavern! Stop and go back!"
+
   _(go back)_
 
 Shuttering, your ship comes to a halt mere meters from the endless stone face. With a sinking feeling that has nothing to do with the depth, you turn the ship around and head back the way you came.
   goto end-fail
 
-  **label north-success**
+### North Success
+
 Small schools of fish flit past as you guide your small fleet to the north. Minutes pass with no sign of danger, and finally Karengo broadcasts, "Good work, <first>. Looks like this is the way forward."
 "Last one there's a rotton fish eye!" shouts Elias, and your screen shows his subpod leap forward and gain on you, followed quickly by others'.
 "Woah!" says Karengo, over the radio. "I think that's far enough. Which way to we go next, <first>?"
-  _(open the next riddle)_
 
 ### On Choice 1 Failure
 
@@ -109,21 +116,70 @@ A voice crackles over the radio, "It's clear up this way!" Somebody, no doubt un
 
 ## Riddle 2
 
+_(open the next riddle)_
+
 There are stingers in the deep
 A certain death, a dreamless sleep.
 Go to beast that has no bee
 No danger there, just open sea.
 
+  _(move east)_
+  goto east-success
+  _(move north)_
+  goto north-bad-tanglevines
+  _(move west)_
+  goto west-bad-wall
+
+### North Bad Tanglevines
+
+Bubbles rush past the thick windows as the group's subpods scout to the north at your direction. 
+At first, all is quiet. Just as you start to exhale a sigh of relief, twin lightning bolts arc across the
+waterscape ahead and the ship sensors overload, blinded by an apparent release of electricity. The systems recover,
+showing subpods returning quickly back to the ship. One is missing; Mussie.
+
+You turn the ship back the way you came and pull up the sensor recording to see what happened. The flash of light
+came from viney seaweed, stretching as far up and down as the ship can detect. Evidently, contact with it released
+a jolt of electricity that lit up both the vine and Mussie's subpod.
+
+### West Bad Wall
+
+#### On repeat wall encounter
+
+No no no...not again. The proximity alarm wails and this time, you're much quicker to stop the ship...but Mussie
+isn't so lucky. His subpod smashes straight into the same rock wall that claimed Elias and Taddese not minutes before.
+
+#### On first wall enouncter
+
+Small schools of fish flit past as you guide your small fleet to the west. Minutes pass with no sign of danger, and finally Karengo broadcasts, "Good work, <first>. Looks like this is the way forward."
+"Last one there's a rotten fish eye!" shouts Mussie, and your screen shows his subpod leap forward and gain on you, followed quickly by others'.
+Then, without warning, a proximity sensor goes off at the same time your outer lights show a wall directly in front, stretching for as far as you can see.
+"Stop!" shouts Karengo, "It's the end of the cavern! Stop and go back!"
+
+  _(go back)_
+
+Shuttering, your ship comes to a halt mere meters from the endless stone face. With a sinking feeling that has nothing to do with the depth, you turn the ship around and head back the way you came.
+
+  goto end-fail
+
+### East Success
+
+#### On second success in a row
+
+
+
+#### On first success
+
+
+
 ## The Crew
 
 - Elias (death at choice 1 failure)
 - Taddese (death at choice 1 failure)
-- Daciana
-- Mussie
-- Balazs
+- Mussie (death at choice 2 failure)
 - Jorma
+- Daciana
 
-## the Riddles
+## The Riddles
 
 No other path may you take
 Oiled skins flash and flicker
