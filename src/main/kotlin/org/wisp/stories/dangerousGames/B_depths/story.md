@@ -2,6 +2,14 @@
 
 "Dangerous Games A" must be finished first.
 
+## The Crew
+
+- Elias (death at choice 1 failure)
+- Taddese (death at choice 1 failure)
+- Mussie (death at choice 2 failure)
+- Jorma
+- Daciana
+
 ## Intro
 
 "**FirstName**!" A huge hand claps you on the shoulder and spins you around, where you find yourself facing a large, widly grinning man.
@@ -53,20 +61,19 @@ A fan of 10 personal subpods fan out behind you, their communication equipment s
   _(view first riddle)_
 "Ok <first>," Karengo crackles over the radio. "Lead on."
 
-No other path may you take
-Oiled skins flash and flicker
-Razer spikes grow from the deep
-Titanic walls crush and smash
+No other path may you take\
+Oiled skins flash and flicker\
+Razer spikes grow from the deep\
+Titanic walls crush and smash\
 Heed the beginnings to live.
 
-  _(move east)_
-  goto east-bad-morgawrii
-  _(move north)_
-  goto north-success
-  _(move south)_
-  goto south-bad-vents
-  _(move west)_
-  goto west-bad-wall
+_[move east](#east-bad-morgawrii)_
+
+_[move north](#north-success)_
+
+_[move south](#south-bad-vents)_
+
+_[move west](#west-bad-wall-1)_
 
 ### East Bad Morgawrii
 
@@ -76,7 +83,8 @@ Small schools of fish flit past as you guide your small fleet to the east. Out o
   _(go back)_
 
 Hauling on the controls, you spin your ship around. Leviathan shapes rise from below, stirring the water around your ship as it speeds to safety.
-  goto end-fail
+
+[failure](#on-choice-1-failure)
 
 ### South Bad Vents
 
@@ -89,9 +97,9 @@ When there's no response, he swears. "Everybody go back." he broadcasts. "Someth
 You spin your ship around and hear a loud crunch come from outside - your shields have just impacted something large and solid. The outer lights shine off falling stone and it suddenly it all comes together; you've led everybody through a field of hydrothermal vents that rise for tens of meters off the bottom, obscured by their own noxious clouds.
 You guide your ship back to safety, toppling a couple more underwater smokestacks as you go.
 
-  goto end-fail
+[failure](#on-choice-1-failure)
 
-### West Bad Wall
+### West Bad Wall 1
 
 Small schools of fish flit past as you guide your small fleet to the west. Minutes pass with no sign of danger, and finally Karengo broadcasts, "Good work, <first>. Looks like this is the way forward."
 "Last one there's a rotten fish eye!" shouts Elias, and your screen shows his subpod leap forward and gain on you, followed quickly by others'.
@@ -101,13 +109,13 @@ Then, without warning, a proximity sensor goes off at the same time your outer l
   _(go back)_
 
 Shuttering, your ship comes to a halt mere meters from the endless stone face. With a sinking feeling that has nothing to do with the depth, you turn the ship around and head back the way you came.
-  goto end-fail
+
+[failure](#on-choice-1-failure)
 
 ### North Success
 
-Small schools of fish flit past as you guide your small fleet to the north. Minutes pass with no sign of danger, and finally Karengo broadcasts, "Good work, <first>. Looks like this is the way forward."
-"Last one there's a rotton fish eye!" shouts Elias, and your screen shows his subpod leap forward and gain on you, followed quickly by others'.
-"Woah!" says Karengo, over the radio. "I think that's far enough. Which way to we go next, <first>?"
+You turn the ship to the north and glide it through the abyssal depths. The subpods race forward, each vying to outdo the other, seemingly heedless of the dangers that Karengo hinted at. With bated breath, you watch the sensors until at last the comms flare.
+"Woah!" comes Karengo's voice. "I think that's far enough. Which way to we go next, <first>?"
 
 ### On Choice 1 Failure
 
@@ -118,37 +126,46 @@ A voice crackles over the radio, "It's clear up this way!" Somebody, no doubt un
 
 _(open the next riddle)_
 
-There are stingers in the deep
-A certain death, a dreamless sleep.
-Go to beast that has no bee
+There are stingers in the deep\
+A certain death, a dreamless sleep.\
+Go to beast that has no bee\
 No danger there, just open sea.
 
-  _(move east)_
-  goto east-success
-  _(move north)_
-  goto north-bad-tanglevines
-  _(move west)_
-  goto west-bad-wall
+_[move east](#east-success)_
+
+_[move north](#north-bad-tanglevines)_
+
+_[move west](#west-bad-wall-2)_
 
 ### North Bad Tanglevines
 
-Bubbles rush past the thick windows as the group's subpods scout to the north at your direction. 
+Bubbles rush past the thick windows as the group's subpods scout to the north at your direction.
 At first, all is quiet. Just as you start to exhale a sigh of relief, twin lightning bolts arc across the
 waterscape ahead and the ship sensors overload, blinded by an apparent release of electricity. The systems recover,
 showing subpods returning quickly back to the ship. One is missing; Mussie.
+
+_(go back)_
 
 You turn the ship back the way you came and pull up the sensor recording to see what happened. The flash of light
 came from viney seaweed, stretching as far up and down as the ship can detect. Evidently, contact with it released
 a jolt of electricity that lit up both the vine and Mussie's subpod.
 
-### West Bad Wall
+[failure](#on-choice-2-failure)
 
-#### On repeat wall encounter
+### West Bad Wall 2
+
+#### If repeat wall encounter
 
 No no no...not again. The proximity alarm wails and this time, you're much quicker to stop the ship...but Mussie
 isn't so lucky. His subpod smashes straight into the same rock wall that claimed Elias and Taddese not minutes before.
 
-#### On first wall enouncter
+_(go back)_
+
+Again, you put the ship into reverse and turn around. This is not going at all how it was supposed to.
+
+[failure](#on-choice-2-failure)
+
+#### If first wall enouncter
 
 Small schools of fish flit past as you guide your small fleet to the west. Minutes pass with no sign of danger, and finally Karengo broadcasts, "Good work, <first>. Looks like this is the way forward."
 "Last one there's a rotten fish eye!" shouts Mussie, and your screen shows his subpod leap forward and gain on you, followed quickly by others'.
@@ -159,25 +176,17 @@ Then, without warning, a proximity sensor goes off at the same time your outer l
 
 Shuttering, your ship comes to a halt mere meters from the endless stone face. With a sinking feeling that has nothing to do with the depth, you turn the ship around and head back the way you came.
 
-  goto end-fail
+[failure](#on-choice-2-failure)
 
 ### East Success
 
-#### On second success in a row
+#### If second success in a row
 
 
 
-#### On first success
+#### If first success
 
-
-
-## The Crew
-
-- Elias (death at choice 1 failure)
-- Taddese (death at choice 1 failure)
-- Mussie (death at choice 2 failure)
-- Jorma
-- Daciana
+### On Choice 2 Failure
 
 ## The Riddles
 
