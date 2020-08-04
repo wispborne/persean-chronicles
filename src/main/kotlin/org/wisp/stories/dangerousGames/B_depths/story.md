@@ -120,7 +120,7 @@ You turn the ship to the north and glide it through the abyssal depths. The subp
 ### On Choice 1 Failure
 
 A quick roll call shows two subpods missing; Elias and Taddese never made it back.
-A voice crackles over the radio, "It's clear up this way!" Somebody, no doubt unimpressed by your navigating, has scouted ahead and found a way though.
+A voice crackles over the radio, "It's clear up north!" Somebody, no doubt unimpressed by your navigating, has scouted ahead and found a way though.
 
 ## Riddle 2
 
@@ -189,13 +189,39 @@ It isn't long until Karengo again radios you. "Knew I chose ya for a reason. Wha
 #### If first success
 
 Cautiously, you turn to the east and power forward. Suspods fly ahead, exulting in their agility in the face of the dangerous ocean.
-After holding your breath for what feels like hours, Karengo radios you. "
+After holding your breath for what feels like hours, Karengo radios you. "Knew you'd find your way eventually. What's the next direction?"
 
 ### On Choice 2 Failure
+
+#### If first failure
+
+Karengo sounds a roll call over the radio. Mussie never reports in, and his subpod beacon isn't responding.
+"Ah, well." says Karengo, without much sympathy. "You all stay here and I'll scout ahead."
+Only minutes later, he's found a clear path east, and you morosly trail the ship behind.
+
+#### If second failure in a row
+
+Karengo sounds a roll call over the radio. Elias and Taddese are still missing, and now Mussie has failed to report in as well.
+None of their subpod beacons are responding.
+"Ah, well." says Karengo, without much sympathy. "You all stay here and I'll scout ahead."
+Only minutes later, he's found a clear path east, and you morosly trail the ship behind.
 
 ## Riddle 3
 
 _(open the next riddle)_
+
+To the north and to the east/
+Track my movements like a beast./
+A quick turn right and forward on,/
+Come toward me where danger's gone.
+
+_[move north](#north-bad-quoijuu)_
+_[move east](#east-bad-wall)_
+_[move south](#south-finish)_
+
+### North Bad Quioijuu
+
+
 
 ## The Riddles
 
