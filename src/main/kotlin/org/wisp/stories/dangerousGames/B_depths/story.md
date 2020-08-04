@@ -182,11 +182,20 @@ Shuttering, your ship comes to a halt mere meters from the endless stone face. W
 
 #### If second success in a row
 
-
+"A bee-less beast," you mutter to yourself. "A poet, this writer was not." Turning east, the ship powers forward, cautious but confident. 
+Subpods fly ahead, exulting in their agility in the face of the dangerous ocean.
+It isn't long until Karengo again radios you. "Knew I chose ya for a reason. What's the next direction?" 
 
 #### If first success
 
+Cautiously, you turn to the east and power forward. Suspods fly ahead, exulting in their agility in the face of the dangerous ocean.
+After holding your breath for what feels like hours, Karengo radios you. "
+
 ### On Choice 2 Failure
+
+## Riddle 3
+
+_(open the next riddle)_
 
 ## The Riddles
 
