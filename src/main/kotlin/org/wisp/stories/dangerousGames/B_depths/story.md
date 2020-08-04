@@ -269,7 +269,38 @@ _[failure](#on-choice-3-failure)_
 
 ### East Bad Wall
 
-// todo
+#### If first wall encounter
+
+Small schools of fish flit past as you guide your small fleet to the east. Minutes pass with no sign of danger, and finally Karengo broadcasts,
+"Good work, <first>. Looks like this is the way forward."
+"Last one there's a rotten fish eye!" shouts Jorma, and your screen shows his subpod leap forward and gain on you, followed quickly by others'.
+Then, without warning, a proximity sensor goes off at the same time your outer lights show a wall directly in front, stretching for as far as you can see.
+"Stop!" shouts Karengo, "It's the end of the cavern! Stop and go back!"
+
+  _(go back)_
+
+Shuttering, your ship comes to a halt mere meters from the endless stone face. With a sinking feeling that has nothing to do with the depth,
+you turn the ship around and head back the way you came.
+
+_[failure](#on-choice-3-failure)_
+
+#### If second wall encounter
+
+No no no...not again. The proximity alarm wails and this time, you're much quicker to stop the ship...but Jorma and Daciana
+aren't so lucky. Both subpods smash straight into the stone wall looming in front of you.
+
+_(go back)_
+
+Again, you put the ship into reverse and turn around. This is not going at all how it was supposed to.
+
+_[failure](#on-choice-3-failure)_
+
+#### If third wall encounter
+
+By now, the proximity alarm is familiar to you, as is the wall rushing toward your already-slowing ship and
+the feeling as the ship's subpod tracker loses two more dots, leaving a single remaining subpod. 
+
+_[failure](#on-choice-3-failure)_
 
 ### South Success Finish
 
