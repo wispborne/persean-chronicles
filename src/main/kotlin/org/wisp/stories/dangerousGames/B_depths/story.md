@@ -184,12 +184,16 @@ Shuttering, your ship comes to a halt mere meters from the endless stone face. W
 
 "A bee-less beast," you mutter to yourself. "A poet, this writer was not." Turning east, the ship powers forward, cautious but confident. 
 Subpods fly ahead, exulting in their agility in the face of the dangerous ocean.
-It isn't long until Karengo again radios you. "Knew I chose ya for a reason. What's the next direction?" 
+It isn't long until Karengo again radios you. "Knew I chose ya for a reason. What's the next direction?"
+
+[goto riddle 3](#riddle-3)
 
 #### If first success
 
 Cautiously, you turn to the east and power forward. Suspods fly ahead, exulting in their agility in the face of the dangerous ocean.
 After holding your breath for what feels like hours, Karengo radios you. "Knew you'd find your way eventually. What's the next direction?"
+
+[goto riddle 3](#riddle-3)
 
 ### On Choice 2 Failure
 
@@ -199,12 +203,16 @@ Karengo sounds a roll call over the radio. Mussie never reports in, and his subp
 "Ah, well." says Karengo, without much sympathy. "You all stay here and I'll scout ahead."
 Only minutes later, he's found a clear path east, and you morosly trail the ship behind.
 
+[goto riddle 3](#riddle-3)
+
 #### If second failure in a row
 
 Karengo sounds a roll call over the radio. Elias and Taddese are still missing, and now Mussie has failed to report in as well.
 None of their subpod beacons are responding.
 "Ah, well." says Karengo, without much sympathy. "You all stay here and I'll scout ahead."
 Only minutes later, he's found a clear path east, and you morosly trail the ship behind.
+
+[goto riddle 3](#riddle-3)
 
 ## Riddle 3
 
@@ -219,11 +227,25 @@ _[move north](#north-bad-quoijuu)_
 _[move east](#east-bad-wall)_
 _[move south](#south-finish)_
 
-### North Bad Quioijuu
+### North Bad Quoijuu
 
 #### If first failure
 
 Buoyed by your navigation thus far, you make the call to go north, completing the zig-zag pattern.
+
+[goto either way](#either-way)
+
+#### If second failure
+
+Hesitantly, you make the call to go north, completing the zig-zag pattern.
+
+[goto either way](#either-way)
+
+#### If all failures
+
+Disheartened at this point, you make the call to go north, completing the zig-zag pattern.
+
+[goto either way](#either-way)
 
 #### Either way
 
@@ -232,8 +254,30 @@ whose beacon on the ship display starts to move north-west, presumably avoiding 
 "Hmm," radios in Karengo. "We should be right about on top of it. Send out a ping."
 It's almost a relief to send out a pulse to map the surroundings after flying dark for so long. 
 The result, however, is a surprise. The display shows two leviathan-sized *things* ahead, each over 200 meters long.
+Dozens of sets of flippers run along each side and they tower at over 80 meters tall. Despite the poor resolution of the
+ping, hundreds of teeth show in its mouth.
+You goggle at the display for a moment, taking it in, and draw breath to call out the alarm,
+but just then an eye appears through the ship window, yellow, glowing, alien, and massive. 
+All at once, you turn and accelerate, shouting the alarm to any who hadn't already realized,
+and hoping that you're leaving the leviathan beasts behind. A quick glance at the display shows
+at least one subpod following behind; good enough. If one of those rams the ship, nobody is going home anyway.
 
+It's a long while before you slow and turn around. No mammoth sea monster comes out of the darkness, and you take a breath.
+"Quoijuu," says Karengo simply.
 
+_[failure](#on-choice-3-failure)_
+
+### East Bad Wall
+
+// todo
+
+### South Success Finish
+
+// todo
+
+### On Choice 3 Failure
+
+// todo
 
 ## The Riddles
 
