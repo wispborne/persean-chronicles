@@ -52,7 +52,7 @@ there is some unknown interference that overwhelm your poor ship's sensors, whic
 Minutes tick by as the crew silently watches one of the few sensors still working. A young couple, Balazs and Jorma, uneasily exchange glances.
 EIGHT KILOMETERS, the depth meter reads. TEN KILOMETERS. SIXTEEN KILOMETERS. A loud, metallic creak echoes through the ship and Mussie jumps, startled.
 Karengo claps him on the back and gives him a signature grin. "Maybe <first> can keep you aboard after this in case he needs anything from a high shelf!" Mussie smiles weakly, but his eyes don't leave the readout.
-TWENTY-FIVE KILOMETERS. "This's it," Karengo announces, "Sub up! Let's see what there is to see."
+TWENTY-FIVE KILOMETERS. "This's it," Karengo announces, "Sub up! Let's see what there is to see. And <first>, keep it to passive sensors. Don't want to attrack any undue attention."
 The <ship> smoothly descends into the mouth of a massive cave and your visibility, clouded by dark sulfide emissions from the hydrothermal vents at the floor, drops to less than eight meters.
 A fan of 10 personal subpods fan out behind you, their communication equipment syncing with yours to display them as blips on your screen.
 
@@ -220,6 +220,18 @@ _[move east](#east-bad-wall)_
 _[move south](#south-finish)_
 
 ### North Bad Quioijuu
+
+#### If first failure
+
+Buoyed by your navigation thus far, you make the call to go north, completing the zig-zag pattern.
+
+#### Either way
+
+Subpods, as usual, race ahead of the ship, despite all logic. "Wall to the east!" calls out Daciana,
+whose beacon on the ship display starts to move north-west, presumably avoiding the undersea hazard, and joining up with Jorma.
+"Hmm," radios in Karengo. "We should be right about on top of it. Send out a ping."
+It's almost a relief to send out a pulse to map the surroundings after flying dark for so long. 
+The result, however, is a surprise. The display shows two leviathan-sized *things* ahead, each over 200 meters long.
 
 
 
