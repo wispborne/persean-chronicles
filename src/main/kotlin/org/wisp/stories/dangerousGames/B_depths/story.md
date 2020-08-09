@@ -252,12 +252,12 @@ Disheartened at this point, you make the call to go north, completing the zig-za
 Subpods, as usual, race ahead of the ship, despite all logic. "Wall to the east!" calls out Daciana,
 whose beacon on the ship display starts to move north-west, presumably avoiding the undersea hazard, and joining up with Jorma.
 "Hmm," radios in Karengo. "We should be right about on top of it. Send out a ping."
-It's almost a relief to send out a pulse to map the surroundings after flying dark for so long. 
+It's almost a relief to send out a pulse to map the surroundings after flying dark for so long.
 The result, however, is a surprise. The display shows two leviathan-sized *things* ahead, each over 200 meters long.
 Dozens of sets of flippers run along each side and they tower at over 80 meters tall. Despite the poor resolution of the
 ping, hundreds of teeth show in its mouth.
 You goggle at the display for a moment, taking it in, and draw breath to call out the alarm,
-but just then an eye appears through the ship window, yellow, glowing, alien, and massive. 
+but just then an eye appears through the ship window, yellow, glowing, alien, and massive.
 All at once, you turn and accelerate, shouting the alarm to any who hadn't already realized,
 and hoping that you're leaving the leviathan beasts behind. A quick glance at the display shows
 at least one subpod following behind; good enough. If one of those rams the ship, nobody is going home anyway.
@@ -277,7 +277,7 @@ Small schools of fish flit past as you guide your small fleet to the east. Minut
 Then, without warning, a proximity sensor goes off at the same time your outer lights show a wall directly in front, stretching for as far as you can see.
 "Stop!" shouts Karengo, "It's the end of the cavern! Stop and go back!"
 
-  _(go back)_
+_(go back)_
 
 Shuttering, your ship comes to a halt mere meters from the endless stone face. With a sinking feeling that has nothing to do with the depth,
 you turn the ship around and head back the way you came.
@@ -297,12 +297,14 @@ _[failure](#on-choice-3-failure)_
 
 #### If third wall encounter
 
-By now, the proximity alarm is familiar to you, as is the wall rushing toward your already-slowing ship and
-the feeling as the ship's subpod tracker loses two more dots, leaving a single remaining subpod. 
+By now, the proximity alarm is familiar to you, as is the solid wall rushing toward your already-slowing ship and
+the feeling as the ship's subpod tracker loses two more dots, leaving a single remaining subpod, Karengo's.
 
 _[failure](#on-choice-3-failure)_
 
 ### South Success Finish
+
+#### On total success
 
 // todo
 
