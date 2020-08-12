@@ -26,7 +26,8 @@ Feds wouldn't understand. Doesn't matter; I need a pilot again, and a good one. 
   label cont
 Karengo laughs. "It handles the vacuum of space, yeah? Yer right, it'll be fine. I've got a group of lads and ladies here rarin' to see some quoijuu in heat, right up close'n'personal.
 They've all got their own subpods, so how's about we load up and head out in the next few hours. Good? Good."
- "Oh, nearly forgot. We're headed to Deadman's Cove, in Almach. Ain't sure who's in charge over there these days, so we might need to grease some palms. Best to keep your eyes open and shields up."
+ "Oh, nearly forgot. We're headed to ***Deadman's Cove, in Almach. Ain't sure who's in charge over there these days, so we might need to grease some palms. Best to keep your eyes open and shields up***."
+### TODO
 
 ## Arrival at Destination
 
@@ -131,10 +132,8 @@ A certain death, a dreamless sleep.\
 Go to beast that has no bee\
 No danger there, just open sea.
 
-_[move east](#east-success)_
-
-_[move north](#north-bad-tanglevines)_
-
+_[move east](#east-success)_\
+_[move north](#north-bad-tanglevines)_\
 _[move west](#west-bad-wall-2)_
 
 ### North Bad Tanglevines
@@ -218,13 +217,13 @@ Only minutes later, he's found a clear path east, and you morosly trail the ship
 
 _(open the next riddle)_
 
-To the north and to the east/
-Track my movements like a beast./
-A quick turn right and forward on,/
+To the north and to the east\
+Track my movements like a beast.\
+A quick turn right and forward on,\
 Come toward me where danger's gone.
 
-_[move north](#north-bad-quoijuu)_
-_[move east](#east-bad-wall)_
+_[move north](#north-bad-quoijuu)_\
+_[move east](#east-bad-wall)_\
 _[move south](#south-finish)_
 
 ### North Bad Quoijuu
@@ -253,11 +252,10 @@ Subpods, as usual, race ahead of the ship, despite all logic. "Wall to the east!
 whose beacon on the ship display starts to move north-west, presumably avoiding the undersea hazard, and joining up with Jorma.
 "Hmm," radios in Karengo. "We should be right about on top of it. Send out a ping."
 It's almost a relief to send out a pulse to map the surroundings after flying dark for so long.
-The result, however, is a surprise. The display shows two leviathan-sized *things* ahead, each over 200 meters long.
-Dozens of sets of flippers run along each side and they tower at over 80 meters tall. Despite the poor resolution of the
-ping, hundreds of teeth show in its mouth.
+The result, however, is a surprise. The display maps two leviathan-sized *things* ahead, each over 200 meters long.
+Dozens of sets of flippers run along each 80-meter-tall side and hundreds of human-sized teeth line their jaws.
 You goggle at the display for a moment, taking it in, and draw breath to call out the alarm,
-but just then an eye appears through the ship window, yellow, glowing, alien, and massive.
+and just then an eye appears through the ship window, yellow, glowing, alien, and massive.
 All at once, you turn and accelerate, shouting the alarm to any who hadn't already realized,
 and hoping that you're leaving the leviathan beasts behind. A quick glance at the display shows
 at least one subpod following behind; good enough. If one of those rams the ship, nobody is going home anyway.
@@ -298,34 +296,58 @@ _[failure](#on-choice-3-failure)_
 #### If third wall encounter
 
 By now, the proximity alarm is familiar to you, as is the solid wall rushing toward your already-slowing ship and
-the feeling as the ship's subpod tracker loses two more dots, leaving a single remaining subpod, Karengo's.
+the feeling as the ship's subpod tracker loses two more dots, leaving a single remaining subpod; Karengo's.
 
 _[failure](#on-choice-3-failure)_
 
-### South Success Finish
-
-#### On total success
-
-// todo
-
 ### On Choice 3 Failure
 
-// todo
+"You stay." radios Karengo. He sounds frustrated for the first time, and you keep the ship in place, watching his subpod dot
+radiate outwards, exploring.
+"Come here." he finally says. His dot has stopped moving, hovering to the south, and you turn to follow, wondering if
+this misadventure is finally over.
+"It's here," radios Karengo. "Fire off a ping."
+You comply, and the display shows a massive object directly below you.
+
+### South Success Finish
+
+You smoothly turn the ship to the right, heading south.
+"Should be close," radios Karengo. "Fire off a ping."
+It's almost a relief to send out a pulse to map the surroundings after flying dark for so long.
+The result, however, is a surprise. The display shows a massive object directly below you...as well as as two leviathan-sized *things* back the way you came, each over 200 meters long.
+Dozens of sets of flippers run along each 80-meter-tall side and hundreds of human-sized teeth line their jaws.
+You goggle at the display for a moment, holding your breath, but the leviathans seem uninterested. You shudder, imagining
+what one of those could do if you'd turned the wrong way.
+Your interest returns to the mysterious bulk resting below the ship.
+
+## The Wreck
+
+A 3D holo floats on the console, displaying the smooth lines of a starship soaring down into the depths.
+The jagged edges suggest that this is only a part of a much larger vessel, although it's hard to guess at the
+size of the whole ship from the fragment.
+
+Your craft moves closer to investigate and you send out another ping, this time more focused, and the holographic ship display
+flickers and refines. The outlines of sealed entrances are visible, unnecessary with the ship torn apart as it is.
+Sea growth is mostly absent from the hull, surprisingly, except for a radial pattern of some sort of crystal-shaped growth.
+Infrared imaging shows a dim glow of heat at its center.
+
+"What we have here, *ladies and gentlemen* or *gentlemen* or *<first>*" breaks in Karengo, "is a Gate Hauler.
+A good chunck'o'one, anyway. And we're gonna take whatever we want. Let's see what there is to see."
 
 ## The Riddles
 
-No other path may you take
-Oiled skins flash and flicker
-Razer spikes grow from the deep
-Titanic walls crush and smash
+No other path may you take\
+Oiled skins flash and flicker\
+Razer spikes grow from the deep\
+Titanic walls crush and smash\
 Heed the beginnings to live.
 
-There are stingers in the deep
-A certain death, a dreamless sleep.
-Go to beast that has no bee
+There are stingers in the deep\
+A certain death, a dreamless sleep.\
+Go to beast that has no bee\
 No danger there, just open sea.
 
-To the north and to the east
-Track my movements like a beast.
-A quick turn right and forward on,
+To the north and to the east\
+Track my movements like a beast.\
+A quick turn right and forward on,\
 Come toward me where danger's gone.

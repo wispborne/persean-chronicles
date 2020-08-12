@@ -20,6 +20,8 @@ object DepthsQuest {
         "US_continent" // Unknown Skies
     )
 
+    // todo prefer decivved world, then uninhabited, then inhabited
+
     const val iconPath = "graphics/icons/wispStories_depths.png" // TODO
     const val rewardCredits: Int = 95000 // TODO
     const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5
