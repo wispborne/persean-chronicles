@@ -332,7 +332,14 @@ Sea growth is mostly absent from the hull, surprisingly, except for a radial pat
 Infrared imaging shows a dim glow of heat at its center.
 
 "What we have here, *ladies and gentlemen* or *gentlemen* or *<first>*" breaks in Karengo, "is a Gate Hauler.
-A good chunck'o'one, anyway. And we're gonna take whatever we want. Let's see what there is to see."
+A chunk'o'one, anyway. And we're gonna take whatever we want. Let's see what there is to see."
+
+Now that active communication is low-risk, you bring up the video feed from Karengo's subpod as he
+floats toward the heat source. Bathed in floodlight, you can see that there are actual crystals
+formed on the ship hull, glowing a dull red.
+
+A unknowable something has rent a hole near the crystalline spiral, and Karengo disappears inside.
+*The rest of the subpods wait outside, apparently spooked.* 
 
 ## The Riddles
 
