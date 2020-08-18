@@ -338,8 +338,21 @@ Now that active communication is low-risk, you bring up the video feed from Kare
 floats toward the heat source. Bathed in floodlight, you can see that there are actual crystals
 formed on the ship hull, glowing a dull red.
 
-A unknowable something has rent a hole near the crystalline spiral, and Karengo disappears inside.
-*The rest of the subpods wait outside, apparently spooked.* 
+An unknowable something has rent a hole near the crystalline spiral, and Karengo disappears inside.
+*The rest of the subpods wait outside, apparently spooked.* "Jackpot!" comes his voice.
+"There's an AI core in here! <first>, get closer and let's get this out."
+
+It's slow work, but *the group / you and Karengo* are able to cut loose the Beta Core, along with
+as much other salvage as possible. The crystalline growths cover everything inside the ship,
+making extraction difficult *, but many hands make light work and you end up with a sizable / acceptable load OR*
+*. You wish there were others to help gather more salvage.* At last, you are done.
+
+_(return to the surface)_
+
+You carefully navigate back to the surface, the knowledge that you've made it through once doing absolutely
+nothing to help with the very rational fear of these depths.
+
+Under open sky at last, 
 
 ## The Riddles
 
