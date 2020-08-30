@@ -342,17 +342,20 @@ An unknowable something has rent a hole near the crystalline spiral, and Karengo
 *The rest of the subpods wait outside, apparently spooked.* "Jackpot!" comes his voice.
 "There's an AI core in here! <first>, get closer and let's get this out."
 
-It's slow work, but *the group / you and Karengo* are able to cut loose the Beta Core, along with
+It's slow work, but *the group / you and Karengo* are able to cut loose the *Beta Core*, along with
 as much other salvage as possible. The crystalline growths cover everything inside the ship,
 making extraction difficult *, but many hands make light work and you end up with a sizable / acceptable load OR*
 *. You wish there were others to help gather more salvage.* At last, you are done.
 
 _(return to the surface)_
 
-You carefully navigate back to the surface, the knowledge that you've made it through once doing absolutely
-nothing to help with the very rational fear of these depths.
+Carefully, you navigate back to the surface, the knowledge that you've made it through once doing absolutely
+nothing to help with the very rational fear of the depths. Walls seem to loom just out of site,
+and massive, yellow eyes seem to appear, then dissolve into tricks of the light.  
 
-Under open sky at last, 
+It seems ages, but finally you break through to the surface. *A sigh of relief goes through the crew.*
+
+
 
 ## The Riddles
 
