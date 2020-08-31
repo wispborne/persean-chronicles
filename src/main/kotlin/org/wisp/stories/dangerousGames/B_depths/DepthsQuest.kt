@@ -34,12 +34,18 @@ object DepthsQuest {
         NotStarted,
         GoToPlanet,
         ReturnToStart,
-        FailedByAbandoning,
         Done
     }
 
     /** @since 1.0 */
     var stage: Stage by PersistentData(key = "depthsQuestStage", defaultValue = Stage.NotStarted)
+
+    var didFailRiddle1: Boolean by PersistentBoolean(key = "depthsQuest_didFailRiddle1", defaultValue = false)
+    var didFailRiddle2: Boolean by PersistentBoolean(key = "depthsQuest_didFailRiddle2", defaultValue = false)
+    var didFailRiddle3: Boolean by PersistentBoolean(key = "depthsQuest_didFailRiddle3", defaultValue = false)
+
+    val didAllCrewDie: Boolean
+        get() = didFailRiddle1 && didFailRiddle2 && didFailRiddle3
 
     val depthsPlanet: SectorEntityToken?
         get() = Utilities.getSystems()
@@ -75,7 +81,7 @@ object DepthsQuest {
                     .random()
             } catch (e: Exception) {
                 // If no planets matching the criteria are found
-                di.errorReporter.reportCrash(e)
+                game.errorReporter.reportCrash(e)
                 return
             }
 
@@ -85,29 +91,19 @@ object DepthsQuest {
 
     fun clearDepthsPlanetTag() {
         while (depthsPlanet != null) {
-            di.logger.i { "Removing tag $TAG_DEPTHS_PLANET from planet ${depthsPlanet?.fullName} in ${depthsPlanet?.starSystem?.baseName}" }
+            game.logger.i { "Removing tag $TAG_DEPTHS_PLANET from planet ${depthsPlanet?.fullName} in ${depthsPlanet?.starSystem?.baseName}" }
             depthsPlanet?.removeTag(TAG_DEPTHS_PLANET)
         }
     }
 
     fun startQuest1(startLocation: SectorEntityToken) {
         stage = Stage.GoToPlanet
-        di.intelManager.addIntel(DepthssQuest_Intel(startLocation, depthsPlanet!!))
-    }
-
-    fun failQuestByLeavingToGetEatenByDepthss() {
-        stage = Stage.FailedByAbandoning
-        di.intelManager.findFirst(DepthssQuest_Intel::class.java)
-            ?.apply {
-                endAfterDelay()
-                sendUpdateIfPlayerHasIntel(null, false)
-            }
-
+        game.intelManager.addIntel(DepthsQuest_Intel(startLocation, depthsPlanet!!))
     }
 
     fun startPart2() {
         stage = Stage.ReturnToStart
-        di.intelManager.findFirst(DepthssQuest_Intel::class.java)
+        game.intelManager.findFirst(DepthsQuest_Intel::class.java)
             ?.apply {
                 flipStartAndEndLocations()
                 sendUpdateIfPlayerHasIntel(null, false)
@@ -115,9 +111,9 @@ object DepthsQuest {
     }
 
     fun finishStage2() {
-        di.sector.playerFleet.cargo.credits.add(rewardCredits.toFloat())
+        game.sector.playerFleet.cargo.credits.add(rewardCredits.toFloat())
         stage = Stage.Done
-        di.intelManager.findFirst(DepthssQuest_Intel::class.java)
+        game.intelManager.findFirst(DepthsQuest_Intel::class.java)
             ?.apply {
                 endAfterDelay()
                 sendUpdateIfPlayerHasIntel(null, false)

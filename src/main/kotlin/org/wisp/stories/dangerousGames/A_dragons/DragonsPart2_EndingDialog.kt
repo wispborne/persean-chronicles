@@ -1,7 +1,7 @@
 package org.wisp.stories.dangerousGames.A_dragons
 
 import org.wisp.stories.questLib.InteractionDefinition
-import org.wisp.stories.wispLib.di
+import org.wisp.stories.wispLib.game
 import org.wisp.stories.wispLib.lastName
 
 class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialog>(
@@ -31,7 +31,7 @@ class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialo
                             "The men, with the exception of Charengo, appear subdued. "
                 }
                 addPara {
-                    "\"How goes it, ${di.sector.playerPerson.lastName}?\" he asks. " +
+                    "\"How goes it, ${game.sector.playerPerson.lastName}?\" he asks. " +
                             "\"We were just raising a glass to mission success - made possible by you, of course. " +
                             "Great flying, brother.\" The bartender arrives with a round of drinks and Charengo raises one. " +
                             "\"To the Dragonriders!\" he says."
@@ -93,7 +93,7 @@ class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialo
                         val interactionTarget = dialog.interactionTarget
                         it.close(doNotOfferAgain = true)
                         // Show normal planet dialog after quest finishes
-                        di.sector.campaignUI.showInteractionDialog(interactionTarget)
+                        game.sector.campaignUI.showInteractionDialog(interactionTarget)
                     }
                 )
             )

@@ -9,7 +9,7 @@ import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest_Intel
 import org.wisp.stories.wispLib.MOD_NAME
 import org.wisp.stories.wispLib.MOD_PREFIX
-import org.wisp.stories.wispLib.di
+import org.wisp.stories.wispLib.game
 import org.wisp.stories.wispLib.i
 
 class LifecyclePlugin : BaseModPlugin() {
@@ -27,7 +27,7 @@ class LifecyclePlugin : BaseModPlugin() {
         }
 
         // Register this so we can intercept and replace interactions
-        di.sector.registerPlugin(CampaignPlugin())
+        game.sector.registerPlugin(CampaignPlugin())
     }
 
     override fun beforeGameSave() {
@@ -56,7 +56,7 @@ class LifecyclePlugin : BaseModPlugin() {
 
     private fun applyBlacklistTagsToSystems() {
         val blacklistedSystems = try {
-            val jsonArray = di.settings
+            val jsonArray = game.settings
                 .getMergedSpreadsheetDataForMod(
                     "id", "data/config/stories_system_blacklist.csv",
                     MOD_NAME
@@ -81,16 +81,16 @@ class LifecyclePlugin : BaseModPlugin() {
                 .distinctBy { it.systemId }
                 .filter { it.isBlacklisted }
         } catch (e: Exception) {
-            di.logger.error(e.message, e)
+            game.logger.error(e.message, e)
             emptyList<BlacklistEntry>()
         }
 
-        val systems = di.sector.starSystems
+        val systems = game.sector.starSystems
 
         // Mark all blacklisted systems as blacklisted, remove tags from ones that aren't
         for (system in systems) {
             if (blacklistedSystems.any { it.systemId == system.id }) {
-                di.logger.i { "Blacklisting system: ${system.id}" }
+                game.logger.i { "Blacklisting system: ${system.id}" }
                 system.addTag(Tags.TAG_BLACKLISTED_SYSTEM)
             } else {
                 system.removeTag(Tags.TAG_BLACKLISTED_SYSTEM)

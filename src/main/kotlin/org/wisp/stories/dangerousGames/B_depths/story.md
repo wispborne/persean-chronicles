@@ -343,7 +343,7 @@ An unknowable something has rent a hole near the crystalline spiral, and Karengo
 "There's an AI core in here! <first>, get closer and let's get this out."
 
 It's slow work, but *the group / you and Karengo* are able to cut loose the *Beta Core*, along with
-as much other salvage as possible. The crystalline growths cover everything inside the ship,
+as much other salvage as possible. The crystalline growth covers everything inside the ship,
 making extraction difficult *, but many hands make light work and you end up with a sizable / acceptable load OR*
 *. You wish there were others to help gather more salvage.* At last, you are done.
 
@@ -353,24 +353,10 @@ Carefully, you navigate back to the surface, the knowledge that you've made it t
 nothing to help with the very rational fear of the depths. Walls seem to loom just out of site,
 and massive, yellow eyes seem to appear, then dissolve into tricks of the light.  
 
-It seems ages, but finally you break through to the surface. *A sigh of relief goes through the crew.*
+It seems ages, but finally you break through to the surface. Karengo smiles, *and only you and he are left to be relieved.*/ 
+*and a sigh of relief goes through the crew.*
 
+"Alright," he says. "Let's get back to <planet> in <system>. <first>, kindly be our chariot and haul."
 
+## On return to origin
 
-## The Riddles
-
-No other path may you take\
-Oiled skins flash and flicker\
-Razer spikes grow from the deep\
-Titanic walls crush and smash\
-Heed the beginnings to live.
-
-There are stingers in the deep\
-A certain death, a dreamless sleep.\
-Go to beast that has no bee\
-No danger there, just open sea.
-
-To the north and to the east\
-Track my movements like a beast.\
-A quick turn right and forward on,\
-Come toward me where danger's gone.

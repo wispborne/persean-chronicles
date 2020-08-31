@@ -73,7 +73,7 @@ object DragonsQuest {
                     .random()
             } catch (e: Exception) {
                 // If no planets matching the criteria are found
-                di.errorReporter.reportCrash(e)
+                game.errorReporter.reportCrash(e)
                 return
             }
 
@@ -83,19 +83,19 @@ object DragonsQuest {
 
     fun clearDragonPlanetTag() {
         while (dragonPlanet != null) {
-            di.logger.i { "Removing tag $TAG_DRAGON_PLANET from planet ${dragonPlanet?.fullName} in ${dragonPlanet?.starSystem?.baseName}" }
+            game.logger.i { "Removing tag $TAG_DRAGON_PLANET from planet ${dragonPlanet?.fullName} in ${dragonPlanet?.starSystem?.baseName}" }
             dragonPlanet?.removeTag(TAG_DRAGON_PLANET)
         }
     }
 
     fun startQuest1(startLocation: SectorEntityToken) {
         stage = Stage.GoToPlanet
-        di.intelManager.addIntel(DragonsQuest_Intel(startLocation, dragonPlanet!!))
+        game.intelManager.addIntel(DragonsQuest_Intel(startLocation, dragonPlanet!!))
     }
 
     fun failQuestByLeavingToGetEatenByDragons() {
         stage = Stage.FailedByAbandoning
-        di.intelManager.findFirst(DragonsQuest_Intel::class.java)
+        game.intelManager.findFirst(DragonsQuest_Intel::class.java)
             ?.apply {
                 endAfterDelay()
                 sendUpdateIfPlayerHasIntel(null, false)
@@ -105,7 +105,7 @@ object DragonsQuest {
 
     fun startPart2() {
         stage = Stage.ReturnToStart
-        di.intelManager.findFirst(DragonsQuest_Intel::class.java)
+        game.intelManager.findFirst(DragonsQuest_Intel::class.java)
             ?.apply {
                 flipStartAndEndLocations()
                 sendUpdateIfPlayerHasIntel(null, false)
@@ -113,9 +113,9 @@ object DragonsQuest {
     }
 
     fun finishStage2() {
-        di.sector.playerFleet.cargo.credits.add(rewardCredits.toFloat())
+        game.sector.playerFleet.cargo.credits.add(rewardCredits.toFloat())
         stage = Stage.Done
-        di.intelManager.findFirst(DragonsQuest_Intel::class.java)
+        game.intelManager.findFirst(DragonsQuest_Intel::class.java)
             ?.apply {
                 endAfterDelay()
                 sendUpdateIfPlayerHasIntel(null, false)

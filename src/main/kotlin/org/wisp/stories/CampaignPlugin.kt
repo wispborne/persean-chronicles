@@ -10,7 +10,7 @@ import org.wisp.stories.dangerousGames.A_dragons.DragonsPart2_EndingDialog
 import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest_Intel
 import org.wisp.stories.wispLib.MOD_PREFIX
-import org.wisp.stories.wispLib.di
+import org.wisp.stories.wispLib.game
 import org.wisp.stories.wispLib.findFirst
 
 /**
@@ -37,7 +37,7 @@ class CampaignPlugin : BaseCampaignPlugin() {
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
             // Finish Dragonriders by landing at quest-giving planet
-            interactionTarget.id == di.intelManager.findFirst(DragonsQuest_Intel::class.java)?.endLocation?.planetEntity?.id
+            interactionTarget.id == game.intelManager.findFirst(DragonsQuest_Intel::class.java)?.endLocation?.planetEntity?.id
                     && DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart ->
                 PluginPick(
                     DragonsPart2_EndingDialog().build(),

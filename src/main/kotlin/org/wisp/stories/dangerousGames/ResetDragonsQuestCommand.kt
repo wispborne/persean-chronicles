@@ -6,7 +6,7 @@ import org.lazywizard.console.Console
 import org.wisp.stories.dangerousGames.A_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest_Intel
-import org.wisp.stories.wispLib.di
+import org.wisp.stories.wispLib.game
 import org.wisp.stories.wispLib.findFirst
 import org.wisp.stories.wispLib.removeBarEventCreator
 
@@ -17,7 +17,7 @@ class ResetDragonsQuestCommand : BaseCommand {
         }
 
         DragonsQuest.stage = DragonsQuest.Stage.NotStarted
-        di.intelManager.findFirst(DragonsQuest_Intel::class.java)?.endImmediately()
+        game.intelManager.findFirst(DragonsQuest_Intel::class.java)?.endImmediately()
         DragonsQuest.clearDragonPlanetTag()
         BarEventManager.getInstance().removeBarEventCreator(DragonsPart1_BarEventCreator::class.java)
         Console.showMessage("Quest reset. You didn't ditch those guys, right?")

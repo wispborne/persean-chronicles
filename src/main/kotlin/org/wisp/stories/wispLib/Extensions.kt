@@ -17,7 +17,7 @@ internal val SectorEntityToken.distanceFromCenterOfSector: Float
 internal val StarSystemAPI.distanceFromCenterOfSector: Float
     get() = Misc.getDistanceLY(
         this.location,
-        di.sector.hyperspace.location
+        game.sector.hyperspace.location
     )
 
 internal val SectorEntityToken.distanceFromPlayerInHyperspace: Float
@@ -26,7 +26,7 @@ internal val SectorEntityToken.distanceFromPlayerInHyperspace: Float
 internal val StarSystemAPI.distanceFromPlayerInHyperspace: Float
     get() = Misc.getDistanceLY(
         this.location,
-        di.sector.playerFleet.locationInHyperspace
+        game.sector.playerFleet.locationInHyperspace
     )
 
 internal val String.Companion.empty

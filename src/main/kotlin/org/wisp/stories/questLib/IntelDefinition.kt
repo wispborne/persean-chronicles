@@ -8,7 +8,7 @@ import com.fs.starfarer.api.ui.ButtonAPI
 import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import org.wisp.stories.wispLib.di
+import org.wisp.stories.wispLib.game
 
 /**
  * @param iconPath get via [com.fs.starfarer.api.SettingsAPI.getSpriteName]
@@ -37,9 +37,9 @@ abstract class IntelDefinition(
     init {
         isImportant = important
 
-        iconPath?.run { di.settings.loadTexture(this.invoke(this@IntelDefinition)) }
+        iconPath?.run { game.settings.loadTexture(this.invoke(this@IntelDefinition)) }
 
-        di.sector.addScript(this)
+        game.sector.addScript(this)
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class IntelDefinition(
         @Suppress("SENSELESS_COMPARISON")
         if (removeIntelIfAnyOfTheseEntitiesDie == null) removeIntelIfAnyOfTheseEntitiesDie = emptyList()
 
-        iconPath?.run { di.settings.loadTexture(this.invoke(this@IntelDefinition)) }
+        iconPath?.run { game.settings.loadTexture(this.invoke(this@IntelDefinition)) }
         return this
     }
 
@@ -90,7 +90,7 @@ abstract class IntelDefinition(
         // Remove intel if duration has elapsed
         if (durationInDays.isFinite()
             && intelStartedTimestamp != null
-            && di.sector.clock.getElapsedDaysSince(intelStartedTimestamp) >= durationInDays
+            && game.sector.clock.getElapsedDaysSince(intelStartedTimestamp) >= durationInDays
         ) {
             return true
         }
@@ -119,7 +119,7 @@ abstract class IntelDefinition(
     final override fun hasSmallDescription(): Boolean = descriptionCreator != null
 
     override fun getIcon(): String = iconPath?.invoke(this@IntelDefinition)
-        ?: di.settings.getSpriteName("intel", "fleet_log")
+        ?: game.settings.getSpriteName("intel", "fleet_log")
         ?: super.getIcon()
 
     override fun getCommMessageSound(): String {
@@ -160,6 +160,6 @@ abstract class IntelDefinition(
 
     override fun notifyEnded() {
         super.notifyEnded()
-        di.sector.removeScript(this)
+        game.sector.removeScript(this)
     }
 }
