@@ -7,8 +7,8 @@
 - Elias (death at choice 1 failure)
 - Taddese (death at choice 1 failure)
 - Mussie (death at choice 2 failure)
-- Jorma
-- Daciana
+- Jorma (death at choice 3 failure)
+- Daciana (death at choice 3 failure)
 
 ## Intro
 
@@ -284,8 +284,8 @@ _[failure](#on-choice-3-failure)_
 
 #### If second wall encounter
 
-No no no...not again. The proximity alarm wails and this time, you're much quicker to stop the ship...but Jorma and Daciana
-aren't so lucky. Both subpods smash straight into the stone wall looming in front of you.
+No no no...not again. The proximity alarm wails and this time, you're much quicker to stop the ship...but your tracker shows
+two subpods smash straight into the stone wall looming in front of you.
 
 _(go back)_
 
@@ -302,6 +302,7 @@ _[failure](#on-choice-3-failure)_
 
 ### On Choice 3 Failure
 
+Jorma and Daciana never report back in.
 "You stay." radios Karengo. He sounds frustrated for the first time, and you keep the ship in place, watching his subpod dot
 radiate outwards, exploring.
 "Come here." he finally says. His dot has stopped moving, hovering to the south, and you turn to follow, wondering if
@@ -353,10 +354,19 @@ Carefully, you navigate back to the surface, the knowledge that you've made it t
 nothing to help with the very rational fear of the depths. Walls seem to loom just out of site,
 and massive, yellow eyes seem to appear, then dissolve into tricks of the light.  
 
-It seems ages, but finally you break through to the surface. Karengo smiles, *and only you and he are left to be relieved.*/ 
+It seems ages, but finally you break through to the surface. Karengo smiles, *and only you and he are left to be relieved.* OR 
 *and a sigh of relief goes through the crew.*
 
 "Alright," he says. "Let's get back to <planet> in <system>. <first>, kindly be our chariot and haul."
 
 ## On return to origin
 
+The crystal-infected Beta Core has been thoroughly inspected since being salvaged from the watery depths of <destination>.
+The storage units of the Core were *unfortunately, entirely corrupted* OR *almost entirely corrupted, but your fleet engineers were able to extract one gate code*
+OR *almost entirely corrupted, but between your fleet engineers and the members of Karengo's crew, two gate codes were extracted.*
+
+The crystals themselves are unlike anything anyone has seen before, but through somewhat questionable trial and error (although he insists it's genius),
+Karengo discovers that, when heated, they amplify the effect of the many recreational drugs he has on his person.
+
+If cultivated, they could significantly boost the effective production of drugs. However, they've proven to only grow near a power source
+that has been submerged in water from <destination>. Efforts to stimulate growth through other means have all failed.
