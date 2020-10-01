@@ -7,10 +7,10 @@ import org.wisp.stories.dangerousGames.A_dragons.DragonsPart1_BarEvent
 import org.wisp.stories.dangerousGames.A_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest_Intel
-import org.wisp.stories.wispLib.MOD_NAME
-import org.wisp.stories.wispLib.MOD_PREFIX
-import org.wisp.stories.wispLib.game
-import org.wisp.stories.wispLib.i
+import org.wisp.stories.dangerousGames.MOD_NAME
+import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
+import wisp.questgiver.wispLib.game
+import wisp.questgiver.wispLib.i
 
 class LifecyclePlugin : BaseModPlugin() {
 
@@ -58,7 +58,8 @@ class LifecyclePlugin : BaseModPlugin() {
         val blacklistedSystems = try {
             val jsonArray = game.settings
                 .getMergedSpreadsheetDataForMod(
-                    "id", "data/config/stories_system_blacklist.csv",
+                    "id",
+                    "data/config/stories_system_blacklist.csv",
                     MOD_NAME
                 )
             val blacklist = mutableListOf<BlacklistEntry>()

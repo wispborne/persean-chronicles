@@ -5,7 +5,7 @@ import org.lazywizard.console.Console
 import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest
 
 class ViewDebugInfoCommand : BaseCommand {
-    override fun runCommand(args: String?, context: BaseCommand.CommandContext): BaseCommand.CommandResult {
+    override fun runCommand(args: String, context: BaseCommand.CommandContext): BaseCommand.CommandResult {
         if (!context.isCampaignAccessible) {
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }

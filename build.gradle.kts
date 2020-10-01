@@ -24,6 +24,9 @@ repositories {
 dependencies {
     val kotlinVersionInLazyLib = "1.3.61"
 
+    // Questgiver lib
+    implementation(fileTree("libs") { include("Questgiver-1.0.0.jar") })
+
     // Get kotlin sdk from LazyLib during runtime, only use it here during compile time
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersionInLazyLib")
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersionInLazyLib")
@@ -37,12 +40,6 @@ dependencies {
         include("*.jar")
 //        exclude("*_obf.jar")
     })
-
-    // Unit testing libraries. Good to use, but not necessary.
-//    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.2")
-//    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.2")
-//    testImplementation("org.assertj:assertj-core:3.11.1")
-//    testImplementation("io.mockk:mockk:1.9")
 }
 
 tasks {

@@ -2,8 +2,8 @@ package org.wisp.stories.dangerousGames.B_depths
 
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.impl.campaign.ids.Tags
-import org.wisp.stories.questLib.IntelDefinition
-import org.wisp.stories.wispLib.empty
+import wisp.questgiver.wispLib.empty
+import wisp.questgiver.IntelDefinition
 
 class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     title = {

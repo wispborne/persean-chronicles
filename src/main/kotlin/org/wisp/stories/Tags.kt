@@ -1,10 +1,10 @@
 package org.wisp.stories
 
 import com.fs.starfarer.api.campaign.StarSystemAPI
-import org.wisp.stories.wispLib.MOD_PREFIX
+import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
 
 internal object Tags {
-    const val TAG_BLACKLISTED_SYSTEM = "${MOD_PREFIX}_blacklisted_system"
+    val TAG_BLACKLISTED_SYSTEM = "${MOD_PREFIX}_blacklisted_system"
 
     private val Dme = listOf(
         "theme_breakers",

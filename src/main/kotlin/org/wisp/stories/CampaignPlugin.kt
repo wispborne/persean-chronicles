@@ -9,14 +9,18 @@ import org.wisp.stories.dangerousGames.A_dragons.DragonsPart1_EndingDialog
 import org.wisp.stories.dangerousGames.A_dragons.DragonsPart2_EndingDialog
 import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest_Intel
-import org.wisp.stories.wispLib.MOD_PREFIX
-import org.wisp.stories.wispLib.game
-import org.wisp.stories.wispLib.findFirst
+import wisp.questgiver.wispLib.QuestGiver
+import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
+import wisp.questgiver.wispLib.findFirst
+import wisp.questgiver.wispLib.game
 
 /**
  * Instead of using `rules.csv`, use this plugin to trigger dialog choices and conversations.
  */
 class CampaignPlugin : BaseCampaignPlugin() {
+    init {
+        QuestGiver.initialize(modPrefix = "stories")
+    }
 
     override fun getId() = "${MOD_PREFIX}_CampaignPlugin"
 

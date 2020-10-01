@@ -6,12 +6,12 @@ import org.lazywizard.console.Console
 import org.wisp.stories.dangerousGames.A_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest_Intel
-import org.wisp.stories.wispLib.game
-import org.wisp.stories.wispLib.findFirst
-import org.wisp.stories.wispLib.removeBarEventCreator
+import wisp.questgiver.wispLib.game
+import wisp.questgiver.wispLib.findFirst
+import wisp.questgiver.wispLib.removeBarEventCreator
 
 class ResetDragonsQuestCommand : BaseCommand {
-    override fun runCommand(args: String?, context: BaseCommand.CommandContext): BaseCommand.CommandResult {
+    override fun runCommand(args: String, context: BaseCommand.CommandContext): BaseCommand.CommandResult {
         if (!context.isCampaignAccessible) {
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }

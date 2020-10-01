@@ -1,7 +1,7 @@
 package org.wisp.stories.dangerousGames.A_dragons
 
-import org.wisp.stories.questLib.InteractionDefinition
-import org.wisp.stories.wispLib.empty
+import wisp.questgiver.wispLib.empty
+import wisp.questgiver.InteractionDefinition
 
 class DragonsPart1_EndingDialog : InteractionDefinition<DragonsPart1_EndingDialog>(
     onInteractionStarted = {},

@@ -4,7 +4,7 @@ import com.fs.starfarer.api.impl.campaign.econ.BaseHazardCondition
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.ui.TooltipMakerAPI
-import org.wisp.stories.questLib.addPara
+import wisp.questgiver.addPara
 
 class CrystalMarketMod : BaseHazardCondition() {
     private val DRUG_MULTIPLIER = 0.10f

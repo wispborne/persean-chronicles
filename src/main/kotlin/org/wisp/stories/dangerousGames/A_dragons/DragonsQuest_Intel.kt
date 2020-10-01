@@ -4,9 +4,9 @@ import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import org.wisp.stories.questLib.IntelDefinition
-import org.wisp.stories.questLib.addPara
-import org.wisp.stories.wispLib.empty
+import wisp.questgiver.wispLib.empty
+import wisp.questgiver.IntelDefinition
+import wisp.questgiver.addPara
 
 class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     iconPath = { DragonsQuest.iconPath },

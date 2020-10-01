@@ -4,9 +4,9 @@ import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import org.lwjgl.input.Keyboard
-import org.wisp.stories.questLib.BarEventDefinition
-import org.wisp.stories.wispLib.game
-import org.wisp.stories.wispLib.lastName
+import wisp.questgiver.wispLib.game
+import wisp.questgiver.wispLib.lastName
+import wisp.questgiver.BarEventDefinition
 
 class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
     shouldShowEvent = { DragonsQuest.shouldOfferQuest(it) },
