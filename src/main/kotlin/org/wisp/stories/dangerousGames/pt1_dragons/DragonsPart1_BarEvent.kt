@@ -1,4 +1,4 @@
-package org.wisp.stories.dangerousGames.A_dragons
+package org.wisp.stories.dangerousGames.pt1_dragons
 
 import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent

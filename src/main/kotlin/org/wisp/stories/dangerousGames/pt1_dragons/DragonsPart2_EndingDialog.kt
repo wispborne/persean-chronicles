@@ -1,8 +1,8 @@
-package org.wisp.stories.dangerousGames.A_dragons
+package org.wisp.stories.dangerousGames.pt1_dragons
 
 import org.wisp.stories.game
-import wisp.questgiver.wispLib.lastName
 import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.wispLib.lastName
 
 class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialog>(
     onInteractionStarted = {},
@@ -10,15 +10,11 @@ class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialo
         Page(
             id = 1,
             onPageShown = {
-                addPara {
-                    "As you land and fuel up, Karengo herds the seven surviving men out of the ship. " +
-                            "\"Meet us at the bar, yeah?\" he says to you. \"This day deserves a celebration.\"" +
-                            " You nod, but can't help but notice red eyes and wet cheeks among the rest of the Dragonriders as they shuffle off."
-                }
+                addPara { game.words["dd_dr_stg3_pg1_para1"] }
             },
             options = listOf(
                 Option(
-                    text = { "Continue" },
+                    text = { game.words["dd_dr_stg3_pg1_opt1"] },
                     onOptionSelected = { it.goToPage(2) }
                 )
             )
@@ -26,33 +22,30 @@ class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialo
         Page(
             id = 2,
             onPageShown = {
+                addPara { game.words["dd_dr_stg3_pg2_para1"] }
                 addPara {
-                    "Later that day, you spot the Dragonriders at a corner table of the bar. " +
-                            "The men, with the exception of Karengo, appear subdued. "
-                }
-                addPara {
-                    "\"How goes it, ${game.sector.playerPerson.lastName}?\" he asks. " +
-                            "\"We were just raising a glass to mission success - made possible by you, of course. " +
-                            "Great flying, brother.\" The bartender arrives with a round of drinks and Karengo raises one. " +
-                            "\"To the Dragonriders!\" he says."
+                    game.words.fmt(
+                        "dd_dr_stg3_pg2_para2",
+                        mapOf("playerLastName" to game.sector.playerPerson.lastName)
+                    )
                 }
             },
             options = listOf(
                 Option(
-                    text = { "\"To the Dragonriders!\"" },
+                    text = { game.words["dd_dr_stg3_pg2_opt1"] },
                     onOptionSelected = { it.goToPage(3) }
                 ),
                 Option(
-                    text = { "\"To our fallen friends!\"" },
+                    text = { game.words["dd_dr_stg3_pg2_opt2"] },
                     onOptionSelected = {
-                        addPara { "Karengo gives you an unreadable look and lowers his glass." }
+                        addPara { game.words["dd_dr_stg3_pg2_opt2_para1"] }
                         it.goToPage(3)
                     }
                 ),
                 Option(
-                    text = { "\"I'm good, thanks.\"" },
+                    text = { game.words["dd_dr_stg3_pg2_opt3"] },
                     onOptionSelected = {
-                        addPara { "Karengo gives you an unreadable look and lowers his glass." }
+                        addPara { game.words["dd_dr_stg3_pg2_opt3_para1"] }
                         it.goToPage(3)
                     }
                 )
@@ -61,17 +54,22 @@ class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialo
         Page(
             id = 3,
             onPageShown = {
-                addPara { "\"Your payment, plus Bolek and Jarek's signup fees. ${DragonsQuest.rewardCredits}.\"" }
+                addPara {
+                    game.words.fmt(
+                        "dd_dr_stg3_pg3_para1",
+                        mapOf("rewardCredits" to DragonsQuest.rewardCredits)
+                    )
+                }
             },
             options = listOf(
                 Option(
-                    text = { "\"Thanks.\"" },
+                    text = { game.words["dd_dr_stg3_pg3_opt1"] },
                     onOptionSelected = { it.goToPage(4) }
                 ),
                 Option(
-                    text = { "\"I can't accept their money. It's not right.\"" },
+                    text = { game.words["dd_dr_stg3_pg3_opt2"] },
                     onOptionSelected = {
-                        addPara { "Karengo shrugs and doesn't take it back." }
+                        addPara { game.words["dd_dr_stg3_pg3_opt2_para1"] }
                         it.goToPage(4)
                     }
                 )
@@ -80,14 +78,11 @@ class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialo
         Page(
             id = 4,
             onPageShown = {
-                addPara {
-                    "\"Maybe I'll see you again sometime, yeah? I'm in need of a pilot with some guts.\" " +
-                            "He nods in your direction, clearly dismissing you."
-                }
+                addPara { game.words["dd_dr_stg3_pg4_para1"] }
             },
             options = listOf(
                 Option(
-                    text = { "Leave" },
+                    text = { game.words["dd_dr_stg3_pg4_para1_opt1"] },
                     onOptionSelected = {
                         DragonsQuest.finishStage2()
                         val interactionTarget = dialog.interactionTarget

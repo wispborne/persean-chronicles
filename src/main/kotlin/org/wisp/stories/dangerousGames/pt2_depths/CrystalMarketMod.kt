@@ -1,4 +1,4 @@
-package org.wisp.stories.dangerousGames.B_depths
+package org.wisp.stories.dangerousGames.pt2_depths
 
 import com.fs.starfarer.api.impl.campaign.econ.BaseHazardCondition
 import com.fs.starfarer.api.impl.campaign.ids.Commodities

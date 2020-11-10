@@ -1,4 +1,4 @@
-package org.wisp.stories.dangerousGames.A_dragons
+package org.wisp.stories.dangerousGames.pt1_dragons
 
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
