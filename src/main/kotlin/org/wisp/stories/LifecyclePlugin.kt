@@ -3,19 +3,24 @@ package org.wisp.stories
 import com.fs.starfarer.api.BaseModPlugin
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.thoughtworks.xstream.XStream
-import org.wisp.stories.dangerousGames.A_dragons.DragonsPart1_BarEvent
-import org.wisp.stories.dangerousGames.A_dragons.DragonsPart1_BarEventCreator
-import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest
-import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest_Intel
-import org.wisp.stories.dangerousGames.MOD_NAME
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEvent
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
+import wisp.questgiver.wispLib.QuestGiver
 import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
-import wisp.questgiver.wispLib.game
 import wisp.questgiver.wispLib.i
 
 class LifecyclePlugin : BaseModPlugin() {
+    override fun onApplicationLoad() {
+        super.onApplicationLoad()
+        QuestGiver.initialize(modPrefix = org.wisp.stories.MOD_PREFIX)
+    }
 
     override fun onGameLoad(newGame: Boolean) {
         super.onGameLoad(newGame)
+        // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
+        game = SpaceTalesServiceLocator()
         applyBlacklistTagsToSystems()
 
         val barEventManager = BarEventManager.getInstance()
@@ -46,7 +51,7 @@ class LifecyclePlugin : BaseModPlugin() {
             DragonsPart1_BarEvent::class to "DragonsPart1_BarEvent",
             DragonsPart1_BarEventCreator::class to "DragonsPart1_BarEventCreator",
             CampaignPlugin::class to "CampaignPlugin",
-            DragonsQuest.Stage::class to "DragonsQuest.Stage"
+            DragonsQuest.Stage::class to "DragonsQuest_Stage"
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized

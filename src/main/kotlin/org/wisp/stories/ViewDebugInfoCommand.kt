@@ -2,7 +2,7 @@ package org.wisp.stories
 
 import org.lazywizard.console.BaseCommand
 import org.lazywizard.console.Console
-import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 
 class ViewDebugInfoCommand : BaseCommand {
     override fun runCommand(args: String, context: BaseCommand.CommandContext): BaseCommand.CommandResult {

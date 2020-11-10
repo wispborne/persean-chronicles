@@ -5,14 +5,13 @@ import com.fs.starfarer.api.campaign.BaseCampaignPlugin
 import com.fs.starfarer.api.campaign.CampaignPlugin
 import com.fs.starfarer.api.campaign.InteractionDialogPlugin
 import com.fs.starfarer.api.campaign.SectorEntityToken
-import org.wisp.stories.dangerousGames.A_dragons.DragonsPart1_EndingDialog
-import org.wisp.stories.dangerousGames.A_dragons.DragonsPart2_EndingDialog
-import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest
-import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest_Intel
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_EndingDialog
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart2_EndingDialog
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
 import wisp.questgiver.wispLib.QuestGiver
 import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
 import wisp.questgiver.wispLib.findFirst
-import wisp.questgiver.wispLib.game
 
 /**
  * Instead of using `rules.csv`, use this plugin to trigger dialog choices and conversations.

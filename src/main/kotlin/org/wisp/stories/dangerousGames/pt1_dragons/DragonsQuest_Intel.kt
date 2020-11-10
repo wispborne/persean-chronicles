@@ -35,7 +35,7 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
             else Misc.getTextColor()
 
         info.addPara(textColor = part1Color) {
-            "A lively man named Charengo and a few passionate youth are traveling with you to see the draconic animals " +
+            "A lively man named Karengo and a few passionate youth are traveling with you to see the draconic animals " +
                     "on ${DragonsQuest.dragonPlanet?.name} in the ${DragonsQuest.dragonPlanet?.starSystem?.baseName} system."
         }
         val part2Color =

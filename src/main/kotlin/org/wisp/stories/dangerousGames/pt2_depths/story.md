@@ -368,5 +368,5 @@ OR *almost entirely corrupted, but between your fleet engineers and the members 
 The crystals themselves are unlike anything anyone has seen before, but through somewhat questionable trial and error (although he insists it's genius),
 Karengo discovers that, when heated, they amplify the effect of the many recreational drugs he has on his person.
 
-If cultivated, they could significantly boost the effective production of drugs. However, they've proven to only grow near a power source
-that has been submerged in water from <destination>. Efforts to stimulate growth through other means have all failed.
+However, they've proven to only grow near a power source that has been submerged in water from <destination>. Efforts to stimulate growth through other means have all failed.
+If cultivated, they could significantly boost the effective production of drugs on the planet.

@@ -3,10 +3,10 @@ package org.wisp.stories.dangerousGames
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import org.lazywizard.console.BaseCommand
 import org.lazywizard.console.Console
-import org.wisp.stories.dangerousGames.A_dragons.DragonsPart1_BarEventCreator
-import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest
-import org.wisp.stories.dangerousGames.A_dragons.DragonsQuest_Intel
-import wisp.questgiver.wispLib.game
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
+import org.wisp.stories.game
 import wisp.questgiver.wispLib.findFirst
 import wisp.questgiver.wispLib.removeBarEventCreator
 

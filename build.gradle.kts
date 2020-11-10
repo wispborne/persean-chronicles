@@ -25,7 +25,7 @@ dependencies {
     val kotlinVersionInLazyLib = "1.3.61"
 
     // Questgiver lib
-    implementation(fileTree("libs") { include("Questgiver-1.0.0.jar") })
+    implementation(fileTree("libs").matching { include("Questgiver-1.0.0.jar") })
 
     // Get kotlin sdk from LazyLib during runtime, only use it here during compile time
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersionInLazyLib")
@@ -45,8 +45,11 @@ dependencies {
 tasks {
     named<Jar>("jar")
     {
+        // Include all runtime files in the jar so mod is standalone
+        from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
         destinationDir = file("$rootDir/jars")
         archiveName = jarFileName
+//        with(tasks.jar.get() as CopySpec)
     }
 
     register("debug-starsector", Exec::class) {
