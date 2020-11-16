@@ -11,7 +11,7 @@ import wisp.questgiver.wispLib.lastName
 class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
     shouldShowEvent = { DragonsQuest.shouldOfferQuest(it) },
     interactionPrompt = {
-        DragonsQuest.findAndTagDragonPlanetIfNeeded(game.sector.playerFleet.starSystem)
+        DragonsQuest.init(game.sector.playerFleet.starSystem)
         addPara { game.words["dd_dr_stg1_prompt"] }
     },
     textToStartInteraction = { game.words["dd_dr_stg1_startBarEvent"] },
@@ -42,17 +42,10 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
                     game.words["dd_dr_stg1_pg2_para1"]
                 }
                 addPara {
-                    game.words.fmt(
-                        "dd_dr_stg1_pg2_para2", mapOf(
-                            "dragonPlanet" to DragonsQuest.dragonPlanet?.name
-                        )
-                    )
+                    game.words["dd_dr_stg1_pg2_para2"]
                 }
                 addPara {
-                    game.words.fmt(
-                        "dd_dr_stg1_pg2_para3",
-                        mapOf("dragonPlanet" to DragonsQuest.dragonPlanet?.name)
-                    )
+                    game.words["dd_dr_stg1_pg2_para3"]
                 }
             },
             options = listOf(

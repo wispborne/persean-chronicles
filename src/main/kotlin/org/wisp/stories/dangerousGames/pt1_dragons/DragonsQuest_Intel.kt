@@ -48,7 +48,6 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
             game.words.fmt(
                 "dd_dr_intel_desc_para1",
                 mapOf(
-                    "dragonPlanet" to DragonsQuest.dragonPlanet?.name,
                     "dragonSystem" to DragonsQuest.dragonPlanet?.starSystem?.baseName
                 )
             )
@@ -75,12 +74,7 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
 
         if (DragonsQuest.stage == DragonsQuest.Stage.FailedByAbandoning) {
             info.addPara(textColor = part2Color) {
-                game.words.fmt(
-                    "dd_dr_intel_desc_stg-failedByAbandon",
-                    mapOf(
-                        "dragonPlanet" to DragonsQuest.dragonPlanet?.name
-                    )
-                )
+                game.words["dd_dr_intel_desc_stg-failedByAbandon"]
             }
         }
     },

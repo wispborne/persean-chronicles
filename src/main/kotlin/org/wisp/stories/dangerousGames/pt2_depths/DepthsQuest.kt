@@ -4,6 +4,7 @@ import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import org.wisp.stories.dangerousGames.Utilities
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.game
 import wisp.questgiver.wispLib.*
 import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
@@ -63,10 +64,16 @@ object DepthsQuest {
         stage == Stage.NotStarted
                 && marketAPI.starSystem != null // No Prism Freeport, just normal systems
 
+    fun init(playersCurrentStarSystem: StarSystemAPI?) {
+        game.words.globalReplacementGetters["depthsPlanet"] = { depthsPlanet?.name }
+        game.words.globalReplacementGetters["depthsSystem"] = { depthsPlanet?.starSystem?.baseName }
+        findAndTagDepthsPlanetIfNeeded(playersCurrentStarSystem)
+    }
+
     /**
      * Find a planet with oceans somewhere near the center, excluding player's current location.
      */
-    fun findAndTagDepthsPlanetIfNeeded(playersCurrentStarSystem: StarSystemAPI?) {
+    private fun findAndTagDepthsPlanetIfNeeded(playersCurrentStarSystem: StarSystemAPI?) {
         if (depthsPlanet == null) {
             val system = try {
                 Utilities.getSystemsForQuestTarget()

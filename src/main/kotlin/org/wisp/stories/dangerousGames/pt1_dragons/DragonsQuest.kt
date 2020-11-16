@@ -58,7 +58,12 @@ object DragonsQuest {
     /**
      * Find a planet with life somewhere near the center, excluding player's current location.
      */
-    fun findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem: StarSystemAPI?) {
+    fun init(playersCurrentStarSystem: StarSystemAPI?) {
+        game.words.globalReplacementGetters["dragonPlanet"] = { dragonPlanet?.name }
+        findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem)
+    }
+
+    private fun findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem: StarSystemAPI?) {
         if (dragonPlanet == null) {
             val system = try {
                 Utilities.getSystemsForQuestTarget()

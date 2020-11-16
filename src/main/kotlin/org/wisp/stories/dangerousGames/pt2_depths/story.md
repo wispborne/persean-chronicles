@@ -12,7 +12,7 @@
 
 ## Intro
 
-"**FirstName**!" A huge hand claps you on the shoulder and spins you around, where you find yourself facing a large, widly grinning man.
+"**FirstName**!" A huge hand claps you on the shoulder and spins you around, where you find yourself facing a large, widely grinning man.
 "Remember me? Yer the best pilot I've had - that stunt to get us out of Skymoot, right out of the dragon's nest? Epic."
 A crude, but professional, sign behind him reads, 'Dangerous Games - Karengo's Galactic Adventures'.
 "Like it?" Karengo follows your gaze. "Decided to make this an official thing. Well...an unofficial official thing.

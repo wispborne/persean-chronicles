@@ -7,9 +7,13 @@ import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEvent
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
+import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest
+import org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage1_BarEvent
+import org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage1_BarEventCreator
 import wisp.questgiver.wispLib.QuestGiver
 import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
 import wisp.questgiver.wispLib.i
+import wisp.questgiver.wispLib.lastName
 
 class LifecyclePlugin : BaseModPlugin() {
     override fun onApplicationLoad() {
@@ -21,6 +25,8 @@ class LifecyclePlugin : BaseModPlugin() {
         super.onGameLoad(newGame)
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator()
+        game.words.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.lastName }
+
         applyBlacklistTagsToSystems()
 
         val barEventManager = BarEventManager.getInstance()
@@ -46,12 +52,16 @@ class LifecyclePlugin : BaseModPlugin() {
         super.configureXStream(x)
 
         // DO NOT CHANGE THESE STRINGS, DOING SO WILL BREAK SAVE GAMES
+        // No periods allowed in the serialized name, causes crash.
         val aliases = listOf(
             DragonsQuest_Intel::class to "DragonsQuest_Intel",
             DragonsPart1_BarEvent::class to "DragonsPart1_BarEvent",
             DragonsPart1_BarEventCreator::class to "DragonsPart1_BarEventCreator",
             CampaignPlugin::class to "CampaignPlugin",
-            DragonsQuest.Stage::class to "DragonsQuest_Stage"
+            DragonsQuest.Stage::class to "DragonsQuest_Stage",
+            DepthsQuest.Stage::class to "DepthsQuest_Stage",
+            Depths_Stage1_BarEvent::class to "Depths_Stage1_BarEvent",
+            Depths_Stage1_BarEventCreator::class to "Depths_Stage1_BarEventCreator"
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized

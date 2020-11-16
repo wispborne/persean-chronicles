@@ -2,19 +2,33 @@ package org.wisp.stories.dangerousGames.pt2_depths
 
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.impl.campaign.ids.Tags
-import wisp.questgiver.wispLib.empty
+import org.wisp.stories.game
 import wisp.questgiver.IntelDefinition
+import wisp.questgiver.wispLib.empty
 
 class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     title = {
         when (DepthsQuest.stage) {
-            DepthsQuest.Stage.NotStarted -> String.empty
-            DepthsQuest.Stage.GoToPlanet -> "Bring Karengo and crew to ${endLocation.name}"
-            DepthsQuest.Stage.ReturnToStart -> {
-                "Bring Karengo ${if (!DepthsQuest.didAllCrewDie) "and crew " else String.empty}" +
-                        "back to ${startLocation.name}"
-            }
-            DepthsQuest.Stage.Done -> "Finished: Brought Karengo and crew to search for underwater treasure."
+            DepthsQuest.Stage.NotStarted ->
+                String.empty
+            DepthsQuest.Stage.GoToPlanet ->
+                game.words.fmt(
+                    "dd_de_intel_title_stg-goToPlanet",
+                    mapOf("endLocation" to endLocation.name)
+                )
+            DepthsQuest.Stage.ReturnToStart ->
+                game.words.fmt(
+                    "dd_de_intel_title_stg-returnToStart",
+                    mapOf(
+                        "ifCrewAlive" to
+                                if (!DepthsQuest.didAllCrewDie)
+                                    game.words["dd_de_intel_title_stg-returnToStart_ifCrewAlive"]
+                                else String.empty,
+                        "startLocation" to startLocation.name
+                    )
+                )
+            DepthsQuest.Stage.Done ->
+                game.words["dd_de_intel_title_stg-done"]
         }
     },
     startLocation = startLocation.market,
