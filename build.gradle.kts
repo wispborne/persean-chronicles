@@ -25,7 +25,12 @@ dependencies {
     val kotlinVersionInLazyLib = "1.3.61"
 
     // Questgiver lib
-    implementation(fileTree("libs").matching { include("Questgiver-1.0.0.jar") })
+    implementation(fileTree("libs").matching {
+        val questgiverVersion = "1.0.0"
+        include("Questgiver-$questgiverVersion.jar")
+        include("Questgiver-$questgiverVersion-sources.jar")
+        include("Questgiver-$questgiverVersion-javadoc.jar")
+    })
 
     // Get kotlin sdk from LazyLib during runtime, only use it here during compile time
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersionInLazyLib")
