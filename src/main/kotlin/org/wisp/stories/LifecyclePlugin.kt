@@ -12,6 +12,7 @@ import org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage1_BarEvent
 import org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage1_BarEventCreator
 import wisp.questgiver.wispLib.QuestGiver
 import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
+import wisp.questgiver.wispLib.firstName
 import wisp.questgiver.wispLib.i
 import wisp.questgiver.wispLib.lastName
 
@@ -25,7 +26,8 @@ class LifecyclePlugin : BaseModPlugin() {
         super.onGameLoad(newGame)
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator()
-        game.words.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.lastName }
+        game.words.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
+        game.words.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
 
         applyBlacklistTagsToSystems()
 

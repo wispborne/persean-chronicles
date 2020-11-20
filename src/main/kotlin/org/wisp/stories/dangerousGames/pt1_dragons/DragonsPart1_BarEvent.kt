@@ -12,24 +12,24 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
     shouldShowEvent = { DragonsQuest.shouldOfferQuest(it) },
     interactionPrompt = {
         DragonsQuest.init(game.sector.playerFleet.starSystem)
-        addPara { game.words["dd_dr_stg1_prompt"] }
+        addPara { game.words["dg_dr_stg1_prompt"] }
     },
-    textToStartInteraction = { game.words["dd_dr_stg1_startBarEvent"] },
+    textToStartInteraction = { game.words["dg_dr_stg1_startBarEvent"] },
     onInteractionStarted = {
     },
     pages = listOf(
         Page(
             id = 1,
             onPageShown = {
-                addPara { game.words["dd_dr_stg1_pg1_onShown"] }
+                addPara { game.words["dg_dr_stg1_pg1_onShown"] }
             },
             options = listOf(
                 Option(
-                    text = { game.words["dd_dr_stg1_pg1_opt1"] },
+                    text = { game.words["dg_dr_stg1_pg1_opt1"] },
                     onOptionSelected = { it.goToPage(2) }
                 ),
                 Option(
-                    text = { game.words["dd_dr_stg1_pg1_opt2"] },
+                    text = { game.words["dg_dr_stg1_pg1_opt2"] },
                     onOptionSelected = { it.close(doNotOfferAgain = false) },
                     shortcut = Shortcut(Keyboard.KEY_ESCAPE)
                 )
@@ -39,20 +39,20 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
             id = 2,
             onPageShown = {
                 addPara {
-                    game.words["dd_dr_stg1_pg2_para1"]
+                    game.words["dg_dr_stg1_pg2_para1"]
                 }
                 addPara {
-                    game.words["dd_dr_stg1_pg2_para2"]
+                    game.words["dg_dr_stg1_pg2_para2"]
                 }
                 addPara {
-                    game.words["dd_dr_stg1_pg2_para3"]
+                    game.words["dg_dr_stg1_pg2_para3"]
                 }
             },
             options = listOf(
                 Option(
                     text = {
                         game.words.fmt(
-                            "dd_dr_stg1_pg2_opt1",
+                            "dg_dr_stg1_pg2_opt1",
                             mapOf("playerLastName" to game.sector.playerPerson.lastName)
                         )
                     },
@@ -61,7 +61,7 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
                     }
                 ),
                 Option(
-                    text = { game.words["dd_dr_stg1_pg2_opt2"] },
+                    text = { game.words["dg_dr_stg1_pg2_opt2"] },
                     onOptionSelected = { it.close(doNotOfferAgain = false) },
                     shortcut = Shortcut(Keyboard.KEY_ESCAPE)
                 )
@@ -72,14 +72,14 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
             onPageShown = {
                 addPara {
                     game.words.fmt(
-                        "dd_dr_stg1_pg3_onShown",
+                        "dg_dr_stg1_pg3_onShown",
                         mapOf("playerLastName" to game.sector.playerPerson.lastName)
                     )
                 }
             },
             options = listOf(
                 Option(
-                    text = { game.words["dd_dr_stg1_pg3_opt1"] },
+                    text = { game.words["dg_dr_stg1_pg3_opt1"] },
                     onOptionSelected = {
                         DragonsQuest.startQuest1(startLocation = this.dialog.interactionTarget)
                         it.close(doNotOfferAgain = true)

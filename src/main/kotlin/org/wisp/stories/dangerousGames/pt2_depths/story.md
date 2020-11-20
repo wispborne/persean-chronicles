@@ -56,11 +56,11 @@ Karengo claps him on the back and gives him a signature grin. "Maybe <first> can
 TWENTY-FIVE KILOMETERS. "This's it," Karengo announces, "Sub up! Let's see what there is to see. And <first>, keep it to passive sensors. Don't want to attrack any undue attention."
 The <ship> smoothly descends into the mouth of a massive cave and your visibility, clouded by dark sulfide emissions from the hydrothermal vents at the floor, drops to less than eight meters.
 A fan of 10 personal subpods fan out behind you, their communication equipment syncing with yours to display them as blips on your screen.
+"Ok <first>," Karengo crackles over the radio. "Lead on."
 
 ## Riddle 1
 
   _(view first riddle)_
-"Ok <first>," Karengo crackles over the radio. "Lead on."
 
 No other path may you take\
 Oiled skins flash and flicker\

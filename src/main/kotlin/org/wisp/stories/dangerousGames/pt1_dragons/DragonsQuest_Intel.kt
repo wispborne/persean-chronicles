@@ -12,10 +12,10 @@ import wisp.questgiver.wispLib.empty
 class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     iconPath = { DragonsQuest.iconPath },
     title = {
-        game.words["dd_dr_intel_title"] +
+        game.words["dg_dr_intel_title"] +
                 when (DragonsQuest.stage) {
-                    DragonsQuest.Stage.FailedByAbandoning -> game.words["dd_dr_intel_title_failed"]
-                    DragonsQuest.Stage.Done -> game.words["dd_dr_intel_title_completed"]
+                    DragonsQuest.Stage.FailedByAbandoning -> game.words["dg_dr_intel_title_failed"]
+                    DragonsQuest.Stage.Done -> game.words["dg_dr_intel_title_completed"]
                     else -> String.empty
                 }
     },
@@ -23,14 +23,14 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
         if (DragonsQuest.stage == DragonsQuest.Stage.GoToPlanet) {
             info?.addPara {
                 game.words.fmt(
-                    "dd_dr_intel_subtitle_stg-goToPlanet",
+                    "dg_dr_intel_subtitle_stg-goToPlanet",
                     mapOf("dragonPlanet" to DragonsQuest.dragonPlanet?.name)
                 )
             }
         } else if (DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart) {
             info?.addPara {
                 game.words.fmt(
-                    "dd_dr_intel_subtitle_stg-returnToStart",
+                    "dg_dr_intel_subtitle_stg-returnToStart",
                     mapOf(
                         "startPlanet" to startLocation.name,
                         "startSystem" to startLocation.starSystem?.baseName
@@ -46,7 +46,7 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
 
         info.addPara(textColor = part1Color) {
             game.words.fmt(
-                "dd_dr_intel_desc_para1",
+                "dg_dr_intel_desc_para1",
                 mapOf(
                     "dragonSystem" to DragonsQuest.dragonPlanet?.starSystem?.baseName
                 )
@@ -59,7 +59,7 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
         if (DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart || DragonsQuest.stage == DragonsQuest.Stage.Done) {
             info.addPara(textColor = part2Color) {
                 game.words.fmt(
-                    "dd_dr_intel_desc_stg-returnToStart",
+                    "dg_dr_intel_desc_stg-returnToStart",
                     mapOf(
                         "startPlanet" to startLocation.name,
                         "startSystem" to startLocation.starSystem?.baseName
@@ -69,12 +69,12 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
         }
 
         if (DragonsQuest.stage == DragonsQuest.Stage.Done) {
-            info.addPara { game.words["dd_dr_intel_desc_stg-done"] }
+            info.addPara { game.words["dg_dr_intel_desc_stg-done"] }
         }
 
         if (DragonsQuest.stage == DragonsQuest.Stage.FailedByAbandoning) {
             info.addPara(textColor = part2Color) {
-                game.words["dd_dr_intel_desc_stg-failedByAbandon"]
+                game.words["dg_dr_intel_desc_stg-failedByAbandon"]
             }
         }
     },
