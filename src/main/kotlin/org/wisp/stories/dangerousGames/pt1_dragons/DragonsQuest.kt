@@ -59,7 +59,7 @@ object DragonsQuest {
      * Find a planet with life somewhere near the center, excluding player's current location.
      */
     fun init(playersCurrentStarSystem: StarSystemAPI?) {
-        game.words.globalReplacementGetters["dragonPlanet"] = { dragonPlanet?.name }
+        game.text.globalReplacementGetters["dragonPlanet"] = { dragonPlanet?.name }
         findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem)
     }
 

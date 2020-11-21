@@ -156,7 +156,7 @@ a jolt of electricity that lit up both the vine and Mussie's subpod.
 #### If repeat wall encounter
 
 No no no...not again. The proximity alarm wails and this time, you're much quicker to stop the ship...but Mussie
-isn't so lucky. His subpod smashes straight into the same rock wall that claimed Elias and Taddese not minutes before.
+isn't so lucky. His subpod smashes straight into a different stretch of the same rock wall that claimed Elias and Taddese not minutes before.
 
 _(go back)_
 
@@ -189,7 +189,7 @@ It isn't long until Karengo again radios you. "Knew I chose ya for a reason. Wha
 
 #### If first success
 
-Cautiously, you turn to the east and power forward. Suspods fly ahead, exulting in their agility in the face of the dangerous ocean.
+Cautiously, you turn to the east and power forward. Subpods fly ahead, exulting in their agility in the face of the dangerous ocean.
 After holding your breath for what feels like hours, Karengo radios you. "Knew you'd find your way eventually. What's the next direction?"
 
 [goto riddle 3](#riddle-3)

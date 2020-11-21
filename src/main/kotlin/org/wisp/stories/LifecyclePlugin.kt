@@ -26,8 +26,8 @@ class LifecyclePlugin : BaseModPlugin() {
         super.onGameLoad(newGame)
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator()
-        game.words.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
-        game.words.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
+        game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
+        game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
 
         applyBlacklistTagsToSystems()
 

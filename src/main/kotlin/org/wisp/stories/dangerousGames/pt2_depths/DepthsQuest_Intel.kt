@@ -12,23 +12,23 @@ class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEnt
             DepthsQuest.Stage.NotStarted ->
                 String.empty
             DepthsQuest.Stage.GoToPlanet ->
-                game.words.fmt(
+                game.text.getf(
                     "dd_de_intel_title_stg-goToPlanet",
                     mapOf("endLocation" to endLocation.name)
                 )
             DepthsQuest.Stage.ReturnToStart ->
-                game.words.fmt(
+                game.text.getf(
                     "dd_de_intel_title_stg-returnToStart",
                     mapOf(
                         "ifCrewAlive" to
                                 if (!DepthsQuest.didAllCrewDie)
-                                    game.words["dd_de_intel_title_stg-returnToStart_ifCrewAlive"]
+                                    game.text["dd_de_intel_title_stg-returnToStart_ifCrewAlive"]
                                 else String.empty,
                         "startLocation" to startLocation.name
                     )
                 )
             DepthsQuest.Stage.Done ->
-                game.words["dd_de_intel_title_stg-done"]
+                game.text["dd_de_intel_title_stg-done"]
         }
     },
     startLocation = startLocation.market,

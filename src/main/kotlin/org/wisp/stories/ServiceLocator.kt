@@ -2,7 +2,7 @@ package org.wisp.stories
 
 import wisp.questgiver.wispLib.CrashReporter
 import wisp.questgiver.wispLib.ServiceLocator
-import wisp.questgiver.wispLib.Words
+import wisp.questgiver.wispLib.Text
 import java.util.*
 
 
@@ -15,7 +15,7 @@ class SpaceTalesServiceLocator : ServiceLocator() {
     val errorReporter: CrashReporter =
         CrashReporter(modName = MOD_NAME, modAuthor = MOD_AUTHOR, game = this)
 
-    val words = Words(
+    val text = Text(
         resourceBundle = ResourceBundle.getBundle("SpaceTales")
     )
 }
