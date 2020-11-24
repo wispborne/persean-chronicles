@@ -254,8 +254,8 @@ whose beacon on the ship display starts to move north-west, presumably avoiding 
 It's almost a relief to send out a pulse to map the surroundings after flying dark for so long.
 The result, however, is a surprise. The display maps two leviathan-sized *things* ahead, each over 200 meters long.
 Dozens of sets of flippers run along each 80-meter-tall side and hundreds of human-sized teeth line their jaws.
-You goggle at the display for a moment, taking it in, and draw breath to call out the alarm,
-and just then an eye appears through the ship window, yellow, glowing, alien, and massive.
+You goggle at the display for a moment, taking it in, and draw breath to call out the alarm
+when an eye appears through the ship window, yellow, glowing, alien, and massive.
 All at once, you turn and accelerate, shouting the alarm to any who hadn't already realized,
 and hoping that you're leaving the leviathan beasts behind. A quick glance at the display shows
 at least one subpod following behind; good enough. If one of those rams the ship, nobody is going home anyway.
@@ -329,7 +329,7 @@ size of the whole ship from the fragment.
 
 Your craft moves closer to investigate and you send out another ping, this time more focused, and the holographic ship display
 flickers and refines. The outlines of sealed entrances are visible, unnecessary with the ship torn apart as it is.
-Sea growth is mostly absent from the hull, surprisingly, except for a radial pattern of some sort of crystal-shaped growth.
+Sea growth is mostly absent from the hull, to your surprise, except for a radial pattern of some sort of crystal-shaped growth.
 Infrared imaging shows a dim glow of heat at its center.
 
 "What we have here, *ladies and gentlemen* or *gentlemen* or *<first>*" breaks in Karengo, "is a Gate Hauler.
@@ -345,7 +345,7 @@ An unknowable something has rent a hole near the crystalline spiral, and Karengo
 
 It's slow work, but *the group / you and Karengo* are able to cut loose the *Beta Core*, along with
 as much other salvage as possible. The crystalline growth covers everything inside the ship,
-making extraction difficult *, but many hands make light work and you end up with a sizable / acceptable load OR*
+making extraction difficult *, but many hands make light work and you end up with a sizable / acceptable haul OR*
 *. You wish there were others to help gather more salvage.* At last, you are done.
 
 _(return to the surface)_

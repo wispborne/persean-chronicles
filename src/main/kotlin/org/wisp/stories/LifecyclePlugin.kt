@@ -10,6 +10,7 @@ import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
 import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest
 import org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage1_BarEvent
 import org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage1_BarEventCreator
+import org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage2_Dialog
 import wisp.questgiver.wispLib.QuestGiver
 import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
 import wisp.questgiver.wispLib.firstName
@@ -68,6 +69,12 @@ class LifecyclePlugin : BaseModPlugin() {
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized
         aliases.forEach { x.alias("${MOD_PREFIX}_${it.second}", it.first.java) }
+
+        x.processAnnotations(
+            arrayOf(
+                Depths_Stage2_Dialog::class.java
+            )
+        )
     }
 
 
