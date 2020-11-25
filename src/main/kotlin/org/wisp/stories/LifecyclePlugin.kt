@@ -3,14 +3,11 @@ package org.wisp.stories
 import com.fs.starfarer.api.BaseModPlugin
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.thoughtworks.xstream.XStream
-import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEvent
+import org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
-import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest
-import org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage1_BarEvent
-import org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage1_BarEventCreator
-import org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage2_Dialog
+import org.wisp.stories.dangerousGames.pt2_depths.*
 import wisp.questgiver.wispLib.QuestGiver
 import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
 import wisp.questgiver.wispLib.firstName
@@ -58,23 +55,27 @@ class LifecyclePlugin : BaseModPlugin() {
         // No periods allowed in the serialized name, causes crash.
         val aliases = listOf(
             DragonsQuest_Intel::class to "DragonsQuest_Intel",
-            DragonsPart1_BarEvent::class to "DragonsPart1_BarEvent",
+            Dragons_Stage1_BarEvent::class to "DragonsPart1_BarEvent",
             DragonsPart1_BarEventCreator::class to "DragonsPart1_BarEventCreator",
             CampaignPlugin::class to "CampaignPlugin",
             DragonsQuest.Stage::class to "DragonsQuest_Stage",
             DepthsQuest.Stage::class to "DepthsQuest_Stage",
             Depths_Stage1_BarEvent::class to "Depths_Stage1_BarEvent",
-            Depths_Stage1_BarEventCreator::class to "Depths_Stage1_BarEventCreator"
+            Depths_Stage1_BarEventCreator::class to "Depths_Stage1_BarEventCreator",
+            Depths_Stage2_Dialog.RiddleChoice.Riddle1Choice.EastMorg::class to "1East",
+            Depths_Stage2_Dialog.RiddleChoice.Riddle1Choice.NorthSuccess::class to "1North",
+            Depths_Stage2_Dialog.RiddleChoice.Riddle1Choice.SouthSmoke::class to "1South",
+            Depths_Stage2_Dialog.RiddleChoice.Riddle1Choice.WestWall::class to "1West",
+            Depths_Stage2_Dialog.RiddleChoice.Riddle2Choice.EastSuccess::class to "2East",
+            Depths_Stage2_Dialog.RiddleChoice.Riddle2Choice.NorthVines::class to "2North",
+            Depths_Stage2_Dialog.RiddleChoice.Riddle2Choice.WestWall::class to "2West",
+            Depths_Stage2_Dialog.RiddleChoice.Riddle3Choice.NorthKoijuu::class to "3North",
+            Depths_Stage2_Dialog.RiddleChoice.Riddle3Choice.EastWall::class to "3East",
+            Depths_Stage2_Dialog.RiddleChoice.Riddle3Choice.SouthSuccess::class to "3South"
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized
         aliases.forEach { x.alias("${MOD_PREFIX}_${it.second}", it.first.java) }
-
-        x.processAnnotations(
-            arrayOf(
-                Depths_Stage2_Dialog::class.java
-            )
-        )
     }
 
 

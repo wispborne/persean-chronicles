@@ -8,7 +8,7 @@ import org.wisp.stories.game
 import wisp.questgiver.BarEventDefinition
 import wisp.questgiver.wispLib.lastName
 
-class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
+class Dragons_Stage1_BarEvent : BarEventDefinition<Dragons_Stage1_BarEvent>(
     shouldShowEvent = { DragonsQuest.shouldOfferQuest(it) },
     interactionPrompt = {
         DragonsQuest.init(game.sector.playerFleet.starSystem)
@@ -81,7 +81,7 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
                 Option(
                     text = { game.text["dg_dr_stg1_pg3_opt1"] },
                     onOptionSelected = {
-                        DragonsQuest.startQuest1(startLocation = this.dialog.interactionTarget)
+                        DragonsQuest.startStage1(startLocation = this.dialog.interactionTarget)
                         it.close(doNotOfferAgain = true)
                     }
                 )
@@ -91,9 +91,9 @@ class DragonsPart1_BarEvent : BarEventDefinition<DragonsPart1_BarEvent>(
     personPortrait = "graphics/portraits/portrait20.png",
     personName = FullName("Karengo", "", FullName.Gender.MALE)
 ) {
-    override fun createInstanceOfSelf() = DragonsPart1_BarEvent()
+    override fun createInstanceOfSelf() = Dragons_Stage1_BarEvent()
 }
 
 class DragonsPart1_BarEventCreator : BaseBarEventCreator() {
-    override fun createBarEvent(): PortsideBarEvent = DragonsPart1_BarEvent().buildBarEvent()
+    override fun createBarEvent(): PortsideBarEvent = Dragons_Stage1_BarEvent().buildBarEvent()
 }

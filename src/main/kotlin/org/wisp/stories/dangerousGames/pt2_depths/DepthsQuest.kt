@@ -59,13 +59,36 @@ object DepthsQuest {
             }
             .firstOrNull()
 
+    var startingPlanet: SectorEntityToken? by PersistentNullableData("depthsStartingPlanet")
+        private set
+
     fun shouldOfferQuest(marketAPI: MarketAPI): Boolean =
         stage == Stage.NotStarted
                 && marketAPI.starSystem != null // No Prism Freeport, just normal systems
 
+    object Stage2 {
+        var riddle1Choice: Depths_Stage2_Dialog.RiddleChoice.Riddle1Choice?
+                by PersistentNullableData("depthsRiddle1Choice")
+        var riddle2Choice: Depths_Stage2_Dialog.RiddleChoice.Riddle2Choice?
+                by PersistentNullableData("depthsRiddle2Choice")
+        var riddle3Choice: Depths_Stage2_Dialog.RiddleChoice.Riddle3Choice?
+                by PersistentNullableData("depthsRiddle3Choice")
+
+        val riddleSuccessesCount: Int
+            get() = (if (riddle1Choice?.wasSuccessful() == true) 1 else 0) +
+                    (if (riddle2Choice?.wasSuccessful() == true) 1 else 0) +
+                    (if (riddle3Choice?.wasSuccessful() == true) 1 else 0)
+
+        val wallCrashesCount: Int
+            get() = (if (riddle1Choice is Depths_Stage2_Dialog.RiddleChoice.Riddle1Choice.WestWall) 1 else 0) +
+                    (if (riddle2Choice is Depths_Stage2_Dialog.RiddleChoice.Riddle2Choice.WestWall) 1 else 0) +
+                    (if (riddle3Choice is Depths_Stage2_Dialog.RiddleChoice.Riddle3Choice.EastWall) 1 else 0)
+    }
+
     fun init(playersCurrentStarSystem: StarSystemAPI?) {
         game.text.globalReplacementGetters["depthsPlanet"] = { depthsPlanet?.name }
         game.text.globalReplacementGetters["depthsSystem"] = { depthsPlanet?.starSystem?.baseName }
+        game.text.globalReplacementGetters["depthsCreditReward"] = { rewardCredits }
         findAndTagDepthsPlanetIfNeeded(playersCurrentStarSystem)
     }
 
@@ -105,12 +128,13 @@ object DepthsQuest {
         }
     }
 
-    fun startQuest1(startLocation: SectorEntityToken) {
+    fun startStage1(startLocation: SectorEntityToken) {
         stage = Stage.GoToPlanet
+        startingPlanet = startLocation
         game.intelManager.addIntel(DepthsQuest_Intel(startLocation, depthsPlanet!!))
     }
 
-    fun startPart2() {
+    fun startStart2() {
         stage = Stage.ReturnToStart
         game.intelManager.findFirst(DepthsQuest_Intel::class.java)
             ?.apply {

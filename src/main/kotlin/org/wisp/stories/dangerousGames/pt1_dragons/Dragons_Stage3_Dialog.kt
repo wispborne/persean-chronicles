@@ -4,7 +4,7 @@ import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.wispLib.lastName
 
-class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialog>(
+class Dragons_Stage3_Dialog : InteractionDefinition<Dragons_Stage3_Dialog>(
     onInteractionStarted = {},
     pages = listOf(
         Page(
@@ -95,5 +95,5 @@ class DragonsPart2_EndingDialog : InteractionDefinition<DragonsPart2_EndingDialo
         )
     )
 ) {
-    override fun createInstanceOfSelf() = DragonsPart2_EndingDialog()
+    override fun createInstanceOfSelf() = Dragons_Stage3_Dialog()
 }

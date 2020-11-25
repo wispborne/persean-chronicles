@@ -5,13 +5,10 @@ import com.fs.starfarer.api.campaign.BaseCampaignPlugin
 import com.fs.starfarer.api.campaign.CampaignPlugin
 import com.fs.starfarer.api.campaign.InteractionDialogPlugin
 import com.fs.starfarer.api.campaign.SectorEntityToken
-import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_EndingDialog
-import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart2_EndingDialog
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
-import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
+import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest
 import wisp.questgiver.wispLib.QuestGiver
 import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
-import wisp.questgiver.wispLib.findFirst
 
 /**
  * Instead of using `rules.csv`, use this plugin to trigger dialog choices and conversations.
@@ -36,14 +33,28 @@ class CampaignPlugin : BaseCampaignPlugin() {
             interactionTarget.id == DragonsQuest.dragonPlanet?.id
                     && DragonsQuest.stage == DragonsQuest.Stage.GoToPlanet ->
                 PluginPick(
-                    DragonsPart1_EndingDialog().build(),
+                    org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage2_Dialog().build(),
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
             // Finish Dragonriders by landing at quest-giving planet
-            interactionTarget.id == game.intelManager.findFirst(DragonsQuest_Intel::class.java)?.endLocation?.planetEntity?.id
+            interactionTarget.id == DragonsQuest.startingPlanet?.id
                     && DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart ->
                 PluginPick(
-                    DragonsPart2_EndingDialog().build(),
+                    org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage3_Dialog().build(),
+                    CampaignPlugin.PickPriority.MOD_SPECIFIC
+                )
+            // Land on ocean planet for Depths quest
+            interactionTarget.id == DepthsQuest.depthsPlanet?.id
+                    && DepthsQuest.stage == DepthsQuest.Stage.GoToPlanet ->
+                PluginPick(
+                    org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage2_Dialog().build(),
+                    CampaignPlugin.PickPriority.MOD_SPECIFIC
+                )
+            // Finish Depths by landing at quest-giving planet
+            interactionTarget.id == DepthsQuest.startingPlanet?.id
+                    && DepthsQuest.stage == DepthsQuest.Stage.ReturnToStart ->
+                PluginPick(
+                    org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage3_Dialog().build(),
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
             else -> null

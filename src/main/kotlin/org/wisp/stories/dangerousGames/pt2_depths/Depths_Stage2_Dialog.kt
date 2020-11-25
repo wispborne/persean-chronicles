@@ -1,6 +1,11 @@
 package org.wisp.stories.dangerousGames.pt2_depths
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
+import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.Stage2.riddle1Choice
+import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.Stage2.riddle2Choice
+import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.Stage2.riddle3Choice
+import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.Stage2.riddleSuccessesCount
+import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.Stage2.wallCrashesCount
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.wispLib.empty
@@ -506,20 +511,6 @@ class Depths_Stage2_Dialog : InteractionDefinition<Depths_Stage2_Dialog>(
 ) {
     override fun createInstanceOfSelf() = Depths_Stage2_Dialog()
 
-    var riddle1Choice: RiddleChoice.Riddle1Choice? = null
-    var riddle2Choice: RiddleChoice.Riddle2Choice? = null
-    var riddle3Choice: RiddleChoice.Riddle3Choice? = null
-
-    val riddleSuccessesCount: Int
-        get() = (if (riddle1Choice?.wasSuccessful() == true) 1 else 0) +
-                (if (riddle2Choice?.wasSuccessful() == true) 1 else 0) +
-                (if (riddle3Choice?.wasSuccessful() == true) 1 else 0)
-
-    val wallCrashesCount: Int
-        get() = (if (riddle1Choice is RiddleChoice.Riddle1Choice.WestWall) 1 else 0) +
-                (if (riddle2Choice is RiddleChoice.Riddle2Choice.WestWall) 1 else 0) +
-                (if (riddle3Choice is RiddleChoice.Riddle3Choice.EastWall) 1 else 0)
-
     enum class PageId {
         ViewRiddle1,
         Riddle1_East_Morg,
@@ -550,22 +541,18 @@ class Depths_Stage2_Dialog : InteractionDefinition<Depths_Stage2_Dialog>(
          * If failure, Elias and Taddese die.
          */
         sealed class Riddle1Choice : RiddleChoice() {
-            @XStreamAlias("1East")
             object EastMorg : Riddle1Choice() {
                 override fun wasSuccessful() = false
             }
 
-            @XStreamAlias("1North")
             object NorthSuccess : Riddle1Choice() {
                 override fun wasSuccessful() = true
             }
 
-            @XStreamAlias("1South")
             object SouthSmoke : Riddle1Choice() {
                 override fun wasSuccessful() = false
             }
 
-            @XStreamAlias("1West")
             object WestWall : Riddle1Choice() {
                 override fun wasSuccessful() = false
             }
@@ -575,17 +562,14 @@ class Depths_Stage2_Dialog : InteractionDefinition<Depths_Stage2_Dialog>(
          * If failure, Mussie dies.
          */
         sealed class Riddle2Choice : RiddleChoice() {
-            @XStreamAlias("2East")
             object EastSuccess : Riddle2Choice() {
                 override fun wasSuccessful() = true
             }
 
-            @XStreamAlias("2North")
             object NorthVines : Riddle2Choice() {
                 override fun wasSuccessful() = false
             }
 
-            @XStreamAlias("2West")
             object WestWall : Riddle2Choice() {
                 override fun wasSuccessful() = false
             }
@@ -595,17 +579,14 @@ class Depths_Stage2_Dialog : InteractionDefinition<Depths_Stage2_Dialog>(
          * If failure, Jorma and Daciana die.
          */
         sealed class Riddle3Choice : RiddleChoice() {
-            @XStreamAlias("3North")
             object NorthKoijuu : Riddle3Choice() {
                 override fun wasSuccessful() = false
             }
 
-            @XStreamAlias("3East")
             object EastWall : Riddle3Choice() {
                 override fun wasSuccessful() = false
             }
 
-            @XStreamAlias("3South")
             object SouthSuccess : Riddle3Choice() {
                 override fun wasSuccessful() = true
             }

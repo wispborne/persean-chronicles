@@ -41,6 +41,7 @@ object DragonsQuest {
 
     /** @since 1.0 */
     var stage: Stage by PersistentData(key = "dragonQuestStage", defaultValue = Stage.NotStarted)
+        private set
 
     val dragonPlanet: SectorEntityToken?
         get() = Utilities.getSystems()
@@ -50,6 +51,9 @@ object DragonsQuest {
                     .firstOrNull()
             }
             .firstOrNull()
+
+    var startingPlanet: SectorEntityToken? by PersistentNullableData("dragonStartingPlanet")
+        private set
 
     fun shouldOfferQuest(marketAPI: MarketAPI): Boolean =
         stage == Stage.NotStarted
@@ -96,9 +100,10 @@ object DragonsQuest {
         }
     }
 
-    fun startQuest1(startLocation: SectorEntityToken) {
+    fun startStage1(startLocation: SectorEntityToken) {
         stage = Stage.GoToPlanet
-        game.intelManager.addIntel(DragonsQuest_Intel(startLocation, dragonPlanet!!))
+        startingPlanet = startLocation
+        game.intelManager.addIntel(DragonsQuest_Intel(startLocation = startLocation, endLocation = dragonPlanet!!))
     }
 
     fun failQuestByLeavingToGetEatenByDragons() {
