@@ -1,6 +1,5 @@
 package org.wisp.stories.dangerousGames.pt2_depths
 
-import com.thoughtworks.xstream.annotations.XStreamAlias
 import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.Stage2.riddle1Choice
 import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.Stage2.riddle2Choice
 import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.Stage2.riddle3Choice
@@ -10,7 +9,7 @@ import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.wispLib.empty
 
-class Depths_Stage2_Dialog : InteractionDefinition<Depths_Stage2_Dialog>(
+class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDialog>(
     pages = listOf(
         Page(
             id = 1,
@@ -27,7 +26,9 @@ class Depths_Stage2_Dialog : InteractionDefinition<Depths_Stage2_Dialog>(
                 }
 
                 para { game.text["dg_de_stg2_pg1_para2"] }
-                para { game.text["dg_de_stg2_pg1_para3"] }
+                navigator.promptToContinue(game.text["continue"]) {
+                    para { game.text["dg_de_stg2_pg1_para3"] }
+                }
             },
             options = listOf(
                 Option(
@@ -60,13 +61,32 @@ class Depths_Stage2_Dialog : InteractionDefinition<Depths_Stage2_Dialog>(
             id = 3,
             onPageShown = {
                 para { game.text["dg_de_stg2_pg3_para1"] }
-                para { game.text["dg_de_stg2_pg3_para2"] }
-                para { game.text["dg_de_stg2_pg3_para3"] }
-                para { game.text["dg_de_stg2_pg3_para4"] }
+
+                navigator.promptToContinue(game.text["continue"]) {
+                    para { game.text["dg_de_stg2_pg3_para1_2"] }
+
+                    navigator.promptToContinue(game.text["continue"]) {
+                        para { game.text["dg_de_stg2_pg3_para1_3"] }
+                        para { game.text["dg_de_stg2_pg3_para2"] }
+                    }
+                }
             },
             options = listOf(
                 Option(
                     text = { game.text["dg_de_stg2_pg3_opt1"] },
+                    onOptionSelected = { it.goToPage(4) }
+                )
+            )
+        ),
+        Page(
+            id = 4,
+            onPageShown = {
+                para { game.text["dg_de_stg2_pg4_para1"] }
+                para { game.text["dg_de_stg2_pg4_para2"] }
+            },
+            options = listOf(
+                Option(
+                    text = { game.text["dg_de_stg2_pg4_opt1"] },
                     onOptionSelected = { it.goToPage(PageId.ViewRiddle1) }
                 )
             )
@@ -357,11 +377,16 @@ class Depths_Stage2_Dialog : InteractionDefinition<Depths_Stage2_Dialog>(
                     }
                 }
                 para { game.text["dg_de_stg2_riddle3_north_quoijuu_para2"] }
-                para { game.text["dg_de_stg2_riddle3_north_quoijuu_para3"] }
-                para { game.text["dg_de_stg2_riddle3_north_quoijuu_para4"] }
-                // todo idea: `addContinueBreak()` to prompt user to continue
-                para { game.text["dg_de_stg2_riddle3_north_quoijuu_para5"] }
-                para { game.text["dg_de_stg2_riddle3_north_quoijuu_para6"] }
+
+                navigator.promptToContinue(game.text["continue"]) {
+                    para { game.text["dg_de_stg2_riddle3_north_quoijuu_para3"] }
+                    para { game.text["dg_de_stg2_riddle3_north_quoijuu_para4"] }
+
+                    navigator.promptToContinue(game.text["continue"]) {
+                        para { game.text["dg_de_stg2_riddle3_north_quoijuu_para5"] }
+                        para { game.text["dg_de_stg2_riddle3_north_quoijuu_para6"] }
+                    }
+                }
             },
             options = listOf(
                 Option(
@@ -454,25 +479,28 @@ class Depths_Stage2_Dialog : InteractionDefinition<Depths_Stage2_Dialog>(
             onPageShown = {
                 para { game.text["dg_de_stg2_viewTreasure_para1"] }
                 para { game.text["dg_de_stg2_viewTreasure_para2"] }
-                para {
-                    if (riddleSuccessesCount > 0)
-                        game.text["dg_de_stg2_viewTreasure_para3_ifOthersSurvived"]
-                    else
-                        game.text["dg_de_stg2_viewTreasure_para3_ifOnlyPlayerSurvived"]
-                }
-                para { game.text["dg_de_stg2_viewTreasure_para4"] }
-                para {
-                    if (riddleSuccessesCount > 0)
-                        game.text["dg_de_stg2_viewTreasure_para5_ifOthersSurvived"]
-                    else
-                        game.text["dg_de_stg2_viewTreasure_para5_ifOnlyPlayerSurvived"]
-                }
-                para {
-                    when {
-                        riddleSuccessesCount == 3 -> game.text["dg_de_stg2_viewTreasure_para6_ifAllOthersSurvived"]
-                        riddleSuccessesCount > 0 -> game.text["dg_de_stg2_viewTreasure_para6_ifSomeOthersSurvived"]
-                        riddleSuccessesCount == 0 -> game.text["dg_de_stg2_viewTreasure_para6_ifOnlyPlayerSurvived"]
-                        else -> error("Unexpected riddle success count $riddleSuccessesCount")
+
+                navigator.promptToContinue(continueText = game.text["continue"]) {
+                    para {
+                        if (riddleSuccessesCount > 0)
+                            game.text["dg_de_stg2_viewTreasure_para3_ifOthersSurvived"]
+                        else
+                            game.text["dg_de_stg2_viewTreasure_para3_ifOnlyPlayerSurvived"]
+                    }
+                    para { game.text["dg_de_stg2_viewTreasure_para4"] }
+                    para {
+                        if (riddleSuccessesCount > 0)
+                            game.text["dg_de_stg2_viewTreasure_para5_ifOthersSurvived"]
+                        else
+                            game.text["dg_de_stg2_viewTreasure_para5_ifOnlyPlayerSurvived"]
+                    }
+                    para {
+                        when {
+                            riddleSuccessesCount == 3 -> game.text["dg_de_stg2_viewTreasure_para6_ifAllOthersSurvived"]
+                            riddleSuccessesCount > 0 -> game.text["dg_de_stg2_viewTreasure_para6_ifSomeOthersSurvived"]
+                            riddleSuccessesCount == 0 -> game.text["dg_de_stg2_viewTreasure_para6_ifOnlyPlayerSurvived"]
+                            else -> error("Unexpected riddle success count $riddleSuccessesCount")
+                        }
                     }
                 }
             },
@@ -509,7 +537,7 @@ class Depths_Stage2_Dialog : InteractionDefinition<Depths_Stage2_Dialog>(
         )
     )
 ) {
-    override fun createInstanceOfSelf() = Depths_Stage2_Dialog()
+    override fun createInstanceOfSelf() = Depths_Stage2_RiddleDialog()
 
     enum class PageId {
         ViewRiddle1,

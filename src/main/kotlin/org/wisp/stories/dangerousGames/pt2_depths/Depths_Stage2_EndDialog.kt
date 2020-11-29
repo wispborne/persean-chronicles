@@ -3,7 +3,7 @@ package org.wisp.stories.dangerousGames.pt2_depths
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
 
-class Depths_Stage3_Dialog : InteractionDefinition<Depths_Stage3_Dialog>(
+class Depths_Stage2_EndDialog : InteractionDefinition<Depths_Stage2_EndDialog>(
     pages = listOf(
         Page(
             id = 1,
@@ -47,12 +47,12 @@ class Depths_Stage3_Dialog : InteractionDefinition<Depths_Stage3_Dialog>(
             options = listOf(
                 Option(text = { game.text["dg_de_stg3_backToStart_pg1_opt1"] },
                     onOptionSelected = {
-                        DepthsQuest.finishStage2()
+                        DepthsQuest.finishQuest()
                         it.close(doNotOfferAgain = true)
                     }
                 )
             )
         ))
 ) {
-    override fun createInstanceOfSelf() = Depths_Stage3_Dialog()
+    override fun createInstanceOfSelf() = Depths_Stage2_EndDialog()
 }
