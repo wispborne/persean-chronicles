@@ -1,19 +1,25 @@
 package org.wisp.stories.dangerousGames.pt2_depths
 
+import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.impl.campaign.ids.Conditions
+import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
+import com.fs.starfarer.api.util.WeightedRandomPicker
+import org.wisp.stories.QuestFacilitator
 import org.wisp.stories.dangerousGames.Utilities
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
 import org.wisp.stories.game
 import wisp.questgiver.wispLib.*
-import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
 
 /**
  * Bring some passengers to find treasure on an ocean floor. Solve riddles to keep them alive.
  */
-object DepthsQuest {
-    /** @since 1.0 */
-    private val TAG_DEPTHS_PLANET = "${MOD_PREFIX}_depths_planet"
+object DepthsQuest : QuestFacilitator {
     private val DEPTHS_PLANET_TYPES = listOf(
         "terran",
         "terran-eccentric",
@@ -23,55 +29,30 @@ object DepthsQuest {
         "US_continent" // Unknown Skies
     )
 
-    // todo prefer decivved world, then uninhabited, then inhabited
-
     const val iconPath = "graphics/icons/wispStories_depths.png" // TODO
-    const val rewardCredits: Int = 95000 // TODO
+    const val rewardCredits: Int = 100000 // TODO
     const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5
 
-    /**
-     * Where the player is in the quest.
-     * Note: Should be in order of completion.
-     */
-    enum class Stage {
-        NotStarted,
-        GoToPlanet,
-        ReturnToStart,
-        Done
-    }
-
-    /** @since 1.0 */
     var stage: Stage by PersistentData(key = "depthsQuestStage", defaultValue = Stage.NotStarted)
+        private set
 
-    var didFailRiddle1: Boolean by PersistentBoolean(key = "depthsQuest_didFailRiddle1", defaultValue = false)
-    var didFailRiddle2: Boolean by PersistentBoolean(key = "depthsQuest_didFailRiddle2", defaultValue = false)
-    var didFailRiddle3: Boolean by PersistentBoolean(key = "depthsQuest_didFailRiddle3", defaultValue = false)
-
-    val didAllCrewDie: Boolean
-        get() = didFailRiddle1 && didFailRiddle2 && didFailRiddle3
-
-    val depthsPlanet: SectorEntityToken?
-        get() = Utilities.getSystems()
-            .asSequence()
-            .mapNotNull {
-                it.getEntitiesWithTag(TAG_DEPTHS_PLANET)
-                    .firstOrNull()
-            }
-            .firstOrNull()
+    var depthsPlanet: SectorEntityToken? by PersistentNullableData("depthsDestinationPlanet")
+        private set
 
     var startingPlanet: SectorEntityToken? by PersistentNullableData("depthsStartingPlanet")
         private set
 
     fun shouldOfferQuest(marketAPI: MarketAPI): Boolean =
-        stage == Stage.NotStarted
+        (DragonsQuest.stage == DragonsQuest.Stage.Done || DragonsQuest.stage == DragonsQuest.Stage.FailedByAbandoning)
+                && stage == Stage.NotStarted
                 && marketAPI.starSystem != null // No Prism Freeport, just normal systems
 
     object Stage2 {
-        var riddle1Choice: Depths_Stage2_Dialog.RiddleChoice.Riddle1Choice?
+        var riddle1Choice: Depths_Stage2_RiddleDialog.RiddleChoice.Riddle1Choice?
                 by PersistentNullableData("depthsRiddle1Choice")
-        var riddle2Choice: Depths_Stage2_Dialog.RiddleChoice.Riddle2Choice?
+        var riddle2Choice: Depths_Stage2_RiddleDialog.RiddleChoice.Riddle2Choice?
                 by PersistentNullableData("depthsRiddle2Choice")
-        var riddle3Choice: Depths_Stage2_Dialog.RiddleChoice.Riddle3Choice?
+        var riddle3Choice: Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice?
                 by PersistentNullableData("depthsRiddle3Choice")
 
         val riddleSuccessesCount: Int
@@ -80,24 +61,36 @@ object DepthsQuest {
                     (if (riddle3Choice?.wasSuccessful() == true) 1 else 0)
 
         val wallCrashesCount: Int
-            get() = (if (riddle1Choice is Depths_Stage2_Dialog.RiddleChoice.Riddle1Choice.WestWall) 1 else 0) +
-                    (if (riddle2Choice is Depths_Stage2_Dialog.RiddleChoice.Riddle2Choice.WestWall) 1 else 0) +
-                    (if (riddle3Choice is Depths_Stage2_Dialog.RiddleChoice.Riddle3Choice.EastWall) 1 else 0)
+            get() = (if (riddle1Choice is Depths_Stage2_RiddleDialog.RiddleChoice.Riddle1Choice.WestWall) 1 else 0) +
+                    (if (riddle2Choice is Depths_Stage2_RiddleDialog.RiddleChoice.Riddle2Choice.WestWall) 1 else 0) +
+                    (if (riddle3Choice is Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice.EastWall) 1 else 0)
+
+        val didAllCrewDie: Boolean
+            get() = riddle1Choice?.wasSuccessful() == false
+                    && riddle2Choice?.wasSuccessful() == false
+                    && riddle3Choice?.wasSuccessful() == false
     }
 
     fun init(playersCurrentStarSystem: StarSystemAPI?) {
+        findAndTagDepthsPlanetIfNeeded(playersCurrentStarSystem)
+        updateTextReplacements()
+    }
+
+    override fun updateTextReplacements() {
+        game.text.globalReplacementGetters["depthsSourcePlanet"] = { startingPlanet?.name }
+        game.text.globalReplacementGetters["depthsSourceSystem"] = { startingPlanet?.starSystem?.baseName }
         game.text.globalReplacementGetters["depthsPlanet"] = { depthsPlanet?.name }
         game.text.globalReplacementGetters["depthsSystem"] = { depthsPlanet?.starSystem?.baseName }
         game.text.globalReplacementGetters["depthsCreditReward"] = { rewardCredits }
-        findAndTagDepthsPlanetIfNeeded(playersCurrentStarSystem)
     }
 
     /**
      * Find a planet with oceans somewhere near the center, excluding player's current location.
+     * Prefer decivilized world, then uninhabited, then all others
      */
     private fun findAndTagDepthsPlanetIfNeeded(playersCurrentStarSystem: StarSystemAPI?) {
         if (depthsPlanet == null) {
-            val system = try {
+            val planet = try {
                 Utilities.getSystemsForQuestTarget()
                     .filter { it.id != playersCurrentStarSystem?.id }
                     .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet }
@@ -106,26 +99,54 @@ object DepthsQuest {
                     .filter { planet -> DEPTHS_PLANET_TYPES.any { it == planet.typeId } }
                     .toList()
                     .run {
-                        // Take all planets from the top third of the list,
+                        // Take all planets from the top half of the list,
                         // which is sorted by proximity to the center.
-                        this.take((this.size / 3).coerceAtLeast(1))
+                        val possibles = this.take((this.size / 2).coerceAtLeast(1))
+
+                        WeightedRandomPicker<PlanetAPI>().apply {
+                            possibles.forEach { planet ->
+                                when {
+                                    planet.market?.hasCondition(Conditions.DECIVILIZED) == true -> {
+                                        game.logger.i { "Adding decivved planet ${planet.fullName} in ${planet.starSystem.baseName} to Depths candidate list" }
+                                        add(planet, 3f)
+                                    }
+                                    planet.market?.size == 0 -> {
+                                        game.logger.i { "Adding uninhabited planet ${planet.fullName} in ${planet.starSystem.baseName} to Depths candidate list" }
+                                        add(planet, 2f)
+                                    }
+                                    else -> {
+                                        game.logger.i { "Adding planet ${planet.fullName} in ${planet.starSystem.baseName} to Depths candidate list" }
+                                        add(planet, 1f)
+                                    }
+                                }
+                            }
+                        }
+                            .pick()!!
                     }
-                    .random()
             } catch (e: Exception) {
                 // If no planets matching the criteria are found
                 game.errorReporter.reportCrash(e)
                 return
             }
 
-            system.addTag(TAG_DEPTHS_PLANET)
+            game.logger.i { "Set Depths quest destination to ${planet.fullName} in ${planet.starSystem.baseName}" }
+            depthsPlanet = planet
         }
     }
 
-    fun clearDepthsPlanetTag() {
-        while (depthsPlanet != null) {
-            game.logger.i { "Removing tag $TAG_DEPTHS_PLANET from planet ${depthsPlanet?.fullName} in ${depthsPlanet?.starSystem?.baseName}" }
-            depthsPlanet?.removeTag(TAG_DEPTHS_PLANET)
-        }
+    fun restartQuest() {
+        game.logger.i { "Restarting Depths quest." }
+
+        depthsPlanet = null
+        startingPlanet = null
+        Stage2.riddle1Choice = null
+        Stage2.riddle2Choice = null
+        Stage2.riddle3Choice = null
+        stage = Stage.NotStarted
+
+        game.intelManager.findFirst(DepthsQuest_Intel::class.java)?.endImmediately()
+        BarEventManager.getInstance().removeBarEventCreator(Depths_Stage1_BarEventCreator::class.java)
+        init(game.sector.playerFleet.starSystem)
     }
 
     fun startStage1(startLocation: SectorEntityToken) {
@@ -143,7 +164,7 @@ object DepthsQuest {
             }
     }
 
-    fun finishStage2() {
+    fun finishQuest() {
         game.sector.playerFleet.cargo.credits.add(rewardCredits.toFloat())
         stage = Stage.Done
         game.intelManager.findFirst(DepthsQuest_Intel::class.java)
@@ -151,5 +172,16 @@ object DepthsQuest {
                 endAfterDelay()
                 sendUpdateIfPlayerHasIntel(null, false)
             }
+    }
+
+    /**
+     * Where the player is in the quest.
+     * Note: Should be in order of completion.
+     */
+    enum class Stage {
+        NotStarted,
+        GoToPlanet,
+        ReturnToStart,
+        Done
     }
 }

@@ -26,6 +26,8 @@ class LifecyclePlugin : BaseModPlugin() {
         game = SpaceTalesServiceLocator()
         game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
         game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
+        listOf(DragonsQuest, DepthsQuest)
+            .forEach { it.updateTextReplacements() }
 
         applyBlacklistTagsToSystems()
 
@@ -35,6 +37,12 @@ class LifecyclePlugin : BaseModPlugin() {
             && !barEventManager.hasEventCreator(DragonsPart1_BarEventCreator::class.java)
         ) {
             barEventManager.addEventCreator(DragonsPart1_BarEventCreator())
+        }
+
+        if (DepthsQuest.stage == DepthsQuest.Stage.NotStarted
+            && !barEventManager.hasEventCreator(Depths_Stage1_BarEventCreator::class.java)
+        ) {
+            barEventManager.addEventCreator(Depths_Stage1_BarEventCreator())
         }
 
         // Register this so we can intercept and replace interactions
@@ -60,18 +68,21 @@ class LifecyclePlugin : BaseModPlugin() {
             CampaignPlugin::class to "CampaignPlugin",
             DragonsQuest.Stage::class to "DragonsQuest_Stage",
             DepthsQuest.Stage::class to "DepthsQuest_Stage",
+            DepthsQuest_Intel::class to "DepthsQuest_Intel",
             Depths_Stage1_BarEvent::class to "Depths_Stage1_BarEvent",
             Depths_Stage1_BarEventCreator::class to "Depths_Stage1_BarEventCreator",
-            Depths_Stage2_Dialog.RiddleChoice.Riddle1Choice.EastMorg::class to "1East",
-            Depths_Stage2_Dialog.RiddleChoice.Riddle1Choice.NorthSuccess::class to "1North",
-            Depths_Stage2_Dialog.RiddleChoice.Riddle1Choice.SouthSmoke::class to "1South",
-            Depths_Stage2_Dialog.RiddleChoice.Riddle1Choice.WestWall::class to "1West",
-            Depths_Stage2_Dialog.RiddleChoice.Riddle2Choice.EastSuccess::class to "2East",
-            Depths_Stage2_Dialog.RiddleChoice.Riddle2Choice.NorthVines::class to "2North",
-            Depths_Stage2_Dialog.RiddleChoice.Riddle2Choice.WestWall::class to "2West",
-            Depths_Stage2_Dialog.RiddleChoice.Riddle3Choice.NorthKoijuu::class to "3North",
-            Depths_Stage2_Dialog.RiddleChoice.Riddle3Choice.EastWall::class to "3East",
-            Depths_Stage2_Dialog.RiddleChoice.Riddle3Choice.SouthSuccess::class to "3South"
+            Depths_Stage2_RiddleDialog::class to "Depths_Stage2_RiddleDialog",
+            Depths_Stage2_EndDialog::class to "Depths_Stage2_EndDialog",
+            Depths_Stage2_RiddleDialog.RiddleChoice.Riddle1Choice.EastMorg::class to "1East",
+            Depths_Stage2_RiddleDialog.RiddleChoice.Riddle1Choice.NorthSuccess::class to "1North",
+            Depths_Stage2_RiddleDialog.RiddleChoice.Riddle1Choice.SouthSmoke::class to "1South",
+            Depths_Stage2_RiddleDialog.RiddleChoice.Riddle1Choice.WestWall::class to "1West",
+            Depths_Stage2_RiddleDialog.RiddleChoice.Riddle2Choice.EastSuccess::class to "2East",
+            Depths_Stage2_RiddleDialog.RiddleChoice.Riddle2Choice.NorthVines::class to "2North",
+            Depths_Stage2_RiddleDialog.RiddleChoice.Riddle2Choice.WestWall::class to "2West",
+            Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice.NorthKoijuu::class to "3North",
+            Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice.EastWall::class to "3East",
+            Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice.SouthSuccess::class to "3South"
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized

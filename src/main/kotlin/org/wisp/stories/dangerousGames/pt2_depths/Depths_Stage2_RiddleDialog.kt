@@ -501,7 +501,7 @@ class Depths_Stage2_Dialog : InteractionDefinition<Depths_Stage2_Dialog>(
                 Option(
                     text = { game.text["dg_de_stg2_backAtSurface_opt1"] },
                     onOptionSelected = {
-                        DepthsQuest.stage = DepthsQuest.Stage.ReturnToStart
+                        DepthsQuest.startStart2()
                         it.close(doNotOfferAgain = true)
                     }
                 )

@@ -47,14 +47,14 @@ class CampaignPlugin : BaseCampaignPlugin() {
             interactionTarget.id == DepthsQuest.depthsPlanet?.id
                     && DepthsQuest.stage == DepthsQuest.Stage.GoToPlanet ->
                 PluginPick(
-                    org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage2_Dialog().build(),
+                    org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage2_RiddleDialog().build(),
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
             // Finish Depths by landing at quest-giving planet
             interactionTarget.id == DepthsQuest.startingPlanet?.id
                     && DepthsQuest.stage == DepthsQuest.Stage.ReturnToStart ->
                 PluginPick(
-                    org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage3_Dialog().build(),
+                    org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage2_EndDialog().build(),
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
             else -> null

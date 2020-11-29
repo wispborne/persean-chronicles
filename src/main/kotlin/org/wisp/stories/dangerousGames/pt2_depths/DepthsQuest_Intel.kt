@@ -13,23 +13,24 @@ class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEnt
                 String.empty
             DepthsQuest.Stage.GoToPlanet ->
                 game.text.getf(
-                    "dd_de_intel_title_stg-goToPlanet",
-                    mapOf("endLocation" to endLocation.name)
+                    "dd_de_intel_title_stg1",
+                    "endLocation" to endLocation.name
                 )
             DepthsQuest.Stage.ReturnToStart ->
                 game.text.getf(
-                    "dd_de_intel_title_stg-returnToStart",
-                    mapOf(
-                        "ifCrewAlive" to
-                                if (!DepthsQuest.didAllCrewDie)
-                                    game.text["dd_de_intel_title_stg-returnToStart_ifCrewAlive"]
-                                else String.empty,
-                        "startLocation" to startLocation.name
-                    )
+                    "dd_de_intel_title_stg2",
+                    "ifCrewAlive" to
+                            if (!DepthsQuest.Stage2.didAllCrewDie)
+                                game.text["dd_de_intel_title_stg2_ifCrewAlive"]
+                            else String.empty,
+                    "startLocation" to startLocation.name
                 )
             DepthsQuest.Stage.Done ->
-                game.text["dd_de_intel_title_stg-done"]
+                game.text["dd_de_intel_title_stg3"]
         }
+    },
+    descriptionCreator = {  info, width, _ ->
+        // TODO
     },
     startLocation = startLocation.market,
     endLocation = endLocation.market,

@@ -1,14 +1,8 @@
 package org.wisp.stories.dangerousGames
 
-import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import org.lazywizard.console.BaseCommand
 import org.lazywizard.console.Console
-import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
-import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
-import org.wisp.stories.game
-import wisp.questgiver.wispLib.findFirst
-import wisp.questgiver.wispLib.removeBarEventCreator
 
 class ResetDragonsQuestCommand : BaseCommand {
     override fun runCommand(args: String, context: BaseCommand.CommandContext): BaseCommand.CommandResult {
@@ -16,10 +10,7 @@ class ResetDragonsQuestCommand : BaseCommand {
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }
 
-        DragonsQuest.stage = DragonsQuest.Stage.NotStarted
-        game.intelManager.findFirst(DragonsQuest_Intel::class.java)?.endImmediately()
-        DragonsQuest.clearDragonPlanetTag()
-        BarEventManager.getInstance().removeBarEventCreator(DragonsPart1_BarEventCreator::class.java)
+        DragonsQuest.restartQuest()
         Console.showMessage("Quest reset. You didn't ditch those guys, right?")
         return BaseCommand.CommandResult.SUCCESS
     }

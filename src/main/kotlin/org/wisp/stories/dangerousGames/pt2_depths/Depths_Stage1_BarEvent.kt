@@ -10,7 +10,7 @@ class Depths_Stage1_BarEvent : BarEventDefinition<Depths_Stage1_BarEvent>(
     shouldShowEvent = { DepthsQuest.shouldOfferQuest(it) },
     interactionPrompt = {
         DepthsQuest.init(game.sector.playerFleet.starSystem)
-        addPara { game.text["dg_de_stg1_prompt"] }
+        para { game.text["dg_de_stg1_prompt"] }
     },
     textToStartInteraction = { game.text["dg_de_stg1_startBarEvent"] },
     onInteractionStarted = {
@@ -19,10 +19,10 @@ class Depths_Stage1_BarEvent : BarEventDefinition<Depths_Stage1_BarEvent>(
         Page(
             id = 1,
             onPageShown = {
-                addPara { game.text["dg_de_stg1_pg1_para1"] }
-                addPara { game.text["dg_de_stg1_pg1_para2"] }
-                addPara { game.text["dg_de_stg1_pg1_para3"] }
-                addPara { game.text["dg_de_stg1_pg1_para4"] }
+                para { game.text["dg_de_stg1_pg1_para1"] }
+                para { game.text["dg_de_stg1_pg1_para2"] }
+                para { game.text["dg_de_stg1_pg1_para3"] }
+                para { game.text["dg_de_stg1_pg1_para4"] }
             },
             options = listOf(
                 Option(
@@ -42,10 +42,10 @@ class Depths_Stage1_BarEvent : BarEventDefinition<Depths_Stage1_BarEvent>(
         Page(
             id = 2,
             onPageShown = {
-                addPara {
+                para {
                     game.text["dg_de_stg1_pg2_para1"]
                 }
-                addPara {
+                para {
                     game.text["dg_de_stg1_pg2_para2"]
                 }
             },
@@ -55,6 +55,7 @@ class Depths_Stage1_BarEvent : BarEventDefinition<Depths_Stage1_BarEvent>(
                         game.text["dg_de_stg1_pg2_opt1"]
                     },
                     onOptionSelected = {
+                        DepthsQuest.startStage1(this.dialog.interactionTarget)
                         it.close(doNotOfferAgain = true)
                     }
                 )
