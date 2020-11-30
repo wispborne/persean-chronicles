@@ -530,7 +530,19 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
                     text = { game.text["dg_de_stg2_backAtSurface_opt1"] },
                     onOptionSelected = {
                         DepthsQuest.startStart2()
-                        it.close(doNotOfferAgain = true)
+
+                        dialog.visualPanel.showLoot(
+                            game.text["dg_de_stg2_backAtSurface_salvaged_title"],
+                            DepthsQuest.generateRewardLoot(dialog.interactionTarget),
+                            false,
+                            true,
+                            false
+                        ) {
+                            it.close(doNotOfferAgain = true)
+                        }
+
+                        dialog.optionPanel.clearOptions()
+                        dialog.promptText = ""
                     }
                 )
             )

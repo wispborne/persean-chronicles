@@ -9,10 +9,7 @@ class Depths_Stage2_EndDialog : InteractionDefinition<Depths_Stage2_EndDialog>(
             id = 1,
             onPageShown = {
                 para {
-                    game.text.getf(
-                        "dg_de_stg3_backToStart_pg1_para1",
-                        "depthsPlanet" to (DepthsQuest.startingPlanet?.fullName ?: "null")
-                    )
+                    game.text["dg_de_stg3_backToStart_pg1_para1"]
                 }
                 para {
                     val gatesAwakenedRemainingCodesMemKey = "\$GatesAwakened_activation_codes_remaining"
@@ -43,6 +40,10 @@ class Depths_Stage2_EndDialog : InteractionDefinition<Depths_Stage2_EndDialog>(
                 para { game.text["dg_de_stg3_backToStart_pg1_para3"] }
                 para { game.text["dg_de_stg3_backToStart_pg1_para4"] }
                 para { game.text["dg_de_stg3_backToStart_pg1_para5"] }
+
+                navigator.promptToContinue(game.text["continue"]) {
+                    para { game.text["dg_de_stg3_backToStart_pg1_para6"] }
+                }
             },
             options = listOf(
                 Option(text = { game.text["dg_de_stg3_backToStart_pg1_opt1"] },

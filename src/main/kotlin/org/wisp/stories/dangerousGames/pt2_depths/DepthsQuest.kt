@@ -1,18 +1,20 @@
 package org.wisp.stories.dangerousGames.pt2_depths
 
+import com.fs.starfarer.api.campaign.CargoAPI
 import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Conditions
-import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.impl.campaign.ids.Drops
+import com.fs.starfarer.api.impl.campaign.ids.MemFlags
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
+import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
+import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
 import org.wisp.stories.QuestFacilitator
 import org.wisp.stories.dangerousGames.Utilities
-import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
-import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
 import org.wisp.stories.game
 import wisp.questgiver.wispLib.*
 
@@ -172,6 +174,42 @@ object DepthsQuest : QuestFacilitator {
                 endAfterDelay()
                 sendUpdateIfPlayerHasIntel(null, false)
             }
+    }
+
+    fun generateRewardLoot(entity: SectorEntityToken): CargoAPI? {
+        when (Stage2.riddleSuccessesCount) {
+            3 -> {
+                entity.addDropValue(Drops.BASIC, 50000)
+                entity.addDropRandom("blueprints", 5)
+                entity.addDropRandom("rare_tech", 2)
+            }
+            2 -> {
+                entity.addDropValue(Drops.BASIC, 30000)
+                entity.addDropRandom("blueprints", 4)
+                entity.addDropRandom("rare_tech", 1)
+            }
+            1 -> {
+                entity.addDropValue(Drops.BASIC, 20000)
+                entity.addDropRandom("blueprints", 3)
+                entity.addDropRandom("rare_tech", 1)
+            }
+            else -> {
+                entity.addDropValue(Drops.BASIC, 10000)
+                entity.addDropRandom("blueprints", 2)
+                entity.addDropRandom("rare_tech", 1)
+            }
+        }
+
+        return SalvageEntity.generateSalvage(
+            Misc.getRandom(game.sector.memoryWithoutUpdate.getLong(MemFlags.SALVAGE_SEED), 100),
+            1f,
+            1f,
+            1f,
+            1f,
+            entity.dropValue,
+            entity.dropRandom
+        )
+            .apply { sort() }
     }
 
     /**
