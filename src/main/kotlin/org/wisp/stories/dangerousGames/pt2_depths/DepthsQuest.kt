@@ -174,6 +174,12 @@ object DepthsQuest : QuestFacilitator {
                 endAfterDelay()
                 sendUpdateIfPlayerHasIntel(null, false)
             }
+
+        depthsPlanet?.let { planet ->
+            if (planet.market.conditions.none { it.plugin is CrystalMarketMod }) {
+                planet.market.addCondition("wispQuests_crystallineCatalyst")
+            }
+        }
     }
 
     fun generateRewardLoot(entity: SectorEntityToken): CargoAPI? {

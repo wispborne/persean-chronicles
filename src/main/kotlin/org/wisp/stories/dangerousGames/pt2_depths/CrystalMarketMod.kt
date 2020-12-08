@@ -4,17 +4,31 @@ import com.fs.starfarer.api.impl.campaign.econ.BaseHazardCondition
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.ui.TooltipMakerAPI
+import org.wisp.stories.game
 import wisp.questgiver.addPara
 
 class CrystalMarketMod : BaseHazardCondition() {
-    private val DRUG_MULTIPLIER = 0.10f
+    companion object {
+        /**
+         * +50%
+         */
+        @Transient
+        private val DRUG_MULTIPLIER = 50f
+    }
+
+    override fun getModId(): String {
+        return super.getModId()
+    }
 
     override fun apply(id: String?) {
         super.apply(id)
         market.getIndustry(Industries.LIGHTINDUSTRY)
             ?.getSupply(Commodities.DRUGS)
             ?.quantity
-            ?.modifyMult(id, DRUG_MULTIPLIER)
+            ?.apply {
+                this.unmodify(id) // Prevent using our own mod when calculating value to add
+                modifyFlat(id, this.modifiedValue * (DRUG_MULTIPLIER / 100), game.text["dg_de_modifier_crystals_name"])
+            }
     }
 
     override fun unapply(id: String?) {
@@ -27,9 +41,9 @@ class CrystalMarketMod : BaseHazardCondition() {
 
     override fun createTooltipAfterDescription(tooltip: TooltipMakerAPI?, expanded: Boolean) {
         super.createTooltipAfterDescription(tooltip, expanded)
-// todo change to increasing production by one?
+
         tooltip?.addPara {
-            "Drug production increased by " + mark("$DRUG_MULTIPLIER%")
+            game.text.getf("dg_de_modifier_crystals_tooltip", "modifierAmount" to DRUG_MULTIPLIER)
         }
     }
 }
