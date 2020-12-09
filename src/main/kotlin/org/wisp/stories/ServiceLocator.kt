@@ -1,5 +1,6 @@
 package org.wisp.stories
 
+import wisp.questgiver.wispLib.AggregateResourceBundle
 import wisp.questgiver.wispLib.CrashReporter
 import wisp.questgiver.wispLib.ServiceLocator
 import wisp.questgiver.wispLib.Text
@@ -16,6 +17,11 @@ class SpaceTalesServiceLocator : ServiceLocator() {
         CrashReporter(modName = MOD_NAME, modAuthor = MOD_AUTHOR, game = this)
 
     val text = Text(
-        resourceBundle = ResourceBundle.getBundle("SpaceTales")
+        resourceBundle = AggregateResourceBundle(
+            listOf(
+                ResourceBundle.getBundle("Stories_DangerousGames"),
+                ResourceBundle.getBundle("Stories_Psychic")
+            )
+        )
     )
 }
