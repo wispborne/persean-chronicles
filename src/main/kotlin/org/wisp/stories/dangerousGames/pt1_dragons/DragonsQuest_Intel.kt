@@ -6,6 +6,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.game
 import wisp.questgiver.IntelDefinition
+import wisp.questgiver.Padding
 import wisp.questgiver.addPara
 import wisp.questgiver.wispLib.empty
 
@@ -21,14 +22,20 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
     },
     subtitleCreator = { info: TooltipMakerAPI? ->
         if (DragonsQuest.stage == DragonsQuest.Stage.GoToPlanet) {
-            info?.addPara {
+            info?.addPara(
+                padding = Padding.SUBTITLE,
+                textColor = Misc.getGrayColor()
+            ) {
                 game.text.getf(
                     "dg_dr_intel_subtitle_stg1",
                     mapOf("dragonPlanet" to DragonsQuest.dragonPlanet?.name)
                 )
             }
         } else if (DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart) {
-            info?.addPara {
+            info?.addPara(
+                padding = Padding.SUBTITLE,
+                textColor = Misc.getGrayColor()
+            ) {
                 game.text.getf(
                     "dg_dr_intel_subtitle_stg2",
                     mapOf(
@@ -45,12 +52,7 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
             else Misc.getTextColor()
 
         info.addPara(textColor = part1Color) {
-            game.text.getf(
-                "dg_dr_intel_desc_para1",
-                mapOf(
-                    "dragonSystem" to DragonsQuest.dragonPlanet?.starSystem?.baseName
-                )
-            )
+            game.text["dg_dr_intel_desc_para1"]
         }
         val part2Color =
             if (DragonsQuest.stage > DragonsQuest.Stage.ReturnToStart) Misc.getGrayColor()
@@ -58,13 +60,7 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
 
         if (DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart || DragonsQuest.stage == DragonsQuest.Stage.Done) {
             info.addPara(textColor = part2Color) {
-                game.text.getf(
-                    "dg_dr_intel_desc_stg2",
-                    mapOf(
-                        "startPlanet" to startLocation.name,
-                        "startSystem" to startLocation.starSystem?.baseName
-                    )
-                )
+                game.text["dg_dr_intel_desc_stg2"]
             }
         }
 
