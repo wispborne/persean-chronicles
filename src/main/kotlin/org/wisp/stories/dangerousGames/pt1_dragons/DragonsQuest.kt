@@ -22,7 +22,7 @@ object DragonsQuest : QuestFacilitator {
         "US_jungle" // Unknown Skies
     )
 
-    const val iconPath = "graphics/icons/wispStories_dragon.png"
+    const val iconPath = "graphics/intel/wispStories_dragon.png"
     const val rewardCredits: Int = 95000
     const val minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet = 5
 
