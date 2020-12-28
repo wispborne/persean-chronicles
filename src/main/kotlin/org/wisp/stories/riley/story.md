@@ -22,3 +22,19 @@ A young woman is moving from captain to captain, looking for transport.
 
 ### Intro
 
+"I need to get to ${rileyDestPlanet} to see my father. He's dying. I have ${rileyCredits} to pay for the journey; please, will you help me? I need to be there in ${rileyTimeLimitDays} at the most." Her eyelids are baggy, her clothes wrinkled, and she holds herself rigidly; signs of desperation, stress, and sleep deprivation.
+
+Your TriPad shows that ${rileyDestPlanet} is ${rileyDestPlanetDist} LY away and controlled by ${rileyDestPlanetController}.
+
+- "I can help you. We'll make haste to reach ${rileyDestPlanet} in time."
+  - Her eyes widen and she opens her mouth twice before words come out. "Thank you! This means the world to me. My name is Riley, by the way. I don't have much luggage; I'll be ready to leave as soon as you are."
+- "With that much money, why not buy your own ship?"
+  - "I wouldn't know how to fly it, and I don't have time to learn. Please, can you help or not?"
+- "I don't have time to take on a passenger right now."
+  - She nods, and moves on to another captain to beseech her help instead.
+
+### On x days pass
+
+In the days since Riley came aboard, she has relaxed and cleaned up, nearly unrecognizable from the tired, desperate woman you first saw.
+
+She tells stories of when she was younger, mostly of time shared with her father; 
