@@ -64,4 +64,10 @@ Riley directs you to a pad near her old home, and you land the shuttle. She star
 "Right - your payment. ${rileyCredits}, as promised."
 
 - "Thank you, and good luck." (leave)
-- ""
+- "This is a lot of credits for a trip. Does DJing pay that well?"
+  - "Not really, no. Honestly, this is most of my savings...but...it's my dad."
+- "Hold on to the credits. I'm a captain; I can always make more."
+  - After a moment of stunned silence, she manages a choked "Thank you." You notice her eyes are brimming with tears. 
+- "[Thank you.] Do you think I could come along? I've heard so much about your father."
+
+She is taken aback at first, but agrees to let you join, and you wend your way away from the landing pads, across rural, wooded countryside, and finally to a modest house nestled along a valley edge.
