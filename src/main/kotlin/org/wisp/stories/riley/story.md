@@ -16,13 +16,13 @@ if arrive on time, she tries to give payment, but it's clear that it's hard to p
 
 ### Variables
 
-rileyDestPlanet
+rileyDestPlanet (Hegemoney or VIC, building controllable AI)
 rileyCredits
 rileyTimeLimitDays
 rileyDestSystem
 rileyDestPlanetDistanceLY
 rileyDestPlanetControllingFaction
-rileyOriginPlanet
+rileyOriginPlanet (something far from dest planet, pop > 8)
 playerPronoun
 
 ### Hook
@@ -71,12 +71,20 @@ Riley directs you to a pad near her old home, and you land the shuttle. She star
   - After a moment of stunned silence, she manages a choked "Thank you." You notice her eyes are brimming with tears. 
 - "[Thank you.] Do you think I could come along? I've heard so much about your father."
 
-She is taken aback at first, but agrees to let you join, and you wind your way away from the landing pads, across rural, wooded countryside, and finally to a modest house nestled along a valley edge. Riley knocks and a nurse lets you in.
+She is taken aback at first, but agrees to let you join, and you wind your way away from the landing pads, across rural, wooded countryside, and finally to a modest house nestled along a valley edge. Riley knocks, and a nurse lets you in.
 
 Her father is in a comfortable-looking medical cradle. Wires flow from it to the holos around the room, showing vitals and other in decipherable information. Despite his wan, strained face and atrophied body, he raises his head to look at his daughter.
 
-"Ri," he smiles. "My love. You cannot know how happy it makes me to see you. And you have company, I see."
+"Ri," he says, face lighting up. "My love. You cannot know how happy it makes me to see you. And you have company, I see. My name's Church."
 
-- "Riley chartered a flight with me. I've heard so much; it's a pleasure to meet you."
-- "We've gotten to know each other on the long flight here. You've raised an incredible woman." [move closer to Riley]
-  - "${playerFirstName} was the only captain willing to fly to ${rileyDestSystem}. I wouldn't have made it here without ${playerPronoun}."
+- "${playerFirstName}. I've heard so much; it's a pleasure to meet you. Riley chartered a flight with me."
+- "I'm ${playerFirstName}. Riley and I have gotten to know each other on the long flight here. You've raised an incredible woman." [move closer to Riley]
+  - "${playerFirstName} was the only captain willing to fly to ${rileyDestSystem}. I wouldn't have made it here without ${playerPronoun}," she says.
+  
+He smiles at you, acknowledging your part in their reunion with an appreciative nod.
+
+They swap stories for hours, flowing between reminiscing over old times and catching up on their lives over the past few years. You learn that since he was young, he'd been researching AI that cannot develop into a threat[, a project that the Hegemony/Volkov Industrial Conglomerate has been quietly interested in.] Riley, in turn, had always surrounded herself with music, and moved to ${rileyOriginPlanet} to share her passion with other like-minded people. You talk about what it's like to call a ship your home, leaving behind everything you grew up knowing.
+
+Finally, her father lies back. "Well, thank you for making the trip out to see this old man. I...have to go now, I think. Don't forget about me, hear? And," he hesitates for a moment, "whatever happens, please don't think ill of me. I will always love you."
+
+His body relaxes, and he's gone.
