@@ -69,7 +69,7 @@ Riley directs you to a pad near her old home, and you land the shuttle. She star
   - "Not really, no. Honestly, this is most of my savings...but...it's my dad."
 - "Hold on to the credits. I'm a captain; I can always make more."
   - After a moment of stunned silence, she manages a choked "Thank you." You notice her eyes are brimming with tears. 
-- "[Thank you.] Do you think I could come along? I've heard so much about your father."
+- "[Thank you. (if taking payment)] Do you think I could come along? I've heard so much about your father."
 
 She is taken aback at first, but agrees to let you join, and you wind your way away from the landing pads, across rural, wooded countryside, and finally to a modest house nestled along a valley edge. Riley knocks, and a nurse lets you in.
 
@@ -85,6 +85,18 @@ He smiles at you, acknowledging your part in their reunion with an appreciative 
 
 They swap stories for hours, flowing between reminiscing over old times and catching up on their lives over the past few years. You learn that since he was young, he'd been researching AI that cannot develop into a threat[, a project that the Hegemony/Volkov Industrial Conglomerate has been quietly interested in.] Riley, in turn, had always surrounded herself with music, and moved to ${rileyOriginPlanet} to share her passion with other like-minded people. You talk about what it's like to call a ship your home, leaving behind everything you grew up knowing.
 
-Finally, her father lies back. "Well, thank you for making the trip out to see this old man. I...have to go now, I think. Don't forget about me, hear? And," he hesitates for a moment, "whatever happens, please don't think ill of me. I will always love you."
+Finally, her father lies back. "Well, thank you for making the trip out to see this old man. I...have to go now, I think. Don't forget about me, hear? And," Church hesitates for a moment, "whatever happens, please don't think ill of me. I will always love you."
 
 His body relaxes, and he's gone.
+
+- Hold Riley
+  - You hold Riley as she silently weeps. Time goes by, but nobody pays it any mind.
+- Stay comfortingly close by
+  - You take a seat, feeling the emotion of the moment wash over you as Riley silently weeps. Minutes go by, unnoticed.
+
+- Continue
+
+Without warning, you hear Church's voice from a corner of the room. 
+
+"It...worked." He sounds shocked. Riley's head whips around, and you reflexively draw away from the sound. "Please, don't be alarmed. I've been working on a personal project for over a decade now; mind upload. I had to say goodbye - I couldn't know if it would work. You can't upload a mind while it's still alive, I tried that many times, and it just doesn't work."
+
