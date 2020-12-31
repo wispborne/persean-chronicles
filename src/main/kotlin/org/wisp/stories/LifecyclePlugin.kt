@@ -1,6 +1,7 @@
 package org.wisp.stories
 
 import com.fs.starfarer.api.BaseModPlugin
+import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.thoughtworks.xstream.XStream
 import org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
@@ -24,8 +25,16 @@ class LifecyclePlugin : BaseModPlugin() {
         super.onGameLoad(newGame)
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator()
+
         game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
         game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
+        game.text.globalReplacementGetters["playerPronoun"] = {
+            when (game.sector.playerPerson.gender) {
+                FullName.Gender.MALE -> game.text["playerPronounHim"]
+                FullName.Gender.FEMALE -> game.text["playerPronounHer"]
+                else -> game.text["playerPronounThey"]
+            }
+        }
         listOf(DragonsQuest, DepthsQuest)
             .forEach { it.updateTextReplacements() }
 

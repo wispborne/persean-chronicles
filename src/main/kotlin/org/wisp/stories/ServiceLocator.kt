@@ -20,7 +20,8 @@ class SpaceTalesServiceLocator : ServiceLocator() {
         resourceBundle = AggregateResourceBundle(
             listOf(
                 ResourceBundle.getBundle("Stories_DangerousGames"),
-                ResourceBundle.getBundle("Stories_Psychic")
+                ResourceBundle.getBundle("Stories_Psychic"),
+                ResourceBundle.getBundle("Stories_Shared")
             )
         )
     )

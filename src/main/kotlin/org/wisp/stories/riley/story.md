@@ -23,6 +23,7 @@ rileyDestSystem
 rileyDestPlanetDistanceLY
 rileyDestPlanetControllingFaction
 rileyOriginPlanet
+playerPronoun
 
 ### Hook
 
@@ -70,4 +71,12 @@ Riley directs you to a pad near her old home, and you land the shuttle. She star
   - After a moment of stunned silence, she manages a choked "Thank you." You notice her eyes are brimming with tears. 
 - "[Thank you.] Do you think I could come along? I've heard so much about your father."
 
-She is taken aback at first, but agrees to let you join, and you wend your way away from the landing pads, across rural, wooded countryside, and finally to a modest house nestled along a valley edge.
+She is taken aback at first, but agrees to let you join, and you wind your way away from the landing pads, across rural, wooded countryside, and finally to a modest house nestled along a valley edge. Riley knocks and a nurse lets you in.
+
+Her father is in a comfortable-looking medical cradle. Wires flow from it to the holos around the room, showing vitals and other in decipherable information. Despite his wan, strained face and atrophied body, he raises his head to look at his daughter.
+
+"Ri," he smiles. "My love. You cannot know how happy it makes me to see you. And you have company, I see."
+
+- "Riley chartered a flight with me. I've heard so much; it's a pleasure to meet you."
+- "We've gotten to know each other on the long flight here. You've raised an incredible woman." [move closer to Riley]
+  - "${playerFirstName} was the only captain willing to fly to ${rileyDestSystem}. I wouldn't have made it here without ${playerPronoun}."

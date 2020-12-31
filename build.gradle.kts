@@ -52,8 +52,8 @@ tasks {
     {
         // Include all runtime files in the jar so mod is standalone
         from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-        destinationDir = file("$rootDir/jars")
-        archiveName = jarFileName
+        destinationDirectory.set(file("$rootDir/jars"))
+        archiveFileName.set(jarFileName)
 //        with(tasks.jar.get() as CopySpec)
     }
 
