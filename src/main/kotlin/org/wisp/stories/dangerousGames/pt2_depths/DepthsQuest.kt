@@ -47,7 +47,7 @@ object DepthsQuest : QuestFacilitator {
     fun shouldOfferQuest(marketAPI: MarketAPI): Boolean =
         (DragonsQuest.stage == DragonsQuest.Stage.Done || DragonsQuest.stage == DragonsQuest.Stage.FailedByAbandoning)
                 && stage == Stage.NotStarted
-                && marketAPI.starSystem != null // No Prism Freeport, just normal systems
+                && marketAPI.starSystem in Utilities.getSystemsForQuestTarget() // Valid system, not blacklisted
 
     object Stage2 {
         var riddle1Choice: Depths_Stage2_RiddleDialog.RiddleChoice.Riddle1Choice?

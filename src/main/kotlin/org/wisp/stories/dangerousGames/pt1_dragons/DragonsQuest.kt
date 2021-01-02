@@ -37,7 +37,7 @@ object DragonsQuest : QuestFacilitator {
 
     fun shouldOfferQuest(marketAPI: MarketAPI): Boolean =
         stage == Stage.NotStarted
-                && marketAPI.starSystem != null // No Prism Freeport, just normal systems
+                && marketAPI.starSystem in Utilities.getSystemsForQuestTarget() // Valid system, not blacklisted
 
     /**
      * Find a planet with life somewhere near the center, excluding player's current location.

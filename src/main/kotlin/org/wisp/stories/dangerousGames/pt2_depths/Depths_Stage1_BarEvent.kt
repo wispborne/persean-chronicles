@@ -9,11 +9,11 @@ import wisp.questgiver.BarEventDefinition
 class Depths_Stage1_BarEvent : BarEventDefinition<Depths_Stage1_BarEvent>(
     shouldShowEvent = { DepthsQuest.shouldOfferQuest(it) },
     interactionPrompt = {
-        DepthsQuest.init(game.sector.playerFleet.starSystem)
         para { game.text["dg_de_stg1_prompt"] }
     },
     textToStartInteraction = { game.text["dg_de_stg1_startBarEvent"] },
     onInteractionStarted = {
+        DepthsQuest.init(game.sector.playerFleet.starSystem)
     },
     pages = listOf(
         Page(

@@ -10,6 +10,10 @@ object Utilities {
         game.sector.starSystems
             .filterNot { it.isBlacklisted }
 
+    /**
+     * Returns a list of systems that may be used for quest targets,
+     * taking into account blacklisted systems.
+     */
     fun getSystemsForQuestTarget(): List<StarSystemAPI> =
         game.sector.starSystems
             .filter { it.isValidSystemForQuest }
