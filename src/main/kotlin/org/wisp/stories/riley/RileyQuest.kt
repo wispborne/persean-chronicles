@@ -11,6 +11,7 @@ import wisp.questgiver.wispLib.*
 class RileyQuest : QuestFacilitator {
     companion object {
         const val REWARD_CREDITS = 100000
+        const val BOUNTY_CREDITS = 20000
         const val TIME_LIMIT_DAYS = 30
     }
 
@@ -40,6 +41,7 @@ class RileyQuest : QuestFacilitator {
         game.text.globalReplacementGetters["rileyDestPlanetControllingFaction"] =
             { destinationPlanet?.faction?.displayName }
         game.text.globalReplacementGetters["rileyOriginPlanet"] = { startPlanet?.name }
+        game.text.globalReplacementGetters["rileyBountyCredits"] = { BOUNTY_CREDITS }
     }
 
     /**

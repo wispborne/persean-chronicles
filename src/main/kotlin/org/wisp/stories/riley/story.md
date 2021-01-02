@@ -24,12 +24,13 @@ rileyDestPlanetDistanceLY
 rileyDestPlanetControllingFaction
 rileyOriginPlanet (something far from dest planet, pop > 8)
 playerPronoun
+rileyBountyCredits
 
 ### Hook
 
 A young woman is moving from captain to captain, looking for transport.
 
-- Ask where the young woman needs to get to.
+- Ask the young woman where she needs to get to.
 
 ### Intro
 
@@ -83,7 +84,7 @@ Her father is in a comfortable-looking medical cradle. Wires flow from it to the
   
 He smiles at you, acknowledging your part in their reunion with an appreciative nod.
 
-They swap stories for hours, flowing between reminiscing over old times and catching up on their lives over the past few years. You learn that since he was young, he'd been researching AI that cannot develop into a threat[, a project that the Hegemony/Volkov Industrial Conglomerate has been quietly interested in.] Riley, in turn, had always surrounded herself with music, and moved to ${rileyOriginPlanet} to share her passion with other like-minded people. You talk about what it's like to call a ship your home, leaving behind everything you grew up knowing.
+They swap stories for hours, flowing between reminiscing over old times and catching up on their lives over the past few years. You learn that since he was young, he'd been researching AI that cannot develop into a threat[, a project that the ${rileyDestPlanetControllingFaction} has been quietly interested in.] Riley, in turn, had always surrounded herself with music, and moved to ${rileyOriginPlanet} to share her passion with other like-minded people. You talk about what it's like to call a ship your home, leaving behind everything you grew up knowing.
 
 Finally, her father lies back. "Well, thank you for making the trip out to see this old man. I...have to go now, I think. Don't forget about me, hear? And," Church hesitates for a moment, "whatever happens, please don't think ill of me. I will always love you."
 
@@ -96,7 +97,27 @@ His body relaxes, and he's gone.
 
 - Continue
 
-Without warning, you hear Church's voice from a corner of the room. 
+Without warning, you hear Church's voice from a corner of the room and see an AI Core, held aloft by hundreds of cables. 
 
-"It...worked." He sounds shocked. Riley's head whips around, and you reflexively draw away from the sound. "Please, don't be alarmed. I've been working on a personal project for over a decade now; mind upload. I had to say goodbye - I couldn't know if it would work. You can't upload a mind while it's still alive, I tried that many times, and it just doesn't work."
+"It...worked." He sounds shocked. Riley's head whips around, and you reflexively draw away from the sound. "Please, don't be alarmed. I've been working on a personal project for over a decade now. My mind was uploaded to the modified Core you're looking at. I had to say goodbye - I couldn't know if it would work. You can't upload a mind while it's still alive, I tried that many times."
 
+- "Is this legal?" (one-off, does not continue conversation, opens up "turn him in" option)
+  - [if Heg/VIC] "Well, no. Not under ${rileyDestPlanetControllingFaction} law, but I assure you that my only intention is to continue my work; nothing more."
+    A quick search shows a ${rileyBountyCredits} credit reward for turning in a mind upload.
+  - [else] "Here? There's no law against it. My only intention is to continue my work; nothing more."
+- "Riley, what do you think?"
+  - "Dad, is that you? How do you feel?"
+    She steps closer to the Core, and they talk for a few tentative minutes. As far as either of you can tell, the mind that you are talking to is indistinguishable from the man you came to meet.
+    Finally, she turns to you. "It really is my dad. It's a lot to get used to, but...how many people get a second chance to spend time with their parent before they're gone? Thank you for bringing me out here, and for coming. I'll never forget your part in this. For now, I'd like to stay here. You go - I'll find my way back."
+- [after asking what she thinks] "Are you sure? There's enough room for all of us on my ship, for as long as you want."
+  - "It's a nice idea," she smiles, "but I'm not a starfarer. The big city is where I'll end back up, eventually."
+- [after asking what she thinks] Say goodbye (leave)
+  - Respecting Riley's request to stay with her father, you make your farewells and head for the door.
+  - [if romanced] She catches your hand and pulls you in for a quick kiss on the cheek, then a soft punch on the chest. "Stay safe up there, ok?"
+  - You can feel her smile on your back until the door closes behind you. You catch yourself smiling as well, as your make your way back to your shuttle, and return to the stars. 
+- Destroy the Core
+  - You advance on the Core and start pulling out cables. Church begs for you to stop until his voice cuts off, and the lights on the Core turn to red, then fade. Riley hasn't moved, stunned.
+  - You head back to your shuttle, leaving behind a father survived by his daughter; no more and no less than nature intended.
+- [if illegal and asked about it] Turn the Core in for a bounty
+  - You say your goodbyes and leave. From across the street, you make a call to the local ${rileyDestPlanetControllingFaction} office, and watch as they descend on the house.
+  - Your TriPad dings, and you can see that ${rileyBountyCredits} credits have been added to your account. Turning away, you head back to your shuttle.
