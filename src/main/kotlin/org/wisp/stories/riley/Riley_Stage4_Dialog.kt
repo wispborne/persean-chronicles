@@ -39,7 +39,7 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                     showIf = { RileyQuest.choices[RileyQuest.ChoiceKey.tookPayment] == null },
                     text = { game.text["riley_stg4_pg1_opt3"] },
                     onOptionSelected = { navigator ->
-                        RileyQuest.choices[RileyQuest.ChoiceKey.tookPayment] = false
+                        RileyQuest.choices.set(RileyQuest.ChoiceKey.tookPayment, false)
                         para { game.text["riley_stg4_pg1_opt3_onSelected"] }
                         navigator.refreshOptions()
                     }

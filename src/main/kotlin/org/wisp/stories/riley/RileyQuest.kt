@@ -32,9 +32,8 @@ object RileyQuest : QuestFacilitator {
     var stage: Stage by PersistentData(key = "rileyStage", defaultValue = { Stage.NotStarted })
         private set
 
-    var choices: MutableMap<String, Any?> by PersistentData(
-        key = "rileyChoices",
-        defaultValue = { mutableMapOf<String, Any?>() })
+    var choices: PersistentMapData<String, Any?> by PersistentMapData<String, Any?>(
+        key = "rileyChoices")
 
     val isFatherWorkingWithGovt: Boolean
         get() = destinationPlanet?.faction?.id?.toLowerCase() in govtsSponsoringSafeAi
