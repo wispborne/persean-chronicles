@@ -35,7 +35,7 @@ object DepthsQuest : QuestFacilitator {
     const val rewardCredits: Int = 100000 // TODO
     const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5
 
-    var stage: Stage by PersistentData(key = "depthsQuestStage", defaultValue = Stage.NotStarted)
+    var stage: Stage by PersistentData(key = "depthsQuestStage", defaultValue = { Stage.NotStarted })
         private set
 
     var depthsPlanet: SectorEntityToken? by PersistentNullableData("depthsDestinationPlanet")
@@ -83,7 +83,7 @@ object DepthsQuest : QuestFacilitator {
         game.text.globalReplacementGetters["depthsSourceSystem"] = { startingPlanet?.starSystem?.baseName }
         game.text.globalReplacementGetters["depthsPlanet"] = { depthsPlanet?.name }
         game.text.globalReplacementGetters["depthsSystem"] = { depthsPlanet?.starSystem?.baseName }
-        game.text.globalReplacementGetters["depthsCreditReward"] = { rewardCredits }
+        game.text.globalReplacementGetters["depthsCreditReward"] = { Misc.getDGSCredits(rewardCredits.toFloat()) }
     }
 
     /**

@@ -22,11 +22,11 @@ object DragonsQuest : QuestFacilitator {
         "US_jungle" // Unknown Skies
     )
 
-    const val iconPath = "graphics/intel/wispStories_dragon.png"
+    const val iconPath = "graphics/dragons/wispStories_dragon.png"
     const val rewardCredits: Int = 95000
     const val minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet = 5
 
-    var stage: Stage by PersistentData(key = "dragonQuestStage", defaultValue = Stage.NotStarted)
+    var stage: Stage by PersistentData(key = "dragonQuestStage", defaultValue = { Stage.NotStarted })
         private set
 
     var dragonPlanet: SectorEntityToken? by PersistentNullableData("dragonDestinationPlanet")

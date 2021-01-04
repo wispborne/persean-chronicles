@@ -51,10 +51,9 @@ In the days since Riley came aboard, she has relaxed and cleaned up, nearly unre
 
 She tells stories of when she was younger, mostly of time shared with her father; of riding the latest TriPonies through the forest, looking for beehives to steal honey from; of the time she broke her ankle hoverboarding a restricted mountain peak, and how he broke the law to hike up and rescue her; of his wild birthday gifts to her each year, always a different piece of clothing with embedded AI that was just shy of what was allowed. She shows you how her shirt warms and constricts if it detects stress, mimicking a hug.
 
-
 ### On arrival in system
 
-As you neared ${rileyDestSystem}, she told you about the last time she saw her father. He had become focused on his work - research into safe AI - and they hadn't seen each other for years. She had become a well-known DJ back on ${rileyOriginPlanet} and had a break in her touring schedule, so she made contact and they met halfway. They spent most of a week together, reliving old times.
+As you neared ${rileyDestSystem}, Riley told you about the last time she saw her father. He had become focused on his work - research into safe AI - and they hadn't seen each other for years. She had become a well-known DJ back on ${rileyOriginPlanet} and had a break in her touring schedule, so she made contact and they met halfway. They spent most of a week together, reliving old times.
 
 He'd cried when it was time to leave, and she had, too, but life went on, and it was years before she heard from him again. His message nearly broke her. "Ri, please come as soon as you can. I may not have long, and wish to hold your hand one more time. All love, Dad."
 
@@ -63,7 +62,7 @@ He'd cried when it was time to leave, and she had, too, but life went on, and it
 
 Riley directs you to a pad near her old home, and you land the shuttle. She starts toward the door, then pauses and turns around with a self-conscious, but oddly sad, chuckle.
 
-"Right - your payment. ${rileyCredits}, as promised."
+"Right - your payment. ${rileyCredits} credits, as promised."
 
 - "Thank you, and good luck." (leave)
 - "This is a lot of credits for a trip. Does DJing pay that well?"
@@ -90,10 +89,10 @@ Finally, her father lies back. "Well, thank you for making the trip out to see t
 
 His body relaxes, and he's gone.
 
+- Stay comfortingly close
+  - You take a seat, feeling the emotion of the moment wash over you as Riley silently weeps. Minutes go by, unnoticed.
 - Hold Riley
   - You hold Riley as she silently weeps. Time goes by, but nobody pays it any mind.
-- Stay comfortingly close by
-  - You take a seat, feeling the emotion of the moment wash over you as Riley silently weeps. Minutes go by, unnoticed.
 
 - Continue
 

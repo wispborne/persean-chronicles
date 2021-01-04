@@ -1,5 +1,6 @@
 package org.wisp.stories.dangerousGames.pt1_dragons
 
+import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.wispLib.lastName
@@ -57,7 +58,7 @@ class Dragons_Stage3_Dialog : InteractionDefinition<Dragons_Stage3_Dialog>(
                 addPara {
                     game.text.getf(
                         "dg_dr_stg3_pg3_para1",
-                        mapOf("rewardCredits" to DragonsQuest.rewardCredits)
+                        mapOf("rewardCredits" to Misc.getDGSCredits(DragonsQuest.rewardCredits.toFloat()))
                     )
                 }
             },

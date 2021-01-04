@@ -9,6 +9,7 @@ import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
 import org.wisp.stories.dangerousGames.pt2_depths.*
+import org.wisp.stories.riley.*
 import wisp.questgiver.wispLib.QuestGiver
 import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
 import wisp.questgiver.wispLib.firstName
@@ -25,6 +26,7 @@ class LifecyclePlugin : BaseModPlugin() {
         super.onGameLoad(newGame)
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator()
+        QuestGiver.onGameLoad()
 
         game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
         game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
@@ -52,6 +54,12 @@ class LifecyclePlugin : BaseModPlugin() {
             && !barEventManager.hasEventCreator(Depths_Stage1_BarEventCreator::class.java)
         ) {
             barEventManager.addEventCreator(Depths_Stage1_BarEventCreator())
+        }
+
+        if (RileyQuest.stage == RileyQuest.Stage.NotStarted
+            && !barEventManager.hasEventCreator(Riley_Stage1_BarEventCreator::class.java)
+        ) {
+            barEventManager.addEventCreator(Riley_Stage1_BarEventCreator())
         }
 
         // Register this so we can intercept and replace interactions
@@ -91,7 +99,13 @@ class LifecyclePlugin : BaseModPlugin() {
             Depths_Stage2_RiddleDialog.RiddleChoice.Riddle2Choice.WestWall::class to "2West",
             Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice.NorthKoijuu::class to "3North",
             Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice.EastWall::class to "3East",
-            Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice.SouthSuccess::class to "3South"
+            Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice.SouthSuccess::class to "3South",
+            RileyIntel::class to "RileyIntel",
+            Riley_Stage1_BarEvent::class to "Riley_Stage1_BarEvent",
+            Riley_Stage1_BarEventCreator::class to "Riley_Stage1_BarEventCreator",
+            Riley_Stage2_Dialog::class to "Riley_Stage2_Dialog",
+            Riley_Stage3_Dialog::class to "Riley_Stage3_Dialog",
+            Riley_Stage4_Dialog::class to "Riley_Stage4_Dialog"
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized

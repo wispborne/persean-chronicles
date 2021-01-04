@@ -12,7 +12,7 @@ class Dragons_Stage1_BarEvent : BarEventDefinition<Dragons_Stage1_BarEvent>(
     shouldShowEvent = { DragonsQuest.shouldOfferQuest(it) },
     interactionPrompt = {
         DragonsQuest.init(game.sector.playerFleet.starSystem)
-        addPara { game.text["dg_dr_stg1_prompt"] }
+        para { game.text["dg_dr_stg1_prompt"] }
     },
     textToStartInteraction = { game.text["dg_dr_stg1_startBarEvent"] },
     onInteractionStarted = {
@@ -21,7 +21,7 @@ class Dragons_Stage1_BarEvent : BarEventDefinition<Dragons_Stage1_BarEvent>(
         Page(
             id = 1,
             onPageShown = {
-                addPara { game.text["dg_dr_stg1_pg1_onShown"] }
+                para { game.text["dg_dr_stg1_pg1_onShown"] }
             },
             options = listOf(
                 Option(
@@ -38,13 +38,13 @@ class Dragons_Stage1_BarEvent : BarEventDefinition<Dragons_Stage1_BarEvent>(
         Page(
             id = 2,
             onPageShown = {
-                addPara {
+                para {
                     game.text["dg_dr_stg1_pg2_para1"]
                 }
-                addPara {
+                para {
                     game.text["dg_dr_stg1_pg2_para2"]
                 }
-                addPara {
+                para {
                     game.text["dg_dr_stg1_pg2_para3"]
                 }
             },
@@ -70,7 +70,7 @@ class Dragons_Stage1_BarEvent : BarEventDefinition<Dragons_Stage1_BarEvent>(
         Page(
             id = 3,
             onPageShown = {
-                addPara {
+                para {
                     game.text.getf(
                         "dg_dr_stg1_pg3_onShown",
                         mapOf("playerLastName" to game.sector.playerPerson.lastName)
