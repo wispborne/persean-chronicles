@@ -17,17 +17,18 @@ class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToke
             game.text["riley_intel_title_completed"]
     },
     subtitleCreator = { info ->
+        bullet(info!!)
         info?.addPara(
-            padding = Padding.SUBTITLE,
+            padding = 0f,
             textColor = Misc.getGrayColor()
         ) { game.text["riley_intel_subtitle"] }
         info?.addPara(
-            padding = Padding.SUBTITLE,
+            padding = 0f,
             textColor = Misc.getGrayColor()
         ) {
-            game.text.getf(
+           game.text.getf(
                 "riley_intel_subtitle_daysLeft",
-                "daysLeft" to RileyQuest.TIME_LIMIT_DAYS - daysSincePlayerVisible
+                "daysLeft" to (RileyQuest.TIME_LIMIT_DAYS - daysSincePlayerVisible).toInt()
             )
         }
     },
@@ -41,7 +42,7 @@ class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToke
         ) {
             game.text.getf(
                 "riley_intel_subtitle_daysLeft",
-                "daysLeft" to RileyQuest.TIME_LIMIT_DAYS - daysSincePlayerVisible
+                "daysLeft" to (RileyQuest.TIME_LIMIT_DAYS - daysSincePlayerVisible).toInt()
             )
         }
     },

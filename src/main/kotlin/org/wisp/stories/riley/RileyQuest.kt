@@ -16,7 +16,7 @@ object RileyQuest : QuestFacilitator {
     private const val REWARD_CREDITS = 100000
     private const val BOUNTY_CREDITS = 20000
     const val TIME_LIMIT_DAYS = 30
-    const val DAYS_UNTIL_DIALOG = 2
+    const val DAYS_UNTIL_DIALOG = 3
     private val govtsSponsoringSafeAi = listOf("hegemony", "vic")
     const val iconPath = "graphics/riley/riley.png"
 
@@ -32,25 +32,28 @@ object RileyQuest : QuestFacilitator {
     var stage: Stage by PersistentData(key = "rileyStage", defaultValue = { Stage.NotStarted })
         private set
 
-    var choices: PersistentMapData<String, Any?> by PersistentMapData<String, Any?>(
-        key = "rileyChoices")
+    val choices: Choices = Choices(PersistentMapData<String, Any?>(key = "rileyChoices").withDefault { null })
 
     val isFatherWorkingWithGovt: Boolean
         get() = destinationPlanet?.faction?.id?.toLowerCase() in govtsSponsoringSafeAi
 
-    object ChoiceKey {
-        const val askedWhyNotBuyOwnShip = "askedWhyNotBuyOwnShip"
-        const val tookPayment = "tookPayment"
-        const val askedAboutDJingPay = "askedAboutDJingPay"
-        const val visitedFather = "visitedFather"
-        const val movedCloserToRiley = "movedCloserToRiley"
-        const val heldRiley = "heldRiley"
-        const val askedIfLegal = "askedIfLegal"
-        const val askedWhatRileyThinks = "askedWhatRileyThinks"
-        const val triedToConvinceToJoinYou = "triedToConvinceToJoinYou"
-        const val leftRileyWithFather = "leftRileyWithFather"
-        const val destroyedTheCore = "destroyedTheCore"
-        const val turnedInForABounty = "turnedInForABounty"
+    /**
+     * All choices that can be made.
+     * Leave `map` public and accessible so it can be cleared if the quest is restarted.
+     */
+    class Choices(val map: MutableMap<String, Any?>) {
+        var askedWhyNotBuyOwnShip by map
+        var tookPayment by map
+        var askedAboutDJingPay by map
+        var visitedFather by map
+        var movedCloserToRiley by map
+        var heldRiley by map
+        var askedIfLegal by map
+        var askedWhatRileyThinks by map
+        var triedToConvinceToJoinYou by map
+        var leftRileyWithFather by map
+        var destroyedTheCore by map
+        var turnedInForABounty by map
     }
 
     fun shouldMarketOfferQuest(marketAPI: MarketAPI): Boolean =

@@ -103,7 +103,9 @@ class LifecyclePlugin : BaseModPlugin() {
             RileyIntel::class to "RileyIntel",
             Riley_Stage1_BarEvent::class to "Riley_Stage1_BarEvent",
             Riley_Stage1_BarEventCreator::class to "Riley_Stage1_BarEventCreator",
-            Riley_Stage2_Dialog::class to "Riley_Stage2_Dialog",
+            Riley_Stage2_TriggerDialogScript::class to "Riley_Stage2_TriggerDialogScript",
+            Riley_Stage2_TriggerDialogScript::class to "Riley_Stage2_Dialog",
+            EnteredDestinationSystemListener::class to "EnteredDestinationSystemListener",
             Riley_Stage3_Dialog::class to "Riley_Stage3_Dialog",
             Riley_Stage4_Dialog::class to "Riley_Stage4_Dialog"
         )

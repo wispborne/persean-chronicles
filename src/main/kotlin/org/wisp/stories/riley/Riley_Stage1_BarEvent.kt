@@ -6,7 +6,6 @@ import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import org.wisp.stories.game
 import wisp.questgiver.BarEventDefinition
-import wisp.questgiver.wispLib.add
 import wisp.questgiver.wispLib.empty
 
 class Riley_Stage1_BarEvent : BarEventDefinition<Riley_Stage1_BarEvent>(
@@ -38,11 +37,11 @@ class Riley_Stage1_BarEvent : BarEventDefinition<Riley_Stage1_BarEvent>(
                 ),
                 Option(
                     // why not buy your own ship?
-                    showIf = { RileyQuest.choices[RileyQuest.ChoiceKey.askedWhyNotBuyOwnShip] != true },
+                    showIf = { RileyQuest.choices.askedWhyNotBuyOwnShip != true },
                     text = { game.text["riley_stg1_pg1_opt2"] },
                     onOptionSelected = { navigator ->
                         para { game.text["riley_stg1_pg1_opt2_onSelected"] }
-                        RileyQuest.choices = RileyQuest.choices.add(RileyQuest.ChoiceKey.askedWhyNotBuyOwnShip, true)
+                        RileyQuest.choices.askedWhyNotBuyOwnShip = true
                         navigator.refreshOptions()
                     }
                 ),
