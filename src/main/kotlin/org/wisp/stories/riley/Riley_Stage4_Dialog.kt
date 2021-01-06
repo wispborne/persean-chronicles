@@ -8,6 +8,14 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
     pages = listOf(
         Page(
             id = 1,
+            image = Image(
+                category = "wispStories_portraits",
+                id = "riley",
+                width = 128f,
+                height = 128f,
+                displayHeight = 128f,
+                displayWidth = 128f
+            ),
             onPageShown = {
                 para { game.text["riley_stg4_pg1_para1"] }
                 para { game.text["riley_stg4_pg1_para2"] }
@@ -217,7 +225,12 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                     text = { game.text["riley_stg4_pg4_opt6"] },
                     onOptionSelected = { navigator ->
                         RileyQuest.choices.turnedInForABounty = true
-                        para { game.text["riley_stg4_pg4_opt6_onSelected_para1"] }
+                        para {
+                            game.text.getf(
+                                "riley_stg4_pg4_opt6_onSelected_para1",
+                                "rileyDestPlanetControllingFactionWithoutArticle" to RileyQuest.destinationPlanet?.faction?.displayName
+                            )
+                        }
                         para { game.text["riley_stg4_pg4_opt6_onSelected_para2"] }
                         navigator.promptToContinue(game.text["leave"]) {
                             RileyQuest.complete()

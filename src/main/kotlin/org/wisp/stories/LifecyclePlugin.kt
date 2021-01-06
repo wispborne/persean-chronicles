@@ -37,7 +37,7 @@ class LifecyclePlugin : BaseModPlugin() {
                 else -> game.text["playerPronounThey"]
             }
         }
-        listOf(DragonsQuest, DepthsQuest)
+        listOf(DragonsQuest, DepthsQuest, RileyQuest)
             .forEach { it.updateTextReplacements() }
 
         applyBlacklistTagsToSystems()
