@@ -33,6 +33,7 @@ class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToke
         }
     },
     descriptionCreator = { info, width, height ->
+        info.addImage(game.settings.getSpriteName("wispStories_portraits", "riley"), width, 128f, Padding.DESCRIPTION_PANEL)
         info.addPara(padding = Padding.DESCRIPTION_PANEL) {
             game.text["riley_intel_description"]
         }

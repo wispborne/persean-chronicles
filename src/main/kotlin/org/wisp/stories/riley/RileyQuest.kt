@@ -18,7 +18,7 @@ object RileyQuest : QuestFacilitator {
     const val TIME_LIMIT_DAYS = 30
     const val DAYS_UNTIL_DIALOG = 3
     private val govtsSponsoringSafeAi = listOf("hegemony", "vic")
-    const val iconPath = "graphics/riley/riley.png"
+    val iconPath by lazy { game.settings.getSpriteName("wispStories_portraits", "riley") }
 
     var startDate: Long? by PersistentNullableData("rileyStartDate")
         private set
