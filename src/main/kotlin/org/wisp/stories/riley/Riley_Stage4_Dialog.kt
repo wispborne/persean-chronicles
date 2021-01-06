@@ -202,8 +202,10 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                         RileyQuest.choices.destroyedTheCore = true
                         para { game.text["riley_stg4_pg4_opt5_onSelected_para1"] }
                         para { game.text["riley_stg4_pg4_opt5_onSelected_para2"] }
-                        RileyQuest.complete()
-                        navigator.close(doNotOfferAgain = true)
+                        navigator.promptToContinue(game.text["leave"]) {
+                            RileyQuest.complete()
+                            navigator.close(doNotOfferAgain = true)
+                        }
                     }
                 ),
                 Option(
@@ -217,8 +219,10 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                         RileyQuest.choices.turnedInForABounty = true
                         para { game.text["riley_stg4_pg4_opt6_onSelected_para1"] }
                         para { game.text["riley_stg4_pg4_opt6_onSelected_para2"] }
-                        RileyQuest.complete()
-                        navigator.close(doNotOfferAgain = true)
+                        navigator.promptToContinue(game.text["leave"]) {
+                            RileyQuest.complete()
+                            navigator.close(doNotOfferAgain = true)
+                        }
                     }
                 )
             )

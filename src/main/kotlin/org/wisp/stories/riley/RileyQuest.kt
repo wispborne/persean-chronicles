@@ -32,10 +32,10 @@ object RileyQuest : QuestFacilitator {
     var stage: Stage by PersistentData(key = "rileyStage", defaultValue = { Stage.NotStarted })
         private set
 
-    val choices: Choices = Choices(PersistentMapData<String, Any?>(key = "rileyChoices").withDefault { null })
-
     val isFatherWorkingWithGovt: Boolean
         get() = destinationPlanet?.faction?.id?.toLowerCase() in govtsSponsoringSafeAi
+
+    val choices: Choices = Choices(PersistentMapData<String, Any?>(key = "rileyChoices").withDefault { null })
 
     /**
      * All choices that can be made.
@@ -100,6 +100,7 @@ object RileyQuest : QuestFacilitator {
         startDate = game.sector.clock.timestamp
         game.sector.addScript(Riley_Stage2_TriggerDialogScript())
         game.sector.intelManager.addIntel(RileyIntel(startingPlanet, destinationPlanet!!))
+        game.sector.addListener(EnteredDestinationSystemListener())
     }
 
     /**
@@ -129,7 +130,6 @@ object RileyQuest : QuestFacilitator {
 
     fun startStage3() {
         stage = Stage.TravellingToSystem
-        game.sector.addListener(EnteredDestinationSystemListener())
     }
 
     fun showEnteredDestSystemDialog() {
