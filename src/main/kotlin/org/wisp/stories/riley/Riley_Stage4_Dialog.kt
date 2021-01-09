@@ -24,7 +24,7 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                 Option(
                     text = {
                         // Ask to visit father
-                        if (RileyQuest.choices.tookPayment == false)
+                        if (RileyQuest.choices.refusedPayment == true)
                             game.text["riley_stg4_pg1_opt1_ifNotPaid"]
                         else
                             game.text["riley_stg4_pg1_opt1_ifPaid"]
@@ -43,10 +43,10 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                 ),
                 Option(
                     // Tell her to keep the money
-                    showIf = { RileyQuest.choices.tookPayment == null },
+                    showIf = { RileyQuest.choices.refusedPayment == null },
                     text = { game.text["riley_stg4_pg1_opt3"] },
                     onOptionSelected = { navigator ->
-                        RileyQuest.choices.tookPayment = false
+                        RileyQuest.choices.refusedPayment = true
                         para { game.text["riley_stg4_pg1_opt3_onSelected"] }
                         navigator.refreshOptions()
                     }
@@ -225,6 +225,7 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                     text = { game.text["riley_stg4_pg4_opt6"] },
                     onOptionSelected = { navigator ->
                         RileyQuest.choices.turnedInForABounty = true
+                        game.sector.playerFleet.cargo.credits.add(RileyQuest.BOUNTY_CREDITS.toFloat())
                         para {
                             game.text.getf(
                                 "riley_stg4_pg4_opt6_onSelected_para1",

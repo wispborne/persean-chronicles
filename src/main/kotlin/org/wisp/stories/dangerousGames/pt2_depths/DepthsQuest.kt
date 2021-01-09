@@ -31,7 +31,7 @@ object DepthsQuest : QuestFacilitator {
         "US_continent" // Unknown Skies
     )
 
-    const val iconPath = "graphics/icons/wispStories_depths.png" // TODO
+    val iconPath: String by lazy { game.settings.getSpriteName("wispStories_intel", "depths") }
     const val rewardCredits: Int = 100000 // TODO
     const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5
 

@@ -1,7 +1,8 @@
 {
   "graphics": {
     "wispStories_intel": {
-      "dragon": "graphics/dragons/wispStories_dragon.png"
+      "dragon": "graphics/dragons/wispStories_dragon.png",
+      "depths": "graphics/depths/kelp.png"
     },
     "wispStories_portraits": {
       "riley": "graphics/riley/riley.png"

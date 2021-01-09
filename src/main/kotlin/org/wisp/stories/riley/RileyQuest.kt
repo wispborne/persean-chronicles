@@ -3,22 +3,21 @@ package org.wisp.stories.riley
 import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
-import com.fs.starfarer.api.characters.FullName
-import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.QuestFacilitator
 import org.wisp.stories.dangerousGames.Utilities
 import org.wisp.stories.game
 import wisp.questgiver.wispLib.*
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 object RileyQuest : QuestFacilitator {
-    private const val REWARD_CREDITS = 100000
-    private const val BOUNTY_CREDITS = 20000
+    const val REWARD_CREDITS = 80000
+    const val BOUNTY_CREDITS = 20000
     const val TIME_LIMIT_DAYS = 30
     const val DAYS_UNTIL_DIALOG = 3
-    private val govtsSponsoringSafeAi = listOf("hegemony", "vic")
-    val iconPath by lazy { game.settings.getSpriteName("wispStories_portraits", "riley") }
+    val govtsSponsoringSafeAi = listOf("hegemony", "vic")
+    val iconPath: String by lazy { game.settings.getSpriteName("wispStories_portraits", "riley") }
 
     var startDate: Long? by PersistentNullableData("rileyStartDate")
         private set
@@ -43,7 +42,7 @@ object RileyQuest : QuestFacilitator {
      */
     class Choices(val map: MutableMap<String, Any?>) {
         var askedWhyNotBuyOwnShip by map
-        var tookPayment by map
+        var refusedPayment by map
         var askedAboutDJingPay by map
         var visitedFather by map
         var movedCloserToRiley by map
@@ -61,6 +60,7 @@ object RileyQuest : QuestFacilitator {
                 && marketAPI.size > 5 // Lives on a populous world
                 && marketAPI.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
                 && marketAPI.starSystem in Utilities.getSystemsForQuestTarget() // Valid system, not blacklisted
+                && Random.nextInt(100) < 33 // 33% chance
 
     override fun updateTextReplacements() {
         game.text.globalReplacementGetters["rileyDestPlanet"] = { destinationPlanet?.name }
@@ -142,6 +142,10 @@ object RileyQuest : QuestFacilitator {
 
     fun complete() {
         stage = Stage.Completed
+        if (choices.refusedPayment != true) {
+            game.sector.playerFleet.cargo.credits.add(REWARD_CREDITS.toFloat())
+        }
+
         game.intelManager.findFirst(RileyIntel::class.java)
             ?.apply {
                 endAfterDelay()

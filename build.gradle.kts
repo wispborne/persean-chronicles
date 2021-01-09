@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 /////////////////
 // ATTN: CHANGE ME
 val starsectorDirectory = "C:/Program Files (x86)/Fractal Softworks/Starsector"
-val jarFileName = "Stories.jar"
+val jarFileName = "PerseanChronicles.jar"
 /////////////////
 
 val starsectorCoreDirectory = "$starsectorDirectory/starsector-core"

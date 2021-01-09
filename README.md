@@ -1,8 +1,8 @@
-# Stories
+# Persean Chronicles
 
 ## Description
 
-Stories is a mod for the game Starsector.
+Persean Chronicles is a mod for the game Starsector.
 
 Author: Wispborne (Wisp#0302 on the Unofficial Starsector Discord)
 

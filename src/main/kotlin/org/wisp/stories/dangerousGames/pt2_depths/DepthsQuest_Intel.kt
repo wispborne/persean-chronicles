@@ -17,6 +17,7 @@ class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEnt
             game.text["dg_de_intel_title_completed"]
         }
     },
+    iconPath = { DepthsQuest.iconPath },
     subtitleCreator = { info ->
         when (DepthsQuest.stage) {
             DepthsQuest.Stage.GoToPlanet ->

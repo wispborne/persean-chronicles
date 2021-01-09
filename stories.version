@@ -12,7 +12,7 @@
     "masterVersionFile":"https://raw.githubusercontent.com/davidwhitman/stories/master/stories.version",
 
     # The name that is displayed in-game for your mod
-    "modName":"Stories",
+    "modName":"Persean Chronicles",
 
     # The ID of the thread where updates to this mod can be found (optional).
     # This is used to launch directly to the forum thread from in the game.
@@ -26,8 +26,8 @@
     # If you use major.minor notation you can just leave patch as 0
     "modVersion":
     {
-        "major":1,
-        "minor":0,
+        "major":0,
+        "minor":3,
         "patch":0
     }
 }

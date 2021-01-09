@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # CHANGE ME
-modFolderName="Stories"
+modFolderName="Persean-Chronicles"
 
 version=$(git describe --tags)
 zipName=$modFolderName-$version.zip
