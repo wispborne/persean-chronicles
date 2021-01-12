@@ -62,7 +62,7 @@ class Riley_Stage1_BarEvent : BarEventDefinition<Riley_Stage1_BarEvent>(
     personName = FullName(game.text["riley_name"], String.empty, FullName.Gender.FEMALE),
     personRank = Ranks.CITIZEN,
     personPost = Ranks.CITIZEN,
-    personPortrait = RileyQuest.iconPath
+    personPortrait = game.settings.getSpriteName(RileyQuest.icon.category, RileyQuest.icon.id)
 ) {
     override fun createInstanceOfSelf() = Riley_Stage1_BarEvent()
 }

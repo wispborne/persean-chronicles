@@ -6,6 +6,7 @@ import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.QuestFacilitator
 import org.wisp.stories.dangerousGames.Utilities
 import org.wisp.stories.game
+import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.wispLib.*
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -16,7 +17,16 @@ object RileyQuest : QuestFacilitator {
     const val TIME_LIMIT_DAYS = 30
     const val DAYS_UNTIL_DIALOG = 3
     val govtsSponsoringSafeAi = listOf("hegemony", "vic")
-    val iconPath: String by lazy { game.settings.getSpriteName("wispStories_portraits", "riley") }
+    val icon by lazy {
+        InteractionDefinition.Image(
+            category = "wispStories_riley",
+            id = "icon",
+            width = 128f,
+            height = 128f,
+            displayHeight = 128f,
+            displayWidth = 128f
+        )
+    }
 
     var startDate: Long? by PersistentNullableData("rileyStartDate")
         private set

@@ -7,6 +7,7 @@ import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import org.wisp.stories.QuestFacilitator
 import org.wisp.stories.dangerousGames.Utilities
 import org.wisp.stories.game
+import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.wispLib.*
 
 /**
@@ -22,7 +23,8 @@ object DragonsQuest : QuestFacilitator {
         "US_jungle" // Unknown Skies
     )
 
-    val iconPath: String by lazy { game.settings.getSpriteName("wispStories_intel", "dragon") }
+    val icon by lazy { InteractionDefinition.Image("wispStories_dragonriders", "icon") }
+    val dragonPlanetImage by lazy { InteractionDefinition.Image("wispStories_dragonriders", "planetIllustration") }
     const val rewardCredits: Int = 95000
     const val minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet = 5
 

@@ -10,7 +10,7 @@ import wisp.questgiver.addPara
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
-    iconPath = { RileyQuest.iconPath },
+    iconPath = { game.settings.getSpriteName(RileyQuest.icon.category, RileyQuest.icon.id) },
     title = {
         if (RileyQuest.stage < RileyQuest.Stage.Completed)
             game.text["riley_intel_title"]
@@ -27,14 +27,19 @@ class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToke
             padding = 0f,
             textColor = Misc.getGrayColor()
         ) {
-           game.text.getf(
+            game.text.getf(
                 "riley_intel_subtitle_daysLeft",
                 "daysLeft" to (RileyQuest.TIME_LIMIT_DAYS - daysSincePlayerVisible).toInt()
             )
         }
     },
     descriptionCreator = { info, width, height ->
-        info.addImage(game.settings.getSpriteName("wispStories_portraits", "riley"), width, 128f, Padding.DESCRIPTION_PANEL)
+        info.addImage(
+            game.settings.getSpriteName("wispStories_portraits", "riley"),
+            width,
+            128f,
+            Padding.DESCRIPTION_PANEL
+        )
         info.addPara(padding = Padding.DESCRIPTION_PANEL) {
             game.text["riley_intel_description"]
         }
@@ -54,5 +59,6 @@ class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToke
     removeIntelIfAnyOfTheseEntitiesDie = listOf(endLocation),
     intelTags = listOf(Tags.INTEL_STORY)
 ) {
-    override fun createInstanceOfSelf() = RileyIntel(startLocation!!.preferredConnectedEntity!!, endLocation!!.preferredConnectedEntity!!)
+    override fun createInstanceOfSelf() =
+        RileyIntel(startLocation!!.preferredConnectedEntity!!, endLocation!!.preferredConnectedEntity!!)
 }

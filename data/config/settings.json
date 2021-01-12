@@ -1,11 +1,14 @@
 {
   "graphics": {
-    "wispStories_intel": {
-      "dragon": "graphics/dragons/wispStories_dragon.png",
-      "depths": "graphics/depths/kelp.png"
+    "wispStories_dragonriders": {
+      "icon": "graphics/dragons/wispStories_dragon.png",
+      "planetIllustration": "graphics/dragons/dragonPlanet.png"
     },
-    "wispStories_portraits": {
-      "riley": "graphics/riley/riley.png"
+    "wispStories_depths": {
+      "icon": "graphics/depths/kelp.png"
+    },
+    "wispStories_riley": {
+      "icon": "graphics/riley/riley.png"
     }
   }
 }

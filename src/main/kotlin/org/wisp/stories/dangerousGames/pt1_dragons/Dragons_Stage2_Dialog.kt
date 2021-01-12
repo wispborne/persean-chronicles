@@ -8,6 +8,7 @@ class Dragons_Stage2_Dialog : InteractionDefinition<Dragons_Stage2_Dialog>(
     pages = listOf(
         Page(
             id = 1,
+            image = DragonsQuest.dragonPlanetImage,
             onPageShown = {
                 para {
                     game.text.getf(
@@ -21,7 +22,6 @@ class Dragons_Stage2_Dialog : InteractionDefinition<Dragons_Stage2_Dialog>(
                 }
                 para { game.text["dg_dr_stg2_pg1_para2"] }
                 para { game.text["dg_dr_stg2_pg1_para3"] }
-
             },
             options = listOf(
                 Option(text = { game.text["dg_dr_stg2_pg1_opt1"] }, onOptionSelected = { it.goToPage(2) })

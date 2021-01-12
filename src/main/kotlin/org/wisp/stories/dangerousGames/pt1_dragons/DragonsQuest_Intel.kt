@@ -12,7 +12,7 @@ import wisp.questgiver.wispLib.empty
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
-    iconPath = { DragonsQuest.iconPath },
+    iconPath = { game.settings.getSpriteName(DragonsQuest.icon.category, DragonsQuest.icon.id) },
     title = {
         game.text["dg_dr_intel_title"] +
                 when (DragonsQuest.stage) {
@@ -52,6 +52,7 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
             if (DragonsQuest.stage > DragonsQuest.Stage.GoToPlanet) Misc.getGrayColor()
             else Misc.getTextColor()
 
+        info.addImage(game.settings.getSpriteName("illustrations", "crew_leaving"), width, Padding.DESCRIPTION_PANEL)
         info.addPara(textColor = part1Color) {
             game.text["dg_dr_intel_desc_para1"]
         }
@@ -81,5 +82,6 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
         Tags.INTEL_STORY
     )
 ) {
-    override fun createInstanceOfSelf() = DragonsQuest_Intel(startLocation!!.preferredConnectedEntity!!, endLocation!!.preferredConnectedEntity!!)
+    override fun createInstanceOfSelf() =
+        DragonsQuest_Intel(startLocation!!.preferredConnectedEntity!!, endLocation!!.preferredConnectedEntity!!)
 }

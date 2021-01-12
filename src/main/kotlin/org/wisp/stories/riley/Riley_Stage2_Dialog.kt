@@ -10,14 +10,7 @@ class Riley_Stage2_Dialog : InteractionDefinition<Riley_Stage2_Dialog>(
     pages = listOf(
         Page(
             id = 1,
-            image = Image(
-                category = "wispStories_portraits",
-                id = "riley",
-                width = 128f,
-                height = 128f,
-                displayHeight = 128f,
-                displayWidth = 128f
-            ),
+            image = RileyQuest.icon,
             onPageShown = {
                 para { game.text["riley_stg2_pg1_para1"] }
                 navigator.promptToContinue(game.text["continue"]) {

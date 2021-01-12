@@ -16,6 +16,7 @@ import org.wisp.stories.QuestFacilitator
 import org.wisp.stories.dangerousGames.Utilities
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.game
+import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.wispLib.*
 
 /**
@@ -31,7 +32,16 @@ object DepthsQuest : QuestFacilitator {
         "US_continent" // Unknown Skies
     )
 
-    val iconPath: String by lazy { game.settings.getSpriteName("wispStories_intel", "depths") }
+    val icon by lazy {
+        InteractionDefinition.Image(
+            category = "wispStories_depths",
+            id = "icon",
+            width = 128f,
+            height = 128f,
+            displayHeight = 128f,
+            displayWidth = 128f
+        )
+    }
     const val rewardCredits: Int = 100000 // TODO
     const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5
 
