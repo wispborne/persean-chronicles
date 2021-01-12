@@ -9,6 +9,7 @@ import wisp.questgiver.IntelDefinition
 import wisp.questgiver.Padding
 import wisp.questgiver.addPara
 import wisp.questgiver.wispLib.empty
+import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     iconPath = { DragonsQuest.iconPath },
@@ -80,5 +81,5 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
         Tags.INTEL_STORY
     )
 ) {
-    override fun createInstanceOfSelf() = DragonsQuest_Intel(startLocation!!.planetEntity, endLocation!!.planetEntity)
+    override fun createInstanceOfSelf() = DragonsQuest_Intel(startLocation!!.preferredConnectedEntity!!, endLocation!!.preferredConnectedEntity!!)
 }

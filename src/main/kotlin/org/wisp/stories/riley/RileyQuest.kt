@@ -1,6 +1,5 @@
 package org.wisp.stories.riley
 
-import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.util.Misc
@@ -83,33 +82,33 @@ object RileyQuest : QuestFacilitator {
     /**
      * On player interacting with bar event prompt. Chooses the destination planet.
      */
-    fun init(startingPlanet: PlanetAPI) {
-        startPlanet = startingPlanet
-        findAndTagDestinationPlanetIfNeeded(startingPlanet)
+    fun init(startingEntity: SectorEntityToken) {
+        startPlanet = startingEntity
+        findAndTagDestinationPlanetIfNeeded(startingEntity)
         updateTextReplacements()
     }
 
     /**
      * On player accepting the quest.
      */
-    fun start(startingPlanet: PlanetAPI) {
-        game.logger.i { "Riley start planet set to ${startingPlanet.fullName} in ${startingPlanet.starSystem.baseName}" }
-        startPlanet = startingPlanet
+    fun start(startingEntity: SectorEntityToken) {
+        game.logger.i { "Riley start planet set to ${startingEntity.fullName} in ${startingEntity.starSystem.baseName}" }
+        startPlanet = startingEntity
         updateTextReplacements()
         stage = Stage.InitialTraveling
         startDate = game.sector.clock.timestamp
         game.sector.addScript(Riley_Stage2_TriggerDialogScript())
-        game.sector.intelManager.addIntel(RileyIntel(startingPlanet, destinationPlanet!!))
+        game.sector.intelManager.addIntel(RileyIntel(startingEntity, destinationPlanet!!))
         game.sector.addListener(EnteredDestinationSystemListener())
     }
 
     /**
      * Randomly choose a planet that is far from starting point and owned by certain factions.
      */
-    private fun findAndTagDestinationPlanetIfNeeded(startPlanet: PlanetAPI) {
+    private fun findAndTagDestinationPlanetIfNeeded(startEntity: SectorEntityToken) {
         if (destinationPlanet == null) {
             val planets = Utilities.getSystemsForQuestTarget()
-                .sortedByDescending { it.distanceFrom(startPlanet.starSystem) }
+                .sortedByDescending { it.distanceFrom(startEntity.starSystem) }
                 .flatMap { it.planets }
 
             // Both Hegemony and VIC would have cause to work on subservient AI

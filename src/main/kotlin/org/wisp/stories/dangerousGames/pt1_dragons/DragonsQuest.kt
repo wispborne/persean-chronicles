@@ -37,6 +37,7 @@ object DragonsQuest : QuestFacilitator {
 
     fun shouldOfferQuest(marketAPI: MarketAPI): Boolean =
         stage == Stage.NotStarted
+                && marketAPI.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
                 && marketAPI.starSystem in Utilities.getSystemsForQuestTarget() // Valid system, not blacklisted
 
     /**

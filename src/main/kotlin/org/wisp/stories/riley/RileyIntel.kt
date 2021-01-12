@@ -7,6 +7,7 @@ import org.wisp.stories.game
 import wisp.questgiver.IntelDefinition
 import wisp.questgiver.Padding
 import wisp.questgiver.addPara
+import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     iconPath = { RileyQuest.iconPath },
@@ -53,5 +54,5 @@ class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToke
     removeIntelIfAnyOfTheseEntitiesDie = listOf(endLocation),
     intelTags = listOf(Tags.INTEL_STORY)
 ) {
-    override fun createInstanceOfSelf() = RileyIntel(startLocation!!.planetEntity, endLocation!!.planetEntity)
+    override fun createInstanceOfSelf() = RileyIntel(startLocation!!.preferredConnectedEntity!!, endLocation!!.preferredConnectedEntity!!)
 }

@@ -4,10 +4,10 @@ import com.fs.starfarer.api.BaseModPlugin
 import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.thoughtworks.xstream.XStream
-import org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
+import org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
 import org.wisp.stories.dangerousGames.pt2_depths.*
 import org.wisp.stories.riley.*
 import wisp.questgiver.wispLib.QuestGiver

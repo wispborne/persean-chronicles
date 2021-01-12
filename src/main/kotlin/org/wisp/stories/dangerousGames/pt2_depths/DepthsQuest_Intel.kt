@@ -8,6 +8,7 @@ import wisp.questgiver.IntelDefinition
 import wisp.questgiver.Padding
 import wisp.questgiver.addPara
 import wisp.questgiver.wispLib.empty
+import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     title = {
@@ -61,5 +62,5 @@ class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEnt
     intelTags = listOf(Tags.INTEL_EXPLORATION, Tags.INTEL_STORY)
 ) {
     override fun createInstanceOfSelf(): IntelDefinition =
-        DepthsQuest_Intel(startLocation!!.planetEntity, endLocation!!.planetEntity)
+        DepthsQuest_Intel(startLocation!!.preferredConnectedEntity!!, endLocation!!.preferredConnectedEntity!!)
 }

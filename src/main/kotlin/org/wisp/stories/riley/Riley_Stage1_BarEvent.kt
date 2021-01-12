@@ -7,6 +7,7 @@ import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import org.wisp.stories.game
 import wisp.questgiver.BarEventDefinition
 import wisp.questgiver.wispLib.empty
+import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class Riley_Stage1_BarEvent : BarEventDefinition<Riley_Stage1_BarEvent>(
     shouldShowEvent = { market -> RileyQuest.shouldMarketOfferQuest(market) },
@@ -15,7 +16,7 @@ class Riley_Stage1_BarEvent : BarEventDefinition<Riley_Stage1_BarEvent>(
     },
     textToStartInteraction = { game.text["riley_stg1_startBarEvent"] },
     onInteractionStarted = {
-        RileyQuest.init(dialog.interactionTarget.market.planetEntity)
+        RileyQuest.init(dialog.interactionTarget.market.preferredConnectedEntity!!)
     },
     pages = listOf(
         Page(
@@ -31,7 +32,7 @@ class Riley_Stage1_BarEvent : BarEventDefinition<Riley_Stage1_BarEvent>(
                     text = { game.text["riley_stg1_pg1_opt1"] },
                     onOptionSelected = {
                         para { game.text["riley_stg1_pg1_opt1_onSelected"] }
-                        RileyQuest.start(dialog.interactionTarget.market.planetEntity)
+                        RileyQuest.start(dialog.interactionTarget.market.preferredConnectedEntity!!)
                         it.close(doNotOfferAgain = true)
                     }
                 ),

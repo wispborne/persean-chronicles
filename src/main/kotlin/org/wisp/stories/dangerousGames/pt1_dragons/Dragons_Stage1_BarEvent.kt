@@ -11,11 +11,11 @@ import wisp.questgiver.wispLib.lastName
 class Dragons_Stage1_BarEvent : BarEventDefinition<Dragons_Stage1_BarEvent>(
     shouldShowEvent = { DragonsQuest.shouldOfferQuest(it) },
     interactionPrompt = {
-        DragonsQuest.init(game.sector.playerFleet.starSystem)
         para { game.text["dg_dr_stg1_prompt"] }
     },
     textToStartInteraction = { game.text["dg_dr_stg1_startBarEvent"] },
     onInteractionStarted = {
+        DragonsQuest.init(game.sector.playerFleet.starSystem)
     },
     pages = listOf(
         Page(
