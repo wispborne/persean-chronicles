@@ -26,7 +26,7 @@ dependencies {
 
     // Questgiver lib
     implementation(fileTree("libs").matching {
-        val questgiverVersion = "1.0.0"
+        val questgiverVersion = "1.1.0"
         include("Questgiver-$questgiverVersion.jar")
         include("Questgiver-$questgiverVersion-sources.jar")
         include("Questgiver-$questgiverVersion-javadoc.jar")

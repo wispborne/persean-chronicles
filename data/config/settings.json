@@ -2,7 +2,8 @@
   "graphics": {
     "wispStories_dragonriders": {
       "icon": "graphics/dragons/wispStories_dragon.png",
-      "planetIllustration": "graphics/dragons/dragonPlanet.png"
+      "planetIllustration": "graphics/dragons/dragonPlanet.png",
+      "intelPicture": "graphics/illustrations/fly_away.jpg"
     },
     "wispStories_depths": {
       "icon": "graphics/depths/kelp.png"

@@ -24,6 +24,7 @@ object DragonsQuest : QuestFacilitator {
     )
 
     val icon by lazy { InteractionDefinition.Image("wispStories_dragonriders", "icon") }
+    val intelDetailHeaderImage by lazy { InteractionDefinition.Image("wispStories_dragonriders", "intelPicture") }
     val dragonPlanetImage by lazy { InteractionDefinition.Image("wispStories_dragonriders", "planetIllustration") }
     const val rewardCredits: Int = 95000
     const val minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet = 5

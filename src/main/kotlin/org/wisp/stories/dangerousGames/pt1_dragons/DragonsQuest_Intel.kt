@@ -10,9 +10,10 @@ import wisp.questgiver.Padding
 import wisp.questgiver.addPara
 import wisp.questgiver.wispLib.empty
 import wisp.questgiver.wispLib.preferredConnectedEntity
+import wisp.questgiver.wispLib.spriteName
 
 class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
-    iconPath = { game.settings.getSpriteName(DragonsQuest.icon.category, DragonsQuest.icon.id) },
+    iconPath = { DragonsQuest.icon.spriteName((game)) },
     title = {
         game.text["dg_dr_intel_title"] +
                 when (DragonsQuest.stage) {
@@ -27,23 +28,14 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
                 padding = Padding.SUBTITLE,
                 textColor = Misc.getGrayColor()
             ) {
-                game.text.getf(
-                    "dg_dr_intel_subtitle_stg1",
-                    mapOf("dragonPlanet" to DragonsQuest.dragonPlanet?.name)
-                )
+                game.text["dg_dr_intel_subtitle_stg1"]
             }
         } else if (DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart) {
             info?.addPara(
                 padding = Padding.SUBTITLE,
                 textColor = Misc.getGrayColor()
             ) {
-                game.text.getf(
-                    "dg_dr_intel_subtitle_stg2",
-                    mapOf(
-                        "startPlanet" to startLocation.name,
-                        "startSystem" to startLocation.starSystem?.baseName
-                    )
-                )
+                game.text["dg_dr_intel_subtitle_stg2"]
             }
         }
     },
@@ -52,7 +44,7 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
             if (DragonsQuest.stage > DragonsQuest.Stage.GoToPlanet) Misc.getGrayColor()
             else Misc.getTextColor()
 
-        info.addImage(game.settings.getSpriteName("illustrations", "crew_leaving"), width, Padding.DESCRIPTION_PANEL)
+        info.addImage(DragonsQuest.intelDetailHeaderImage.spriteName(game), width, Padding.DESCRIPTION_PANEL)
         info.addPara(textColor = part1Color) {
             game.text["dg_dr_intel_desc_para1"]
         }

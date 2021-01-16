@@ -8,6 +8,7 @@ import wisp.questgiver.IntelDefinition
 import wisp.questgiver.Padding
 import wisp.questgiver.addPara
 import wisp.questgiver.wispLib.preferredConnectedEntity
+import wisp.questgiver.wispLib.spriteName
 
 class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     iconPath = { game.settings.getSpriteName(RileyQuest.icon.category, RileyQuest.icon.id) },
@@ -35,7 +36,7 @@ class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToke
     },
     descriptionCreator = { info, width, height ->
         info.addImage(
-            game.settings.getSpriteName("wispStories_portraits", "riley"),
+            RileyQuest.icon.spriteName(game),
             width,
             128f,
             Padding.DESCRIPTION_PANEL
