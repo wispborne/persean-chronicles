@@ -18,4 +18,3 @@ object Utilities {
         game.sector.starSystems
             .filter { it.isValidSystemForQuest }
 }
-

@@ -17,7 +17,7 @@ import wisp.questgiver.wispLib.equalsAny
  */
 class CampaignPlugin : BaseCampaignPlugin() {
     init {
-        QuestGiver.initialize(modPrefix = "stories")
+        QuestGiver.initialize(modPrefix = "wisp_perseanchronicles")
     }
 
     override fun getId() = "${MOD_PREFIX}_CampaignPlugin"
