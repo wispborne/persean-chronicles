@@ -68,6 +68,7 @@ object DragonsQuest : QuestFacilitator {
                     .flatMap { it.planets }
                     .filter { planet -> DRAGON_PLANET_TYPES.any { it == planet.typeId } }
                     .toList()
+                    .getNonHostileOnlyIfPossible()
                     .run {
                         // Take all planets from the top third of the list,
                         // which is sorted by proximity to the center.

@@ -10,6 +10,7 @@ class Dragons_Stage2_Dialog : InteractionDefinition<Dragons_Stage2_Dialog>(
             id = 1,
             image = DragonsQuest.dragonPlanetImage,
             onPageShown = {
+                // The men load into a shuttle and Karengo directs you down through the atmosphere
                 para {
                     game.text.getf(
                         "dg_dr_stg2_pg1_para1",
@@ -30,8 +31,10 @@ class Dragons_Stage2_Dialog : InteractionDefinition<Dragons_Stage2_Dialog>(
         Page(
             id = 2,
             onPageShown = {
+                // The dragons of ${dragonPlanet} you learned about on the "Xenofauna and Flora"
                 para { game.text["dg_dr_stg2_pg2_para1"] }
                 para { game.text["dg_dr_stg2_pg2_para2"] }
+                para { game.text["dg_dr_stg2_pg2_para3"] }
             },
             options = listOf(
                 Option(

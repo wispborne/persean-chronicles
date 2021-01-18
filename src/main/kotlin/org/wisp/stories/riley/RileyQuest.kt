@@ -125,6 +125,7 @@ object RileyQuest : QuestFacilitator {
             destinationPlanet = planets
                 .filter { it.market?.factionId?.toLowerCase() in govtsSponsoringSafeAi }
                 .ifEmpty { planets }
+                .getNonHostileOnlyIfPossible()
                 .take(5)
                 .random()
                 .also { planet ->
