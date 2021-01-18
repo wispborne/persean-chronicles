@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    val kotlinVersionInLazyLib = "1.3.61"
+    val kotlinVersionInLazyLib = "1.3.61" // 1.4.21 in the future
 
     // Questgiver lib
     implementation(fileTree("libs").matching {
@@ -81,7 +81,7 @@ tasks {
     }
 
     register("create-metadata-files") {
-        val version = javaslang.Tuple3("0", "7", "0")
+        val version = javaslang.Tuple3("0", "8", "0")
         val modId = "wisp_perseanchronicles"
         val modName = "Persean Chronicles"
         val author = "Wispborne"

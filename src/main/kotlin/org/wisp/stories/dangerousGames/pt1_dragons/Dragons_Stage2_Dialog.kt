@@ -69,7 +69,7 @@ class Dragons_Stage2_Dialog : InteractionDefinition<Dragons_Stage2_Dialog>(
             },
             options = listOf(
                 Option(
-                    text = { game.text["dg_dr_stg2_pg-abandon_para1"] },
+                    text = { game.text["dg_dr_stg2_pg-abandon_opt1"] },
                     onOptionSelected = {
                         DragonsQuest.failQuestByLeavingToGetEatenByDragons()
                         it.close(doNotOfferAgain = true)
