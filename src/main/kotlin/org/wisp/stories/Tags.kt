@@ -1,7 +1,6 @@
 package org.wisp.stories
 
 import com.fs.starfarer.api.campaign.StarSystemAPI
-import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
 
 internal object Tags {
     val TAG_BLACKLISTED_SYSTEM = "${MOD_PREFIX}_blacklisted_system"

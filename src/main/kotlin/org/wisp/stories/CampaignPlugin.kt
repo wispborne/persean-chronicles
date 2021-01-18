@@ -9,7 +9,6 @@ import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest
 import org.wisp.stories.riley.RileyQuest
 import wisp.questgiver.wispLib.QuestGiver
-import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
 import wisp.questgiver.wispLib.equalsAny
 
 /**
@@ -17,7 +16,7 @@ import wisp.questgiver.wispLib.equalsAny
  */
 class CampaignPlugin : BaseCampaignPlugin() {
     init {
-        QuestGiver.initialize(modPrefix = "wisp_perseanchronicles")
+        QuestGiver.initialize(modPrefix = org.wisp.stories.MOD_PREFIX)
     }
 
     override fun getId() = "${MOD_PREFIX}_CampaignPlugin"

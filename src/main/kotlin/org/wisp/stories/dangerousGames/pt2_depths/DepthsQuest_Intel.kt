@@ -9,6 +9,7 @@ import wisp.questgiver.Padding
 import wisp.questgiver.addPara
 import wisp.questgiver.wispLib.empty
 import wisp.questgiver.wispLib.preferredConnectedEntity
+import wisp.questgiver.wispLib.spriteName
 
 class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     title = {
@@ -18,7 +19,7 @@ class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEnt
             game.text["dg_de_intel_title_completed"]
         }
     },
-    iconPath = { game.settings.getSpriteName(DepthsQuest.icon.id, DepthsQuest.icon.category) },
+    iconPath = { DepthsQuest.icon.spriteName(game) },
     subtitleCreator = { info ->
         when (DepthsQuest.stage) {
             DepthsQuest.Stage.GoToPlanet ->

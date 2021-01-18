@@ -11,7 +11,6 @@ import org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
 import org.wisp.stories.dangerousGames.pt2_depths.*
 import org.wisp.stories.riley.*
 import wisp.questgiver.wispLib.QuestGiver
-import wisp.questgiver.wispLib.QuestGiver.MOD_PREFIX
 import wisp.questgiver.wispLib.firstName
 import wisp.questgiver.wispLib.i
 import wisp.questgiver.wispLib.lastName
@@ -19,7 +18,7 @@ import wisp.questgiver.wispLib.lastName
 class LifecyclePlugin : BaseModPlugin() {
     override fun onApplicationLoad() {
         super.onApplicationLoad()
-        QuestGiver.initialize(modPrefix = org.wisp.stories.MOD_PREFIX)
+        QuestGiver.initialize(modPrefix = MOD_PREFIX)
     }
 
     override fun onGameLoad(newGame: Boolean) {
