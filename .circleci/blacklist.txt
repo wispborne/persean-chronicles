@@ -1,4 +1,5 @@
 .psd$
+.ai$
 .afphoto$
 ^.idea
 ^.circleci

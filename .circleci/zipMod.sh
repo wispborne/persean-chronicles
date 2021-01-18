@@ -13,7 +13,7 @@ mkdir "$modFolderName-$version"
 # 1. List all files in git, which uses gitignore
 # 2. Remove any file matching the blacklist (eg afphoto files)
 # 3. Copy to a new folder with the mod name and version
-git ls-files | grep -Evf ".circleci/blacklist.txt" | xargs -d '\n' cp --parents -t "$modFolderName-$version"
+git ls-files | grep -Evf ".circleci/blacklist.txt" | while read file; do cp --parents "$file" "$modFolderName-$version"; done
 
 # Zip the folder, then clean it up
 zip -r $zipName "./$modFolderName-$version"
