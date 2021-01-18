@@ -1,6 +1,6 @@
 package org.wisp.stories
 
-internal const val MOD_PREFIX = "Wisp_PerseanChronicles"
+internal const val MOD_PREFIX = "wisp_perseanchronicles"
 // Scattered Stories
 // The Perseans
 // Persean Storytime

@@ -70,6 +70,7 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
     },
     startLocation = startLocation.market,
     endLocation = endLocation.market,
+    important = true,
     intelTags = listOf(
         Tags.INTEL_STORY
     )

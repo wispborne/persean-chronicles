@@ -58,6 +58,7 @@ class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToke
     endLocation = endLocation.market,
     durationInDays = RileyQuest.TIME_LIMIT_DAYS.toFloat(),
     removeIntelIfAnyOfTheseEntitiesDie = listOf(endLocation),
+    important = true,
     intelTags = listOf(Tags.INTEL_STORY)
 ) {
     override fun createInstanceOfSelf() =

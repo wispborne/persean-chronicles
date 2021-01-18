@@ -60,6 +60,7 @@ class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEnt
     },
     startLocation = startLocation.market,
     endLocation = endLocation.market,
+    important = true,
     intelTags = listOf(Tags.INTEL_EXPLORATION, Tags.INTEL_STORY)
 ) {
     override fun createInstanceOfSelf(): IntelDefinition =
