@@ -81,7 +81,7 @@ tasks {
     }
 
     register("create-metadata-files") {
-        val version = javaslang.Tuple3("0", "8", "0")
+        val version = javaslang.Tuple3("0", "9", "0")
         val modId = "wisp_perseanchronicles"
         val modName = "Persean Chronicles"
         val author = "Wispborne"
