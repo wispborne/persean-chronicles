@@ -8,14 +8,7 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
     pages = listOf(
         Page(
             id = 1,
-            image = Image(
-                category = "wispStories_portraits",
-                id = "riley",
-                width = 128f,
-                height = 128f,
-                displayHeight = 128f,
-                displayWidth = 128f
-            ),
+            image = RileyQuest.icon,
             onPageShown = {
                 para { game.text["riley_stg4_pg1_para1"] }
                 para { game.text["riley_stg4_pg1_para2"] }
