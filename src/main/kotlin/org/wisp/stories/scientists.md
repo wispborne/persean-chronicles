@@ -1,0 +1,20 @@
+Just as you sit down you see a group made up of two men and a woman, all with the soft, pallid look of scientists, walk into the bar. As soon as one of them spots you they all look in your direction and make their way over.
+
+"Are you ${playerFirstName} ${playerLastName}, a spacer?" asks one of the men, and when you nod in confirmation they all grin. "Allow me to introduce myself. I'm David Rengel, and these are my associates, Fiona Jeffrey and Mike Robbins. We are members of a scientific team in the employ of the ==Nirvana Stellar Engineering== company, perhaps you have heard of it?"
+
+When you shake your head slowly, they look momentarily crestfallen.
+
+"Oh well, it is a new field of endeavor," David continues, recovering. "We are looking to start a new project and need someone to help us set up our base camp, and you came highly recommended. Are you interested? Our company is willing to pay ==${nirvanaCredits}== for your assistance."
+
+- Yes; where to?
+- Sorry, you'll need to find another captain to help you. (leave)
+
+"Excellent!" he exclaims. "We need to get to ==${nirvanaDestPlanet}== in ==${nirvanaDestSystem}==. We have around ==${nirvanaCargoTons}== units of Heavy Machinery that we'll get loaded up."
+
+- We'll be under way shortly.
+- I don't have enough cargo space for that right now.
+- Actually, I've changed my mind. (leave)
+
+----------------------
+
+The scientists transport the cargo down to the surface
