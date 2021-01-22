@@ -31,7 +31,7 @@ object RileyQuest : QuestFacilitator {
     var startDate: Long? by PersistentNullableData("rileyStartDate")
         private set
 
-    var startPlanet: SectorEntityToken? by PersistentNullableData("rileyStartPlanet")
+    var startLocation: SectorEntityToken? by PersistentNullableData("rileyStartPlanet")
         private set
 
     var destinationPlanet: SectorEntityToken? by PersistentNullableData("rileyDestinationPlanet")
@@ -78,14 +78,14 @@ object RileyQuest : QuestFacilitator {
         game.text.globalReplacementGetters["rileyDestSystem"] = { destinationPlanet?.starSystem?.baseName }
         game.text.globalReplacementGetters["rileyDestPlanetDistanceLY"] = {
             if (destinationPlanet == null) String.empty
-            else startPlanet?.starSystem?.distanceFrom(destinationPlanet!!.starSystem)
+            else startLocation?.starSystem?.distanceFrom(destinationPlanet!!.starSystem)
                 ?.roundToInt()
                 ?.coerceAtLeast(1)
                 .toString()
         }
         game.text.globalReplacementGetters["rileyDestPlanetControllingFaction"] =
             { destinationPlanet?.faction?.displayNameWithArticle }
-        game.text.globalReplacementGetters["rileyOriginPlanet"] = { startPlanet?.name }
+        game.text.globalReplacementGetters["rileyOriginPlanet"] = { startLocation?.name }
         game.text.globalReplacementGetters["rileyBountyCredits"] = { Misc.getDGSCredits(BOUNTY_CREDITS.toFloat()) }
     }
 
@@ -93,7 +93,7 @@ object RileyQuest : QuestFacilitator {
      * On player interacting with bar event prompt. Chooses the destination planet.
      */
     fun init(startingEntity: SectorEntityToken) {
-        startPlanet = startingEntity
+        startLocation = startingEntity
         findAndTagDestinationPlanetIfNeeded(startingEntity)
         updateTextReplacements()
     }
@@ -103,7 +103,7 @@ object RileyQuest : QuestFacilitator {
      */
     fun start(startingEntity: SectorEntityToken) {
         game.logger.i { "Riley start planet set to ${startingEntity.fullName} in ${startingEntity.starSystem.baseName}" }
-        startPlanet = startingEntity
+        startLocation = startingEntity
         updateTextReplacements()
         stage = Stage.InitialTraveling
         startDate = game.sector.clock.timestamp
