@@ -9,12 +9,23 @@ When you shake your head slowly, they look momentarily crestfallen.
 - Yes; where to?
 - Sorry, you'll need to find another captain to help you. (leave)
 
-"Excellent!" he exclaims. "We need to get to ==${nirvanaDestPlanet}== in ==${nirvanaDestSystem}==. We have around ==${nirvanaCargoTons}== units of Heavy Machinery that we'll get loaded up."
+"Excellent!" he exclaims. "We need to get to ==${nirvanaDestPlanet}== in ==${nirvanaDestSystem}==. We have around ==${nirvanaCargoTons}== units of Heavy Machinery that we need loaded up."
 
-- We'll be under way shortly.
+- We'll handle that and be under way shortly.
 - I don't have enough cargo space for that right now.
 - Actually, I've changed my mind. (leave)
 
 ----------------------
 
-The scientists transport the cargo down to the surface
+Your quartermaster drops the scientists' cargo off at their specified location - notably on the far side of the neutron star - while David pokes at a screen. "There," he announces. "==${nirvanaCredits}==, as agreed."
+
+- What are you building down here?
+- Good luck with everything. (leave)
+
+He brightens visibly. "We're "
+
+
+
+
+
+TODO change a planet to be tidally locked

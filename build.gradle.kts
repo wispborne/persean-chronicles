@@ -14,7 +14,8 @@ plugins {
     java
 }
 
-version = "1.0.0"
+val perseanChroniclesVersion = "0.9.1"
+version = perseanChroniclesVersion
 
 repositories {
     maven(url = uri("$projectDir/libs"))
@@ -81,7 +82,7 @@ tasks {
     }
 
     register("create-metadata-files") {
-        val version = javaslang.Tuple3("0", "9", "0")
+        val version = perseanChroniclesVersion.split(".").let { javaslang.Tuple3(it[0], it[1], it[2]) }
         val modId = "wisp_perseanchronicles"
         val modName = "Persean Chronicles"
         val author = "Wispborne"
