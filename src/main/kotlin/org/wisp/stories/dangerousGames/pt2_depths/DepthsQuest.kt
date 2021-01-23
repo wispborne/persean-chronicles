@@ -85,15 +85,15 @@ object DepthsQuest : QuestFacilitator {
 
     fun init(playersCurrentStarSystem: StarSystemAPI?) {
         findAndTagDepthsPlanetIfNeeded(playersCurrentStarSystem)
-        updateTextReplacements()
+        updateTextReplacements(game.text)
     }
 
-    override fun updateTextReplacements() {
-        game.text.globalReplacementGetters["depthsSourcePlanet"] = { startingPlanet?.name }
-        game.text.globalReplacementGetters["depthsSourceSystem"] = { startingPlanet?.starSystem?.baseName }
-        game.text.globalReplacementGetters["depthsPlanet"] = { depthsPlanet?.name }
-        game.text.globalReplacementGetters["depthsSystem"] = { depthsPlanet?.starSystem?.baseName }
-        game.text.globalReplacementGetters["depthsCreditReward"] = { Misc.getDGSCredits(rewardCredits.toFloat()) }
+    override fun updateTextReplacements(text: Text) {
+        text.globalReplacementGetters["depthsSourcePlanet"] = { startingPlanet?.name }
+        text.globalReplacementGetters["depthsSourceSystem"] = { startingPlanet?.starSystem?.baseName }
+        text.globalReplacementGetters["depthsPlanet"] = { depthsPlanet?.name }
+        text.globalReplacementGetters["depthsSystem"] = { depthsPlanet?.starSystem?.baseName }
+        text.globalReplacementGetters["depthsCreditReward"] = { Misc.getDGSCredits(rewardCredits.toFloat()) }
     }
 
     /**
@@ -180,10 +180,7 @@ object DepthsQuest : QuestFacilitator {
         game.sector.playerFleet.cargo.credits.add(rewardCredits.toFloat())
         stage = Stage.Done
         game.intelManager.findFirst(DepthsQuest_Intel::class.java)
-            ?.apply {
-                endAfterDelay()
-                sendUpdateIfPlayerHasIntel(null, false)
-            }
+            ?.endAndNotifyPlayer()
 
         depthsPlanet?.let { planet ->
             if (planet.market.conditions.none { it.plugin is CrystalMarketMod }) {

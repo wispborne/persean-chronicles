@@ -1,7 +1,10 @@
 package org.wisp.stories.riley
 
+import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
+import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.QuestFacilitator
 import org.wisp.stories.dangerousGames.Utilities
@@ -16,7 +19,7 @@ object RileyQuest : QuestFacilitator {
     const val BOUNTY_CREDITS = 20000
     const val TIME_LIMIT_DAYS = 30
     const val DAYS_UNTIL_DIALOG = 3
-    val govtsSponsoringSafeAi = listOf("hegemony", "vic")
+    val govtsSponsoringSafeAi = listOf(Factions.HEGEMONY, "vic")
     val icon by lazy {
         InteractionDefinition.Image(
             category = "wispStories_riley",
@@ -71,22 +74,22 @@ object RileyQuest : QuestFacilitator {
                 && marketAPI.starSystem in Utilities.getSystemsForQuestTarget() // Valid system, not blacklisted
                 && Random.nextInt(100) < 33 // 33% chance
 
-    override fun updateTextReplacements() {
-        game.text.globalReplacementGetters["rileyDestPlanet"] = { destinationPlanet?.name }
-        game.text.globalReplacementGetters["rileyCredits"] = { Misc.getDGSCredits(REWARD_CREDITS.toFloat()) }
-        game.text.globalReplacementGetters["rileyTimeLimitDays"] = { TIME_LIMIT_DAYS }
-        game.text.globalReplacementGetters["rileyDestSystem"] = { destinationPlanet?.starSystem?.baseName }
-        game.text.globalReplacementGetters["rileyDestPlanetDistanceLY"] = {
+    override fun updateTextReplacements(text: Text) {
+        text.globalReplacementGetters["rileyDestPlanet"] = { destinationPlanet?.name }
+        text.globalReplacementGetters["rileyCredits"] = { Misc.getDGSCredits(REWARD_CREDITS.toFloat()) }
+        text.globalReplacementGetters["rileyTimeLimitDays"] = { TIME_LIMIT_DAYS }
+        text.globalReplacementGetters["rileyDestSystem"] = { destinationPlanet?.starSystem?.baseName }
+        text.globalReplacementGetters["rileyDestPlanetDistanceLY"] = {
             if (destinationPlanet == null) String.empty
             else startLocation?.starSystem?.distanceFrom(destinationPlanet!!.starSystem)
                 ?.roundToInt()
                 ?.coerceAtLeast(1)
                 .toString()
         }
-        game.text.globalReplacementGetters["rileyDestPlanetControllingFaction"] =
+        text.globalReplacementGetters["rileyDestPlanetControllingFaction"] =
             { destinationPlanet?.faction?.displayNameWithArticle }
-        game.text.globalReplacementGetters["rileyOriginPlanet"] = { startLocation?.name }
-        game.text.globalReplacementGetters["rileyBountyCredits"] = { Misc.getDGSCredits(BOUNTY_CREDITS.toFloat()) }
+        text.globalReplacementGetters["rileyOriginPlanet"] = { startLocation?.name }
+        text.globalReplacementGetters["rileyBountyCredits"] = { Misc.getDGSCredits(BOUNTY_CREDITS.toFloat()) }
     }
 
     /**
@@ -95,7 +98,7 @@ object RileyQuest : QuestFacilitator {
     fun init(startingEntity: SectorEntityToken) {
         startLocation = startingEntity
         findAndTagDestinationPlanetIfNeeded(startingEntity)
-        updateTextReplacements()
+        updateTextReplacements(game.text)
     }
 
     /**
@@ -104,7 +107,7 @@ object RileyQuest : QuestFacilitator {
     fun start(startingEntity: SectorEntityToken) {
         game.logger.i { "Riley start planet set to ${startingEntity.fullName} in ${startingEntity.starSystem.baseName}" }
         startLocation = startingEntity
-        updateTextReplacements()
+        updateTextReplacements(game.text)
         stage = Stage.InitialTraveling
         startDate = game.sector.clock.timestamp
         game.sector.addScript(Riley_Stage2_TriggerDialogScript())
@@ -119,12 +122,11 @@ object RileyQuest : QuestFacilitator {
         if (destinationPlanet == null) {
             val planets = Utilities.getSystemsForQuestTarget()
                 .sortedByDescending { it.distanceFrom(startEntity.starSystem) }
-                .flatMap { it.planets }
+                .flatMap<StarSystemAPI, PlanetAPI> { it.planets }
 
             // Both Hegemony and VIC would have cause to work on subservient AI
             destinationPlanet = planets
-                .filter { it.market?.factionId?.toLowerCase() in govtsSponsoringSafeAi }
-                .ifEmpty { planets }
+                .prefer { it.market?.factionId?.toLowerCase() in govtsSponsoringSafeAi }
                 .getNonHostileOnlyIfPossible()
                 .take(5)
                 .random()
@@ -157,10 +159,7 @@ object RileyQuest : QuestFacilitator {
         }
 
         game.intelManager.findFirst(RileyIntel::class.java)
-            ?.apply {
-                endAfterDelay()
-                sendUpdateIfPlayerHasIntel(null, false)
-            }
+            ?.endAndNotifyPlayer()
     }
 
     enum class Stage {

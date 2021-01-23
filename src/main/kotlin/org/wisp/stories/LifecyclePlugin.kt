@@ -9,6 +9,7 @@ import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
 import org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
 import org.wisp.stories.dangerousGames.pt2_depths.*
+import org.wisp.stories.nirvana.*
 import org.wisp.stories.riley.*
 import wisp.questgiver.wispLib.QuestGiver
 import wisp.questgiver.wispLib.firstName
@@ -27,8 +28,7 @@ class LifecyclePlugin : BaseModPlugin() {
         game = SpaceTalesServiceLocator()
         QuestGiver.onGameLoad()
 
-        game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
-        game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
+        game.text.globalReplacementGetters["playerName"] = { game.sector.playerPerson.firstName }
         game.text.globalReplacementGetters["playerPronoun"] = {
             when (game.sector.playerPerson.gender) {
                 FullName.Gender.MALE -> game.text["playerPronounHim"]
@@ -36,8 +36,9 @@ class LifecyclePlugin : BaseModPlugin() {
                 else -> game.text["playerPronounThey"]
             }
         }
-        listOf(DragonsQuest, DepthsQuest, RileyQuest)
-            .forEach { it.updateTextReplacements() }
+
+        listOf(DragonsQuest, DepthsQuest, RileyQuest, NirvanaQuest)
+            .forEach { it.updateTextReplacements(game.text) }
 
         applyBlacklistTagsToSystems()
 
@@ -59,6 +60,12 @@ class LifecyclePlugin : BaseModPlugin() {
             && !barEventManager.hasEventCreator(Riley_Stage1_BarEventCreator::class.java)
         ) {
             barEventManager.addEventCreator(Riley_Stage1_BarEventCreator())
+        }
+
+        if (NirvanaQuest.stage == NirvanaQuest.Stage.NotStarted
+            && !barEventManager.hasEventCreator(Nirvana_Stage1_BarEventCreator::class.java)
+        ) {
+            barEventManager.addEventCreator(Nirvana_Stage1_BarEventCreator())
         }
 
         // Register this so we can intercept and replace interactions
@@ -106,7 +113,11 @@ class LifecyclePlugin : BaseModPlugin() {
             Riley_Stage2_TriggerDialogScript::class to "Riley_Stage2_Dialog",
             EnteredDestinationSystemListener::class to "EnteredDestinationSystemListener",
             Riley_Stage3_Dialog::class to "Riley_Stage3_Dialog",
-            Riley_Stage4_Dialog::class to "Riley_Stage4_Dialog"
+            Riley_Stage4_Dialog::class to "Riley_Stage4_Dialog",
+            Nirvana_Stage1_BarEvent::class to "Nirvana_Stage1_BarEvent",
+            Nirvana_Stage1_BarEventCreator::class to "Nirvana_Stage1_BarEventCreator",
+            NirvanaIntel::class to "NirvanaIntel",
+            Nirvana_Stage2_Dialog::class to "Nirvana_Stage2_Dialog"
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized

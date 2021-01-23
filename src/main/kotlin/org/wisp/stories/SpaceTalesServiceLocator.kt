@@ -22,6 +22,7 @@ class SpaceTalesServiceLocator : ServiceLocator() {
                 ResourceBundle.getBundle("Stories_DangerousGames"),
                 ResourceBundle.getBundle("Stories_Psychic"),
                 ResourceBundle.getBundle("Stories_Riley"),
+                ResourceBundle.getBundle("Stories_Nirvana"),
                 ResourceBundle.getBundle("Stories_Shared")
             )
         )

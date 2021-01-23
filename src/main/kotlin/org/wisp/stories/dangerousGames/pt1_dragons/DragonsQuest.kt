@@ -1,5 +1,6 @@
 package org.wisp.stories.dangerousGames.pt1_dragons
 
+import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
@@ -48,14 +49,14 @@ object DragonsQuest : QuestFacilitator {
      */
     fun init(playersCurrentStarSystem: StarSystemAPI?) {
         findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem)
-        updateTextReplacements()
+        updateTextReplacements(game.text)
     }
 
-    override fun updateTextReplacements() {
-        game.text.globalReplacementGetters["dragonPlanet"] = { dragonPlanet?.name }
-        game.text.globalReplacementGetters["dragonSystem"] = { dragonPlanet?.starSystem?.baseName }
-        game.text.globalReplacementGetters["startPlanet"] = { startingPlanet?.name }
-        game.text.globalReplacementGetters["startSystem"] = { startingPlanet?.starSystem?.baseName }
+    override fun updateTextReplacements(text: Text) {
+        text.globalReplacementGetters["dragonPlanet"] = { dragonPlanet?.name }
+        text.globalReplacementGetters["dragonSystem"] = { dragonPlanet?.starSystem?.baseName }
+        text.globalReplacementGetters["startPlanet"] = { startingPlanet?.name }
+        text.globalReplacementGetters["startSystem"] = { startingPlanet?.starSystem?.baseName }
     }
 
     private fun findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem: StarSystemAPI?) {
@@ -106,10 +107,7 @@ object DragonsQuest : QuestFacilitator {
     fun failQuestByLeavingToGetEatenByDragons() {
         stage = Stage.FailedByAbandoning
         game.intelManager.findFirst(DragonsQuest_Intel::class.java)
-            ?.apply {
-                endAfterDelay()
-                sendUpdateIfPlayerHasIntel(null, false)
-            }
+            ?.endAndNotifyPlayer()
 
     }
 

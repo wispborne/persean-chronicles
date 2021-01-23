@@ -77,9 +77,9 @@ Her father is in a comfortable-looking medical cradle. Wires flow from it to the
 
 "Ri," he says, face lighting up. "My love. You cannot know how happy it makes me to see you. And you have company, I see. My name's Church."
 
-- "${playerFirstName}. I've heard so much; it's a pleasure to meet you. Riley chartered a flight with me."
-- "I'm ${playerFirstName}. Riley and I have gotten to know each other on the long flight here. You've raised an incredible woman." [move closer to Riley]
-  - "${playerFirstName} was the only captain willing to fly to ${rileyDestSystem}. I wouldn't have made it here without ${playerPronoun}," she says.
+- "${playerName}. I've heard so much; it's a pleasure to meet you. Riley chartered a flight with me."
+- "I'm ${playerName}. Riley and I have gotten to know each other on the long flight here. You've raised an incredible woman." [move closer to Riley]
+  - "${playerName} was the only captain willing to fly to ${rileyDestSystem}. I wouldn't have made it here without ${playerPronoun}," she says.
   
 He smiles at you, acknowledging your part in their reunion with an appreciative nod.
 

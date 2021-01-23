@@ -51,10 +51,7 @@ class Dragons_Stage1_BarEvent : BarEventDefinition<Dragons_Stage1_BarEvent>(
             options = listOf(
                 Option(
                     text = {
-                        game.text.getf(
-                            "dg_dr_stg1_pg2_opt1",
-                            mapOf("playerLastName" to game.sector.playerPerson.lastName)
-                        )
+                        game.text["dg_dr_stg1_pg2_opt1"]
                     },
                     onOptionSelected = {
                         it.goToPage(3)
@@ -71,10 +68,7 @@ class Dragons_Stage1_BarEvent : BarEventDefinition<Dragons_Stage1_BarEvent>(
             id = 3,
             onPageShown = {
                 para {
-                    game.text.getf(
-                        "dg_dr_stg1_pg3_onShown",
-                        mapOf("playerLastName" to game.sector.playerPerson.lastName)
-                    )
+                    game.text["dg_dr_stg1_pg3_onShown"]
                 }
             },
             options = listOf(

@@ -3,6 +3,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 /////////////////
 // ATTN: CHANGE ME
 val starsectorDirectory = "C:/Program Files (x86)/Fractal Softworks/Starsector"
+/////////////////
+val perseanChroniclesVersion = "0.10.0"
+val questgiverVersion = "1.1.0"
 val jarFileName = "PerseanChronicles.jar"
 /////////////////
 
@@ -14,7 +17,6 @@ plugins {
     java
 }
 
-val perseanChroniclesVersion = "0.9.1"
 version = perseanChroniclesVersion
 
 repositories {
@@ -23,14 +25,12 @@ repositories {
 }
 
 dependencies {
-    val kotlinVersionInLazyLib = "1.3.61" // 1.4.21 in the future
+    val kotlinVersionInLazyLib = "1.4.21"
 
     // Questgiver lib
-    implementation(fileTree("libs").matching {
-        val questgiverVersion = "1.1.0"
-        include("Questgiver-$questgiverVersion.jar")
-        include("Questgiver-$questgiverVersion-sources.jar")
-        include("Questgiver-$questgiverVersion-javadoc.jar")
+    implementation(fileTree("libs")
+    {
+        include("Questgiver-$questgiverVersion*")
     })
 
     // Get kotlin sdk from LazyLib during runtime, only use it here during compile time
@@ -42,8 +42,15 @@ dependencies {
     compileOnly(fileTree("$starsectorModDirectory/Console Commands/jars") { include("*.jar") })
 
     // Starsector jars and dependencies
-    compileOnly(fileTree(starsectorCoreDirectory) {
-        include("*.jar")
+    implementation(fileTree(starsectorCoreDirectory) {
+        include(
+            "starfarer.api.jar",
+            "starfarer.api-sources.jar",
+            "json.jar",
+            "xstream-1.4.10.jar",
+            "log4j-1.2.9.jar",
+            "lwjgl.jar"
+        )
 //        exclude("*_obf.jar")
     })
 }
@@ -52,7 +59,10 @@ tasks {
     named<Jar>("jar")
     {
         // Include all runtime files in the jar so mod is standalone
-        from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+//        from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+//        from(configurations.runtimeClasspath.get()
+//            .filter { it.path.contains("Questgiver") }
+//            .map { if (it.isDirectory) it else zipTree(it) })
         destinationDirectory.set(file("$rootDir/jars"))
         archiveFileName.set(jarFileName)
 //        with(tasks.jar.get() as CopySpec)
@@ -88,7 +98,7 @@ tasks {
         val author = "Wispborne"
         val description = "Adds a small collection of quests to bars around the Persean Sector."
         val gameVersion = "0.9.1a"
-        val jars = arrayOf("jars/PerseanChronicles.jar")
+        val jars = arrayOf("jars/PerseanChronicles.jar", "libs/Questgiver-$questgiverVersion.jar")
         val modPlugin = "org.wisp.stories.LifecyclePlugin"
         val isUtilityMod = false
         val masterVersionFile = "https://raw.githubusercontent.com/davidwhitman/stories/master/$modId.version"
