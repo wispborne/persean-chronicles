@@ -43,6 +43,7 @@ object DragonsQuest : QuestFacilitator {
         stage == Stage.NotStarted
                 && marketAPI.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
                 && marketAPI.starSystem in Utilities.getSystemsForQuestTarget() // Valid system, not blacklisted
+                && marketAPI.size > 3
 
     /**
      * Find a planet with life somewhere near the center, excluding player's current location.

@@ -12,10 +12,12 @@ import org.wisp.stories.dangerousGames.Utilities
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.wispLib.*
+import kotlin.math.roundToInt
 
 object NirvanaQuest : QuestFacilitator {
 
-    const val REWARD_CREDITS = 100000F
+    val REWARD_CREDITS: Float
+        get() = (3500 * (destPlanet?.let { startLocation?.distanceFrom(it) } ?: 0F).roundToInt()).toFloat()
     const val CARGO_TYPE = Commodities.HEAVY_MACHINERY
     const val CARGO_WEIGHT = 5
 
@@ -58,6 +60,8 @@ object NirvanaQuest : QuestFacilitator {
      */
     fun shouldMarketOfferQuest(market: MarketAPI): Boolean =
         market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT)
+                && market.starSystem in Utilities.getSystemsForQuestTarget() // Valid system, not blacklisted
+                && market.size > 3
 
     fun init() {
         fun isValidPlanet(planet: PlanetAPI): Boolean =

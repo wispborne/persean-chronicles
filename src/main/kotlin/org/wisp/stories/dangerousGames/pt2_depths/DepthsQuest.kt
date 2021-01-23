@@ -58,6 +58,7 @@ object DepthsQuest : QuestFacilitator {
         (DragonsQuest.stage == DragonsQuest.Stage.Done || DragonsQuest.stage == DragonsQuest.Stage.FailedByAbandoning)
                 && stage == Stage.NotStarted
                 && marketAPI.starSystem in Utilities.getSystemsForQuestTarget() // Valid system, not blacklisted
+                && marketAPI.size > 4
 
     object Stage2 {
         var riddle1Choice: Depths_Stage2_RiddleDialog.RiddleChoice.Riddle1Choice?

@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // ATTN: CHANGE ME
 val starsectorDirectory = "C:/Program Files (x86)/Fractal Softworks/Starsector"
 /////////////////
-val perseanChroniclesVersion = "0.10.1"
+val perseanChroniclesVersion = "0.11.0"
 val questgiverVersion = "1.1.0"
 val jarFileName = "PerseanChronicles.jar"
 /////////////////
