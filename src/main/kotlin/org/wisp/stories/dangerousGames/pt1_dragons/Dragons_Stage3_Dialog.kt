@@ -11,7 +11,7 @@ class Dragons_Stage3_Dialog : InteractionDefinition<Dragons_Stage3_Dialog>(
         Page(
             id = 1,
             onPageShown = {
-                addPara { game.text["dg_dr_stg3_pg1_para1"] }
+                para { game.text["dg_dr_stg3_pg1_para1"] }
             },
             options = listOf(
                 Option(
@@ -23,12 +23,9 @@ class Dragons_Stage3_Dialog : InteractionDefinition<Dragons_Stage3_Dialog>(
         Page(
             id = 2,
             onPageShown = {
-                addPara { game.text["dg_dr_stg3_pg2_para1"] }
-                addPara {
-                    game.text.getf(
-                        "dg_dr_stg3_pg2_para2",
-                        mapOf("playerName" to game.sector.playerPerson.lastName)
-                    )
+                para { game.text["dg_dr_stg3_pg2_para1"] }
+                para {
+                    game.text["dg_dr_stg3_pg2_para2"]
                 }
             },
             options = listOf(
@@ -39,14 +36,14 @@ class Dragons_Stage3_Dialog : InteractionDefinition<Dragons_Stage3_Dialog>(
                 Option(
                     text = { game.text["dg_dr_stg3_pg2_opt2"] },
                     onOptionSelected = {
-                        addPara { game.text["dg_dr_stg3_pg2_opt2_para1"] }
+                        para { game.text["dg_dr_stg3_pg2_opt2_para1"] }
                         it.goToPage(3)
                     }
                 ),
                 Option(
                     text = { game.text["dg_dr_stg3_pg2_opt3"] },
                     onOptionSelected = {
-                        addPara { game.text["dg_dr_stg3_pg2_opt3_para1"] }
+                        para { game.text["dg_dr_stg3_pg2_opt3_para1"] }
                         it.goToPage(3)
                     }
                 )
@@ -55,7 +52,7 @@ class Dragons_Stage3_Dialog : InteractionDefinition<Dragons_Stage3_Dialog>(
         Page(
             id = 3,
             onPageShown = {
-                addPara {
+                para {
                     game.text.getf(
                         "dg_dr_stg3_pg3_para1",
                         mapOf("rewardCredits" to Misc.getDGSCredits(DragonsQuest.rewardCredits.toFloat()))
@@ -70,7 +67,7 @@ class Dragons_Stage3_Dialog : InteractionDefinition<Dragons_Stage3_Dialog>(
                 Option(
                     text = { game.text["dg_dr_stg3_pg3_opt2"] },
                     onOptionSelected = {
-                        addPara { game.text["dg_dr_stg3_pg3_opt2_para1"] }
+                        para { game.text["dg_dr_stg3_pg3_opt2_para1"] }
                         it.goToPage(4)
                     }
                 )
@@ -79,7 +76,7 @@ class Dragons_Stage3_Dialog : InteractionDefinition<Dragons_Stage3_Dialog>(
         Page(
             id = 4,
             onPageShown = {
-                addPara { game.text["dg_dr_stg3_pg4_para1"] }
+                para { game.text["dg_dr_stg3_pg4_para1"] }
             },
             options = listOf(
                 Option(
