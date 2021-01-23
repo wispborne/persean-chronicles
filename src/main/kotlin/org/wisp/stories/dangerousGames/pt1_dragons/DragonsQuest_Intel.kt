@@ -8,9 +8,9 @@ import org.wisp.stories.game
 import wisp.questgiver.IntelDefinition
 import wisp.questgiver.Padding
 import wisp.questgiver.addPara
+import wisp.questgiver.spriteName
 import wisp.questgiver.wispLib.empty
 import wisp.questgiver.wispLib.preferredConnectedEntity
-import wisp.questgiver.wispLib.spriteName
 
 class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     iconPath = { DragonsQuest.icon.spriteName((game)) },

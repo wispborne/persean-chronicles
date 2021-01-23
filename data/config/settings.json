@@ -10,6 +10,10 @@
     },
     "wispStories_riley": {
       "icon": "graphics/riley/riley.png"
+    },
+    "wisp_perseanchronicles_nirvana": {
+      "davidRengel": "graphics/portraits/portrait30.png",
+      "background": "graphics/nirvana/nirvanaStar.png"
     }
   }
 }

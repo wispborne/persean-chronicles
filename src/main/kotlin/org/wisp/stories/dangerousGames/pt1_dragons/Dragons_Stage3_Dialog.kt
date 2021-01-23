@@ -27,7 +27,7 @@ class Dragons_Stage3_Dialog : InteractionDefinition<Dragons_Stage3_Dialog>(
                 addPara {
                     game.text.getf(
                         "dg_dr_stg3_pg2_para2",
-                        mapOf("playerLastName" to game.sector.playerPerson.lastName)
+                        mapOf("playerName" to game.sector.playerPerson.lastName)
                     )
                 }
             },

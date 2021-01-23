@@ -9,7 +9,7 @@ import wisp.questgiver.Padding
 import wisp.questgiver.addPara
 import wisp.questgiver.wispLib.empty
 import wisp.questgiver.wispLib.preferredConnectedEntity
-import wisp.questgiver.wispLib.spriteName
+import wisp.questgiver.spriteName
 
 class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     title = {
