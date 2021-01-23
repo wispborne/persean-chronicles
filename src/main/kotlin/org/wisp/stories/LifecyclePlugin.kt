@@ -28,7 +28,8 @@ class LifecyclePlugin : BaseModPlugin() {
         game = SpaceTalesServiceLocator()
         QuestGiver.onGameLoad()
 
-        game.text.globalReplacementGetters["playerName"] = { game.sector.playerPerson.firstName }
+        game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
+        game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
         game.text.globalReplacementGetters["playerPronoun"] = {
             when (game.sector.playerPerson.gender) {
                 FullName.Gender.MALE -> game.text["playerPronounHim"]

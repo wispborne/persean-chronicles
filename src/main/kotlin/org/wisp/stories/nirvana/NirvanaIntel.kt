@@ -30,7 +30,6 @@ class NirvanaIntel(startLocation: SectorEntityToken, endLocation: SectorEntityTo
         info.addImage(
             NirvanaQuest.background.spriteName(game),
             width,
-            200f,
             0f
         )
         val textColor = colorForStage(
@@ -52,7 +51,8 @@ class NirvanaIntel(startLocation: SectorEntityToken, endLocation: SectorEntityTo
 
         if (NirvanaQuest.stage == NirvanaQuest.Stage.Completed) {
             info.addPara(
-                padding = Padding.DESCRIPTION_PANEL
+                padding = Padding.DESCRIPTION_PANEL,
+                textColor = Misc.getGrayColor()
             ) {
                 game.text["nirv_intel_description_completed_para1"]
             }

@@ -74,6 +74,7 @@ class Nirvana_Stage1_BarEvent : BarEventDefinition<Nirvana_Stage1_BarEvent>(
                 ),
                 Option(
                     // decline
+                    showIf = { game.sector.playerFleet.cargo.spaceLeft >= NirvanaQuest.CARGO_WEIGHT },
                     text = { game.text["nirv_stg1_pg2_opt3"] },
                     onOptionSelected = {
                         navigator.close(doNotOfferAgain = false)
