@@ -7,33 +7,24 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
-import org.wisp.stories.QuestFacilitator
 import org.wisp.stories.dangerousGames.Utilities
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.QuestFacilitator
 import wisp.questgiver.wispLib.*
 import kotlin.math.roundToInt
 
-object NirvanaQuest : QuestFacilitator {
+object NirvanaQuest : QuestFacilitator() {
 
     val REWARD_CREDITS: Float
         get() = (3500 * (destPlanet?.let { startLocation?.distanceFrom(it) } ?: 0F).roundToInt()).toFloat()
     const val CARGO_TYPE = Commodities.HEAVY_MACHINERY
     const val CARGO_WEIGHT = 5
 
-    val icon: InteractionDefinition.Image by lazy {
-        InteractionDefinition.Image(
-            category = "wisp_perseanchronicles_nirvana",
-            id = "davidRengel",
-            width = 128f,
-            height = 128f,
-            displayHeight = 128f,
-            displayWidth = 128f
-        )
-    }
-    val background: InteractionDefinition.Image by lazy {
-        InteractionDefinition.Image("wisp_perseanchronicles_nirvana", "background")
-    }
+    val icon = InteractionDefinition.Portrait(category = "wisp_perseanchronicles_nirvana", id = "davidRengel")
+    val background = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_nirvana", id = "background")
 
     var startLocation: SectorEntityToken? by PersistentNullableData("nirvanaStartLocation")
         private set
@@ -46,6 +37,9 @@ object NirvanaQuest : QuestFacilitator {
 
     val destSystem: StarSystemAPI?
         get() = destPlanet?.starSystem
+
+    override fun getBarEventCreator() = Nirvana_Stage1_BarEventCreator()
+    override fun hasBeenStarted() = stage == Stage.NotStarted
 
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["nirvanaCredits"] = { Misc.getDGSCredits(REWARD_CREDITS) }

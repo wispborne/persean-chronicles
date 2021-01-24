@@ -1,14 +1,14 @@
 package org.wisp.stories.dangerousGames.pt1_dragons
 
-import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
-import org.wisp.stories.QuestFacilitator
+import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import org.wisp.stories.dangerousGames.Utilities
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.QuestFacilitator
 import wisp.questgiver.wispLib.*
 
 /**
@@ -16,7 +16,7 @@ import wisp.questgiver.wispLib.*
  * Part 1 - Bring passengers to planet.
  * Part 2 - Return them back home
  */
-object DragonsQuest : QuestFacilitator {
+object DragonsQuest : QuestFacilitator() {
     private val DRAGON_PLANET_TYPES = listOf(
         "terran",
         "terran-eccentric",
@@ -24,9 +24,10 @@ object DragonsQuest : QuestFacilitator {
         "US_jungle" // Unknown Skies
     )
 
-    val icon by lazy { InteractionDefinition.Image("wispStories_dragonriders", "icon") }
-    val intelDetailHeaderImage by lazy { InteractionDefinition.Image("wispStories_dragonriders", "intelPicture") }
-    val dragonPlanetImage by lazy { InteractionDefinition.Image("wispStories_dragonriders", "planetIllustration") }
+    val icon = InteractionDefinition.Portrait("wispStories_dragonriders", "icon")
+    val intelDetailHeaderImage = InteractionDefinition.Illustration("wispStories_dragonriders", "intelPicture")
+    val dragonPlanetImage = InteractionDefinition.Illustration("wispStories_dragonriders", "planetIllustration")
+
     const val rewardCredits: Int = 95000
     const val minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet = 5
 
@@ -50,8 +51,10 @@ object DragonsQuest : QuestFacilitator {
      */
     fun init(playersCurrentStarSystem: StarSystemAPI?) {
         findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem)
-        updateTextReplacements(game.text)
     }
+
+    override fun getBarEventCreator() = DragonsPart1_BarEventCreator()
+    override fun hasBeenStarted() = stage == Stage.NotStarted
 
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["dragonPlanet"] = { dragonPlanet?.name }

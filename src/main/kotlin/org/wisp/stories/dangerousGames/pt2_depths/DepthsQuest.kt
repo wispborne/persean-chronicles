@@ -12,17 +12,18 @@ import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
-import org.wisp.stories.QuestFacilitator
 import org.wisp.stories.dangerousGames.Utilities
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.QuestFacilitator
 import wisp.questgiver.wispLib.*
 
 /**
  * Bring some passengers to find treasure on an ocean floor. Solve riddles to keep them alive.
  */
-object DepthsQuest : QuestFacilitator {
+object DepthsQuest : QuestFacilitator() {
     private val DEPTHS_PLANET_TYPES = listOf(
         "terran",
         "terran-eccentric",
@@ -32,16 +33,8 @@ object DepthsQuest : QuestFacilitator {
         "US_continent" // Unknown Skies
     )
 
-    val icon by lazy {
-        InteractionDefinition.Image(
-            category = "wispStories_depths",
-            id = "icon",
-            width = 128f,
-            height = 128f,
-            displayHeight = 128f,
-            displayWidth = 128f
-        )
-    }
+    val icon = InteractionDefinition.Portrait(category = "wispStories_depths", id = "icon")
+
     const val rewardCredits: Int = 100000 // TODO
     const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5
 
@@ -84,9 +77,12 @@ object DepthsQuest : QuestFacilitator {
                     && riddle3Choice?.wasSuccessful() == false
     }
 
+
+    override fun getBarEventCreator() = Depths_Stage1_BarEventCreator()
+    override fun hasBeenStarted() = stage == Stage.NotStarted
+
     fun init(playersCurrentStarSystem: StarSystemAPI?) {
         findAndTagDepthsPlanetIfNeeded(playersCurrentStarSystem)
-        updateTextReplacements(game.text)
     }
 
     override fun updateTextReplacements(text: Text) {

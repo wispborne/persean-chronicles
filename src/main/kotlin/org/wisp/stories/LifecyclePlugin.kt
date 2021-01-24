@@ -11,10 +11,7 @@ import org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
 import org.wisp.stories.dangerousGames.pt2_depths.*
 import org.wisp.stories.nirvana.*
 import org.wisp.stories.riley.*
-import wisp.questgiver.wispLib.QuestGiver
-import wisp.questgiver.wispLib.firstName
-import wisp.questgiver.wispLib.i
-import wisp.questgiver.wispLib.lastName
+import wisp.questgiver.wispLib.*
 
 class LifecyclePlugin : BaseModPlugin() {
     override fun onApplicationLoad() {
@@ -26,7 +23,6 @@ class LifecyclePlugin : BaseModPlugin() {
         super.onGameLoad(newGame)
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator()
-        QuestGiver.onGameLoad()
 
         game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
         game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
@@ -38,36 +34,17 @@ class LifecyclePlugin : BaseModPlugin() {
             }
         }
 
-        listOf(DragonsQuest, DepthsQuest, RileyQuest, NirvanaQuest)
-            .forEach { it.updateTextReplacements(game.text) }
+        QuestGiver.onGameLoad(
+            questFacilitators = listOf(
+                DragonsQuest,
+                DepthsQuest,
+                RileyQuest,
+                NirvanaQuest
+            ),
+            text = game.text
+        )
 
         applyBlacklistTagsToSystems()
-
-        val barEventManager = BarEventManager.getInstance()
-
-        if (DragonsQuest.stage == DragonsQuest.Stage.NotStarted
-            && !barEventManager.hasEventCreator(DragonsPart1_BarEventCreator::class.java)
-        ) {
-            barEventManager.addEventCreator(DragonsPart1_BarEventCreator())
-        }
-
-        if (DepthsQuest.stage == DepthsQuest.Stage.NotStarted
-            && !barEventManager.hasEventCreator(Depths_Stage1_BarEventCreator::class.java)
-        ) {
-            barEventManager.addEventCreator(Depths_Stage1_BarEventCreator())
-        }
-
-        if (RileyQuest.stage == RileyQuest.Stage.NotStarted
-            && !barEventManager.hasEventCreator(Riley_Stage1_BarEventCreator::class.java)
-        ) {
-            barEventManager.addEventCreator(Riley_Stage1_BarEventCreator())
-        }
-
-        if (NirvanaQuest.stage == NirvanaQuest.Stage.NotStarted
-            && !barEventManager.hasEventCreator(Nirvana_Stage1_BarEventCreator::class.java)
-        ) {
-            barEventManager.addEventCreator(Nirvana_Stage1_BarEventCreator())
-        }
 
         // Register this so we can intercept and replace interactions
         game.sector.registerPlugin(CampaignPlugin())

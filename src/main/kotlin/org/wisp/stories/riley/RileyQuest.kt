@@ -6,30 +6,23 @@ import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
-import org.wisp.stories.QuestFacilitator
 import org.wisp.stories.dangerousGames.Utilities
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.QuestFacilitator
 import wisp.questgiver.wispLib.*
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
-object RileyQuest : QuestFacilitator {
+object RileyQuest : QuestFacilitator() {
     const val REWARD_CREDITS = 80000
     const val BOUNTY_CREDITS = 20000
     const val TIME_LIMIT_DAYS = 30
     const val DAYS_UNTIL_DIALOG = 3
     val govtsSponsoringSafeAi = listOf(Factions.HEGEMONY, "vic")
-    val icon by lazy {
-        InteractionDefinition.Image(
-            category = "wispStories_riley",
-            id = "icon",
-            width = 128f,
-            height = 128f,
-            displayHeight = 128f,
-            displayWidth = 128f
-        )
-    }
+    val icon = InteractionDefinition.Portrait(category = "wispStories_riley", id = "icon")
 
     var startDate: Long? by PersistentNullableData("rileyStartDate")
         private set
@@ -74,6 +67,9 @@ object RileyQuest : QuestFacilitator {
                 && marketAPI.starSystem in Utilities.getSystemsForQuestTarget() // Valid system, not blacklisted
                 && Random.nextInt(100) < 33 // 33% chance
 
+    override fun getBarEventCreator() = Riley_Stage1_BarEventCreator()
+    override fun hasBeenStarted() = stage == Stage.NotStarted
+
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["rileyDestPlanet"] = { destinationPlanet?.name }
         text.globalReplacementGetters["rileyCredits"] = { Misc.getDGSCredits(REWARD_CREDITS.toFloat()) }
@@ -98,7 +94,6 @@ object RileyQuest : QuestFacilitator {
     fun init(startingEntity: SectorEntityToken) {
         startLocation = startingEntity
         findAndTagDestinationPlanetIfNeeded(startingEntity)
-        updateTextReplacements(game.text)
     }
 
     /**
@@ -107,7 +102,6 @@ object RileyQuest : QuestFacilitator {
     fun start(startingEntity: SectorEntityToken) {
         game.logger.i { "Riley start planet set to ${startingEntity.fullName} in ${startingEntity.starSystem.baseName}" }
         startLocation = startingEntity
-        updateTextReplacements(game.text)
         stage = Stage.InitialTraveling
         startDate = game.sector.clock.timestamp
         game.sector.addScript(Riley_Stage2_TriggerDialogScript())

@@ -6,6 +6,6 @@
     "version": "0.11.0",
     "description": "Adds a small collection of quests to bars around the Persean Sector.",
     "gameVersion": "0.9.1a",
-    "jars":["jars/PerseanChronicles.jar", "libs/Questgiver-1.1.0.jar"],
+    "jars":["jars/PerseanChronicles.jar", "libs/Questgiver-2.0.0.jar"],
     "modPlugin":"org.wisp.stories.LifecyclePlugin"
 }
