@@ -74,7 +74,7 @@ object RileyQuest : QuestFacilitator() {
         text.globalReplacementGetters["rileyDestPlanet"] = { destinationPlanet?.name }
         text.globalReplacementGetters["rileyCredits"] = { Misc.getDGSCredits(REWARD_CREDITS.toFloat()) }
         text.globalReplacementGetters["rileyTimeLimitDays"] = { TIME_LIMIT_DAYS }
-        text.globalReplacementGetters["rileyDestSystem"] = { destinationPlanet?.starSystem?.baseName }
+        text.globalReplacementGetters["rileyDestSystem"] = { destinationPlanet?.starSystem?.name }
         text.globalReplacementGetters["rileyDestPlanetDistanceLY"] = {
             if (destinationPlanet == null) String.empty
             else startLocation?.starSystem?.distanceFrom(destinationPlanet!!.starSystem)

@@ -58,9 +58,9 @@ object DragonsQuest : QuestFacilitator() {
 
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["dragonPlanet"] = { dragonPlanet?.name }
-        text.globalReplacementGetters["dragonSystem"] = { dragonPlanet?.starSystem?.baseName }
+        text.globalReplacementGetters["dragonSystem"] = { dragonPlanet?.starSystem?.name }
         text.globalReplacementGetters["startPlanet"] = { startingPlanet?.name }
-        text.globalReplacementGetters["startSystem"] = { startingPlanet?.starSystem?.baseName }
+        text.globalReplacementGetters["startSystem"] = { startingPlanet?.starSystem?.name }
     }
 
     private fun findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem: StarSystemAPI?) {

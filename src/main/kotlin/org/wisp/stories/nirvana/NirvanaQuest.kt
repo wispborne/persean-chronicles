@@ -26,6 +26,9 @@ object NirvanaQuest : QuestFacilitator() {
     val icon = InteractionDefinition.Portrait(category = "wisp_perseanchronicles_nirvana", id = "davidRengel")
     val background = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_nirvana", id = "background")
 
+    var startDate: Long? by PersistentNullableData("nirvanaStartDate")
+        private set
+
     var startLocation: SectorEntityToken? by PersistentNullableData("nirvanaStartLocation")
         private set
 
@@ -44,7 +47,7 @@ object NirvanaQuest : QuestFacilitator() {
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["nirvanaCredits"] = { Misc.getDGSCredits(REWARD_CREDITS) }
         text.globalReplacementGetters["nirvanaDestPlanet"] = { destPlanet?.name }
-        text.globalReplacementGetters["nirvanaDestSystem"] = { destSystem?.baseName }
+        text.globalReplacementGetters["nirvanaDestSystem"] = { destSystem?.name }
         text.globalReplacementGetters["nirvanaCargoTons"] = { CARGO_WEIGHT.toString() }
         text.globalReplacementGetters["nirvanaStarName"] = { destPlanet?.starSystem?.star?.name }
     }
@@ -93,8 +96,9 @@ object NirvanaQuest : QuestFacilitator() {
         game.sector.playerFleet.cargo.addCommodity(CARGO_TYPE, CARGO_WEIGHT.toFloat())
     }
 
-    fun doesPlayerHaveCargo() =
-        game.sector.playerFleet.cargo.getCommodityQuantity(CARGO_TYPE) >= CARGO_WEIGHT
+    fun shouldShowStage2Dialog() =
+        stage == Stage.GoToPlanet
+                && game.sector.playerFleet.cargo.getCommodityQuantity(CARGO_TYPE) >= CARGO_WEIGHT
 
     fun complete() {
         stage = Stage.Completed
@@ -106,9 +110,21 @@ object NirvanaQuest : QuestFacilitator() {
             ?.endAndNotifyPlayer()
     }
 
+    /**
+     * 55 years after quest was completed.
+     */
+    fun shouldShowStage3Dialog() =
+        stage == Stage.Completed
+                && game.sector.clock.convertToMonths(startDate?.toFloat() ?: 0f) > (12 * 55)
+
+    fun completeSecret() {
+        stage = Stage.CompletedSecret
+    }
+
     enum class Stage {
         NotStarted,
         GoToPlanet,
-        Completed
+        Completed,
+        CompletedSecret
     }
 }

@@ -1,9 +1,12 @@
 package org.wisp.stories.psychic
 
-import org.wisp.stories.QuestFacilitator
+import wisp.questgiver.QuestFacilitator
 import wisp.questgiver.wispLib.Text
 
-class PsychicQuest: QuestFacilitator {
+class PsychicQuest : QuestFacilitator() {
+    override fun getBarEventCreator(): Nothing? = null
+
+    override fun hasBeenStarted() = false
 
 
     override fun updateTextReplacements(text: Text) {

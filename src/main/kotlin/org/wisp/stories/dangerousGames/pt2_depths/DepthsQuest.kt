@@ -87,9 +87,9 @@ object DepthsQuest : QuestFacilitator() {
 
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["depthsSourcePlanet"] = { startingPlanet?.name }
-        text.globalReplacementGetters["depthsSourceSystem"] = { startingPlanet?.starSystem?.baseName }
+        text.globalReplacementGetters["depthsSourceSystem"] = { startingPlanet?.starSystem?.name }
         text.globalReplacementGetters["depthsPlanet"] = { depthsPlanet?.name }
-        text.globalReplacementGetters["depthsSystem"] = { depthsPlanet?.starSystem?.baseName }
+        text.globalReplacementGetters["depthsSystem"] = { depthsPlanet?.starSystem?.name }
         text.globalReplacementGetters["depthsCreditReward"] = { Misc.getDGSCredits(rewardCredits.toFloat()) }
     }
 

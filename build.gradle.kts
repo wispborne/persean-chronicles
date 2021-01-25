@@ -46,6 +46,7 @@ dependencies {
         include(
             "starfarer.api.jar",
             "starfarer.api-sources.jar",
+            "starfarer_obf.jar",
             "json.jar",
             "xstream-1.4.10.jar",
             "log4j-1.2.9.jar",
@@ -58,14 +59,8 @@ dependencies {
 tasks {
     named<Jar>("jar")
     {
-        // Include all runtime files in the jar so mod is standalone
-//        from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-//        from(configurations.runtimeClasspath.get()
-//            .filter { it.path.contains("Questgiver") }
-//            .map { if (it.isDirectory) it else zipTree(it) })
         destinationDirectory.set(file("$rootDir/jars"))
         archiveFileName.set(jarFileName)
-//        with(tasks.jar.get() as CopySpec)
     }
 
     register("debug-starsector", Exec::class) {

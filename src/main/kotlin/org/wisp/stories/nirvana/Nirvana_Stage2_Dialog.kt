@@ -1,5 +1,6 @@
 package org.wisp.stories.nirvana
 
+import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
 
@@ -14,6 +15,7 @@ class Nirvana_Stage2_Dialog : InteractionDefinition<Nirvana_Stage2_Dialog>(
             onPageShown = {
                 para { game.text["nirv_stg2_pg1_para1"] }
                 para { game.text["nirv_stg2_pg1_para2"] }
+                AddRemoveCommodity.addCommodityLossText(NirvanaQuest.CARGO_TYPE, NirvanaQuest.CARGO_WEIGHT, dialog.textPanel)
             },
             options = listOf(
                 Option(

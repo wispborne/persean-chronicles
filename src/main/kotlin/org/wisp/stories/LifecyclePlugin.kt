@@ -33,6 +33,7 @@ class LifecyclePlugin : BaseModPlugin() {
                 else -> game.text["playerPronounThey"]
             }
         }
+        game.text.globalReplacementGetters["playerFlagshipName"] = { game.sector.playerFleet.flagship?.shipName }
 
         QuestGiver.onGameLoad(
             questFacilitators = listOf(
@@ -95,7 +96,8 @@ class LifecyclePlugin : BaseModPlugin() {
             Nirvana_Stage1_BarEvent::class to "Nirvana_Stage1_BarEvent",
             Nirvana_Stage1_BarEventCreator::class to "Nirvana_Stage1_BarEventCreator",
             NirvanaIntel::class to "NirvanaIntel",
-            Nirvana_Stage2_Dialog::class to "Nirvana_Stage2_Dialog"
+            Nirvana_Stage2_Dialog::class to "Nirvana_Stage2_Dialog",
+            Nirvana_Stage3_Dialog::class to "Nirvana_Stage3_Dialog"
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized

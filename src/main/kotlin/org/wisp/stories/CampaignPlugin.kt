@@ -9,6 +9,7 @@ import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest
 import org.wisp.stories.nirvana.NirvanaQuest
 import org.wisp.stories.nirvana.Nirvana_Stage2_Dialog
+import org.wisp.stories.nirvana.Nirvana_Stage3_Dialog
 import org.wisp.stories.riley.RileyQuest
 import wisp.questgiver.wispLib.QuestGiver
 import wisp.questgiver.wispLib.equalsAny
@@ -82,10 +83,18 @@ class CampaignPlugin : BaseCampaignPlugin() {
 
             // Finish Nirvana quest by landing at pulsar planet
             interactionTarget.id == NirvanaQuest.destPlanet?.id
-                    && NirvanaQuest.stage == NirvanaQuest.Stage.GoToPlanet
-                    && NirvanaQuest.doesPlayerHaveCargo() -> {
+                    && NirvanaQuest.shouldShowStage2Dialog() -> {
                 PluginPick(
                     Nirvana_Stage2_Dialog().build(),
+                    CampaignPlugin.PickPriority.MOD_SPECIFIC
+                )
+            }
+
+            // Shhhhh
+            interactionTarget.id == NirvanaQuest.destPlanet?.id
+                    && NirvanaQuest.shouldShowStage3Dialog() -> {
+                PluginPick(
+                    Nirvana_Stage3_Dialog().build(),
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
             }
