@@ -16,7 +16,7 @@ import wisp.questgiver.wispLib.*
 class LifecyclePlugin : BaseModPlugin() {
     override fun onApplicationLoad() {
         super.onApplicationLoad()
-        QuestGiver.initialize(modPrefix = MOD_PREFIX)
+        Questgiver.initialize(modPrefix = MOD_PREFIX)
     }
 
     override fun onGameLoad(newGame: Boolean) {
@@ -35,7 +35,7 @@ class LifecyclePlugin : BaseModPlugin() {
         }
         game.text.globalReplacementGetters["playerFlagshipName"] = { game.sector.playerFleet.flagship?.shipName }
 
-        QuestGiver.onGameLoad(
+        Questgiver.onGameLoad(
             questFacilitators = listOf(
                 DragonsQuest,
                 DepthsQuest,
