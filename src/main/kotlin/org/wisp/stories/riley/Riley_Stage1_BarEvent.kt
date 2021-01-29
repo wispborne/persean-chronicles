@@ -10,7 +10,7 @@ import wisp.questgiver.wispLib.empty
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class Riley_Stage1_BarEvent : BarEventDefinition<Riley_Stage1_BarEvent>(
-    shouldShowEvent = { market -> RileyQuest.shouldMarketOfferQuest(market) },
+    questFacilitator = RileyQuest,
     interactionPrompt = {
         para { game.text["riley_stg1_prompt"] }
     },

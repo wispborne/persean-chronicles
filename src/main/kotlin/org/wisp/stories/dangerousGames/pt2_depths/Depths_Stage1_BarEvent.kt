@@ -7,7 +7,7 @@ import org.wisp.stories.game
 import wisp.questgiver.BarEventDefinition
 
 class Depths_Stage1_BarEvent : BarEventDefinition<Depths_Stage1_BarEvent>(
-    shouldShowEvent = { DepthsQuest.shouldOfferQuest(it) },
+    questFacilitator = DepthsQuest,
     interactionPrompt = {
         para { game.text["dg_de_stg1_prompt"] }
     },

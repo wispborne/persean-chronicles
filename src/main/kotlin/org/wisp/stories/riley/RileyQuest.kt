@@ -6,9 +6,6 @@ import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
-import org.wisp.stories.dangerousGames.Utilities
-import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
-import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.QuestFacilitator
@@ -16,7 +13,19 @@ import wisp.questgiver.wispLib.*
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
-object RileyQuest : QuestFacilitator() {
+object RileyQuest : QuestFacilitator(
+    managedLifecycle = ManagedLifecycle(
+        stage = PersistentObservableData(key = "rileyStage", defaultValue = { Stage.NotStarted }),
+        autoManagedIntelInfo = IntelInformation(
+            intelCreator = {
+                RileyIntel(
+                    startLocation = RileyQuest.startLocation!!,
+                    endLocation = RileyQuest.destinationPlanet!!
+                )
+            }
+        )
+    )
+) {
     const val REWARD_CREDITS = 80000
     const val BOUNTY_CREDITS = 20000
     const val TIME_LIMIT_DAYS = 30
@@ -33,8 +42,8 @@ object RileyQuest : QuestFacilitator() {
     var destinationPlanet: SectorEntityToken? by PersistentNullableData("rileyDestinationPlanet")
         private set
 
-    var stage: Stage by PersistentData(key = "rileyStage", defaultValue = { Stage.NotStarted })
-        private set
+//    var stage: Stage by PersistentData(key = "rileyStage", defaultValue = { Stage.NotStarted })
+//        private set
 
     val isFatherWorkingWithGovt: Boolean
         get() = destinationPlanet?.faction?.id?.toLowerCase() in govtsSponsoringSafeAi
@@ -62,13 +71,18 @@ object RileyQuest : QuestFacilitator() {
 
     fun shouldMarketOfferQuest(marketAPI: MarketAPI): Boolean =
         stage == Stage.NotStarted
-                && marketAPI.size > 5 // Lives on a populous world
-                && marketAPI.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
-                && marketAPI.starSystem in Utilities.getSystemsForQuestTarget() // Valid system, not blacklisted
-                && Random.nextInt(100) < 33 // 33% chance
 
-    override fun getBarEventCreator() = Riley_Stage1_BarEventCreator()
+    override fun getBarEventInformation() = BarEventInformation(
+        barEventCreator = Riley_Stage1_BarEventCreator(),
+        shouldOfferFromMarket = { market ->
+            market.size > 5 // Lives on a populous world
+                    && market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
+                    && Random.nextInt(100) < 33 // 33% chance
+        }
+    )
+
     override fun hasBeenStarted() = stage == Stage.NotStarted
+    override fun isComplete() = stage >= Stage.Completed
 
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["rileyDestPlanet"] = { destinationPlanet?.name }
@@ -105,7 +119,7 @@ object RileyQuest : QuestFacilitator() {
         stage = Stage.InitialTraveling
         startDate = game.sector.clock.timestamp
         game.sector.addScript(Riley_Stage2_TriggerDialogScript())
-        game.sector.intelManager.addIntel(RileyIntel(startingEntity, destinationPlanet!!))
+        game.intelManager.addIntel(RileyIntel(startingEntity, destinationPlanet!!))
         game.sector.addListener(EnteredDestinationSystemListener())
     }
 
@@ -114,7 +128,7 @@ object RileyQuest : QuestFacilitator() {
      */
     private fun findAndTagDestinationPlanetIfNeeded(startEntity: SectorEntityToken) {
         if (destinationPlanet == null) {
-            val planets = Utilities.getSystemsForQuestTarget()
+            val planets = game.sector.starSystemsNotOnBlacklist
                 .sortedByDescending { it.distanceFrom(startEntity.starSystem) }
                 .flatMap<StarSystemAPI, PlanetAPI> { it.planets }
 
@@ -156,11 +170,11 @@ object RileyQuest : QuestFacilitator() {
             ?.endAndNotifyPlayer()
     }
 
-    enum class Stage {
-        NotStarted,
-        InitialTraveling,
-        TravellingToSystem,
-        LandingOnPlanet,
-        Completed
+    abstract class Stage(isQuestComplete: Boolean) : QuestFacilitator.Stage(isQuestComplete) {
+        object NotStarted : QuestFacilitator.Stage.NotStarted()
+        object InitialTraveling : Stage(isQuestComplete = false)
+        object TravellingToSystem : Stage(isQuestComplete = false)
+        object LandingOnPlanet : Stage(isQuestComplete = false)
+        object Completed : Complete()
     }
 }

@@ -3,13 +3,9 @@ package org.wisp.stories.nirvana
 import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
-import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
-import org.wisp.stories.dangerousGames.Utilities
-import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
-import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.QuestFacilitator
@@ -41,8 +37,17 @@ object NirvanaQuest : QuestFacilitator() {
     val destSystem: StarSystemAPI?
         get() = destPlanet?.starSystem
 
-    override fun getBarEventCreator() = Nirvana_Stage1_BarEventCreator()
+    override fun getBarEventInformation() =
+        BarEventInformation(
+            barEventCreator = Nirvana_Stage1_BarEventCreator(),
+            shouldOfferFromMarket = { market ->
+                market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT)
+                        && market.size > 3
+            }
+        )
+
     override fun hasBeenStarted() = stage == Stage.NotStarted
+    override fun isComplete(): Boolean = stage >= Stage.Completed
 
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["nirvanaCredits"] = { Misc.getDGSCredits(REWARD_CREDITS) }
@@ -52,14 +57,6 @@ object NirvanaQuest : QuestFacilitator() {
         text.globalReplacementGetters["nirvanaStarName"] = { destPlanet?.starSystem?.star?.name }
     }
 
-    /**
-     * Only from Independent worlds.
-     */
-    fun shouldMarketOfferQuest(market: MarketAPI): Boolean =
-        market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT)
-                && market.starSystem in Utilities.getSystemsForQuestTarget() // Valid system, not blacklisted
-                && market.size > 3
-
     fun init() {
         fun isValidPlanet(planet: PlanetAPI): Boolean =
             (planet.faction?.isHostileTo(game.sector.playerFaction) != true)
@@ -67,7 +64,7 @@ object NirvanaQuest : QuestFacilitator() {
                     && !planet.isGasGiant
                     && !planet.isStar
 
-        val system = Utilities.getSystemsForQuestTarget()
+        val system = game.sector.starSystemsNotOnBlacklist
             .filter { sys -> sys.star.spec.isPulsar && sys.planets.any { isValidPlanet(it) } }
             .prefer { it.distanceFromPlayerInHyperspace >= 18 } // 18+ LY away
             .random()

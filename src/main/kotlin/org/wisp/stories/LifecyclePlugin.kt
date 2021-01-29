@@ -33,6 +33,13 @@ class LifecyclePlugin : BaseModPlugin() {
                 else -> game.text["playerPronounThey"]
             }
         }
+        game.text.globalReplacementGetters["playerPronounHeShe"] = {
+            when (game.sector.playerPerson.gender) {
+                FullName.Gender.MALE -> game.text["playerPronounHe"]
+                FullName.Gender.FEMALE -> game.text["playerPronounShe"]
+                else -> game.text["playerPronounThey"]
+            }
+        }
         game.text.globalReplacementGetters["playerFlagshipName"] = { game.sector.playerFleet.flagship?.shipName }
 
         Questgiver.onGameLoad(
@@ -42,7 +49,8 @@ class LifecyclePlugin : BaseModPlugin() {
                 RileyQuest,
                 NirvanaQuest
             ),
-            text = game.text
+            text = game.text,
+            blacklistedEntityTags = Tags.systemTagsToAvoidRandomlyChoosing
         )
 
         applyBlacklistTagsToSystems()

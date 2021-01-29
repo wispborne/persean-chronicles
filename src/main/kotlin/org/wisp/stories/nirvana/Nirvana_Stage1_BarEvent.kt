@@ -12,7 +12,7 @@ import wisp.questgiver.spriteName
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class Nirvana_Stage1_BarEvent : BarEventDefinition<Nirvana_Stage1_BarEvent>(
-    shouldShowEvent = { market -> NirvanaQuest.shouldMarketOfferQuest(market) },
+    questFacilitator = NirvanaQuest,
     interactionPrompt = {
         para { game.text["nirv_stg1_prompt"] }
     },

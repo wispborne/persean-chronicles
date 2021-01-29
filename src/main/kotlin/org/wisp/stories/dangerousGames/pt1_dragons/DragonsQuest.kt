@@ -2,10 +2,7 @@ package org.wisp.stories.dangerousGames.pt1_dragons
 
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
-import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
-import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
-import org.wisp.stories.dangerousGames.Utilities
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.QuestFacilitator
@@ -40,12 +37,6 @@ object DragonsQuest : QuestFacilitator() {
     var startingPlanet: SectorEntityToken? by PersistentNullableData("dragonStartingPlanet")
         private set
 
-    fun shouldOfferQuest(marketAPI: MarketAPI): Boolean =
-        stage == Stage.NotStarted
-                && marketAPI.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
-                && marketAPI.starSystem in Utilities.getSystemsForQuestTarget() // Valid system, not blacklisted
-                && marketAPI.size > 3
-
     /**
      * Find a planet with life somewhere near the center, excluding player's current location.
      */
@@ -53,7 +44,15 @@ object DragonsQuest : QuestFacilitator() {
         findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem)
     }
 
-    override fun getBarEventCreator() = DragonsPart1_BarEventCreator()
+    override fun getBarEventInformation() = BarEventInformation(
+        barEventCreator = DragonsPart1_BarEventCreator(),
+        shouldOfferFromMarket = { market ->
+            market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
+                    && market.size > 3
+        }
+    )
+
+    override fun isComplete() = stage >= Stage.FailedByAbandoning
     override fun hasBeenStarted() = stage == Stage.NotStarted
 
     override fun updateTextReplacements(text: Text) {
@@ -66,7 +65,7 @@ object DragonsQuest : QuestFacilitator() {
     private fun findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem: StarSystemAPI?) {
         if (dragonPlanet == null) {
             val planet = try {
-                Utilities.getSystemsForQuestTarget()
+                game.sector.starSystemsNotOnBlacklist
                     .filter { it.id != playersCurrentStarSystem?.id }
                     .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet }
                     .sortedBy { it.distanceFromCenterOfSector }

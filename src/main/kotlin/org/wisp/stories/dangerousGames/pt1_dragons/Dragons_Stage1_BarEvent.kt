@@ -9,7 +9,7 @@ import wisp.questgiver.BarEventDefinition
 import wisp.questgiver.wispLib.lastName
 
 class Dragons_Stage1_BarEvent : BarEventDefinition<Dragons_Stage1_BarEvent>(
-    shouldShowEvent = { DragonsQuest.shouldOfferQuest(it) },
+    questFacilitator = DragonsQuest,
     interactionPrompt = {
         para { game.text["dg_dr_stg1_prompt"] }
     },
