@@ -11,6 +11,7 @@ import org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
 import org.wisp.stories.dangerousGames.pt2_depths.*
 import org.wisp.stories.nirvana.*
 import org.wisp.stories.riley.*
+import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.*
 
 class LifecyclePlugin : BaseModPlugin() {

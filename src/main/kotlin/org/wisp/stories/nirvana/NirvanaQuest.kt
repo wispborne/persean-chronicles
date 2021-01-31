@@ -7,15 +7,22 @@ import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.game
-import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.QuestFacilitator
+import wisp.questgiver.*
 import wisp.questgiver.wispLib.*
-import kotlin.math.roundToInt
 
-object NirvanaQuest : QuestFacilitator() {
+object NirvanaQuest : AutoQuestFacilitator(
+    stageBackingField = PersistentData(key = "nirvanaStage", defaultValue = { Stage.NotStarted }),
+    autoBarEvent = AutoBarEvent(Nirvana_Stage1_BarEventCreator()) { market ->
+        market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT)
+                && market.size > 3
+    },
+    autoIntel = AutoIntel(NirvanaIntel::class.java) {
+        NirvanaIntel(NirvanaQuest.startLocation!!, NirvanaQuest.destPlanet!!)
+    }
+) {
 
     val REWARD_CREDITS: Float
-        get() = (3500 * (destPlanet?.let { startLocation?.distanceFrom(it) } ?: 0F).roundToInt()).toFloat()
+        get() = Questgiver.calculateCreditReward(startLocation, destPlanet)
     const val CARGO_TYPE = Commodities.HEAVY_MACHINERY
     const val CARGO_WEIGHT = 5
 
@@ -31,23 +38,8 @@ object NirvanaQuest : QuestFacilitator() {
     var destPlanet: SectorEntityToken? by PersistentNullableData("nirvanaDestPlanet")
         private set
 
-    var stage: Stage by PersistentData(key = "nirvanaStage", defaultValue = { Stage.NotStarted })
-        private set
-
     val destSystem: StarSystemAPI?
         get() = destPlanet?.starSystem
-
-    override fun getBarEventInformation() =
-        BarEventInformation(
-            barEventCreator = Nirvana_Stage1_BarEventCreator(),
-            shouldOfferFromMarket = { market ->
-                market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT)
-                        && market.size > 3
-            }
-        )
-
-    override fun hasBeenStarted() = stage == Stage.NotStarted
-    override fun isComplete(): Boolean = stage >= Stage.Completed
 
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["nirvanaCredits"] = { Misc.getDGSCredits(REWARD_CREDITS) }
@@ -65,12 +57,12 @@ object NirvanaQuest : QuestFacilitator() {
                     && !planet.isStar
 
         val system = game.sector.starSystemsNotOnBlacklist
-            .filter { sys -> sys.star.spec.isPulsar && sys.planets.any { isValidPlanet(it) } }
+            .filter { sys -> sys.star.spec.isPulsar && sys.habitablePlanets.any { isValidPlanet(it) } }
             .prefer { it.distanceFromPlayerInHyperspace >= 18 } // 18+ LY away
             .random()
 
 
-        val planet = system.planets
+        val planet = system.habitablePlanets
             .filter { isValidPlanet(it) }
             .minBy { it.market?.hazardValue ?: 500f }
             ?: kotlin.run {
@@ -118,10 +110,10 @@ object NirvanaQuest : QuestFacilitator() {
         stage = Stage.CompletedSecret
     }
 
-    enum class Stage {
-        NotStarted,
-        GoToPlanet,
-        Completed,
-        CompletedSecret
+    abstract class Stage(progress: Progress) : AutoQuestFacilitator.Stage(progress) {
+        object NotStarted : Stage(Progress.NotStarted)
+        object GoToPlanet : Stage(Progress.InProgress)
+        object Completed : Stage(Progress.Completed)
+        object CompletedSecret : Stage(Progress.Completed)
     }
 }

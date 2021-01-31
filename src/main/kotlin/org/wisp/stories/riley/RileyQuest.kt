@@ -1,29 +1,29 @@
 package org.wisp.stories.riley
 
-import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
-import com.fs.starfarer.api.campaign.StarSystemAPI
-import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.game
-import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.QuestFacilitator
+import wisp.questgiver.*
 import wisp.questgiver.wispLib.*
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
-object RileyQuest : QuestFacilitator(
-    managedLifecycle = ManagedLifecycle(
-        stage = PersistentObservableData(key = "rileyStage", defaultValue = { Stage.NotStarted }),
-        autoManagedIntelInfo = IntelInformation(
-            intelCreator = {
-                RileyIntel(
-                    startLocation = RileyQuest.startLocation!!,
-                    endLocation = RileyQuest.destinationPlanet!!
-                )
-            }
+object RileyQuest : AutoQuestFacilitator(
+    stageBackingField = PersistentData(key = "rileyStage", defaultValue = { Stage.NotStarted }),
+    autoIntel = AutoIntel(RileyIntel::class.java) {
+        RileyIntel(
+            startLocation = RileyQuest.startLocation!!,
+            endLocation = RileyQuest.destinationPlanet!!
         )
+    },
+    autoBarEvent = AutoBarEvent(
+        barEventCreator = Riley_Stage1_BarEventCreator(),
+        shouldOfferFromMarket = { market ->
+            market.size > 5 // Lives on a populous world
+                    && market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
+                    && Random.nextInt(100) < 33 // 33% chance
+        }
     )
 ) {
     const val REWARD_CREDITS = 80000
@@ -42,8 +42,6 @@ object RileyQuest : QuestFacilitator(
     var destinationPlanet: SectorEntityToken? by PersistentNullableData("rileyDestinationPlanet")
         private set
 
-//    var stage: Stage by PersistentData(key = "rileyStage", defaultValue = { Stage.NotStarted })
-//        private set
 
     val isFatherWorkingWithGovt: Boolean
         get() = destinationPlanet?.faction?.id?.toLowerCase() in govtsSponsoringSafeAi
@@ -68,21 +66,6 @@ object RileyQuest : QuestFacilitator(
         var destroyedTheCore by map
         var turnedInForABounty by map
     }
-
-    fun shouldMarketOfferQuest(marketAPI: MarketAPI): Boolean =
-        stage == Stage.NotStarted
-
-    override fun getBarEventInformation() = BarEventInformation(
-        barEventCreator = Riley_Stage1_BarEventCreator(),
-        shouldOfferFromMarket = { market ->
-            market.size > 5 // Lives on a populous world
-                    && market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
-                    && Random.nextInt(100) < 33 // 33% chance
-        }
-    )
-
-    override fun hasBeenStarted() = stage == Stage.NotStarted
-    override fun isComplete() = stage >= Stage.Completed
 
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["rileyDestPlanet"] = { destinationPlanet?.name }
@@ -119,7 +102,6 @@ object RileyQuest : QuestFacilitator(
         stage = Stage.InitialTraveling
         startDate = game.sector.clock.timestamp
         game.sector.addScript(Riley_Stage2_TriggerDialogScript())
-        game.intelManager.addIntel(RileyIntel(startingEntity, destinationPlanet!!))
         game.sector.addListener(EnteredDestinationSystemListener())
     }
 
@@ -130,13 +112,14 @@ object RileyQuest : QuestFacilitator(
         if (destinationPlanet == null) {
             val planets = game.sector.starSystemsNotOnBlacklist
                 .sortedByDescending { it.distanceFrom(startEntity.starSystem) }
-                .flatMap<StarSystemAPI, PlanetAPI> { it.planets }
+                .flatMap { it.habitablePlanets }
 
             // Both Hegemony and VIC would have cause to work on subservient AI
             destinationPlanet = planets
                 .prefer { it.market?.factionId?.toLowerCase() in govtsSponsoringSafeAi }
+                .prefer { (it.market?.size ?: 0) > 2 }
                 .getNonHostileOnlyIfPossible()
-                .take(5)
+                .take(10)
                 .random()
                 .also { planet ->
                     game.logger.i { "Riley destination planet set to ${planet?.fullName} in ${planet?.starSystem?.baseName}" }
@@ -165,16 +148,13 @@ object RileyQuest : QuestFacilitator(
         if (choices.refusedPayment != true) {
             game.sector.playerFleet.cargo.credits.add(REWARD_CREDITS.toFloat())
         }
-
-        game.intelManager.findFirst(RileyIntel::class.java)
-            ?.endAndNotifyPlayer()
     }
 
-    abstract class Stage(isQuestComplete: Boolean) : QuestFacilitator.Stage(isQuestComplete) {
-        object NotStarted : QuestFacilitator.Stage.NotStarted()
-        object InitialTraveling : Stage(isQuestComplete = false)
-        object TravellingToSystem : Stage(isQuestComplete = false)
-        object LandingOnPlanet : Stage(isQuestComplete = false)
-        object Completed : Complete()
+    abstract class Stage(progress: Progress) : AutoQuestFacilitator.Stage(progress) {
+        object NotStarted : Stage(Progress.NotStarted)
+        object InitialTraveling : Stage(Progress.InProgress)
+        object TravellingToSystem : Stage(Progress.InProgress)
+        object LandingOnPlanet : Stage(Progress.InProgress)
+        object Completed : Stage(Progress.Completed)
     }
 }

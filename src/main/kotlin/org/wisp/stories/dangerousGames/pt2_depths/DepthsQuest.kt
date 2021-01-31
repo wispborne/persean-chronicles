@@ -7,20 +7,35 @@ import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.impl.campaign.ids.Conditions
 import com.fs.starfarer.api.impl.campaign.ids.Drops
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
-import com.fs.starfarer.api.impl.campaign.intel.BaseIntelPlugin
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
 import org.wisp.stories.game
+import wisp.questgiver.AutoQuestFacilitator
 import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.QuestFacilitator
+import wisp.questgiver.starSystemsNotOnBlacklist
 import wisp.questgiver.wispLib.*
 
 /**
  * Bring some passengers to find treasure on an ocean floor. Solve riddles to keep them alive.
  */
-object DepthsQuest : QuestFacilitator() {
+object DepthsQuest : AutoQuestFacilitator(
+    stageBackingField = PersistentData(key = "depthsQuestStage", defaultValue = { Stage.NotStarted }),
+    autoIntel = AutoIntel(DepthsQuest_Intel::class.java) {
+        DepthsQuest_Intel(
+            DepthsQuest.startingPlanet!!,
+            DepthsQuest.depthsPlanet!!
+        )
+    },
+    autoBarEvent = AutoBarEvent(
+        barEventCreator = Depths_Stage1_BarEventCreator(),
+        shouldOfferFromMarket = { market ->
+            market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
+                    && market.size > 4
+        }
+    )
+) {
     private val DEPTHS_PLANET_TYPES = listOf(
         "terran",
         "terran-eccentric",
@@ -35,8 +50,7 @@ object DepthsQuest : QuestFacilitator() {
     const val rewardCredits: Int = 100000 // TODO
     const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5
 
-    var stage: Stage by PersistentData(key = "depthsQuestStage", defaultValue = { Stage.NotStarted })
-        private set
+//    override var stageBackingField: AutoQuestFacilitator.Stage by PersistentData<Stage>(key = "depthsQuestStage", defaultValue = { Stage.NotStarted })
 
     var depthsPlanet: SectorEntityToken? by PersistentNullableData("depthsDestinationPlanet")
         private set
@@ -67,18 +81,6 @@ object DepthsQuest : QuestFacilitator() {
                     && riddle2Choice?.wasSuccessful() == false
                     && riddle3Choice?.wasSuccessful() == false
     }
-
-    override fun getBarEventInformation() = BarEventInformation(
-        barEventCreator = Depths_Stage1_BarEventCreator(),
-        shouldOfferFromMarket = { market ->
-            market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
-                    && market.size > 4
-        }
-    )
-
-    override fun createIntel() = DepthsQuest_Intel(startingPlanet!!, depthsPlanet!!)
-    override fun isComplete() = stage >= Stage.Done
-    override fun hasBeenStarted() = stage == Stage.NotStarted
 
     fun init(playersCurrentStarSystem: StarSystemAPI?) {
         findAndTagDepthsPlanetIfNeeded(playersCurrentStarSystem)
@@ -182,7 +184,7 @@ object DepthsQuest : QuestFacilitator() {
                     .filter { it.id != playersCurrentStarSystem?.id }
                     .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet }
                     .sortedBy { it.distanceFromCenterOfSector }
-                    .flatMap { it.planets }
+                    .flatMap { it.habitablePlanets }
                     .filter { planet -> DEPTHS_PLANET_TYPES.any { it == planet.typeId } }
                     .toList()
                     .run {
@@ -221,14 +223,10 @@ object DepthsQuest : QuestFacilitator() {
         }
     }
 
-    /**
-     * Where the player is in the quest.
-     * Note: Should be in order of completion.
-     */
-    enum class Stage {
-        NotStarted,
-        GoToPlanet,
-        ReturnToStart,
-        Done
+    abstract class Stage(progress: Progress) : AutoQuestFacilitator.Stage(progress) {
+        object NotStarted : Stage(Progress.NotStarted)
+        object GoToPlanet : Stage(Progress.InProgress)
+        object ReturnToStart : Stage(Progress.InProgress)
+        object Done : Stage(Progress.Completed)
     }
 }

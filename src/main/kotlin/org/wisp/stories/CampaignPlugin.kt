@@ -11,7 +11,7 @@ import org.wisp.stories.nirvana.NirvanaQuest
 import org.wisp.stories.nirvana.Nirvana_Stage2_Dialog
 import org.wisp.stories.nirvana.Nirvana_Stage3_Dialog
 import org.wisp.stories.riley.RileyQuest
-import wisp.questgiver.wispLib.Questgiver
+import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.equalsAny
 
 /**
