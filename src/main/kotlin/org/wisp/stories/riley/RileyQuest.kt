@@ -23,6 +23,7 @@ object RileyQuest : AutoQuestFacilitator(
             market.size > 5 // Lives on a populous world
                     && market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
                     && Random.nextInt(100) < 33 // 33% chance
+                    && market.connectedEntities.none { it?.id == RileyQuest.destinationPlanet?.id }
         }
     )
 ) {
