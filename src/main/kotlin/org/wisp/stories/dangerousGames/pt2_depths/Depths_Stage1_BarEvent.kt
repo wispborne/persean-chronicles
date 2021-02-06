@@ -4,17 +4,15 @@ import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import org.wisp.stories.game
-import wisp.questgiver.BarEventDefinition
+import wisp.questgiver.AutoBarEventDefinition
 
-class Depths_Stage1_BarEvent : BarEventDefinition<Depths_Stage1_BarEvent>(
+class Depths_Stage1_BarEvent : AutoBarEventDefinition<Depths_Stage1_BarEvent>(
     questFacilitator = DepthsQuest,
-    interactionPrompt = {
+    createInteractionPrompt = {
         para { game.text["dg_de_stg1_prompt"] }
     },
     textToStartInteraction = { game.text["dg_de_stg1_startBarEvent"] },
-    onInteractionStarted = {
-        DepthsQuest.init(game.sector.playerFleet.starSystem)
-    },
+    onInteractionStarted = {},
     pages = listOf(
         Page(
             id = 1,

@@ -2,6 +2,7 @@ package org.wisp.stories.dangerousGames.pt1_dragons
 
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
+import com.fs.starfarer.api.campaign.econ.MarketAPI
 import org.wisp.stories.game
 import wisp.questgiver.AutoQuestFacilitator
 import wisp.questgiver.InteractionDefinition
@@ -47,13 +48,6 @@ object DragonsQuest : AutoQuestFacilitator(
     var startingPlanet: SectorEntityToken? by PersistentNullableData("dragonStartingPlanet")
         private set
 
-    /**
-     * Find a planet with life somewhere near the center, excluding player's current location.
-     */
-    fun init(playersCurrentStarSystem: StarSystemAPI?) {
-        findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem)
-    }
-
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["dragonPlanet"] = { dragonPlanet?.name }
         text.globalReplacementGetters["dragonSystem"] = { dragonPlanet?.starSystem?.name }
@@ -61,31 +55,36 @@ object DragonsQuest : AutoQuestFacilitator(
         text.globalReplacementGetters["startSystem"] = { startingPlanet?.starSystem?.name }
     }
 
-    private fun findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem: StarSystemAPI?) {
-        if (dragonPlanet == null) {
-            val planet = try {
-                game.sector.starSystemsNotOnBlacklist
-                    .filter { it.id != playersCurrentStarSystem?.id }
-                    .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet }
-                    .sortedBy { it.distanceFromCenterOfSector }
-                    .flatMap { it.habitablePlanets }
-                    .filter { planet -> DRAGON_PLANET_TYPES.any { it == planet.typeId } }
-                    .toList()
-                    .getNonHostileOnlyIfPossible()
-                    .run {
-                        // Take all planets from the top third of the list,
-                        // which is sorted by proximity to the center.
-                        this.take((this.size / 3).coerceAtLeast(1))
-                    }
-                    .random()
-            } catch (e: Exception) {
-                // If no planets matching the criteria are found
-                game.errorReporter.reportCrash(e)
-                return
-            }
+    override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
+        findAndTagDragonPlanet(interactionTarget.starSystem)
+    }
 
-            dragonPlanet = planet
+    /**
+     * Find a planet with life somewhere near the center, excluding player's current location.
+     */
+    private fun findAndTagDragonPlanet(playersCurrentStarSystem: StarSystemAPI?) {
+        val planet = try {
+            game.sector.starSystemsNotOnBlacklist
+                .filter { it.id != playersCurrentStarSystem?.id }
+                .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet }
+                .sortedBy { it.distanceFromCenterOfSector }
+                .flatMap { it.habitablePlanets }
+                .filter { planet -> DRAGON_PLANET_TYPES.any { it == planet.typeId } }
+                .toList()
+                .getNonHostileOnlyIfPossible()
+                .run {
+                    // Take all planets from the top third of the list,
+                    // which is sorted by proximity to the center.
+                    this.take((this.size / 3).coerceAtLeast(1))
+                }
+                .random()
+        } catch (e: Exception) {
+            // If no planets matching the criteria are found
+            game.errorReporter.reportCrash(e)
+            return
         }
+
+        dragonPlanet = planet
     }
 
     fun restartQuest() {
@@ -95,7 +94,7 @@ object DragonsQuest : AutoQuestFacilitator(
         startingPlanet = null
         stage = Stage.NotStarted
 
-        init(game.sector.playerFleet.starSystem)
+        regenerateQuest(interactionTarget = game.sector.playerFleet, market = null)
     }
 
     fun startStage1(startLocation: SectorEntityToken) {
@@ -105,7 +104,6 @@ object DragonsQuest : AutoQuestFacilitator(
 
     fun failQuestByLeavingToGetEatenByDragons() {
         stage = Stage.FailedByAbandoning
-
     }
 
     fun startPart2() {

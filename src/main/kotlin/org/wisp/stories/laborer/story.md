@@ -10,8 +10,10 @@ She turns and walks away, briskly, and the man slumps against the bar.
 
 - What was that all about?
 
-He gives you a once-over, and his eyes regain a spark of hope. "You're a captain? Please, I need to get to ||${laborerDestPlanet}|| in the ||${laborerDestSystem}||. Work has dried up for me here, and I need a fresh start."
+He gives you a once-over, and his eyes regain a spark of hope. "You're a captain? Please, I need to get to ||${laborerDestPlanet}|| in the ||${laborerDestSystem}||. Work has dried up here, and I need a fresh start."
 
-- And what's your offer?
+- "And what's your offer?"
+- "Work dried up on whole planet?"
+  - ""
 
-His eyes drop. "See, that's the thing. I can pay you after I earn the money. I've just gotta get to ${laborerDestPlanet} to get work, first."
+His eyes drop. "See, that's the thing. I can pay you after I earn the money. I've just gotta get to ${laborerDestPlanet} to get work, and then I'll send the money."

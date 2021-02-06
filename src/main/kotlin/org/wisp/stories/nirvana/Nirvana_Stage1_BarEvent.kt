@@ -7,19 +7,18 @@ import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity
 import org.wisp.stories.game
+import wisp.questgiver.AutoBarEventDefinition
 import wisp.questgiver.BarEventDefinition
 import wisp.questgiver.spriteName
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
-class Nirvana_Stage1_BarEvent : BarEventDefinition<Nirvana_Stage1_BarEvent>(
+class Nirvana_Stage1_BarEvent : AutoBarEventDefinition<Nirvana_Stage1_BarEvent>(
     questFacilitator = NirvanaQuest,
-    interactionPrompt = {
+    createInteractionPrompt = {
         para { game.text["nirv_stg1_prompt"] }
     },
+    onInteractionStarted = {},
     textToStartInteraction = { game.text["nirv_stg1_startBarEvent"] },
-    onInteractionStarted = {
-        NirvanaQuest.init()
-    },
     pages = listOf(
         Page(
             id = 1,

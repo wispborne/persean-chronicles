@@ -1,6 +1,7 @@
 package org.wisp.stories.riley
 
 import com.fs.starfarer.api.campaign.SectorEntityToken
+import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.game
@@ -86,12 +87,9 @@ object RileyQuest : AutoQuestFacilitator(
         text.globalReplacementGetters["rileyBountyCredits"] = { Misc.getDGSCredits(BOUNTY_CREDITS.toFloat()) }
     }
 
-    /**
-     * On player interacting with bar event prompt. Chooses the destination planet.
-     */
-    fun init(startingEntity: SectorEntityToken) {
-        startLocation = startingEntity
-        findAndTagDestinationPlanetIfNeeded(startingEntity)
+    override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
+        startLocation = interactionTarget
+        findAndTagNewDestinationPlanet(interactionTarget)
     }
 
     /**
@@ -109,23 +107,21 @@ object RileyQuest : AutoQuestFacilitator(
     /**
      * Randomly choose a planet that is far from starting point and owned by certain factions.
      */
-    private fun findAndTagDestinationPlanetIfNeeded(startEntity: SectorEntityToken) {
-        if (destinationPlanet == null) {
-            val planets = game.sector.starSystemsNotOnBlacklist
-                .sortedByDescending { it.distanceFrom(startEntity.starSystem) }
-                .flatMap { it.habitablePlanets }
+    private fun findAndTagNewDestinationPlanet(startEntity: SectorEntityToken) {
+        val planets = game.sector.starSystemsNotOnBlacklist
+            .sortedByDescending { it.distanceFrom(startEntity.starSystem) }
+            .flatMap { it.habitablePlanets }
 
-            // Both Hegemony and VIC would have cause to work on subservient AI
-            destinationPlanet = planets
-                .prefer { it.market?.factionId?.toLowerCase() in govtsSponsoringSafeAi }
-                .prefer { (it.market?.size ?: 0) > 2 }
-                .getNonHostileOnlyIfPossible()
-                .take(10)
-                .random()
-                .also { planet ->
-                    game.logger.i { "Riley destination planet set to ${planet?.fullName} in ${planet?.starSystem?.baseName}" }
-                }
-        }
+        // Both Hegemony and VIC would have cause to work on subservient AI
+        destinationPlanet = planets
+            .prefer { it.market?.factionId?.toLowerCase() in govtsSponsoringSafeAi }
+            .prefer { (it.market?.size ?: 0) > 2 }
+            .getNonHostileOnlyIfPossible()
+            .take(10)
+            .random()
+            .also { planet ->
+                game.logger.i { "Riley destination planet set to ${planet?.fullName} in ${planet?.starSystem?.baseName}" }
+            }
     }
 
     fun showDaysPassedDialog() {

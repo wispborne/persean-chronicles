@@ -5,19 +5,17 @@ import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import org.wisp.stories.game
-import wisp.questgiver.BarEventDefinition
+import wisp.questgiver.AutoBarEventDefinition
 import wisp.questgiver.wispLib.empty
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
-class Riley_Stage1_BarEvent : BarEventDefinition<Riley_Stage1_BarEvent>(
+class Riley_Stage1_BarEvent : AutoBarEventDefinition<Riley_Stage1_BarEvent>(
     questFacilitator = RileyQuest,
-    interactionPrompt = {
+    createInteractionPrompt = {
         para { game.text["riley_stg1_prompt"] }
     },
     textToStartInteraction = { game.text["riley_stg1_startBarEvent"] },
-    onInteractionStarted = {
-        RileyQuest.init(dialog.interactionTarget.market.preferredConnectedEntity!!)
-    },
+    onInteractionStarted = {},
     pages = listOf(
         Page(
             id = 1,

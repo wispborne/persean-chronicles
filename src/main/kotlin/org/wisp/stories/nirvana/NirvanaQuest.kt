@@ -3,6 +3,7 @@ package org.wisp.stories.nirvana
 import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
+import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
@@ -49,7 +50,7 @@ object NirvanaQuest : AutoQuestFacilitator(
         text.globalReplacementGetters["nirvanaStarName"] = { destPlanet?.starSystem?.star?.name }
     }
 
-    fun init() {
+    override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
         fun isValidPlanet(planet: PlanetAPI): Boolean =
             (planet.faction?.isHostileTo(game.sector.playerFaction) != true)
                     && planet.market?.factionId?.toLowerCase() !in listOf("luddic_church", "luddic_path")

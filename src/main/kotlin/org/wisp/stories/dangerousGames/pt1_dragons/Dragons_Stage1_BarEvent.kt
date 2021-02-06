@@ -5,18 +5,17 @@ import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import org.lwjgl.input.Keyboard
 import org.wisp.stories.game
+import wisp.questgiver.AutoBarEventDefinition
 import wisp.questgiver.BarEventDefinition
 import wisp.questgiver.wispLib.lastName
 
-class Dragons_Stage1_BarEvent : BarEventDefinition<Dragons_Stage1_BarEvent>(
+class Dragons_Stage1_BarEvent : AutoBarEventDefinition<Dragons_Stage1_BarEvent>(
     questFacilitator = DragonsQuest,
-    interactionPrompt = {
+    createInteractionPrompt = {
         para { game.text["dg_dr_stg1_prompt"] }
     },
+    onInteractionStarted = {},
     textToStartInteraction = { game.text["dg_dr_stg1_startBarEvent"] },
-    onInteractionStarted = {
-        DragonsQuest.init(game.sector.playerFleet.starSystem)
-    },
     pages = listOf(
         Page(
             id = 1,

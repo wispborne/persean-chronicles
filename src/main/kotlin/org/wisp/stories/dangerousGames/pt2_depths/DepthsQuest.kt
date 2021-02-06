@@ -4,6 +4,7 @@ import com.fs.starfarer.api.campaign.CargoAPI
 import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
+import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Conditions
 import com.fs.starfarer.api.impl.campaign.ids.Drops
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
@@ -11,6 +12,7 @@ import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.game
 import wisp.questgiver.AutoQuestFacilitator
 import wisp.questgiver.InteractionDefinition
@@ -31,7 +33,8 @@ object DepthsQuest : AutoQuestFacilitator(
     autoBarEvent = AutoBarEvent(
         barEventCreator = Depths_Stage1_BarEventCreator(),
         shouldOfferFromMarket = { market ->
-            market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
+            DragonsQuest.stage.isCompleted
+                    && market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
                     && market.size > 4
         }
     )
@@ -49,8 +52,6 @@ object DepthsQuest : AutoQuestFacilitator(
 
     const val rewardCredits: Int = 100000 // TODO
     const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5
-
-//    override var stageBackingField: AutoQuestFacilitator.Stage by PersistentData<Stage>(key = "depthsQuestStage", defaultValue = { Stage.NotStarted })
 
     var depthsPlanet: SectorEntityToken? by PersistentNullableData("depthsDestinationPlanet")
         private set
@@ -82,16 +83,16 @@ object DepthsQuest : AutoQuestFacilitator(
                     && riddle3Choice?.wasSuccessful() == false
     }
 
-    fun init(playersCurrentStarSystem: StarSystemAPI?) {
-        findAndTagDepthsPlanetIfNeeded(playersCurrentStarSystem)
-    }
-
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["depthsSourcePlanet"] = { startingPlanet?.name }
         text.globalReplacementGetters["depthsSourceSystem"] = { startingPlanet?.starSystem?.name }
         text.globalReplacementGetters["depthsPlanet"] = { depthsPlanet?.name }
         text.globalReplacementGetters["depthsSystem"] = { depthsPlanet?.starSystem?.name }
         text.globalReplacementGetters["depthsCreditReward"] = { Misc.getDGSCredits(rewardCredits.toFloat()) }
+    }
+
+    override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
+        findAndTagDepthsPlanet(interactionTarget.starSystem)
     }
 
     fun restartQuest() {
@@ -106,7 +107,7 @@ object DepthsQuest : AutoQuestFacilitator(
 
         game.intelManager.findFirst(DepthsQuest_Intel::class.java)?.endImmediately()
         BarEventManager.getInstance().removeBarEventCreator(Depths_Stage1_BarEventCreator::class.java)
-        init(game.sector.playerFleet.starSystem)
+        regenerateQuest(game.sector.playerFleet, null)
     }
 
     fun startStage1(startLocation: SectorEntityToken) {
@@ -177,50 +178,48 @@ object DepthsQuest : AutoQuestFacilitator(
      * Find a planet with oceans somewhere near the center, excluding player's current location.
      * Prefer decivilized world, then uninhabited, then all others
      */
-    private fun findAndTagDepthsPlanetIfNeeded(playersCurrentStarSystem: StarSystemAPI?) {
-        if (depthsPlanet == null) {
-            val planet = try {
-                game.sector.starSystemsNotOnBlacklist
-                    .filter { it.id != playersCurrentStarSystem?.id }
-                    .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet }
-                    .sortedBy { it.distanceFromCenterOfSector }
-                    .flatMap { it.habitablePlanets }
-                    .filter { planet -> DEPTHS_PLANET_TYPES.any { it == planet.typeId } }
-                    .toList()
-                    .run {
-                        // Take all planets from the top half of the list,
-                        // which is sorted by proximity to the center.
-                        val possibles = this.take((this.size / 2).coerceAtLeast(1))
+    private fun findAndTagDepthsPlanet(playersCurrentStarSystem: StarSystemAPI?) {
+        val planet = try {
+            game.sector.starSystemsNotOnBlacklist
+                .filter { it.id != playersCurrentStarSystem?.id }
+                .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet }
+                .sortedBy { it.distanceFromCenterOfSector }
+                .flatMap { it.habitablePlanets }
+                .filter { planet -> DEPTHS_PLANET_TYPES.any { it == planet.typeId } }
+                .toList()
+                .run {
+                    // Take all planets from the top half of the list,
+                    // which is sorted by proximity to the center.
+                    val possibles = this.take((this.size / 2).coerceAtLeast(1))
 
-                        WeightedRandomPicker<PlanetAPI>().apply {
-                            possibles.forEach { planet ->
-                                when {
-                                    planet.market?.hasCondition(Conditions.DECIVILIZED) == true -> {
-                                        game.logger.i { "Adding decivved planet ${planet.fullName} in ${planet.starSystem.baseName} to Depths candidate list" }
-                                        add(planet, 3f)
-                                    }
-                                    planet.market?.size == 0 -> {
-                                        game.logger.i { "Adding uninhabited planet ${planet.fullName} in ${planet.starSystem.baseName} to Depths candidate list" }
-                                        add(planet, 2f)
-                                    }
-                                    else -> {
-                                        game.logger.i { "Adding planet ${planet.fullName} in ${planet.starSystem.baseName} to Depths candidate list" }
-                                        add(planet, 1f)
-                                    }
+                    WeightedRandomPicker<PlanetAPI>().apply {
+                        possibles.forEach { planet ->
+                            when {
+                                planet.market?.hasCondition(Conditions.DECIVILIZED) == true -> {
+                                    game.logger.i { "Adding decivved planet ${planet.fullName} in ${planet.starSystem.baseName} to Depths candidate list" }
+                                    add(planet, 3f)
+                                }
+                                planet.market?.size == 0 -> {
+                                    game.logger.i { "Adding uninhabited planet ${planet.fullName} in ${planet.starSystem.baseName} to Depths candidate list" }
+                                    add(planet, 2f)
+                                }
+                                else -> {
+                                    game.logger.i { "Adding planet ${planet.fullName} in ${planet.starSystem.baseName} to Depths candidate list" }
+                                    add(planet, 1f)
                                 }
                             }
                         }
-                            .pick()!!
                     }
-            } catch (e: Exception) {
-                // If no planets matching the criteria are found
-                game.errorReporter.reportCrash(e)
-                return
-            }
-
-            game.logger.i { "Set Depths quest destination to ${planet.fullName} in ${planet.starSystem.baseName}" }
-            depthsPlanet = planet
+                        .pick()!!
+                }
+        } catch (e: Exception) {
+            // If no planets matching the criteria are found
+            game.errorReporter.reportCrash(e)
+            return
         }
+
+        game.logger.i { "Set Depths quest destination to ${planet.fullName} in ${planet.starSystem.baseName}" }
+        depthsPlanet = planet
     }
 
     abstract class Stage(progress: Progress) : AutoQuestFacilitator.Stage(progress) {
