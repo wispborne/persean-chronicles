@@ -33,7 +33,7 @@ object DepthsQuest : AutoQuestFacilitator(
     autoBarEvent = AutoBarEvent(
         barEventCreator = Depths_Stage1_BarEventCreator(),
         shouldOfferFromMarket = { market ->
-            DragonsQuest.stage.isCompleted
+            DragonsQuest.stage == DragonsQuest.Stage.Done
                     && market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
                     && market.size > 4
         }
@@ -92,6 +92,7 @@ object DepthsQuest : AutoQuestFacilitator(
     }
 
     override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
+        startingPlanet = interactionTarget
         findAndTagDepthsPlanet(interactionTarget.starSystem)
     }
 
@@ -112,8 +113,6 @@ object DepthsQuest : AutoQuestFacilitator(
 
     fun startStage1(startLocation: SectorEntityToken) {
         stage = Stage.GoToPlanet
-        startingPlanet = startLocation
-        game.intelManager.addIntel(DepthsQuest_Intel(startLocation, depthsPlanet!!))
     }
 
     fun startStart2() {
@@ -128,8 +127,6 @@ object DepthsQuest : AutoQuestFacilitator(
     fun finishQuest() {
         game.sector.playerFleet.cargo.credits.add(rewardCredits.toFloat())
         stage = Stage.Done
-        game.intelManager.findFirst(DepthsQuest_Intel::class.java)
-            ?.endAndNotifyPlayer()
 
         depthsPlanet?.let { planet ->
             if (planet.market.conditions.none { it.plugin is CrystalMarketMod }) {
@@ -185,6 +182,7 @@ object DepthsQuest : AutoQuestFacilitator(
                 .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet }
                 .sortedBy { it.distanceFromCenterOfSector }
                 .flatMap { it.habitablePlanets }
+                .prefer { it.market.size == 0 } // Uncolonized planets
                 .filter { planet -> DEPTHS_PLANET_TYPES.any { it == planet.typeId } }
                 .toList()
                 .run {
