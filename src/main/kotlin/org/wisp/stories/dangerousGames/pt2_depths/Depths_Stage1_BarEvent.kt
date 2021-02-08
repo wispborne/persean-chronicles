@@ -9,7 +9,7 @@ import wisp.questgiver.AutoBarEventDefinition
 class Depths_Stage1_BarEvent : AutoBarEventDefinition<Depths_Stage1_BarEvent>(
     questFacilitator = DepthsQuest,
     createInteractionPrompt = {
-        para { game.text["dg_de_stg1_prompt"] }
+        paraSync { game.text["dg_de_stg1_prompt"] }
     },
     textToStartInteraction = { game.text["dg_de_stg1_startBarEvent"] },
     onInteractionStarted = {},
@@ -53,7 +53,7 @@ class Depths_Stage1_BarEvent : AutoBarEventDefinition<Depths_Stage1_BarEvent>(
                         game.text["dg_de_stg1_pg2_opt1"]
                     },
                     onOptionSelected = {
-                        DepthsQuest.startStage1(this.dialog.interactionTarget)
+                        DepthsQuest.startStage1()
                         it.close(doNotOfferAgain = true)
                     }
                 )

@@ -12,7 +12,7 @@ import wisp.questgiver.wispLib.preferredConnectedEntity
 class Riley_Stage1_BarEvent : AutoBarEventDefinition<Riley_Stage1_BarEvent>(
     questFacilitator = RileyQuest,
     createInteractionPrompt = {
-        para { game.text["riley_stg1_prompt"] }
+        paraSync { game.text["riley_stg1_prompt"] }
     },
     textToStartInteraction = { game.text["riley_stg1_startBarEvent"] },
     onInteractionStarted = {},

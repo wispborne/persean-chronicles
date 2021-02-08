@@ -3,9 +3,12 @@ package org.wisp.stories.riley
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
+import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.game
-import wisp.questgiver.*
+import wisp.questgiver.AutoQuestFacilitator
+import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.starSystemsNotOnBlacklist
 import wisp.questgiver.wispLib.*
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -23,7 +26,6 @@ object RileyQuest : AutoQuestFacilitator(
         shouldOfferFromMarket = { market ->
             market.size > 5 // Lives on a populous world
                     && market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
-                    && Random.nextInt(100) < 33 // 33% chance
                     && market.connectedEntities.none { it?.id == RileyQuest.destinationPlanet?.id }
         }
     )
@@ -32,7 +34,9 @@ object RileyQuest : AutoQuestFacilitator(
     const val BOUNTY_CREDITS = 20000
     const val TIME_LIMIT_DAYS = 30
     const val DAYS_UNTIL_DIALOG = 3
-    val govtsSponsoringSafeAi = listOf(Factions.HEGEMONY, "vic")
+
+    // Both Hegemony and VIC would have cause to work on subservient AI
+    private val govtsSponsoringSafeAi = listOf(Factions.HEGEMONY, "vic")
     val icon = InteractionDefinition.Portrait(category = "wispStories_riley", id = "icon")
 
     var startDate: Long? by PersistentNullableData("rileyStartDate")
@@ -44,11 +48,10 @@ object RileyQuest : AutoQuestFacilitator(
     var destinationPlanet: SectorEntityToken? by PersistentNullableData("rileyDestinationPlanet")
         private set
 
+    val choices: Choices = Choices(PersistentMapData<String, Any?>(key = "rileyChoices").withDefault { null })
 
     val isFatherWorkingWithGovt: Boolean
         get() = destinationPlanet?.faction?.id?.toLowerCase() in govtsSponsoringSafeAi
-
-    val choices: Choices = Choices(PersistentMapData<String, Any?>(key = "rileyChoices").withDefault { null })
 
     /**
      * All choices that can be made.
@@ -108,20 +111,19 @@ object RileyQuest : AutoQuestFacilitator(
      * Randomly choose a planet that is far from starting point and owned by certain factions.
      */
     private fun findAndTagNewDestinationPlanet(startEntity: SectorEntityToken) {
-        val planets = game.sector.starSystemsNotOnBlacklist
-            .sortedByDescending { it.distanceFrom(startEntity.starSystem) }
-            .flatMap { it.habitablePlanets }
-
-        // Both Hegemony and VIC would have cause to work on subservient AI
-        destinationPlanet = planets
-            .prefer { it.market?.factionId?.toLowerCase() in govtsSponsoringSafeAi }
-            .prefer { (it.market?.size ?: 0) > 2 }
-            .getNonHostileOnlyIfPossible()
-            .take(10)
-            .random()
-            .also { planet ->
-                game.logger.i { "Riley destination planet set to ${planet?.fullName} in ${planet?.starSystem?.baseName}" }
-            }
+        destinationPlanet =
+            game.sector.starSystemsNotOnBlacklist
+                .sortedByDescending { it.distanceFrom(startEntity.starSystem) }
+                .filter { it.id != startEntity.starSystem?.id }
+                .flatMap { it.habitablePlanets }
+                .prefer { it.market?.factionId?.toLowerCase() in govtsSponsoringSafeAi }
+                .prefer { (it.market?.size ?: 0) > 2 }
+                .getNonHostileOnlyIfPossible()
+                .take(5)
+                .random()
+                .also { planet ->
+                    game.logger.i { "Riley destination planet set to ${planet?.fullName} in ${planet?.starSystem?.baseName}" }
+                }
     }
 
     fun showDaysPassedDialog() {
@@ -145,6 +147,16 @@ object RileyQuest : AutoQuestFacilitator(
         if (choices.refusedPayment != true) {
             game.sector.playerFleet.cargo.credits.add(REWARD_CREDITS.toFloat())
         }
+    }
+
+    fun restartQuest() {
+        game.logger.i { "Restarting Riley quest." }
+
+        startDate = null
+        startLocation = null
+        destinationPlanet = null
+        choices.map.clear()
+        stage = Stage.NotStarted
     }
 
     abstract class Stage(progress: Progress) : AutoQuestFacilitator.Stage(progress) {

@@ -1,0 +1,11 @@
+{
+  "music": {
+    "wisp_perseanchronicles_depthsMusic": [
+      {
+        "file": "Threading_The_Abyss.ogg",
+        "source": "sounds/music",
+        "volume": 1
+      }
+    ]
+  }
+}

@@ -26,7 +26,7 @@ class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEnt
                 game.text.getf(
                     "dg_de_intel_subtitle_stg2",
                     "ifCrewAlive" to
-                            if (!DepthsQuest.Stage2.didAllCrewDie)
+                            if (!DepthsQuest.didAllCrewDie)
                                 game.text["dg_de_intel_subtitle_stg2_ifCrewAlive"]
                             else String.empty
                 )

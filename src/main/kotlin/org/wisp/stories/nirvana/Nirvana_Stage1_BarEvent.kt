@@ -15,7 +15,7 @@ import wisp.questgiver.wispLib.preferredConnectedEntity
 class Nirvana_Stage1_BarEvent : AutoBarEventDefinition<Nirvana_Stage1_BarEvent>(
     questFacilitator = NirvanaQuest,
     createInteractionPrompt = {
-        para { game.text["nirv_stg1_prompt"] }
+        paraSync { game.text["nirv_stg1_prompt"] }
     },
     onInteractionStarted = {},
     textToStartInteraction = { game.text["nirv_stg1_startBarEvent"] },

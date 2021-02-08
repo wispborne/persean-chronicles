@@ -14,10 +14,8 @@ class CrystalMarketMod : BaseHazardCondition() {
          */
         @Transient
         private val DRUG_MULTIPLIER = 50f
-    }
 
-    override fun getModId(): String {
-        return super.getModId()
+        const val CONDITION_ID = "wispQuests_crystallineCatalyst"
     }
 
     override fun apply(id: String?) {

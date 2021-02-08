@@ -87,16 +87,6 @@ object DragonsQuest : AutoQuestFacilitator(
         dragonPlanet = planet
     }
 
-    fun restartQuest() {
-        game.logger.i { "Restarting Dragons quest." }
-
-        dragonPlanet = null
-        startingPlanet = null
-        stage = Stage.NotStarted
-
-        regenerateQuest(interactionTarget = game.sector.playerFleet, market = null)
-    }
-
     fun startStage1(startLocation: SectorEntityToken) {
         startingPlanet = startLocation
         stage = Stage.GoToPlanet
@@ -118,6 +108,14 @@ object DragonsQuest : AutoQuestFacilitator(
     fun finishStage2() {
         game.sector.playerFleet.cargo.credits.add(rewardCredits.toFloat())
         stage = Stage.Done
+    }
+
+    fun restartQuest() {
+        game.logger.i { "Restarting Dragons quest." }
+
+        dragonPlanet = null
+        startingPlanet = null
+        stage = Stage.NotStarted
     }
 
     abstract class Stage(progress: Progress) : AutoQuestFacilitator.Stage(progress) {

@@ -7,11 +7,12 @@ import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Conditions
 import com.fs.starfarer.api.impl.campaign.ids.Drops
+import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
-import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
+import org.lwjgl.util.vector.Vector2f
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.game
 import wisp.questgiver.AutoQuestFacilitator
@@ -59,29 +60,34 @@ object DepthsQuest : AutoQuestFacilitator(
     var startingPlanet: SectorEntityToken? by PersistentNullableData("depthsStartingPlanet")
         private set
 
-    object Stage2 {
-        var riddle1Choice: Depths_Stage2_RiddleDialog.RiddleChoice.Riddle1Choice?
-                by PersistentNullableData("depthsRiddle1Choice")
-        var riddle2Choice: Depths_Stage2_RiddleDialog.RiddleChoice.Riddle2Choice?
-                by PersistentNullableData("depthsRiddle2Choice")
-        var riddle3Choice: Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice?
-                by PersistentNullableData("depthsRiddle3Choice")
+    val choices: Choices =
+        Choices(PersistentMapData<String, Any?>(key = "depthsChoices").withDefault { null })
 
-        val riddleSuccessesCount: Int
-            get() = (if (riddle1Choice?.wasSuccessful() == true) 1 else 0) +
-                    (if (riddle2Choice?.wasSuccessful() == true) 1 else 0) +
-                    (if (riddle3Choice?.wasSuccessful() == true) 1 else 0)
-
-        val wallCrashesCount: Int
-            get() = (if (riddle1Choice is Depths_Stage2_RiddleDialog.RiddleChoice.Riddle1Choice.WestWall) 1 else 0) +
-                    (if (riddle2Choice is Depths_Stage2_RiddleDialog.RiddleChoice.Riddle2Choice.WestWall) 1 else 0) +
-                    (if (riddle3Choice is Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice.EastWall) 1 else 0)
-
-        val didAllCrewDie: Boolean
-            get() = riddle1Choice?.wasSuccessful() == false
-                    && riddle2Choice?.wasSuccessful() == false
-                    && riddle3Choice?.wasSuccessful() == false
+    /**
+     * All choices that can be made.
+     * Leave `map` public and accessible so it can be cleared if the quest is restarted.
+     */
+    class Choices(val map: MutableMap<String, Any?>) {
+        var riddle1Choice: Depths_Stage2_RiddleDialog.RiddleChoice.Riddle1Choice? by map
+        var riddle2Choice: Depths_Stage2_RiddleDialog.RiddleChoice.Riddle2Choice? by map
+        var riddle3Choice: Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice? by map
     }
+
+    val riddleAnswers
+        get() = listOf(choices.riddle1Choice, choices.riddle2Choice, choices.riddle3Choice)
+
+    val riddleSuccessesCount: Int
+        get() = riddleAnswers.count { it?.wasSuccessful() == true }
+
+    val wallCrashesCount: Int
+        get() = (if (choices.riddle1Choice is Depths_Stage2_RiddleDialog.RiddleChoice.Riddle1Choice.WestWall) 1 else 0) +
+                (if (choices.riddle2Choice is Depths_Stage2_RiddleDialog.RiddleChoice.Riddle2Choice.WestWall) 1 else 0) +
+                (if (choices.riddle3Choice is Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice.EastWall) 1 else 0)
+
+    val didAllCrewDie: Boolean
+        get() = riddleAnswers.all { it?.wasSuccessful() == false }
+
+    val musicInstanceId = "ThreadingTheAbyss"
 
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["depthsSourcePlanet"] = { startingPlanet?.name }
@@ -101,17 +107,14 @@ object DepthsQuest : AutoQuestFacilitator(
 
         depthsPlanet = null
         startingPlanet = null
-        Stage2.riddle1Choice = null
-        Stage2.riddle2Choice = null
-        Stage2.riddle3Choice = null
+        choices.map.clear()
         stage = Stage.NotStarted
-
-        game.intelManager.findFirst(DepthsQuest_Intel::class.java)?.endImmediately()
-        BarEventManager.getInstance().removeBarEventCreator(Depths_Stage1_BarEventCreator::class.java)
-        regenerateQuest(game.sector.playerFleet, null)
+        game.sector.starSystems.flatMap { it.habitablePlanets }
+            .filter { it.market?.hasCondition(CrystalMarketMod.CONDITION_ID) == true }
+            .forEach { it.market?.removeCondition(CrystalMarketMod.CONDITION_ID) }
     }
 
-    fun startStage1(startLocation: SectorEntityToken) {
+    fun startStage1() {
         stage = Stage.GoToPlanet
     }
 
@@ -122,6 +125,19 @@ object DepthsQuest : AutoQuestFacilitator(
                 flipStartAndEndLocations()
                 sendUpdateIfPlayerHasIntel(null, false)
             }
+    }
+
+    fun startMusic() {
+        game.soundPlayer.playCustomMusic(
+            0,
+            5,
+            "wisp_perseanchronicles_depthsMusic",
+            true
+        )
+    }
+
+    fun stopMusic() {
+        game.soundPlayer.playCustomMusic(3, 0, null)
     }
 
     fun finishQuest() {
@@ -136,7 +152,7 @@ object DepthsQuest : AutoQuestFacilitator(
     }
 
     fun generateRewardLoot(entity: SectorEntityToken): CargoAPI? {
-        when (Stage2.riddleSuccessesCount) {
+        when (riddleSuccessesCount) {
             3 -> {
                 entity.addDropValue(Drops.BASIC, 50000)
                 entity.addDropRandom("blueprints", 5)
@@ -182,8 +198,8 @@ object DepthsQuest : AutoQuestFacilitator(
                 .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet }
                 .sortedBy { it.distanceFromCenterOfSector }
                 .flatMap { it.habitablePlanets }
-                .prefer { it.market.size == 0 } // Uncolonized planets
-                .filter { planet -> DEPTHS_PLANET_TYPES.any { it == planet.typeId } }
+                .prefer { it.faction.id == Factions.NEUTRAL } // Uncolonized planets
+                .filter { planet -> planet.typeId in DEPTHS_PLANET_TYPES }
                 .toList()
                 .run {
                     // Take all planets from the top half of the list,

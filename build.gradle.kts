@@ -50,7 +50,8 @@ dependencies {
             "json.jar",
             "xstream-1.4.10.jar",
             "log4j-1.2.9.jar",
-            "lwjgl.jar"
+            "lwjgl.jar",
+            "lwjgl_util.jar"
         )
 //        exclude("*_obf.jar")
     })

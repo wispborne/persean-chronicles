@@ -6,7 +6,11 @@ import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Factions
+import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.fs.starfarer.api.util.Misc
+import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest
+import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest_Intel
+import org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage1_BarEventCreator
 import org.wisp.stories.game
 import wisp.questgiver.*
 import wisp.questgiver.wispLib.*
@@ -23,7 +27,7 @@ object NirvanaQuest : AutoQuestFacilitator(
 ) {
 
     val REWARD_CREDITS: Float
-        get() = Questgiver.calculateCreditReward(startLocation, destPlanet)
+        get() = Questgiver.calculateCreditReward(startLocation, destPlanet, scaling = 1.4f)
     const val CARGO_TYPE = Commodities.HEAVY_MACHINERY
     const val CARGO_WEIGHT = 5
 
@@ -57,6 +61,8 @@ object NirvanaQuest : AutoQuestFacilitator(
                     && !planet.isGasGiant
                     && !planet.isStar
 
+        this.startLocation = interactionTarget
+
         val system = game.sector.starSystemsNotOnBlacklist
             .filter { sys -> sys.star.spec.isPulsar && sys.habitablePlanets.any { isValidPlanet(it) } }
             .prefer { it.distanceFromPlayerInHyperspace >= 18 } // 18+ LY away
@@ -79,10 +85,8 @@ object NirvanaQuest : AutoQuestFacilitator(
     }
 
     fun start(startLocation: SectorEntityToken) {
-        this.startLocation = startLocation
         game.logger.i { "Nirvana start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
         stage = Stage.GoToPlanet
-        game.sector.intelManager.addIntel(NirvanaIntel(startLocation, destPlanet!!))
         game.sector.playerFleet.cargo.addCommodity(CARGO_TYPE, CARGO_WEIGHT.toFloat())
     }
 
@@ -95,9 +99,6 @@ object NirvanaQuest : AutoQuestFacilitator(
 
         game.sector.playerFleet.cargo.removeCommodity(CARGO_TYPE, CARGO_WEIGHT.toFloat())
         game.sector.playerFleet.cargo.credits.add(REWARD_CREDITS)
-
-        game.intelManager.findFirst(NirvanaIntel::class.java)
-            ?.endAndNotifyPlayer()
     }
 
     /**
@@ -109,6 +110,15 @@ object NirvanaQuest : AutoQuestFacilitator(
 
     fun completeSecret() {
         stage = Stage.CompletedSecret
+    }
+
+    fun restartQuest() {
+        game.logger.i { "Restarting Nirvana quest." }
+
+        startDate = null
+        startLocation = null
+        destPlanet = null
+        stage = Stage.NotStarted
     }
 
     abstract class Stage(progress: Progress) : AutoQuestFacilitator.Stage(progress) {
