@@ -6,7 +6,8 @@
       "intelPicture": "graphics/illustrations/fly_away.jpg"
     },
     "wispStories_depths": {
-      "icon": "graphics/depths/kelp.png"
+      "icon": "graphics/depths/kelp.png",
+      "diveIllustration": "graphics/depths/diveIllustration.png"
     },
     "wispStories_riley": {
       "icon": "graphics/riley/riley.png"

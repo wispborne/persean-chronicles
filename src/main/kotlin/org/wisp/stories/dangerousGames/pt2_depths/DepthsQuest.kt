@@ -50,6 +50,7 @@ object DepthsQuest : AutoQuestFacilitator(
     )
 
     val icon = InteractionDefinition.Portrait(category = "wispStories_depths", id = "icon")
+    val diveIllustration = InteractionDefinition.Illustration(category = "wispStories_depths", id = "diveIllustration")
 
     const val rewardCredits: Int = 100000 // TODO
     const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5

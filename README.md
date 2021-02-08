@@ -20,8 +20,6 @@ Avanitia for proof-reading literally _everything_ and providing an incredible am
 
 Market condition code inspired by Tartiflette's [Unknown Skies](https://fractalsoftworks.com/forum/index.php?topic=12041.0).
 
-Dragon icon by [Freepik](http://www.freepik.com).
-
 ## License
 
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
