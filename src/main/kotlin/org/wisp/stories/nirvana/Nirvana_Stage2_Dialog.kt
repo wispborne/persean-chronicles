@@ -1,5 +1,6 @@
 package org.wisp.stories.nirvana
 
+import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
 
@@ -14,16 +15,17 @@ class Nirvana_Stage2_Dialog : InteractionDefinition<Nirvana_Stage2_Dialog>(
             onPageShown = {
                 para { game.text["nirv_stg2_pg1_para1"] }
                 para { game.text["nirv_stg2_pg1_para2"] }
+                AddRemoveCommodity.addCommodityLossText(NirvanaQuest.CARGO_TYPE, NirvanaQuest.CARGO_WEIGHT, dialog.textPanel)
             },
             options = listOf(
                 Option(
                     // what are you building?
-                    text = { game.text["nirc_stg2_pg1_opt1"] },
+                    text = { game.text["nirv_stg2_pg1_opt1"] },
                     onOptionSelected = { it.goToPage(2) }
                 ),
                 Option(
                     // leave
-                    text = { game.text["nirc_stg2_pg1_opt2"] },
+                    text = { game.text["nirv_stg2_pg1_opt2"] },
                     onOptionSelected = { it.close(doNotOfferAgain = true) }
                 )
             )
@@ -31,15 +33,15 @@ class Nirvana_Stage2_Dialog : InteractionDefinition<Nirvana_Stage2_Dialog>(
         Page(
             id = 2,
             onPageShown = {
-                para { game.text["nirc_stg2_pg2_para1"] }
+                para { game.text["nirv_stg2_pg2_para1"] }
                 navigator.promptToContinue(game.text["continue"]) {
-                    para { game.text["nirc_stg2_pg2_para2"] }
+                    para { game.text["nirv_stg2_pg2_para2"] }
                 }
             },
             options = listOf(
                 Option(
                     // when getting answers?
-                    text = { game.text["nirc_stg2_pg2_opt1"] },
+                    text = { game.text["nirv_stg2_pg2_opt1"] },
                     onOptionSelected = {
                         it.goToPage(3)
                     }
@@ -49,17 +51,17 @@ class Nirvana_Stage2_Dialog : InteractionDefinition<Nirvana_Stage2_Dialog>(
         Page(
             id = 3,
             onPageShown = {
-                para { game.text["nirc_stg2_pg3_para1"] }
+                para { game.text["nirv_stg2_pg3_para1"] }
             },
             options = listOf(
                 Option(
-                    text = { game.text["nirc_stg2_pg3_opt1"] },
+                    text = { game.text["nirv_stg2_pg3_opt1"] },
                     onOptionSelected = {
                         it.close(doNotOfferAgain = true)
                     }
                 ),
                 Option(
-                    text = { game.text["nirc_stg2_pg3_opt2"] },
+                    text = { game.text["nirv_stg2_pg3_opt2"] },
                     onOptionSelected = {
                         it.close(doNotOfferAgain = true)
                     }

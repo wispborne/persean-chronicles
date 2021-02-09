@@ -3,13 +3,12 @@ package org.wisp.stories.dangerousGames.pt2_depths
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.game
-import wisp.questgiver.IntelDefinition
-import wisp.questgiver.Padding
-import wisp.questgiver.addPara
+import wisp.questgiver.*
 import wisp.questgiver.wispLib.empty
+import wisp.questgiver.wispLib.equalsAny
 import wisp.questgiver.wispLib.preferredConnectedEntity
-import wisp.questgiver.spriteName
 
 class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     title = {
@@ -28,7 +27,7 @@ class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEnt
                 game.text.getf(
                     "dg_de_intel_subtitle_stg2",
                     "ifCrewAlive" to
-                            if (!DepthsQuest.Stage2.didAllCrewDie)
+                            if (!DepthsQuest.didAllCrewDie)
                                 game.text["dg_de_intel_subtitle_stg2_ifCrewAlive"]
                             else String.empty
                 )
@@ -42,14 +41,22 @@ class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEnt
             }
     },
     descriptionCreator = { info, width, _ ->
-        val stg1TextColor = if (DepthsQuest.stage > DepthsQuest.Stage.GoToPlanet) Misc.getGrayColor()
+        val stg1TextColor = if (DepthsQuest.stage.equalsAny(
+                DepthsQuest.Stage.ReturnToStart,
+                DepthsQuest.Stage.Done
+            )
+        ) Misc.getGrayColor()
         else Misc.getTextColor()
 
+        info.addImage(DepthsQuest.intelIllustration.spriteName(game), width, Padding.DESCRIPTION_PANEL)
         info.addPara(textColor = stg1TextColor) { game.text["dg_de_intel_desc_stg1"] }
 
-        if (DepthsQuest.stage >= DepthsQuest.Stage.ReturnToStart) {
-            val stg2TextColor = if (DepthsQuest.stage > DepthsQuest.Stage.ReturnToStart) Misc.getGrayColor()
-            else Misc.getTextColor()
+        if (DepthsQuest.stage.equalsAny(DepthsQuest.Stage.ReturnToStart, DepthsQuest.Stage.Done)) {
+            val stg2TextColor =
+                if (DepthsQuest.stage.progress == AutoQuestFacilitator.Stage.Progress.Completed)
+                    Misc.getGrayColor()
+                else
+                    Misc.getTextColor()
 
             info.addPara(textColor = stg2TextColor) { game.text["dg_de_intel_desc_stg2"] }
         }

@@ -11,22 +11,19 @@ import org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
 import org.wisp.stories.dangerousGames.pt2_depths.*
 import org.wisp.stories.nirvana.*
 import org.wisp.stories.riley.*
-import wisp.questgiver.wispLib.QuestGiver
-import wisp.questgiver.wispLib.firstName
-import wisp.questgiver.wispLib.i
-import wisp.questgiver.wispLib.lastName
+import wisp.questgiver.Questgiver
+import wisp.questgiver.wispLib.*
 
 class LifecyclePlugin : BaseModPlugin() {
     override fun onApplicationLoad() {
         super.onApplicationLoad()
-        QuestGiver.initialize(modPrefix = MOD_PREFIX)
+        Questgiver.initialize(modPrefix = MOD_PREFIX)
     }
 
     override fun onGameLoad(newGame: Boolean) {
         super.onGameLoad(newGame)
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator()
-        QuestGiver.onGameLoad()
 
         game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
         game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
@@ -37,37 +34,27 @@ class LifecyclePlugin : BaseModPlugin() {
                 else -> game.text["playerPronounThey"]
             }
         }
+        game.text.globalReplacementGetters["playerPronounHeShe"] = {
+            when (game.sector.playerPerson.gender) {
+                FullName.Gender.MALE -> game.text["playerPronounHe"]
+                FullName.Gender.FEMALE -> game.text["playerPronounShe"]
+                else -> game.text["playerPronounThey"]
+            }
+        }
+        game.text.globalReplacementGetters["playerFlagshipName"] = { game.sector.playerFleet.flagship?.shipName }
 
-        listOf(DragonsQuest, DepthsQuest, RileyQuest, NirvanaQuest)
-            .forEach { it.updateTextReplacements(game.text) }
+        Questgiver.onGameLoad(
+            questFacilitators = listOf(
+                DragonsQuest,
+                DepthsQuest,
+                RileyQuest,
+                NirvanaQuest
+            ),
+            text = game.text,
+            blacklistedEntityTags = Tags.systemTagsToAvoidRandomlyChoosing
+        )
 
         applyBlacklistTagsToSystems()
-
-        val barEventManager = BarEventManager.getInstance()
-
-        if (DragonsQuest.stage == DragonsQuest.Stage.NotStarted
-            && !barEventManager.hasEventCreator(DragonsPart1_BarEventCreator::class.java)
-        ) {
-            barEventManager.addEventCreator(DragonsPart1_BarEventCreator())
-        }
-
-        if (DepthsQuest.stage == DepthsQuest.Stage.NotStarted
-            && !barEventManager.hasEventCreator(Depths_Stage1_BarEventCreator::class.java)
-        ) {
-            barEventManager.addEventCreator(Depths_Stage1_BarEventCreator())
-        }
-
-        if (RileyQuest.stage == RileyQuest.Stage.NotStarted
-            && !barEventManager.hasEventCreator(Riley_Stage1_BarEventCreator::class.java)
-        ) {
-            barEventManager.addEventCreator(Riley_Stage1_BarEventCreator())
-        }
-
-        if (NirvanaQuest.stage == NirvanaQuest.Stage.NotStarted
-            && !barEventManager.hasEventCreator(Nirvana_Stage1_BarEventCreator::class.java)
-        ) {
-            barEventManager.addEventCreator(Nirvana_Stage1_BarEventCreator())
-        }
 
         // Register this so we can intercept and replace interactions
         game.sector.registerPlugin(CampaignPlugin())
@@ -118,7 +105,8 @@ class LifecyclePlugin : BaseModPlugin() {
             Nirvana_Stage1_BarEvent::class to "Nirvana_Stage1_BarEvent",
             Nirvana_Stage1_BarEventCreator::class to "Nirvana_Stage1_BarEventCreator",
             NirvanaIntel::class to "NirvanaIntel",
-            Nirvana_Stage2_Dialog::class to "Nirvana_Stage2_Dialog"
+            Nirvana_Stage2_Dialog::class to "Nirvana_Stage2_Dialog",
+            Nirvana_Stage3_Dialog::class to "Nirvana_Stage3_Dialog"
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized

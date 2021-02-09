@@ -1,14 +1,12 @@
 package org.wisp.stories.dangerousGames.pt1_dragons
 
-import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
-import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
-import org.wisp.stories.QuestFacilitator
-import org.wisp.stories.dangerousGames.Utilities
 import org.wisp.stories.game
+import wisp.questgiver.AutoQuestFacilitator
 import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.starSystemsNotOnBlacklist
 import wisp.questgiver.wispLib.*
 
 /**
@@ -16,7 +14,20 @@ import wisp.questgiver.wispLib.*
  * Part 1 - Bring passengers to planet.
  * Part 2 - Return them back home
  */
-object DragonsQuest : QuestFacilitator {
+object DragonsQuest : AutoQuestFacilitator(
+    stageBackingField = PersistentData(key = "dragonQuestStage", defaultValue = { Stage.NotStarted }),
+    autoIntel = AutoIntel(DragonsQuest_Intel::class.java) {
+        DragonsQuest_Intel(
+            startLocation = DragonsQuest.startingPlanet!!,
+            endLocation = DragonsQuest.dragonPlanet!!
+        )
+    },
+    autoBarEvent = AutoBarEvent(DragonsPart1_BarEventCreator(),
+        shouldOfferFromMarket = { market ->
+            market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
+                    && market.size > 3
+        })
+) {
     private val DRAGON_PLANET_TYPES = listOf(
         "terran",
         "terran-eccentric",
@@ -24,14 +35,12 @@ object DragonsQuest : QuestFacilitator {
         "US_jungle" // Unknown Skies
     )
 
-    val icon by lazy { InteractionDefinition.Image("wispStories_dragonriders", "icon") }
-    val intelDetailHeaderImage by lazy { InteractionDefinition.Image("wispStories_dragonriders", "intelPicture") }
-    val dragonPlanetImage by lazy { InteractionDefinition.Image("wispStories_dragonriders", "planetIllustration") }
+    val icon = InteractionDefinition.Portrait("wispStories_dragonriders", "icon")
+    val intelDetailHeaderImage = InteractionDefinition.Illustration("wispStories_dragonriders", "intelPicture")
+    val dragonPlanetImage = InteractionDefinition.Illustration("wispStories_dragonriders", "planetIllustration")
+
     const val rewardCredits: Int = 95000
     const val minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet = 5
-
-    var stage: Stage by PersistentData(key = "dragonQuestStage", defaultValue = { Stage.NotStarted })
-        private set
 
     var dragonPlanet: SectorEntityToken? by PersistentNullableData("dragonDestinationPlanet")
         private set
@@ -39,76 +48,52 @@ object DragonsQuest : QuestFacilitator {
     var startingPlanet: SectorEntityToken? by PersistentNullableData("dragonStartingPlanet")
         private set
 
-    fun shouldOfferQuest(marketAPI: MarketAPI): Boolean =
-        stage == Stage.NotStarted
-                && marketAPI.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
-                && marketAPI.starSystem in Utilities.getSystemsForQuestTarget() // Valid system, not blacklisted
+    override fun updateTextReplacements(text: Text) {
+        text.globalReplacementGetters["dragonPlanet"] = { dragonPlanet?.name }
+        text.globalReplacementGetters["dragonSystem"] = { dragonPlanet?.starSystem?.name }
+        text.globalReplacementGetters["startPlanet"] = { startingPlanet?.name }
+        text.globalReplacementGetters["startSystem"] = { startingPlanet?.starSystem?.name }
+    }
+
+    override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
+        findAndTagDragonPlanet(interactionTarget.starSystem)
+    }
 
     /**
      * Find a planet with life somewhere near the center, excluding player's current location.
      */
-    fun init(playersCurrentStarSystem: StarSystemAPI?) {
-        findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem)
-        updateTextReplacements(game.text)
-    }
-
-    override fun updateTextReplacements(text: Text) {
-        text.globalReplacementGetters["dragonPlanet"] = { dragonPlanet?.name }
-        text.globalReplacementGetters["dragonSystem"] = { dragonPlanet?.starSystem?.baseName }
-        text.globalReplacementGetters["startPlanet"] = { startingPlanet?.name }
-        text.globalReplacementGetters["startSystem"] = { startingPlanet?.starSystem?.baseName }
-    }
-
-    private fun findAndTagDragonPlanetIfNeeded(playersCurrentStarSystem: StarSystemAPI?) {
-        if (dragonPlanet == null) {
-            val planet = try {
-                Utilities.getSystemsForQuestTarget()
-                    .filter { it.id != playersCurrentStarSystem?.id }
-                    .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet }
-                    .sortedBy { it.distanceFromCenterOfSector }
-                    .flatMap { it.planets }
-                    .filter { planet -> DRAGON_PLANET_TYPES.any { it == planet.typeId } }
-                    .toList()
-                    .getNonHostileOnlyIfPossible()
-                    .run {
-                        // Take all planets from the top third of the list,
-                        // which is sorted by proximity to the center.
-                        this.take((this.size / 3).coerceAtLeast(1))
-                    }
-                    .random()
-            } catch (e: Exception) {
-                // If no planets matching the criteria are found
-                game.errorReporter.reportCrash(e)
-                return
-            }
-
-            dragonPlanet = planet
+    private fun findAndTagDragonPlanet(playersCurrentStarSystem: StarSystemAPI?) {
+        val planet = try {
+            game.sector.starSystemsNotOnBlacklist
+                .filter { it.id != playersCurrentStarSystem?.id }
+                .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet }
+                .sortedBy { it.distanceFromCenterOfSector }
+                .flatMap { it.habitablePlanets }
+                .filter { planet -> DRAGON_PLANET_TYPES.any { it == planet.typeId } }
+                .toList()
+                .getNonHostileOnlyIfPossible()
+                .run {
+                    // Take all planets from the top third of the list,
+                    // which is sorted by proximity to the center.
+                    this.take((this.size / 3).coerceAtLeast(1))
+                }
+                .random()
+        } catch (e: Exception) {
+            // If no planets matching the criteria are found
+            game.errorReporter.reportCrash(e)
+            return
         }
-    }
 
-    fun restartQuest() {
-        game.logger.i { "Restarting Dragons quest." }
-
-        dragonPlanet = null
-        startingPlanet = null
-        stage = Stage.NotStarted
-
-        game.intelManager.findFirst(DragonsQuest_Intel::class.java)?.endImmediately()
-        BarEventManager.getInstance().removeBarEventCreator(DragonsPart1_BarEventCreator::class.java)
-        init(game.sector.playerFleet.starSystem)
+        dragonPlanet = planet
     }
 
     fun startStage1(startLocation: SectorEntityToken) {
-        stage = Stage.GoToPlanet
         startingPlanet = startLocation
-        game.intelManager.addIntel(DragonsQuest_Intel(startLocation = startLocation, endLocation = dragonPlanet!!))
+        stage = Stage.GoToPlanet
     }
 
     fun failQuestByLeavingToGetEatenByDragons() {
         stage = Stage.FailedByAbandoning
-        game.intelManager.findFirst(DragonsQuest_Intel::class.java)
-            ?.endAndNotifyPlayer()
-
     }
 
     fun startPart2() {
@@ -123,22 +108,21 @@ object DragonsQuest : QuestFacilitator {
     fun finishStage2() {
         game.sector.playerFleet.cargo.credits.add(rewardCredits.toFloat())
         stage = Stage.Done
-        game.intelManager.findFirst(DragonsQuest_Intel::class.java)
-            ?.apply {
-                endAfterDelay()
-                sendUpdateIfPlayerHasIntel(null, false)
-            }
     }
 
-    /**
-     * Where the player is in the quest.
-     * Note: Should be in order of completion.
-     */
-    enum class Stage {
-        NotStarted,
-        GoToPlanet,
-        ReturnToStart,
-        FailedByAbandoning,
-        Done
+    fun restartQuest() {
+        game.logger.i { "Restarting Dragons quest." }
+
+        dragonPlanet = null
+        startingPlanet = null
+        stage = Stage.NotStarted
+    }
+
+    abstract class Stage(progress: Progress) : AutoQuestFacilitator.Stage(progress) {
+        object NotStarted : Stage(Progress.NotStarted)
+        object GoToPlanet : Stage(Progress.InProgress)
+        object ReturnToStart : Stage(Progress.InProgress)
+        object FailedByAbandoning : Stage(Progress.Completed)
+        object Done : Stage(Progress.Completed)
     }
 }

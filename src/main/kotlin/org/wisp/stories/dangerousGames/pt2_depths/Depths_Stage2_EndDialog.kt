@@ -19,7 +19,7 @@ class Depths_Stage2_EndDialog : InteractionDefinition<Depths_Stage2_EndDialog>(
                         game.memory[gatesAwakenedSecondQuestDoneMemKey] == true &&
                         game.memory[gatesAwakenedRemainingCodesMemKey] as? Int != null
                     ) {
-                        when (DepthsQuest.Stage2.riddleSuccessesCount) {
+                        when (DepthsQuest.riddleSuccessesCount) {
                             0, 1, 2 -> {
                                 // Give one Gate Code
                                 game.memory[gatesAwakenedRemainingCodesMemKey] =
@@ -32,7 +32,7 @@ class Depths_Stage2_EndDialog : InteractionDefinition<Depths_Stage2_EndDialog>(
                                     game.memory[gatesAwakenedRemainingCodesMemKey] as Int + 2
                                 game.text["dg_de_stg3_backToStart_pg1_para2_ifFailedNoRiddles"]
                             }
-                            else -> error("Unexpected success count ${DepthsQuest.Stage2.riddleSuccessesCount}")
+                            else -> error("Unexpected success count ${DepthsQuest.riddleSuccessesCount}")
                         }
                     } else
                         game.text["dg_de_stg3_backToStart_pg1_para2_ifGatesAwakenedMidQuestNotDone"]

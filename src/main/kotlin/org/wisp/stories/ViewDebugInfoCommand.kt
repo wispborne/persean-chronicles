@@ -4,6 +4,7 @@ import org.lazywizard.console.BaseCommand
 import org.lazywizard.console.Console
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest
+import org.wisp.stories.nirvana.NirvanaQuest
 import org.wisp.stories.riley.RileyQuest
 
 class ViewDebugInfoCommand : BaseCommand {
@@ -19,12 +20,17 @@ class ViewDebugInfoCommand : BaseCommand {
         info.appendln("Dragonriders origin planet: ${DragonsQuest.startingPlanet?.fullName} in ${DragonsQuest.startingPlanet?.starSystem?.baseName}")
         info.appendln("Dragonriders destination planet: ${DragonsQuest.dragonPlanet?.fullName} in ${DragonsQuest.dragonPlanet?.starSystem?.baseName}")
         info.appendln("Dragonriders quest stage: ${DragonsQuest.stage}")
+        info.appendln()
         info.appendln("Depths origin planet: ${DepthsQuest.startingPlanet?.fullName} in ${DepthsQuest.startingPlanet?.starSystem?.baseName}")
         info.appendln("Depths destination planet: ${DepthsQuest.depthsPlanet?.fullName} in ${DepthsQuest.depthsPlanet?.starSystem?.baseName}")
         info.appendln("Depths quest stage: ${DepthsQuest.stage}")
+        info.appendln()
         info.appendln("Riley destination planet: ${RileyQuest.destinationPlanet?.fullName} in ${RileyQuest.destinationPlanet?.starSystem?.baseName}")
         info.appendln("Riley quest stage: ${RileyQuest.stage}")
         info.appendln("Riley quest choices: ${RileyQuest.choices.map.entries.joinToString()}")
+        info.appendln()
+        info.appendln("Nirvana destination planet: ${NirvanaQuest.destPlanet?.fullName} in ${NirvanaQuest.destPlanet?.starSystem?.baseName}")
+        info.appendln("Nirvana quest stage: ${NirvanaQuest.stage}")
 
         Console.showMessage(info.toString())
 

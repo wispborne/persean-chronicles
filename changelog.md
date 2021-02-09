@@ -1,0 +1,1 @@
+Too lazy to write good changelogs before 1.0.

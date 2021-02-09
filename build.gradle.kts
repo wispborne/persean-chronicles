@@ -4,8 +4,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // ATTN: CHANGE ME
 val starsectorDirectory = "C:/Program Files (x86)/Fractal Softworks/Starsector"
 /////////////////
-val perseanChroniclesVersion = "0.10.1"
-val questgiverVersion = "1.1.0"
+val perseanChroniclesVersion = "0.12.0"
+val questgiverVersion = "2.0.0"
 val jarFileName = "PerseanChronicles.jar"
 /////////////////
 
@@ -30,7 +30,7 @@ dependencies {
     // Questgiver lib
     implementation(fileTree("libs")
     {
-        include("Questgiver-$questgiverVersion*")
+        include("Questgiver-$questgiverVersion.jar")
     })
 
     // Get kotlin sdk from LazyLib during runtime, only use it here during compile time
@@ -46,10 +46,12 @@ dependencies {
         include(
             "starfarer.api.jar",
             "starfarer.api-sources.jar",
+            "starfarer_obf.jar",
             "json.jar",
             "xstream-1.4.10.jar",
             "log4j-1.2.9.jar",
-            "lwjgl.jar"
+            "lwjgl.jar",
+            "lwjgl_util.jar"
         )
 //        exclude("*_obf.jar")
     })
@@ -58,14 +60,8 @@ dependencies {
 tasks {
     named<Jar>("jar")
     {
-        // Include all runtime files in the jar so mod is standalone
-//        from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-//        from(configurations.runtimeClasspath.get()
-//            .filter { it.path.contains("Questgiver") }
-//            .map { if (it.isDirectory) it else zipTree(it) })
         destinationDirectory.set(file("$rootDir/jars"))
         archiveFileName.set(jarFileName)
-//        with(tasks.jar.get() as CopySpec)
     }
 
     register("debug-starsector", Exec::class) {

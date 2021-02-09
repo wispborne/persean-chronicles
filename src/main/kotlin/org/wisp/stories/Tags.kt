@@ -30,9 +30,3 @@ internal object Tags {
         TAG_BLACKLISTED_SYSTEM
     )
 }
-
-internal val StarSystemAPI.isValidSystemForQuest: Boolean
-    get() = this.tags.none { Tags.systemTagsToAvoidRandomlyChoosing.contains(it) }
-
-internal val StarSystemAPI.isBlacklisted: Boolean
-    get() = this.tags.any { Tags.systemTagsToBlacklist.contains(it) }

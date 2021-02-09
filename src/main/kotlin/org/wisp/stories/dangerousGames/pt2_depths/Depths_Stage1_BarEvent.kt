@@ -4,17 +4,15 @@ import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import org.wisp.stories.game
-import wisp.questgiver.BarEventDefinition
+import wisp.questgiver.AutoBarEventDefinition
 
-class Depths_Stage1_BarEvent : BarEventDefinition<Depths_Stage1_BarEvent>(
-    shouldShowEvent = { DepthsQuest.shouldOfferQuest(it) },
-    interactionPrompt = {
-        para { game.text["dg_de_stg1_prompt"] }
+class Depths_Stage1_BarEvent : AutoBarEventDefinition<Depths_Stage1_BarEvent>(
+    questFacilitator = DepthsQuest,
+    createInteractionPrompt = {
+        paraSync { game.text["dg_de_stg1_prompt"] }
     },
     textToStartInteraction = { game.text["dg_de_stg1_startBarEvent"] },
-    onInteractionStarted = {
-        DepthsQuest.init(game.sector.playerFleet.starSystem)
-    },
+    onInteractionStarted = {},
     pages = listOf(
         Page(
             id = 1,
@@ -55,7 +53,7 @@ class Depths_Stage1_BarEvent : BarEventDefinition<Depths_Stage1_BarEvent>(
                         game.text["dg_de_stg1_pg2_opt1"]
                     },
                     onOptionSelected = {
-                        DepthsQuest.startStage1(this.dialog.interactionTarget)
+                        DepthsQuest.startStage1()
                         it.close(doNotOfferAgain = true)
                     }
                 )

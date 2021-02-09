@@ -6,40 +6,41 @@ import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Factions
+import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.fs.starfarer.api.util.Misc
-import org.wisp.stories.QuestFacilitator
-import org.wisp.stories.dangerousGames.Utilities
+import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest
+import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest_Intel
+import org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage1_BarEventCreator
 import org.wisp.stories.game
-import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.*
 import wisp.questgiver.wispLib.*
 
-object NirvanaQuest : QuestFacilitator {
+object NirvanaQuest : AutoQuestFacilitator(
+    stageBackingField = PersistentData(key = "nirvanaStage", defaultValue = { Stage.NotStarted }),
+    autoBarEvent = AutoBarEvent(Nirvana_Stage1_BarEventCreator()) { market ->
+        market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT.toLowerCase())
+                && market.size > 3
+    },
+    autoIntel = AutoIntel(NirvanaIntel::class.java) {
+        NirvanaIntel(NirvanaQuest.startLocation!!, NirvanaQuest.destPlanet!!)
+    }
+) {
 
-    const val REWARD_CREDITS = 100000F
+    val REWARD_CREDITS: Float
+        get() = Questgiver.calculateCreditReward(startLocation, destPlanet, scaling = 1.3f)
     const val CARGO_TYPE = Commodities.HEAVY_MACHINERY
     const val CARGO_WEIGHT = 5
 
-    val icon: InteractionDefinition.Image by lazy {
-        InteractionDefinition.Image(
-            category = "wisp_perseanchronicles_nirvana",
-            id = "davidRengel",
-            width = 128f,
-            height = 128f,
-            displayHeight = 128f,
-            displayWidth = 128f
-        )
-    }
-    val background: InteractionDefinition.Image by lazy {
-        InteractionDefinition.Image("wisp_perseanchronicles_nirvana", "background")
-    }
+    val icon = InteractionDefinition.Portrait(category = "wisp_perseanchronicles_nirvana", id = "davidRengel")
+    val background = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_nirvana", id = "background")
+
+    var startDate: Long? by PersistentNullableData("nirvanaStartDate")
+        private set
 
     var startLocation: SectorEntityToken? by PersistentNullableData("nirvanaStartLocation")
         private set
 
     var destPlanet: SectorEntityToken? by PersistentNullableData("nirvanaDestPlanet")
-        private set
-
-    var stage: Stage by PersistentData(key = "nirvanaStage", defaultValue = { Stage.NotStarted })
         private set
 
     val destSystem: StarSystemAPI?
@@ -48,31 +49,27 @@ object NirvanaQuest : QuestFacilitator {
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["nirvanaCredits"] = { Misc.getDGSCredits(REWARD_CREDITS) }
         text.globalReplacementGetters["nirvanaDestPlanet"] = { destPlanet?.name }
-        text.globalReplacementGetters["nirvanaDestSystem"] = { destSystem?.baseName }
+        text.globalReplacementGetters["nirvanaDestSystem"] = { destSystem?.name }
         text.globalReplacementGetters["nirvanaCargoTons"] = { CARGO_WEIGHT.toString() }
         text.globalReplacementGetters["nirvanaStarName"] = { destPlanet?.starSystem?.star?.name }
     }
 
-    /**
-     * Only from Independent worlds.
-     */
-    fun shouldMarketOfferQuest(market: MarketAPI): Boolean =
-        market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT)
-
-    fun init() {
+    override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
         fun isValidPlanet(planet: PlanetAPI): Boolean =
             (planet.faction?.isHostileTo(game.sector.playerFaction) != true)
                     && planet.market?.factionId?.toLowerCase() !in listOf("luddic_church", "luddic_path")
                     && !planet.isGasGiant
                     && !planet.isStar
 
-        val system = Utilities.getSystemsForQuestTarget()
-            .filter { sys -> sys.star.spec.isPulsar && sys.planets.any { isValidPlanet(it) } }
+        this.startLocation = interactionTarget
+
+        val system = game.sector.starSystemsNotOnBlacklist
+            .filter { sys -> sys.star.spec.isPulsar && sys.habitablePlanets.any { isValidPlanet(it) } }
             .prefer { it.distanceFromPlayerInHyperspace >= 18 } // 18+ LY away
             .random()
 
 
-        val planet = system.planets
+        val planet = system.habitablePlanets
             .filter { isValidPlanet(it) }
             .minBy { it.market?.hazardValue ?: 500f }
             ?: kotlin.run {
@@ -88,29 +85,46 @@ object NirvanaQuest : QuestFacilitator {
     }
 
     fun start(startLocation: SectorEntityToken) {
-        this.startLocation = startLocation
         game.logger.i { "Nirvana start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
         stage = Stage.GoToPlanet
-        game.sector.intelManager.addIntel(NirvanaIntel(startLocation, destPlanet!!))
         game.sector.playerFleet.cargo.addCommodity(CARGO_TYPE, CARGO_WEIGHT.toFloat())
     }
 
-    fun doesPlayerHaveCargo() =
-        game.sector.playerFleet.cargo.getCommodityQuantity(CARGO_TYPE) >= CARGO_WEIGHT
+    fun shouldShowStage2Dialog() =
+        stage == Stage.GoToPlanet
+                && game.sector.playerFleet.cargo.getCommodityQuantity(CARGO_TYPE) >= CARGO_WEIGHT
 
     fun complete() {
         stage = Stage.Completed
 
         game.sector.playerFleet.cargo.removeCommodity(CARGO_TYPE, CARGO_WEIGHT.toFloat())
         game.sector.playerFleet.cargo.credits.add(REWARD_CREDITS)
-
-        game.intelManager.findFirst(NirvanaIntel::class.java)
-            ?.endAndNotifyPlayer()
     }
 
-    enum class Stage {
-        NotStarted,
-        GoToPlanet,
-        Completed
+    /**
+     * 55 years after quest was completed.
+     */
+    fun shouldShowStage3Dialog() =
+        stage == Stage.Completed
+                && game.sector.clock.convertToMonths(startDate?.toFloat() ?: 0f) > (12 * 55)
+
+    fun completeSecret() {
+        stage = Stage.CompletedSecret
+    }
+
+    fun restartQuest() {
+        game.logger.i { "Restarting Nirvana quest." }
+
+        startDate = null
+        startLocation = null
+        destPlanet = null
+        stage = Stage.NotStarted
+    }
+
+    abstract class Stage(progress: Progress) : AutoQuestFacilitator.Stage(progress) {
+        object NotStarted : Stage(Progress.NotStarted)
+        object GoToPlanet : Stage(Progress.InProgress)
+        object Completed : Stage(Progress.Completed)
+        object CompletedSecret : Stage(Progress.Completed)
     }
 }

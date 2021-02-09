@@ -5,10 +5,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.game
-import wisp.questgiver.IntelDefinition
-import wisp.questgiver.Padding
-import wisp.questgiver.addPara
-import wisp.questgiver.spriteName
+import wisp.questgiver.*
 import wisp.questgiver.wispLib.empty
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
@@ -41,7 +38,7 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
     },
     descriptionCreator = { info, width, _ ->
         val part1Color =
-            if (DragonsQuest.stage > DragonsQuest.Stage.GoToPlanet) Misc.getGrayColor()
+            if (DragonsQuest.stage.progress != AutoQuestFacilitator.Stage.Progress.NotStarted) Misc.getGrayColor()
             else Misc.getTextColor()
 
         info.addImage(DragonsQuest.intelDetailHeaderImage.spriteName(game), width, Padding.DESCRIPTION_PANEL)
@@ -49,8 +46,10 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEn
             game.text["dg_dr_intel_desc_para1"]
         }
         val part2Color =
-            if (DragonsQuest.stage > DragonsQuest.Stage.ReturnToStart) Misc.getGrayColor()
-            else Misc.getTextColor()
+            if (DragonsQuest.stage.progress == AutoQuestFacilitator.Stage.Progress.Completed)
+                Misc.getGrayColor()
+            else
+                Misc.getTextColor()
 
         if (DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart || DragonsQuest.stage == DragonsQuest.Stage.Done) {
             info.addPara(textColor = part2Color) {

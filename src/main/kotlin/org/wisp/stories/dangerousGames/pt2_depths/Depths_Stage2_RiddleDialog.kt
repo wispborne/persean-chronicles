@@ -1,10 +1,8 @@
 package org.wisp.stories.dangerousGames.pt2_depths
 
-import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.Stage2.riddle1Choice
-import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.Stage2.riddle2Choice
-import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.Stage2.riddle3Choice
-import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.Stage2.riddleSuccessesCount
-import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.Stage2.wallCrashesCount
+import com.fs.starfarer.api.Global
+import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.riddleSuccessesCount
+import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.wallCrashesCount
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.wispLib.empty
@@ -46,15 +44,17 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
         ),
         Page(
             id = 2,
+            image = DepthsQuest.diveIllustration,
             onPageShown = {
-                para {
-                    game.text["dg_de_stg2_pg2_para1"]
-                    game.text["dg_de_stg2_pg2_para2"]
-                }
+                para { game.text["dg_de_stg2_pg2_para1"] }
+                para { game.text["dg_de_stg2_pg2_para2"] }
+                DepthsQuest.startMusic()
             },
             options = listOf(Option(
                 text = { game.text["dg_de_stg2_pg2_opt1"] },
-                onOptionSelected = { it.goToPage(3) }
+                onOptionSelected = {
+                    it.goToPage(3)
+                }
             ))
         ),
         Page(
@@ -100,28 +100,28 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
                 Option(
                     text = { game.text["dg_de_stg2_riddle1_optEast"] },
                     onOptionSelected = {
-                        riddle1Choice = RiddleChoice.Riddle1Choice.EastMorg
+                        DepthsQuest.choices.riddle1Choice = RiddleChoice.Riddle1Choice.EastMorg
                         it.goToPage(PageId.Riddle1_East_Morg)
                     }
                 ),
                 Option(
                     text = { game.text["dg_de_stg2_riddle1_optNorth"] },
                     onOptionSelected = {
-                        riddle1Choice = RiddleChoice.Riddle1Choice.NorthSuccess
+                        DepthsQuest.choices.riddle1Choice = RiddleChoice.Riddle1Choice.NorthSuccess
                         it.goToPage(PageId.Riddle1_North_Success)
                     }
                 ),
                 Option(
                     text = { game.text["dg_de_stg2_riddle1_optSouth"] },
                     onOptionSelected = {
-                        riddle1Choice = RiddleChoice.Riddle1Choice.SouthSmoke
+                        DepthsQuest.choices.riddle1Choice = RiddleChoice.Riddle1Choice.SouthSmoke
                         it.goToPage(PageId.Riddle1_South_Smoke)
                     }
                 ),
                 Option(
                     text = { game.text["dg_de_stg2_riddle1_optWest"] },
                     onOptionSelected = {
-                        riddle1Choice = RiddleChoice.Riddle1Choice.WestWall
+                        DepthsQuest.choices.riddle1Choice = RiddleChoice.Riddle1Choice.WestWall
                         it.goToPage(PageId.Riddle1_West_Wall)
                     }
                 )
@@ -215,22 +215,22 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
                 Option(
                     text = { game.text["dg_de_stg2_riddle2_optEast"] },
                     onOptionSelected = {
-                        riddle2Choice = RiddleChoice.Riddle2Choice.EastSuccess
+                        DepthsQuest.choices.riddle2Choice = RiddleChoice.Riddle2Choice.EastSuccess
                         it.goToPage(PageId.Riddle2_East_Success_SecondSuccess)
                     }
                 ),
                 Option(
                     text = { game.text["dg_de_stg2_riddle2_optNorth"] },
                     onOptionSelected = {
-                        riddle2Choice = RiddleChoice.Riddle2Choice.NorthVines
+                        DepthsQuest.choices.riddle2Choice = RiddleChoice.Riddle2Choice.NorthVines
                         it.goToPage(PageId.Riddle2_North_Vines)
                     }
                 ),
                 Option(
                     text = { game.text["dg_de_stg2_riddle2_optWest"] },
                     onOptionSelected = {
-                        riddle2Choice = RiddleChoice.Riddle2Choice.WestWall
-                        if (riddle1Choice != RiddleChoice.Riddle1Choice.WestWall)
+                        DepthsQuest.choices.riddle2Choice = RiddleChoice.Riddle2Choice.WestWall
+                        if (DepthsQuest.choices.riddle1Choice != RiddleChoice.Riddle1Choice.WestWall)
                             it.goToPage(PageId.Riddle2_West_FirstWallCrash)
                         else
                             it.goToPage(PageId.Riddle2_West_SecondWallCrash)
@@ -289,7 +289,7 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
         Page(
             id = PageId.Riddle2_Failed,
             onPageShown = {
-                if (riddle1Choice == RiddleChoice.Riddle1Choice.NorthSuccess) {
+                if (DepthsQuest.choices.riddle1Choice == RiddleChoice.Riddle1Choice.NorthSuccess) {
                     para { game.text["dg_de_stg2_riddle2_failure_firstFail_para1"] }
                     para { game.text["dg_de_stg2_riddle2_failure_firstFail_para2"] }
                 } else {
@@ -345,21 +345,21 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
                 Option(
                     text = { game.text["dg_de_stg2_riddle3_optNorth"] },
                     onOptionSelected = {
-                        riddle3Choice = RiddleChoice.Riddle3Choice.NorthKoijuu
+                        DepthsQuest.choices.riddle3Choice = RiddleChoice.Riddle3Choice.NorthKoijuu
                         it.goToPage(PageId.Riddle3_North_Koijuu)
                     }
                 ),
                 Option(
                     text = { game.text["dg_de_stg2_riddle3_optEast"] },
                     onOptionSelected = {
-                        riddle3Choice = RiddleChoice.Riddle3Choice.EastWall
+                        DepthsQuest.choices.riddle3Choice = RiddleChoice.Riddle3Choice.EastWall
                         it.goToPage(PageId.Riddle3_East_Wall)
                     }
                 ),
                 Option(
                     text = { game.text["dg_de_stg2_riddle3_optSouth"] },
                     onOptionSelected = {
-                        riddle3Choice = RiddleChoice.Riddle3Choice.SouthSuccess
+                        DepthsQuest.choices.riddle3Choice = RiddleChoice.Riddle3Choice.SouthSuccess
                         it.goToPage(PageId.Riddle3_South_Success)
                     }
                 )
@@ -517,6 +517,7 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
             id = PageId.BackAtTheSurface,
             onPageShown = {
                 para { game.text["dg_de_stg2_backAtSurface_para1"] }
+                DepthsQuest.stopMusic()
                 para {
                     if (riddleSuccessesCount > 0)
                         game.text["dg_de_stg2_backAtSurface_para2_ifOthersSurvived"]

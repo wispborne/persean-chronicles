@@ -1,5 +1,7 @@
 package org.wisp.stories
 
+import com.fs.starfarer.api.Global
+import com.fs.starfarer.api.SoundPlayerAPI
 import wisp.questgiver.wispLib.AggregateResourceBundle
 import wisp.questgiver.wispLib.CrashReporter
 import wisp.questgiver.wispLib.ServiceLocator
@@ -27,4 +29,7 @@ class SpaceTalesServiceLocator : ServiceLocator() {
             )
         )
     )
+
+    inline val soundPlayer: SoundPlayerAPI
+        get() = Global.getSoundPlayer()
 }
