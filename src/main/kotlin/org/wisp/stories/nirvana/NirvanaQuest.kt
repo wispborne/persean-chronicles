@@ -18,7 +18,7 @@ import wisp.questgiver.wispLib.*
 object NirvanaQuest : AutoQuestFacilitator(
     stageBackingField = PersistentData(key = "nirvanaStage", defaultValue = { Stage.NotStarted }),
     autoBarEvent = AutoBarEvent(Nirvana_Stage1_BarEventCreator()) { market ->
-        market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT)
+        market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT.toLowerCase())
                 && market.size > 3
     },
     autoIntel = AutoIntel(NirvanaIntel::class.java) {
@@ -27,7 +27,7 @@ object NirvanaQuest : AutoQuestFacilitator(
 ) {
 
     val REWARD_CREDITS: Float
-        get() = Questgiver.calculateCreditReward(startLocation, destPlanet, scaling = 1.4f)
+        get() = Questgiver.calculateCreditReward(startLocation, destPlanet, scaling = 1.3f)
     const val CARGO_TYPE = Commodities.HEAVY_MACHINERY
     const val CARGO_WEIGHT = 5
 

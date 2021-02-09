@@ -7,7 +7,8 @@
     },
     "wispStories_depths": {
       "icon": "graphics/depths/kelp.png",
-      "diveIllustration": "graphics/depths/diveIllustration.png"
+      "diveIllustration": "graphics/depths/diveIllustration.png",
+      "intelIllustration": "graphics/depths/intelIllustration.png"
     },
     "wispStories_riley": {
       "icon": "graphics/riley/riley.png"

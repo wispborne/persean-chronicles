@@ -3,6 +3,7 @@ package org.wisp.stories.dangerousGames.pt2_depths
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
+import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.game
 import wisp.questgiver.*
 import wisp.questgiver.wispLib.empty
@@ -47,6 +48,7 @@ class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEnt
         ) Misc.getGrayColor()
         else Misc.getTextColor()
 
+        info.addImage(DepthsQuest.intelIllustration.spriteName(game), width, Padding.DESCRIPTION_PANEL)
         info.addPara(textColor = stg1TextColor) { game.text["dg_de_intel_desc_stg1"] }
 
         if (DepthsQuest.stage.equalsAny(DepthsQuest.Stage.ReturnToStart, DepthsQuest.Stage.Done)) {
