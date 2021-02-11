@@ -19,7 +19,20 @@ He gives you a once-over, and his eyes gain a spark of hope. "You're a captain? 
 His eyes drop. "I can pay you after I earn the money. I've just gotta get to ${laborerDestPlanet} to get work, and then I'll send the money. I just want to earn a living, same as anyone."
 
 - "Ok, I can take you to ${laborerDestSystem}"
+- "How do I know you'll pay?"
+  - "You don't trust me? Just keep walking, then, if you're gonna be like that."
 - "Sorry, money up front." (leave)
-
   - "I knew it. You're just like everyone else. Asshole."
   
+"I'll be on board. There's no rush, honestly. I need a break from all this stress."
+
+--------------
+
+"Thanks for the lift. You're one of the good ones, you know?"
+
+- "You have my bank address, right?"
+  - He shoots you a look of masked annoyance. "Yeah. I'll send you the credits when I have them. Bye, now."
+- "I need that money now."
+  - He shoots you an accused look. "You said I could pay you later. As we discussed, I'll send you the payment when I have it."
+  
+He turns and walks off.

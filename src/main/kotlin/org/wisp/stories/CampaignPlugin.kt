@@ -11,7 +11,6 @@ import org.wisp.stories.nirvana.NirvanaQuest
 import org.wisp.stories.nirvana.Nirvana_Stage2_Dialog
 import org.wisp.stories.nirvana.Nirvana_Stage3_Dialog
 import org.wisp.stories.riley.RileyQuest
-import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.equalsAny
 import wisp.questgiver.wispLib.hasSameMarketAs
 
@@ -19,10 +18,6 @@ import wisp.questgiver.wispLib.hasSameMarketAs
  * Instead of using `rules.csv`, use this plugin to trigger dialog choices and conversations.
  */
 class CampaignPlugin : BaseCampaignPlugin() {
-    init {
-        Questgiver.initialize(modPrefix = MOD_PREFIX)
-    }
-
     override fun getId() = "${MOD_PREFIX}_CampaignPlugin"
 
     // No need to add to saves

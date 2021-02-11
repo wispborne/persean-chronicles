@@ -2,7 +2,6 @@ package org.wisp.stories
 
 import com.fs.starfarer.api.BaseModPlugin
 import com.fs.starfarer.api.characters.FullName
-import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.thoughtworks.xstream.XStream
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
@@ -12,18 +11,37 @@ import org.wisp.stories.dangerousGames.pt2_depths.*
 import org.wisp.stories.nirvana.*
 import org.wisp.stories.riley.*
 import wisp.questgiver.Questgiver
-import wisp.questgiver.wispLib.*
+import wisp.questgiver.wispLib.firstName
+import wisp.questgiver.wispLib.i
+import wisp.questgiver.wispLib.lastName
+import java.util.*
 
 class LifecyclePlugin : BaseModPlugin() {
+    init {
+        Questgiver.init(modPrefix = MOD_PREFIX)
+    }
+
     override fun onApplicationLoad() {
         super.onApplicationLoad()
-        Questgiver.initialize(modPrefix = MOD_PREFIX)
+        addTextToServiceLocator()
     }
 
     override fun onGameLoad(newGame: Boolean) {
         super.onGameLoad(newGame)
+
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
-        game = SpaceTalesServiceLocator()
+        game = SpaceTalesServiceLocator(Questgiver.game)
+        addTextToServiceLocator()
+
+        Questgiver.onGameLoad(
+            blacklistedEntityTags = Tags.systemTagsToAvoidRandomlyChoosing,
+            questFacilitators = listOf(
+                DragonsQuest,
+                DepthsQuest,
+                RileyQuest,
+                NirvanaQuest
+            )
+        )
 
         game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
         game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
@@ -43,16 +61,6 @@ class LifecyclePlugin : BaseModPlugin() {
         }
         game.text.globalReplacementGetters["playerFlagshipName"] = { game.sector.playerFleet.flagship?.shipName }
 
-        Questgiver.onGameLoad(
-            questFacilitators = listOf(
-                DragonsQuest,
-                DepthsQuest,
-                RileyQuest,
-                NirvanaQuest
-            ),
-            text = game.text,
-            blacklistedEntityTags = Tags.systemTagsToAvoidRandomlyChoosing
-        )
 
         applyBlacklistTagsToSystems()
 
@@ -113,6 +121,17 @@ class LifecyclePlugin : BaseModPlugin() {
         aliases.forEach { x.alias("${MOD_PREFIX}_${it.second}", it.first.java) }
     }
 
+    private fun addTextToServiceLocator() {
+        game.text.resourceBundles.addAll(
+            listOf(
+                ResourceBundle.getBundle("Stories_Shared"),
+                ResourceBundle.getBundle("Stories_DangerousGames_Dragons"),
+                ResourceBundle.getBundle("Stories_DangerousGames_Depths"),
+                ResourceBundle.getBundle("Stories_Nirvana"),
+                ResourceBundle.getBundle("Stories_Riley")
+            )
+        )
+    }
 
     private fun applyBlacklistTagsToSystems() {
         val blacklistedSystems = try {

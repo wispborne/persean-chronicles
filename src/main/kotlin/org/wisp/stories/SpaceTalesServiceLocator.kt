@@ -2,33 +2,19 @@ package org.wisp.stories
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.SoundPlayerAPI
-import wisp.questgiver.wispLib.AggregateResourceBundle
+import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.CrashReporter
 import wisp.questgiver.wispLib.ServiceLocator
-import wisp.questgiver.wispLib.Text
-import java.util.*
 
 
 /**
  * Singleton instance of the service locator. Set a new one of these for unit tests.
  */
-var game: SpaceTalesServiceLocator = SpaceTalesServiceLocator()
+var game: SpaceTalesServiceLocator = SpaceTalesServiceLocator(Questgiver.game)
 
-class SpaceTalesServiceLocator : ServiceLocator() {
+class SpaceTalesServiceLocator(serviceLocator: ServiceLocator) : ServiceLocator by serviceLocator {
     val errorReporter: CrashReporter =
         CrashReporter(modName = MOD_NAME, modAuthor = MOD_AUTHOR, game = this)
-
-    val text = Text(
-        resourceBundle = AggregateResourceBundle(
-            listOf(
-                ResourceBundle.getBundle("Stories_DangerousGames"),
-                ResourceBundle.getBundle("Stories_Psychic"),
-                ResourceBundle.getBundle("Stories_Riley"),
-                ResourceBundle.getBundle("Stories_Nirvana"),
-                ResourceBundle.getBundle("Stories_Shared")
-            )
-        )
-    )
 
     inline val soundPlayer: SoundPlayerAPI
         get() = Global.getSoundPlayer()

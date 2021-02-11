@@ -12,7 +12,6 @@ import com.fs.starfarer.api.impl.campaign.ids.MemFlags
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
-import org.lwjgl.util.vector.Vector2f
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.game
 import wisp.questgiver.AutoQuestFacilitator

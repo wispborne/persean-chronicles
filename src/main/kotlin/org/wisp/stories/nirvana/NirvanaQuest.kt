@@ -6,11 +6,7 @@ import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Factions
-import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.fs.starfarer.api.util.Misc
-import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest
-import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest_Intel
-import org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage1_BarEventCreator
 import org.wisp.stories.game
 import wisp.questgiver.*
 import wisp.questgiver.wispLib.*
