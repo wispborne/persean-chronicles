@@ -66,9 +66,10 @@ object DragonsQuest : AutoQuestFacilitator(
         val planet = try {
             game.sector.starSystemsNotOnBlacklist
                 .filter { it.id != playersCurrentStarSystem?.id }
-                .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet }
+                .filter { system -> system.planets.any { planet -> DRAGON_PLANET_TYPES.any { it == planet.typeId } } }
+                .prefer { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet }
                 .sortedBy { it.distanceFromCenterOfSector }
-                .flatMap { it.habitablePlanets }
+                .flatMap { it.solidPlanets }
                 .filter { planet -> DRAGON_PLANET_TYPES.any { it == planet.typeId } }
                 .toList()
                 .getNonHostileOnlyIfPossible()
@@ -92,7 +93,7 @@ object DragonsQuest : AutoQuestFacilitator(
         stage = Stage.GoToPlanet
     }
 
-    fun failQuestByLeavingToGetEatenByDragons() {
+    fun failQuestByLeavingOthersToGetEatenByDragons() {
         stage = Stage.FailedByAbandoning
     }
 

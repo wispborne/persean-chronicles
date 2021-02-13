@@ -113,7 +113,7 @@ object RileyQuest : AutoQuestFacilitator(
             game.sector.starSystemsNotOnBlacklist
                 .sortedByDescending { it.distanceFrom(startEntity.starSystem) }
                 .filter { it.id != startEntity.starSystem?.id }
-                .flatMap { it.habitablePlanets }
+                .flatMap { it.solidPlanets }
                 .prefer { it.market?.factionId?.toLowerCase() in govtsSponsoringSafeAi }
                 .prefer { (it.market?.size ?: 0) > 2 }
                 .getNonHostileOnlyIfPossible()

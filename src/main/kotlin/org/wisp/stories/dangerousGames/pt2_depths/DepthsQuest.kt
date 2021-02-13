@@ -50,7 +50,8 @@ object DepthsQuest : AutoQuestFacilitator(
 
     val icon = InteractionDefinition.Portrait(category = "wispStories_depths", id = "icon")
     val diveIllustration = InteractionDefinition.Illustration(category = "wispStories_depths", id = "diveIllustration")
-    val intelIllustration = InteractionDefinition.Illustration(category = "wispStories_depths", id = "intelIllustration")
+    val intelIllustration =
+        InteractionDefinition.Illustration(category = "wispStories_depths", id = "intelIllustration")
 
     const val rewardCredits: Int = 100000 // TODO
     const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5
@@ -110,7 +111,7 @@ object DepthsQuest : AutoQuestFacilitator(
         startingPlanet = null
         choices.map.clear()
         stage = Stage.NotStarted
-        game.sector.starSystems.flatMap { it.habitablePlanets }
+        game.sector.starSystems.flatMap { it.solidPlanets }
             .filter { it.market?.hasCondition(CrystalMarketMod.CONDITION_ID) == true }
             .forEach { it.market?.removeCondition(CrystalMarketMod.CONDITION_ID) }
     }
@@ -196,9 +197,10 @@ object DepthsQuest : AutoQuestFacilitator(
         val planet = try {
             game.sector.starSystemsNotOnBlacklist
                 .filter { it.id != playersCurrentStarSystem?.id }
-                .filter { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet }
+                .filter { system -> system.planets.any { planet -> DEPTHS_PLANET_TYPES.any { it == planet.typeId } } }
+                .prefer { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet }
                 .sortedBy { it.distanceFromCenterOfSector }
-                .flatMap { it.habitablePlanets }
+                .flatMap { it.solidPlanets }
                 .prefer { it.faction.id == Factions.NEUTRAL } // Uncolonized planets
                 .filter { planet -> planet.typeId in DEPTHS_PLANET_TYPES }
                 .toList()
