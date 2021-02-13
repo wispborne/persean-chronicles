@@ -1,4 +1,4 @@
-package org.wisp.stories.nirvana
+package org.wisp.stories.laborer
 
 import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
@@ -12,12 +12,12 @@ import wisp.questgiver.BarEventDefinition
 import wisp.questgiver.spriteName
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
-class Nirvana_Stage1_BarEvent : AutoBarEventDefinition<Nirvana_Stage1_BarEvent>(
-    questFacilitator = NirvanaQuest,
+class Laborer_Stage1_BarEvent : AutoBarEventDefinition<Laborer_Stage1_BarEvent>(
+    questFacilitator = LaborerQuest,
     createInteractionPrompt = {
         paraSync { game.text["nirv_stg1_prompt"] }
     },
-    onInteractionStarted = { },
+    onInteractionStarted = {},
     textToStartInteraction = { game.text["nirv_stg1_startBarEvent"] },
     pages = listOf(
         Page(
@@ -52,24 +52,17 @@ class Nirvana_Stage1_BarEvent : AutoBarEventDefinition<Nirvana_Stage1_BarEvent>(
             options = listOf(
                 Option(
                     // fully accept
-                    showIf = { game.sector.playerFleet.cargo.spaceLeft >= NirvanaQuest.CARGO_WEIGHT },
                     text = { game.text["nirv_stg1_pg2_opt1"] },
                     onOptionSelected = {
                         para { game.text["nirv_stg1_pg2_opt1_onSelected"] }
-                        AddRemoveCommodity.addCommodityGainText(
-                            NirvanaQuest.CARGO_TYPE,
-                            NirvanaQuest.CARGO_WEIGHT,
-                            dialog.textPanel
-                        )
                         navigator.promptToContinue(game.text["continue"]) {
-                            NirvanaQuest.start(dialog.interactionTarget.market.preferredConnectedEntity!!)
+                            LaborerQuest.start(dialog.interactionTarget.market.preferredConnectedEntity!!)
                             navigator.close(doNotOfferAgain = true)
                         }
                     }
                 ),
                 Option(
                     // not enough space
-                    showIf = { game.sector.playerFleet.cargo.spaceLeft < NirvanaQuest.CARGO_WEIGHT },
                     text = { game.text["nirv_stg1_pg2_opt2"] },
                     onOptionSelected = {
                         navigator.close(doNotOfferAgain = false)
@@ -77,7 +70,6 @@ class Nirvana_Stage1_BarEvent : AutoBarEventDefinition<Nirvana_Stage1_BarEvent>(
                 ),
                 Option(
                     // decline
-                    showIf = { game.sector.playerFleet.cargo.spaceLeft >= NirvanaQuest.CARGO_WEIGHT },
                     text = { game.text["nirv_stg1_pg2_opt3"] },
                     onOptionSelected = {
                         navigator.close(doNotOfferAgain = false)
@@ -88,12 +80,11 @@ class Nirvana_Stage1_BarEvent : AutoBarEventDefinition<Nirvana_Stage1_BarEvent>(
     ),
     personName = FullName("David", "Rengel", FullName.Gender.MALE),
     personRank = Ranks.CITIZEN,
-    personPost = Ranks.CITIZEN,
-    personPortrait = NirvanaQuest.icon.spriteName(game)
+    personPost = Ranks.CITIZEN
 ) {
-    override fun createInstanceOfSelf() = Nirvana_Stage1_BarEvent()
+    override fun createInstanceOfSelf() = Laborer_Stage1_BarEvent()
 }
 
-class Nirvana_Stage1_BarEventCreator : BaseBarEventCreator() {
-    override fun createBarEvent(): PortsideBarEvent = Nirvana_Stage1_BarEvent().buildBarEvent()
+class Laborer_Stage1_BarEventCreator : BaseBarEventCreator() {
+    override fun createBarEvent(): PortsideBarEvent = Laborer_Stage1_BarEvent().buildBarEvent()
 }

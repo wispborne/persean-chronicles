@@ -3,7 +3,6 @@ package org.wisp.stories.riley
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
-import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
 import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.game
 import wisp.questgiver.AutoQuestFacilitator
@@ -11,7 +10,6 @@ import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.starSystemsNotOnBlacklist
 import wisp.questgiver.wispLib.*
 import kotlin.math.roundToInt
-import kotlin.random.Random
 
 object RileyQuest : AutoQuestFacilitator(
     stageBackingField = PersistentData(key = "rileyStage", defaultValue = { Stage.NotStarted }),
@@ -115,7 +113,7 @@ object RileyQuest : AutoQuestFacilitator(
             game.sector.starSystemsNotOnBlacklist
                 .sortedByDescending { it.distanceFrom(startEntity.starSystem) }
                 .filter { it.id != startEntity.starSystem?.id }
-                .flatMap { it.habitablePlanets }
+                .flatMap { it.solidPlanets }
                 .prefer { it.market?.factionId?.toLowerCase() in govtsSponsoringSafeAi }
                 .prefer { (it.market?.size ?: 0) > 2 }
                 .getNonHostileOnlyIfPossible()
