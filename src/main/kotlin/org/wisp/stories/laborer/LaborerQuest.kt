@@ -7,7 +7,8 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import org.wisp.stories.game
-import wisp.questgiver.*
+import wisp.questgiver.AutoQuestFacilitator
+import wisp.questgiver.starSystemsNotOnBlacklist
 import wisp.questgiver.wispLib.*
 
 object LaborerQuest : AutoQuestFacilitator(
@@ -21,11 +22,7 @@ object LaborerQuest : AutoQuestFacilitator(
         LaborerIntel(LaborerQuest.startLocation!!, LaborerQuest.destPlanet!!)
     }
 ) {
-
-//    val REWARD_CREDITS: Float
-//        get() = Questgiver.calculateCreditReward(startLocation, destPlanet, scaling = 1.3f)
-
-//    val background = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_laborer", id = "background")
+    val portraitPath = "graphics/portraits/portrait18.png"
 
     var startDate: Long? by PersistentNullableData("laborerStartDate")
         private set
@@ -39,24 +36,31 @@ object LaborerQuest : AutoQuestFacilitator(
     val destSystem: StarSystemAPI?
         get() = destPlanet?.starSystem
 
+    val choices: Choices =
+        Choices(PersistentMapData<String, Any?>(key = "laborerChoices").withDefault { null })
+
+    class Choices(val map: MutableMap<String, Any?>) {
+        var askedAllWorkDriedUp by map
+        var askedHowDoIKnowYoullPay by map
+    }
+
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["laborerDestPlanet"] = { destPlanet?.name }
         text.globalReplacementGetters["laborerDestSystem"] = { destSystem?.name }
     }
 
     override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
-        fun isValidPlanet(planet: PlanetAPI): Boolean =
-            (planet.faction?.isHostileTo(game.sector.playerFaction) != true)
-                    && planet.market?.factionId?.toLowerCase() !in listOf("luddic_church", "luddic_path")
-                    && planet.market?.hasIndustry(Industries.MINING) == true
-                    && planet.market.size > 2
-
         this.startLocation = interactionTarget
 
         destPlanet = game.sector.starSystemsNotOnBlacklist
             .filter { it.distanceFromPlayerInHyperspace > 3f }
             .flatMap { it.solidPlanets }
-            .filter { isValidPlanet(it) }
+            .filter { planet ->
+                (planet.faction?.isHostileTo(game.sector.playerFaction) != true)
+                        && planet.market?.factionId?.toLowerCase() !in listOf("luddic_church", "luddic_path")
+                        && planet.market?.hasIndustry(Industries.MINING) == true
+                        && planet.market.size > 2
+            }
             .ifEmpty { null }
             ?.random()
             ?: kotlin.run {
@@ -70,19 +74,10 @@ object LaborerQuest : AutoQuestFacilitator(
         stage = Stage.GoToPlanet
     }
 
+    fun shouldShowStage2Dialog() = stage == Stage.GoToPlanet
+
     fun complete() {
         stage = Stage.Completed
-    }
-
-    /**
-     * 55 years after quest was completed.
-     */
-    fun shouldShowStage3Dialog() =
-        stage == Stage.Completed
-                && game.sector.clock.convertToMonths(startDate?.toFloat() ?: 0f) > (12 * 55)
-
-    fun completeSecret() {
-        stage = Stage.CompletedSecret
     }
 
     fun restartQuest() {
@@ -98,6 +93,5 @@ object LaborerQuest : AutoQuestFacilitator(
         object NotStarted : Stage(Progress.NotStarted)
         object GoToPlanet : Stage(Progress.InProgress)
         object Completed : Stage(Progress.Completed)
-        object CompletedSecret : Stage(Progress.Completed)
     }
 }

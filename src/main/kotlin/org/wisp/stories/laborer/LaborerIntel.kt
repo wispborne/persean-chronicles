@@ -10,19 +10,18 @@ import wisp.questgiver.addPara
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class LaborerIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
-//    iconPath = { game.settings.getSpriteName(LaborerQuest.icon.category, LaborerQuest.icon.id) },
     title = {
         if (!LaborerQuest.stage.isCompleted)
-            game.text["nirv_intel_title"]
+            game.text["lab_intel_title"]
         else
-            game.text["nirv_intel_title_completed"]
+            game.text["lab_intel_title_completed"]
     },
     subtitleCreator = { info ->
         if (!LaborerQuest.stage.isCompleted) {
             info?.addPara(
                 padding = 0f,
                 textColor = Misc.getGrayColor()
-            ) { game.text["nirv_intel_subtitle"] }
+            ) { game.text["lab_intel_subtitle"] }
         }
     },
     descriptionCreator = { info, width, _ ->
@@ -38,13 +37,13 @@ class LaborerIntel(startLocation: SectorEntityToken, endLocation: SectorEntityTo
             padding = Padding.DESCRIPTION_PANEL,
             textColor = textColor
         ) {
-            game.text["nirv_intel_description_para1"]
+            game.text["lab_intel_description_para1"]
         }
         info.addPara(
             padding = Padding.DESCRIPTION_PANEL,
             textColor = textColor
         ) {
-            game.text["nirv_intel_description_para2"]
+            game.text["lab_intel_description_para2"]
         }
 
         if (LaborerQuest.stage == LaborerQuest.Stage.Completed) {
@@ -52,7 +51,7 @@ class LaborerIntel(startLocation: SectorEntityToken, endLocation: SectorEntityTo
                 padding = Padding.DESCRIPTION_PANEL,
                 textColor = Misc.getGrayColor()
             ) {
-                game.text["nirv_intel_description_completed_para1"]
+                game.text["lab_intel_description_completed_para1"]
             }
         }
     },
