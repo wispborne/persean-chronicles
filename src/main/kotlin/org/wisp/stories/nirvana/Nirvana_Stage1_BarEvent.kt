@@ -61,8 +61,9 @@ class Nirvana_Stage1_BarEvent : AutoBarEventDefinition<Nirvana_Stage1_BarEvent>(
                             NirvanaQuest.CARGO_WEIGHT,
                             dialog.textPanel
                         )
+                        val preferredConnectedEntity = dialog.interactionTarget.market.preferredConnectedEntity
                         navigator.promptToContinue(game.text["continue"]) {
-                            NirvanaQuest.start(dialog.interactionTarget.market.preferredConnectedEntity!!)
+                            NirvanaQuest.start(preferredConnectedEntity!!)
                             navigator.close(doNotOfferAgain = true)
                         }
                     }

@@ -10,36 +10,29 @@ import org.wisp.stories.game
 import wisp.questgiver.AutoBarEventDefinition
 import wisp.questgiver.BarEventDefinition
 import wisp.questgiver.spriteName
+import wisp.questgiver.wispLib.empty
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class Laborer_Stage1_BarEvent : AutoBarEventDefinition<Laborer_Stage1_BarEvent>(
     questFacilitator = LaborerQuest,
     createInteractionPrompt = {
-        paraSync { game.text["nirv_stg1_prompt"] }
+        paraSync { game.text["lab_stg1_prompt"] }
     },
     onInteractionStarted = {},
-    textToStartInteraction = { game.text["nirv_stg1_startBarEvent"] },
+    textToStartInteraction = { game.text["lab_stg1_startBarEvent"] },
     pages = listOf(
         Page(
             id = 1,
             onPageShown = {
-                para { game.text["nirv_stg1_pg1_para1"] }
-                para { game.text["nirv_stg1_pg1_para2"] }
-                para { game.text["nirv_stg1_pg1_para3"] }
+                para { game.text["lab_stg1_pg1_para1"] }
+                para { game.text["lab_stg1_pg1_para2"] }
+                para { game.text["lab_stg1_pg1_para3"] }
             },
             options = listOf(
                 Option(
-                    // accept
-                    text = { game.text["nirv_stg1_pg1_opt1"] },
+                    text = { game.text["lab_stg1_pg1_opt1"] },
                     onOptionSelected = {
                         it.goToPage(2)
-                    }
-                ),
-                Option(
-                    // decline
-                    text = { game.text["nirv_stg1_pg1_opt2"] },
-                    onOptionSelected = { navigator ->
-                        navigator.close(doNotOfferAgain = false)
                     }
                 )
             )
@@ -47,38 +40,66 @@ class Laborer_Stage1_BarEvent : AutoBarEventDefinition<Laborer_Stage1_BarEvent>(
         Page(
             id = 2,
             onPageShown = {
-                para { game.text["nirv_stg1_pg2_para1"] }
+                para { game.text["lab_stg1_pg2_para1"] }
             },
             options = listOf(
                 Option(
-                    // fully accept
-                    text = { game.text["nirv_stg1_pg2_opt1"] },
+                    // what's your offer?
+                    text = { game.text["lab_stg1_pg2_opt1"] },
                     onOptionSelected = {
-                        para { game.text["nirv_stg1_pg2_opt1_onSelected"] }
-                        navigator.promptToContinue(game.text["continue"]) {
-                            LaborerQuest.start(dialog.interactionTarget.market.preferredConnectedEntity!!)
-                            navigator.close(doNotOfferAgain = true)
-                        }
+                        it.goToPage(3)
                     }
                 ),
                 Option(
-                    // not enough space
-                    text = { game.text["nirv_stg1_pg2_opt2"] },
+                    // Work dried up on the whole planet?
+                    showIf = { LaborerQuest.choices.askedAllWorkDriedUp != true },
+                    text = { game.text["lab_stg1_pg2_opt2"] },
                     onOptionSelected = {
-                        navigator.close(doNotOfferAgain = false)
+                        para { game.text["lab_stg1_pg2_opt2_onSelected"] }
+                        LaborerQuest.choices.askedAllWorkDriedUp = true
+                        it.refreshOptions()
+                    }
+                )
+            )
+        ),
+        Page(
+            id = 3,
+            onPageShown = {
+                para { game.text["lab_stg1_pg3_para1"] }
+            },
+            options = listOf(
+                Option(
+                    // Accept
+                    text = { game.text["lab_stg1_pg3_opt1"] },
+                    onOptionSelected = {
+                        para { game.text["lab_stg1_pg3_opt1_onSelected"] }
+                        LaborerQuest.start(startLocation = dialog.interactionTarget)
+                        it.close(doNotOfferAgain = true)
                     }
                 ),
                 Option(
-                    // decline
-                    text = { game.text["nirv_stg1_pg2_opt3"] },
+                    // How do I know you'll pay?
+                    showIf = { LaborerQuest.choices.askedHowDoIKnowYoullPay != true },
+                    text = { game.text["lab_stg1_pg3_opt2"] },
                     onOptionSelected = {
-                        navigator.close(doNotOfferAgain = false)
+                        para { game.text["lab_stg1_pg3_opt2_onSelected"] }
+                        LaborerQuest.choices.askedHowDoIKnowYoullPay = true
+                        it.refreshOptions()
+                    }
+                ),
+                Option(
+                    // Sorry, money up front
+                    text = { game.text["lab_stg1_pg3_opt3"] },
+                    onOptionSelected = {
+                        para { game.text["lab_stg1_pg3_opt3_onSelected"] }
+                        it.close(doNotOfferAgain = false)
                     }
                 )
             )
         )
     ),
-    personName = FullName("David", "Rengel", FullName.Gender.MALE),
+    personPortrait = LaborerQuest.portraitPath,
+    personName = FullName("Dale", String.empty, FullName.Gender.MALE),
     personRank = Ranks.CITIZEN,
     personPost = Ranks.CITIZEN
 ) {
@@ -87,4 +108,5 @@ class Laborer_Stage1_BarEvent : AutoBarEventDefinition<Laborer_Stage1_BarEvent>(
 
 class Laborer_Stage1_BarEventCreator : BaseBarEventCreator() {
     override fun createBarEvent(): PortsideBarEvent = Laborer_Stage1_BarEvent().buildBarEvent()
+    override fun isPriority() = true
 }

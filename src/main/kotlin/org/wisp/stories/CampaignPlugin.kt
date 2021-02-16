@@ -7,6 +7,8 @@ import com.fs.starfarer.api.campaign.InteractionDialogPlugin
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest
+import org.wisp.stories.laborer.LaborerQuest
+import org.wisp.stories.laborer.Laborer_Stage2_Dialog
 import org.wisp.stories.nirvana.NirvanaQuest
 import org.wisp.stories.nirvana.Nirvana_Stage2_Dialog
 import org.wisp.stories.nirvana.Nirvana_Stage3_Dialog
@@ -91,6 +93,15 @@ class CampaignPlugin : BaseCampaignPlugin() {
                     && NirvanaQuest.shouldShowStage3Dialog() -> {
                 PluginPick(
                     Nirvana_Stage3_Dialog().build(),
+                    CampaignPlugin.PickPriority.MOD_SPECIFIC
+                )
+            }
+
+            // Finish laborer quest
+            interactionTarget.hasSameMarketAs(LaborerQuest.destPlanet)
+                    && LaborerQuest.shouldShowStage2Dialog() -> {
+                PluginPick(
+                    Laborer_Stage2_Dialog().build(),
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
             }

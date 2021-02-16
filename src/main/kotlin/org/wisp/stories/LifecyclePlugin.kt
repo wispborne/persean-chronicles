@@ -3,11 +3,13 @@ package org.wisp.stories
 import com.fs.starfarer.api.BaseModPlugin
 import com.fs.starfarer.api.characters.FullName
 import com.thoughtworks.xstream.XStream
+import org.apache.log4j.Level
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
 import org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
 import org.wisp.stories.dangerousGames.pt2_depths.*
+import org.wisp.stories.laborer.*
 import org.wisp.stories.nirvana.*
 import org.wisp.stories.riley.*
 import wisp.questgiver.Questgiver
@@ -15,6 +17,7 @@ import wisp.questgiver.wispLib.firstName
 import wisp.questgiver.wispLib.i
 import wisp.questgiver.wispLib.lastName
 import java.util.*
+
 
 class LifecyclePlugin : BaseModPlugin() {
     init {
@@ -31,6 +34,7 @@ class LifecyclePlugin : BaseModPlugin() {
 
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator(Questgiver.game)
+        game.logger.level = Level.ALL // try to remember to change this for release
         addTextToServiceLocator()
 
         Questgiver.onGameLoad(
@@ -39,7 +43,8 @@ class LifecyclePlugin : BaseModPlugin() {
                 DragonsQuest,
                 DepthsQuest,
                 RileyQuest,
-                NirvanaQuest
+                NirvanaQuest,
+                LaborerQuest
             )
         )
 
@@ -114,7 +119,11 @@ class LifecyclePlugin : BaseModPlugin() {
             Nirvana_Stage1_BarEventCreator::class to "Nirvana_Stage1_BarEventCreator",
             NirvanaIntel::class to "NirvanaIntel",
             Nirvana_Stage2_Dialog::class to "Nirvana_Stage2_Dialog",
-            Nirvana_Stage3_Dialog::class to "Nirvana_Stage3_Dialog"
+            Nirvana_Stage3_Dialog::class to "Nirvana_Stage3_Dialog",
+            LaborerIntel::class to "LaborerIntel",
+            Laborer_Stage1_BarEvent::class to "Laborer_Stage1_BarEvent",
+            Laborer_Stage1_BarEventCreator::class to "Laborer_Stage1_BarEventCreator",
+            Laborer_Stage2_Dialog::class to "Laborer_Stage2_Dialog"
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized
@@ -128,6 +137,7 @@ class LifecyclePlugin : BaseModPlugin() {
                 ResourceBundle.getBundle("Stories_DangerousGames_Dragons"),
                 ResourceBundle.getBundle("Stories_DangerousGames_Depths"),
                 ResourceBundle.getBundle("Stories_Nirvana"),
+                ResourceBundle.getBundle("Stories_Laborer"),
                 ResourceBundle.getBundle("Stories_Riley")
             )
         )
