@@ -19,8 +19,10 @@ class Laborer_Stage2_Dialog : InteractionDefinition<Laborer_Stage2_Dialog>(
                     onOptionSelected = {
                         para { game.text["lab_stg2_pg1_opt1_onSelected"] }
                         para { game.text["lab_stg2_pg2_para1"] }
-                        LaborerQuest.complete()
-                        it.close(doNotOfferAgain = true)
+                        navigator.promptToContinue(game.text["leave"]) {
+                            LaborerQuest.complete()
+                            it.close(doNotOfferAgain = true)
+                        }
                     }
                 ),
                 Option(
@@ -28,8 +30,10 @@ class Laborer_Stage2_Dialog : InteractionDefinition<Laborer_Stage2_Dialog>(
                     onOptionSelected = {
                         para { game.text["lab_stg2_pg1_opt2_onSelected"] }
                         para { game.text["lab_stg2_pg2_para1"] }
-                        LaborerQuest.complete()
-                        it.close(doNotOfferAgain = true)
+                        navigator.promptToContinue(game.text["leave"]) {
+                            LaborerQuest.complete()
+                            it.close(doNotOfferAgain = true)
+                        }
                     }
                 )
             )

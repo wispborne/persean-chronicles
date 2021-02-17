@@ -47,8 +47,10 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
             image = DepthsQuest.diveIllustration,
             onPageShown = {
                 para { game.text["dg_de_stg2_pg2_para1"] }
-                para { game.text["dg_de_stg2_pg2_para2"] }
-                DepthsQuest.startMusic()
+                navigator.promptToContinue(game.text["dg_de_stg2_pg2_para1_continue"]) {
+                    para { game.text["dg_de_stg2_pg2_para2"] }
+                    DepthsQuest.startMusic()
+                }
             },
             options = listOf(Option(
                 text = { game.text["dg_de_stg2_pg2_opt1"] },
@@ -516,15 +518,17 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
         Page(
             id = PageId.BackAtTheSurface,
             onPageShown = {
-                para { game.text["dg_de_stg2_backAtSurface_para1"] }
-                DepthsQuest.stopMusic()
-                para {
-                    if (riddleSuccessesCount > 0)
-                        game.text["dg_de_stg2_backAtSurface_para2_ifOthersSurvived"]
-                    else
-                        game.text["dg_de_stg2_backAtSurface_para2_ifOnlyPlayerSurvived"]
+                navigator.promptToContinue(game.text["continue"]) {
+                    para { game.text["dg_de_stg2_backAtSurface_para1"] }
+                    DepthsQuest.stopMusic()
+                    para {
+                        if (riddleSuccessesCount > 0)
+                            game.text["dg_de_stg2_backAtSurface_para2_ifOthersSurvived"]
+                        else
+                            game.text["dg_de_stg2_backAtSurface_para2_ifOnlyPlayerSurvived"]
+                    }
+                    para { game.text["dg_de_stg2_backAtSurface_para3"] }
                 }
-                para { game.text["dg_de_stg2_backAtSurface_para3"] }
             },
             options = listOf(
                 Option(

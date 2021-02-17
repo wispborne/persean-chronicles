@@ -12,7 +12,7 @@ import wisp.questgiver.wispLib.preferredConnectedEntity
 class Riley_Stage1_BarEvent : AutoBarEventDefinition<Riley_Stage1_BarEvent>(
     questFacilitator = RileyQuest,
     createInteractionPrompt = {
-        paraSync { game.text["riley_stg1_prompt"] }
+        para { game.text["riley_stg1_prompt"] }
     },
     textToStartInteraction = { game.text["riley_stg1_startBarEvent"] },
     onInteractionStarted = {},
@@ -30,8 +30,10 @@ class Riley_Stage1_BarEvent : AutoBarEventDefinition<Riley_Stage1_BarEvent>(
                     text = { game.text["riley_stg1_pg1_opt1"] },
                     onOptionSelected = {
                         para { game.text["riley_stg1_pg1_opt1_onSelected"] }
-                        RileyQuest.start(dialog.interactionTarget.market.preferredConnectedEntity!!)
-                        it.close(doNotOfferAgain = true)
+                        navigator.promptToContinue(game.text["riley_stg1_pg1_opt1_onSelected_continue"]) {
+                            RileyQuest.start(dialog.interactionTarget.market.preferredConnectedEntity!!)
+                            it.close(doNotOfferAgain = true)
+                        }
                     }
                 ),
                 Option(
