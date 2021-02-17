@@ -12,7 +12,7 @@ import wisp.questgiver.wispLib.lastName
 class Dragons_Stage1_BarEvent : AutoBarEventDefinition<Dragons_Stage1_BarEvent>(
     questFacilitator = DragonsQuest,
     createInteractionPrompt = {
-        paraSync { game.text["dg_dr_stg1_prompt"] }
+        para { game.text["dg_dr_stg1_prompt"] }
     },
     onInteractionStarted = {},
     textToStartInteraction = { game.text["dg_dr_stg1_startBarEvent"] },

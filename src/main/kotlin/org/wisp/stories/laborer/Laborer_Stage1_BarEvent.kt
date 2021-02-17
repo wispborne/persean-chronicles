@@ -16,7 +16,7 @@ import wisp.questgiver.wispLib.preferredConnectedEntity
 class Laborer_Stage1_BarEvent : AutoBarEventDefinition<Laborer_Stage1_BarEvent>(
     questFacilitator = LaborerQuest,
     createInteractionPrompt = {
-        paraSync { game.text["lab_stg1_prompt"] }
+        para { game.text["lab_stg1_prompt"] }
     },
     onInteractionStarted = {},
     textToStartInteraction = { game.text["lab_stg1_startBarEvent"] },
@@ -73,8 +73,10 @@ class Laborer_Stage1_BarEvent : AutoBarEventDefinition<Laborer_Stage1_BarEvent>(
                     text = { game.text["lab_stg1_pg3_opt1"] },
                     onOptionSelected = {
                         para { game.text["lab_stg1_pg3_opt1_onSelected"] }
-                        LaborerQuest.start(startLocation = dialog.interactionTarget)
-                        it.close(doNotOfferAgain = true)
+                        navigator.promptToContinue(game.text["leave"]) {
+                            LaborerQuest.start(startLocation = dialog.interactionTarget)
+                            it.close(doNotOfferAgain = true)
+                        }
                     }
                 ),
                 Option(
@@ -92,7 +94,9 @@ class Laborer_Stage1_BarEvent : AutoBarEventDefinition<Laborer_Stage1_BarEvent>(
                     text = { game.text["lab_stg1_pg3_opt3"] },
                     onOptionSelected = {
                         para { game.text["lab_stg1_pg3_opt3_onSelected"] }
-                        it.close(doNotOfferAgain = false)
+                        navigator.promptToContinue(game.text["leave"]) {
+                            it.close(doNotOfferAgain = false)
+                        }
                     }
                 )
             )
