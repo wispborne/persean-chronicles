@@ -36,6 +36,7 @@ object DepthsQuest : AutoQuestFacilitator(
             DragonsQuest.stage == DragonsQuest.Stage.Done
                     && market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
                     && market.size > 4
+                    && DepthsQuest.depthsPlanet != null
         }
     )
 ) {
@@ -197,7 +198,7 @@ object DepthsQuest : AutoQuestFacilitator(
         val planet = try {
             game.sector.starSystemsNotOnBlacklist
                 .filter { it.id != playersCurrentStarSystem?.id }
-                .filter { system -> system.planets.any { planet -> DEPTHS_PLANET_TYPES.any { it == planet.typeId } } }
+                .filter { system -> system.planets.any { planet -> planet.typeId in DEPTHS_PLANET_TYPES } }
                 .prefer { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet }
                 .sortedBy { it.distanceFromCenterOfSector }
                 .flatMap { it.solidPlanets }
@@ -231,7 +232,7 @@ object DepthsQuest : AutoQuestFacilitator(
                 }
         } catch (e: Exception) {
             // If no planets matching the criteria are found
-            game.errorReporter.reportCrash(e)
+            game.logger.i(e) { "No planets matching the criteria found for Depths" }
             return
         }
 

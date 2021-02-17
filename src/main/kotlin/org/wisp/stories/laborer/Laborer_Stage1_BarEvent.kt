@@ -102,7 +102,7 @@ class Laborer_Stage1_BarEvent : AutoBarEventDefinition<Laborer_Stage1_BarEvent>(
             )
         )
     ),
-    personPortrait = LaborerQuest.portraitPath,
+    personPortrait = LaborerQuest.portrait.spriteName(game),
     personName = FullName("Dale", String.empty, FullName.Gender.MALE),
     personRank = Ranks.CITIZEN,
     personPost = Ranks.CITIZEN

@@ -4,9 +4,7 @@ import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.game
-import wisp.questgiver.IntelDefinition
-import wisp.questgiver.Padding
-import wisp.questgiver.addPara
+import wisp.questgiver.*
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class LaborerIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
@@ -16,6 +14,7 @@ class LaborerIntel(startLocation: SectorEntityToken, endLocation: SectorEntityTo
         else
             game.text["lab_intel_title_completed"]
     },
+    iconPath = { LaborerQuest.portrait.spritePath(game) },
     subtitleCreator = { info ->
         if (!LaborerQuest.stage.isCompleted) {
             info?.addPara(
@@ -25,11 +24,12 @@ class LaborerIntel(startLocation: SectorEntityToken, endLocation: SectorEntityTo
         }
     },
     descriptionCreator = { info, width, _ ->
-//        info.addImage(
-//            LaborerQuest.background.spriteName(game),
-//            width,
-//            0f
-//        )
+        info.addImage(
+            LaborerQuest.portrait.spriteName(game),
+            width,
+            LaborerQuest.portrait.height,
+            Padding.DESCRIPTION_PANEL
+        )
         val textColor = textColorOrElseGrayIf {
             LaborerQuest.stage.isCompleted
         }
@@ -48,8 +48,7 @@ class LaborerIntel(startLocation: SectorEntityToken, endLocation: SectorEntityTo
 
         if (LaborerQuest.stage == LaborerQuest.Stage.Completed) {
             info.addPara(
-                padding = Padding.DESCRIPTION_PANEL,
-                textColor = Misc.getGrayColor()
+                padding = Padding.DESCRIPTION_PANEL
             ) {
                 game.text["lab_intel_description_completed_para1"]
             }
