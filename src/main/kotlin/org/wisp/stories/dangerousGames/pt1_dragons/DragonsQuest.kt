@@ -26,6 +26,7 @@ object DragonsQuest : AutoQuestFacilitator(
         shouldOfferFromMarket = { market ->
             market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
                     && market.size > 3
+                    && DragonsQuest.dragonPlanet != null
         })
 ) {
     private val DRAGON_PLANET_TYPES = listOf(
@@ -81,7 +82,7 @@ object DragonsQuest : AutoQuestFacilitator(
                 .random()
         } catch (e: Exception) {
             // If no planets matching the criteria are found
-            game.errorReporter.reportCrash(e)
+            game.logger.i(e) { "No planets matching the criteria found for Dragons" }
             return
         }
 

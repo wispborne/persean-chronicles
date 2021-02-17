@@ -25,6 +25,7 @@ object RileyQuest : AutoQuestFacilitator(
             market.size > 5 // Lives on a populous world
                     && market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
                     && market.connectedEntities.none { it?.id == RileyQuest.destinationPlanet?.id }
+                    && RileyQuest.destinationPlanet != null
         }
     )
 ) {
@@ -118,7 +119,8 @@ object RileyQuest : AutoQuestFacilitator(
                 .prefer { (it.market?.size ?: 0) > 2 }
                 .getNonHostileOnlyIfPossible()
                 .take(5)
-                .random()
+                .ifEmpty { null }
+                ?.random()
                 .also { planet ->
                     game.logger.i { "Riley destination planet set to ${planet?.fullName} in ${planet?.starSystem?.baseName}" }
                 }
