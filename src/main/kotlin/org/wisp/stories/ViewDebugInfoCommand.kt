@@ -1,9 +1,11 @@
 package org.wisp.stories
 
+import com.fs.starfarer.api.util.Misc
 import org.lazywizard.console.BaseCommand
 import org.lazywizard.console.Console
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest
+import org.wisp.stories.laborer.LaborerQuest
 import org.wisp.stories.nirvana.NirvanaQuest
 import org.wisp.stories.riley.RileyQuest
 
@@ -31,6 +33,16 @@ class ViewDebugInfoCommand : BaseCommand {
         info.appendln()
         info.appendln("Nirvana destination planet: ${NirvanaQuest.destPlanet?.fullName} in ${NirvanaQuest.destPlanet?.starSystem?.baseName}")
         info.appendln("Nirvana quest stage: ${NirvanaQuest.stage}")
+        info.appendln()
+        info.appendln("Laborer destination planet: ${LaborerQuest.destPlanet?.fullName} in ${LaborerQuest.destPlanet?.starSystem?.baseName}")
+        info.appendln("Laborer quest stage: ${LaborerQuest.stage}")
+        val daysUntilPayout = game.sector.scripts
+            .filterIsInstance(LaborerQuest.PayoutScript::class.java)
+            .firstOrNull()
+            ?.intervalUtil
+            ?.intervalDuration
+            ?.let { game.sector.clock.convertToDays(it) }
+        info.appendln("Laborer payout: ${Misc.getDGSCredits(LaborerQuest.payout.toFloat())} in $daysUntilPayout days")
 
         Console.showMessage(info.toString())
 

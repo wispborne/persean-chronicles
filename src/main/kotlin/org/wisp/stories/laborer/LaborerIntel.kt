@@ -9,10 +9,13 @@ import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class LaborerIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
     title = {
-        if (!LaborerQuest.stage.isCompleted)
+        if (!LaborerQuest.stage.isCompleted) {
             game.text["lab_intel_title"]
-        else
+        } else if (LaborerQuest.stage == LaborerQuest.Stage.Paid && LaborerQuest.payout > 0) {
+            game.text["lab_intel_title_paid"]
+        } else {
             game.text["lab_intel_title_completed"]
+        }
     },
     iconPath = { LaborerQuest.portrait.spritePath(game) },
     subtitleCreator = { info ->
@@ -48,9 +51,22 @@ class LaborerIntel(startLocation: SectorEntityToken, endLocation: SectorEntityTo
 
         if (LaborerQuest.stage == LaborerQuest.Stage.Completed) {
             info.addPara(
+                textColor = textColorOrElseGrayIf { LaborerQuest.stage == LaborerQuest.Stage.Paid },
                 padding = Padding.DESCRIPTION_PANEL
             ) {
                 game.text["lab_intel_description_completed_para1"]
+            }
+        }
+
+        if (LaborerQuest.stage == LaborerQuest.Stage.Paid) {
+            info.addPara(
+                padding = Padding.DESCRIPTION_PANEL
+            ) {
+                if (LaborerQuest.payout == 0) {
+                    game.text["lab_intel_description_paid_noPayment_para1"]
+                } else {
+                    game.text["lab_intel_description_paid_sentPayment_para1"]
+                }
             }
         }
     },
