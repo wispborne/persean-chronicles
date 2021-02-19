@@ -18,46 +18,46 @@ import kotlin.random.Random
 
 object NirvanaQuest : AutoQuestFacilitator(
     stageBackingField = PersistentData(key = "nirvanaStage", defaultValue = { Stage.NotStarted }),
-    autoBarEvent = AutoBarEvent(Nirvana_Stage1_BarEventCreator()) { market ->
-        market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT.toLowerCase())
-                && market.size > 3
-                && NirvanaQuest.destPlanet != null
-    },
-    autoIntel = AutoIntel(NirvanaIntel::class.java) {
-        NirvanaIntel(NirvanaQuest.startLocation!!, NirvanaQuest.destPlanet!!)
+    autoBarEventInfo = AutoBarEventInfo(
+        barEventCreator = Nirvana_Stage1_BarEventCreator(),
+        shouldGenerateBarEvent = { true },
+        shouldOfferFromMarket = { market ->
+            market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT.toLowerCase())
+                    && market.size > 3
+                    && NirvanaQuest.state.destPlanet != null
+        }),
+    autoIntelInfo = AutoIntelInfo(NirvanaIntel::class.java) {
+        NirvanaIntel(NirvanaQuest.state.startLocation!!, NirvanaQuest.state.destPlanet!!)
     }
 ) {
-
     val REWARD_CREDITS: Float
-        get() = Questgiver.calculateCreditReward(startLocation, destPlanet, scaling = 1.3f)
+        get() = Questgiver.calculateCreditReward(state.startLocation, state.destPlanet, scaling = 1.3f)
     const val CARGO_TYPE = Commodities.HEAVY_MACHINERY
     const val CARGO_WEIGHT = 5
-
     val icon = InteractionDefinition.Portrait(category = "wisp_perseanchronicles_nirvana", id = "davidRengel")
     val background = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_nirvana", id = "background")
 
-    var startDate: Long? by PersistentNullableData("nirvanaStartDate")
-        private set
+    val state = State(PersistentMapData<String, Any?>(key = "nirvanaState").withDefault { null })
 
-    var startLocation: SectorEntityToken? by PersistentNullableData("nirvanaStartLocation")
-        private set
+    class State(val map: MutableMap<String, Any?>) {
+        var startDate: Long? by map
+        var startLocation: SectorEntityToken? by map
+        var destPlanet: SectorEntityToken? by map
 
-    var destPlanet: SectorEntityToken? by PersistentNullableData("nirvanaDestPlanet")
-        private set
-
-    val destSystem: StarSystemAPI?
-        get() = destPlanet?.starSystem
+        val destSystem: StarSystemAPI?
+            get() = destPlanet?.starSystem
+    }
 
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["nirvanaCredits"] = { Misc.getDGSCredits(REWARD_CREDITS) }
-        text.globalReplacementGetters["nirvanaDestPlanet"] = { destPlanet?.name }
-        text.globalReplacementGetters["nirvanaDestSystem"] = { destSystem?.name }
+        text.globalReplacementGetters["nirvanaDestPlanet"] = { state.destPlanet?.name }
+        text.globalReplacementGetters["nirvanaDestSystem"] = { state.destSystem?.name }
         text.globalReplacementGetters["nirvanaCargoTons"] = { CARGO_WEIGHT.toString() }
-        text.globalReplacementGetters["nirvanaStarName"] = { destPlanet?.starSystem?.star?.name }
+        text.globalReplacementGetters["nirvanaStarName"] = { state.destPlanet?.starSystem?.star?.name }
     }
 
     override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
-        this.startLocation = interactionTarget
+        state.startLocation = interactionTarget
 
         val system = game.sector.starSystemsNotOnBlacklist
             .filter { sys -> sys.star.spec.isPulsar }
@@ -101,7 +101,7 @@ object NirvanaQuest : AutoQuestFacilitator(
         planet.spec.rotation = 0f
         planet.applySpecChanges()
 
-        destPlanet = planet
+        state.destPlanet = planet
     }
 
     fun start(startLocation: SectorEntityToken) {
@@ -126,7 +126,7 @@ object NirvanaQuest : AutoQuestFacilitator(
      */
     fun shouldShowStage3Dialog() =
         stage == Stage.Completed
-                && game.sector.clock.convertToMonths(startDate?.toFloat() ?: 0f) > (12 * 55)
+                && game.sector.clock.convertToMonths(state.startDate?.toFloat() ?: 0f) > (12 * 55)
 
     fun completeSecret() {
         stage = Stage.CompletedSecret
@@ -135,9 +135,7 @@ object NirvanaQuest : AutoQuestFacilitator(
     fun restartQuest() {
         game.logger.i { "Restarting Nirvana quest." }
 
-        startDate = null
-        startLocation = null
-        destPlanet = null
+        state.map.clear()
         stage = Stage.NotStarted
     }
 

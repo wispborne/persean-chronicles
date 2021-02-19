@@ -19,22 +19,22 @@ class ViewDebugInfoCommand : BaseCommand {
 
         info.appendln("Persean Chronicles Debug Info (SPOILERS)")
         info.appendln("-------")
-        info.appendln("Dragonriders origin planet: ${DragonsQuest.startingPlanet?.fullName} in ${DragonsQuest.startingPlanet?.starSystem?.baseName}")
-        info.appendln("Dragonriders destination planet: ${DragonsQuest.dragonPlanet?.fullName} in ${DragonsQuest.dragonPlanet?.starSystem?.baseName}")
+        info.appendln("Dragonriders origin planet: ${DragonsQuest.state.startingPlanet?.fullName} in ${DragonsQuest.state.startingPlanet?.starSystem?.baseName}")
+        info.appendln("Dragonriders destination planet: ${DragonsQuest.state.dragonPlanet?.fullName} in ${DragonsQuest.state.dragonPlanet?.starSystem?.baseName}")
         info.appendln("Dragonriders quest stage: ${DragonsQuest.stage}")
         info.appendln()
-        info.appendln("Depths origin planet: ${DepthsQuest.startingPlanet?.fullName} in ${DepthsQuest.startingPlanet?.starSystem?.baseName}")
-        info.appendln("Depths destination planet: ${DepthsQuest.depthsPlanet?.fullName} in ${DepthsQuest.depthsPlanet?.starSystem?.baseName}")
+        info.appendln("Depths origin planet: ${DepthsQuest.state.startingPlanet?.fullName} in ${DepthsQuest.state.startingPlanet?.starSystem?.baseName}")
+        info.appendln("Depths destination planet: ${DepthsQuest.state.depthsPlanet?.fullName} in ${DepthsQuest.state.depthsPlanet?.starSystem?.baseName}")
         info.appendln("Depths quest stage: ${DepthsQuest.stage}")
         info.appendln()
-        info.appendln("Riley destination planet: ${RileyQuest.destinationPlanet?.fullName} in ${RileyQuest.destinationPlanet?.starSystem?.baseName}")
+        info.appendln("Riley destination planet: ${RileyQuest.state.destinationPlanet?.fullName} in ${RileyQuest.state.destinationPlanet?.starSystem?.baseName}")
         info.appendln("Riley quest stage: ${RileyQuest.stage}")
         info.appendln("Riley quest choices: ${RileyQuest.choices.map.entries.joinToString()}")
         info.appendln()
-        info.appendln("Nirvana destination planet: ${NirvanaQuest.destPlanet?.fullName} in ${NirvanaQuest.destPlanet?.starSystem?.baseName}")
+        info.appendln("Nirvana destination planet: ${NirvanaQuest.state.destPlanet?.fullName} in ${NirvanaQuest.state.destPlanet?.starSystem?.baseName}")
         info.appendln("Nirvana quest stage: ${NirvanaQuest.stage}")
         info.appendln()
-        info.appendln("Laborer destination planet: ${LaborerQuest.destPlanet?.fullName} in ${LaborerQuest.destPlanet?.starSystem?.baseName}")
+        info.appendln("Laborer destination planet: ${LaborerQuest.state.destPlanet?.fullName} in ${LaborerQuest.state.destPlanet?.starSystem?.baseName}")
         info.appendln("Laborer quest stage: ${LaborerQuest.stage}")
         val daysUntilPayout = game.sector.scripts
             .filterIsInstance(LaborerQuest.PayoutScript::class.java)
@@ -42,7 +42,7 @@ class ViewDebugInfoCommand : BaseCommand {
             ?.intervalUtil
             ?.intervalDuration
             ?.let { game.sector.clock.convertToDays(it) }
-        info.appendln("Laborer payout: ${Misc.getDGSCredits(LaborerQuest.payout.toFloat())} in $daysUntilPayout days")
+        info.appendln("Laborer payout: ${Misc.getDGSCredits(LaborerQuest.state.payout.toFloat())} in $daysUntilPayout days")
 
         Console.showMessage(info.toString())
 

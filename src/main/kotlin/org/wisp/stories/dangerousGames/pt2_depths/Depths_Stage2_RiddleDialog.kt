@@ -16,7 +16,7 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
                     game.text.getf(
                         "dg_de_stg2_pg1_para1",
                         "ifPlayerOwnedWorld" to
-                                if (DepthsQuest.depthsPlanet?.market?.isPlayerOwned == true)
+                                if (DepthsQuest.state.depthsPlanet?.market?.isPlayerOwned == true)
                                     game.text["dg_de_stg2_pg1_para1_ifPlayerOwnedWorld"]
                                 else
                                     String.empty

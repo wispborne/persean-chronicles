@@ -24,19 +24,22 @@ import wisp.questgiver.wispLib.*
  */
 object DepthsQuest : AutoQuestFacilitator(
     stageBackingField = PersistentData(key = "depthsQuestStage", defaultValue = { Stage.NotStarted }),
-    autoIntel = AutoIntel(DepthsQuest_Intel::class.java) {
+    autoIntelInfo = AutoIntelInfo(DepthsQuest_Intel::class.java) {
         DepthsQuest_Intel(
-            DepthsQuest.startingPlanet!!,
-            DepthsQuest.depthsPlanet!!
+            DepthsQuest.state.startingPlanet!!,
+            DepthsQuest.state.depthsPlanet!!
         )
     },
-    autoBarEvent = AutoBarEvent(
+    autoBarEventInfo = AutoBarEventInfo(
         barEventCreator = Depths_Stage1_BarEventCreator(),
-        shouldOfferFromMarket = { market ->
+        shouldGenerateBarEvent = {
             DragonsQuest.stage == DragonsQuest.Stage.Done
-                    && market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
+                    && game.sector.clock.getElapsedDaysSince(DragonsQuest.state.startDate ?: 0) >= 30
+        },
+        shouldOfferFromMarket = { market ->
+            market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
                     && market.size > 4
-                    && DepthsQuest.depthsPlanet != null
+                    && DepthsQuest.state.depthsPlanet != null
         }
     )
 ) {
@@ -57,11 +60,14 @@ object DepthsQuest : AutoQuestFacilitator(
     const val rewardCredits: Int = 100000 // TODO
     const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5
 
-    var depthsPlanet: SectorEntityToken? by PersistentNullableData("depthsDestinationPlanet")
-        private set
 
-    var startingPlanet: SectorEntityToken? by PersistentNullableData("depthsStartingPlanet")
-        private set
+    val state = State(PersistentMapData<String, Any?>(key = "depthsState").withDefault { null })
+
+    class State(val map: MutableMap<String, Any?>) {
+        var startDate: Long? by map
+        var depthsPlanet: SectorEntityToken? by map
+        var startingPlanet: SectorEntityToken? by map
+    }
 
     val choices: Choices =
         Choices(PersistentMapData<String, Any?>(key = "depthsChoices").withDefault { null })
@@ -90,26 +96,23 @@ object DepthsQuest : AutoQuestFacilitator(
     val didAllCrewDie: Boolean
         get() = riddleAnswers.all { it?.wasSuccessful() == false }
 
-    val musicInstanceId = "ThreadingTheAbyss"
-
     override fun updateTextReplacements(text: Text) {
-        text.globalReplacementGetters["depthsSourcePlanet"] = { startingPlanet?.name }
-        text.globalReplacementGetters["depthsSourceSystem"] = { startingPlanet?.starSystem?.name }
-        text.globalReplacementGetters["depthsPlanet"] = { depthsPlanet?.name }
-        text.globalReplacementGetters["depthsSystem"] = { depthsPlanet?.starSystem?.name }
+        text.globalReplacementGetters["depthsSourcePlanet"] = { state.startingPlanet?.name }
+        text.globalReplacementGetters["depthsSourceSystem"] = { state.startingPlanet?.starSystem?.name }
+        text.globalReplacementGetters["depthsPlanet"] = { state.depthsPlanet?.name }
+        text.globalReplacementGetters["depthsSystem"] = { state.depthsPlanet?.starSystem?.name }
         text.globalReplacementGetters["depthsCreditReward"] = { Misc.getDGSCredits(rewardCredits.toFloat()) }
     }
 
     override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
-        startingPlanet = interactionTarget
+        state.startingPlanet = interactionTarget
         findAndTagDepthsPlanet(interactionTarget.starSystem)
     }
 
     fun restartQuest() {
         game.logger.i { "Restarting Depths quest." }
 
-        depthsPlanet = null
-        startingPlanet = null
+        state.map.clear()
         choices.map.clear()
         stage = Stage.NotStarted
         game.sector.starSystems.flatMap { it.solidPlanets }
@@ -119,6 +122,7 @@ object DepthsQuest : AutoQuestFacilitator(
 
     fun startStage1() {
         stage = Stage.GoToPlanet
+        state.startDate = game.sector.clock.timestamp
     }
 
     fun startStart2() {
@@ -147,7 +151,7 @@ object DepthsQuest : AutoQuestFacilitator(
         game.sector.playerFleet.cargo.credits.add(rewardCredits.toFloat())
         stage = Stage.Done
 
-        depthsPlanet?.let { planet ->
+        state.depthsPlanet?.let { planet ->
             if (planet.market.conditions.none { it.plugin is CrystalMarketMod }) {
                 planet.market.addCondition("wispQuests_crystallineCatalyst")
             }
@@ -237,7 +241,7 @@ object DepthsQuest : AutoQuestFacilitator(
         }
 
         game.logger.i { "Set Depths quest destination to ${planet.fullName} in ${planet.starSystem.baseName}" }
-        depthsPlanet = planet
+        state.depthsPlanet = planet
     }
 
     abstract class Stage(progress: Progress) : AutoQuestFacilitator.Stage(progress) {

@@ -11,7 +11,7 @@ class LaborerIntel(startLocation: SectorEntityToken, endLocation: SectorEntityTo
     title = {
         if (!LaborerQuest.stage.isCompleted) {
             game.text["lab_intel_title"]
-        } else if (LaborerQuest.stage == LaborerQuest.Stage.Paid && LaborerQuest.payout > 0) {
+        } else if (LaborerQuest.stage == LaborerQuest.Stage.Paid && LaborerQuest.state.payout > 0) {
             game.text["lab_intel_title_paid"]
         } else {
             game.text["lab_intel_title_completed"]
@@ -62,7 +62,7 @@ class LaborerIntel(startLocation: SectorEntityToken, endLocation: SectorEntityTo
             info.addPara(
                 padding = Padding.DESCRIPTION_PANEL
             ) {
-                if (LaborerQuest.payout == 0) {
+                if (LaborerQuest.state.payout == 0) {
                     game.text["lab_intel_description_paid_noPayment_para1"]
                 } else {
                     game.text["lab_intel_description_paid_sentPayment_para1"]

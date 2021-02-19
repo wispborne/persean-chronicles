@@ -222,7 +222,7 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                         para {
                             game.text.getf(
                                 "riley_stg4_pg4_opt6_onSelected_para1",
-                                "rileyDestPlanetControllingFactionWithoutArticle" to RileyQuest.destinationPlanet?.faction?.displayName
+                                "rileyDestPlanetControllingFactionWithoutArticle" to RileyQuest.state.destinationPlanet?.faction?.displayName
                             )
                         }
                         para { game.text["riley_stg4_pg4_opt6_onSelected_para2"] }

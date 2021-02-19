@@ -15,35 +15,36 @@ import wisp.questgiver.AutoQuestFacilitator
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.starSystemsNotOnBlacklist
 import wisp.questgiver.wispLib.*
-import kotlin.random.Random
 
 object LaborerQuest : AutoQuestFacilitator(
     stageBackingField = PersistentData(key = "laborerStage", defaultValue = { Stage.NotStarted }),
-    autoBarEvent = AutoBarEvent(Laborer_Stage1_BarEventCreator()) { market ->
-        market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT.toLowerCase())
-                && market.size > 2
-                && market.hasIndustry(Industries.MINING)
-                && LaborerQuest.destPlanet != null
-    },
-    autoIntel = AutoIntel(LaborerIntel::class.java) {
-        LaborerIntel(LaborerQuest.startLocation!!, LaborerQuest.destPlanet!!)
+    autoBarEventInfo = AutoBarEventInfo(
+        barEventCreator = Laborer_Stage1_BarEventCreator(),
+        shouldGenerateBarEvent = { true },
+        shouldOfferFromMarket = { market ->
+            market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT.toLowerCase())
+                    && market.size > 2
+                    && market.hasIndustry(Industries.MINING)
+                    && LaborerQuest.state.destPlanet != null
+        }
+    ),
+    autoIntelInfo = AutoIntelInfo(LaborerIntel::class.java) {
+        LaborerIntel(LaborerQuest.state.startLocation!!, LaborerQuest.state.destPlanet!!)
     }
 ) {
     val portrait = InteractionDefinition.Portrait("wisp_perseanchronicles_laborer", "portrait")
 
-    var startDate: Long? by PersistentNullableData("laborerStartDate")
-        private set
+    val state = State(PersistentMapData<String, Any?>(key = "laborerState").withDefault { null })
 
-    var startLocation: SectorEntityToken? by PersistentNullableData("laborerStartLocation")
-        private set
+    class State(val map: MutableMap<String, Any?>) {
+        var startDate: Long? by map
+        var startLocation: SectorEntityToken? by map
+        var destPlanet: SectorEntityToken? by map
+        var payout: Int by map.setDefault { calculatePayout() }
 
-    var destPlanet: SectorEntityToken? by PersistentNullableData("laborerDestPlanet")
-        private set
-
-    val destSystem: StarSystemAPI?
-        get() = destPlanet?.starSystem
-
-    var payout: Int by PersistentData("laborerPayout") { calculatePayment() }
+        val destSystem: StarSystemAPI?
+            get() = destPlanet?.starSystem
+    }
 
     val choices: Choices =
         Choices(PersistentMapData<String, Any?>(key = "laborerChoices").withDefault { null })
@@ -54,15 +55,15 @@ object LaborerQuest : AutoQuestFacilitator(
     }
 
     override fun updateTextReplacements(text: Text) {
-        text.globalReplacementGetters["laborerDestPlanet"] = { destPlanet?.name }
-        text.globalReplacementGetters["laborerDestSystem"] = { destSystem?.name }
-        text.globalReplacementGetters["laborerCredits"] = { Misc.getDGSCredits(payout.toFloat()) }
+        text.globalReplacementGetters["laborerDestPlanet"] = { state.destPlanet?.name }
+        text.globalReplacementGetters["laborerDestSystem"] = { state.destSystem?.name }
+        text.globalReplacementGetters["laborerCredits"] = { Misc.getDGSCredits(state.payout.toFloat()) }
     }
 
     override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
-        this.startLocation = interactionTarget
+        state.startLocation = interactionTarget
 
-        destPlanet = game.sector.starSystemsNotOnBlacklist
+        state.destPlanet = game.sector.starSystemsNotOnBlacklist
             .filter { it.distanceFromPlayerInHyperspace > 3f }
             .flatMap { it.solidPlanets }
             .filter { planet ->
@@ -82,6 +83,7 @@ object LaborerQuest : AutoQuestFacilitator(
     fun start(startLocation: SectorEntityToken) {
         game.logger.i { "Laborer start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
         stage = Stage.GoToPlanet
+        state.startDate = game.sector.clock.timestamp
     }
 
     fun shouldShowStage2Dialog() = stage == Stage.GoToPlanet
@@ -96,7 +98,7 @@ object LaborerQuest : AutoQuestFacilitator(
 
     fun payPlayer() {
         stage = Stage.Paid
-        game.sector.playerFleet.cargo.credits.add(payout.toFloat())
+        game.sector.playerFleet.cargo.credits.add(state.payout.toFloat())
         getShownIntel()?.sendUpdateIfPlayerHasIntel(null, false)
 
         if (game.sector.hasScript(PayoutScript::class.java)) {
@@ -104,7 +106,7 @@ object LaborerQuest : AutoQuestFacilitator(
         }
     }
 
-    private fun calculatePayment(): Int =
+    private fun calculatePayout(): Int =
         WeightedRandomPicker<Int>()
             .apply {
                 this.add(100000, 1f) // 4.88%
@@ -121,10 +123,7 @@ object LaborerQuest : AutoQuestFacilitator(
     fun restartQuest() {
         game.logger.i { "Restarting Laborer quest." }
 
-        startDate = null
-        startLocation = null
-        destPlanet = null
-        payout = calculatePayment()
+        state.map.clear()
         stage = Stage.NotStarted
 
         if (game.sector.hasScript(PayoutScript::class.java)) {
@@ -142,7 +141,7 @@ object LaborerQuest : AutoQuestFacilitator(
     class PayoutScript(clock: CampaignClockAPI) : EveryFrameScript {
         private var isDone = false
         val intervalUtil = IntervalUtil(
-            clock.convertToSeconds(14f), clock.convertToSeconds(365f)
+            clock.convertToSeconds(14f), clock.convertToSeconds(180f)
         )
 
         override fun isDone(): Boolean = isDone

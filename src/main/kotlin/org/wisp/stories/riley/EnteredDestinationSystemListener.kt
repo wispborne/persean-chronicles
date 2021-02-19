@@ -15,7 +15,7 @@ class EnteredDestinationSystemListener : BaseCampaignEventListener(false) {
     ) {
         if (RileyQuest.stage.equalsAny(RileyQuest.Stage.TravellingToSystem, RileyQuest.Stage.InitialTraveling)
             && fleet == game.sector.playerFleet
-            && to?.destination?.starSystem == RileyQuest.destinationPlanet?.starSystem
+            && to?.destination?.starSystem == RileyQuest.state.destinationPlanet?.starSystem
         ) {
             game.sector.removeListener(this)
             RileyQuest.showEnteredDestSystemDialog()
