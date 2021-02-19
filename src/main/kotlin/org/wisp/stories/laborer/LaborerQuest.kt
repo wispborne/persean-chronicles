@@ -126,6 +126,10 @@ object LaborerQuest : AutoQuestFacilitator(
         destPlanet = null
         payout = calculatePayment()
         stage = Stage.NotStarted
+
+        if (game.sector.hasScript(PayoutScript::class.java)) {
+            game.sector.removeScript(PayoutScript(game.sector.clock))
+        }
     }
 
     abstract class Stage(progress: Progress) : AutoQuestFacilitator.Stage(progress) {
@@ -138,8 +142,7 @@ object LaborerQuest : AutoQuestFacilitator(
     class PayoutScript(clock: CampaignClockAPI) : EveryFrameScript {
         private var isDone = false
         val intervalUtil = IntervalUtil(
-//            clock.convertToSeconds(14f), clock.convertToSeconds(365f)
-            clock.convertToSeconds(1f), clock.convertToSeconds(1f)
+            clock.convertToSeconds(14f), clock.convertToSeconds(365f)
         )
 
         override fun isDone(): Boolean = isDone
@@ -149,7 +152,7 @@ object LaborerQuest : AutoQuestFacilitator(
         override fun advance(amount: Float) {
             intervalUtil.advance(amount)
 
-            if (intervalUtil.intervalElapsed()) {
+            if (intervalUtil.intervalElapsed() && !isDone) {
                 payPlayer()
                 isDone = true
             }
