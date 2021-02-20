@@ -11,7 +11,7 @@ class Riley_Stage2_TriggerDialogScript : EveryFrameScript {
     override fun runWhilePaused(): Boolean = false
 
     override fun advance(p0: Float) {
-        val startDate = RileyQuest.startDate
+        val startDate = RileyQuest.state.startDate
         startDate ?: return
 
         if (game.sector.clock.getElapsedDaysSince(startDate) >= RileyQuest.DAYS_UNTIL_DIALOG) {

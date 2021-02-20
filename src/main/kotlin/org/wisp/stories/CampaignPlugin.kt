@@ -32,7 +32,7 @@ class CampaignPlugin : BaseCampaignPlugin() {
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
         return when {
             // Land on planet with dragons
-            interactionTarget.hasSameMarketAs(DragonsQuest.dragonPlanet)
+            interactionTarget.hasSameMarketAs(DragonsQuest.state.dragonPlanet)
                     && DragonsQuest.stage == DragonsQuest.Stage.GoToPlanet -> {
                 PluginPick(
                     org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage2_Dialog().build(),
@@ -41,7 +41,7 @@ class CampaignPlugin : BaseCampaignPlugin() {
             }
 
             // Finish Dragonriders by landing at quest-giving planet
-            interactionTarget.hasSameMarketAs(DragonsQuest.startingPlanet)
+            interactionTarget.hasSameMarketAs(DragonsQuest.state.startingPlanet)
                     && DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart -> {
                 PluginPick(
                     org.wisp.stories.dangerousGames.pt1_dragons.Dragons_Stage3_Dialog().build(),
@@ -50,7 +50,7 @@ class CampaignPlugin : BaseCampaignPlugin() {
             }
 
             // Land on ocean planet for Depths quest
-            interactionTarget.hasSameMarketAs(DepthsQuest.depthsPlanet)
+            interactionTarget.hasSameMarketAs(DepthsQuest.state.depthsPlanet)
                     && DepthsQuest.stage == DepthsQuest.Stage.GoToPlanet -> {
                 PluginPick(
                     org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage2_RiddleDialog().build(),
@@ -59,7 +59,7 @@ class CampaignPlugin : BaseCampaignPlugin() {
             }
 
             // Finish Depths by landing at quest-giving planet
-            interactionTarget.hasSameMarketAs(DepthsQuest.startingPlanet)
+            interactionTarget.hasSameMarketAs(DepthsQuest.state.startingPlanet)
                     && DepthsQuest.stage == DepthsQuest.Stage.ReturnToStart -> {
                 PluginPick(
                     org.wisp.stories.dangerousGames.pt2_depths.Depths_Stage2_EndDialog().build(),
@@ -68,7 +68,7 @@ class CampaignPlugin : BaseCampaignPlugin() {
             }
 
             // Finish Riley quest by landing at father's planet
-            interactionTarget.hasSameMarketAs(RileyQuest.destinationPlanet)
+            interactionTarget.hasSameMarketAs(RileyQuest.state.destinationPlanet)
                     && RileyQuest.stage.equalsAny(
                 RileyQuest.Stage.InitialTraveling,
                 RileyQuest.Stage.LandingOnPlanet
@@ -80,7 +80,7 @@ class CampaignPlugin : BaseCampaignPlugin() {
             }
 
             // Finish Nirvana quest by landing at pulsar planet
-            interactionTarget.hasSameMarketAs(NirvanaQuest.destPlanet)
+            interactionTarget.hasSameMarketAs(NirvanaQuest.state.destPlanet)
                     && NirvanaQuest.shouldShowStage2Dialog() -> {
                 PluginPick(
                     Nirvana_Stage2_Dialog().build(),
@@ -89,7 +89,7 @@ class CampaignPlugin : BaseCampaignPlugin() {
             }
 
             // Shhhhh
-            interactionTarget.hasSameMarketAs(NirvanaQuest.destPlanet)
+            interactionTarget.hasSameMarketAs(NirvanaQuest.state.destPlanet)
                     && NirvanaQuest.shouldShowStage3Dialog() -> {
                 PluginPick(
                     Nirvana_Stage3_Dialog().build(),
@@ -98,7 +98,7 @@ class CampaignPlugin : BaseCampaignPlugin() {
             }
 
             // Finish laborer quest
-            interactionTarget.hasSameMarketAs(LaborerQuest.destPlanet)
+            interactionTarget.hasSameMarketAs(LaborerQuest.state.destPlanet)
                     && LaborerQuest.shouldShowStage2Dialog() -> {
                 PluginPick(
                     Laborer_Stage2_Dialog().build(),

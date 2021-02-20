@@ -13,19 +13,20 @@ import kotlin.math.roundToInt
 
 object RileyQuest : AutoQuestFacilitator(
     stageBackingField = PersistentData(key = "rileyStage", defaultValue = { Stage.NotStarted }),
-    autoIntel = AutoIntel(RileyIntel::class.java) {
+    autoIntelInfo = AutoIntelInfo(RileyIntel::class.java) {
         RileyIntel(
-            startLocation = RileyQuest.startLocation!!,
-            endLocation = RileyQuest.destinationPlanet!!
+            startLocation = RileyQuest.state.startLocation!!,
+            endLocation = RileyQuest.state.destinationPlanet!!
         )
     },
-    autoBarEvent = AutoBarEvent(
+    autoBarEventInfo = AutoBarEventInfo(
         barEventCreator = Riley_Stage1_BarEventCreator(),
+        shouldGenerateBarEvent = { true },
         shouldOfferFromMarket = { market ->
             market.size > 5 // Lives on a populous world
                     && market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
-                    && market.connectedEntities.none { it?.id == RileyQuest.destinationPlanet?.id }
-                    && RileyQuest.destinationPlanet != null
+                    && market.connectedEntities.none { it?.id == RileyQuest.state.destinationPlanet?.id }
+                    && RileyQuest.state.destinationPlanet != null
         }
     )
 ) {
@@ -38,24 +39,18 @@ object RileyQuest : AutoQuestFacilitator(
     private val govtsSponsoringSafeAi = listOf(Factions.HEGEMONY, "vic")
     val icon = InteractionDefinition.Portrait(category = "wispStories_riley", id = "icon")
 
-    var startDate: Long? by PersistentNullableData("rileyStartDate")
-        private set
+    val isFatherWorkingWithGovt: Boolean
+        get() = state.destinationPlanet?.faction?.id?.toLowerCase() in govtsSponsoringSafeAi
 
-    var startLocation: SectorEntityToken? by PersistentNullableData("rileyStartPlanet")
-        private set
-
-    var destinationPlanet: SectorEntityToken? by PersistentNullableData("rileyDestinationPlanet")
-        private set
-
+    val state = State(PersistentMapData<String, Any?>(key = "rileyState").withDefault { null })
     val choices: Choices = Choices(PersistentMapData<String, Any?>(key = "rileyChoices").withDefault { null })
 
-    val isFatherWorkingWithGovt: Boolean
-        get() = destinationPlanet?.faction?.id?.toLowerCase() in govtsSponsoringSafeAi
+    class State(val map: MutableMap<String, Any?>) {
+        var startDate: Long? by map
+        var startLocation: SectorEntityToken? by map
+        var destinationPlanet: SectorEntityToken? by map
+    }
 
-    /**
-     * All choices that can be made.
-     * Leave `map` public and accessible so it can be cleared if the quest is restarted.
-     */
     class Choices(val map: MutableMap<String, Any?>) {
         var askedWhyNotBuyOwnShip by map
         var refusedPayment by map
@@ -72,25 +67,25 @@ object RileyQuest : AutoQuestFacilitator(
     }
 
     override fun updateTextReplacements(text: Text) {
-        text.globalReplacementGetters["rileyDestPlanet"] = { destinationPlanet?.name }
+        text.globalReplacementGetters["rileyDestPlanet"] = { state.destinationPlanet?.name }
         text.globalReplacementGetters["rileyCredits"] = { Misc.getDGSCredits(REWARD_CREDITS.toFloat()) }
         text.globalReplacementGetters["rileyTimeLimitDays"] = { TIME_LIMIT_DAYS }
-        text.globalReplacementGetters["rileyDestSystem"] = { destinationPlanet?.starSystem?.name }
+        text.globalReplacementGetters["rileyDestSystem"] = { state.destinationPlanet?.starSystem?.name }
         text.globalReplacementGetters["rileyDestPlanetDistanceLY"] = {
-            if (destinationPlanet == null) String.empty
-            else startLocation?.starSystem?.distanceFrom(destinationPlanet!!.starSystem)
+            if (state.destinationPlanet == null) String.empty
+            else state.startLocation?.starSystem?.distanceFrom(state.destinationPlanet!!.starSystem)
                 ?.roundToInt()
                 ?.coerceAtLeast(1)
                 .toString()
         }
         text.globalReplacementGetters["rileyDestPlanetControllingFaction"] =
-            { destinationPlanet?.faction?.displayNameWithArticle }
-        text.globalReplacementGetters["rileyOriginPlanet"] = { startLocation?.name }
+            { state.destinationPlanet?.faction?.displayNameWithArticle }
+        text.globalReplacementGetters["rileyOriginPlanet"] = { state.startLocation?.name }
         text.globalReplacementGetters["rileyBountyCredits"] = { Misc.getDGSCredits(BOUNTY_CREDITS.toFloat()) }
     }
 
     override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
-        startLocation = interactionTarget
+        state.startLocation = interactionTarget
         findAndTagNewDestinationPlanet(interactionTarget)
     }
 
@@ -99,9 +94,9 @@ object RileyQuest : AutoQuestFacilitator(
      */
     fun start(startingEntity: SectorEntityToken) {
         game.logger.i { "Riley start planet set to ${startingEntity.fullName} in ${startingEntity.starSystem.baseName}" }
-        startLocation = startingEntity
+        state.startLocation = startingEntity
         stage = Stage.InitialTraveling
-        startDate = game.sector.clock.timestamp
+        state.startDate = game.sector.clock.timestamp
         game.sector.addScript(Riley_Stage2_TriggerDialogScript())
         game.sector.addListener(EnteredDestinationSystemListener())
     }
@@ -110,7 +105,7 @@ object RileyQuest : AutoQuestFacilitator(
      * Randomly choose a planet that is far from starting point and owned by certain factions.
      */
     private fun findAndTagNewDestinationPlanet(startEntity: SectorEntityToken) {
-        destinationPlanet =
+        state.destinationPlanet =
             game.sector.starSystemsNotOnBlacklist
                 .sortedByDescending { it.distanceFrom(startEntity.starSystem) }
                 .filter { it.id != startEntity.starSystem?.id }
@@ -152,9 +147,7 @@ object RileyQuest : AutoQuestFacilitator(
     fun restartQuest() {
         game.logger.i { "Restarting Riley quest." }
 
-        startDate = null
-        startLocation = null
-        destinationPlanet = null
+        state.map.clear()
         choices.map.clear()
         stage = Stage.NotStarted
     }

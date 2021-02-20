@@ -10,15 +10,22 @@ Requires LazyLib 2.5b or later.
 
 Written in [Kotlin](https://kotlinlang.org/docs/reference/faq.html). Relies on [Questgiver](https://github.com/davidwhitman/questgiver) to simplify quest code (packaged with the mod).
 
-## Blacklist
+## Blacklisting systems from being used
 
-To prevent this mod from using a system for any purpose, add the tag `wisp_perseanchronicles_blacklisted_system`
+This mod uses modSettings.json. See usage here: <https://starsector.fandom.com/wiki/Category:Modding#Cross-mod_integration_via_the_modSettings.json_file_and_data.2Fconfig.2FmodFiles_folder>
 
 ## Credits
 
 Avanitia for proof-reading literally _everything_ and providing an incredible amount of feedback. 
 
 Market condition code inspired by Tartiflette's [Unknown Skies](https://fractalsoftworks.com/forum/index.php?topic=12041.0).
+
+MesoTroniK for music.
+
+Vayra for art.
+
+NTNU (https://www.ntnu.edu/oceans/deep-sea-mining) for art.
+
 
 ## License
 

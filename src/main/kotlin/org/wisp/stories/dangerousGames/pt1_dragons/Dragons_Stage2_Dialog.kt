@@ -125,7 +125,7 @@ class Dragons_Stage2_Dialog : InteractionDefinition<Dragons_Stage2_Dialog>(
     )
 ) {
     override fun createInstanceOfSelf() = Dragons_Stage2_Dialog()
-    private fun planetName() = DragonsQuest.dragonPlanet?.name
+    private fun planetName() = DragonsQuest.state.dragonPlanet?.name
 
     enum class Pages {
         TellEveryoneToGetOnBoard,
@@ -134,5 +134,5 @@ class Dragons_Stage2_Dialog : InteractionDefinition<Dragons_Stage2_Dialog>(
         TakeOff
     }
 
-    private fun isPlanetColonized() = DragonsQuest.dragonPlanet?.activePerson != null
+    private fun isPlanetColonized() = DragonsQuest.state.dragonPlanet?.activePerson != null
 }

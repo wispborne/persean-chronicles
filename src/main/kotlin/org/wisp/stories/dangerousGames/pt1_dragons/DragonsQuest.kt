@@ -4,6 +4,7 @@ import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import org.wisp.stories.game
+import org.wisp.stories.nirvana.NirvanaQuest
 import wisp.questgiver.AutoQuestFacilitator
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.starSystemsNotOnBlacklist
@@ -16,44 +17,46 @@ import wisp.questgiver.wispLib.*
  */
 object DragonsQuest : AutoQuestFacilitator(
     stageBackingField = PersistentData(key = "dragonQuestStage", defaultValue = { Stage.NotStarted }),
-    autoIntel = AutoIntel(DragonsQuest_Intel::class.java) {
+    autoIntelInfo = AutoIntelInfo(DragonsQuest_Intel::class.java) {
         DragonsQuest_Intel(
-            startLocation = DragonsQuest.startingPlanet!!,
-            endLocation = DragonsQuest.dragonPlanet!!
+            startLocation = DragonsQuest.state.startingPlanet!!,
+            endLocation = DragonsQuest.state.dragonPlanet!!
         )
     },
-    autoBarEvent = AutoBarEvent(DragonsPart1_BarEventCreator(),
+    autoBarEventInfo = AutoBarEventInfo(
+        barEventCreator = DragonsPart1_BarEventCreator(),
+        shouldGenerateBarEvent = { true },
         shouldOfferFromMarket = { market ->
             market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
                     && market.size > 3
-                    && DragonsQuest.dragonPlanet != null
+                    && DragonsQuest.state.dragonPlanet != null
         })
 ) {
+    const val rewardCredits: Int = 95000
+    private const val minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet = 5
     private val DRAGON_PLANET_TYPES = listOf(
         "terran",
         "terran-eccentric",
         "jungle",
         "US_jungle" // Unknown Skies
     )
-
     val icon = InteractionDefinition.Portrait("wispStories_dragonriders", "icon")
     val intelDetailHeaderImage = InteractionDefinition.Illustration("wispStories_dragonriders", "intelPicture")
     val dragonPlanetImage = InteractionDefinition.Illustration("wispStories_dragonriders", "planetIllustration")
 
-    const val rewardCredits: Int = 95000
-    const val minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet = 5
+    val state = State(PersistentMapData<String, Any?>(key = "dragonState").withDefault { null })
 
-    var dragonPlanet: SectorEntityToken? by PersistentNullableData("dragonDestinationPlanet")
-        private set
-
-    var startingPlanet: SectorEntityToken? by PersistentNullableData("dragonStartingPlanet")
-        private set
+    class State(val map: MutableMap<String, Any?>) {
+        var startDate: Long? by map
+        var dragonPlanet: SectorEntityToken? by map
+        var startingPlanet: SectorEntityToken? by map
+    }
 
     override fun updateTextReplacements(text: Text) {
-        text.globalReplacementGetters["dragonPlanet"] = { dragonPlanet?.name }
-        text.globalReplacementGetters["dragonSystem"] = { dragonPlanet?.starSystem?.name }
-        text.globalReplacementGetters["startPlanet"] = { startingPlanet?.name }
-        text.globalReplacementGetters["startSystem"] = { startingPlanet?.starSystem?.name }
+        text.globalReplacementGetters["dragonPlanet"] = { state.dragonPlanet?.name }
+        text.globalReplacementGetters["dragonSystem"] = { state.dragonPlanet?.starSystem?.name }
+        text.globalReplacementGetters["startPlanet"] = { state.startingPlanet?.name }
+        text.globalReplacementGetters["startSystem"] = { state.startingPlanet?.starSystem?.name }
     }
 
     override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
@@ -86,12 +89,13 @@ object DragonsQuest : AutoQuestFacilitator(
             return
         }
 
-        dragonPlanet = planet
+        state.dragonPlanet = planet
     }
 
     fun startStage1(startLocation: SectorEntityToken) {
-        startingPlanet = startLocation
+        state.startingPlanet = startLocation
         stage = Stage.GoToPlanet
+        state.startDate = game.sector.clock.timestamp
     }
 
     fun failQuestByLeavingOthersToGetEatenByDragons() {
@@ -115,8 +119,7 @@ object DragonsQuest : AutoQuestFacilitator(
     fun restartQuest() {
         game.logger.i { "Restarting Dragons quest." }
 
-        dragonPlanet = null
-        startingPlanet = null
+        state.map.clear()
         stage = Stage.NotStarted
     }
 

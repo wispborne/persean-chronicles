@@ -1,0 +1,15 @@
+{
+  "PerseanChronicles": {
+    # List of tags on systems that will not be used as quest locations
+    "system_tags_to_blacklist": [
+      "theme_remnant_main",
+      "theme_remnant_resurgent",
+      "theme_breakers",
+      "theme_breakers_resurgent"
+    ],
+    # List of system ids that will not be used as quest locations
+    "system_ids_to_blacklist": [
+
+    ]
+  }
+}

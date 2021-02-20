@@ -16,6 +16,7 @@ import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.firstName
 import wisp.questgiver.wispLib.i
 import wisp.questgiver.wispLib.lastName
+import wisp.questgiver.wispLib.toStringList
 import java.util.*
 
 
@@ -38,7 +39,7 @@ class LifecyclePlugin : BaseModPlugin() {
         addTextToServiceLocator()
 
         Questgiver.onGameLoad(
-            blacklistedEntityTags = Tags.systemTagsToAvoidRandomlyChoosing,
+            blacklistedEntityTags = listOf(Tags.TAG_BLACKLISTED_SYSTEM),
             questFacilitators = listOf(
                 DragonsQuest,
                 DepthsQuest,
@@ -144,30 +145,34 @@ class LifecyclePlugin : BaseModPlugin() {
     }
 
     private fun applyBlacklistTagsToSystems() {
+        val startTime = game.sector.clock.timestamp
         val blacklistedSystems = try {
-            val jsonArray = game.settings
-                .getMergedSpreadsheetDataForMod(
-                    "id",
-                    "data/config/stories_system_blacklist.csv",
-                    MOD_NAME
-                )
+            val modSettings = game.settings
+                .getMergedJSONForMod(
+                    "data/config/modSettings.json",
+                    "MagicLib"
+                ).getJSONObject("PerseanChronicles")
+
             val blacklist = mutableListOf<BlacklistEntry>()
 
-            for (i in 0 until jsonArray.length()) {
-                val jsonObj = jsonArray.getJSONObject(i)
 
-                blacklist += BlacklistEntry(
-                    id = jsonObj.getString("id"),
-                    systemId = jsonObj.getString("systemId"),
-                    isBlacklisted = jsonObj.optBoolean("isBlacklisted", true),
-                    priority = jsonObj.optInt("priority", 0)
-                )
-            }
+            blacklist += modSettings.getJSONArray("system_ids_to_blacklist")
+                .toStringList()
+                .distinct()
+                .map { sysId ->
+                    BlacklistEntry(systemId = sysId)
+                }
 
-            // Sort so that the highest priorities are first
-            // Then run distinctBy, which will always keep only the first element it sees for a key
+            blacklist += modSettings.getJSONArray("system_tags_to_blacklist")
+                .toStringList()
+                .distinct()
+                .flatMap { tag ->
+                    game.sector.starSystems
+                        .filter { tag in it.tags }
+                        .map { system -> BlacklistEntry(systemId = system.id) }
+                }
+
             blacklist
-                .sortedByDescending { it.priority }
                 .distinctBy { it.systemId }
                 .filter { it.isBlacklisted }
         } catch (e: Exception) {
@@ -186,12 +191,11 @@ class LifecyclePlugin : BaseModPlugin() {
                 system.removeTag(Tags.TAG_BLACKLISTED_SYSTEM)
             }
         }
+        game.logger.i { "Persean Chronicles blacklist loaded in ${game.sector.clock.timestamp - startTime} seconds." }
     }
 
     private data class BlacklistEntry(
-        val id: String,
         val systemId: String,
-        val isBlacklisted: Boolean = true,
-        val priority: Int? = 0
+        val isBlacklisted: Boolean = true
     )
 }
