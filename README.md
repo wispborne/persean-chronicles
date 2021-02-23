@@ -4,7 +4,7 @@ By Wispborne (Wisp#0302 on Discord)
 
 ## Description
 
-Persean Chronicles is a mod for the game Starsector that add a small collection of one-off text-only quests to bars around the Persean Sector.
+Persean Chronicles is a mod for the game Starsector that adds a small collection of one-off text-only quests to bars around the Persean Sector.
 
 Requires LazyLib 2.5b or later.
 

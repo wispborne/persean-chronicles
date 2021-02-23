@@ -13,7 +13,7 @@ import com.fs.starfarer.api.util.WeightedRandomPicker
 import org.wisp.stories.game
 import wisp.questgiver.AutoQuestFacilitator
 import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.starSystemsNotOnBlacklist
+import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.wispLib.*
 
 object LaborerQuest : AutoQuestFacilitator(
@@ -29,7 +29,7 @@ object LaborerQuest : AutoQuestFacilitator(
         }
     ),
     autoIntelInfo = AutoIntelInfo(LaborerIntel::class.java) {
-        LaborerIntel(LaborerQuest.state.startLocation!!, LaborerQuest.state.destPlanet!!)
+        LaborerIntel(LaborerQuest.state.startLocation, LaborerQuest.state.destPlanet)
     }
 ) {
     val portrait = InteractionDefinition.Portrait("wisp_perseanchronicles_laborer", "portrait")
@@ -63,7 +63,7 @@ object LaborerQuest : AutoQuestFacilitator(
     override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
         state.startLocation = interactionTarget
 
-        state.destPlanet = game.sector.starSystemsNotOnBlacklist
+        state.destPlanet = game.sector.starSystemsAllowedForQuests
             .filter { it.distanceFromPlayerInHyperspace > 3f }
             .flatMap { it.solidPlanets }
             .filter { planet ->

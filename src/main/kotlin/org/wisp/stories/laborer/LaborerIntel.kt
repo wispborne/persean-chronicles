@@ -5,9 +5,10 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.game
 import wisp.questgiver.*
+import wisp.questgiver.wispLib.asList
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
-class LaborerIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
+class LaborerIntel(startLocation: SectorEntityToken?, endLocation: SectorEntityToken?) : IntelDefinition(
     title = {
         if (!LaborerQuest.stage.isCompleted) {
             game.text["lab_intel_title"]
@@ -70,12 +71,12 @@ class LaborerIntel(startLocation: SectorEntityToken, endLocation: SectorEntityTo
             }
         }
     },
-    startLocation = startLocation.market,
-    endLocation = endLocation.market,
-    removeIntelIfAnyOfTheseEntitiesDie = listOf(endLocation),
+    startLocation = startLocation?.market,
+    endLocation = endLocation?.market,
+    removeIntelIfAnyOfTheseEntitiesDie = endLocation.asList(),
     important = true,
     intelTags = listOf(Tags.INTEL_STORY)
 ) {
     override fun createInstanceOfSelf() =
-        LaborerIntel(startLocation!!.preferredConnectedEntity!!, endLocation!!.preferredConnectedEntity!!)
+        LaborerIntel(startLocation?.preferredConnectedEntity, endLocation?.preferredConnectedEntity)
 }

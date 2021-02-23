@@ -5,9 +5,10 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.game
 import wisp.questgiver.*
+import wisp.questgiver.wispLib.asList
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
-class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
+class RileyIntel(startLocation: SectorEntityToken?, endLocation: SectorEntityToken?) : IntelDefinition(
     iconPath = { game.settings.getSpriteName(RileyQuest.icon.category, RileyQuest.icon.id) },
     title = {
         if (RileyQuest.stage.progress != AutoQuestFacilitator.Stage.Progress.Completed)
@@ -17,7 +18,7 @@ class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToke
     },
     subtitleCreator = { info ->
         if (RileyQuest.stage.progress != AutoQuestFacilitator.Stage.Progress.Completed) {
-            bullet(info!!)
+            bullet(info)
             info.addPara(
                 padding = 0f,
                 textColor = Misc.getGrayColor()
@@ -33,7 +34,7 @@ class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToke
             }
         }
     },
-    descriptionCreator = { info, width, height ->
+    descriptionCreator = { info, width, _ ->
         info.addImage(
             RileyQuest.icon.spriteName(game),
             width,
@@ -77,13 +78,13 @@ class RileyIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToke
             }
         }
     },
-    startLocation = startLocation.market,
-    endLocation = endLocation.market,
+    startLocation = startLocation?.market,
+    endLocation = endLocation?.market,
     durationInDays = RileyQuest.TIME_LIMIT_DAYS.toFloat(),
-    removeIntelIfAnyOfTheseEntitiesDie = listOf(endLocation),
+    removeIntelIfAnyOfTheseEntitiesDie = endLocation.asList(),
     important = true,
     intelTags = listOf(Tags.INTEL_STORY)
 ) {
     override fun createInstanceOfSelf() =
-        RileyIntel(startLocation!!.preferredConnectedEntity!!, endLocation!!.preferredConnectedEntity!!)
+        RileyIntel(startLocation?.preferredConnectedEntity, endLocation?.preferredConnectedEntity)
 }

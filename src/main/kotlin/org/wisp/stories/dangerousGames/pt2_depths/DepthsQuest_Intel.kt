@@ -10,7 +10,7 @@ import wisp.questgiver.wispLib.empty
 import wisp.questgiver.wispLib.equalsAny
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
-class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
+class DepthsQuest_Intel(startLocation: SectorEntityToken?, endLocation: SectorEntityToken?) : IntelDefinition(
     title = {
         if (DepthsQuest.stage != DepthsQuest.Stage.Done) {
             game.text["dg_de_intel_title"]
@@ -65,11 +65,11 @@ class DepthsQuest_Intel(startLocation: SectorEntityToken, endLocation: SectorEnt
             info.addPara { game.text["dg_de_intel_desc_stg3"] }
         }
     },
-    startLocation = startLocation.market,
-    endLocation = endLocation.market,
+    startLocation = startLocation?.market,
+    endLocation = endLocation?.market,
     important = true,
     intelTags = listOf(Tags.INTEL_EXPLORATION, Tags.INTEL_STORY)
 ) {
     override fun createInstanceOfSelf(): IntelDefinition =
-        DepthsQuest_Intel(startLocation!!.preferredConnectedEntity!!, endLocation!!.preferredConnectedEntity!!)
+        DepthsQuest_Intel(startLocation?.preferredConnectedEntity, endLocation?.preferredConnectedEntity)
 }

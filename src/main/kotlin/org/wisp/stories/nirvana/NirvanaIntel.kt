@@ -8,9 +8,10 @@ import wisp.questgiver.IntelDefinition
 import wisp.questgiver.Padding
 import wisp.questgiver.addPara
 import wisp.questgiver.spriteName
+import wisp.questgiver.wispLib.asList
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
-class NirvanaIntel(startLocation: SectorEntityToken, endLocation: SectorEntityToken) : IntelDefinition(
+class NirvanaIntel(startLocation: SectorEntityToken?, endLocation: SectorEntityToken?) : IntelDefinition(
     iconPath = { game.settings.getSpriteName(NirvanaQuest.icon.category, NirvanaQuest.icon.id) },
     title = {
         if (!NirvanaQuest.stage.isCompleted)
@@ -56,12 +57,12 @@ class NirvanaIntel(startLocation: SectorEntityToken, endLocation: SectorEntityTo
             }
         }
     },
-    startLocation = startLocation.market,
-    endLocation = endLocation.market,
-    removeIntelIfAnyOfTheseEntitiesDie = listOf(endLocation),
+    startLocation = startLocation?.market,
+    endLocation = endLocation?.market,
+    removeIntelIfAnyOfTheseEntitiesDie = endLocation.asList(),
     important = true,
     intelTags = listOf(Tags.INTEL_STORY)
 ) {
     override fun createInstanceOfSelf() =
-        NirvanaIntel(startLocation!!.preferredConnectedEntity!!, endLocation!!.preferredConnectedEntity!!)
+        NirvanaIntel(startLocation?.preferredConnectedEntity, endLocation?.preferredConnectedEntity)
 }
