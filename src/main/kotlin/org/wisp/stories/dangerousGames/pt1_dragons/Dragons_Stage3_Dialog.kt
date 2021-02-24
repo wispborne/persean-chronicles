@@ -1,9 +1,9 @@
 package org.wisp.stories.dangerousGames.pt1_dragons
 
+import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.game
 import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.wispLib.lastName
 
 class Dragons_Stage3_Dialog : InteractionDefinition<Dragons_Stage3_Dialog>(
     onInteractionStarted = {},
@@ -11,7 +11,13 @@ class Dragons_Stage3_Dialog : InteractionDefinition<Dragons_Stage3_Dialog>(
         Page(
             id = 1,
             onPageShown = {
-                para { game.text["dg_dr_stg3_pg1_para1"] }
+                para {
+                    if(dialog.interactionTarget.faction.isHostileTo(Factions.PLAYER)) {
+                        game.text["dg_dr_stg3_pg1_para1_ifHostile"]
+                    } else {
+                        game.text["dg_dr_stg3_pg1_para1"]
+                    }
+                }
             },
             options = listOf(
                 Option(
