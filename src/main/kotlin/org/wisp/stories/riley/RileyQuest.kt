@@ -101,6 +101,7 @@ object RileyQuest : AutoQuestFacilitator(
         state.startDate = game.sector.clock.timestamp
         game.sector.addScript(Riley_Stage2_TriggerDialogScript())
         game.sector.addListener(EnteredDestinationSystemListener())
+
     }
 
     /**

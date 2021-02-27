@@ -24,6 +24,14 @@ talk to me: @Wisp#0302
 
 
 ```text
-1.0.0
+1.0.1
+Added 
+    - More robust blacklisting and whitelisting.
+Changed
+    - Slightly different text for Dragons if ending planet is hostile.
+Fixed
+    - Quests should no longer be offered from blacklisted locations. 
+
+1.0.0 (2020-02-20)
 - Initial release
 ```

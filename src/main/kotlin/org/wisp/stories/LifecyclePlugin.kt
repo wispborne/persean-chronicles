@@ -1,7 +1,10 @@
 package org.wisp.stories
 
 import com.fs.starfarer.api.BaseModPlugin
+import com.fs.starfarer.api.campaign.comm.IntelInfoPlugin
 import com.fs.starfarer.api.characters.FullName
+import com.fs.starfarer.api.util.Misc
+import com.fs.starfarer.campaign.CampaignEngine
 import com.thoughtworks.xstream.XStream
 import org.apache.log4j.Level
 import org.json.JSONObject

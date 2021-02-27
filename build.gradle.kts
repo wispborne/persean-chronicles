@@ -46,6 +46,7 @@ dependencies {
             "starfarer.api.jar",
             "starfarer.api-sources.jar",
             "starfarer_obf.jar",
+            "fs.common_obf.jar",
             "json.jar",
             "xstream-1.4.10.jar",
             "log4j-1.2.9.jar",
