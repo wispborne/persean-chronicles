@@ -27,7 +27,7 @@ object NirvanaQuest : AutoQuestFacilitator(
                     && NirvanaQuest.state.destPlanet != null
         }),
     autoIntelInfo = AutoIntelInfo(NirvanaIntel::class.java) {
-        NirvanaIntel(NirvanaQuest.state.startLocation!!, NirvanaQuest.state.destPlanet!!)
+        NirvanaIntel(NirvanaQuest.state.startLocation, NirvanaQuest.state.destPlanet)
     }
 ) {
     val REWARD_CREDITS: Float
@@ -59,7 +59,7 @@ object NirvanaQuest : AutoQuestFacilitator(
     override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
         state.startLocation = interactionTarget
 
-        val system = game.sector.starSystemsNotOnBlacklist
+        val system = game.sector.starSystemsAllowedForQuests
             .filter { sys -> sys.star.spec.isPulsar }
             .prefer { it.distanceFromPlayerInHyperspace >= 18 } // 18+ LY away
             .ifEmpty {
@@ -79,7 +79,7 @@ object NirvanaQuest : AutoQuestFacilitator(
                 } else {
                     pulsarSystemsWithPlanet
                         .prefer { system ->
-                            system.planets.any { planet -> planet.faction?.isHostileTo(game.sector.playerFaction) != true }
+                            system.solidPlanets.any { planet -> planet.faction?.isHostileTo(game.sector.playerFaction) != true }
                         }
                         .random()
                 }

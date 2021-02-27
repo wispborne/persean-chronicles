@@ -4,10 +4,9 @@ import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import org.wisp.stories.game
-import org.wisp.stories.nirvana.NirvanaQuest
 import wisp.questgiver.AutoQuestFacilitator
 import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.starSystemsNotOnBlacklist
+import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.wispLib.*
 
 /**
@@ -19,8 +18,8 @@ object DragonsQuest : AutoQuestFacilitator(
     stageBackingField = PersistentData(key = "dragonQuestStage", defaultValue = { Stage.NotStarted }),
     autoIntelInfo = AutoIntelInfo(DragonsQuest_Intel::class.java) {
         DragonsQuest_Intel(
-            startLocation = DragonsQuest.state.startingPlanet!!,
-            endLocation = DragonsQuest.state.dragonPlanet!!
+            startLocation = DragonsQuest.state.startingPlanet,
+            endLocation = DragonsQuest.state.dragonPlanet
         )
     },
     autoBarEventInfo = AutoBarEventInfo(
@@ -68,9 +67,12 @@ object DragonsQuest : AutoQuestFacilitator(
      */
     private fun findAndTagDragonPlanet(playersCurrentStarSystem: StarSystemAPI?) {
         val planet = try {
-            game.sector.starSystemsNotOnBlacklist
+            game.sector.starSystemsAllowedForQuests
                 .filter { it.id != playersCurrentStarSystem?.id }
-                .filter { system -> system.planets.any { planet -> DRAGON_PLANET_TYPES.any { it == planet.typeId } } }
+                .filter { system ->
+                    system.solidPlanets
+                        .any { planet -> DRAGON_PLANET_TYPES.any { it == planet.typeId } }
+                }
                 .prefer { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet }
                 .sortedBy { it.distanceFromCenterOfSector }
                 .flatMap { it.solidPlanets }

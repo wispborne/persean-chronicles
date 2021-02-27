@@ -4,7 +4,7 @@ By Wispborne (Wisp#0302 on Discord)
 
 ## Description
 
-Persean Chronicles is a mod for the game Starsector that add a small collection of one-off text-only quests to bars around the Persean Sector.
+Persean Chronicles is a mod for the game Starsector that adds a small collection of one-off text-only quests to bars around the Persean Sector.
 
 Requires LazyLib 2.5b or later.
 
@@ -32,3 +32,37 @@ NTNU (https://www.ntnu.edu/oceans/deep-sea-mining) for art.
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 https://tldrlegal.com/license/creative-commons-attribution-noncommercial-sharealike-4.0-international-(cc-by-nc-sa-4.0)
+
+## Quest Starting Conditions (SPOILERS)
+
+SPOILERS!
+
+.
+
+.
+
+This will reveal how many quests there are and their names.
+
+Do not read ahead if you would prefer to be surprised.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+- Riley: Starts from a planet with pop 6 or greater.
+- Dragons: Starts from a planet with pop 4 or greater.
+- Depths: Starts from a planet with pop 5 or greater and 30 days after successfully completing Dragons.
+- Nirvana: Starts from an Independent planet with pop 4 or greater.
+- Laborer: Starts from a planet with pop 3 or greater and the Mining industry.

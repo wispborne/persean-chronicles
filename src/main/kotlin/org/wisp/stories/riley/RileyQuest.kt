@@ -7,7 +7,7 @@ import com.fs.starfarer.api.util.Misc
 import org.wisp.stories.game
 import wisp.questgiver.AutoQuestFacilitator
 import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.starSystemsNotOnBlacklist
+import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.wispLib.*
 import kotlin.math.roundToInt
 
@@ -15,8 +15,8 @@ object RileyQuest : AutoQuestFacilitator(
     stageBackingField = PersistentData(key = "rileyStage", defaultValue = { Stage.NotStarted }),
     autoIntelInfo = AutoIntelInfo(RileyIntel::class.java) {
         RileyIntel(
-            startLocation = RileyQuest.state.startLocation!!,
-            endLocation = RileyQuest.state.destinationPlanet!!
+            startLocation = RileyQuest.state.startLocation,
+            endLocation = RileyQuest.state.destinationPlanet
         )
     },
     autoBarEventInfo = AutoBarEventInfo(
@@ -73,10 +73,12 @@ object RileyQuest : AutoQuestFacilitator(
         text.globalReplacementGetters["rileyDestSystem"] = { state.destinationPlanet?.starSystem?.name }
         text.globalReplacementGetters["rileyDestPlanetDistanceLY"] = {
             if (state.destinationPlanet == null) String.empty
-            else state.startLocation?.starSystem?.distanceFrom(state.destinationPlanet!!.starSystem)
-                ?.roundToInt()
-                ?.coerceAtLeast(1)
-                .toString()
+            else state.destinationPlanet?.starSystem?.let { dest ->
+                state.startLocation?.starSystem?.distanceFrom(dest)
+                    ?.roundToInt()
+                    ?.coerceAtLeast(1)
+                    .toString()
+            }
         }
         text.globalReplacementGetters["rileyDestPlanetControllingFaction"] =
             { state.destinationPlanet?.faction?.displayNameWithArticle }
@@ -99,6 +101,7 @@ object RileyQuest : AutoQuestFacilitator(
         state.startDate = game.sector.clock.timestamp
         game.sector.addScript(Riley_Stage2_TriggerDialogScript())
         game.sector.addListener(EnteredDestinationSystemListener())
+
     }
 
     /**
@@ -106,7 +109,7 @@ object RileyQuest : AutoQuestFacilitator(
      */
     private fun findAndTagNewDestinationPlanet(startEntity: SectorEntityToken) {
         state.destinationPlanet =
-            game.sector.starSystemsNotOnBlacklist
+            game.sector.starSystemsAllowedForQuests
                 .sortedByDescending { it.distanceFrom(startEntity.starSystem) }
                 .filter { it.id != startEntity.starSystem?.id }
                 .flatMap { it.solidPlanets }
@@ -139,6 +142,7 @@ object RileyQuest : AutoQuestFacilitator(
 
     fun complete() {
         stage = Stage.Completed
+
         if (choices.refusedPayment != true) {
             game.sector.playerFleet.cargo.credits.add(REWARD_CREDITS.toFloat())
         }

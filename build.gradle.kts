@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // ATTN: CHANGE ME
 val starsectorDirectory = "C:/Program Files (x86)/Fractal Softworks/Starsector"
 /////////////////
-val perseanChroniclesVersion = "1.0.0"
+val perseanChroniclesVersion = "1.0.1"
 val questgiverVersion = "2.0.0"
 val jarFileName = "PerseanChronicles.jar"
 /////////////////
@@ -46,6 +46,7 @@ dependencies {
             "starfarer.api.jar",
             "starfarer.api-sources.jar",
             "starfarer_obf.jar",
+            "fs.common_obf.jar",
             "json.jar",
             "xstream-1.4.10.jar",
             "log4j-1.2.9.jar",

@@ -1,9 +1,13 @@
 package org.wisp.stories
 
 import com.fs.starfarer.api.BaseModPlugin
+import com.fs.starfarer.api.campaign.comm.IntelInfoPlugin
 import com.fs.starfarer.api.characters.FullName
+import com.fs.starfarer.api.util.Misc
+import com.fs.starfarer.campaign.CampaignEngine
 import com.thoughtworks.xstream.XStream
 import org.apache.log4j.Level
+import org.json.JSONObject
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest_Intel
@@ -12,9 +16,9 @@ import org.wisp.stories.dangerousGames.pt2_depths.*
 import org.wisp.stories.laborer.*
 import org.wisp.stories.nirvana.*
 import org.wisp.stories.riley.*
+import wisp.questgiver.Configuration
 import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.firstName
-import wisp.questgiver.wispLib.i
 import wisp.questgiver.wispLib.lastName
 import wisp.questgiver.wispLib.toStringList
 import java.util.*
@@ -36,10 +40,17 @@ class LifecyclePlugin : BaseModPlugin() {
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator(Questgiver.game)
         game.logger.level = Level.ALL // try to remember to change this for release
+
+        modSettings = game.settings
+            .getMergedJSONForMod(
+                "data/config/modSettings.json",
+                "MagicLib"
+            ).getJSONObject("PerseanChronicles")
+
         addTextToServiceLocator()
 
         Questgiver.onGameLoad(
-            blacklistedEntityTags = listOf(Tags.TAG_BLACKLISTED_SYSTEM),
+            configuration = readConfiguration(),
             questFacilitators = listOf(
                 DragonsQuest,
                 DepthsQuest,
@@ -67,15 +78,8 @@ class LifecyclePlugin : BaseModPlugin() {
         }
         game.text.globalReplacementGetters["playerFlagshipName"] = { game.sector.playerFleet.flagship?.shipName }
 
-
-        applyBlacklistTagsToSystems()
-
         // Register this so we can intercept and replace interactions
         game.sector.registerPlugin(CampaignPlugin())
-    }
-
-    override fun beforeGameSave() {
-        super.beforeGameSave()
     }
 
     /**
@@ -144,58 +148,56 @@ class LifecyclePlugin : BaseModPlugin() {
         )
     }
 
-    private fun applyBlacklistTagsToSystems() {
+    private lateinit var modSettings: JSONObject
+
+    private fun readConfiguration(): Configuration {
         val startTime = game.sector.clock.timestamp
-        val blacklistedSystems = try {
-            val modSettings = game.settings
-                .getMergedJSONForMod(
-                    "data/config/modSettings.json",
-                    "MagicLib"
-                ).getJSONObject("PerseanChronicles")
-
-            val blacklist = mutableListOf<BlacklistEntry>()
-
-
-            blacklist += modSettings.getJSONArray("system_ids_to_blacklist")
+        val blacklistedEntityTags = kotlin.runCatching {
+            modSettings.getJSONArray("entity_tags_to_blacklist")
                 .toStringList()
                 .distinct()
-                .map { sysId ->
-                    BlacklistEntry(systemId = sysId)
-                }
+        }
+            .onFailure { game.logger.e(it) { it.message } }
+            .getOrElse { emptyList() }
 
-            blacklist += modSettings.getJSONArray("system_tags_to_blacklist")
+        val blacklistedMarketIds = kotlin.runCatching {
+            modSettings.getJSONArray("market_ids_to_blacklist")
                 .toStringList()
                 .distinct()
-                .flatMap { tag ->
-                    game.sector.starSystems
-                        .filter { tag in it.tags }
-                        .map { system -> BlacklistEntry(systemId = system.id) }
-                }
-
-            blacklist
-                .distinctBy { it.systemId }
-                .filter { it.isBlacklisted }
-        } catch (e: Exception) {
-            game.logger.error(e.message, e)
-            emptyList<BlacklistEntry>()
         }
+            .onFailure { game.logger.e(it) { it.message } }
+            .getOrElse { emptyList() }
 
-        val systems = game.sector.starSystems
-
-        // Mark all blacklisted systems as blacklisted, remove tags from ones that aren't
-        for (system in systems) {
-            if (blacklistedSystems.any { it.systemId == system.id }) {
-                game.logger.i { "Blacklisting system: ${system.id}" }
-                system.addTag(Tags.TAG_BLACKLISTED_SYSTEM)
-            } else {
-                system.removeTag(Tags.TAG_BLACKLISTED_SYSTEM)
-            }
+        val blacklistedSystemIds = kotlin.runCatching {
+            modSettings.getJSONArray("system_ids_to_blacklist")
+                .toStringList()
+                .distinct()
         }
-        game.logger.i { "Persean Chronicles blacklist loaded in ${game.sector.clock.timestamp - startTime} seconds." }
+            .onFailure { game.logger.e(it) { it.message } }
+            .getOrElse { emptyList() }
+
+        val whitelistedFactions = kotlin.runCatching {
+            modSettings.getJSONArray("faction_ids_to_whitelist")
+                .toStringList()
+                .distinct()
+        }
+            .onFailure { game.logger.e(it) { it.message } }
+            .getOrElse { emptyList() }
+
+
+        val conf = Configuration(
+            blacklist = Configuration.Blacklist(
+                systemIds = blacklistedSystemIds,
+                marketIds = blacklistedMarketIds,
+                entityTags = blacklistedEntityTags
+            ),
+            whitelist = Configuration.Whitelist(
+                factionIds = whitelistedFactions
+            )
+        )
+
+        game.logger.i { "Persean Chronicles system blacklist loaded in ${game.sector.clock.timestamp - startTime} seconds.\n$conf" }
+
+        return conf
     }
-
-    private data class BlacklistEntry(
-        val systemId: String,
-        val isBlacklisted: Boolean = true
-    )
 }

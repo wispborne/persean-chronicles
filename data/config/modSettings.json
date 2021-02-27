@@ -1,15 +1,46 @@
 {
   "PerseanChronicles": {
-    # List of tags on systems that will not be used as quest locations
-    "system_tags_to_blacklist": [
+    "entity_tags_to_blacklist": [
       "theme_remnant_main",
       "theme_remnant_resurgent",
       "theme_breakers",
       "theme_breakers_resurgent"
     ],
-    # List of system ids that will not be used as quest locations
     "system_ids_to_blacklist": [
+    ],
+    "market_ids_to_blacklist": [
 
+    ],
+    "faction_ids_to_whitelist": [
+      "neutral",
+      "player",
+      "pirates",
+      "hegemony",
+      "independent",
+      "tritachyon",
+      "sindrian_diktat",
+      "lions_guard",
+      "knights_of_ludd",
+      "luddic_church",
+      "luddic_path",
+      "persean_league",
+      "derelict",
+      "remnants",
+      "scavengers",
+      "sleeper",
+      "poor",
+      #// Modded factions
+      "blackrock_driveyards",
+      "br_consortium",
+      "dassault_mikoyan",
+      "mayasura",
+      "diableavionics",
+      "sylphon",
+      "tiandong",
+      "vic",
+      "communist_clouds",
+      "warhawk_republic",
+      "almighty_dollar"
     ]
   }
 }

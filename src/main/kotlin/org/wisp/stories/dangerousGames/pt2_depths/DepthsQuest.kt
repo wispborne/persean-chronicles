@@ -16,7 +16,7 @@ import org.wisp.stories.dangerousGames.pt1_dragons.DragonsQuest
 import org.wisp.stories.game
 import wisp.questgiver.AutoQuestFacilitator
 import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.starSystemsNotOnBlacklist
+import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.wispLib.*
 
 /**
@@ -26,8 +26,8 @@ object DepthsQuest : AutoQuestFacilitator(
     stageBackingField = PersistentData(key = "depthsQuestStage", defaultValue = { Stage.NotStarted }),
     autoIntelInfo = AutoIntelInfo(DepthsQuest_Intel::class.java) {
         DepthsQuest_Intel(
-            DepthsQuest.state.startingPlanet!!,
-            DepthsQuest.state.depthsPlanet!!
+            DepthsQuest.state.startingPlanet,
+            DepthsQuest.state.depthsPlanet
         )
     },
     autoBarEventInfo = AutoBarEventInfo(
@@ -200,9 +200,9 @@ object DepthsQuest : AutoQuestFacilitator(
      */
     private fun findAndTagDepthsPlanet(playersCurrentStarSystem: StarSystemAPI?) {
         val planet = try {
-            game.sector.starSystemsNotOnBlacklist
+            game.sector.starSystemsAllowedForQuests
                 .filter { it.id != playersCurrentStarSystem?.id }
-                .filter { system -> system.planets.any { planet -> planet.typeId in DEPTHS_PLANET_TYPES } }
+                .filter { system -> system.solidPlanets.any { planet -> planet.typeId in DEPTHS_PLANET_TYPES } }
                 .prefer { it.distanceFromPlayerInHyperspace > minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet }
                 .sortedBy { it.distanceFromCenterOfSector }
                 .flatMap { it.solidPlanets }
