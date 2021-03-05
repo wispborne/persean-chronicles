@@ -21,6 +21,10 @@ license: CC BY-NC-SA 4.0
 
 
 ```text
+1.0.2
+Fixed
+    - Crash on some computers when playing the music for Depths.
+
 1.0.1 (2020-02-26)
 Added 
     - More robust blacklisting and whitelisting. (see https://starsector.fandom.com/wiki/Category:Modding#Persean_Chronicles)
