@@ -1,0 +1,10 @@
+# Quests may be prevented from being offered using this config.
+# This only prevents a quest from being offered if the game hasn't already been saved with the mod enabled.
+# If the quest is already being offered or in progress, changing it to false will not affect anything.
+{
+  "IsDragonsQuestEnabled": true,
+  "IsDepthsQuestEnabled": true,
+  "IsRileyQuestEnabled": true,
+  "IsNirvanaQuestEnabled": true,
+  "IsLaborerQuestEnabled": true
+}

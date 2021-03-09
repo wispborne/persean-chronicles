@@ -533,11 +533,23 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
             options = listOf(
                 Option(
                     text = { game.text["dg_de_stg2_backAtSurface_opt1"] },
+                    onOptionSelected = { it.goToPage(PageId.BackInSpace) }
+                )
+            )
+        ),
+        Page(
+            id = PageId.BackInSpace,
+            onPageShown = {
+                para { game.text["dg_de_stg2_inSpace_para1"] }
+            },
+            options = listOf(
+                Option(
+                    text = { game.text["dg_de_stg2_inSpace_opt1"] },
                     onOptionSelected = {
                         DepthsQuest.startStart2()
 
                         dialog.visualPanel.showLoot(
-                            game.text["dg_de_stg2_backAtSurface_salvaged_title"],
+                            game.text["dg_de_stg2_inSpace_salvaged_title"],
                             DepthsQuest.generateRewardLoot(dialog.interactionTarget),
                             false,
                             true,
@@ -576,7 +588,8 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
         Riddle3_South_Success,
         Riddle3_Failed,
         ViewTreasure,
-        BackAtTheSurface
+        BackAtTheSurface,
+        BackInSpace
     }
 
     sealed class RiddleChoice {

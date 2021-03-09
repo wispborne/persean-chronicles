@@ -1,9 +1,15 @@
 1
 Title: WE NEED PEOPLE
 Subtitle: DROP OFF 24 PEOPLE ON ${organsPeoplePlanetName}
-Description: ${organsPeopleCreditReward} WILL BE SENT AFTER CONFIRMED DELIVERY OF 24 HEALTHY PEOPLE. THANK YOU AND GOD BLESS
+Description: ${organsPeopleCreditReward} WILL BE SENT AFTER CONFIRMED DELIVERY OF 24 HEALTHY PEOPLE. THANK YOU AND GOD BLESS :)
+    You assume that either Marines or Crew will fit the requirements.
 
 2
 Title: WE NEED ORGANS
 Subtitle: DROP OFF 10 TONS OF ORGANS ON ${organsOrgansPlanetName}
 Description: WE WILL SEND ${organsOrgansCreditReward} UPON CONFIRMED RECEIPT OF 10 TONS OF ORGANS. THANK YOU AND GOD BLESS :)
+
+3
+Title: WE NEED DRUGS
+Subtitle: DROP OFF 10 TONS OF DRUGS ON ${organsDrugsPlanetName}
+Description: WE WILL SEND ${organsDrugsCreditReward} UPON CONFIRMED RECEIPT OF 10 TONS OF DRUGS. THANK YOU AND GOD BLESS :)

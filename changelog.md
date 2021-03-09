@@ -6,13 +6,15 @@
 Adds a small collection of one-off text-only quests to bars around the Persean Sector.
 Safe to add to saves and safe to update on the same save (save-compatible)
 ```text
-1.0.1 (2020-02-26)
-Added 
-    - More robust blacklisting and whitelisting.
+1.0.3 (2020-03-08)
 Changed
-    - Slightly different text for Dragons if ending planet is hostile.
+    - Clarified rewards for Depths and minor wording cleanup.
+    - Nirvana is now only offered at level 10 and above (due to the danger involved and time for player to grow some reputation).
 Fixed
-    - Quests should no longer be offered from blacklisted locations. 
+    - Crash on some computers when playing the music for Depths.
+
+1.0.2
+    - Yanked due to issues and rolled into 1.0.3
 ```
 
 download: https://github.com/davidwhitman/stories/releases/download/1.0.1/Persean-Chronicles-1.0.1.zip
@@ -21,9 +23,17 @@ license: CC BY-NC-SA 4.0
 
 
 ```text
-1.0.2
+1.0.3 (2020-03-08)
+Added
+    - Config file to disable quests from being offered (located at ./perseanChroniclesSettings.json).
+Changed
+    - Clarified rewards for Depths and minor wording cleanup.
+    - Nirvana is now only offered at level 10 and above (due to the danger involved and time for player to grow some reputation).
 Fixed
     - Crash on some computers when playing the music for Depths.
+
+1.0.2
+    - Yanked due to issues and rolled into 1.0.3
 
 1.0.1 (2020-02-26)
 Added 

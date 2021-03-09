@@ -20,7 +20,7 @@ object NirvanaQuest : AutoQuestFacilitator(
     stageBackingField = PersistentData(key = "nirvanaStage", defaultValue = { Stage.NotStarted }),
     autoBarEventInfo = AutoBarEventInfo(
         barEventCreator = Nirvana_Stage1_BarEventCreator(),
-        shouldGenerateBarEvent = { true },
+        shouldGenerateBarEvent = { game.sector.playerStats.level >= 10 },
         shouldOfferFromMarket = { market ->
             market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT.toLowerCase())
                     && market.size > 3
