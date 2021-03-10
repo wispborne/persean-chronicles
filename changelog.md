@@ -7,6 +7,8 @@ Adds a small collection of one-off text-only quests to bars around the Persean S
 Safe to add to saves and safe to update on the same save (save-compatible)
 ```text
 1.0.3 (2020-03-08)
+Added
+    - Config file to disable quests from being offered (located at ./perseanChroniclesSettings.json).
 Changed
     - Clarified rewards for Depths and minor wording cleanup.
     - Nirvana is now only offered at level 10 and above (due to the danger involved and time for player to grow some reputation).
@@ -17,7 +19,7 @@ Fixed
     - Yanked due to issues and rolled into 1.0.3
 ```
 
-download: https://github.com/davidwhitman/stories/releases/download/1.0.1/Persean-Chronicles-1.0.1.zip
+download: https://github.com/davidwhitman/stories/releases/download/1.0.3/Persean-Chronicles-1.0.3.zip
 src: https://github.com/davidwhitman/stories
 license: CC BY-NC-SA 4.0
 
