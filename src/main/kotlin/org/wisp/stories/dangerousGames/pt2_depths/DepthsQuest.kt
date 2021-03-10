@@ -135,16 +135,26 @@ object DepthsQuest : AutoQuestFacilitator(
     }
 
     fun startMusic() {
-        game.soundPlayer.playCustomMusic(
-            0,
-            5,
-            "wisp_perseanchronicles_depthsMusic",
-            true
-        )
+        kotlin.runCatching {
+            game.soundPlayer.playCustomMusic(
+                0,
+                5,
+                "wisp_perseanchronicles_depthsMusic",
+                true
+            )
+        }
+            .onFailure {
+                game.errorReporter.reportCrash(it)
+            }
     }
 
     fun stopMusic() {
-        game.soundPlayer.playCustomMusic(3, 0, null)
+        kotlin.runCatching {
+            game.soundPlayer.playCustomMusic(3, 0, null)
+        }
+            .onFailure {
+                game.errorReporter.reportCrash(it)
+            }
     }
 
     fun finishQuest() {

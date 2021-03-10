@@ -2,31 +2,44 @@
 
 `#mod_updates` template
 
-**Persean Chronicles 1.0.0**
+**Persean Chronicles 1.0.1**
 Adds a small collection of one-off text-only quests to bars around the Persean Sector.
-Safe to add to saves. Not compatible with pre-release versions of Persean Chronicles*.
+Safe to add to saves and safe to update on the same save (save-compatible)
 ```text
-1.0.0
-- Initial release
-```
-- ||Riley||: Starts from ||a planet with pop 6 or greater.||
-- ||Dragons||: Starts from ||a planet with pop 4 or greater.||
-- ||Depths||: Starts from ||a planet with pop 5 or greater and 30 days after successfully completing Dragons.||
-- ||Nirvana||: Starts from ||an Independent planet with pop 4 or greater.||
-- ||Laborer||: Starts from ||a planet with pop 3 or greater and the Mining industry.||
+1.0.3 (2020-03-08)
+Added
+    - Config file to disable quests from being offered (located at ./perseanChroniclesSettings.json).
+Changed
+    - Clarified rewards for Depths and minor wording cleanup.
+    - Nirvana is now only offered at level 10 and above (due to the danger involved and time for player to grow some reputation).
+Fixed
+    - Crash on some computers when playing the music for Depths.
 
-download: https://github.com/davidwhitman/stories/releases/download/1.0.0/Persean-Chronicles-1.0.0.zip
+1.0.2
+    - Yanked due to issues and rolled into 1.0.3
+```
+
+download: https://github.com/davidwhitman/stories/releases/download/1.0.3/Persean-Chronicles-1.0.3.zip
 src: https://github.com/davidwhitman/stories
 license: CC BY-NC-SA 4.0
-talk to me: @Wisp#0302
-
-*  unless you use the console to restart all quests. 
 
 
 ```text
-1.0.1
+1.0.3 (2020-03-08)
+Added
+    - Config file to disable quests from being offered (located at ./perseanChroniclesSettings.json).
+Changed
+    - Clarified rewards for Depths and minor wording cleanup.
+    - Nirvana is now only offered at level 10 and above (due to the danger involved and time for player to grow some reputation).
+Fixed
+    - Crash on some computers when playing the music for Depths.
+
+1.0.2
+    - Yanked due to issues and rolled into 1.0.3
+
+1.0.1 (2020-02-26)
 Added 
-    - More robust blacklisting and whitelisting.
+    - More robust blacklisting and whitelisting. (see https://starsector.fandom.com/wiki/Category:Modding#Persean_Chronicles)
 Changed
     - Slightly different text for Dragons if ending planet is hostile.
 Fixed

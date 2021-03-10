@@ -1,10 +1,7 @@
 package org.wisp.stories
 
 import com.fs.starfarer.api.BaseModPlugin
-import com.fs.starfarer.api.campaign.comm.IntelInfoPlugin
 import com.fs.starfarer.api.characters.FullName
-import com.fs.starfarer.api.util.Misc
-import com.fs.starfarer.campaign.CampaignEngine
 import com.thoughtworks.xstream.XStream
 import org.apache.log4j.Level
 import org.json.JSONObject
@@ -17,10 +14,12 @@ import org.wisp.stories.laborer.*
 import org.wisp.stories.nirvana.*
 import org.wisp.stories.riley.*
 import wisp.questgiver.Configuration
+import wisp.questgiver.QuestFacilitator
 import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.firstName
 import wisp.questgiver.wispLib.lastName
 import wisp.questgiver.wispLib.toStringList
+import wisp.questgiver.wispLib.tryGetBoolean
 import java.util.*
 
 
@@ -36,28 +35,38 @@ class LifecyclePlugin : BaseModPlugin() {
 
     override fun onGameLoad(newGame: Boolean) {
         super.onGameLoad(newGame)
+        Questgiver.onGameLoad()
+//        Locale.setDefault(Locale.GERMAN)
 
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator(Questgiver.game)
         game.logger.level = Level.ALL // try to remember to change this for release
 
-        modSettings = game.settings
-            .getMergedJSONForMod(
-                "data/config/modSettings.json",
-                "MagicLib"
-            ).getJSONObject("PerseanChronicles")
 
         addTextToServiceLocator()
 
-        Questgiver.onGameLoad(
-            configuration = readConfiguration(),
-            questFacilitators = listOf(
-                DragonsQuest,
-                DepthsQuest,
-                RileyQuest,
-                NirvanaQuest,
-                LaborerQuest
+        val sharedModSettings = game.settings
+            .getMergedJSONForMod(
+                "data/config/modSettings.json",
+                "MagicLib"
             )
+            .getJSONObject("PerseanChronicles")
+
+        val settings = game.settings
+            .getMergedJSONForMod(
+                "perseanChroniclesSettings.json",
+                "wisp_perseanchronicles"
+            )
+
+        Questgiver.loadQuests(
+            configuration = readConfiguration(sharedModSettings),
+            questFacilitators = mutableListOf<QuestFacilitator>().apply {
+                if (settings.tryGetBoolean("IsDragonsQuestEnabled") { true }) this.add(DragonsQuest)
+                if (settings.tryGetBoolean("IsDepthsQuestEnabled") { true }) this.add(DepthsQuest)
+                if (settings.tryGetBoolean("IsRileyQuestEnabled") { true }) this.add(RileyQuest)
+                if (settings.tryGetBoolean("IsNirvanaQuestEnabled") { true }) this.add(NirvanaQuest)
+                if (settings.tryGetBoolean("IsLaborerQuestEnabled") { true }) this.add(LaborerQuest)
+            }
         )
 
         game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
@@ -148,9 +157,7 @@ class LifecyclePlugin : BaseModPlugin() {
         )
     }
 
-    private lateinit var modSettings: JSONObject
-
-    private fun readConfiguration(): Configuration {
+    private fun readConfiguration(modSettings: JSONObject): Configuration {
         val startTime = game.sector.clock.timestamp
         val blacklistedEntityTags = kotlin.runCatching {
             modSettings.getJSONArray("entity_tags_to_blacklist")
