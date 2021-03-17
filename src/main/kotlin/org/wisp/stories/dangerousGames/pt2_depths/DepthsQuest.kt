@@ -144,7 +144,7 @@ object DepthsQuest : AutoQuestFacilitator(
             )
         }
             .onFailure {
-                game.errorReporter.reportCrash(it)
+                game.logger.e(it)
             }
     }
 
@@ -153,7 +153,7 @@ object DepthsQuest : AutoQuestFacilitator(
             game.soundPlayer.playCustomMusic(3, 0, null)
         }
             .onFailure {
-                game.errorReporter.reportCrash(it)
+                game.logger.e(it)
             }
     }
 
