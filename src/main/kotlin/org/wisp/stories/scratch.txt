@@ -1,12 +1,15 @@
-**Pre-release: Persean Chronicles 0.10.1**
-Adds a small collection of one-off text-only quests to bars around the Persean Sector.
-https://github.com/davidwhitman/stories/releases/download/0.10.1/Persean-Chronicles-0.10.1.zip
-Requires LazyLib 2.5b or later.
+1
+Title: WE NEED PEOPLE
+Subtitle: DROP OFF 24 PEOPLE ON ${organsPeoplePlanetName}
+Description: ${organsPeopleCreditReward} WILL BE SENT AFTER CONFIRMED DELIVERY OF 24 HEALTHY PEOPLE. THANK YOU AND GOD BLESS :)
+    You assume that either Marines or Crew will fit the requirements.
 
-Currently, there are four quests in total:
-||The Dragonriders||: Starting conditions: ||Found at markets with population > 3||
-||Depths||: Starting conditions: ||"The Dragonriders" is completed, pop > 4||
-||Riley||: Starting conditions: ||Found at markets with population > 5||
-||Nirvana||: Starting conditions: ||Found at Independent markets, pop > 3||
+2
+Title: WE NEED ORGANS
+Subtitle: DROP OFF 10 TONS OF ORGANS ON ${organsOrgansPlanetName}
+Description: WE WILL SEND ${organsOrgansCreditReward} UPON CONFIRMED RECEIPT OF 10 TONS OF ORGANS. THANK YOU AND GOD BLESS :)
 
-Safe to add to current saves. As usual, back up your save, first. Future pre-release versions may not be save-compatible.
+3
+Title: WE NEED DRUGS
+Subtitle: DROP OFF 10 TONS OF DRUGS ON ${organsDrugsPlanetName}
+Description: WE WILL SEND ${organsDrugsCreditReward} UPON CONFIRMED RECEIPT OF 10 TONS OF DRUGS. THANK YOU AND GOD BLESS :)
