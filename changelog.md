@@ -1,16 +1,16 @@
 ## `#mod_updates` template
 
-**Persean Chronicles 1.0.4**
+**Persean Chronicles 2.0.1**
 Adds a small collection of one-off text-only quests to bars around the Persean Sector.
 Safe to add to saves and safe to update on the same save (save-compatible)
 ```text
-1.0.4 (2021-03-17)
 Fixed
-    - Don't kick player out of Depths if the music fails to play.
+    - Crash in the bar when the Nirvana quest was offered (`sys.star must not be null`).
 ```
 
-download: https://github.com/davidwhitman/stories/releases/download/1.0.4/Persean-Chronicles-1.0.4.zip
+download: https://github.com/davidwhitman/stories/releases/download/2.0.1/Persean-Chronicles-2.0.1.zip
 src: https://github.com/davidwhitman/stories
+forum: https://fractalsoftworks.com/forum/index.php?topic=19830
 license: CC BY-NC-SA 4.0
 
 ------------
@@ -18,6 +18,15 @@ license: CC BY-NC-SA 4.0
 ## Changelog
 
 ```text
+2.0.1 (2021-03-28)
+Fixed
+    - Crash in the bar when the Nirvana quest was offered (`sys.star must not be null`).
+    
+2.0.0 (2021-03-27)
+Changed
+    - 0.95a compatibility.
+    - No other changes from 1.0.4
+    
 1.0.4 (2021-03-17)
 Fixed
     - Don't kick player out of Depths if the music fails to play.

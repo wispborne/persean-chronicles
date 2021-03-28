@@ -60,7 +60,7 @@ object NirvanaQuest : AutoQuestFacilitator(
         state.startLocation = interactionTarget
 
         val system = game.sector.starSystemsAllowedForQuests
-            .filter { sys -> sys.star.spec.isPulsar }
+            .filter { sys -> sys.star?.spec?.isPulsar == true }
             .prefer { it.distanceFromPlayerInHyperspace >= 18 } // 18+ LY away
             .ifEmpty {
                 createPulsarSystem()
