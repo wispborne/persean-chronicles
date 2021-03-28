@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // ATTN: CHANGE ME
 val starsectorDirectory = "C:/Program Files (x86)/Fractal Softworks/Starsector"
 /////////////////
-val perseanChroniclesVersion = "2.0.0"
+val perseanChroniclesVersion = "2.0.1"
 val questgiverVersion = "3.0.0"
 val jarFileName = "PerseanChronicles.jar"
 /////////////////
@@ -93,7 +93,7 @@ tasks {
         val modName = "Persean Chronicles"
         val author = "Wispborne"
         val description = "Adds a small collection of quests to bars around the Persean Sector."
-        val gameVersion = "0.95a-RC9"
+        val gameVersion = "0.95a-RC10"
         val jars = arrayOf("jars/PerseanChronicles.jar", "libs/Questgiver-$questgiverVersion.jar")
         val modPlugin = "org.wisp.stories.LifecyclePlugin"
         val isUtilityMod = false
