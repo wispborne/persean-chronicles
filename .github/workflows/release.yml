@@ -27,7 +27,7 @@ jobs:
       - name: Set Variables
         run: |
           echo "VERSION=$(git describe --tags)" >> $GITHUB_ENV
-          echo "CHANGES='$(git log --format=%B -n 1 $(git log -1 --pretty=format:"%h") | cat -)'" >> $GITHUB_ENV
+          git log --format=%B -n 1 $(git log -1 --pretty=format:"%h") | cat -) > changes.txt
 
       - name: Create Mod Zipfile
         run: |
@@ -42,7 +42,7 @@ jobs:
         with:
           name: ${{ env.VERSION }}
           tag_name: ${{ env.VERSION }}
-          body: ${{ env.CHANGES }}
+          body_path: changes.txt
           draft: false
           prerelease: false
           files: "./artifacts"
