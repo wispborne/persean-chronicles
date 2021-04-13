@@ -20,8 +20,8 @@ jobs:
 
       - name: "Create Mod Zipfile"
         run: |
-          chmod +x ./.github-actions/zipMod.sh
-          ./.github-actions/zipMod.sh
+          chmod +x ./.github/workflows/zipMod.sh
+          ./.github/workflows/zipMod.sh
 
       - name: "Publish Release on GitHub"
         run: |
