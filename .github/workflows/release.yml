@@ -1,0 +1,30 @@
+name: GitHub Release
+
+on:
+  # Triggers the workflow on pushing a tag only
+  push:
+    tags: "*"
+    branches: [ ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: "Create Mod Zipfile"
+        run: |
+          chmod +x ./.github-actions/zipMod.sh
+          ./.github-actions/zipMod.sh
+
+      - name: "Publish Release on GitHub"
+        run: |
+          VERSION=$(git describe --tags)
+          echo "-u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/"
+          ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
