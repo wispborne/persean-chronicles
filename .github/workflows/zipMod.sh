@@ -1,7 +1,11 @@
 #!/bin/sh
 
-# CHANGE ME
-modFolderName="Persean-Chronicles"
+# USAGE
+# ./zipMod.sh "mod-folder-name"
+#   arg mod-folder-name: Do not append the version, it will be appended.
+#     ex: "Persean-Chronicles"
+
+modFolderName="$1"
 
 version=$(git describe --tags)
 zipName=$modFolderName-$version.zip

@@ -30,8 +30,8 @@ jobs:
 
       - name: Create Mod Zipfile
         run: |
-          chmod +x ./.github/workflows/zipMod.sh
-          ./.github/workflows/zipMod.sh
+          chmod +x ./.github/workflows/runner.sh
+          ./.github/workflows/runner.sh
 
       - name: Publish Release on GitHub
         uses: "softprops/action-gh-release@v1"
