@@ -6,3 +6,4 @@ PerseanChronicles_ResetRileyQuest,org.wisp.stories.riley.ResetRileyQuestCommand,
 PerseanChronicles_ResetNirvanaQuest,org.wisp.stories.nirvana.ResetNirvanaQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetNirvanaQuest,Reset the Nirvana quest in Persean Chronicles.
 PerseanChronicles_SpawnNirvanaSystem,org.wisp.stories.nirvana.SpawnNirvanaSystemCommand,"PerseanChronicles,campaign",PerseanChronicles_SpawnNirvanaSystem,Spawns a system that can be used as a target for the Nirvana quest in Persean Chronicles.
 PerseanChronicles_ResetLaborerQuest,org.wisp.stories.laborer.ResetLaborerQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetLaborerQuest,Reset the Laborer quest in Persean Chronicles.
+SpawnGate,org.wisp.stories.commands.CreateGate,"gates,campaign",SpawnGate,Spawns a Gate at your current location (from Persean Chronicles).
