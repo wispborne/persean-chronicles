@@ -4,7 +4,8 @@ on:
   # Triggers the workflow on pushing a tag only
   push:
     tags: "*"
-    branches: [ ]
+    branches:
+      - "!*"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
