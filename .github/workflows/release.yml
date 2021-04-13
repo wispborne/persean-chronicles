@@ -27,13 +27,14 @@ jobs:
       - name: Set Variables
         run: |
           echo "VERSION=$(git describe --tags)" >> $GITHUB_ENV
+          echo "CHANGES=$(git show -s --format=%s)" >> $GITHUB_ENV
 
       - name: Create Mod Zipfile
         run: |
           cd ./.github/workflows/
           chmod +x ./runner.sh
           ./runner.sh
-
+          
       - name: Publish Release on GitHub
         uses: "softprops/action-gh-release@v1"
         env:
@@ -41,6 +42,7 @@ jobs:
         with:
           name: ${{ env.VERSION }}
           tag_name: ${{ env.VERSION }}
+          body: ${{ env.CHANGES }}
           draft: false
           prerelease: false
           files: "./artifacts"
