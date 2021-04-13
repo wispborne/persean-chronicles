@@ -83,7 +83,7 @@ class RileyIntel(startLocation: SectorEntityToken?, endLocation: SectorEntityTok
     durationInDays = RileyQuest.TIME_LIMIT_DAYS.toFloat(),
     removeIntelIfAnyOfTheseEntitiesDie = endLocation.asList(),
     important = true,
-    intelTags = listOf(Tags.INTEL_STORY)
+    intelTags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 ) {
     override fun createInstanceOfSelf() =
         RileyIntel(startLocation?.preferredConnectedEntity, endLocation?.preferredConnectedEntity)

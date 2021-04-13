@@ -1,12 +1,22 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /////////////////
-// ATTN: CHANGE ME
+// VARIABLES TO CHANGE
 val starsectorDirectory = "C:/Program Files (x86)/Fractal Softworks/Starsector"
-/////////////////
-val perseanChroniclesVersion = "2.0.1"
+val modVersion = "2.0.2"
 val questgiverVersion = "3.0.0"
 val jarFileName = "PerseanChronicles.jar"
+
+val modId = "wisp_perseanchronicles"
+val modName = "Persean Chronicles"
+val author = "Wispborne"
+val description = "Adds a small collection of quests to bars around the Persean Sector."
+val gameVersion = "0.95a-RC12"
+val jars = arrayOf("jars/PerseanChronicles.jar", "libs/Questgiver-$questgiverVersion.jar")
+val modPlugin = "org.wisp.stories.LifecyclePlugin"
+val isUtilityMod = false
+val masterVersionFile = "https://raw.githubusercontent.com/davidwhitman/stories/master/$modId.version"
+val modThreadId = "19830"
 /////////////////
 
 val starsectorCoreDirectory = "$starsectorDirectory/starsector-core"
@@ -17,7 +27,7 @@ plugins {
     java
 }
 
-version = perseanChroniclesVersion
+version = modVersion
 
 repositories {
     maven(url = uri("$projectDir/libs"))
@@ -88,17 +98,7 @@ tasks {
     }
 
     register("create-metadata-files") {
-        val version = perseanChroniclesVersion.split(".").let { javaslang.Tuple3(it[0], it[1], it[2]) }
-        val modId = "wisp_perseanchronicles"
-        val modName = "Persean Chronicles"
-        val author = "Wispborne"
-        val description = "Adds a small collection of quests to bars around the Persean Sector."
-        val gameVersion = "0.95a-RC10"
-        val jars = arrayOf("jars/PerseanChronicles.jar", "libs/Questgiver-$questgiverVersion.jar")
-        val modPlugin = "org.wisp.stories.LifecyclePlugin"
-        val isUtilityMod = false
-        val masterVersionFile = "https://raw.githubusercontent.com/davidwhitman/stories/master/$modId.version"
-        val modThreadId = "19830"
+        val versionObject = modVersion.split(".").let { javaslang.Tuple3(it[0], it[1], it[2]) }
 
         File(projectDir, "mod_info.json")
             .writeText(
@@ -109,11 +109,18 @@ tasks {
                         "name": "$modName",
                         "author": "$author",
                         "utility": "$isUtilityMod",
-                        "version": "${listOf(version._1, version._2, version._3).joinToString(separator = ".")}",
+                        "version": "${listOf(versionObject._1, versionObject._2, versionObject._3).joinToString(separator = ".")}",
                         "description": "$description",
                         "gameVersion": "$gameVersion",
                         "jars":[${jars.joinToString() { "\"$it\"" }}],
-                        "modPlugin":"$modPlugin"
+                        "modPlugin":"$modPlugin",
+                        "dependencies": [
+                            {
+                                "id": "lw_lazylib",
+                                "name": "LazyLib",
+                                # "version": "2.6" # If a specific version or higher is required, include this line
+                            }
+                        ]
                     }
                 """.trimIndent()
             )
@@ -128,9 +135,9 @@ tasks {
                         "modThreadId":$modThreadId,
                         "modVersion":
                         {
-                            "major":${version._1},
-                            "minor":${version._2},
-                            "patch":${version._3}
+                            "major":${versionObject._1},
+                            "minor":${versionObject._2},
+                            "patch":${versionObject._3}
                         }
                     }
                 """.trimIndent()

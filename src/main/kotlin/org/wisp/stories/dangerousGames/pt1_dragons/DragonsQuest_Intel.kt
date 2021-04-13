@@ -70,9 +70,7 @@ class DragonsQuest_Intel(startLocation: SectorEntityToken?, endLocation: SectorE
     startLocation = startLocation?.market,
     endLocation = endLocation?.market,
     important = true,
-    intelTags = listOf(
-        Tags.INTEL_STORY
-    )
+    intelTags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 ) {
     override fun createInstanceOfSelf() =
         DragonsQuest_Intel(startLocation?.preferredConnectedEntity, endLocation?.preferredConnectedEntity)
