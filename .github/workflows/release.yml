@@ -16,7 +16,9 @@ jobs:
 
     steps:
       # Checks-out repository under $GITHUB_WORKSPACE, so your job can access it
+      # GitHub Actions by default doesn't check out tags, so make sure those are included
       - uses: actions/checkout@v2
+      - run: git fetch --prune --unshallow --tags
 
       - name: "Create Mod Zipfile"
         run: |
