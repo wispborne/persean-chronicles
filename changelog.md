@@ -18,6 +18,11 @@ license: CC BY-NC-SA 4.0
 ## Changelog
 
 ```text
+2.0.2
+Fixed
+    - Broken dialog if Nexerelin has the Freeport in hyperspace.
+    - Added quests to the Accepted intel tag.
+
 2.0.1 (2021-03-28)
 Fixed
     - Crash in the bar when the Nirvana quest was offered (`sys.star must not be null`).

@@ -23,6 +23,7 @@ object NirvanaQuest : AutoQuestFacilitator(
         shouldGenerateBarEvent = { game.sector.playerStats.level >= 10 },
         shouldOfferFromMarket = { market ->
             market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT.toLowerCase())
+                    && market.starSystem != null // No prism freeport
                     && market.size > 3
                     && NirvanaQuest.state.destPlanet != null
         }),
