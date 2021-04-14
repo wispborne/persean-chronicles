@@ -27,19 +27,21 @@ jobs:
       - name: Set Variables
         run: |
           echo "VERSION=$(git describe --tags)" >> $GITHUB_ENV
+          git log --format=%B -n 1 $(git log -1 --pretty=format:"%h") | cat - > changes.txt
 
       - name: Create Mod Zipfile
         run: |
-          chmod +x ./.github/workflows/zipMod.sh
-          ./.github/workflows/zipMod.sh
-
+          cd ./.github/workflows/
+          chmod +x ./runner.sh
+          ./runner.sh
+          
       - name: Publish Release on GitHub
-        uses: "softprops/action-gh-release@v1"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: "ncipollo/release-action@v1"
         with:
-          name: Release ${{ env.VERSION }}
-          tag_name: ${{ env.VERSION }}
+          name: ${{ env.VERSION }}
+          tag: ${{ env.VERSION }}
+          bodyFile: changes.txt
           draft: false
           prerelease: false
-          files: "./artifacts"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: ".github/workflows/artifacts/*"
