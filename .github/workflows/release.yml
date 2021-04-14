@@ -36,13 +36,12 @@ jobs:
           ./runner.sh
           
       - name: Publish Release on GitHub
-        uses: "softprops/action-gh-release@v1"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: "ncipollo/release-action@v1"
         with:
           name: ${{ env.VERSION }}
-          tag_name: ${{ env.VERSION }}
-          body_path: changes.txt
+          tag: ${{ env.VERSION }}
+          bodyFile: changes.txt
           draft: false
           prerelease: false
-          files: "./artifacts"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: ".github/workflows/artifacts/*"
