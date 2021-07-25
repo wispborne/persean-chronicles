@@ -35,6 +35,17 @@ class Laborer_Stage2_Dialog : InteractionDefinition<Laborer_Stage2_Dialog>(
                             it.close(doNotOfferAgain = true)
                         }
                     }
+                ),
+                Option(
+                    text = { game.text["lab_stg2_pg1_opt3"] },
+                    onOptionSelected = {
+                        para { game.text["lab_stg2_pg1_opt3_onSelected"] }
+                        para { game.text["lab_stg2_pg2_para1"] }
+                        navigator.promptToContinue(game.text["leave"]) {
+                            LaborerQuest.complete()
+                            it.close(doNotOfferAgain = true)
+                        }
+                    }
                 )
             )
         )
