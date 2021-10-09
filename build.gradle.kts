@@ -4,15 +4,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // VARIABLES TO CHANGE
 object Variables {
     val starsectorDirectory = "C:/Program Files (x86)/Fractal Softworks/Starsector"
-    val modVersion = "2.0.2"
+    val modVersion = "2.0.3"
     val questgiverVersion = "3.0.0"
     val jarFileName = "PerseanChronicles.jar"
 
     val modId = "wisp_perseanchronicles"
     val modName = "Persean Chronicles"
-    val author = "Wispborne"
+    val author = "Wisp"
     val description = "Adds a small collection of quests to bars around the Persean Sector."
-    val gameVersion = "0.95a-RC12"
+    val gameVersion = "0.95a-RC15"
     val jars = arrayOf("jars/PerseanChronicles.jar", "libs/Questgiver-$questgiverVersion.jar")
     val modPlugin = "org.wisp.stories.LifecyclePlugin"
     val isUtilityMod = false

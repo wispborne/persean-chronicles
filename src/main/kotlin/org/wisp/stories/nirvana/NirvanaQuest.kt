@@ -41,9 +41,14 @@ object NirvanaQuest : AutoQuestFacilitator(
     val state = State(PersistentMapData<String, Any?>(key = "nirvanaState").withDefault { null })
 
     class State(val map: MutableMap<String, Any?>) {
+        /**
+         * In millis.
+         */
         var startDate: Long? by map
         var startLocation: SectorEntityToken? by map
         var destPlanet: SectorEntityToken? by map
+        var completeDateInMillis: Long? by map
+        var secretCompleteDateInMillis: Long? by map
 
         val destSystem: StarSystemAPI?
             get() = destPlanet?.starSystem
@@ -109,6 +114,7 @@ object NirvanaQuest : AutoQuestFacilitator(
         game.logger.i { "Nirvana start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
         stage = Stage.GoToPlanet
         game.sector.playerFleet.cargo.addCommodity(CARGO_TYPE, CARGO_WEIGHT.toFloat())
+        state.startDate = game.sector.clock.timestamp
     }
 
     fun shouldShowStage2Dialog() =
@@ -117,6 +123,7 @@ object NirvanaQuest : AutoQuestFacilitator(
 
     fun complete() {
         stage = Stage.Completed
+        state.completeDateInMillis = game.sector.clock.timestamp
 
         game.sector.playerFleet.cargo.removeCommodity(CARGO_TYPE, CARGO_WEIGHT.toFloat())
         game.sector.playerFleet.cargo.credits.add(REWARD_CREDITS)
@@ -125,12 +132,18 @@ object NirvanaQuest : AutoQuestFacilitator(
     /**
      * 55 years after quest was completed.
      */
-    fun shouldShowStage3Dialog() =
-        stage == Stage.Completed
-                && game.sector.clock.convertToMonths(state.startDate?.toFloat() ?: 0f) > (12 * 55)
+    fun shouldShowStage3Dialog(): Boolean {
+        // If complete date is set, use that. If not (happens if quest was completed prior to the field being added)
+        // then use startDate. If neither exist, use "0" just to avoid null, since the stage needs to be Completed anyway
+        // so it won't trigger before then.
+        val timestampQuestCompletedInSeconds = (state.completeDateInMillis ?: state.startDate ?: 0)
+        return (stage == Stage.Completed
+                && game.sector.clock.getElapsedDaysSince(timestampQuestCompletedInSeconds) > (365 * 55))
+    }
 
     fun completeSecret() {
         stage = Stage.CompletedSecret
+        state.secretCompleteDateInMillis = game.sector.clock.timestamp
     }
 
     fun restartQuest() {
