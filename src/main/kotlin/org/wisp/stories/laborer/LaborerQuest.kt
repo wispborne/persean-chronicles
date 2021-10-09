@@ -23,6 +23,7 @@ object LaborerQuest : AutoQuestFacilitator(
         shouldGenerateBarEvent = { true },
         shouldOfferFromMarket = { market ->
             market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT.toLowerCase())
+                    && market.starSystem != null // No prism freeport
                     && market.size > 2
                     && market.hasIndustry(Industries.MINING)
                     && LaborerQuest.state.destPlanet != null

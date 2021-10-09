@@ -24,6 +24,7 @@ object RileyQuest : AutoQuestFacilitator(
         shouldGenerateBarEvent = { true },
         shouldOfferFromMarket = { market ->
             market.size > 5 // Lives on a populous world
+                    && market.starSystem != null // No prism freeport
                     && market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
                     && market.connectedEntities.none { it?.id == RileyQuest.state.destinationPlanet?.id }
                     && RileyQuest.state.destinationPlanet != null

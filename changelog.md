@@ -1,14 +1,15 @@
 ## `#mod_updates` template
 
-**Persean Chronicles 2.0.1**
+**Persean Chronicles 2.0.2**
 Adds a small collection of one-off text-only quests to bars around the Persean Sector.
 Safe to add to saves and safe to update on the same save (save-compatible)
 ```text
 Fixed
-    - Crash in the bar when the Nirvana quest was offered (`sys.star must not be null`).
+    - Broken dialog if Nexerelin has the Freeport in hyperspace.
+    - Added quests to the Accepted intel tag.
 ```
 
-download: https://github.com/davidwhitman/stories/releases/download/2.0.1/Persean-Chronicles-2.0.1.zip
+download: https://github.com/davidwhitman/stories/releases/download/2.0.2-rc1/Persean-Chronicles-2.0.2-rc1.zip
 src: https://github.com/davidwhitman/stories
 forum: https://fractalsoftworks.com/forum/index.php?topic=19830
 license: CC BY-NC-SA 4.0
@@ -18,6 +19,11 @@ license: CC BY-NC-SA 4.0
 ## Changelog
 
 ```text
+2.0.2 (2021-04-04)
+Fixed
+    - Broken dialog if Nexerelin has the Freeport in hyperspace.
+    - Added quests to the Accepted intel tag.
+
 2.0.1 (2021-03-28)
 Fixed
     - Crash in the bar when the Nirvana quest was offered (`sys.star must not be null`).

@@ -27,6 +27,7 @@ object DragonsQuest : AutoQuestFacilitator(
         shouldGenerateBarEvent = { true },
         shouldOfferFromMarket = { market ->
             market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
+                    && market.starSystem != null // No prism freeport
                     && market.size > 3
                     && DragonsQuest.state.dragonPlanet != null
         })

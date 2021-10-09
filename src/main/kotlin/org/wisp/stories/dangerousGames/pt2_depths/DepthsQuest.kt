@@ -38,6 +38,7 @@ object DepthsQuest : AutoQuestFacilitator(
         },
         shouldOfferFromMarket = { market ->
             market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
+                    && market.starSystem != null // No prism freeport
                     && market.size > 4
                     && DepthsQuest.state.depthsPlanet != null
         }

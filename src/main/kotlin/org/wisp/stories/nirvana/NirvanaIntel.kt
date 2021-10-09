@@ -61,7 +61,7 @@ class NirvanaIntel(startLocation: SectorEntityToken?, endLocation: SectorEntityT
     endLocation = endLocation?.market,
     removeIntelIfAnyOfTheseEntitiesDie = endLocation.asList(),
     important = true,
-    intelTags = listOf(Tags.INTEL_STORY)
+    intelTags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 ) {
     override fun createInstanceOfSelf() =
         NirvanaIntel(startLocation?.preferredConnectedEntity, endLocation?.preferredConnectedEntity)
