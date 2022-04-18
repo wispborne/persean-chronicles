@@ -111,7 +111,7 @@ object RileyQuest : AutoQuestFacilitator(
     private fun findAndTagNewDestinationPlanet(startEntity: SectorEntityToken) {
         state.destinationPlanet =
             game.sector.starSystemsAllowedForQuests
-                .sortedByDescending { it.distanceFrom(startEntity.starSystem) }
+                .sortedByDescending { it.center.distanceFrom(startEntity.starSystem?.center ?: startEntity) }
                 .filter { it.id != startEntity.starSystem?.id }
                 .flatMap { it.solidPlanets }
                 .prefer { it.market?.factionId?.toLowerCase() in govtsSponsoringSafeAi }

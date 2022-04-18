@@ -96,6 +96,7 @@ class LifecyclePlugin : BaseModPlugin() {
      */
     override fun configureXStream(x: XStream) {
         super.configureXStream(x)
+        Questgiver.configureXStream(x)
 
         // DO NOT CHANGE THESE STRINGS, DOING SO WILL BREAK SAVE GAMES
         // No periods allowed in the serialized name, causes crash.
@@ -196,7 +197,7 @@ class LifecyclePlugin : BaseModPlugin() {
             blacklist = Configuration.Blacklist(
                 systemIds = blacklistedSystemIds,
                 marketIds = blacklistedMarketIds,
-                entityTags = blacklistedEntityTags
+                systemTags = blacklistedEntityTags
             ),
             whitelist = Configuration.Whitelist(
                 factionIds = whitelistedFactions

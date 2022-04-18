@@ -3,6 +3,8 @@ package org.wisp.stories.dangerousGames.pt1_dragons
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.util.Misc
+import org.wisp.stories.MOD_PREFIX
 import org.wisp.stories.game
 import wisp.questgiver.AutoQuestFacilitator
 import wisp.questgiver.InteractionDefinition
@@ -99,6 +101,7 @@ object DragonsQuest : AutoQuestFacilitator(
         state.startingPlanet = startLocation
         stage = Stage.GoToPlanet
         state.startDate = game.sector.clock.timestamp
+        Misc.makeImportant(startLocation, MOD_PREFIX)
     }
 
     fun failQuestByLeavingOthersToGetEatenByDragons() {
@@ -107,6 +110,7 @@ object DragonsQuest : AutoQuestFacilitator(
 
     fun startPart2() {
         stage = Stage.ReturnToStart
+        state.startingPlanet?.let { Misc.makeUnimportant(it, MOD_PREFIX) }
         game.intelManager.findFirst(DragonsQuest_Intel::class.java)
             ?.apply {
                 flipStartAndEndLocations()
