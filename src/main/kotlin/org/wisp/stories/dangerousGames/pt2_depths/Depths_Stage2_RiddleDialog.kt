@@ -1,6 +1,5 @@
 package org.wisp.stories.dangerousGames.pt2_depths
 
-import com.fs.starfarer.api.Global
 import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.riddleSuccessesCount
 import org.wisp.stories.dangerousGames.pt2_depths.DepthsQuest.wallCrashesCount
 import org.wisp.stories.game
@@ -518,17 +517,15 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
         Page(
             id = PageId.BackAtTheSurface,
             onPageShown = {
-                navigator.promptToContinue(game.text["continue"]) {
-                    para { game.text["dg_de_stg2_backAtSurface_para1"] }
-                    DepthsQuest.stopMusic()
-                    para {
-                        if (riddleSuccessesCount > 0)
-                            game.text["dg_de_stg2_backAtSurface_para2_ifOthersSurvived"]
-                        else
-                            game.text["dg_de_stg2_backAtSurface_para2_ifOnlyPlayerSurvived"]
-                    }
-                    para { game.text["dg_de_stg2_backAtSurface_para3"] }
+                para { game.text["dg_de_stg2_backAtSurface_para1"] }
+                DepthsQuest.stopMusic()
+                para {
+                    if (riddleSuccessesCount > 0)
+                        game.text["dg_de_stg2_backAtSurface_para2_ifOthersSurvived"]
+                    else
+                        game.text["dg_de_stg2_backAtSurface_para2_ifOnlyPlayerSurvived"]
                 }
+                para { game.text["dg_de_stg2_backAtSurface_para3"] }
             },
             options = listOf(
                 Option(

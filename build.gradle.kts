@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 /////////////////
 // VARIABLES TO CHANGE
 object Variables {
-    val starsectorDirectory = "C:/Program Files (x86)/Fractal Softworks/Starsector1.95.1-RC6"
+    val starsectorDirectory = "C:/Program Files (x86)/Fractal Softworks/Starsector"
     val modVersion = "2.1.0"
     val questgiverVersion = "3.1.0"
     val jarFileName = "PerseanChronicles.jar"
@@ -150,6 +150,11 @@ tasks {
                 """.trimIndent()
             )
     }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_6
+    targetCompatibility = JavaVersion.VERSION_1_6
 }
 
 // Compile to Java 6 bytecode so that Starsector can use it
