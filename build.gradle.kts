@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // VARIABLES TO CHANGE
 object Variables {
     val starsectorDirectory = "C:/Program Files (x86)/Fractal Softworks/Starsector"
-    val modVersion = "2.1.0"
+    val modVersion = "3.0.0"
     val questgiverVersion = "3.1.0"
     val jarFileName = "PerseanChronicles.jar"
 
@@ -13,8 +13,8 @@ object Variables {
     val author = "Wisp"
     val description = "Adds a small collection of quests to bars around the Persean Sector."
     val gameVersion = "0.95.1a-RC6"
-    val jars = arrayOf("jars/PerseanChronicles.jar", "libs/Questgiver-$questgiverVersion.jar")
-    val modPlugin = "org.wisp.stories.LifecyclePlugin"
+    val jars = arrayOf("jars/PerseanChronicles.jar")//, "libs/Questgiver-$questgiverVersion.jar")
+    val modPlugin = "wisp.perseanchronicles.LifecyclePlugin"
     val isUtilityMod = false
     val masterVersionFile = "https://raw.githubusercontent.com/davidwhitman/stories/master/$modId.version"
     val modThreadId = "19830"
@@ -53,10 +53,10 @@ dependencies {
     compileOnly(fileTree("$starsectorModDirectory/Console Commands/jars") { include("*.jar") })
 
     // This grabs local files from the /libs folder, see `repositories` block.
-    implementation("starfarer:starfarer-api:1.0.0")
+    compileOnly("starfarer:starfarer-api:1.0.0")
 
     // Starsector jars and dependencies
-    implementation(fileTree(starsectorCoreDirectory) {
+    compileOnly(fileTree(starsectorCoreDirectory) {
         include(
             "starfarer_obf.jar",
             "fs.common_obf.jar",
@@ -73,9 +73,33 @@ dependencies {
 tasks {
     named<Jar>("jar")
     {
+        // Build fat jar with all dependencies bundled.
+        archiveClassifier.set("all")
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        from(configurations.runtimeClasspath.get()
+            .onEach { println("add from dependencies: ${it.name}") }
+            .map { if (it.isDirectory) it else zipTree(it) })
+        val sourcesMain = sourceSets.main.get()
+        sourcesMain.allSource.forEach { println("add from sources: ${it.name}") }
+        from(sourcesMain.output)
+
         destinationDirectory.set(file("$rootDir/jars"))
         archiveFileName.set(Variables.jarFileName)
     }
+
+//    register("fatJar", Jar::class.java) {
+//        archiveClassifier.set("all")
+//        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+////        manifest {
+////            attributes("Main-Class" to mainClass)
+////        }
+//        from(configurations.runtimeClasspath.get()
+//            .onEach { println("add from dependencies: ${it.name}") }
+//            .map { if (it.isDirectory) it else zipTree(it) })
+//        val sourcesMain = sourceSets.main.get()
+//        sourcesMain.allSource.forEach { println("add from sources: ${it.name}") }
+//        from(sourcesMain.output)
+//    }
 
     register<Exec>("debug-starsector") {
         println("Starting debugger for Starsector...")

@@ -4,11 +4,11 @@
     "name": "Persean Chronicles",
     "author": "Wisp",
     "utility": "false",
-    "version": "2.1.0",
+    "version": "3.0.0",
     "description": "Adds a small collection of quests to bars around the Persean Sector.",
     "gameVersion": "0.95.1a-RC6",
-    "jars":["jars/PerseanChronicles.jar", "libs/Questgiver-3.1.0.jar"],
-    "modPlugin":"org.wisp.stories.LifecyclePlugin",
+    "jars":["jars/PerseanChronicles.jar"],
+    "modPlugin":"wisp.perseanchronicles.LifecyclePlugin",
     "dependencies": [
         {
             "id": "lw_lazylib",

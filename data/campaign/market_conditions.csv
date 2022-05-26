@@ -1,2 +1,2 @@
 name,id,planetary,decivRemove,script,desc,icon,order
-Crystalline Catalyst,wispQuests_crystallineCatalyst,TRUE,,org.wisp.stories.dangerousGames.pt2_depths.CrystalMarketMod,"A strange crystalline growth, discovered in the deep ocean, acts as a growth agent for a wide variety of recreational drugs.",graphics/depths/wispStories_crystals.png,10
+Crystalline Catalyst,wispQuests_crystallineCatalyst,TRUE,,wisp.perseanchronicles.dangerousGames.pt2_depths.CrystalMarketMod,"A strange crystalline growth, discovered in the deep ocean, acts as a growth agent for a wide variety of recreational drugs.",graphics/depths/wispStories_crystals.png,10

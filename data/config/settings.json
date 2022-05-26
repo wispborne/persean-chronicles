@@ -1,16 +1,16 @@
 {
   "graphics": {
-    "wispStories_dragonriders": {
+    "wisp_perseanchronicles_dragonriders": {
       "icon": "graphics/dragons/wispStories_dragon.png",
       "planetIllustration": "graphics/dragons/dragonPlanet.png",
       "intelPicture": "graphics/illustrations/fly_away.jpg"
     },
-    "wispStories_depths": {
+    "wisp_perseanchronicles_depths": {
       "icon": "graphics/depths/kelp.png",
       "diveIllustration": "graphics/depths/diveIllustration.png",
       "intelIllustration": "graphics/depths/intelIllustration.png"
     },
-    "wispStories_riley": {
+    "wisp_perseanchronicles_riley": {
       "icon": "graphics/riley/riley.png"
     },
     "wisp_perseanchronicles_nirvana": {
