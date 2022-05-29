@@ -17,10 +17,10 @@ class SpawnGate : BaseCommand {
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }
 
-        if (game.sector.playerFleet.containingLocation.getEntitiesWithTag(Tags.GATE).any()) {
-            Console.showMessage("Multiple Gates in a system are not supported.")
-            return BaseCommand.CommandResult.ERROR
-        }
+//        if (game.sector.playerFleet.containingLocation.getEntitiesWithTag(Tags.GATE).any()) {
+//            Console.showMessage("Multiple Gates in a system are not supported.")
+//            return BaseCommand.CommandResult.ERROR
+//        }
 
         return if (spawnGateAtLocation(game.sector.playerFleet) != null) {
             Console.showMessage("Gate created!")

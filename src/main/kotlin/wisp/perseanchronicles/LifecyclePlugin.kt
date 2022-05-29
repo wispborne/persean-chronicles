@@ -51,7 +51,7 @@ class LifecyclePlugin : BaseModPlugin() {
                 "data/config/modSettings.json",
                 "MagicLib"
             )
-            .getJSONObject("PerseanChronicles")
+            .getJSONObject(MOD_ID)
 
         Questgiver.loadQuests(
             configuration = readConfiguration(settings),

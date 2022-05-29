@@ -4,8 +4,6 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.SoundPlayerAPI
 import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.CrashReporter
-import wisp.questgiver.wispLib.IText
-import wisp.questgiver.wispLib.JsonText
 import wisp.questgiver.wispLib.ServiceLocator
 
 
@@ -21,5 +19,5 @@ class SpaceTalesServiceLocator(serviceLocator: ServiceLocator) : ServiceLocator 
     inline val soundPlayer: SoundPlayerAPI
         get() = Global.getSoundPlayer()
 
-    val jsonText: IText = JsonText(modId = MOD_ID, jsonPaths = listOf("data/strings/telos.hjson"))
+//    val jsonText: IText = JsonText(modId = MOD_ID, jsonPaths = listOf("data/strings/telos.hjson"))
 }

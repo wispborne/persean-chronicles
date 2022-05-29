@@ -1,5 +1,5 @@
 command,class,tags,syntax,help
-PerseanChronicles_ViewDebugInfo,wisp.perseanchronicles.ViewDebugInfoCommand,"PerseanChronicles,campaign",PerseanChronicles_ViewDebugInfo,Show debug info for Persean Chronicles.
+PerseanChronicles_ViewDebugInfo,wisp.perseanchronicles.commands.ViewDebugInfoCommand,"PerseanChronicles,campaign",PerseanChronicles_ViewDebugInfo,Show debug info for Persean Chronicles.
 PerseanChronicles_ResetDragonQuest,wisp.perseanchronicles.dangerousGames.pt1_dragons.ResetDragonsQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetDragonQuest,Reset the Dragonriders quest in Persean Chronicles.
 PerseanChronicles_ResetDepthsQuest,wisp.perseanchronicles.dangerousGames.pt2_depths.ResetDepthsQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetDepthsQuest,Reset the Depths quest in Persean Chronicles.
 PerseanChronicles_ResetRileyQuest,wisp.perseanchronicles.riley.ResetRileyQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetRileyQuest,Reset the Riley quest in Persean Chronicles.
