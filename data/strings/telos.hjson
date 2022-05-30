@@ -4,9 +4,9 @@
       "stages": [
         {
           "id": "deliveryToEarth",
-          "bar-event": {
-            "blurb": "A local job notification, \"Delivery to Earth\", chimes softly on your TriPad.",
-            "prompt": "Delivery to Earth"
+          "barEvent": {
+            "prompt": "A local job notification, \"Delivery to Earth\", chimes softly on your TriPad.",
+            "optionText": "Delivery to Earth"
           },
           "pages": [
             {
@@ -19,7 +19,8 @@
               "options": [
                 {
                   "id": "ASPIRARDs?",
-                  "text": "\"ASPIRARDs?\""
+                  "text": "\"ASPIRARDs?\"",
+                  "goToPage": "2"
                 },
                 {
                   "id": "accept",

@@ -1,9 +1,12 @@
 package wisp.perseanchronicles.telos
 
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.util.Misc
+import org.json.JSONObject
+import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos_Stage1_BarEventCreator
 import wisp.questgiver.AutoQuestFacilitator
@@ -39,6 +42,12 @@ object TelosQuest : AutoQuestFacilitator(
 
     val state = State(PersistentMapData<String, Any?>(key = "telosState").withDefault { null })
 
+    val json: JSONObject by lazy {
+        Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
+            .getJSONObject(MOD_ID)
+            .getJSONObject("telos")
+    }
+
     class State(val map: MutableMap<String, Any?>) {
         /**
          * In millis.
@@ -47,7 +56,6 @@ object TelosQuest : AutoQuestFacilitator(
         var startLocation: SectorEntityToken? by map
         var destPlanet: SectorEntityToken? by map
         var completeDateInMillis: Long? by map
-        var secretCompleteDateInMillis: Long? by map
 
         val destSystem: StarSystemAPI?
             get() = destPlanet?.starSystem
