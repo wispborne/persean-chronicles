@@ -25,6 +25,26 @@
                 {
                   "id": "accept",
                   "text": "Accept"
+                },
+                {
+                  "id": "delay",
+                  "text": "Not now"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "paras": [
+                "She lets out a tired sigh. “Sorry - that’s Autonomous Self-Propelled Interstellar Research and …something… Drones. Reconnaissance, maybe. Our boss came up with it, and-” she cuts herself off. “Do you think you can make this dropoff?”"
+              ],
+              "options": [
+                {
+                  "id": "accept",
+                  "text": "Accept"
+                },
+                {
+                  "id": "delay",
+                  "text": "Not now"
                 }
               ]
             }
