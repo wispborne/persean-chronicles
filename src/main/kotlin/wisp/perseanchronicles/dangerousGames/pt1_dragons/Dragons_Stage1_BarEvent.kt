@@ -81,8 +81,7 @@ class Dragons_Stage1_BarEvent : AutoBarEventDefinition<Dragons_Stage1_BarEvent>(
             )
         )
     ),
-    personPortrait = "graphics/portraits/portrait20.png",
-    personName = FullName("Karengo", "", FullName.Gender.MALE)
+    people = listOf(DragonsQuest.karengo)
 ) {
     override fun createInstanceOfSelf() = Dragons_Stage1_BarEvent()
 }

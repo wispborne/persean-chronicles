@@ -1,18 +1,23 @@
 package wisp.perseanchronicles.laborer
 
 import com.fs.starfarer.api.EveryFrameScript
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.CampaignClockAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.characters.FullName
+import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Industries
+import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
 import wisp.perseanchronicles.game
 import wisp.questgiver.AutoQuestFacilitator
 import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.spriteName
 import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.wispLib.*
 
@@ -53,6 +58,16 @@ object LaborerQuest : AutoQuestFacilitator(
     class Choices(val map: MutableMap<String, Any?>) {
         var askedAllWorkDriedUp by map
         var askedHowDoIKnowYoullPay by map
+    }
+
+    val dale: PersonAPI by lazy {
+        Global.getSettings().createPerson().apply {
+            this.name = FullName("Dale", String.empty, FullName.Gender.MALE)
+            this.setFaction(Factions.INDEPENDENT)
+            this.postId = Ranks.CITIZEN
+            this.rankId = Ranks.CITIZEN
+            this.portraitSprite = portrait.spriteName(game)
+        }
     }
 
     override fun updateTextReplacements(text: Text) {

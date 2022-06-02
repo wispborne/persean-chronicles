@@ -1,15 +1,10 @@
 package wisp.perseanchronicles.nirvana
 
-import com.fs.starfarer.api.characters.FullName
-import com.fs.starfarer.api.impl.campaign.ids.Commodities
-import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity
 import wisp.perseanchronicles.game
 import wisp.questgiver.AutoBarEventDefinition
-import wisp.questgiver.BarEventDefinition
-import wisp.questgiver.spriteName
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class Nirvana_Stage1_BarEvent : AutoBarEventDefinition<Nirvana_Stage1_BarEvent>(
@@ -87,10 +82,7 @@ class Nirvana_Stage1_BarEvent : AutoBarEventDefinition<Nirvana_Stage1_BarEvent>(
             )
         )
     ),
-    personName = FullName("David", "Rengel", FullName.Gender.MALE),
-    personRank = Ranks.CITIZEN,
-    personPost = Ranks.CITIZEN,
-    personPortrait = NirvanaQuest.icon.spriteName(game)
+    people = listOf(NirvanaQuest.david)
 ) {
     override fun createInstanceOfSelf() = Nirvana_Stage1_BarEvent()
 }

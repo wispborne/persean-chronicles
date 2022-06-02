@@ -3,6 +3,7 @@ package wisp.perseanchronicles.dangerousGames.pt2_depths
 import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
+import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
 import wisp.perseanchronicles.game
 import wisp.questgiver.AutoBarEventDefinition
 
@@ -60,8 +61,7 @@ class Depths_Stage1_BarEvent : AutoBarEventDefinition<Depths_Stage1_BarEvent>(
             )
         )
     ),
-    personPortrait = "graphics/portraits/portrait20.png",
-    personName = FullName("Karengo", "", FullName.Gender.MALE)
+    people = listOf(DragonsQuest.karengo)
 ) {
     override fun createInstanceOfSelf() = Depths_Stage1_BarEvent()
 }

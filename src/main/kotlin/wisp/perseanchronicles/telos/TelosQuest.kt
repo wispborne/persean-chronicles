@@ -4,6 +4,11 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.characters.FullName
+import com.fs.starfarer.api.characters.PersonAPI
+import com.fs.starfarer.api.impl.campaign.ids.Factions
+import com.fs.starfarer.api.impl.campaign.ids.Ranks
+import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import wisp.perseanchronicles.MOD_ID
@@ -37,7 +42,7 @@ object TelosQuest : AutoQuestFacilitator(
     val REWARD_CREDITS: Float
         get() = Questgiver.calculateCreditReward(state.startLocation, state.destPlanet, scaling = 1.3f)
 
-    //    val icon = InteractionDefinition.Portrait(category = "wisp_perseanchronicles_telos", id = "davidRengel")
+    val icon = InteractionDefinition.Portrait(category = "intel", id = "red_planet") // todo change me
     val background = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_telos", id = "background")
 
     val state = State(PersistentMapData<String, Any?>(key = "telosState").withDefault { null })
@@ -48,11 +53,20 @@ object TelosQuest : AutoQuestFacilitator(
             .getJSONObject("telos")
     }
 
+    val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
+
+    val stage1Engineer: PersonAPI by lazy {
+        Global.getSettings().createPerson().apply {
+            this.name = FullName("Kelly", "McDonald", FullName.Gender.FEMALE)
+            this.setFaction(Factions.INDEPENDENT)
+            this.postId = Ranks.CITIZEN
+            this.rankId = Ranks.CITIZEN
+            this.portraitSprite = portraitSprite
+        }
+    }
+
     class State(val map: MutableMap<String, Any?>) {
-        /**
-         * In millis.
-         */
-        var startDate: Long? by map
+        var startDateMillis: Long? by map
         var startLocation: SectorEntityToken? by map
         var destPlanet: SectorEntityToken? by map
         var completeDateInMillis: Long? by map
@@ -76,7 +90,7 @@ object TelosQuest : AutoQuestFacilitator(
     fun start(startLocation: SectorEntityToken) {
         game.logger.i { "Telos start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
         stage = Stage.GoToPlanet
-        state.startDate = game.sector.clock.timestamp
+        state.startDateMillis = game.sector.clock.timestamp
     }
 
     fun complete() {

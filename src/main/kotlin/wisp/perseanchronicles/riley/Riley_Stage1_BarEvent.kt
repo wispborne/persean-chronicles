@@ -1,12 +1,9 @@
 package wisp.perseanchronicles.riley
 
-import com.fs.starfarer.api.characters.FullName
-import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import wisp.perseanchronicles.game
 import wisp.questgiver.AutoBarEventDefinition
-import wisp.questgiver.wispLib.empty
 import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class Riley_Stage1_BarEvent : AutoBarEventDefinition<Riley_Stage1_BarEvent>(
@@ -59,10 +56,7 @@ class Riley_Stage1_BarEvent : AutoBarEventDefinition<Riley_Stage1_BarEvent>(
             )
         )
     ),
-    personName = FullName(game.text["riley_name"], String.empty, FullName.Gender.FEMALE),
-    personRank = Ranks.CITIZEN,
-    personPost = Ranks.CITIZEN,
-    personPortrait = game.settings.getSpriteName(RileyQuest.icon.category, RileyQuest.icon.id)
+    people = listOf(RileyQuest.riley)
 ) {
     override fun createInstanceOfSelf() = Riley_Stage1_BarEvent()
 }

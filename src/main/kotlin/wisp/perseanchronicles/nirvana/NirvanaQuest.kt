@@ -1,9 +1,12 @@
 package wisp.perseanchronicles.nirvana
 
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.characters.FullName
+import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.impl.campaign.ids.*
 import com.fs.starfarer.api.impl.campaign.procgen.PlanetGenDataSpec
 import com.fs.starfarer.api.impl.campaign.procgen.StarGenDataSpec
@@ -12,6 +15,7 @@ import com.fs.starfarer.api.util.Misc
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.laborer.LaborerQuest
 import wisp.questgiver.*
 import wisp.questgiver.wispLib.*
 import kotlin.random.Random
@@ -41,10 +45,7 @@ object NirvanaQuest : AutoQuestFacilitator(
     val state = State(PersistentMapData<String, Any?>(key = "nirvanaState").withDefault { null })
 
     class State(val map: MutableMap<String, Any?>) {
-        /**
-         * In millis.
-         */
-        var startDate: Long? by map
+        var startDateMillis: Long? by map
         var startLocation: SectorEntityToken? by map
         var destPlanet: SectorEntityToken? by map
         var completeDateInMillis: Long? by map
@@ -52,6 +53,16 @@ object NirvanaQuest : AutoQuestFacilitator(
 
         val destSystem: StarSystemAPI?
             get() = destPlanet?.starSystem
+    }
+
+    val david: PersonAPI by lazy {
+        Global.getSettings().createPerson().apply {
+            this.name = FullName("David", "Rengel", FullName.Gender.MALE)
+            this.setFaction(Factions.INDEPENDENT)
+            this.postId = Ranks.CITIZEN
+            this.rankId = Ranks.CITIZEN
+            this.portraitSprite = icon.spriteName(game)
+        }
     }
 
     override fun updateTextReplacements(text: Text) {
@@ -114,7 +125,7 @@ object NirvanaQuest : AutoQuestFacilitator(
         game.logger.i { "Nirvana start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
         stage = Stage.GoToPlanet
         game.sector.playerFleet.cargo.addCommodity(CARGO_TYPE, CARGO_WEIGHT.toFloat())
-        state.startDate = game.sector.clock.timestamp
+        state.startDateMillis = game.sector.clock.timestamp
     }
 
     fun shouldShowStage2Dialog() =
@@ -136,7 +147,7 @@ object NirvanaQuest : AutoQuestFacilitator(
         // If complete date is set, use that. If not (happens if quest was completed prior to the field being added)
         // then use startDate. If neither exist, use "0" just to avoid null, since the stage needs to be Completed anyway
         // so it won't trigger before then.
-        val timestampQuestCompletedInSeconds = (state.completeDateInMillis ?: state.startDate ?: 0)
+        val timestampQuestCompletedInSeconds = (state.completeDateInMillis ?: state.startDateMillis ?: 0)
         return (stage == Stage.Completed
                 && game.sector.clock.getElapsedDaysSince(timestampQuestCompletedInSeconds) > (365 * 55))
     }

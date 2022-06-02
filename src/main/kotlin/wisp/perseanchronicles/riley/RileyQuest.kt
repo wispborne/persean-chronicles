@@ -1,8 +1,12 @@
 package wisp.perseanchronicles.riley
 
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.characters.FullName
+import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
+import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.game
 import wisp.questgiver.AutoQuestFacilitator
@@ -45,6 +49,16 @@ object RileyQuest : AutoQuestFacilitator(
 
     val state = State(PersistentMapData<String, Any?>(key = "rileyState").withDefault { null })
     val choices: Choices = Choices(PersistentMapData<String, Any?>(key = "rileyChoices").withDefault { null })
+
+    val riley: PersonAPI by lazy {
+        Global.getSettings().createPerson().apply {
+            this.name = FullName(game.text["riley_name"], String.empty, FullName.Gender.FEMALE)
+            this.setFaction(Factions.INDEPENDENT)
+            this.postId = Ranks.CITIZEN
+            this.rankId = Ranks.CITIZEN
+            this.portraitSprite = game.settings.getSpriteName(icon.category, icon.id)
+        }
+    }
 
     class State(val map: MutableMap<String, Any?>) {
         var startDate: Long? by map

@@ -1,8 +1,13 @@
 package wisp.perseanchronicles.dangerousGames.pt1_dragons
 
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.characters.FullName
+import com.fs.starfarer.api.characters.PersonAPI
+import com.fs.starfarer.api.impl.campaign.ids.Factions
+import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
@@ -43,8 +48,20 @@ object DragonsQuest : AutoQuestFacilitator(
         "US_jungle" // Unknown Skies
     )
     val icon = InteractionDefinition.Portrait("wisp_perseanchronicles_dragonriders", "icon")
-    val intelDetailHeaderImage = InteractionDefinition.Illustration("wisp_perseanchronicles_dragonriders", "intelPicture")
-    val dragonPlanetImage = InteractionDefinition.Illustration("wisp_perseanchronicles_dragonriders", "planetIllustration")
+    val intelDetailHeaderImage =
+        InteractionDefinition.Illustration("wisp_perseanchronicles_dragonriders", "intelPicture")
+    val dragonPlanetImage =
+        InteractionDefinition.Illustration("wisp_perseanchronicles_dragonriders", "planetIllustration")
+
+    val karengo: PersonAPI by lazy {
+        Global.getSettings().createPerson().apply {
+            this.name = FullName("Karengo", "", FullName.Gender.MALE)
+            this.setFaction(Factions.INDEPENDENT)
+            this.postId = Ranks.CITIZEN
+            this.rankId = Ranks.CITIZEN
+            this.portraitSprite = "graphics/portraits/portrait20.png"
+        }
+    }
 
     val state = State(PersistentMapData<String, Any?>(key = "dragonState").withDefault { null })
 
