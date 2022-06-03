@@ -4,12 +4,16 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.campaign.econ.MarketConditionAPI
 import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.characters.PersonAPI
+import com.fs.starfarer.api.impl.campaign.ids.Conditions
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
 import com.fs.starfarer.api.util.Misc
+import com.fs.starfarer.campaign.econ.MarketCondition
 import org.json.JSONObject
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
@@ -20,6 +24,7 @@ import wisp.questgiver.Questgiver
 import wisp.questgiver.calculateCreditReward
 import wisp.questgiver.wispLib.PersistentData
 import wisp.questgiver.wispLib.PersistentMapData
+import wisp.questgiver.wispLib.SystemFinder
 import wisp.questgiver.wispLib.Text
 
 object TelosQuest : AutoQuestFacilitator(
@@ -85,6 +90,12 @@ object TelosQuest : AutoQuestFacilitator(
     override fun regenerateQuest(interactionTarget: SectorEntityToken, market: MarketAPI?) {
         state.startLocation = interactionTarget
 
+        state.destPlanet = SystemFinder()
+            .requireSystemOnFringeOfSector()
+            .preferEntityUndiscovered()
+            .preferMarketConditions(ReqMode.ALL, Conditions.HABITABLE)
+            .preferPlanetWithRuins()
+            .pickPlanet()
     }
 
     fun start(startLocation: SectorEntityToken) {
