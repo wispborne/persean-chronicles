@@ -35,6 +35,7 @@ class Telos_Stage1_BarEvent(
         onPageShownHandlersByPageId = emptyMap(),
         onOptionSelectedHandlersByPageId = mapOf(
             "accept" to {
+                TelosQuest.start(startLocation = this.dialog.interactionTarget)
                 it.close(doNotOfferAgain = true)
             }
         )

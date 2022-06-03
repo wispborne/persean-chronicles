@@ -28,7 +28,8 @@
                 },
                 {
                   "id": "delay",
-                  "text": "Not now"
+                  "text": "Not now",
+                  "shortcut": "Escape"
                 }
               ]
             },
@@ -44,7 +45,8 @@
                 },
                 {
                   "id": "delay",
-                  "text": "Not now"
+                  "text": "Not now",
+                  "shortcut": "Escape"
                 }
               ]
             }
