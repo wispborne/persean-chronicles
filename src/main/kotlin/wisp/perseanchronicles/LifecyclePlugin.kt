@@ -13,7 +13,7 @@ import wisp.perseanchronicles.dangerousGames.pt2_depths.*
 import wisp.perseanchronicles.laborer.*
 import wisp.perseanchronicles.nirvana.*
 import wisp.perseanchronicles.riley.*
-import wisp.perseanchronicles.telos.TelosQuest
+import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 import wisp.questgiver.Configuration
 import wisp.questgiver.QuestFacilitator
 import wisp.questgiver.Questgiver
@@ -55,14 +55,16 @@ class LifecyclePlugin : BaseModPlugin() {
 
         Questgiver.loadQuests(
             configuration = readConfiguration(settings),
-            questFacilitators = mutableListOf<QuestFacilitator>().apply {
-                if (settings.tryGetBoolean("isDragonsQuestEnabled") { true }) this.add(DragonsQuest)
-                if (settings.tryGetBoolean("isDepthsQuestEnabled") { true }) this.add(DepthsQuest)
-                if (settings.tryGetBoolean("isRileyQuestEnabled") { true }) this.add(RileyQuest)
-                if (settings.tryGetBoolean("isNirvanaQuestEnabled") { true }) this.add(NirvanaQuest)
-                if (settings.tryGetBoolean("isLaborerQuestEnabled") { true }) this.add(LaborerQuest)
-                if (settings.tryGetBoolean("isTelosQuestEnabled") { true }) this.add(TelosQuest)
-            }
+            questFacilitators = listOf<QuestFacilitator?>(
+                if (settings.tryGetBoolean("isDragonsQuestEnabled") { true }) DragonsQuest else null,
+                if (settings.tryGetBoolean("isDepthsQuestEnabled") { true }) DepthsQuest else null,
+                if (settings.tryGetBoolean("isRileyQuestEnabled") { true }) RileyQuest else null,
+                if (settings.tryGetBoolean("isNirvanaQuestEnabled") { true }) NirvanaQuest else null,
+                if (settings.tryGetBoolean("isLaborerQuestEnabled") { true }) LaborerQuest else null,
+                if (settings.tryGetBoolean("isTelosQuestEnabled") { true }) Telos1HubMission else null,
+//                Telos1HubMission.isEnabled = settings.tryGetBoolean("isTelosQuestEnabled") { true }
+            )
+                .filterNotNull()
         )
 
         game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
@@ -123,7 +125,7 @@ class LifecyclePlugin : BaseModPlugin() {
             Riley_Stage1_BarEventCreator::class to "Riley_Stage1_BarEventCreator",
             Riley_Stage2_TriggerDialogScript::class to "Riley_Stage2_TriggerDialogScript",
             Riley_Stage2_TriggerDialogScript::class to "Riley_Stage2_Dialog",
-            EnteredDestinationSystemListener::class to "EnteredDestinationSystemListener",
+            Riley_EnteredDestinationSystemListener::class to "Riley_EnteredDestinationSystemListener",
             Riley_Stage3_Dialog::class to "Riley_Stage3_Dialog",
             Riley_Stage4_Dialog::class to "Riley_Stage4_Dialog",
             Nirvana_Stage1_BarEvent::class to "Nirvana_Stage1_BarEvent",

@@ -9,7 +9,7 @@ import wisp.perseanchronicles.game
 import java.awt.Color
 import java.util.*
 
-class TelosBattleCreationPlugin() : BattleCreationPluginImpl() {
+class Telos1BattleCreationPlugin() : BattleCreationPluginImpl() {
     override fun createMap(random: Random?) {
         loader.initMap(-width / 2f, width / 2f, -height / 2f, height / 2f)
 

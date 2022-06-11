@@ -1,93 +1,103 @@
 {
   "wisp_perseanchronicles": {
     "telos": {
-      "stages": [
-        {
-          "id": "deliveryToEarth",
-          "barEvent": {
-            "prompt": "A local job notification, \"Delivery to Earth\", chimes softly on your TriPad.",
-            "optionText": "Delivery to Earth"
-          },
-          "pages": [
-            {
-              "id": "1",
-              "image": null,
-              "paras": [
-                "After a brief wait, a woman answers and confirms what her grease-stained lab coat already told you; she is the lead engineer of a small research team.",
-                "\"We have a container of ASPIRARDs that need to be dropped off near the ==edge of the Sector==. They’ll make their way toward old Earth, sending data back the whole way. You will be paid ==100,000c== upon dropoff confirmation.\""
-              ],
-              "options": [
-                {
-                  "id": "ASPIRARDs?",
-                  "text": "\"ASPIRARDs?\"",
-                  "goToPage": "2"
-                },
-                {
-                  "id": "accept",
-                  "text": "Accept"
-                },
-                {
-                  "id": "delay",
-                  "text": "Not now",
-                  "shortcut": "Escape"
-                }
-              ]
-            },
-            {
-              "id": "2",
-              "paras": [
-                "She lets out a tired sigh. “Sorry - that’s Autonomous Self-Propelled Interstellar Research and …something… Drones. Reconnaissance, maybe. Our boss came up with it, and-” she cuts herself off. “Do you think you can make this dropoff?”"
-              ],
-              "options": [
-                {
-                  "id": "accept",
-                  "text": "Accept"
-                },
-                {
-                  "id": "delay",
-                  "text": "Not now",
-                  "shortcut": "Escape"
-                }
-              ]
-            }
-          ]
+      "part1": {
+        "strings": {
+          "intel": {
+            "title": "Delivery to Earth",
+            "titleComplete": "Delivery to Earth - Completed",
+            "subtitle": "Drop off near ==$telosDestSystem==",
+            "desc": "Telos part 1 description"
+          }
         },
-        {
-          "id": "deliveryDropoff",
-          "pages": [
-            {
-              "id": "1",
-              "paras": [
-                "Your navigation officer waves a hand to get your attention. “Captain, we’re in the right area for dropoff of the,” they glance at their screen, “uh, ASPIRARDs. I’ll have the cargo guys push it outside.”",
-                "The container drifts away, then splits apart with a simulated ‘whoosh’. Sensors detect a coded hyperwave burst and, moments later, ==100,000c== appears in your account.",
-                "Scores of drones rush out and stream in what must be the direction of old Earth. Details on the project were scarce. How long will they take to reach their destination? What are they expecting to find? Why send drones looking now?",
-                "Your reverie is broken by a deferent cough. \"Captain?\" asks your comms chief. \"I know how we feel about distress signals…but you've worked with a 'Mr. Karengo' before, right?"
-              ],
-              "options": [
-                {
-                  "id": "yes",
-                  "text": "Yes...",
-                  "goToPage": 2
-                }
-              ]
+        "stages": [
+          {
+            "id": "deliveryToEarth",
+            "barEvent": {
+              "prompt": "A local job notification, \"Delivery to Earth\", chimes softly on your TriPad.",
+              "optionText": "Delivery to Earth"
             },
-            {
-              "id": "2",
-              "paras": [
-                "They continue, “We’ve got a ping from a nearby system. Playing the audio now.”",
-                "The bridge echoes with Karengo’s booming voice, confident despite the message. “Spacers, this here’s Karengo offering a quick and easy cleanup job. Go on an’ send the boys in orbit around ==planetname== in ==systemname== home, and we’ll talk recompense - see, I’ve found something hidden, and I’m willing to share. Just take care of them unfriendly types and we’ll have a talk worth all the trouble.”",
-                "The Intel holodisplay shimmers, displaying the location of a pirate fleet."
-              ],
-              "options": [
-                {
-                  "id": "close",
-                  "text": "Close"
-                }
-              ]
-            }
-          ]
-        }
-      ]
+            "pages": [
+              {
+                "id": "1",
+                "image": null,
+                "paras": [
+                  "After a brief wait, a woman answers and confirms what her grease-stained lab coat already told you; she is the lead engineer of a small research team.",
+                  "\"We have a container of ASPIRARDs that need to be dropped off near the ==edge of the Sector==. They’ll make their way toward old Earth, sending data back the whole way. You will be paid ==100,000c== upon dropoff confirmation.\""
+                ],
+                "options": [
+                  {
+                    "id": "ASPIRARDs?",
+                    "text": "\"ASPIRARDs?\"",
+                    "goToPage": "2"
+                  },
+                  {
+                    "id": "accept",
+                    "text": "Accept"
+                  },
+                  {
+                    "id": "decline",
+                    "text": "Not now",
+                    "shortcut": "Escape"
+                  }
+                ]
+              },
+              {
+                "id": "2",
+                "paras": [
+                  "She lets out a tired sigh. “Sorry - that’s Autonomous Self-Propelled Interstellar Research and …something… Drones. Reconnaissance, maybe. Our boss came up with it, and-” she cuts herself off. “Do you think you can make this dropoff?”"
+                ],
+                "options": [
+                  {
+                    "id": "accept",
+                    "text": "Accept"
+                  },
+                  {
+                    "id": "decline",
+                    "text": "Not now",
+                    "shortcut": "Escape"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "deliveryDropoff",
+            "pages": [
+              {
+                "id": "1",
+                "paras": [
+                  "Your navigation officer waves a hand to get your attention. “Captain, we’re in the right area for dropoff of the,” they glance at their screen, “uh, ASPIRARDs. I’ll have the cargo guys push it outside.”",
+                  "The container drifts away, then splits apart with a simulated ‘whoosh’. Sensors detect a coded hyperwave burst and, moments later, ==100,000c== appears in your account.",
+                  "Scores of drones rush out and stream in what must be the direction of old Earth. Details on the project were scarce. How long will they take to reach their destination? What are they expecting to find? Why send drones looking now?",
+                  "Your reverie is broken by a deferent cough. \"Captain?\" asks your comms chief. \"I know how we feel about distress signals…but you've worked with a 'Mr. Karengo' before, right?"
+                ],
+                "options": [
+                  {
+                    "id": "yes",
+                    "text": "Yes...",
+                    "goToPage": 2
+                  }
+                ]
+              },
+              {
+                "id": "2",
+                "paras": [
+                  "They continue, “We’ve got a ping from a nearby system. Playing the audio now.”",
+                  "The bridge echoes with Karengo’s booming voice, confident despite the message. “Spacers, this here’s Karengo offering a quick and easy cleanup job. Go on an’ send the boys in orbit around ==planetname== in ==systemname== home, and we’ll talk recompense - see, I’ve found something hidden, and I’m willing to share. Just take care of them unfriendly types and we’ll have a talk worth all the trouble.”",
+                  "The Intel holodisplay shimmers, displaying the location of a pirate fleet."
+                ],
+                "options": [
+                  {
+                    "id": "close",
+                    "text": "Close"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   }
 }

@@ -42,7 +42,7 @@ dependencies {
     // Questgiver lib
     implementation(fileTree("libs")
     {
-        include("Questgiver-${Variables.questgiverVersion}.jar")
+        include("Questgiver-${Variables.questgiverVersion}*.jar")
     })
 
     // Get kotlin sdk from LazyLib during runtime, only use it here during compile time

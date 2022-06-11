@@ -9,7 +9,7 @@ import wisp.perseanchronicles.game
 import wisp.perseanchronicles.laborer.LaborerQuest
 import wisp.perseanchronicles.nirvana.NirvanaQuest
 import wisp.perseanchronicles.riley.RileyQuest
-import wisp.perseanchronicles.telos.TelosQuest
+import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 
 class ViewDebugInfoCommand : BaseCommand {
     override fun runCommand(args: String, context: BaseCommand.CommandContext): BaseCommand.CommandResult {
@@ -46,9 +46,9 @@ class ViewDebugInfoCommand : BaseCommand {
             ?.let { game.sector.clock.convertToDays(it) }
         info.appendLine("Laborer payout: ${Misc.getDGSCredits(LaborerQuest.state.payout.toFloat())} in $daysUntilPayout days")
         info.appendLine()
-        info.appendLine("Telos source planet: ${TelosQuest.state.startLocation?.fullName} in ${TelosQuest.state.destPlanet?.starSystem?.baseName}")
-        info.appendLine("Telos destination planet: ${TelosQuest.state.destPlanet?.fullName} in ${TelosQuest.state.destPlanet?.starSystem?.baseName}")
-        info.appendLine("Telos quest stage: ${TelosQuest.stage}")
+        info.appendLine("Telos source planet: ${Telos1HubMission.state.startLocation?.fullName} in ${Telos1HubMission.state.startLocation?.starSystem?.baseName}")
+        info.appendLine("Telos destination planet: ${Telos1HubMission.state.destLocation?.fullName} in ${Telos1HubMission.state.destLocation?.starSystem?.baseName}")
+        info.appendLine("Telos quest stage: ${Telos1HubMission.currentStage}")
 
         Console.showMessage(info.toString())
 

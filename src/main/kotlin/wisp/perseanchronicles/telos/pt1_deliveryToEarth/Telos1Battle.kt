@@ -12,11 +12,11 @@ import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
 import wisp.perseanchronicles.game
 
-object Telos_Battle {
+object Telos1Battle {
     class CampaignPlugin : BaseCampaignPlugin() {
         override fun pickBattleCreationPlugin(opponent: SectorEntityToken?): PluginPick<com.fs.starfarer.api.campaign.BattleCreationPlugin> =
             PluginPick(
-                TelosBattleCreationPlugin(),
+                Telos1BattleCreationPlugin(),
                 com.fs.starfarer.api.campaign.CampaignPlugin.PickPriority.MOD_SPECIFIC
             )
     }

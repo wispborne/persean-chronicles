@@ -7,7 +7,7 @@ import com.fs.starfarer.api.campaign.SectorEntityToken
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.equalsAny
 
-class EnteredDestinationSystemListener : BaseCampaignEventListener(false) {
+class Riley_EnteredDestinationSystemListener : BaseCampaignEventListener(false) {
     override fun reportFleetJumped(
         fleet: CampaignFleetAPI?,
         from: SectorEntityToken?,
