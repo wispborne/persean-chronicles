@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.commands
 
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.util.Misc
 import org.lazywizard.console.BaseCommand
 import org.lazywizard.console.Console
@@ -10,6 +11,7 @@ import wisp.perseanchronicles.laborer.LaborerQuest
 import wisp.perseanchronicles.nirvana.NirvanaQuest
 import wisp.perseanchronicles.riley.RileyQuest
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
+import wisp.questgiver.wispLib.findFirst
 
 class ViewDebugInfoCommand : BaseCommand {
     override fun runCommand(args: String, context: BaseCommand.CommandContext): BaseCommand.CommandResult {
@@ -46,9 +48,11 @@ class ViewDebugInfoCommand : BaseCommand {
             ?.let { game.sector.clock.convertToDays(it) }
         info.appendLine("Laborer payout: ${Misc.getDGSCredits(LaborerQuest.state.payout.toFloat())} in $daysUntilPayout days")
         info.appendLine()
-        info.appendLine("Telos source planet: ${Telos1HubMission.state.startLocation?.fullName} in ${Telos1HubMission.state.startLocation?.starSystem?.baseName}")
-        info.appendLine("Telos destination planet: ${Telos1HubMission.state.destLocation?.fullName} in ${Telos1HubMission.state.destLocation?.starSystem?.baseName}")
-        info.appendLine("Telos quest stage: ${Telos1HubMission.currentStage}")
+
+        val telos1 = Global.getSector().intelManager.findFirst<Telos1HubMission>()
+        info.appendLine("Telos source planet: ${telos1?.state?.startLocation?.fullName} in ${telos1?.state?.startLocation?.starSystem?.baseName}")
+        info.appendLine("Telos destination planet: ${telos1?.state?.karengoPlanet?.fullName} in ${telos1?.state?.karengoPlanet?.starSystem?.baseName}")
+        info.appendLine("Telos quest stage: ${telos1?.currentStage}")
 
         Console.showMessage(info.toString())
 

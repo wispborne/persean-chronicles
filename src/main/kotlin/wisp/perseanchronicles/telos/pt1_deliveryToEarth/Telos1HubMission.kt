@@ -1,6 +1,7 @@
 package wisp.perseanchronicles.telos.pt1_deliveryToEarth
 
 import com.fs.starfarer.api.Global
+import com.fs.starfarer.api.campaign.InteractionDialogAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
@@ -17,10 +18,7 @@ import org.lazywizard.lazylib.ext.plus
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
-import wisp.questgiver.AutoQuestFacilitator
-import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.Questgiver
-import wisp.questgiver.calculateCreditReward
+import wisp.questgiver.*
 import wisp.questgiver.json.query
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
 import wisp.questgiver.wispLib.PersistentMapData
@@ -28,19 +26,13 @@ import wisp.questgiver.wispLib.SystemFinder
 import wisp.questgiver.wispLib.Text
 import wisp.questgiver.wispLib.distanceFrom
 
-object Telos1HubMission : QGHubMissionWithBarEvent(
+class Telos1HubMission : QGHubMissionWithBarEvent(
     barEventCreator = Telos1BarEventCreator()
 ) {
-//    companion object {
+    companion object {
 //    var isEnabled = true
 
-        val REWARD_CREDITS: Float
-            get() = Questgiver.calculateCreditReward(state.startLocation, state.karengoPlanet, scaling = 1.3f)
-
-        val icon = InteractionDefinition.Portrait(category = "intel", id = "red_planet") // todo change me
-        val background = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_telos", id = "background")
-
-        val state = State(PersistentMapData<String, Any?>(key = "telosState").withDefault { null })
+        val MISSION_ID = "telosPt1"
 
         val json: JSONObject by lazy {
             Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
@@ -58,7 +50,14 @@ object Telos1HubMission : QGHubMissionWithBarEvent(
                 this.portraitSprite = portraitSprite
             }
         }
-//    }
+    }
+
+    val REWARD_CREDITS: Float
+        get() = Questgiver.calculateCreditReward(state.startLocation, state.karengoPlanet, scaling = 1.3f)
+
+    val background = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_telos", id = "background")
+
+    val state = State(PersistentMapData<String, Any?>(key = "telosState").withDefault { null })
 
     class State(val map: MutableMap<String, Any?>) {
         var startDateMillis: Long? by map
@@ -72,7 +71,7 @@ object Telos1HubMission : QGHubMissionWithBarEvent(
     }
 
     init {
-        missionId = "telosPt1"
+        missionId = MISSION_ID
     }
 
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
@@ -89,10 +88,17 @@ object Telos1HubMission : QGHubMissionWithBarEvent(
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {
 //        if (!isEnabled) return false
 
-        // Ignore deprecation,
+        // Ignore warning, there are two overrides and it's complaining about just one of them.
+        @Suppress("ABSTRACT_SUPER_CALL_WARNING")
         super.create(createdAt, barEvent)
 
-        setStartingStage(Stage.NotStarted)
+        setStartingStage(Stage.GoToPlanet)
+        setSuccessStage(Stage.Completed)
+
+        name = json.query("/strings/intel/title") as String
+
+        // todo change me
+        setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
 
         state.startLocation = createdAt?.primaryEntity
 
@@ -118,9 +124,8 @@ object Telos1HubMission : QGHubMissionWithBarEvent(
         return true
     }
 
-    fun start(startLocation: SectorEntityToken) {
+    override fun onAccepted(startLocation: SectorEntityToken, dialog: InteractionDialogAPI?) {
         game.logger.i { "Telos start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
-        currentStage = Stage.GoToPlanet
         state.startDateMillis = game.sector.clock.timestamp
     }
 

@@ -2,11 +2,8 @@ package wisp.perseanchronicles.telos.pt1_deliveryToEarth
 
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
-import com.fs.starfarer.api.impl.campaign.missions.hub.HubMissionWithBarEvent
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
-import wisp.perseanchronicles.game
-import wisp.questgiver.spritePath
 import wisp.questgiver.v2.BarEvent
 import wisp.questgiver.v2.BarEventLogic
 import wisp.questgiver.v2.json.InteractionPromptFromJson
@@ -16,15 +13,15 @@ import wisp.questgiver.v2.json.query
 
 class Telos1BarEventLogic(
     stageJson: JSONObject = Telos1HubMission.json.query("/stages/0") as JSONObject
-) : BarEventLogic<Telos1BarEventLogic>(
+) : BarEventLogic<Telos1HubMission>(
     createInteractionPrompt = InteractionPromptFromJson(stageJson = stageJson),
     onInteractionStarted = {
         dialog.visualPanel.showMapMarker(
-            Telos1HubMission.state.karengoPlanet,
-            TextToStartInteractionFromJson<Telos1BarEventLogic>(stageJson = stageJson).invoke(this),
-            Telos1HubMission.state.karengoPlanet?.indicatorColor ?: Misc.getTextColor(),
+            mission.state.destLocation,
+            TextToStartInteractionFromJson<Telos1BarEventLogic>(stageJson = stageJson).invoke(this as Telos1BarEventLogic),
+            Misc.getTextColor(),
             true,
-            Telos1HubMission.icon.spritePath(game = game),
+            mission.icon,
             null,
             Telos1HubMission.tags.minus(Tags.INTEL_ACCEPTED).toSet()
         )
@@ -35,7 +32,7 @@ class Telos1BarEventLogic(
         onPageShownHandlersByPageId = emptyMap(),
         onOptionSelectedHandlersByOptionId = mapOf(
             "accept" to {
-                Telos1HubMission.start(startLocation = this.dialog.interactionTarget)
+                mission.accept(this.dialog, null)
                 it.close(doNotOfferAgain = true)
             },
             "decline" to {
@@ -46,11 +43,11 @@ class Telos1BarEventLogic(
     people = listOf(Telos1HubMission.stage1Engineer)
 )
 
-class Telos1BarEvent : BarEvent<Telos1BarEventLogic>(Telos1HubMission.missionId) {
-    override fun createBarEventLogic(): BarEventLogic<Telos1BarEventLogic> =
+class Telos1BarEvent : BarEvent<Telos1HubMission>(Telos1HubMission.MISSION_ID) {
+    override fun createBarEventLogic(): BarEventLogic<Telos1HubMission> =
         Telos1BarEventLogic()
 
-    override fun createMission(): HubMissionWithBarEvent = Telos1HubMission
+    override fun createMission() = Telos1HubMission()
 }
 
 class Telos1BarEventCreator : BaseBarEventCreator() {

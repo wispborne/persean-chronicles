@@ -61,7 +61,8 @@ class LifecyclePlugin : BaseModPlugin() {
                 if (settings.tryGetBoolean("isRileyQuestEnabled") { true }) RileyQuest else null,
                 if (settings.tryGetBoolean("isNirvanaQuestEnabled") { true }) NirvanaQuest else null,
                 if (settings.tryGetBoolean("isLaborerQuestEnabled") { true }) LaborerQuest else null,
-                if (settings.tryGetBoolean("isTelosQuestEnabled") { true }) Telos1HubMission else null,
+                // TODO should change this to pass in just the bar event creator and isStarted, not create a HubMission instance.
+                if (settings.tryGetBoolean("isTelosQuestEnabled") { true }) Telos1HubMission() else null,
 //                Telos1HubMission.isEnabled = settings.tryGetBoolean("isTelosQuestEnabled") { true }
             )
                 .filterNotNull()
