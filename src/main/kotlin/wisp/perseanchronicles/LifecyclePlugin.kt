@@ -13,9 +13,9 @@ import wisp.perseanchronicles.dangerousGames.pt2_depths.*
 import wisp.perseanchronicles.laborer.*
 import wisp.perseanchronicles.nirvana.*
 import wisp.perseanchronicles.riley.*
+import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1BarEventCreator
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 import wisp.questgiver.Configuration
-import wisp.questgiver.QuestFacilitator
 import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.firstName
 import wisp.questgiver.wispLib.lastName
@@ -54,18 +54,23 @@ class LifecyclePlugin : BaseModPlugin() {
             .getJSONObject(MOD_ID)
 
         Questgiver.loadQuests(
-            configuration = readConfiguration(settings),
-            questFacilitators = listOf<QuestFacilitator?>(
+            questFacilitators = listOfNotNull(
                 if (settings.tryGetBoolean("isDragonsQuestEnabled") { true }) DragonsQuest else null,
                 if (settings.tryGetBoolean("isDepthsQuestEnabled") { true }) DepthsQuest else null,
                 if (settings.tryGetBoolean("isRileyQuestEnabled") { true }) RileyQuest else null,
                 if (settings.tryGetBoolean("isNirvanaQuestEnabled") { true }) NirvanaQuest else null,
                 if (settings.tryGetBoolean("isLaborerQuestEnabled") { true }) LaborerQuest else null,
-                // TODO should change this to pass in just the bar event creator and isStarted, not create a HubMission instance.
-                if (settings.tryGetBoolean("isTelosQuestEnabled") { true }) Telos1HubMission() else null,
+            ),
+            creators = listOfNotNull(
+                if (settings.tryGetBoolean("isTelosQuestEnabled") { true })
+                    Questgiver.QGHubMissionCreator(
+                        barEventCreator = Telos1BarEventCreator(),
+                        shouldOfferQuest = Telos1HubMission.state.startDateMillis == null // ugh...
+                    )
+                else null,
 //                Telos1HubMission.isEnabled = settings.tryGetBoolean("isTelosQuestEnabled") { true }
-            )
-                .filterNotNull()
+            ),
+            configuration = readConfiguration(settings),
         )
 
         game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }

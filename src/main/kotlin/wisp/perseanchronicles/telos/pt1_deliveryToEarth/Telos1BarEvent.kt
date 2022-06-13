@@ -11,13 +11,18 @@ import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.TextToStartInteractionFromJson
 import wisp.questgiver.v2.json.query
 
+class Telos1BarEvent : BarEvent<Telos1HubMission>(Telos1HubMission.MISSION_ID) {
+    override fun createBarEventLogic() = Telos1BarEventLogic()
+    override fun createMission() = Telos1HubMission()
+}
+
 class Telos1BarEventLogic(
     stageJson: JSONObject = Telos1HubMission.json.query("/stages/0") as JSONObject
 ) : BarEventLogic<Telos1HubMission>(
     createInteractionPrompt = InteractionPromptFromJson(stageJson = stageJson),
     onInteractionStarted = {
         dialog.visualPanel.showMapMarker(
-            mission.state.destLocation,
+            Telos1HubMission.state.karengoSystem?.hyperspaceAnchor,
             TextToStartInteractionFromJson<Telos1BarEventLogic>(stageJson = stageJson).invoke(this as Telos1BarEventLogic),
             Misc.getTextColor(),
             true,
@@ -40,15 +45,8 @@ class Telos1BarEventLogic(
             }
         )
     ),
-    people = listOf(Telos1HubMission.stage1Engineer)
+    people = { listOf(mission.stage1Engineer) }
 )
-
-class Telos1BarEvent : BarEvent<Telos1HubMission>(Telos1HubMission.MISSION_ID) {
-    override fun createBarEventLogic(): BarEventLogic<Telos1HubMission> =
-        Telos1BarEventLogic()
-
-    override fun createMission() = Telos1HubMission()
-}
 
 class Telos1BarEventCreator : BaseBarEventCreator() {
     override fun createBarEvent() = Telos1BarEvent()
