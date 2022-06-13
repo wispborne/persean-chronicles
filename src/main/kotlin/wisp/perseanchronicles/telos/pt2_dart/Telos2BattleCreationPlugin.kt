@@ -1,4 +1,4 @@
-package wisp.perseanchronicles.telos.pt1_deliveryToEarth
+package wisp.perseanchronicles.telos.pt2_dart
 
 import com.fs.starfarer.api.impl.campaign.ids.Terrain
 import com.fs.starfarer.api.impl.campaign.terrain.PulsarBeamTerrainPlugin
@@ -9,7 +9,7 @@ import wisp.perseanchronicles.game
 import java.awt.Color
 import java.util.*
 
-class Telos1BattleCreationPlugin() : BattleCreationPluginImpl() {
+class Telos2BattleCreationPlugin() : BattleCreationPluginImpl() {
     override fun createMap(random: Random?) {
         loader.initMap(-width / 2f, width / 2f, -height / 2f, height / 2f)
 

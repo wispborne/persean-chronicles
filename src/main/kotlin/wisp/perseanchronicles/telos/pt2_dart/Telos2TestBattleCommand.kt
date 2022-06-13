@@ -1,4 +1,4 @@
-package wisp.perseanchronicles.telos.pt1_deliveryToEarth
+package wisp.perseanchronicles.telos.pt2_dart
 
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.input.InputEventAPI
@@ -7,19 +7,19 @@ import org.lazywizard.console.BaseCommand
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.game
 
-class TestBattleCommand : BaseCommand {
+class Telos2TestBattleCommand : BaseCommand {
     override fun runCommand(args: String, context: BaseCommand.CommandContext): BaseCommand.CommandResult {
         if (!context.isInCampaign) {
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }
 
-        game.sector.registerPlugin(Telos1Battle.CampaignPlugin())
-        game.sector.campaignUI.startBattle(Telos1Battle.Context())
+        game.sector.registerPlugin(Telos2Battle.CampaignPlugin())
+        game.sector.campaignUI.startBattle(Telos2Battle.Context())
 
         game.combatEngine.addPlugin(object : BaseEveryFrameCombatPlugin() {
             override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
                 if (game.combatEngine.getTotalElapsedTime(false) > 5) {
-                    Telos1Battle.createTriTachFleet().fleetData.membersListCopy.forEach {
+                    Telos2Battle.createTriTachFleet().fleetData.membersListCopy.forEach {
                         game.combatEngine.getFleetManager(FleetSide.ENEMY)
                             .spawnFleetMember(it, Vector2f(game.combatEngine.mapWidth / 2f, game.combatEngine.mapHeight / 2f), 0f, 3f)
                     }

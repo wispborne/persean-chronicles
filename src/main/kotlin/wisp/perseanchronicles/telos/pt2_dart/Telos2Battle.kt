@@ -1,4 +1,4 @@
-package wisp.perseanchronicles.telos.pt1_deliveryToEarth
+package wisp.perseanchronicles.telos.pt2_dart
 
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.BaseCampaignPlugin
@@ -12,11 +12,11 @@ import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
 import wisp.perseanchronicles.game
 
-object Telos1Battle {
+object Telos2Battle {
     class CampaignPlugin : BaseCampaignPlugin() {
         override fun pickBattleCreationPlugin(opponent: SectorEntityToken?): PluginPick<com.fs.starfarer.api.campaign.BattleCreationPlugin> =
             PluginPick(
-                Telos1BattleCreationPlugin(),
+                Telos2BattleCreationPlugin(),
                 com.fs.starfarer.api.campaign.CampaignPlugin.PickPriority.MOD_SPECIFIC
             )
     }
