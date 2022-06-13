@@ -13,8 +13,8 @@ import wisp.perseanchronicles.dangerousGames.pt2_depths.*
 import wisp.perseanchronicles.laborer.*
 import wisp.perseanchronicles.nirvana.*
 import wisp.perseanchronicles.riley.*
-import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1BarEventCreator
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
+import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1Wiring
 import wisp.questgiver.Configuration
 import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.firstName
@@ -64,11 +64,10 @@ class LifecyclePlugin : BaseModPlugin() {
             creators = listOfNotNull(
                 if (settings.tryGetBoolean("isTelosQuestEnabled") { true })
                     Questgiver.QGHubMissionCreator(
-                        barEventCreator = Telos1BarEventCreator(),
+                        wiring = Telos1Wiring(),
                         shouldOfferQuest = Telos1HubMission.state.startDateMillis == null // ugh...
                     )
                 else null,
-//                Telos1HubMission.isEnabled = settings.tryGetBoolean("isTelosQuestEnabled") { true }
             ),
             configuration = readConfiguration(settings),
         )

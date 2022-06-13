@@ -1,17 +1,16 @@
 package wisp.perseanchronicles.telos.pt1_deliveryToEarth
 
 import com.fs.starfarer.api.impl.campaign.ids.Tags
-import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
-import wisp.questgiver.v2.BarEvent
+import wisp.questgiver.Questgiver
 import wisp.questgiver.v2.BarEventLogic
 import wisp.questgiver.v2.json.InteractionPromptFromJson
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.TextToStartInteractionFromJson
 import wisp.questgiver.v2.json.query
 
-class Telos1BarEvent : BarEvent<Telos1HubMission>(Telos1HubMission.MISSION_ID) {
+class Telos1Wiring : Questgiver.QGWiring<Telos1HubMission>(Telos1HubMission.MISSION_ID) {
     override fun createBarEventLogic() = Telos1BarEventLogic()
     override fun createMission() = Telos1HubMission()
 }
@@ -47,11 +46,3 @@ class Telos1BarEventLogic(
     ),
     people = { listOf(mission.stage1Engineer) }
 )
-
-class Telos1BarEventCreator : BaseBarEventCreator() {
-    override fun createBarEvent() = Telos1BarEvent()
-
-    override fun isPriority(): Boolean {
-        return true // todo remove
-    }
-}
