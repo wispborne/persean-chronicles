@@ -10,13 +10,15 @@ import wisp.questgiver.v2.json.TextToStartInteractionFromJson
 import wisp.questgiver.v2.json.query
 
 class Telos1BarEventLogic(
-    stageJson: JSONObject = Telos1HubMission.json.query("/stages/0") as JSONObject
+    stageJson: JSONObject = Telos1HubMission.json.query("/stages/0")
 ) : BarEventLogic<Telos1HubMission>(
-    createInteractionPrompt = InteractionPromptFromJson(stageJson = stageJson),
+    createInteractionPrompt = InteractionPromptFromJson(barEventJson = stageJson.getJSONObject("barEvent")),
     onInteractionStarted = {
         dialog.visualPanel.showMapMarker(
             Telos1HubMission.state.karengoSystem?.hyperspaceAnchor,
-            TextToStartInteractionFromJson<Telos1BarEventLogic>(stageJson = stageJson).invoke(this as Telos1BarEventLogic),
+            TextToStartInteractionFromJson<Telos1BarEventLogic>(barEventJson = stageJson.getJSONObject("barEvent")).invoke(
+                this as Telos1BarEventLogic
+            ),
             Misc.getTextColor(),
             true,
             mission.icon,
@@ -24,7 +26,7 @@ class Telos1BarEventLogic(
             Telos1HubMission.tags.minus(Tags.INTEL_ACCEPTED).toSet()
         )
     },
-    textToStartInteraction = TextToStartInteractionFromJson(stageJson = stageJson),
+    textToStartInteraction = TextToStartInteractionFromJson(barEventJson = stageJson.getJSONObject("barEvent")),
     pages = PagesFromJson(
         pagesJson = stageJson.getJSONArray("pages"),
         onPageShownHandlersByPageId = emptyMap(),

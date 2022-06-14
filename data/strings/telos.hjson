@@ -1,7 +1,7 @@
 {
   "wisp_perseanchronicles": {
     "telos": {
-      "part1": {
+      "part1_deliveryToEarth": {
         "strings": {
           "intel": {
             "title": "Delivery to Earth",
@@ -23,7 +23,7 @@
                 "image": null,
                 "paras": [
                   "After a brief wait, a woman answers and confirms what her grease-stained lab coat already told you; she is the lead engineer of a small research team.",
-                  "\"We have a container of ASPIRARDs that need to be dropped off near the ==edge of the Sector==.,” she explains, “They’ll make their way toward old Earth, sending data back the whole way. You will be paid ==100,000c== upon dropoff confirmation.\""
+                  "\"We have a container of ASPIRARDs that need to be dropped off near the ==edge of the Sector==.,” she explains, “They’ll make their way toward old Earth, sending data back the whole way. You will be paid ==$telosCredits== upon dropoff confirmation.\""
                 ],
                 "options": [
                   {
@@ -68,7 +68,7 @@
                 "id": "1",
                 "paras": [
                   "Your navigation officer waves a hand to get your attention. “Captain, we’re in the right area for dropoff of the,” they glance at their screen, “uh, ASPIRARDs. I’ll have the cargo guys push it outside.”",
-                  "The container drifts away, then splits apart with a simulated ‘whoosh’. Sensors detect a coded hyperwave burst and, moments later, ==100,000c== appears in your account.",
+                  "The container drifts away, then splits apart with a simulated ‘whoosh’. Sensors detect a coded hyperwave burst and, moments later, ==$telosCredits== appears in your account.",
                   "Scores of drones rush out and stream in what must be the direction of old Earth. Details on the project were scarce. How long will they take to reach their destination? What are they expecting to find? Why send drones looking now?",
                   "Your reverie is broken by a deferent cough. \"Captain?\" asks your comms chief. \"I know how we feel about distress signals…but you've worked with a 'Mr. Karengo' before, right?"
                 ],
@@ -84,8 +84,8 @@
                 "id": "2",
                 "paras": [
                   "They continue, “We’ve got a ping from a nearby system. Playing the audio now.”",
-                  "The bridge echoes with Karengo’s booming voice, confident despite the message. “Spacers, this here’s Karengo offering a quick and easy cleanup job. Go on an’ send the boys in orbit around ==planetname== in ==systemname== home, and we’ll talk recompense - see, I’ve found something hidden, and I’m willing to share. Just take care of them unfriendly types and we’ll have a talk worth all the trouble.”",
-                  "The Intel holodisplay shimmers, displaying the location of a pirate fleet."
+                  "The bridge echoes with Karengo’s booming voice, confident despite the message. “Spacers, this here’s Karengo offering a quick and easy cleanup job. Go on an’ send the boys in orbit around ==$telosDestPlanet== in ==$telosDestSystem== home, and we’ll talk recompense - see, I’ve found something hidden, and I’m willing to share. Just take care of them unfriendly types and we’ll have a talk worth all the trouble.”",
+                  "The Intel holodisplay shimmers, displaying the location of a <f:pirates>pirate fleet</f:pirates>."
                 ],
                 "options": [
                   {
@@ -97,6 +97,13 @@
             ]
           }
         ]
+      },
+      "part2_dart": {
+        "strings": {
+          "intel": {
+            "title": "Rescue Karengo"
+          }
+        }
       }
     }
   }
