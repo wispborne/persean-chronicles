@@ -1,3 +1,3 @@
 id,trigger,conditions,script,text,options,notes
 # INTERNAL AFFAIRS,,,,,,
-,wisp_perseanchronicles_telosPt2_badfleetdefeated,,Call $global.wisp_perseanchronicles_telosPt2_badfleetdefeated,,,
+wisp_perseanchronicles_telosPt2_badfleetdefeated,wisp_perseanchronicles_telosPt2_badfleetdefeated,,Call $global.wisp_perseanchronicles_telosPt2 wisp_perseanchronicles_telosPt2_badfleetdefeated,,,

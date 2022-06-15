@@ -23,7 +23,8 @@ import wisp.questgiver.wispLib.trigger
 
 class Telos2HubMission : QGHubMission() {
     companion object {
-        val MISSION_ID = "telosPt2"
+        // Hardcode because it's being used in rules.csv.
+        val MISSION_ID = "wisp_perseanchronicles_telosPt2"
 
         val json: JSONObject by lazy {
             Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
@@ -33,7 +34,7 @@ class Telos2HubMission : QGHubMission() {
         val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 
         val state = State(PersistentMapData<String, Any?>(key = "telosState").withDefault { null })
-        val badFleetDefeatTrigger = "\$wisp_perseanchronicles_telosPt2_badfleetdefeated"
+        const val badFleetDefeatTrigger = "wisp_perseanchronicles_telosPt2_badfleetdefeated"
     }
 
     class State(val map: MutableMap<String, Any?>) {
@@ -49,7 +50,10 @@ class Telos2HubMission : QGHubMission() {
     }
 
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {
-//        if (!isEnabled) return false
+        // if already accepted by the player, abort
+        if (!setGlobalReference("$$MISSION_ID")) {
+            return false
+        }
 
         // Ignore warning, there are two overrides and it's complaining about just one of them.
         @Suppress("ABSTRACT_SUPER_CALL_WARNING")
@@ -64,7 +68,8 @@ class Telos2HubMission : QGHubMission() {
         // todo change me
         setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
 
-        val badFleetFlag = "$${MOD_ID}_${MISSION_ID}_badfleet"
+        val badFleetFlag = "$${MISSION_ID}_badfleet"
+        val badFleetImportantFlag = "${badFleetFlag}_important"
 
         trigger {
             beginStageTrigger(Stage.DestroyFleet)
@@ -75,11 +80,12 @@ class Telos2HubMission : QGHubMission() {
                 FleetTypes.SCAVENGER_MEDIUM,
                 Telos1HubMission.state.karengoPlanet
             )
-            triggerMakeHostileAndAggressive()
+            triggerMakeHostile()
             triggerAutoAdjustFleetStrengthModerate()
             triggerPickLocationAroundEntity(Telos1HubMission.state.karengoPlanet, 1f)
-            triggerSpawnFleetAtPickedLocation()
-            triggerFleetMakeImportant(badFleetFlag, Stage.DestroyFleet)
+            triggerSpawnFleetAtPickedLocation(badFleetFlag, null)
+            triggerOrderFleetPatrol(false, Telos1HubMission.state.karengoPlanet)
+            triggerFleetMakeImportant(badFleetImportantFlag, Stage.DestroyFleet)
             triggerFleetAddDefeatTrigger(badFleetDefeatTrigger)
         }
 

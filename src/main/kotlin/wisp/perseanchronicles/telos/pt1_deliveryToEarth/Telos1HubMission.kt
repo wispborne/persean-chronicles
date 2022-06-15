@@ -38,7 +38,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
             private set
     }
 
-    val stage1Engineer: PersonAPI by lazy {
+    val stage1Engineer: PersonAPI =
         Global.getSector().getFaction(Factions.INDEPENDENT)
             .createRandomPerson(FullName.Gender.FEMALE, getGenRandom()).apply {
                 this.name = FullName("Kelly", "McDonald", FullName.Gender.FEMALE)
@@ -47,7 +47,6 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
                 this.rankId = Ranks.CITIZEN
                 this.portraitSprite = portraitSprite
             }
-    }
 
     class State(val map: MutableMap<String, Any?>) {
         var startDateMillis: Long? by map
