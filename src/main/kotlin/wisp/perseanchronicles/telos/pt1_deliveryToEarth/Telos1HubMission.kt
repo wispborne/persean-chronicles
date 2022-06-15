@@ -69,8 +69,8 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
 
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["telosCredits"] = { Misc.getDGSCredits(creditsReward.toFloat()) }
-        text.globalReplacementGetters["telosDestPlanet"] = { state.karengoPlanet?.name }
-        text.globalReplacementGetters["telosDestSystem"] = { state.karengoSystem?.name }
+        text.globalReplacementGetters["telosPt1Stg1DestPlanet"] = { state.karengoPlanet?.name }
+        text.globalReplacementGetters["telosPt1Stg1DestSystem"] = { state.karengoSystem?.name }
         text.globalReplacementGetters["telosStarName"] = { state.karengoPlanet?.starSystem?.star?.name }
     }
 
@@ -130,6 +130,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
         // Complete Part 1, show conclusion dialog.
         trigger {
             beginWithinHyperspaceRangeTrigger(state.karengoSystem, 1f, true, Stage.GoToSectorEdge)
+
             triggerCustomAction {
                 val interactionDialog = Telo1CompleteDialog().build()
                 dialog.plugin = interactionDialog

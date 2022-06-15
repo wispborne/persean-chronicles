@@ -27,6 +27,7 @@ class Telo1CompleteDialog(
                     if (create(null, false))
                         accept(null, null)
                 }
+                it.close(doNotOfferAgain = true)
             }
         )
     ),
