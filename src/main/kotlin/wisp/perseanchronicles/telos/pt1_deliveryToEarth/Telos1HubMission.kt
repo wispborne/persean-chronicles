@@ -13,16 +13,19 @@ import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
+import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.addPara
 import wisp.questgiver.spriteName
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
 import wisp.questgiver.v2.json.optQuery
 import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.*
+import java.awt.Color
 import java.util.*
 
 class Telos1HubMission : QGHubMissionWithBarEvent() {
@@ -156,6 +159,18 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
 
         state.map.clear()
         thisExt.setCurrentStage(null, null, null)
+    }
+
+    override fun addNextStepText(info: TooltipMakerAPI, tc: Color?, pad: Float): Boolean {
+        return when (currentStage) {
+            Stage.GoToSectorEdge -> {
+                info.addPara {
+                    part1Json.optQuery<String>("/stages/deliveryToEarth/intel/subtitle")?.qgFormat() ?: ""
+                }
+                true
+            }
+            else -> false
+        }
     }
 
     override fun getStageDescriptionText(): String? {

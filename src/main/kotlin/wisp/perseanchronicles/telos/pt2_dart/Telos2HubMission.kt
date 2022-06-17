@@ -7,12 +7,14 @@ import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
 import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.addPara
 import wisp.questgiver.spriteName
 import wisp.questgiver.v2.QGHubMission
 import wisp.questgiver.v2.json.query
@@ -132,6 +134,9 @@ class Telos2HubMission : QGHubMission() {
         currentStage = null
     }
 
+    /**
+     * Bullet points on left side of intel.
+     */
     override fun getNextStepText(): String? {
         return when (currentStage) {
             Stage.DestroyFleet -> "Destroy the fleet around \${telosPt1Stg1DestPlanet} in \${telosPt1Stg1DestSystem}.".qgFormat()
@@ -140,12 +145,20 @@ class Telos2HubMission : QGHubMission() {
         }
     }
 
-    override fun getStageDescriptionText(): String? {
-        return when (currentStage) {
-            Stage.DestroyFleet -> part2Json.query("/stages/destroyFleet/intel/desc")
-            Stage.LandOnPlanetFirst -> part2Json.query("/stages/landOnPlanetFirst/intel/desc")
-            else -> null
+    /**
+     * Description on right side of intel.
+     */
+    override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
+        when (currentStage) {
+            Stage.DestroyFleet -> {
+                info.addPara { part2Json.query<String>("/stages/destroyFleet/intel/desc").qgFormat() }
+            }
+            Stage.LandOnPlanetFirst -> {
+                info.addPara { part2Json.query<String>("/stages/landOnPlanetFirst/intel/desc").qgFormat() }
+            }
         }
+
+        super.addDescriptionForCurrentStage(info, width, height)
     }
 
     enum class Stage {
