@@ -10,7 +10,7 @@ import wisp.questgiver.v2.json.TextToStartInteractionFromJson
 import wisp.questgiver.v2.json.query
 
 class Telos1BarEventLogic(
-    stageJson: JSONObject = Telos1HubMission.json.query("/stages/0")
+    stageJson: JSONObject = Telos1HubMission.part1Json.query("/stages/deliveryToEarth")
 ) : BarEventLogic<Telos1HubMission>(
     createInteractionPrompt = InteractionPromptFromJson(barEventJson = stageJson.getJSONObject("barEvent")),
     onInteractionStarted = {

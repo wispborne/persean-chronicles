@@ -8,7 +8,7 @@ import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.query
 
 class Telo1CompleteDialog(
-    stageJson: JSONObject = Telos1HubMission.json.query("/stages/1")
+    stageJson: JSONObject = Telos1HubMission.part1Json.query("/stages/deliveryDropoff")
 ) : InteractionLogic<Telo1CompleteDialog>(
     onInteractionStarted = {
 

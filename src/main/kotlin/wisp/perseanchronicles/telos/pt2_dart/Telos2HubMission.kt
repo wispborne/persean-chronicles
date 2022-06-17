@@ -13,9 +13,9 @@ import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.json.query
 import wisp.questgiver.spriteName
 import wisp.questgiver.v2.QGHubMission
+import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.PersistentMapData
 import wisp.questgiver.wispLib.Text
 import wisp.questgiver.wispLib.qgFormat
@@ -26,7 +26,7 @@ class Telos2HubMission : QGHubMission() {
         // Hardcode because it's being used in rules.csv.
         val MISSION_ID = "wisp_perseanchronicles_telosPt2"
 
-        val json: JSONObject by lazy {
+        val part2Json: JSONObject by lazy {
             Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
                 .query("/$MOD_ID/telos/part2_dart") as JSONObject
         }
@@ -63,7 +63,7 @@ class Telos2HubMission : QGHubMission() {
         setStartingStage(Stage.DestroyFleet)
         setSuccessStage(Stage.Completed)
 
-        name = json.query("/strings/intel/title") as String
+        name = part2Json.query("/strings/title")
 
         // todo change me
         setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
@@ -136,6 +136,14 @@ class Telos2HubMission : QGHubMission() {
         return when (currentStage) {
             Stage.DestroyFleet -> "Destroy the fleet around \${telosPt1Stg1DestPlanet} in \${telosPt1Stg1DestSystem}.".qgFormat()
             Stage.LandOnPlanetFirst -> "Land on \${telosPt1Stg1DestPlanet} in \${telosPt1Stg1DestSystem}.".qgFormat()
+            else -> null
+        }
+    }
+
+    override fun getStageDescriptionText(): String? {
+        return when (currentStage) {
+            Stage.DestroyFleet -> part2Json.query("/stages/destroyFleet/intel/desc")
+            Stage.LandOnPlanetFirst -> part2Json.query("/stages/landOnPlanetFirst/intel/desc")
             else -> null
         }
     }

@@ -18,9 +18,10 @@ import org.json.JSONObject
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.json.query
 import wisp.questgiver.spriteName
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
+import wisp.questgiver.v2.json.optQuery
+import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.*
 import java.util.*
 
@@ -28,9 +29,9 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
     companion object {
         val MISSION_ID = "telosPt1"
 
-        val json: JSONObject by lazy {
+        val part1Json: JSONObject by lazy {
             Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
-                .query("/$MOD_ID/telos/part1_deliveryToEarth") as JSONObject
+                .query("/$MOD_ID/telos/part1_deliveryToEarth")
         }
         val state = State(PersistentMapData<String, Any?>(key = "telosState").withDefault { null })
         val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
@@ -85,7 +86,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
         // 95k ish, we want the player to take this and it's gonna be far away.
         thisExt.setCreditReward(CreditReward.VERY_HIGH)
 
-        thisExt.name = json.query("/strings/intel/title") as String
+        thisExt.name = part1Json.optQuery("/strings/title")
         thisExt.personOverride = stage1Engineer
 
         // todo change me
@@ -155,6 +156,14 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
 
         state.map.clear()
         thisExt.setCurrentStage(null, null, null)
+    }
+
+    override fun getStageDescriptionText(): String? {
+        return when (currentStage) {
+            Stage.GoToSectorEdge -> part1Json.optQuery<String>("/stages/deliveryToEarth/intel/desc")?.qgFormat()
+            Stage.Completed -> part1Json.optQuery<String>("/stages/deliveryDropoff/intel/desc")?.qgFormat()
+            else -> null
+        }
     }
 
     enum class Stage {

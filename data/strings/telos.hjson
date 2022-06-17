@@ -3,19 +3,17 @@
     "telos": {
       "part1_deliveryToEarth": {
         "strings": {
-          "intel": {
-            "title": "Delivery to Earth",
-            "titleComplete": "Delivery to Earth - Completed",
-            "subtitle": "Drop off near ==${telosPt1Stg1DestSystem}==",
-            "desc": "Telos part 1 description"
-          }
+          "title": "Delivery to Earth"
         },
-        "stages": [
-          {
-            "id": "deliveryToEarth",
+        "stages": {
+          "deliveryToEarth": {
             "barEvent": {
               "prompt": "A local job notification, \"Delivery to Earth\", chimes softly on your TriPad.",
               "optionText": "Delivery to Earth"
+            },
+            "intel": {
+              "subtitle": "Drop off near ==${telosPt1Stg1DestSystem}==",
+              "desc": "Take the container of drones to the designated location in the direction of old Earth, near ${telosPt1Stg1DestSystem}."
             },
             "pages": [
               {
@@ -45,7 +43,7 @@
               {
                 "id": "2",
                 "paras": [
-                  "She lets out a tired sigh. “Sorry - that’s Autonomous Self-Propelled Interstellar Research and …something… Drones. Reconnaissance, maybe. Our boss came up with it, and-” she cuts herself off. “Do you think you can make this dropoff?”"
+                  "She releases a tired sigh. “Sorry - that’s Autonomous Self-Propelled Interstellar Research and …something… Drones. Reconnaissance, maybe. Our boss came up with it, and-” she cuts herself off. “Do you think you can make this dropoff?”"
                 ],
                 "options": [
                   {
@@ -61,8 +59,10 @@
               }
             ]
           },
-          {
-            "id": "deliveryDropoff",
+          "deliveryDropoff": {
+            "intel": {
+              "desc": "The drones have been loosed and are making the long, long journey to Sol."
+            },
             "pages": [
               {
                 "id": "1",
@@ -85,7 +85,7 @@
                 "paras": [
                   "They continue, “We’ve got a ping from a nearby system. Playing the audio now.”",
                   "The bridge echoes with Karengo’s booming voice, confident despite the message. “Spacers, this here’s Karengo offering a quick and easy cleanup job. Go on an’ send the boys in orbit around ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== home, and we’ll talk recompense - see, I’ve found something hidden, and I’m willing to share. Just take care of them unfriendly types and we’ll have a talk worth all the trouble.”",
-                  "The Intel holodisplay shimmers, displaying the location of a <f:pirates>pirate fleet</f:pirates>."
+                  "The Intel holodisplay shimmers, displaying the location of a $f:pirates{pirate fleet}."
                 ],
                 "options": [
                   {
@@ -96,12 +96,22 @@
               }
             ]
           }
-        ]
+        }
       },
       "part2_dart": {
         "strings": {
-          "intel": {
-            "title": "Rescue Karengo"
+          "title": "The Telos"
+        },
+        "stages": {
+          "destroyFleet": {
+            "intel": {
+              "desc": "Destroy the $f:pirates{pirate fleet} fleet around ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}."
+            }
+          },
+          "landOnPlanetFirst": {
+            "intel": {
+              "desc": "Land on ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}."
+            }
           }
         }
       }
