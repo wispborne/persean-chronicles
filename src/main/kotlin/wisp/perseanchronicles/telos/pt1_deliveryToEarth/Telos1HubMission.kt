@@ -49,7 +49,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
                 this.setFaction(Factions.INDEPENDENT)
                 this.postId = Ranks.CITIZEN
                 this.rankId = Ranks.CITIZEN
-                this.portraitSprite = portraitSprite
+                this.portraitSprite = "graphics/portraits/portrait27.png"
             }
 
     class State(val map: MutableMap<String, Any?>) {
@@ -90,6 +90,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
         thisExt.setCreditReward(CreditReward.VERY_HIGH)
 
         thisExt.name = part1Json.optQuery("/strings/title")
+        thisExt.setGiverFaction(stage1Engineer.faction.id)
         thisExt.personOverride = stage1Engineer
 
         // todo change me
@@ -161,10 +162,13 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
         thisExt.setCurrentStage(null, null, null)
     }
 
+    /**
+     * Bullet points on left side of intel.
+     */
     override fun addNextStepText(info: TooltipMakerAPI, tc: Color?, pad: Float): Boolean {
         return when (currentStage) {
             Stage.GoToSectorEdge -> {
-                info.addPara {
+                info.addPara(textColor = Misc.getGrayColor()) {
                     part1Json.optQuery<String>("/stages/deliveryToEarth/intel/subtitle")?.qgFormat() ?: ""
                 }
                 true
@@ -173,11 +177,19 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
         }
     }
 
-    override fun getStageDescriptionText(): String? {
-        return when (currentStage) {
-            Stage.GoToSectorEdge -> part1Json.optQuery<String>("/stages/deliveryToEarth/intel/desc")?.qgFormat()
-            Stage.Completed -> part1Json.optQuery<String>("/stages/deliveryDropoff/intel/desc")?.qgFormat()
-            else -> null
+    /**
+     * Description on right side of intel.
+     */
+    override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
+        info.addImage(game.sector.getFaction(giverFactionId).logo, width, 128f, 10f)
+
+        when (currentStage) {
+            Stage.GoToSectorEdge -> {
+                info.addPara { part1Json.query<String>("/stages/deliveryToEarth/intel/desc").qgFormat() }
+            }
+            Stage.Completed -> {
+                info.addPara { part1Json.query<String>("/stages/deliveryDropoff/intel/desc").qgFormat() }
+            }
         }
     }
 

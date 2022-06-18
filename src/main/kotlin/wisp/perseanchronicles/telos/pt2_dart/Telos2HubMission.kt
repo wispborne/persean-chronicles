@@ -157,8 +157,6 @@ class Telos2HubMission : QGHubMission() {
                 info.addPara { part2Json.query<String>("/stages/landOnPlanetFirst/intel/desc").qgFormat() }
             }
         }
-
-        super.addDescriptionForCurrentStage(info, width, height)
     }
 
     enum class Stage {
