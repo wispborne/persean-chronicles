@@ -103,7 +103,7 @@ class Telos2HubMission : QGHubMission() {
     ): Boolean {
         // Trigger set in `create` (triggerFleetAddDefeatTrigger), fired off to rules.csv when fleet dies, listen for it here.
         if (action == badFleetDefeatTrigger) {
-            thisExt.setCurrentStage(Stage.LandOnPlanetFirst, null, null)
+            setCurrentStage(Stage.LandOnPlanetFirst, null, null)
             return true
         }
 
@@ -114,15 +114,15 @@ class Telos2HubMission : QGHubMission() {
         super.acceptImpl(dialog, memoryMap)
 
         state.startDateMillis = game.sector.clock.timestamp
-        thisExt.setCurrentStage(Stage.DestroyFleet, null, null)
+        setCurrentStage(Stage.DestroyFleet, null, null)
         makePrimaryObjective(Telos1HubMission.state.karengoPlanet)
-        thisExt.makeImportant(Telos1HubMission.state.karengoPlanet, null, Stage.DestroyFleet)
+        makeImportant(Telos1HubMission.state.karengoPlanet, null, Stage.DestroyFleet, Stage.LandOnPlanetFirst)
     }
 
     override fun endSuccessImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
         super.endSuccessImpl(dialog, memoryMap)
 
-//        thisExt.setCurrentStage(Stage.Completed, dialog, memoryMap) goes in interaction dialog
+//        setCurrentStage(Stage.Completed, dialog, memoryMap) goes in interaction dialog
         state.completeDateInMillis = game.sector.clock.timestamp
     }
 

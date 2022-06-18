@@ -16,6 +16,7 @@ import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
+import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.questgiver.InteractionDefinition
@@ -83,18 +84,16 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
         super.create(createdAt, barEvent)
         Telos1HubMission.seed = genRandom
 
-        thisExt.startingStage = Stage.GoToSectorEdge
-        thisExt.setSuccessStage(Stage.Completed)
+        startingStage = Stage.GoToSectorEdge
+        setSuccessStage(Stage.Completed)
 
-        // 95k ish, we want the player to take this and it's gonna be far away.
-        thisExt.setCreditReward(CreditReward.VERY_HIGH)
-
-        thisExt.name = part1Json.optQuery("/strings/title")
-        thisExt.setGiverFaction(stage1Engineer.faction.id)
-        thisExt.personOverride = stage1Engineer
+        name = part1Json.optQuery("/strings/title")
+        setCreditReward(CreditReward.VERY_HIGH) // 95k ish, we want the player to take this.
+        setGiverFaction(stage1Engineer.faction.id) // Rep reward.
+        personOverride = stage1Engineer // Show on intel, needed for rep reward.
 
         // todo change me
-        thisExt.setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
+        setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
 
         state.startLocation = createdAt?.primaryEntity
 
@@ -102,10 +101,11 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
             .requireSystemOnFringeOfSector()
             .requireSystemHasAtLeastNumJumpPoints(min = 1)
             .requirePlanetNotGasGiant()
-            .preferEntityUndiscovered()
             .preferMarketConditions(ReqMode.ALL, Conditions.HABITABLE)
-            .preferPlanetWithRuins()
-            .preferPlanetInDirectionOfOtherMissions()
+            .preferEntityUndiscovered()
+//            .preferPlanetWithRuins()
+            // If we're in Perseus Arm and up faces in direction of galactic spin, Sol is to bottom-left.
+            .preferSystemInDirectionFrom(Vector2f(0f, 0f), 220f, 45f)
             .preferSystemNotPulsar()
             .pickPlanet()
             ?: kotlin.run { game.logger.w { "Unable to find a planet for ${this.name}." }; return false }
@@ -128,8 +128,8 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
         state.startDateMillis = game.sector.clock.timestamp
 
         // Sets the system as the map objective.
-        thisExt.makeImportant(state.karengoSystem?.hyperspaceAnchor, null, Stage.GoToSectorEdge)
-        thisExt.makePrimaryObjective(state.karengoSystem?.hyperspaceAnchor)
+        makeImportant(state.karengoSystem?.hyperspaceAnchor, null, Stage.GoToSectorEdge)
+        makePrimaryObjective(state.karengoSystem?.hyperspaceAnchor)
 
         // Complete Part 1, show conclusion dialog.
         trigger {
@@ -139,7 +139,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
                 val interactionDialog = Telo1CompleteDialog().build()
                 dialog.plugin = interactionDialog
                 interactionDialog.show(game.sector.campaignUI, game.sector.playerFleet)
-                thisExt.setCurrentStage(Stage.Completed, dialog, null)
+                setCurrentStage(Stage.Completed, dialog, null)
                 currentStage = Stage.Completed
                 game.sector.playerFleet.clearAssignments()
             }
@@ -159,7 +159,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
         game.logger.i { "Abandoned ${this.name} quest." }
 
         state.map.clear()
-        thisExt.setCurrentStage(null, null, null)
+        setCurrentStage(null, null, null)
     }
 
     /**
@@ -181,8 +181,6 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
      * Description on right side of intel.
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
-        info.addImage(game.sector.getFaction(giverFactionId).logo, width, 128f, 10f)
-
         when (currentStage) {
             Stage.GoToSectorEdge -> {
                 info.addPara { part1Json.query<String>("/stages/deliveryToEarth/intel/desc").qgFormat() }

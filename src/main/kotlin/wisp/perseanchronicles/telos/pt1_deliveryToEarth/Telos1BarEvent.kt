@@ -31,7 +31,7 @@ class Telos1BarEventLogic(
         pagesJson = stageJson.getJSONArray("pages"),
         onPageShownHandlersByPageId = emptyMap(),
         onOptionSelectedHandlersByOptionId = mapOf(
-            "accept" to {
+            "done" to {
                 mission.accept(this.dialog, null)
                 it.close(doNotOfferAgain = true)
             },

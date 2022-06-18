@@ -31,7 +31,8 @@
                   },
                   {
                     "id": "accept",
-                    "text": "Accept"
+                    "text": "Accept",
+                    "goToPage": "3"
                   },
                   {
                     "id": "decline",
@@ -48,12 +49,25 @@
                 "options": [
                   {
                     "id": "accept",
-                    "text": "Accept"
+                    "text": "Accept",
+                    "goToPage": "3"
                   },
                   {
                     "id": "decline",
                     "text": "Not now",
                     "shortcut": "Escape"
+                  }
+                ]
+              },
+              {
+                "id": "3",
+                "paras": [
+                  "“Excellent!” she taps her TriPad and, a moment later, you forward the pickup information to your crew. “Once you’re in place, release the containers into hyperspace and they’ll do the rest.”"
+                ],
+                "options": [
+                  {
+                    "id": "done",
+                    "text": "Done"
                   }
                 ]
               }
