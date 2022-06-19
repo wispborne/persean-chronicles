@@ -89,7 +89,7 @@
                 "options": [
                   {
                     "id": "yes",
-                    "text": "Yes...",
+                    "text": "\"Yes...\"",
                     "goToPage": 2
                   }
                 ]
