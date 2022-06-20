@@ -88,11 +88,27 @@
                 ],
                 "options": [
                   {
-                    "id": "yes",
                     "text": "\"Yes...\"",
-                    "goToPage": 2
+                    "goToPage": "2"
+                  },
+                  {
+                    "text": "Sigh before nodding",
+                    "goToPage": "2"
+                  },
+                  {
+                    "text": "\"No\" (lie)",
+                    "goToPage": "1.5-lie"
                   }
                 ]
+              },
+              {
+                "id": "1.5-lie",
+                "paras": [
+                  "The officer's eyebrow twitches, but their face remains composed."
+                ],
+                "onPageShown": {
+                  "goToPage": "2"
+                }
               },
               {
                 "id": "2",
@@ -119,12 +135,14 @@
         "stages": {
           "destroyFleet": {
             "intel": {
-              "desc": "Destroy the $f:pirates{pirate} fleet around ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}."
+              "subtitle": "Destroy the $f:pirates{pirate} fleet.",
+              "desc": "Karengo's distress signal claims that he has discovered something hidden, but he is stranded on-world.\nDestroy the $f:pirates{pirate} fleet around ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}."
             }
           },
           "landOnPlanetFirst": {
             "intel": {
-              "desc": "Land on ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}."
+              "subtitle": "Rendezvous with Karengo",
+              "desc": "Land on ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem} to see what Karengo has discovered."
             }
           }
         }

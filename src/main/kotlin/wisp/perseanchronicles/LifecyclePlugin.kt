@@ -13,14 +13,15 @@ import wisp.perseanchronicles.dangerousGames.pt2_depths.*
 import wisp.perseanchronicles.laborer.*
 import wisp.perseanchronicles.nirvana.*
 import wisp.perseanchronicles.riley.*
+import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1BarEventWiring
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
-import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1Wiring
+import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.Configuration
 import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.firstName
 import wisp.questgiver.wispLib.lastName
 import wisp.questgiver.wispLib.toStringList
-import wisp.questgiver.wispLib.tryGetBoolean
+import wisp.questgiver.wispLib.tryGet
 import java.util.*
 
 
@@ -55,18 +56,15 @@ class LifecyclePlugin : BaseModPlugin() {
 
         Questgiver.loadQuests(
             questFacilitators = listOfNotNull(
-                if (settings.tryGetBoolean("isDragonsQuestEnabled") { true }) DragonsQuest else null,
-                if (settings.tryGetBoolean("isDepthsQuestEnabled") { true }) DepthsQuest else null,
-                if (settings.tryGetBoolean("isRileyQuestEnabled") { true }) RileyQuest else null,
-                if (settings.tryGetBoolean("isNirvanaQuestEnabled") { true }) NirvanaQuest else null,
-                if (settings.tryGetBoolean("isLaborerQuestEnabled") { true }) LaborerQuest else null,
+                if (settings.tryGet("isDragonsQuestEnabled") { true }) DragonsQuest else null,
+                if (settings.tryGet("isDepthsQuestEnabled") { true }) DepthsQuest else null,
+                if (settings.tryGet("isRileyQuestEnabled") { true }) RileyQuest else null,
+                if (settings.tryGet("isNirvanaQuestEnabled") { true }) NirvanaQuest else null,
+                if (settings.tryGet("isLaborerQuestEnabled") { true }) LaborerQuest else null,
             ),
             creators = listOfNotNull(
-                if (settings.tryGetBoolean("isTelosQuestEnabled") { true })
-                    Questgiver.QGHubMissionCreator(
-                        wiring = Telos1Wiring(),
-                        shouldOfferQuest = Telos1HubMission.state.startDateMillis == null // ugh...
-                    )
+                if (settings.tryGet("isTelosQuestEnabled") { true })
+                    Telos1BarEventWiring()
                 else null,
             ),
             configuration = readConfiguration(settings),
@@ -141,7 +139,10 @@ class LifecyclePlugin : BaseModPlugin() {
             LaborerIntel::class to "LaborerIntel",
             Laborer_Stage1_BarEvent::class to "Laborer_Stage1_BarEvent",
             Laborer_Stage1_BarEventCreator::class to "Laborer_Stage1_BarEventCreator",
-            Laborer_Stage2_Dialog::class to "Laborer_Stage2_Dialog"
+            Laborer_Stage2_Dialog::class to "Laborer_Stage2_Dialog",
+            Telos1BarEventWiring::class to "Telos1BarEventWiring",
+            Telos1HubMission::class to "Telos1HubMission",
+            Telos2HubMission::class to "Telos2HubMission",
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized

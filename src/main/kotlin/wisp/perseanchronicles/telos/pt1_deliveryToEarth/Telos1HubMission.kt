@@ -68,7 +68,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
     }
 
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
-        return true // todo
+        return state.startDateMillis == null // todo
     }
 
     override fun updateTextReplacements(text: Text) {

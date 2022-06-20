@@ -22,6 +22,7 @@ import wisp.questgiver.wispLib.PersistentMapData
 import wisp.questgiver.wispLib.Text
 import wisp.questgiver.wispLib.qgFormat
 import wisp.questgiver.wispLib.trigger
+import java.awt.Color
 
 class Telos2HubMission : QGHubMission() {
     companion object {
@@ -137,11 +138,21 @@ class Telos2HubMission : QGHubMission() {
     /**
      * Bullet points on left side of intel.
      */
-    override fun getNextStepText(): String? {
+    override fun addNextStepText(info: TooltipMakerAPI, tc: Color?, pad: Float): Boolean {
         return when (currentStage) {
-            Stage.DestroyFleet -> "Destroy the fleet around \${telosPt1Stg1DestPlanet} in \${telosPt1Stg1DestSystem}.".qgFormat()
-            Stage.LandOnPlanetFirst -> "Land on \${telosPt1Stg1DestPlanet} in \${telosPt1Stg1DestSystem}.".qgFormat()
-            else -> null
+            Stage.DestroyFleet -> {
+                info.addPara(textColor = Misc.getGrayColor()) {
+                    part2Json.query<String>("/stages/destroyFleet/intel/subtitle").qgFormat()
+                }
+                true
+            }
+            Stage.LandOnPlanetFirst -> {
+                info.addPara(textColor = Misc.getGrayColor()) {
+                    part2Json.query<String>("/stages/landOnPlanetFirst/intel/subtitle").qgFormat()
+                }
+                true
+            }
+            else -> false
         }
     }
 
