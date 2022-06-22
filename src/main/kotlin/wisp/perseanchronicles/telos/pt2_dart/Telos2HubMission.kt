@@ -96,6 +96,22 @@ class Telos2HubMission : QGHubMission() {
         return true
     }
 
+    override fun acceptImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
+        super.acceptImpl(dialog, memoryMap)
+
+        state.startDateMillis = game.sector.clock.timestamp
+        setCurrentStage(Stage.DestroyFleet, null, null)
+        makePrimaryObjective(Telos1HubMission.state.karengoPlanet)
+        makeImportant(Telos1HubMission.state.karengoPlanet, null, Stage.DestroyFleet, Stage.LandOnPlanetFirst)
+    }
+
+    override fun endSuccessImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
+        super.endSuccessImpl(dialog, memoryMap)
+
+//        setCurrentStage(Stage.Completed, dialog, memoryMap) goes in interaction dialog
+        state.completeDateInMillis = game.sector.clock.timestamp
+    }
+
     override fun callAction(
         action: String?,
         ruleId: String?,
@@ -112,20 +128,18 @@ class Telos2HubMission : QGHubMission() {
         return super.callAction(action, ruleId, dialog, params, memoryMap)
     }
 
-    override fun acceptImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
-        super.acceptImpl(dialog, memoryMap)
-
-        state.startDateMillis = game.sector.clock.timestamp
-        setCurrentStage(Stage.DestroyFleet, null, null)
-        makePrimaryObjective(Telos1HubMission.state.karengoPlanet)
-        makeImportant(Telos1HubMission.state.karengoPlanet, null, Stage.DestroyFleet, Stage.LandOnPlanetFirst)
-    }
-
-    override fun endSuccessImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
-        super.endSuccessImpl(dialog, memoryMap)
-
-//        setCurrentStage(Stage.Completed, dialog, memoryMap) goes in interaction dialog
-        state.completeDateInMillis = game.sector.clock.timestamp
+    override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
+        // Telos 2 - Land on planet first time
+        return if (interactionTarget.id == Telos1HubMission.state.karengoPlanet?.id
+            && game.intelManager.findFirst<Telos2HubMission>()?.currentStage == Stage.LandOnPlanetFirst
+        ) {
+            PluginPick(
+                Telos2FirstLandingDialog().build(),
+                CampaignPlugin.PickPriority.MOD_SPECIFIC
+            )
+        } else {
+            null
+        }
     }
 
     override fun endAbandonImpl() {
