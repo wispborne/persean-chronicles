@@ -92,7 +92,7 @@
                     "goToPage": "2"
                   },
                   {
-                    "text": "Sigh before nodding",
+                    "text": "Sigh, but nod",
                     "goToPage": "2"
                   },
                   {
@@ -143,7 +143,66 @@
             "intel": {
               "subtitle": "Rendezvous with Karengo",
               "desc": "Land on ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem} to see what Karengo has discovered."
-            }
+            },
+            "pages": [
+              {
+                "id": "1",
+                "paras": [
+                  "Your shuttle traces an arc down to the planet’s surface, following the pulse of the distress signal. Surface scans reveal the overgrown ruins of a colony and evidence of orbital bombardment, though nothing is recorded in the - admittedly unreliable - fleet datastore.",
+                  "As you step outside, still pondering the ruins, your thoughts are interrupted by Karengo himself, striding purposefully toward the cooling shuttle and inadvertently confirming the ship instruments’ classification of the atmosphere as “env-suit optional.”"
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "1.5"
+                  }
+                ]
+              },
+              {
+                "id": "1.5",
+                "paras": [
+                  "“My beard, is that Captain ${playerLastName}?” he asks with a touch of incredulity, “Fate sure has a way. My best pilot-for-hire. Good job on those bounty hunters, boss; now come on, follow me.” Bending over a large metal slab, he runs his glove along the side until, with a rumble you can feel through the blasted soil, it slides open to reveal a narrow staircase. Emergency lights strobe on, their blue tint giving the sensation of descending, yet again, into the watery depths with Karengo."
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "1.6"
+                  }
+                ]
+              },
+              {
+                "id": "1.6",
+                "paras": [
+                  "At last, the corridor levels out and flares into a small amphitheater. Low, padded benches are arranged in an arc, all facing a small, overturned lectern at the far end, but there is none of the expected symbology of a religion. The nearest thing is a blue crest behind the lectern, reminiscent of the Tri-Tachyon logo, with the word ‘Telos’ embossed beneath. The room is minimally decorated, even accounting for the seismic devastation that occurred here, knocking music stands and paintings of paradise worlds to the floor.",
+                  "Lying on or near the benches are a dozen desiccated bodies. Even in death, they are holding hands, as if in silent prayer."
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "2"
+                  }
+                ]
+              },
+              {
+                "id": "2",
+                "paras": [
+                  "Karengo sweeps past the scene to a cracked door on the far side and steps through. \"Here's what we came for!\" he calls. Stepping back out, he hands you one of two capped syringes, the contents gray.",
+                  "\"It's Psicon,\" he says. \"One shot o’this, and your mind will be expanded. I’m talking telepathy, mind meld, telekinesis, remote vision…it's taken months to track down this site, and this vial’s for you as my thanks for the lift.\""
+                ],
+                "options": [
+                  {
+                    "text": "“I'm gonna need to know a lot more.”"
+                  },
+                  {
+                    "text": "“Right after you.”"
+                  },
+                  {
+                    "id": "injectSelf",
+                    "text": "Inject yourself"
+                  }
+                ]
+              }
+            ]
           }
         }
       }

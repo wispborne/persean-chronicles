@@ -1,7 +1,11 @@
 package wisp.perseanchronicles.telos.pt2_dart
 
 import com.fs.starfarer.api.Global
+import com.fs.starfarer.api.PluginPick
+import com.fs.starfarer.api.campaign.CampaignPlugin
 import com.fs.starfarer.api.campaign.InteractionDialogAPI
+import com.fs.starfarer.api.campaign.InteractionDialogPlugin
+import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
@@ -18,10 +22,7 @@ import wisp.questgiver.addPara
 import wisp.questgiver.spriteName
 import wisp.questgiver.v2.QGHubMission
 import wisp.questgiver.v2.json.query
-import wisp.questgiver.wispLib.PersistentMapData
-import wisp.questgiver.wispLib.Text
-import wisp.questgiver.wispLib.qgFormat
-import wisp.questgiver.wispLib.trigger
+import wisp.questgiver.wispLib.*
 import java.awt.Color
 
 class Telos2HubMission : QGHubMission() {

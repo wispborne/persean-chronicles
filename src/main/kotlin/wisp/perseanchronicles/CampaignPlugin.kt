@@ -13,14 +13,20 @@ import wisp.perseanchronicles.nirvana.NirvanaQuest
 import wisp.perseanchronicles.nirvana.Nirvana_Stage2_Dialog
 import wisp.perseanchronicles.nirvana.Nirvana_Stage3_Dialog
 import wisp.perseanchronicles.riley.RileyQuest
+import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
+import wisp.perseanchronicles.telos.pt2_dart.Telos2FirstLandingDialog
+import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.wispLib.equalsAny
+import wisp.questgiver.wispLib.findFirst
 import wisp.questgiver.wispLib.hasSameMarketAs
+
+typealias InteractionPluginPick = (interactionTarget: SectorEntityToken) -> PluginPick<InteractionDialogPlugin>?
 
 /**
  * Instead of using `rules.csv`, use this plugin to trigger dialog choices and conversations.
  */
 class CampaignPlugin : BaseCampaignPlugin() {
-    override fun getId() = "${wisp.perseanchronicles.MOD_ID}_CampaignPlugin"
+    override fun getId() = "${MOD_ID}_CampaignPlugin"
 
     // No need to add to saves
     override fun isTransient(): Boolean = true
@@ -105,6 +111,14 @@ class CampaignPlugin : BaseCampaignPlugin() {
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
             }
+
+            // Telos 2 - Land on planet first time
+            interactionTarget.id == Telos1HubMission.state.karengoPlanet?.id
+                    && game.intelManager.findFirst<Telos2HubMission>()?.currentStage == Telos2HubMission.Stage.LandOnPlanetFirst ->
+                PluginPick(
+                    Telos2FirstLandingDialog().build(),
+                    CampaignPlugin.PickPriority.MOD_SPECIFIC
+                )
             else -> null
         }
     }

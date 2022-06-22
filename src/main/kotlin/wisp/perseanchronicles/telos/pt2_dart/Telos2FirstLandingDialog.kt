@@ -1,11 +1,25 @@
 package wisp.perseanchronicles.telos.pt2_dart
 
-import wisp.questgiver.v2.InteractionLogic
+import org.json.JSONObject
+import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
+import wisp.questgiver.v2.InteractionDialogLogic
+import wisp.questgiver.v2.json.PagesFromJson
+import wisp.questgiver.v2.json.query
 
-//class Telos2FirstLandingDialog : InteractionLogic<Telos2FirstLandingDialog>(
-//
-//) {
-//    override fun createInstanceOfSelf(): InteractionLogic<Telos2FirstLandingDialog> {
-//        TODO("Not yet implemented")
-//    }
-//}
+class Telos2FirstLandingDialog(
+    stageJson: JSONObject = Telos2HubMission.part2Json.query("/stages/landOnPlanetFirst")
+) : InteractionDialogLogic<Telos2FirstLandingDialog>(
+    onInteractionStarted = {
+
+    },
+    people = { listOf(DragonsQuest.karengo) },
+    pages = PagesFromJson(
+        stageJson.query("/pages"),
+        onPageShownHandlersByPageId = emptyMap(),
+        onOptionSelectedHandlersByOptionId = mapOf(
+            "injectSelf" to {
+                navigator.close(doNotOfferAgain = false)
+            }
+        )
+    )
+)

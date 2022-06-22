@@ -101,6 +101,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
             .requireSystemOnFringeOfSector()
             .requireSystemHasAtLeastNumJumpPoints(min = 1)
             .requirePlanetNotGasGiant()
+            .requirePlanetNotStar()
             .preferMarketConditions(ReqMode.ALL, Conditions.HABITABLE)
             .preferEntityUndiscovered()
 //            .preferPlanetWithRuins()

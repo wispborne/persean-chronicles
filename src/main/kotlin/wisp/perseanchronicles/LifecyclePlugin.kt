@@ -41,7 +41,7 @@ class LifecyclePlugin : BaseModPlugin() {
 //        Locale.setDefault(Locale.GERMAN)
 
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
-        game = SpaceTalesServiceLocator(Questgiver.game)
+        game = SpaceTalesServiceLocator(Questgiver.game, CampaignPlugin())
         game.logger.level = Level.ALL // try to remember to change this for release
 
 
@@ -89,7 +89,7 @@ class LifecyclePlugin : BaseModPlugin() {
         game.text.globalReplacementGetters["playerFlagshipName"] = { game.sector.playerFleet.flagship?.shipName }
 
         // Register this so we can intercept and replace interactions
-        game.sector.registerPlugin(CampaignPlugin())
+        game.sector.registerPlugin(game.campaignPlugin)
     }
 
     /**

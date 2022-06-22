@@ -10,9 +10,13 @@ import wisp.questgiver.wispLib.ServiceLocator
 /**
  * Singleton instance of the service locator. Set a new one of these for unit tests.
  */
-var game: SpaceTalesServiceLocator = SpaceTalesServiceLocator(Questgiver.game)
+var game: SpaceTalesServiceLocator = SpaceTalesServiceLocator(Questgiver.game, CampaignPlugin())
 
-class SpaceTalesServiceLocator(serviceLocator: ServiceLocator) : ServiceLocator by serviceLocator {
+class SpaceTalesServiceLocator(
+    serviceLocator: ServiceLocator,
+    val campaignPlugin: CampaignPlugin
+) :
+    ServiceLocator by serviceLocator {
     val errorReporter: CrashReporter =
         CrashReporter(modName = MOD_NAME, modAuthor = MOD_AUTHOR, game = this)
 
