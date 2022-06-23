@@ -146,8 +146,6 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
             triggerCustomAction {
                 Telo1CompleteDialog().build().show(game.sector.campaignUI, game.sector.playerFleet)
                 game.sector.playerFleet.clearAssignments()
-
-                setCurrentStage(Stage.Completed, null, null)
             }
         }
     }

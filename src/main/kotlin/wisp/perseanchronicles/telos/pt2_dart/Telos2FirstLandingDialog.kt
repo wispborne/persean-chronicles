@@ -22,13 +22,11 @@ class Telos2FirstLandingDialog(
                     "requestMoreInfo" -> option.copy(
                         onOptionSelected = {
                             Telos2HubMission.choices.askedForMorePsiconInfo = true
-                            it.refreshOptions()
                         })
                     "afterYou" -> option.copy(
                         showIf = { Telos2HubMission.choices.toldKarengoToTakePsiconFirst == null },
                         onOptionSelected = {
                             Telos2HubMission.choices.toldKarengoToTakePsiconFirst = true
-                            it.refreshOptions()
                         })
                     "injectSelf" -> option.copy(
                         onOptionSelected = {
