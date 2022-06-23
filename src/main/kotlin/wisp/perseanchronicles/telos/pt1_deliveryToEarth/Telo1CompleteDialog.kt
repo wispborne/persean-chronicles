@@ -20,15 +20,21 @@ class Telo1CompleteDialog(
                 this.dialog.visualPanel.showPersonInfo(DragonsQuest.karengo)
             }
         ),
-        onOptionSelectedHandlersByOptionId = mapOf(
-            "close" to {
-                // Start Part 2 on finishing dialog.
-                Telos2HubMission().apply {
-                    if (create(null, false))
-                        accept(null, null)
+        optionConfigurator = { options ->
+            options.map { option ->
+                when (option.id) {
+                    "close" -> option.copy(
+                        onOptionSelected = {
+                            // Start Part 2 on finishing dialog.
+                            Telos2HubMission().apply {
+                                if (create(null, false))
+                                    accept(null, null)
+                            }
+                            it.close(doNotOfferAgain = true)
+                        })
+                    else -> option
                 }
-                it.close(doNotOfferAgain = true)
             }
-        )
+        }
     ),
 )

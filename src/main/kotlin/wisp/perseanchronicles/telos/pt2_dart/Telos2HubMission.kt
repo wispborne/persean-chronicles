@@ -30,14 +30,15 @@ class Telos2HubMission : QGHubMission() {
         // Hardcode because it's being used in rules.csv.
         val MISSION_ID = "wisp_perseanchronicles_telosPt2"
 
-        val part2Json: JSONObject by lazy {
+        var part2Json: JSONObject =
             Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
                 .query("/$MOD_ID/telos/part2_dart") as JSONObject
-        }
+            private set
 
         val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 
-        val state = State(PersistentMapData<String, Any?>(key = "telosState").withDefault { null })
+        val state = State(PersistentMapData<String, Any?>(key = "telosPt2State").withDefault { null })
+        val choices = Choices(PersistentMapData<String, Any?>(key = "telosPt2Choices").withDefault { null })
         const val badFleetDefeatTrigger = "wisp_perseanchronicles_telosPt2_badfleetdefeated"
     }
 
@@ -46,12 +47,26 @@ class Telos2HubMission : QGHubMission() {
         var completeDateInMillis: Long? by map
     }
 
+    class Choices(val map: MutableMap<String, Any?>) {
+        var askedForMorePsiconInfo: Boolean? by map
+        var toldKarengoToTakePsiconFirst: Boolean? by map
+        var injectedSelf: Boolean? by map // Null if choice not made yet.
+    }
+
+
     init {
         missionId = MISSION_ID
     }
 
-    override fun updateTextReplacements(text: Text) {
+    override fun onGameLoad() {
+        super.onGameLoad()
+
+        if (isDevMode())
+            part2Json = Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
+                .query("/$MOD_ID/telos/part2_dart") as JSONObject
     }
+
+    override fun updateTextReplacements(text: Text) = Unit
 
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {
         // if already accepted by the player, abort
@@ -62,7 +77,7 @@ class Telos2HubMission : QGHubMission() {
         // Ignore warning, there are two overrides and it's complaining about just one of them.
         @Suppress("ABSTRACT_SUPER_CALL_WARNING")
         super.create(createdAt, barEvent)
-        setGenRandom(Telos1HubMission.seed)
+        setGenRandom(Telos1HubMission.state.seed ?: Misc.random)
 
         setStartingStage(Stage.DestroyFleet)
         setSuccessStage(Stage.Completed)

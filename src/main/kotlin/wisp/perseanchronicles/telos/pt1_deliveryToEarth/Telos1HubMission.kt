@@ -33,14 +33,12 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
     companion object {
         val MISSION_ID = "telosPt1"
 
-        val part1Json: JSONObject by lazy {
-            Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
-                .query("/$MOD_ID/telos/part1_deliveryToEarth")
-        }
-        val state = State(PersistentMapData<String, Any?>(key = "telosState").withDefault { null })
-        val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
-        lateinit var seed: Random
+        var part1Json: JSONObject = Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
+            .query("/$MOD_ID/telos/part1_deliveryToEarth")
             private set
+
+        val state = State(PersistentMapData<String, Any?>(key = "telosPt1State").withDefault { null })
+        val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
     }
 
     val stage1Engineer: PersonAPI =
@@ -54,6 +52,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
             }
 
     class State(val map: MutableMap<String, Any?>) {
+        var seed: Random? by map
         var startDateMillis: Long? by map
         var startLocation: SectorEntityToken? by map
         var karengoPlanet: SectorEntityToken? by map
@@ -71,6 +70,14 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
         return state.startDateMillis == null // todo
     }
 
+    override fun onGameLoad() {
+        super.onGameLoad()
+
+        if (isDevMode())
+            part1Json = Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
+                .query("/$MOD_ID/telos/part1_deliveryToEarth")
+    }
+
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["telosCredits"] = { Misc.getDGSCredits(creditsReward.toFloat()) }
         text.globalReplacementGetters["telosPt1Stg1DestPlanet"] = { state.karengoPlanet?.name }
@@ -82,7 +89,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
         // Ignore warning, there are two overrides and it's complaining about just one of them.
         @Suppress("ABSTRACT_SUPER_CALL_WARNING")
         super.create(createdAt, barEvent)
-        Telos1HubMission.seed = genRandom
+        state.seed = genRandom
 
         startingStage = Stage.GoToSectorEdge
         setSuccessStage(Stage.Completed)
@@ -137,12 +144,10 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
             beginWithinHyperspaceRangeTrigger(state.karengoSystem, 1f, true, Stage.GoToSectorEdge)
 
             triggerCustomAction {
-                val interactionDialog = Telo1CompleteDialog().build()
-                dialog.plugin = interactionDialog
-                interactionDialog.show(game.sector.campaignUI, game.sector.playerFleet)
-                setCurrentStage(Stage.Completed, dialog, null)
-                currentStage = Stage.Completed
+                Telo1CompleteDialog().build().show(game.sector.campaignUI, game.sector.playerFleet)
                 game.sector.playerFleet.clearAssignments()
+
+                setCurrentStage(Stage.Completed, null, null)
             }
         }
     }

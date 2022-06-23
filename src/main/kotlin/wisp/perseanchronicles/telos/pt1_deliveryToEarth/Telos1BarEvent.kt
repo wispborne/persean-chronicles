@@ -30,15 +30,22 @@ class Telos1BarEventLogic(
     pages = PagesFromJson(
         pagesJson = stageJson.getJSONArray("pages"),
         onPageShownHandlersByPageId = emptyMap(),
-        onOptionSelectedHandlersByOptionId = mapOf(
-            "done" to {
-                mission.accept(this.dialog, null)
-                it.close(doNotOfferAgain = true)
-            },
-            "decline" to {
-                it.close(doNotOfferAgain = false)
+        optionConfigurator = { options ->
+            options.map { option ->
+                when (option.id) {
+                    "done" -> option.copy(
+                        onOptionSelected = {
+                            mission.accept(this.dialog, null)
+                            it.close(doNotOfferAgain = true)
+                        })
+                    "decline" -> option.copy(
+                        onOptionSelected = {
+                            it.close(doNotOfferAgain = false)
+                        })
+                    else -> option
+                }
             }
-        )
+        }
     ),
     people = { listOf(mission.stage1Engineer) }
 )
