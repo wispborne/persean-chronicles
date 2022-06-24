@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.telos.pt2_dart
 
+import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
 import wisp.questgiver.v2.InteractionDialogLogic
@@ -20,6 +21,7 @@ class Telos2FirstLandingDialog(
             options.map { option ->
                 when (option.id) {
                     "requestMoreInfo" -> option.copy(
+                        showIf = { Telos2HubMission.choices.askedForMorePsiconInfo == null },
                         onOptionSelected = {
                             Telos2HubMission.choices.askedForMorePsiconInfo = true
                         })
@@ -31,9 +33,13 @@ class Telos2FirstLandingDialog(
                     "injectSelf" -> option.copy(
                         onOptionSelected = {
                             Telos2HubMission.choices.injectedSelf = true
-                            navigator.close(doNotOfferAgain = false) // todo
                         })
                     "noInject" -> option.copy(
+                        text = if (Misc.random.nextFloat() > 0.98f) {
+                            { """"Holy shit, no."""" } // 2% chance lol
+                        } else {
+                            option.text
+                        },
                         showIf = { Telos2HubMission.choices.toldKarengoToTakePsiconFirst == true },
                         onOptionSelected = {
                             Telos2HubMission.choices.injectedSelf = false

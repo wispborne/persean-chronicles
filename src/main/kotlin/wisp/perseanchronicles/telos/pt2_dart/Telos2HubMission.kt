@@ -66,7 +66,12 @@ class Telos2HubMission : QGHubMission() {
                 .query("/$MOD_ID/telos/part2_dart") as JSONObject
     }
 
-    override fun updateTextReplacements(text: Text) = Unit
+    override fun updateTextReplacements(text: Text) {
+        text.globalReplacementGetters["telosPt1Stg1DestPlanet"] = { Telos1HubMission.state.karengoPlanet?.name }
+        text.globalReplacementGetters["telosPt1Stg1DestSystem"] = { Telos1HubMission.state.karengoSystem?.name }
+        text.globalReplacementGetters["telosStarName"] =
+            { Telos1HubMission.state.karengoPlanet?.starSystem?.star?.name }
+    }
 
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {
         // if already accepted by the player, abort
