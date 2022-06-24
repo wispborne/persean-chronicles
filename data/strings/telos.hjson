@@ -257,7 +257,121 @@
                 "options": [
                   {
                     "text": "Continue",
-                    "goToPage": "3"
+                    "goToPage": "8"
+                  }
+                ]
+              },
+              {
+                "id": "8",
+                "paras": [
+                  "Consciousness returns unwillingly. Your head reverberates with unfamiliar awarenesses; just as you know, without looking, where your bridge crew is while in flight, you are inexplicably aware that you’re in the chapel. The power station is offline, but the backup battery supplying power to the hanger tunnel door is - "
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "8.1"
+                  }
+                ]
+              },
+              {
+                "id": "8.1",
+                "paras": [
+                  "With an effort, you crack your eyes open. Karengo is pacing the far end of the chapel, picking up and then tossing detritus at the wall - dead TriPads, wall ornaments, small sculptures. With a smile, you realize he’s searching for secret doors, not realizing that it’s next to his feet. At your thought, the metal panel below the rich throw rug under the lectern whirs, then starts to grind open.",
+                  "In the stillness of the chamber, the new sound reverberates. Karengo looks down, then at the spot on the wall where he’d shattered a porcelain figurine moments before, and finally at you."
+                ],
+                "options": [
+                  {
+                    "text": "Ask what happened",
+                    "goToPage": "9"
+                  },
+                  {
+                    "text": "Play it cool",
+                    "goToPage": "10"
+                  }
+                ]
+              },
+              {
+                "id": "9",
+                "paras": [
+                  "“Did, uh, you did that, right?” you ask woozily. “Because if not…” you trail off.",
+                  "Karengo shakes his head and points at the porcelain shards. “Unless they broke one of these each time they want to open a door, nah. Wasn’t me.”"
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "11"
+                  }
+                ]
+              },
+              {
+                "id": "10",
+                "paras": [
+                  "You shrug casually at Karengo’s confusion. For the first time since you met, you’re the one in control of the situation and you take a moment to savor it."
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "11"
+                  }
+                ]
+              },
+              {
+                "id": "11",
+                "paras": [
+                  "“That was you,” he says finally. “I didn’t think- I mean, it actually worked.” This is the first time he has expressed anything but confidence in the safety of the nanite injection, but it’s difficult to feel betrayed with the stairs down to the hanger wide open, the lone ship there sleeping, waiting to be woken again. Even after so many cycles, it hums with stored energy, and you slip into it. Fractured silicates coat your-its hull, knocked loose by the bombardment, pebbles and dust gathering in divots along the sleek, smooth exterior like vernal pools. You could effortlessly bring the entire system online, shaking free the rubble to soar again. A thought reaches out to-"
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "11.1"
+                  }
+                ]
+              },
+              {
+                "id": "11.1",
+                "paras": [
+                  "Karengo is shaking you and, despite the beckoning trapdoor leading to the ship, you find yourself dazedly led back to your shuttle and whisked into orbit. Exploration takes a back seat as the medical team prepares a dizzying array of tests to run on you, which they promise will be “quick and next to painless”. You find yourself with little choice but to wait until they are done before returning planetside."
+                ],
+                "options": [
+                  {
+                    "id": "leave",
+                    "text": "Leave"
+                  }
+                ]
+              },
+              {
+                "id": "12",
+                "paras": [
+                  "Karengo tucks his syringe of Psicon into one of the endless pockets in his tactical jacket and you follow suit, the cylinder pressing against your ribs. “According to my contact,” he says, glancing around, “there is tunnel access to a hanger from this room.” At your raised eyebrows, he adds, “Somewhere.”\""
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "12.1"
+                  }
+                ]
+              },
+              {
+                "id": "12.1",
+                "paras": [
+                  "After an extended, diligent search, during which more than a few things are shattered “to see if there’s a key or somethin’ inside”, Karengo pulls a rug away from the fallen lectern, exposing a metal panel. The long scrapes give it away as a sliding trapdoor, but there is no unlock mechanism in sight, kicking off another long period of fruitless searching."
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "12.2"
+                  }
+                ]
+              },
+              {
+                "id": "12.2",
+                "paras": [
+                  "In the end, the two of you decide to let the experts tackle the problem. Over Karengo’s protests that the base is not ‘booby-trapped’, your head of security whisks you up to the relative safety of orbit as engineers crawl over the room, searching for entry. “Won’t take long, sir,” the head of engineering sounds apologetic. “Just give us a day here and it’ll be open when you return.”"
+                ],
+                "options": [
+                  {
+                    "id": "leave",
+                    "text": "Leave"
                   }
                 ]
               }

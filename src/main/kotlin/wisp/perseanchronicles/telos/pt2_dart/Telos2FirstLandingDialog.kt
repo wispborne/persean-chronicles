@@ -3,12 +3,15 @@ package wisp.perseanchronicles.telos.pt2_dart
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
+import wisp.perseanchronicles.game
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.query
+import wisp.questgiver.wispLib.findFirst
 
 class Telos2FirstLandingDialog(
-    stageJson: JSONObject = Telos2HubMission.part2Json.query("/stages/landOnPlanetFirst")
+    stageJson: JSONObject = Telos2HubMission.part2Json.query("/stages/landOnPlanetFirst"),
+    mission: Telos2HubMission = game.sector.intelManager.findFirst()!!
 ) : InteractionDialogLogic<Telos2FirstLandingDialog>(
     onInteractionStarted = {
 
@@ -43,7 +46,12 @@ class Telos2FirstLandingDialog(
                         showIf = { Telos2HubMission.choices.toldKarengoToTakePsiconFirst == true },
                         onOptionSelected = {
                             Telos2HubMission.choices.injectedSelf = false
-                            navigator.close(doNotOfferAgain = false) // todo
+                        }
+                    )
+                    "leave" -> option.copy(
+                        onOptionSelected = {
+                            mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecond, this.dialog, null)
+                            navigator.close(doNotOfferAgain = true)
                         }
                     )
                     else -> option

@@ -122,7 +122,13 @@ class Telos2HubMission : QGHubMission() {
         state.startDateMillis = game.sector.clock.timestamp
         setCurrentStage(Stage.DestroyFleet, null, null)
         makePrimaryObjective(Telos1HubMission.state.karengoPlanet)
-        makeImportant(Telos1HubMission.state.karengoPlanet, null, Stage.DestroyFleet, Stage.LandOnPlanetFirst)
+        makeImportant(
+            Telos1HubMission.state.karengoPlanet,
+            null,
+            Stage.DestroyFleet,
+            Stage.LandOnPlanetFirst,
+            Stage.LandOnPlanetSecond
+        )
     }
 
     override fun endSuccessImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
