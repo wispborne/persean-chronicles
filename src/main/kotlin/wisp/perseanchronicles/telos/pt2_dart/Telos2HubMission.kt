@@ -15,6 +15,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import wisp.perseanchronicles.MOD_ID
+import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 import wisp.questgiver.InteractionDefinition
@@ -22,7 +23,10 @@ import wisp.questgiver.addPara
 import wisp.questgiver.spriteName
 import wisp.questgiver.v2.QGHubMission
 import wisp.questgiver.v2.json.query
-import wisp.questgiver.wispLib.*
+import wisp.questgiver.wispLib.PersistentMapData
+import wisp.questgiver.wispLib.Text
+import wisp.questgiver.wispLib.qgFormat
+import wisp.questgiver.wispLib.trigger
 import java.awt.Color
 
 class Telos2HubMission : QGHubMission() {
@@ -88,6 +92,7 @@ class Telos2HubMission : QGHubMission() {
         setSuccessStage(Stage.Completed)
 
         name = part2Json.query("/strings/title")
+        personOverride = DragonsQuest.karengo // Shows on intel, needed for rep reward or else crash.
 
         // todo change me
         setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
@@ -121,7 +126,6 @@ class Telos2HubMission : QGHubMission() {
 
         state.startDateMillis = game.sector.clock.timestamp
         setCurrentStage(Stage.DestroyFleet, null, null)
-        makePrimaryObjective(Telos1HubMission.state.karengoPlanet)
         makeImportant(
             Telos1HubMission.state.karengoPlanet,
             null,
@@ -129,12 +133,12 @@ class Telos2HubMission : QGHubMission() {
             Stage.LandOnPlanetFirst,
             Stage.LandOnPlanetSecond
         )
+        makePrimaryObjective(Telos1HubMission.state.karengoPlanet)
     }
 
     override fun endSuccessImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
         super.endSuccessImpl(dialog, memoryMap)
 
-//        setCurrentStage(Stage.Completed, dialog, memoryMap) goes in interaction dialog
         state.completeDateInMillis = game.sector.clock.timestamp
     }
 
@@ -155,17 +159,19 @@ class Telos2HubMission : QGHubMission() {
     }
 
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
-        // Telos 2 - Land on planet first time
-        return if (interactionTarget.id == Telos1HubMission.state.karengoPlanet?.id
-            && game.intelManager.findFirst<Telos2HubMission>()?.currentStage == Stage.LandOnPlanetFirst
-        ) {
-            PluginPick(
-                Telos2FirstLandingDialog().build(),
-                CampaignPlugin.PickPriority.MOD_SPECIFIC
-            )
-        } else {
-            null
-        }
+        return if (interactionTarget.id == Telos1HubMission.state.karengoPlanet?.id) {
+            when (currentStage) {
+                Stage.LandOnPlanetFirst -> PluginPick(
+                    Telos2FirstLandingDialog().build(),
+                    CampaignPlugin.PickPriority.MOD_SPECIFIC
+                )
+                Stage.LandOnPlanetSecond -> PluginPick(
+                    Telos2SecondLandingDialog().build(),
+                    CampaignPlugin.PickPriority.MOD_SPECIFIC
+                )
+                else -> null
+            }
+        } else null
     }
 
     override fun endAbandonImpl() {
@@ -182,14 +188,20 @@ class Telos2HubMission : QGHubMission() {
     override fun addNextStepText(info: TooltipMakerAPI, tc: Color?, pad: Float): Boolean {
         return when (currentStage) {
             Stage.DestroyFleet -> {
-                info.addPara(textColor = Misc.getGrayColor()) {
+                info.addPara(padding = 3f, textColor = Misc.getGrayColor()) {
                     part2Json.query<String>("/stages/destroyFleet/intel/subtitle").qgFormat()
                 }
                 true
             }
             Stage.LandOnPlanetFirst -> {
-                info.addPara(textColor = Misc.getGrayColor()) {
+                info.addPara(padding = 3f, textColor = Misc.getGrayColor()) {
                     part2Json.query<String>("/stages/landOnPlanetFirst/intel/subtitle").qgFormat()
+                }
+                true
+            }
+            Stage.LandOnPlanetSecond -> {
+                info.addPara(padding = 3f, textColor = Misc.getGrayColor()) {
+                    part2Json.query<String>("/stages/landOnPlanetSecond/intel/subtitle").qgFormat()
                 }
                 true
             }
@@ -207,6 +219,9 @@ class Telos2HubMission : QGHubMission() {
             }
             Stage.LandOnPlanetFirst -> {
                 info.addPara { part2Json.query<String>("/stages/landOnPlanetFirst/intel/desc").qgFormat() }
+            }
+            Stage.LandOnPlanetSecond -> {
+                info.addPara { part2Json.query<String>("/stages/landOnPlanetSecond/intel/desc").qgFormat() }
             }
         }
     }

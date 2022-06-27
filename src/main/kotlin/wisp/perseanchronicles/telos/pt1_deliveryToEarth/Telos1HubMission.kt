@@ -97,7 +97,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
         name = part1Json.optQuery("/strings/title")
         setCreditReward(CreditReward.VERY_HIGH) // 95k ish, we want the player to take this.
         setGiverFaction(stage1Engineer.faction.id) // Rep reward.
-        personOverride = stage1Engineer // Show on intel, needed for rep reward.
+        personOverride = stage1Engineer // Shows on intel, needed for rep reward or else crash.
 
         // todo change me
         setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))

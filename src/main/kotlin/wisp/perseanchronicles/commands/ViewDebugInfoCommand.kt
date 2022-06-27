@@ -11,6 +11,7 @@ import wisp.perseanchronicles.laborer.LaborerQuest
 import wisp.perseanchronicles.nirvana.NirvanaQuest
 import wisp.perseanchronicles.riley.RileyQuest
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
+import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.wispLib.findFirst
 
 class ViewDebugInfoCommand : BaseCommand {
@@ -50,9 +51,11 @@ class ViewDebugInfoCommand : BaseCommand {
         info.appendLine()
 
         val telos1 = Global.getSector().intelManager.findFirst<Telos1HubMission>()
-        info.appendLine("Telos source planet: ${Telos1HubMission.state.startLocation?.fullName} in ${Telos1HubMission.state.startLocation?.starSystem?.baseName}")
-        info.appendLine("Telos destination planet: ${Telos1HubMission.state.karengoPlanet?.fullName} in ${Telos1HubMission.state.karengoPlanet?.starSystem?.baseName}")
-        info.appendLine("Telos quest stage: ${telos1?.currentStage}")
+        info.appendLine("Telos Pt.1 source planet: ${Telos1HubMission.state.startLocation?.fullName} in ${Telos1HubMission.state.startLocation?.starSystem?.baseName}")
+        info.appendLine("Telos Pt.1+2 destination planet: ${Telos1HubMission.state.karengoPlanet?.fullName} in ${Telos1HubMission.state.karengoPlanet?.starSystem?.baseName}")
+        info.appendLine("Telos Pt.1 quest stage: ${telos1?.currentStage}")
+        val telos2 = Global.getSector().intelManager.findFirst<Telos2HubMission>()
+        info.appendLine("Telos Pt.2 quest stage: ${telos2?.currentStage}")
 
         Console.showMessage(info.toString())
 

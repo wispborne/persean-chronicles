@@ -136,7 +136,7 @@
           "destroyFleet": {
             "intel": {
               "subtitle": "Destroy the $f:pirates{pirate} fleet.",
-              "desc": "Karengo's distress signal claims that he has discovered something hidden, but he is stranded on-world.\nDestroy the $f:pirates{pirate} fleet around ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}."
+              "desc": "Karengo's distress signal claims that he has discovered something hidden, but he is stranded on-world.\n\nDestroy the $f:pirates{pirate} fleet around ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}."
             }
           },
           "landOnPlanetFirst": {
@@ -229,7 +229,7 @@
               {
                 "id": "5",
                 "paras": [
-                  "Karengo lowers his voice theatrically and glances around, as if ensuring there are no eavesdroppers. “My source says this here was a ==Telos== base.” At your blank look, he continues. “Telos…one of the pre-Collapse Tri-Tachyon research branches the Hegemony erased. They created this Psicon goo” - he taps a finger lazily against the gray tube - “then left to live out away from the Core Worlds. And then the Hegemony hunted ‘em down and purged ‘em from history. Gone.”"
+                  "Karengo lowers his voice theatrically and glances around, as if ensuring there are no eavesdroppers. “My source says this here was a ==Telos== base.” At your blank look, he continues. “Telos…one of the pre-Collapse Tri-Tachyon research branches the Hegemony erased. They created this Psicon goo” - he taps a finger against the gray tube - “then left to live out away from the Core Worlds. And then the Hegemony hunted ‘em down and purged ‘em from history. Gone.”"
                 ],
                 "options": [
                   {
@@ -366,7 +366,27 @@
               {
                 "id": "12.2",
                 "paras": [
-                  "In the end, the two of you decide to let the experts tackle the problem. Over Karengo’s protests that the base is not ‘booby-trapped’, your head of security whisks you up to the relative safety of orbit as engineers crawl over the room, searching for entry. “Won’t take long, sir,” the head of engineering sounds apologetic. “Just give us a day here and it’ll be open when you return.”"
+                  "In the end, the two of you decide to let the experts tackle the problem. Over Karengo’s guarantees that the base is not ‘booby-trapped’, your head of security whisks you up to the relative safety of orbit as engineers crawl over the room, searching for entry. “Won’t take long, sir,” the head of engineering sounds apologetic. “Just give us a day here and it’ll be open when you return.”"
+                ],
+                "options": [
+                  {
+                    "id": "leave",
+                    "text": "Leave"
+                  }
+                ]
+              }
+            ]
+          },
+          "landOnPlanetSecond": {
+            "intel": {
+              "subtitle": "Return to the planet",
+              "desc": "Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== to investigate the underground sections."
+            },
+            "pages": [
+              {
+                "id": "1",
+                "paras": [
+                  "$c:#5eb2ff{<you can feel it too can’t you>} you send to Karengo, and he sends the mental map of the base by way of assent. $c:#5eb2ff{<uncertainly: and a ship deep below>} The sensation of the ship grows as the shuttle speeds toward the base, landing legs extending until it settles again into the soil, just meters from the entrance to the Telos base. $c:#5eb2ff{<it is [ready/thirsty] to fly let us descend to it>}."
                 ],
                 "options": [
                   {
