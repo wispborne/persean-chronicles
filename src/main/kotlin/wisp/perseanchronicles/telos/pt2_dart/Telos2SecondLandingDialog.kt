@@ -9,7 +9,12 @@ import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.findFirst
 
 class Telos2SecondLandingDialog(
-    stageJson: JSONObject = Telos2HubMission.part2Json.query("/stages/landOnPlanetSecond"),
+    stageJson: JSONObject =
+        if (Telos2HubMission.choices.injectedSelf == true) {
+            Telos2HubMission.part2Json.query("/stages/landOnPlanetSecondPsicon")
+        } else {
+            Telos2HubMission.part2Json.query("/stages/landOnPlanetSecondNoPsicon")
+        },
     mission: Telos2HubMission = game.sector.intelManager.findFirst()!!
 ) : InteractionDialogLogic<Telos2SecondLandingDialog>(
     onInteractionStarted = {
@@ -22,6 +27,11 @@ class Telos2SecondLandingDialog(
         optionConfigurator = { options ->
             options.map { option ->
                 when (option.id) {
+                    "startBattle" -> option.copy(
+                        onOptionSelected = {
+                            Telos2Battle.startBattle()
+                        }
+                    )
                     "leave" -> option.copy(
                         onOptionSelected = {
                             mission.setCurrentStage(Telos2HubMission.Stage.Completed, this.dialog, null)

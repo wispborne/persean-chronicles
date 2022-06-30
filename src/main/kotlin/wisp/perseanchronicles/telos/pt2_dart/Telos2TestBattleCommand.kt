@@ -19,7 +19,7 @@ class Telos2TestBattleCommand : BaseCommand {
         game.combatEngine.addPlugin(object : BaseEveryFrameCombatPlugin() {
             override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
                 if (game.combatEngine.getTotalElapsedTime(false) > 5) {
-                    Telos2Battle.createTriTachFleet().fleetData.membersListCopy.forEach {
+                    Telos2Battle.createInitialHegemonyFleet().fleetData.membersListCopy.forEach {
                         game.combatEngine.getFleetManager(FleetSide.ENEMY)
                             .spawnFleetMember(it, Vector2f(game.combatEngine.mapWidth / 2f, game.combatEngine.mapHeight / 2f), 0f, 3f)
                     }

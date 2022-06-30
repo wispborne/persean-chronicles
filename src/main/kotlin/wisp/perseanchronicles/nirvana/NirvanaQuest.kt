@@ -149,7 +149,7 @@ object NirvanaQuest : AutoQuestFacilitator(
         // so it won't trigger before then.
         val timestampQuestCompletedInSeconds = (state.completeDateInMillis ?: state.startDateMillis ?: 0)
         return (stage == Stage.Completed
-                && game.sector.clock.getElapsedDaysSince(timestampQuestCompletedInSeconds) > (365 * 55))
+                && game.sector.clock.getElapsedDaysSince(timestampQuestCompletedInSeconds) > (365 * 10))
     }
 
     fun completeSecret() {

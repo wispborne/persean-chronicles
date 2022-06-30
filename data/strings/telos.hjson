@@ -377,7 +377,7 @@
               }
             ]
           },
-          "landOnPlanetSecond": {
+          "landOnPlanetSecondPsicon": {
             "intel": {
               "subtitle": "Return to the planet",
               "desc": "Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== to investigate the underground sections."
@@ -386,12 +386,68 @@
               {
                 "id": "1",
                 "paras": [
-                  "$c:#5eb2ff{<you can feel it too can’t you>} you send to Karengo, and he sends the mental map of the base by way of assent. $c:#5eb2ff{<uncertainly: and a ship deep below>} The sensation of the ship grows as the shuttle speeds toward the base, landing legs extending until it settles again into the soil, just meters from the entrance to the Telos base. $c:#5eb2ff{<it is [ready/thirsty] to fly let us descend to it>}."
+                  "$c:#5eb2ff{you can feel it too can’t you}",
+                  "you send to Karengo, and he sends the mental map of the base by way of assent.",
+                  "$c:#5eb2ff{uncertainly: and a ship deep below}",
+                  "The sensation of the ship grows as the shuttle speeds toward the base, landing legs extending until it settles again into the soil, just meters from the entrance to the Telos base.",
+                  "$c:#5eb2ff{it is [ready/thirsty] to fly let us descend to it}."
                 ],
                 "options": [
                   {
-                    "id": "leave",
-                    "text": "Leave"
+                    "text": "Six hours earlier...",
+                    "goToPage": "1.1"
+                  }
+                ]
+              },
+              {
+                "id": "1.1",
+                "paras": [
+                  "Your chief medical officer’s dryly professional summary of your test results ended in a astonished “sir!” as Karengo stuck the syringe of Psicon into his leg, depressed the plunger, and then sprawled onto a couch, grinning like a madman. By the time orderlies arrived with a gurney, he was snoring, and by the time they rolled him into the med bay, he was stirring again, his consciousness an uneven pressure on your head, like a reactor flickering online."
+                ],
+                "options": [
+                  {
+                    "text": "Intuition took over",
+                    "goToPage": "1.2"
+                  }
+                ]
+              },
+              {
+                "id": "1.2",
+                "paras": [
+                  "A wave of lethargy washed against the shore of your mind, and you reached out.",
+                  "$c:#5eb2ff{carefully/questioningly: karengo can you [hear/feel] this}",
+                  "The response came as a medley of emotion: shock, confusion, comprehension, awe, curiosity, and finally",
+                  "$c:#5eb2ff{yes}"
+                ],
+                "options": [
+                  {
+                    "text": "Return to the present time",
+                    "goToPage": "2"
+                  }
+                ]
+              },
+              {
+                "id": "2",
+                "paras": [
+                  "The walk down the trapdoor steps feels like a dream coalescing into reality. At the bottom of the stairs will be/is a door to the communications room overlooking the hanger, empty but for the lonely Dart. No words are exchanged anymore - emotions and thoughts flow between you like the mixing of currents. Karengo focuses on a recording in the awakened comms data and pushes it to you.",
+                  "$c:#5eb2ff{tri-tachyon invasion/destruction of this base, let us [replay/immerse/join] it}"
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "2.1"
+                  }
+                ]
+              },
+              {
+                "id": "2.1",
+                "paras": [
+                  "The recording is of the final stand of the base and, as you focus on the Telos machine, the scene comes alive within your mind."
+                ],
+                "options": [
+                  {
+                    "id": "startBattle",
+                    "text": "$c:#5eb2ff{start battle}"
                   }
                 ]
               }

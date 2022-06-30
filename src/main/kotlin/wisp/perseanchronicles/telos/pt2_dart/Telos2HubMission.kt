@@ -44,6 +44,8 @@ class Telos2HubMission : QGHubMission() {
         val state = State(PersistentMapData<String, Any?>(key = "telosPt2State").withDefault { null })
         val choices = Choices(PersistentMapData<String, Any?>(key = "telosPt2Choices").withDefault { null })
         const val badFleetDefeatTrigger = "wisp_perseanchronicles_telosPt2_badfleetdefeated"
+
+        fun startBattle() = Telos2Battle.startBattle()
     }
 
     class State(val map: MutableMap<String, Any?>) {
@@ -131,7 +133,8 @@ class Telos2HubMission : QGHubMission() {
             null,
             Stage.DestroyFleet,
             Stage.LandOnPlanetFirst,
-            Stage.LandOnPlanetSecond
+            Stage.LandOnPlanetSecondPsicon,
+            Stage.LandOnPlanetSecondNoPsicon,
         )
         makePrimaryObjective(Telos1HubMission.state.karengoPlanet)
     }
@@ -165,7 +168,8 @@ class Telos2HubMission : QGHubMission() {
                     Telos2FirstLandingDialog().build(),
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
-                Stage.LandOnPlanetSecond -> PluginPick(
+                Stage.LandOnPlanetSecondPsicon,
+                Stage.LandOnPlanetSecondNoPsicon -> PluginPick(
                     Telos2SecondLandingDialog().build(),
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
@@ -199,9 +203,9 @@ class Telos2HubMission : QGHubMission() {
                 }
                 true
             }
-            Stage.LandOnPlanetSecond -> {
+            Stage.LandOnPlanetSecondPsicon -> {
                 info.addPara(padding = 3f, textColor = Misc.getGrayColor()) {
-                    part2Json.query<String>("/stages/landOnPlanetSecond/intel/subtitle").qgFormat()
+                    part2Json.query<String>("/stages/landOnPlanetSecondPsicon/intel/subtitle").qgFormat()
                 }
                 true
             }
@@ -220,8 +224,8 @@ class Telos2HubMission : QGHubMission() {
             Stage.LandOnPlanetFirst -> {
                 info.addPara { part2Json.query<String>("/stages/landOnPlanetFirst/intel/desc").qgFormat() }
             }
-            Stage.LandOnPlanetSecond -> {
-                info.addPara { part2Json.query<String>("/stages/landOnPlanetSecond/intel/desc").qgFormat() }
+            Stage.LandOnPlanetSecondPsicon -> {
+                info.addPara { part2Json.query<String>("/stages/landOnPlanetSecondPsicon/intel/desc").qgFormat() }
             }
         }
     }
@@ -229,7 +233,8 @@ class Telos2HubMission : QGHubMission() {
     enum class Stage {
         DestroyFleet,
         LandOnPlanetFirst,
-        LandOnPlanetSecond,
+        LandOnPlanetSecondPsicon,
+        LandOnPlanetSecondNoPsicon,
         Completed,
     }
 }

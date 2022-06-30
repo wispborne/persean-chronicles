@@ -19,7 +19,15 @@ class Telos2FirstLandingDialog(
     people = { listOf(DragonsQuest.karengo) },
     pages = PagesFromJson(
         stageJson.query("/pages"),
-        onPageShownHandlersByPageId = emptyMap(),
+        onPageShownHandlersByPageId = mapOf(
+            "11.1" to {
+                if (Telos2HubMission.choices.injectedSelf == true) {
+                    mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondPsicon, this.dialog, null)
+                } else {
+                    mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondNoPsicon, this.dialog, null)
+                }
+            }
+        ),
         optionConfigurator = { options ->
             options.map { option ->
                 when (option.id) {
@@ -50,7 +58,6 @@ class Telos2FirstLandingDialog(
                     )
                     "leave" -> option.copy(
                         onOptionSelected = {
-                            mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecond, this.dialog, null)
                             navigator.close(doNotOfferAgain = true)
                         }
                     )
