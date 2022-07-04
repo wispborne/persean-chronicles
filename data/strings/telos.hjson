@@ -207,13 +207,13 @@
                     "goToPage": "4"
                   },
                   {
+                    "id": "noInject",
+                    "text": "==“I'm not sure about this.”=="
+                  },
+                  {
                     "id": "injectSelf",
                     "text": "==Inject yourself==",
                     "goToPage": "7"
-                  },
-                  {
-                    "id": "noInject",
-                    "text": "==“I'm not sure about this.”=="
                   }
                 ]
               },
@@ -386,11 +386,11 @@
               {
                 "id": "1",
                 "paras": [
-                  "$c:#5eb2ff{you can feel it too can’t you}",
+                  "$f:perseanchronicles_telos{you can feel it too can’t you}",
                   "you send to Karengo, and he sends the mental map of the base by way of assent.",
-                  "$c:#5eb2ff{uncertainly: and a ship deep below}",
+                  "$f:perseanchronicles_telos{uncertainly: and a ship deep below}",
                   "The sensation of the ship grows as the shuttle speeds toward the base, landing legs extending until it settles again into the soil, just meters from the entrance to the Telos base.",
-                  "$c:#5eb2ff{it is [ready/thirsty] to fly let us descend to it}."
+                  "$f:perseanchronicles_telos{it is [ready/thirsty] to fly let us descend to it}."
                 ],
                 "options": [
                   {
@@ -415,9 +415,9 @@
                 "id": "1.2",
                 "paras": [
                   "A wave of lethargy washed against the shore of your mind, and you reached out.",
-                  "$c:#5eb2ff{carefully/questioningly: karengo can you [hear/feel] this}",
+                  "$f:perseanchronicles_telos{carefully/questioningly: karengo can you [hear/feel] this}",
                   "The response came as a medley of emotion: shock, confusion, comprehension, awe, curiosity, and finally",
-                  "$c:#5eb2ff{yes}"
+                  "$f:perseanchronicles_telos{yes}"
                 ],
                 "options": [
                   {
@@ -430,7 +430,7 @@
                 "id": "2",
                 "paras": [
                   "The walk down the trapdoor steps feels like a dream coalescing into reality. At the bottom of the stairs will be/is a door to the communications room overlooking the hanger, empty but for the lonely Dart. No words are exchanged anymore - emotions and thoughts flow between you like the mixing of currents. Karengo focuses on a recording in the awakened comms data and pushes it to you.",
-                  "$c:#5eb2ff{tri-tachyon invasion/destruction of this base, let us [replay/immerse/join] it}"
+                  "$f:perseanchronicles_telos{tri-tachyon invasion/destruction of this base, let us [replay/immerse/join] it}"
                 ],
                 "options": [
                   {
@@ -447,7 +447,22 @@
                 "options": [
                   {
                     "id": "startBattle",
-                    "text": "$c:#5eb2ff{start battle}"
+                    "text": "$f:perseanchronicles_telos{start battle}"
+                  }
+                ]
+              },
+              {
+                "id": "3a",
+                "paras": [
+                  "With a start, you come back to yourself. The emotional imprints of carnage and destruction recede quickly, and Karengo is already moving out of the comms room and to the hanger below."
+                ],
+                "options": [
+                  {
+                    "text": "Ask about the Hegemony Commander"
+                  },
+                  {
+                    "id": "leave", # todo
+                    "text": "Continue"
                   }
                 ]
               }

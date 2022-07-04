@@ -235,6 +235,7 @@ class Telos2HubMission : QGHubMission() {
         LandOnPlanetFirst,
         LandOnPlanetSecondPsicon,
         LandOnPlanetSecondNoPsicon,
+        PostBattle,
         Completed,
     }
 }

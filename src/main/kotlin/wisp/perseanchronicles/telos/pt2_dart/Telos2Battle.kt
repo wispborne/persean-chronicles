@@ -2,8 +2,10 @@ package wisp.perseanchronicles.telos.pt2_dart
 
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.BaseCampaignPlugin
+import com.fs.starfarer.api.campaign.BattleAPI
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
+import com.fs.starfarer.api.campaign.listeners.BaseFleetEventListener
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.combat.BattleCreationContext
 import com.fs.starfarer.api.fleet.FleetGoal
@@ -13,13 +15,14 @@ import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.mission.FleetSide
-import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.addShipVariant
 import wisp.questgiver.wispLib.findFirst
 import java.util.*
 
 object Telos2Battle {
+    private val flagshipVariantId = "shrike_Attack"
+
     class CampaignPlugin : BaseCampaignPlugin() {
         override fun pickBattleCreationPlugin(opponent: SectorEntityToken?): PluginPick<com.fs.starfarer.api.campaign.BattleCreationPlugin> =
             PluginPick(
@@ -28,35 +31,91 @@ object Telos2Battle {
             )
     }
 
-    class Context : BattleCreationContext(
-        createTelosFleet(),
-        FleetGoal.ATTACK,
-        createInitialHegemonyFleet(),
-        FleetGoal.ATTACK
-    ) {
-
-    }
-
     fun startBattle() {
         game.sector.registerPlugin(CampaignPlugin())
-        game.sector.campaignUI.startBattle(Context())
 
+        val playerFleetHolder =
+            game.factory.createEmptyFleet(game.sector.playerFaction.id, "[PersChron] Player Fleet Holder", true)
+
+        // Save player fleet to dummy fleet.
+        swapFleets(
+            leftFleet = playerFleetHolder,
+            rightFleet = game.sector.playerFleet
+        )
+        // Set player fleet to Telos fleet.
+        swapFleets(
+            leftFleet = game.sector.playerFleet,
+            rightFleet = createTelosFleet()
+        )
+
+        // Watch for end of battle and cleanup.
+        game.sector.listenerManager.addListener(
+            object : BaseFleetEventListener() {
+                override fun reportBattleOccurred(
+                    fleet: CampaignFleetAPI?,
+                    primaryWinner: CampaignFleetAPI?,
+                    battle: BattleAPI
+                ) {
+                    super.reportBattleOccurred(fleet, primaryWinner, battle)
+
+                    if (battle.isPlayerInvolved) {
+                        onTelosBattleEnded(primaryWinner, battle, playerFleetHolder)
+                        game.sector.listenerManager.removeListener(this)
+                    }
+                }
+            }
+        )
+
+        // Start battle
+        game.sector.campaignUI.startBattle(object : BattleCreationContext(
+            game.sector.playerFleet,
+            FleetGoal.ATTACK,
+            createInitialHegemonyFleet(),
+            FleetGoal.ATTACK
+        ) {
+            init {
+                fightToTheLast = true
+                aiRetreatAllowed = false
+                enemyDeployAll = true
+                objectivesAllowed = false
+            }
+        })
+        game.combatEngine.getFleetManager(FleetSide.ENEMY).isCanForceShipsToEngageWhenBattleClearlyLost = true
+
+        // Call in reinforcements when player starts to win.
         game.combatEngine.addPlugin(object : BaseEveryFrameCombatPlugin() {
             override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
-                if (game.combatEngine.getTotalElapsedTime(false) > 5) {
-                    createInitialHegemonyFleet().fleetData.membersListCopy.forEach {
-                        game.combatEngine.getFleetManager(FleetSide.ENEMY)
-                            .spawnFleetMember(
-                                it,
-                                Vector2f(game.combatEngine.mapWidth / 2f, game.combatEngine.mapHeight / 2f),
-                                0f,
-                                3f
-                            )
+                val enemyFleetManager = game.combatEngine.getFleetManager(FleetSide.ENEMY)
+                val hasDestroyedEnoughOfEnemy = enemyFleetManager.destroyedCopy.size > 5
+
+                if (game.combatEngine.isEnemyInFullRetreat || hasDestroyedEnoughOfEnemy) {
+                    game.combatEngine.combatNotOverFor = 10f // seconds
+                    createHegemonyFleetReinforcements().fleetData.membersListCopy.forEach { reinforcement ->
+                        reinforcement.owner = 1 // Vanilla hardcodes 1 for enemy and 0 for player ahhhhhhhhhhhhhhhhhh
+                        enemyFleetManager
+                            .addToReserves(reinforcement)
                     }
                     game.combatEngine.removePlugin(this)
                 }
             }
         })
+    }
+
+    private fun onTelosBattleEnded(
+        primaryWinner: CampaignFleetAPI?,
+        battle: BattleAPI,
+        playerFleetHolder: CampaignFleetAPI
+    ) {
+        if (primaryWinner == battle.playerSide) {
+            // How tf did player win? hax
+            // todo
+        }
+
+        // Give the player back their fleet.
+        swapFleets(
+            leftFleet = game.sector.playerFleet,
+            rightFleet = playerFleetHolder
+        )
     }
 
     /**
@@ -65,10 +124,13 @@ object Telos2Battle {
     fun createTelosFleet(): CampaignFleetAPI {
         return FleetFactoryV3.createEmptyFleet(Factions.INDEPENDENT, FleetTypes.TASK_FORCE, null)
             .apply {
-                this.addShipVariant(variantId = "shrike_Attack", count = 1)
+                this.addShipVariant(variantId = flagshipVariantId, count = 1).first().apply {
+                    this.isFlagship = true
+                }
                 this.addShipVariant(variantId = "kite_original_Stock", count = 3)
                 // todo add some Telos ships.
                 this.fleetData.sort()
+                this.fleetData.isOnlySyncMemberLists = true
                 this.fleetData.setSyncNeeded()
                 this.fleetData.syncIfNeeded()
             }
@@ -124,7 +186,6 @@ object Telos2Battle {
                 this.addShipVariant(variantId = "legion_Assault", count = 10)
                 this.addShipVariant(variantId = "onslaught_Elite", count = 10)
 
-
                 FleetFactoryV3.addCommanderAndOfficersV2(
                     this,
                     FleetParamsV3(
@@ -148,5 +209,37 @@ object Telos2Battle {
                 this.fleetData.setSyncNeeded()
                 this.fleetData.syncIfNeeded()
             }
+    }
+
+    /**
+     * Swaps two fleets' ships and captains. Does not swap other things eg. cargo.
+     */
+    fun swapFleets(leftFleet: CampaignFleetAPI, rightFleet: CampaignFleetAPI) {
+        val originalLeftFleetShips = leftFleet.fleetData.membersListCopy
+        val originalRightFleetShips = rightFleet.fleetData.membersListCopy
+
+        // Move left to right.
+        originalLeftFleetShips
+            .forEach { ship ->
+                leftFleet.fleetData.removeFleetMember(ship)
+                rightFleet.fleetData.addFleetMember(ship)
+            }
+
+        // Move right to left.
+        originalRightFleetShips.forEach { ship ->
+            rightFleet.fleetData.removeFleetMember(ship)
+            leftFleet.fleetData.addFleetMember(ship)
+        }
+
+        // Set fleet flagships based upon the original flagships.
+        originalLeftFleetShips.firstOrNull { it.isFlagship }?.run { rightFleet.fleetData.setFlagship(this) }
+        originalRightFleetShips.firstOrNull { it.isFlagship }?.run { leftFleet.fleetData.setFlagship(this) }
+
+        // If one fleet is player, set them as captain of the flagship.
+        if (leftFleet.isPlayerFleet) {
+            leftFleet.flagship?.captain = game.sector.playerPerson
+        } else if (rightFleet.isPlayerFleet) {
+            rightFleet.flagship?.captain = game.sector.playerPerson
+        }
     }
 }

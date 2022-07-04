@@ -22,9 +22,11 @@ Market condition code inspired by Tartiflette's [Unknown Skies](https://fractals
 
 MesoTroniK for music.
 
-Vayra for art.
+Vayra for Dragons art.
 
-NTNU (https://www.ntnu.edu/oceans/deep-sea-mining) for art.
+NTNU (https://www.ntnu.edu/oceans/deep-sea-mining) for Depths art.
+
+Inventor Raccoon for Secrets of the Frontier, which was a light in the darkness of 0.95a questbuilding.
 
 
 ## License
@@ -64,5 +66,6 @@ Do not read ahead if you would prefer to be surprised.
 - Riley: Starts from a planet with pop 6 or greater.
 - Dragons: Starts from a planet with pop 4 or greater.
 - Depths: Starts from a planet with pop 5 or greater and 30 days after successfully completing Dragons.
+- Telos: Starts from TODO and 30 days after successfully completing Depths.
 - Nirvana: Starts from an Independent planet with pop 4 or greater.
 - Laborer: Starts from a planet with pop 3 or greater and the Mining industry.

@@ -30,6 +30,8 @@ class Telos2SecondLandingDialog(
                     "startBattle" -> option.copy(
                         onOptionSelected = {
                             Telos2Battle.startBattle()
+                            mission.setCurrentStage(Telos2HubMission.Stage.PostBattle, this.dialog, null)
+                            navigator.goToPage("3a")
                         }
                     )
                     "leave" -> option.copy(
@@ -41,6 +43,7 @@ class Telos2SecondLandingDialog(
                     else -> option
                 }
             }
+            // TODO check out FronSecWSEidolonOpen.java
         }
     )
 )
