@@ -1,133 +1,6 @@
 {
   "wisp_perseanchronicles": {
     "telos": {
-      "part1_deliveryToEarth": {
-        "strings": {
-          "title": "Delivery to Earth"
-        },
-        "stages": {
-          "deliveryToEarth": {
-            "barEvent": {
-              "prompt": "A local job notification, \"Delivery to Earth\", chimes softly on your TriPad.",
-              "optionText": "Delivery to Earth"
-            },
-            "intel": {
-              "subtitle": "Drop off near ==${telosPt1Stg1DestSystem}==",
-              "desc": "Take the container of drones to the designated location in the direction of old Earth, near ${telosPt1Stg1DestSystem}."
-            },
-            "pages": [
-              {
-                "id": "1",
-                "image": null,
-                "paras": [
-                  "After a brief wait, a woman answers and confirms what her grease-stained lab coat already told you; she is the lead engineer of a small research team.",
-                  "\"We have a container of ASPIRARDs that need to be dropped off near the ==edge of the Sector==.,” she explains, “They’ll make their way toward old Earth, sending data back the whole way. You will be paid ==${telosCredits}== upon dropoff confirmation.\""
-                ],
-                "options": [
-                  {
-                    "id": "ASPIRARDs?",
-                    "text": "\"ASPIRARDs?\"",
-                    "goToPage": "2"
-                  },
-                  {
-                    "id": "accept",
-                    "text": "Accept",
-                    "goToPage": "3"
-                  },
-                  {
-                    "id": "decline",
-                    "text": "Not now",
-                    "shortcut": "Escape"
-                  }
-                ]
-              },
-              {
-                "id": "2",
-                "paras": [
-                  "She releases a tired sigh. “Sorry - that’s Autonomous Self-Propelled Interstellar Research and …something… Drones. Reconnaissance, maybe. Our boss came up with it, and-” she cuts herself off. “Do you think you can make this dropoff?”"
-                ],
-                "options": [
-                  {
-                    "id": "accept",
-                    "text": "Accept",
-                    "goToPage": "3"
-                  },
-                  {
-                    "id": "decline",
-                    "text": "Not now",
-                    "shortcut": "Escape"
-                  }
-                ]
-              },
-              {
-                "id": "3",
-                "paras": [
-                  "“Excellent!” she taps her TriPad and, a moment later, you forward the pickup information to your crew. “Once you’re in place, release the containers into hyperspace and they’ll do the rest.”"
-                ],
-                "options": [
-                  {
-                    "id": "done",
-                    "text": "Done"
-                  }
-                ]
-              }
-            ]
-          },
-          "deliveryDropoff": {
-            "intel": {
-              "desc": "The drones have been loosed and are making the long, long journey to Sol."
-            },
-            "pages": [
-              {
-                "id": "1",
-                "paras": [
-                  "Your navigation officer waves a hand to get your attention. “Captain, we’re in the right area for dropoff of the,” they glance at their screen, “uh, ASPIRARDs. I’ll have the cargo guys push it outside.”",
-                  "The container drifts away, then splits apart with a simulated ‘whoosh’. Sensors detect a coded hyperwave burst and, moments later, ==${telosCredits}== appears in your account.",
-                  "Scores of drones rush out and stream in what must be the direction of old Earth. Details on the project were scarce. How long will they take to reach their destination? What are they expecting to find? Why send drones looking now?",
-                  "Your reverie is broken by a deferent cough. \"Captain?\" asks your comms chief. \"I know how we feel about distress signals…but you've worked with a 'Mr. Karengo' before, right?"
-                ],
-                "options": [
-                  {
-                    "text": "\"Yes...\"",
-                    "goToPage": "2"
-                  },
-                  {
-                    "text": "Sigh, but nod",
-                    "goToPage": "2"
-                  },
-                  {
-                    "text": "\"No\" (lie)",
-                    "goToPage": "1.5-lie"
-                  }
-                ]
-              },
-              {
-                "id": "1.5-lie",
-                "paras": [
-                  "The officer's eyebrow twitches, but their face remains composed."
-                ],
-                "onPageShown": {
-                  "goToPage": "2"
-                }
-              },
-              {
-                "id": "2",
-                "paras": [
-                  "They continue, “We’ve got a ping from a nearby system. Playing the audio now.”",
-                  "The bridge echoes with Karengo’s booming voice, confident despite the message. “Spacers, this here’s Karengo offering a quick and easy cleanup job. Go on an’ send the boys in orbit around ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== home, and we’ll talk recompense - see, I’ve found something hidden, and I’m willing to share. Just take care of them unfriendly types and we’ll have a talk worth all the trouble.”",
-                  "The Intel holodisplay shimmers, displaying the location of a $f:pirates{pirate} fleet."
-                ],
-                "options": [
-                  {
-                    "id": "close",
-                    "text": "Close"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      },
       "part2_dart": {
         "strings": {
           "title": "The Telos"
@@ -384,7 +257,7 @@
             },
             "pages": [
               {
-                "id": "1",
+                "id": "1-psi",
                 "paras": [
                   "$f:perseanchronicles_telos{you can feel it too can’t you}",
                   "you send to Karengo, and he sends the mental map of the base by way of assent.",
@@ -395,24 +268,24 @@
                 "options": [
                   {
                     "text": "Six hours earlier...",
-                    "goToPage": "1.1"
+                    "goToPage": "1.1-psi"
                   }
                 ]
               },
               {
-                "id": "1.1",
+                "id": "1.1-psi",
                 "paras": [
                   "Your chief medical officer’s dryly professional summary of your test results ended in a astonished “sir!” as Karengo stuck the syringe of Psicon into his leg, depressed the plunger, and then sprawled onto a couch, grinning like a madman. By the time orderlies arrived with a gurney, he was snoring, and by the time they rolled him into the med bay, he was stirring again, his consciousness an uneven pressure on your head, like a reactor flickering online."
                 ],
                 "options": [
                   {
                     "text": "Intuition took over",
-                    "goToPage": "1.2"
+                    "goToPage": "1.2-psi"
                   }
                 ]
               },
               {
-                "id": "1.2",
+                "id": "1.2-psi",
                 "paras": [
                   "A wave of lethargy washed against the shore of your mind, and you reached out.",
                   "$f:perseanchronicles_telos{carefully/questioningly: karengo can you [hear/feel] this}",
@@ -422,12 +295,12 @@
                 "options": [
                   {
                     "text": "Return to the present time",
-                    "goToPage": "2"
+                    "goToPage": "2-psi"
                   }
                 ]
               },
               {
-                "id": "2",
+                "id": "2-psi",
                 "paras": [
                   "The walk down the trapdoor steps feels like a dream coalescing into reality. At the bottom of the stairs will be/is a door to the communications room overlooking the hanger, empty but for the lonely Dart. No words are exchanged anymore - emotions and thoughts flow between you like the mixing of currents. Karengo focuses on a recording in the awakened comms data and pushes it to you.",
                   "$f:perseanchronicles_telos{tri-tachyon invasion/destruction of this base, let us [replay/immerse/join] it}"
@@ -435,12 +308,12 @@
                 "options": [
                   {
                     "text": "Continue",
-                    "goToPage": "2.1"
+                    "goToPage": "2.1-psi"
                   }
                 ]
               },
               {
-                "id": "2.1",
+                "id": "2.1-psi",
                 "paras": [
                   "The recording is of the final stand of the base and, as you focus on the Telos machine, the scene comes alive within your mind."
                 ],
@@ -452,19 +325,30 @@
                 ]
               },
               {
-                "id": "3a",
+                "id": "3-psi",
                 "paras": [
                   "With a start, you come back to yourself. The emotional imprints of carnage and destruction recede quickly, and Karengo is already moving out of the comms room and to the hanger below."
                 ],
                 "options": [
                   {
-                    "text": "Ask about the Hegemony Commander"
+                    "text": "Ask about the Hegemony Commander",
+                    "goToPage": "4-psi"
                   },
                   {
                     "id": "leave", # todo
                     "text": "Continue"
                   }
                 ]
+              },
+              {
+                "id": "4-psi",
+                "paras": [
+                  "$f:perseanchronicles_telos{questioning: who was [captain eugel/the leader of the hegemony reinforcement fleet] they were taking enjoyment from the [slaughter/destruction]} you send.",
+                  "$f:perseanchronicles_telos{unsure/uncaring: there were lots of [ghouls/zealots] after the first ai war now let us see this ship}"
+                ],
+                "onPageShown": {
+                  "goToPage": "3-psi"
+                }
               }
             ]
           }

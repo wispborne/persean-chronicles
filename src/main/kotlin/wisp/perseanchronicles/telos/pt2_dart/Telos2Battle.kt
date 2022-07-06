@@ -2,10 +2,8 @@ package wisp.perseanchronicles.telos.pt2_dart
 
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.BaseCampaignPlugin
-import com.fs.starfarer.api.campaign.BattleAPI
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
-import com.fs.starfarer.api.campaign.listeners.BaseFleetEventListener
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.combat.BattleCreationContext
 import com.fs.starfarer.api.fleet.FleetGoal
@@ -48,23 +46,10 @@ object Telos2Battle {
             rightFleet = createTelosFleet()
         )
 
-        // Watch for end of battle and cleanup.
-        game.sector.listenerManager.addListener(
-            object : BaseFleetEventListener() {
-                override fun reportBattleOccurred(
-                    fleet: CampaignFleetAPI?,
-                    primaryWinner: CampaignFleetAPI?,
-                    battle: BattleAPI
-                ) {
-                    super.reportBattleOccurred(fleet, primaryWinner, battle)
-
-                    if (battle.isPlayerInvolved) {
-                        onTelosBattleEnded(primaryWinner, battle, playerFleetHolder)
-                        game.sector.listenerManager.removeListener(this)
-                    }
-                }
-            }
-        )
+        // Can't use FleetEventListener because we aren't using a FleetInteractionDialogPluginImpl,
+        // which is what triggers onBattleOccurred.
+        // Have to rely on the calling dialog notifying us that the battle ended, which it knows because
+        // of the player using the dialog (this is how FIDPI works).
 
         // Start battle
         game.sector.campaignUI.startBattle(object : BattleCreationContext(
@@ -84,29 +69,42 @@ object Telos2Battle {
 
         // Call in reinforcements when player starts to win.
         game.combatEngine.addPlugin(object : BaseEveryFrameCombatPlugin() {
+            var hasReinforced = false
+
             override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
                 val enemyFleetManager = game.combatEngine.getFleetManager(FleetSide.ENEMY)
                 val hasDestroyedEnoughOfEnemy = enemyFleetManager.destroyedCopy.size > 5
 
-                if (game.combatEngine.isEnemyInFullRetreat || hasDestroyedEnoughOfEnemy) {
+                if (!hasReinforced && (game.combatEngine.isEnemyInFullRetreat || hasDestroyedEnoughOfEnemy)) {
                     game.combatEngine.combatNotOverFor = 10f // seconds
                     createHegemonyFleetReinforcements().fleetData.membersListCopy.forEach { reinforcement ->
                         reinforcement.owner = 1 // Vanilla hardcodes 1 for enemy and 0 for player ahhhhhhhhhhhhhhhhhh
                         enemyFleetManager
                             .addToReserves(reinforcement)
                     }
+                    hasReinforced = true
+                }
+
+                if (hasReinforced && game.combatEngine.isCombatOver) {
+                    onTelosBattleEnded(
+                        didPlayerWin = game.combatEngine.winningSideId == 0,
+                        originalPlayerFleet = playerFleetHolder
+                    )
                     game.combatEngine.removePlugin(this)
                 }
             }
         })
     }
 
+    /**
+     * Call after the battle ends.
+     */
     private fun onTelosBattleEnded(
-        primaryWinner: CampaignFleetAPI?,
-        battle: BattleAPI,
-        playerFleetHolder: CampaignFleetAPI
+        didPlayerWin: Boolean,
+        originalPlayerFleet: CampaignFleetAPI
     ) {
-        if (primaryWinner == battle.playerSide) {
+        if (didPlayerWin) {
+            game.logger.i { "Cheater cheater pumpkin eater!" }
             // How tf did player win? hax
             // todo
         }
@@ -114,7 +112,7 @@ object Telos2Battle {
         // Give the player back their fleet.
         swapFleets(
             leftFleet = game.sector.playerFleet,
-            rightFleet = playerFleetHolder
+            rightFleet = originalPlayerFleet
         )
     }
 

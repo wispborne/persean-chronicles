@@ -1,6 +1,5 @@
 package wisp.perseanchronicles.telos.pt2_dart
 
-import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.CampaignPlugin
 import com.fs.starfarer.api.campaign.InteractionDialogAPI
@@ -35,8 +34,7 @@ class Telos2HubMission : QGHubMission() {
         val MISSION_ID = "wisp_perseanchronicles_telosPt2"
 
         var part2Json: JSONObject =
-            Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
-                .query("/$MOD_ID/telos/part2_dart") as JSONObject
+            TelosCommon.readJson().query("/$MOD_ID/telos/part2_dart") as JSONObject
             private set
 
         val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
@@ -59,7 +57,6 @@ class Telos2HubMission : QGHubMission() {
         var injectedSelf: Boolean? by map // Null if choice not made yet.
     }
 
-
     init {
         missionId = MISSION_ID
     }
@@ -68,7 +65,7 @@ class Telos2HubMission : QGHubMission() {
         super.onGameLoad()
 
         if (isDevMode())
-            part2Json = Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
+            part2Json = TelosCommon.readJson()
                 .query("/$MOD_ID/telos/part2_dart") as JSONObject
     }
 

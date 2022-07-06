@@ -19,6 +19,7 @@ import org.json.JSONObject
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.telos.pt2_dart.TelosCommon
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.addPara
 import wisp.questgiver.spriteName
@@ -33,7 +34,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
     companion object {
         val MISSION_ID = "telosPt1"
 
-        var part1Json: JSONObject = Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
+        var part1Json: JSONObject = TelosCommon.readJson()
             .query("/$MOD_ID/telos/part1_deliveryToEarth")
             private set
 
@@ -74,7 +75,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
         super.onGameLoad()
 
         if (isDevMode())
-            part1Json = Global.getSettings().getMergedJSONForMod("data/strings/telos.hjson", MOD_ID)
+            part1Json = TelosCommon.readJson()
                 .query("/$MOD_ID/telos/part1_deliveryToEarth")
     }
 
