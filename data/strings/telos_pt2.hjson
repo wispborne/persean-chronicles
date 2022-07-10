@@ -81,11 +81,13 @@
                   },
                   {
                     "id": "noInject",
-                    "text": "==“I'm not sure about this.”=="
+                    "text": "==Wait until later==",
+                    "tooltip": "This choice will not affect quest rewards."
                   },
                   {
                     "id": "injectSelf",
                     "text": "==Inject yourself==",
+                    "tooltip": "This choice will not affect quest rewards.",
                     "goToPage": "7"
                   }
                 ]
@@ -275,7 +277,7 @@
               {
                 "id": "1.1-psi",
                 "paras": [
-                  "Your chief medical officer’s dryly professional summary of your test results ended in a astonished “sir!” as Karengo stuck the syringe of Psicon into his leg, depressed the plunger, and then sprawled onto a couch, grinning like a madman. By the time orderlies arrived with a gurney, he was snoring, and by the time they rolled him into the med bay, he was stirring again, his consciousness an uneven pressure on your head, like a reactor flickering online."
+                  "Your chief medical officer’s dryly professional summary of your test results ended in a astonished “sir!” as Karengo stuck the syringe of Psicon into his leg, depressed the plunger, and then sprawled onto a couch, grinning like a madman. By the time orderlies arrived with a gurney, he was snoring, and by the time they rolled him into the med bay, he was stirring again, his consciousness an uneven pressure on your head like a reactor flickering online."
                 ],
                 "options": [
                   {
@@ -320,7 +322,7 @@
                 "options": [
                   {
                     "id": "startBattle",
-                    "text": "$f:perseanchronicles_telos{start battle}"
+                    "text": "$f:perseanchronicles_telos{begin battle}"
                   }
                 ]
               },
@@ -351,6 +353,19 @@
                 }
               }
             ]
+          },
+          # Not a real Stage but the strings are the same on both forks so I didn't want to put them in one or the other.
+          "battle": {
+            "flagshipName": "Eugel’s Blade",
+            "quotes": [
+              "This is Captain Eugel of the Hegemony. Power down your weapons and your forbidden technology.",
+              "I have orders to eliminate all threats to the Domain. Your course is a threat to us all.",
+              "I take no joy in ending your march to technological armageddon. But I will end it.",
+              "A brotherhood of Man is a worthy goal, but technology is not the solution.",
+              "This is not a battle you can win, Telos. Your little experiment is over.",
+              "The record will note that you fought valiantly, but resistance is futile. Let it end."
+            ],
+            "victoryQuote": "And so another would-be Prometheus falls. Some arts are best left to the Creator."
           }
         }
       }

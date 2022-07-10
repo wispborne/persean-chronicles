@@ -1,6 +1,7 @@
 package wisp.perseanchronicles.telos.pt2_dart
 
 import org.lazywizard.console.BaseCommand
+import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle
 
 class Telos2TestBattleCommand : BaseCommand {
     override fun runCommand(args: String, context: BaseCommand.CommandContext): BaseCommand.CommandResult {

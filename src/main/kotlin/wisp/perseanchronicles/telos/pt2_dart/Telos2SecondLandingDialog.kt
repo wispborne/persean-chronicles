@@ -3,6 +3,7 @@ package wisp.perseanchronicles.telos.pt2_dart
 import org.json.JSONObject
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.query

@@ -7,25 +7,26 @@ import com.fs.starfarer.api.campaign.InteractionDialogPlugin
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
-import com.fs.starfarer.api.impl.campaign.ids.Factions
-import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
-import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.characters.FullName
+import com.fs.starfarer.api.characters.PersonAPI
+import com.fs.starfarer.api.impl.campaign.events.OfficerManagerEvent
+import com.fs.starfarer.api.impl.campaign.ids.*
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import data.scripts.util.MagicCampaign
+import org.json.JSONArray
 import org.json.JSONObject
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
+import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.addPara
 import wisp.questgiver.spriteName
 import wisp.questgiver.v2.QGHubMission
 import wisp.questgiver.v2.json.query
-import wisp.questgiver.wispLib.PersistentMapData
-import wisp.questgiver.wispLib.Text
-import wisp.questgiver.wispLib.qgFormat
-import wisp.questgiver.wispLib.trigger
+import wisp.questgiver.wispLib.*
 import java.awt.Color
 
 class Telos2HubMission : QGHubMission() {
@@ -46,6 +47,23 @@ class Telos2HubMission : QGHubMission() {
         fun startBattle() = Telos2Battle.startBattle()
     }
 
+    val captainEugel: PersonAPI = MagicCampaign.createCaptain(
+        /* isAI = */ false,
+        /* AICoreType = */ null,
+        /* firstName = */ "Captain",
+        /* lastName = */ "Eugel",
+        /* portraitId = */ "graphics/portraits/portrait_hegemony05.png",
+        /* gender = */ FullName.Gender.MALE,
+        /* factionId = */ Factions.HEGEMONY,
+        /* rankId = */ Ranks.SPACE_COMMANDER,
+        /* postId = */ Ranks.POST_FLEET_COMMANDER,
+        /* personality = */ Personalities.STEADY,
+        /* level = */ 10,
+        /* eliteSkillsOverride = */ 0,
+        /* skillPreference = */ OfficerManagerEvent.SkillPickPreference.ANY,
+        /* skillLevels = */ null
+    )
+
     class State(val map: MutableMap<String, Any?>) {
         var startDateMillis: Long? by map
         var completeDateInMillis: Long? by map
@@ -64,6 +82,7 @@ class Telos2HubMission : QGHubMission() {
     override fun onGameLoad() {
         super.onGameLoad()
 
+        // Reload json if devmode reload.
         if (isDevMode())
             part2Json = TelosCommon.readJson()
                 .query("/$MOD_ID/telos/part2_dart") as JSONObject
@@ -226,6 +245,13 @@ class Telos2HubMission : QGHubMission() {
             }
         }
     }
+
+    /**
+     * From Captain Eugel. In chronological order.
+     */
+    fun getBattleQuotes(): List<String> = part2Json.query<JSONArray>("/stages/battle/quotes").toStringList()
+    fun getBattleVictoryQuote(): String = part2Json.query("/stages/battle/victoryQuote")
+    fun getEugelShipName(): String = part2Json.query("/stages/battle/flagshipName")
 
     enum class Stage {
         DestroyFleet,

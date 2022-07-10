@@ -50,6 +50,7 @@ dependencies {
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersionInLazyLib")
 
     compileOnly(fileTree("$starsectorModDirectory/LazyLib/jars") { include("*.jar") })
+    compileOnly(fileTree("$starsectorModDirectory/MagicLib-0.42.1/jars") { include("*.jar") })
     compileOnly(fileTree("$starsectorModDirectory/Console Commands/jars") { include("*.jar") })
 
     // This grabs local files from the /libs folder, see `repositories` block.
@@ -149,6 +150,11 @@ tasks {
                             {
                                 "id": "lw_lazylib",
                                 "name": "LazyLib",
+                                # "version": "2.6" # If a specific version or higher is required, include this line
+                            },
+                            {
+                                "id": "MagicLib",
+                                "name": "MagicLib",
                                 # "version": "2.6" # If a specific version or higher is required, include this line
                             }
                         ]
