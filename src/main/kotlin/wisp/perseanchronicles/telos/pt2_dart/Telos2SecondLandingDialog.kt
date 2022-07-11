@@ -32,7 +32,11 @@ class Telos2SecondLandingDialog(
                         onOptionSelected = {
                             Telos2Battle.startBattle()
                             mission.setCurrentStage(Telos2HubMission.Stage.PostBattle, this.dialog, null)
-                            navigator.goToPage("3-psi")
+                            if (Telos2HubMission.choices.injectedSelf == true) {
+                                navigator.goToPage("3-psi")
+                            } else {
+                                navigator.goToPage("3-noPsi")
+                            }
                         }
                     )
                     "leave" -> option.copy(

@@ -247,7 +247,7 @@ class Telos2HubMission : QGHubMission() {
     }
 
     /**
-     * From Captain Eugel. In chronological order.
+     * Quotes from Captain Eugel in battle. In chronological order.
      */
     fun getBattleQuotes(): List<String> = part2Json.query<JSONArray>("/stages/battle/quotes").toStringList()
     fun getBattleVictoryQuote(): String = part2Json.query("/stages/battle/victoryQuote")

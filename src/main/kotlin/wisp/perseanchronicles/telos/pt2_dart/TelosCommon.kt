@@ -9,7 +9,9 @@ object TelosCommon {
         game.settings.getMergedJSONForMod(
             paths = listOf(
                 "data/strings/telos_pt1.hjson",
-                "data/strings/telos_pt2.hjson"
+                "data/strings/telos_pt2_common.hjson",
+                "data/strings/telos_pt2_psicon.hjson",
+                "data/strings/telos_pt2_noPsicon.hjson",
             ),
             masterMod = MOD_ID
         )

@@ -21,11 +21,10 @@ class Telos2FirstLandingDialog(
         stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
             "11.1" to {
-                if (Telos2HubMission.choices.injectedSelf == true) {
-                    mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondPsicon, this.dialog, null)
-                } else {
-                    mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondNoPsicon, this.dialog, null)
-                }
+                mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondPsicon, this.dialog, null)
+            },
+            "12.2" to {
+                mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondNoPsicon, this.dialog, null)
             }
         ),
         optionConfigurator = { options ->

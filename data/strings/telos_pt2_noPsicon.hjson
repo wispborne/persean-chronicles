@@ -1,0 +1,81 @@
+{
+  "wisp_perseanchronicles": {
+    "telos": {
+      "part2_dart": {
+        "stages": {
+          "landOnPlanetSecondNoPsicon": {
+            "intel": {
+              "subtitle": "Return to the planet",
+              "desc": "Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== to investigate the underground sections."
+            },
+            "pages": [
+              {
+                "id": "1-noPsi",
+                "paras": [
+                  "In the end, the hidden trapdoor in the underground Telos room was opened by brute force and liberal application of plasma. A disgruntled tech explains that there was a datafield present that could have, theoretically, been the door control, but the interface was ‘chaos’, unhackable without an installed and powered Alpha Core. You gather that ensuring the door was open before your return was prioritized."
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "1.1-noPsi"
+                  }
+                ]
+              },
+              {
+                "id": "1.1-noPsi",
+                "paras": [
+                  "The opening was left unexplored per your request and Karengo steps down the polished staircase, led far below the surface by more blue safety lighting. Just as you start to wonder how far below ground you are, the stairs end at an unlocked door marked “COMMS”, and Karengo presses through.",
+                  "The spacious room, immediately recognizable as traffic control, is filled with unpowered holodisplays and blank readouts.The glass wall at the far side of the room overlooks a hanger and, after a moment of searching, you spot a single ship in a corner, clearly unlike anything else still produced in the sector."
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "2-noPsi"
+                  }
+                ]
+              },
+              {
+                "id": "2-noPsi",
+                "paras": [
+                  "“${playerLastName}, c’mere.” Karengo has brought one of the displays online and is swiping through data. “This’s telemetry of the Hegemony invasion of this Telos stronghold. Bet someone’d pay to keep this quiet, eh? Let’s take a look.”",
+                  "With another swipe, more holodisplays light up the room and launch into a recording of the battle."
+                ],
+                "options": [
+                  {
+                    "id": "startBattle",
+                    "text": "Begin battle"
+                  }
+                ]
+              },
+              {
+                "id": "3-noPsi",
+                "paras": [
+                  "The simulated explosions echo briefly around the room before dying. Karengo glances over and shrugs. “An’ that’s why you don’t take the Hegemony in a fair fight, eh?” He turns away, towards the hanger door and the lone ship in the bay."
+                ],
+                "options": [
+                  {
+                    "text": "Ask about the Hegemony Commander",
+                    "goToPage": "4-noPsi"
+                  },
+                  {
+                    "id": "leave", # todo
+                    "text": "Continue"
+                  }
+                ]
+              },
+              {
+                "id": "4-noPsi",
+                "paras": [
+                  "“That guy? No idea. Seemed ta take the nanites kinda personally, though. An' strange wording for a Hegemony man.”"
+                ],
+                "onPageShown": {
+                  "goToPage": "3-noPsi"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
