@@ -19,6 +19,9 @@
     },
     "wisp_perseanchronicles_laborer": {
       "portrait": "graphics/portraits/portrait18.png"
+    },
+    "wisp_perseanchronicles_telos": {
+      "nocturneRadar": "graphics/telos/nocturne_radar.png"
     }
   }
 }

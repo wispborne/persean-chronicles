@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    val kotlinVersionInLazyLib = "1.5.31"
+    val kotlinVersionInLazyLib = "1.6.21"
 
     // Questgiver lib
     implementation(fileTree("libs")

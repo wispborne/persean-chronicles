@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.telos.pt2_dart
 
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.CampaignPlugin
 import com.fs.starfarer.api.campaign.InteractionDialogAPI
@@ -19,6 +20,7 @@ import org.json.JSONObject
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle
 import wisp.questgiver.InteractionDefinition
@@ -45,24 +47,27 @@ class Telos2HubMission : QGHubMission() {
         const val badFleetDefeatTrigger = "wisp_perseanchronicles_telosPt2_badfleetdefeated"
 
         fun startBattle() = Telos2Battle.startBattle()
-    }
 
-    val captainEugel: PersonAPI = MagicCampaign.createCaptain(
-        /* isAI = */ false,
-        /* AICoreType = */ null,
-        /* firstName = */ "Captain",
-        /* lastName = */ "Eugel",
-        /* portraitId = */ "graphics/portraits/portrait_hegemony05.png",
-        /* gender = */ FullName.Gender.MALE,
-        /* factionId = */ Factions.HEGEMONY,
-        /* rankId = */ Ranks.SPACE_COMMANDER,
-        /* postId = */ Ranks.POST_FLEET_COMMANDER,
-        /* personality = */ Personalities.STEADY,
-        /* level = */ 10,
-        /* eliteSkillsOverride = */ 0,
-        /* skillPreference = */ OfficerManagerEvent.SkillPickPreference.ANY,
-        /* skillLevels = */ null
-    )
+        val captainEugel: PersonAPI = game.memory["capEugel"] as? PersonAPI? ?: kotlin.run {
+            MagicCampaign.createCaptain(
+                /* isAI = */ false,
+                /* AICoreType = */ null,
+                /* firstName = */ "Captain",
+                /* lastName = */ "Eugel",
+                /* portraitId = */ "graphics/portraits/portrait_hegemony05.png",
+                /* gender = */ FullName.Gender.MALE,
+                /* factionId = */ Factions.HEGEMONY,
+                /* rankId = */ Ranks.SPACE_COMMANDER,
+                /* postId = */ Ranks.POST_FLEET_COMMANDER,
+                /* personality = */ Personalities.STEADY,
+                /* level = */ 10,
+                /* eliteSkillsOverride = */ 0,
+                /* skillPreference = */ OfficerManagerEvent.SkillPickPreference.ANY,
+                /* skillLevels = */ null
+            )
+                .also { game.memory["capEugel"] = it }
+        }
+    }
 
     class State(val map: MutableMap<String, Any?>) {
         var startDateMillis: Long? by map

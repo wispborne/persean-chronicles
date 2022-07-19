@@ -1,4 +1,4 @@
-package wisp.perseanchronicles.telos.pt2_dart
+package wisp.perseanchronicles.telos.pt2_dart.battle
 
 import org.lazywizard.console.BaseCommand
 import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle

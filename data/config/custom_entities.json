@@ -1,0 +1,17 @@
+{
+  "PerseanChronicles_Telos_Nocturne": {
+    "defaultName": "",
+    "defaultRadius": 302,
+    "renderShadow": false,
+    "useLightColor": false,
+    "showInCampaign": true,
+    "showIconOnMap": false,
+    "showNameOnMap": false,
+    "renderCircleIndicator": false,
+    "renderCircleIndicatorSelectionFlash": false,
+    "scanIconWithZoom": true,
+    "interactable":false,
+    "layers": [ABOVE],
+    "pluginClass": "wisp.perseanchronicles.telos.pt3_arrow.nocturne.NocturneCustomEntity"
+  }
+}

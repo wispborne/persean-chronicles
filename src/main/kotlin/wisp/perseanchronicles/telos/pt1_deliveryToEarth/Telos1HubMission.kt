@@ -19,7 +19,7 @@ import org.json.JSONObject
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
-import wisp.perseanchronicles.telos.pt2_dart.TelosCommon
+import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.addPara
 import wisp.questgiver.spriteName

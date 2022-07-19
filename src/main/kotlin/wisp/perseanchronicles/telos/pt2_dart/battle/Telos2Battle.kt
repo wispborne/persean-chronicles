@@ -141,7 +141,7 @@ object Telos2Battle {
             /* flagshipVariant = */ "onslaught_xiv_Elite",
             /* flagshipRecovery = */ false,
             /* flagshipAutofit = */ true,
-            /* captain = */ telos2HubMission?.captainEugel,
+            /* captain = */ Telos2HubMission.captainEugel,
             /* supportFleet = */ mapOf(
                 "brawler_Assault" to 13,
                 "condor_Support" to 12,

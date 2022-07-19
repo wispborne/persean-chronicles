@@ -52,7 +52,7 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
         // Eugel starts spouting quotes after he arrives
         val eugelInBattle = game.combatEngine.ships.firstOrNull { it.fleetMemberId == captEugeneShip.id }
 
-        if (eugelInBattle != null) {
+        if (eugelInBattle != null && eugelInBattle.isAlive) {
             if (!game.combatEngine.isCombatOver) {
                 // Spout quotes periodically.
                 if (secsSinceWave2Arrived != null && quotesItr.hasNext()) {

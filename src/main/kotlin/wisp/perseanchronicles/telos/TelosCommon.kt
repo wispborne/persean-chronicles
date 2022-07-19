@@ -1,4 +1,4 @@
-package wisp.perseanchronicles.telos.pt2_dart
+package wisp.perseanchronicles.telos
 
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game

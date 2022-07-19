@@ -1,6 +1,7 @@
 package wisp.perseanchronicles
 
 import com.fs.starfarer.api.BaseModPlugin
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.characters.FullName
 import com.thoughtworks.xstream.XStream
 import org.apache.log4j.Level
@@ -16,6 +17,7 @@ import wisp.perseanchronicles.riley.*
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1BarEventWiring
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
+import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
 import wisp.questgiver.Configuration
 import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.firstName
@@ -143,6 +145,7 @@ class LifecyclePlugin : BaseModPlugin() {
             Telos1BarEventWiring::class to "Telos1BarEventWiring",
             Telos1HubMission::class to "Telos1HubMission",
             Telos2HubMission::class to "Telos2HubMission",
+            Telos3HubMission::class to "Telos3HubMission",
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized
