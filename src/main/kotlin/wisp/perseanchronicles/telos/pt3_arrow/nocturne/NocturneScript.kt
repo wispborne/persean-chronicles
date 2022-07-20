@@ -2,10 +2,12 @@ package wisp.perseanchronicles.telos.pt3_arrow.nocturne
 
 import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.Global
+import com.fs.starfarer.campaign.CampaignEngine
 import org.lazywizard.console.Console
 import org.lazywizard.lazylib.FastTrig
 import org.lazywizard.lazylib.MathUtils
 import org.lazywizard.lazylib.opengl.ColorUtils
+import org.lazywizard.lazylib.opengl.DrawUtils
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.Display
 import org.lwjgl.opengl.GL11.*
@@ -43,36 +45,58 @@ class NocturneScript : EveryFrameScript {
         minimapHeight = 220f
 //        renderMinimapBlur()
 
+
         kotlin.runCatching {
             val radius = Global.getSettings().getFloat("campaignRadarRadius")
             val ratio = screenWidth / screenHeight
+            val viewport = game.sector.viewport
 
-            glEnable(GL_TEXTURE_2D)
+//            glEnable(GL_TEXTURE_2D)
             glPushAttrib(GL_ALL_ATTRIB_BITS)
             glViewport(0, 0, (screenWidth.toInt()).toInt(), (screenHeight * ratio).toInt())
             glMatrixMode(GL_PROJECTION)
             glPushMatrix()
             glLoadIdentity()
 //            glOrtho(
-//                0.0,
-//                0.0,
-//                0.0,
-//                0.0,
+//                viewport.llx.toDouble(),
+//                (viewport.llx + viewport.visibleWidth).toDouble(),
+//                viewport.lly.toDouble(),
+//                (viewport.lly + viewport.visibleHeight).toDouble(),
 //                -1.0,
 //                1.0
 //            )
+            glOrtho(
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                -1.0,
+                1.0
+            )
             glMatrixMode(GL_MODELVIEW)
             glPushMatrix()
             glLoadIdentity()
-//            glDisable(GL_TEXTURE_2D)
+            glDisable(GL_TEXTURE_2D)
 //            glEnable(GL_BLEND)
 //            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
             glTranslatef(0.01f, 0.01f, 0f)
 
-            ColorUtils.glColor(Color(10, 31, 36), 1f, true)
-//            DrawUtils.drawCircle(0f, 0f, .2f, 80, true)
-            drawFilledCircle(.821f, -0.856f, .11f)
-            glDisable(GL_TEXTURE_2D)
+//            glEnable(GL_TEXTURE_2D)
+            // todo multiply CampaignEngine.getInstance().getPlayerFaction().getDarkUIColor() by 0.33f
+            var color = CampaignEngine.getInstance().playerFaction.darkUIColor
+            val alpha = .33f
+            color = Color(
+                (color.red * alpha).coerceIn(0f, 255f).toInt(),
+                (color.green * alpha).coerceIn(0f, 255f).toInt(),
+                (color.blue * alpha).coerceIn(0f, 255f).toInt()
+            )
+            ColorUtils.glColor(color, 1f)
+//            ColorUtils.glColor(Color(10, 31, 36, 1), 1f)
+            DrawUtils.drawCircle(.821f, -0.856f, .1088f, 80, true)
+//            drawFilledCircle(.0f, 0f, .11f)
+//            glColor3f(10f, 31f, 36f)
+//            drawFilledCircle(.821f, -0.856f, .11f)
+//            glDisable(GL_TEXTURE_2D)
 
             // Clear OpenGL flags
 //            glDisable(GL_BLEND);
@@ -98,6 +122,35 @@ class NocturneScript : EveryFrameScript {
         }
     }
 
+    fun vanillaRadarRender() {
+        // com.fs.starfarer.coreui.map.H.class
+//        val var5: Float
+//        val var6: Float
+//        val var11 = this.getPosition()
+//        var3 = var11.getWidth()
+//        var4 = var11.getHeight()
+//        var5 = var11.getX()
+//        var6 = var11.getY()
+//        val var7 = StarfarerSettings.Õ00000("systemMap", "radar_mask")
+//        var7.color = Color.white
+//        var7.setSize(var3, var4)
+//        super(var7, var5 + var3 / 2.0f, var6 + var4 / 2.0f, 1)
+//        var var8 = Color.black
+//        Color(0, 50, 0, 255)
+//        var8 = CampaignEngine.getInstance().playerFaction.darkUIColor
+//        var8 = OoOO.Õ00000(var8, 0.33f)
+//        var8 = OoOO.Ò00000(var8, 255)
+//        oo0OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO.Ó00000(
+//            var5,
+//            var6,
+//            var3,
+//            var4,
+//            var8,
+//            var1
+//        )
+
+    }
+
     /*
     * Function that handles the drawing of a circle using the triangle fan
     * method. This will create a filled circle.
@@ -112,11 +165,11 @@ class NocturneScript : EveryFrameScript {
 
         val twicePi: Float = 2.0f * kotlin.math.PI.toFloat()
         glBegin(GL_TRIANGLE_FAN)
-        glColor3f(10f, 31f, 36f) // lower rgb to make dim
+//        glColor3f(10f, 31f, 36f) // lower rgb to make dim
         glVertex2f(x, y) // center of circle
         var i = 0
         while (i <= triangleAmount) {
-            glColor3f(10f, 31f, 36f) // lower rgb to make dim
+//            glColor3f(10f, 31f, 36f) // lower rgb to make dim
             glVertex2f(
                 x + radius * FastTrig.cos(i * twicePi / triangleAmount.toDouble()).toFloat(),
                 y + radius * FastTrig.sin(i * twicePi / triangleAmount.toDouble()).toFloat()
