@@ -39,32 +39,60 @@ class NocturneScript : EveryFrameScript {
         if (!game.sector.isPaused) {
             secsElapsed += amount
         }
-//        Global.getSector().viewport.alphaMult = 0.01f
-        game.sector.viewport.alphaMult = 0.5f
+
         minimapWidth = 220f
         minimapHeight = 220f
 //        renderMinimapBlur()
 
 
+        drawMinimapBlackout()
+        renderViewportInvisible()
+        setPlayerSensorStrength()
+
+        if (secsElapsed > 10) {
+            game.sector.viewport.alphaMult = 1f
+//            glDeleteTextures(bgTextureId)
+            game.logger.i { "Ending Nocturne effect." }
+            isDone = true
+        }
+    }
+
+    private fun setPlayerSensorStrength() {
+        val modId = "nocturne"
+
+        if (secsElapsed < 10) {
+            game.sector.playerFleet.sensorRangeMod.modifyMult(modId, 0f, "Darkness...")
+        } else
+            game.sector.playerFleet.sensorRangeMod.unmodifyMult(modId)
+    }
+
+    private fun renderViewportInvisible() {
+        if (secsElapsed < 10)
+            game.sector.viewport.alphaMult = 0.0f
+        else
+            game.sector.viewport.alphaMult = 1f
+    }
+
+    private fun drawMinimapBlackout() {
         kotlin.runCatching {
             val radius = Global.getSettings().getFloat("campaignRadarRadius")
             val ratio = screenWidth / screenHeight
             val viewport = game.sector.viewport
 
-//            glEnable(GL_TEXTURE_2D)
+            //            glEnable(GL_TEXTURE_2D)
             glPushAttrib(GL_ALL_ATTRIB_BITS)
             glViewport(0, 0, (screenWidth.toInt()).toInt(), (screenHeight * ratio).toInt())
             glMatrixMode(GL_PROJECTION)
             glPushMatrix()
             glLoadIdentity()
-//            glOrtho(
-//                viewport.llx.toDouble(),
-//                (viewport.llx + viewport.visibleWidth).toDouble(),
-//                viewport.lly.toDouble(),
-//                (viewport.lly + viewport.visibleHeight).toDouble(),
-//                -1.0,
-//                1.0
-//            )
+            //            glOrtho(
+            //                viewport.llx.toDouble(),
+            //                (viewport.llx + viewport.visibleWidth).toDouble(),
+            //                viewport.lly.toDouble(),
+            //                (viewport.lly + viewport.visibleHeight).toDouble(),
+            //                -1.0,
+            //                1.0
+            //            )
             glOrtho(
                 0.0,
                 0.0,
@@ -77,11 +105,11 @@ class NocturneScript : EveryFrameScript {
             glPushMatrix()
             glLoadIdentity()
             glDisable(GL_TEXTURE_2D)
-//            glEnable(GL_BLEND)
-//            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+            //            glEnable(GL_BLEND)
+            //            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
             glTranslatef(0.01f, 0.01f, 0f)
 
-//            glEnable(GL_TEXTURE_2D)
+            //            glEnable(GL_TEXTURE_2D)
             // todo multiply CampaignEngine.getInstance().getPlayerFaction().getDarkUIColor() by 0.33f
             var color = CampaignEngine.getInstance().playerFaction.darkUIColor
             val alpha = .33f
@@ -91,15 +119,15 @@ class NocturneScript : EveryFrameScript {
                 (color.blue * alpha).coerceIn(0f, 255f).toInt()
             )
             ColorUtils.glColor(color, 1f)
-//            ColorUtils.glColor(Color(10, 31, 36, 1), 1f)
+            //            ColorUtils.glColor(Color(10, 31, 36, 1), 1f)
             DrawUtils.drawCircle(.821f, -0.856f, .1088f, 80, true)
-//            drawFilledCircle(.0f, 0f, .11f)
-//            glColor3f(10f, 31f, 36f)
-//            drawFilledCircle(.821f, -0.856f, .11f)
-//            glDisable(GL_TEXTURE_2D)
+            //            drawFilledCircle(.0f, 0f, .11f)
+            //            glColor3f(10f, 31f, 36f)
+            //            drawFilledCircle(.821f, -0.856f, .11f)
+            //            glDisable(GL_TEXTURE_2D)
 
             // Clear OpenGL flags
-//            glDisable(GL_BLEND);
+            //            glDisable(GL_BLEND);
 
             glMatrixMode(GL_MODELVIEW);
             glPopMatrix();
@@ -108,18 +136,11 @@ class NocturneScript : EveryFrameScript {
             glPopAttrib();
 
 
-//            glColor4f(10f, 31f, 36f, 1f) // lower rgb to make dim
-////            glEnd()
-//            glDisable(GL_TEXTURE_2D)
+            //            glColor4f(10f, 31f, 36f, 1f) // lower rgb to make dim
+            ////            glEnd()
+            //            glDisable(GL_TEXTURE_2D)
         }
             .onFailure { game.logger.i(it) }
-
-        if (secsElapsed > 10) {
-            game.sector.viewport.alphaMult = 1f
-//            glDeleteTextures(bgTextureId)
-            game.logger.i { "Ending Nocturne effect." }
-            isDone = true
-        }
     }
 
     fun vanillaRadarRender() {
