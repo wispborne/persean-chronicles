@@ -19,13 +19,12 @@ class NocturneCustomEntity : BaseCustomEntityPlugin() {
     override fun render(layer: CampaignEngineLayers, viewport: ViewportAPI) {
         super.render(layer, viewport)
 
-        game.settings.getSprite("wisp_perseanchronicles_telos", "nocturneRadar").apply {
-            val size = .5f
+        game.settings.getSprite("wisp_perseanchronicles_telos", "nocturneBlackout").apply {
 //                width = size
 //                height = size
-//            setSize(size, size)
-            renderAtCenter(0f, 0f)
+            setSize(viewport.visibleWidth, viewport.visibleHeight)
+            alphaMult = 1f
+            renderAtCenter(entity.location.x, entity.location.y)
         }
-//        jumpAnimation?.render(entity.location)
     }
 }

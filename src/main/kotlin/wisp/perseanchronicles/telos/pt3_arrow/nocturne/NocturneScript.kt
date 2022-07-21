@@ -2,6 +2,7 @@ package wisp.perseanchronicles.telos.pt3_arrow.nocturne
 
 import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.Global
+import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.campaign.CampaignEngine
 import org.lazywizard.console.Console
 import org.lazywizard.lazylib.FastTrig
@@ -26,7 +27,8 @@ class NocturneScript : EveryFrameScript {
     private var minimapHeight = 240f
     private val minimapX = (screenWidth - minimapWidth).toInt()
     private val minimapY = (screenHeight - minimapHeight).toInt()
-    private val bgTextureId = 0//glGenTextures()
+    private val bgTextureId = glGenTextures()
+    private var nocturneEntity: SectorEntityToken? = null
 
     private var isDone = false
     private var secsElapsed = 0f
@@ -40,16 +42,19 @@ class NocturneScript : EveryFrameScript {
             secsElapsed += amount
         }
 
+        val isEffectOver = secsElapsed > 10
         minimapWidth = 220f
         minimapHeight = 220f
 //        renderMinimapBlur()
 
 
         drawMinimapBlackout()
-        renderViewportInvisible()
+//        renderViewportInvisible()
         setPlayerSensorStrength()
+        updateCustomEntity(isEffectOver)
+//        darkenScreen()
 
-        if (secsElapsed > 10) {
+        if (isEffectOver) {
             game.sector.viewport.alphaMult = 1f
 //            glDeleteTextures(bgTextureId)
             game.logger.i { "Ending Nocturne effect." }
@@ -57,13 +62,41 @@ class NocturneScript : EveryFrameScript {
         }
     }
 
+    private fun updateCustomEntity(isEffectOver: Boolean) {
+        when {
+            !isEffectOver -> {
+                if (nocturneEntity == null) {
+                    kotlin.runCatching {
+                        nocturneEntity = game.sector.playerFleet.starSystem?.addCustomEntity(
+                            "PerseanChronicles_Telos_Nocturne",
+                            "",
+                            "PerseanChronicles_Telos_Nocturne",
+                            null
+                        )
+                    }
+                        .onFailure { game.logger.w(it) }
+                } else {
+                    nocturneEntity?.setLocation(game.sector.playerFleet.location.x, game.sector.playerFleet.location.y)
+                }
+            }
+            nocturneEntity != null -> {
+                game.sector.playerFleet.starSystem?.removeEntity(nocturneEntity)
+                nocturneEntity = null
+            }
+        }
+    }
+
     private fun setPlayerSensorStrength() {
-        val modId = "nocturne"
+        val modIdMult = "nocturneMult"
+        val modIdFlat = "nocturneFlat"
 
         if (secsElapsed < 10) {
-            game.sector.playerFleet.sensorRangeMod.modifyMult(modId, 0f, "Darkness...")
-        } else
-            game.sector.playerFleet.sensorRangeMod.unmodifyMult(modId)
+            game.sector.playerFleet.sensorRangeMod.modifyMult(modIdMult, 1f, "Darkness...")
+            game.sector.playerFleet.sensorRangeMod.modifyFlat(modIdFlat, -5000f, "Darkness...")
+        } else {
+            game.sector.playerFleet.sensorRangeMod.unmodifyMult(modIdMult)
+            game.sector.playerFleet.sensorRangeMod.unmodifyFlat(modIdFlat)
+        }
     }
 
     private fun renderViewportInvisible() {
@@ -200,9 +233,8 @@ class NocturneScript : EveryFrameScript {
         glEnd()
     }
 
-    fun renderMinimapBlur() {
+    fun darkenScreen() {
         kotlin.runCatching {
-//            drawNoise(x = minimapX.toFloat(), y = minimapY.toFloat(), width = minimapWidth, height = minimapHeight)
             storeScreenTexture()
             startFlags()
             drawBackground()
@@ -236,10 +268,10 @@ class NocturneScript : EveryFrameScript {
         val buffer = BufferUtils.createByteBuffer(screenWidth.toInt() * screenHeight.toInt() * 3)
         // Subtract 2 from the height to create a nightmare dimension.
         glReadPixels(
-            minimapX,
+            0,
             (1).toInt(),
-            minimapWidth.toInt(),
-            minimapHeight.toInt(),
+            screenWidth.toInt(),
+            screenHeight.toInt(),
             GL_RGB,
             GL_UNSIGNED_BYTE,
             buffer
@@ -255,8 +287,8 @@ class NocturneScript : EveryFrameScript {
             GL_TEXTURE_2D,
             0,
             GL_R3_G3_B2,
-            minimapWidth.toInt(),
-            minimapHeight.toInt(),
+            screenWidth.toInt(),
+            screenHeight.toInt(),
             0,
             GL_RGB,
             GL_UNSIGNED_BYTE,
@@ -310,15 +342,15 @@ class NocturneScript : EveryFrameScript {
         glPushMatrix()
         glBegin(GL_QUADS)
         val rgb = .5f
-        glColor4f(10f, 31f, 36f, 1f) // lower rgb to make dim
+        glColor4f(rgb, rgb, rgb, 1f) // lower rgb to make dim
         glTexCoord2f(0f, 0f)
-        glVertex2f(minimapX.toFloat(), 0f)
+        glVertex2f(0f, 0f)
         glTexCoord2f(1f, 0f)
         glVertex2f(screenWidth, 0f)
         glTexCoord2f(1f, 1f)
-        glVertex2f(screenWidth, screenHeight - minimapY.toFloat())
+        glVertex2f(screenWidth, screenHeight.toFloat())
         glTexCoord2f(0f, 1f)
-        glVertex2f(minimapX.toFloat(), screenHeight - minimapY.toFloat())
+        glVertex2f(0f, screenHeight.toFloat())
         glEnd()
         glPopMatrix()
     }
