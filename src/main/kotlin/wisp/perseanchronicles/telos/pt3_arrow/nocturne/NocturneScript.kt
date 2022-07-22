@@ -4,6 +4,7 @@ import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.campaign.CampaignEngine
+import com.fs.starfarer.settings.StarfarerSettings
 import org.lazywizard.console.Console
 import org.lazywizard.lazylib.FastTrig
 import org.lazywizard.lazylib.MathUtils
@@ -29,6 +30,8 @@ class NocturneScript : EveryFrameScript {
     private val minimapY = (screenHeight - minimapHeight).toInt()
     private val bgTextureId = glGenTextures()
     private var nocturneEntity: SectorEntityToken? = null
+    private val initialGameDifficulty = game.sector.difficulty
+    private val initialEasySensorBonus = game.settings.getFloat("easySensorBonus")
 
     private var isDone = false
     private var secsElapsed = 0f
@@ -48,8 +51,8 @@ class NocturneScript : EveryFrameScript {
 //        renderMinimapBlur()
 
 
-        drawMinimapBlackout()
-//        renderViewportInvisible()
+//        drawMinimapBlackout()
+        renderViewportInvisible()
         setPlayerSensorStrength()
         updateCustomEntity(isEffectOver)
 //        darkenScreen()
@@ -89,14 +92,46 @@ class NocturneScript : EveryFrameScript {
     private fun setPlayerSensorStrength() {
         val modIdMult = "nocturneMult"
         val modIdFlat = "nocturneFlat"
+        val gameInternalEasySensorBonus = StarfarerSettings.ÕÓ0000()
 
         if (secsElapsed < 10) {
-            game.sector.playerFleet.sensorRangeMod.modifyMult(modIdMult, 1f, "Darkness...")
-            game.sector.playerFleet.sensorRangeMod.modifyFlat(modIdFlat, -5000f, "Darkness...")
+//            if (game.sector.difficulty == Difficulties.EASY) {
+//                game.sector.difficulty = initialGameDifficulty
+//            }
+//            game.sector.playerFleet.sensorRangeMod.modifyMult(modIdMult, 1f, "Darkness...")
+            if (gameInternalEasySensorBonus > 0f) {
+                game.settings.setFloat("easySensorBonus", 0f)
+                StarfarerSettings.ÕÔ0000()
+            }
+
+            game.sector.playerFleet.sensorRangeMod.modifyFlat(
+                modIdFlat,
+                -(game.sector.playerFleet.sensorStrength + 9999),
+                "Darkness..."
+            )
+            game.sector.playerFleet.isVisibleToSensorsOf(game.sector.playerFleet)
         } else {
+            if (gameInternalEasySensorBonus <= 0f) {
+                game.settings.setFloat("easySensorBonus", initialEasySensorBonus)
+                StarfarerSettings.ÕÔ0000()
+            }
+//            game.sector.difficulty = initialGameDifficulty
             game.sector.playerFleet.sensorRangeMod.unmodifyMult(modIdMult)
             game.sector.playerFleet.sensorRangeMod.unmodifyFlat(modIdFlat)
         }
+
+        /**
+         * ```
+         *     public static float getDisplaySensorRange(CampaignFleet var0, CampaignFleet var1) {
+         *       float var2 = var0.getStats().getSensorRangeMod().computeEffective(var0.getSensorStrength());
+         *       if (var0.isPlayerFleet() && Misc.isEasy()) {
+         *         var2 += StarfarerSettings.ÕÓ0000();
+         *       }
+         *
+         *       return var2;
+         *     }
+         * ```
+         */
     }
 
     private fun renderViewportInvisible() {
