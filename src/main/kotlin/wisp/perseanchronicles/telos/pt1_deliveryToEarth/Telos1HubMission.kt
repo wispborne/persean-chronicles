@@ -161,7 +161,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
 
     override fun endAbandonImpl() {
         super.endAbandonImpl()
-        game.logger.i { "Abandoned ${this.name} quest." }
+        game.logger.i { "Abandoning ${this.name} quest." }
 
         state.map.clear()
         setCurrentStage(null, null, null)

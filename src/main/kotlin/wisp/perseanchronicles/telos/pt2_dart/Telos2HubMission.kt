@@ -201,7 +201,7 @@ class Telos2HubMission : QGHubMission() {
 
     override fun endAbandonImpl() {
         super.endAbandonImpl()
-        game.logger.i { "Restarting ${this.name} quest." }
+        game.logger.i { "Abandoning ${this.name} quest." }
 
         state.map.clear()
         currentStage = null

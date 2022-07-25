@@ -10,6 +10,7 @@ import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
 import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
@@ -24,10 +25,7 @@ import wisp.questgiver.addPara
 import wisp.questgiver.spriteName
 import wisp.questgiver.v2.QGHubMission
 import wisp.questgiver.v2.json.query
-import wisp.questgiver.wispLib.PersistentMapData
-import wisp.questgiver.wispLib.Text
-import wisp.questgiver.wispLib.qgFormat
-import wisp.questgiver.wispLib.trigger
+import wisp.questgiver.wispLib.*
 import java.awt.Color
 
 class Telos3HubMission : QGHubMission() {
@@ -72,6 +70,8 @@ class Telos3HubMission : QGHubMission() {
         text.globalReplacementGetters["telosPt1Stg1DestSystem"] = { Telos1HubMission.state.karengoSystem?.name }
         text.globalReplacementGetters["telosStarName"] =
             { Telos1HubMission.state.karengoPlanet?.starSystem?.star?.name }
+        text.globalReplacementGetters["telosPt3RuinsSystem"] = { state.ruinsPlanet?.starSystem?.name }
+        text.globalReplacementGetters["telosPt3RuinsPlanet"] = { state.ruinsPlanet?.name }
     }
 
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {
@@ -95,6 +95,17 @@ class Telos3HubMission : QGHubMission() {
         setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
 
         val chasingFleet = "$${MISSION_ID}_chasingFleet"
+
+        state.ruinsPlanet = SystemFinder()
+            .requireSystemTags(mode = ReqMode.NOT_ANY, Tags.THEME_CORE)
+            .requireSystemHasAtLeastNumJumpPoints(min = 1)
+            .requirePlanetNotGasGiant()
+            .requirePlanetNotStar()
+            .preferEntityUndiscovered()
+            .preferSystemNotPulsar()
+            .preferPlanetWithRuins()
+            .preferPlanetInDirectionOfOtherMissions()
+            .pickPlanet()
 
         trigger {
             beginStageTrigger(Stage.EscapeSystem)
@@ -174,7 +185,7 @@ class Telos3HubMission : QGHubMission() {
 
     override fun endAbandonImpl() {
         super.endAbandonImpl()
-        game.logger.i { "Restarting ${this.name} quest." }
+        game.logger.i { "Abandoning ${this.name} quest." }
 
         state.map.clear()
         currentStage = null
@@ -187,7 +198,7 @@ class Telos3HubMission : QGHubMission() {
         return when (currentStage) {
             Stage.GoToPlanet -> {
                 info.addPara(padding = 3f, textColor = Misc.getGrayColor()) {
-                    part3Json.query<String>("/stages/destroyFleet/intel/subtitle").qgFormat()
+                    part3Json.query<String>("/stages/goToPlanet/intel/subtitle").qgFormat()
                 }
                 true
             }
@@ -213,7 +224,7 @@ class Telos3HubMission : QGHubMission() {
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
         when (currentStage) {
             Stage.GoToPlanet -> {
-                info.addPara { part3Json.query<String>("/stages/destroyFleet/intel/desc").qgFormat() }
+                info.addPara { part3Json.query<String>("/stages/goToPlanet/intel/desc").qgFormat() }
             }
             Stage.EscapeSystem -> {
                 info.addPara { part3Json.query<String>("/stages/landOnPlanetFirst/intel/desc").qgFormat() }

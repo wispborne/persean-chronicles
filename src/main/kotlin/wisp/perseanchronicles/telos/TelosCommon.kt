@@ -3,6 +3,7 @@ package wisp.perseanchronicles.telos
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.getMergedJSONForMod
+import java.awt.Color
 
 object TelosCommon {
     fun readJson() =
@@ -12,7 +13,15 @@ object TelosCommon {
                 "data/strings/telos_pt2_common.hjson",
                 "data/strings/telos_pt2_psicon.hjson",
                 "data/strings/telos_pt2_noPsicon.hjson",
+                "data/strings/telos_pt3_psicon.hjson",
+                "data/strings/telos_pt3_noPsicon.hjson",
             ),
             masterMod = MOD_ID
         )
+
+    val telepathyColor: Color
+        get() = game.sector.getFaction(FACTION_TELOS).color
+
+    val FACTION_TELOS
+        get() = "perseanchronicles_telos"
 }
