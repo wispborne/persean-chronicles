@@ -191,9 +191,6 @@ class Telos3HubMission : QGHubMission() {
         currentStage = null
     }
 
-    /**
-     * Bullet points on left side of intel.
-     */
     override fun addNextStepText(info: TooltipMakerAPI, tc: Color?, pad: Float): Boolean {
         return when (currentStage) {
             Stage.GoToPlanet -> {
@@ -218,9 +215,6 @@ class Telos3HubMission : QGHubMission() {
         }
     }
 
-    /**
-     * Description on right side of intel.
-     */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
         when (currentStage) {
             Stage.GoToPlanet -> {
