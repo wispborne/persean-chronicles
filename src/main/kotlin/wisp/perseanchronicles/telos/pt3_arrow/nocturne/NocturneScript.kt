@@ -3,6 +3,7 @@ package wisp.perseanchronicles.telos.pt3_arrow.nocturne
 import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.SectorEntityToken
+import com.fs.starfarer.api.impl.campaign.ids.Abilities
 import com.fs.starfarer.campaign.CampaignEngine
 import com.fs.starfarer.settings.StarfarerSettings
 import org.lazywizard.console.Console
@@ -55,9 +56,11 @@ class NocturneScript : EveryFrameScript {
         renderViewportInvisible()
         setPlayerSensorStrength()
         updateCustomEntity(isEffectOver)
+        disableAbilities()
 //        darkenScreen()
 
         if (isEffectOver) {
+            enableAbilities()
             game.sector.viewport.alphaMult = 1f
 //            glDeleteTextures(bgTextureId)
             game.logger.i { "Ending Nocturne effect." }
@@ -82,6 +85,7 @@ class NocturneScript : EveryFrameScript {
                     nocturneEntity?.setLocation(game.sector.playerFleet.location.x, game.sector.playerFleet.location.y)
                 }
             }
+
             nocturneEntity != null -> {
                 game.sector.playerFleet.starSystem?.removeEntity(nocturneEntity)
                 nocturneEntity = null
@@ -139,6 +143,22 @@ class NocturneScript : EveryFrameScript {
             game.sector.viewport.alphaMult = 0.0f
         else
             game.sector.viewport.alphaMult = 1f
+    }
+
+    private fun disableAbilities() {
+        val abilitiesAllowedUnderNocturne = listOf(Abilities.EMERGENCY_BURN, Abilities.GO_DARK, Abilities.SUSTAINED_BURN)
+        game.sector.playerFleet.getAbility(Abilities.TRANSPONDER).apply {
+            deactivate()
+            forceDisable()
+        }
+
+        game.sector.playerFleet.abilities.values
+            .filter { ability -> abilitiesAllowedUnderNocturne.none { ability.id == it } }
+            .map { it.cooldownLeft = Float.POSITIVE_INFINITY }
+    }
+
+    private fun enableAbilities() {
+        game.sector.playerFleet.abilities.values.map { it.cooldownLeft = 0f }
     }
 
     private fun drawMinimapBlackout() {
