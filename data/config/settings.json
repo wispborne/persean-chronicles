@@ -1,4 +1,7 @@
 {
+  "ruleCommandPackages":[
+    "wisp.perseanchronicles.telos.pt1_deliveryToEarth"
+  ],
   "graphics": {
     "wisp_perseanchronicles_dragonriders": {
       "icon": "graphics/dragons/wispStories_dragon.png",

@@ -20,7 +20,7 @@
                 "id": "1",
                 "image": null,
                 "paras": [
-                  "After a brief wait, a woman answers and confirms what her grease-stained lab coat already told you; she is the lead engineer of a small research team.",
+                  "After a brief wait, a woman answers and confirms what the grease-stained patch of a terran world embroidered on her lab coat pocket already told you; she is the lead engineer of a small research team.",
                   "\"We have a container of ASPIRARDs that need to be dropped off near the ==edge of the Sector==.,” she explains, “They’ll make their way toward old Earth, sending data back the whole way. You will be paid ==${telosCredits}== upon dropoff confirmation.\""
                 ],
                 "options": [
@@ -121,6 +121,87 @@
                   {
                     "id": "close",
                     "text": "Close"
+                  }
+                ]
+              }
+            ]
+          },
+          "pirateComms": {
+            "pages": [
+              {
+                "id": "0",
+                "paras": [
+                  "Before the holo even stabilizes, the pirate captain has spit out a warning. “I don’t know who you are or why you’re here, but you don't want to be involved in this. Turn around, now, or we will open fire.”"
+                ],
+                "options": [
+                  {
+                    "text": "Try to talk the pirate down.",
+                    "goToPage": "1"
+                  },
+                  {
+                    "id": "closeComms",
+                    "text": "Cut the comm link"
+                  }
+                ]
+              },
+              {
+                "id": "1",
+                "paras": [
+                  "Every ship has its oddballs, and one of yours takes the form of a junior officer who, despite good-natured grumbling from the rest of the bridge, insists on playing self-improvement recordings \"because a good crew is self-edifying.\"",
+                  "The latest recording they’ve commandeered the intercom for has been a selection of chapters on the Art of Negotiation. With a meaningful glance at the junior, you press Transmit.",
+                  "“How can I simply turn around? A man needs our help.”",
+                  "The pirate’s face goes slack as they confront the unexpected question. “Fair point. I, er, not quite sure.” With an apparent effort, they regain their bravado. “But that’s for you to figure out!” Their video feed clicks off."
+                ],
+                "options": [
+                  {
+                    "text": "Continue negotiating.",
+                    "goToPage": "2"
+                  },
+                  {
+                    "id": "closeComms",
+                    "text": "Cut the comm link"
+                  },
+                ]
+              },
+              {
+                "id": "2",
+                "paras": [
+                  "You persist. “How can I do that, though, with your fleet blocking my way?”",
+                  "Their video clicks back on, the man’s face creased in consternation."
+                ],
+                "options": [
+                  {
+                    "text": "Wait",
+                    "goToPage": "3"
+                  }
+                ]
+              },
+              {
+                "id": "3",
+                "paras": [
+                  "At last, their eyes light up and land on something off-screen. “Jeff! Jeff’s your man, he does this all the time. Jeff, sit here.” Jeff’s face appears nervously on the display. “Jeff’s the nav guy, he can walk you through the maneuver.”"
+                ],
+                "options": [
+                  {
+                    "text": "Continue ",
+                    "goToPage": "4"
+                  }
+                ]
+              },
+              {
+                "id": "4",
+                "paras": [
+                  "You mute your holo’s audio to prevent the pirate and his pilot, Jeff, from overhearing the sound of laughter on deck as the pirate fleet executes a u-turn, narrating the techniques and coordination involved in this bog-standard maneuver.",
+                  "The opportunity presented as the fleet powers down its weapons ‘for safety, of course’ and turns its engines toward your ships’ hardpoints is clear. Your tactical officer watches you expectantly, waiting for the signal."
+                ],
+                "options": [
+                  {
+                    "id": "startPirateBattleWithAdvantage",
+                    "text": "Engage the unprepared pirates"
+                  },
+                  {
+                    "id": "closeComms",
+                    "text": "Cut the comm link"
                   }
                 ]
               }

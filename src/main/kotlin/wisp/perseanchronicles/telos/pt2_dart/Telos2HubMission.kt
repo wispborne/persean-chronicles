@@ -1,6 +1,5 @@
 package wisp.perseanchronicles.telos.pt2_dart
 
-import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.CampaignPlugin
 import com.fs.starfarer.api.campaign.InteractionDialogAPI
@@ -22,6 +21,7 @@ import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
+import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1PirateFleetInteractionDialogPluginImpl
 import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.addPara
@@ -67,6 +67,8 @@ class Telos2HubMission : QGHubMission() {
             )
                 .also { game.memory["capEugel"] = it }
         }
+
+        private val PIRATE_FLEET_TAG = MISSION_ID + "_pirateFleet"
     }
 
     class State(val map: MutableMap<String, Any?>) {
@@ -139,6 +141,7 @@ class Telos2HubMission : QGHubMission() {
             triggerOrderFleetPatrol(false, Telos1HubMission.state.karengoPlanet)
             triggerFleetMakeImportant(badFleetImportantFlag, Stage.DestroyFleet)
             triggerFleetAddDefeatTrigger(badFleetDefeatTrigger)
+            triggerFleetAddTags(PIRATE_FLEET_TAG)
         }
 
         return true
@@ -183,20 +186,29 @@ class Telos2HubMission : QGHubMission() {
     }
 
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
-        return if (interactionTarget.id == Telos1HubMission.state.karengoPlanet?.id) {
-            when (currentStage) {
-                Stage.LandOnPlanetFirst -> PluginPick(
-                    Telos2FirstLandingDialog().build(),
-                    CampaignPlugin.PickPriority.MOD_SPECIFIC
-                )
-                Stage.LandOnPlanetSecondPsicon,
-                Stage.LandOnPlanetSecondNoPsicon -> PluginPick(
-                    Telos2SecondLandingDialog().build(),
-                    CampaignPlugin.PickPriority.MOD_SPECIFIC
-                )
-                else -> null
+        return when {
+            interactionTarget.hasTag(PIRATE_FLEET_TAG) ->
+                PluginPick(Telos1PirateFleetInteractionDialogPluginImpl(), CampaignPlugin.PickPriority.MOD_SPECIFIC)
+
+            interactionTarget.id == Telos1HubMission.state.karengoPlanet?.id -> {
+                when (currentStage) {
+                    Stage.LandOnPlanetFirst -> PluginPick(
+                        Telos2FirstLandingDialog().build(),
+                        CampaignPlugin.PickPriority.MOD_SPECIFIC
+                    )
+
+                    Stage.LandOnPlanetSecondPsicon,
+                    Stage.LandOnPlanetSecondNoPsicon -> PluginPick(
+                        Telos2SecondLandingDialog().build(),
+                        CampaignPlugin.PickPriority.MOD_SPECIFIC
+                    )
+
+                    else -> null
+                }
             }
-        } else null
+
+            else -> null
+        }
     }
 
     override fun endAbandonImpl() {
@@ -218,18 +230,21 @@ class Telos2HubMission : QGHubMission() {
                 }
                 true
             }
+
             Stage.LandOnPlanetFirst -> {
                 info.addPara(padding = 3f, textColor = Misc.getGrayColor()) {
                     part2Json.query<String>("/stages/landOnPlanetFirst/intel/subtitle").qgFormat()
                 }
                 true
             }
+
             Stage.LandOnPlanetSecondPsicon -> {
                 info.addPara(padding = 3f, textColor = Misc.getGrayColor()) {
                     part2Json.query<String>("/stages/landOnPlanetSecondPsicon/intel/subtitle").qgFormat()
                 }
                 true
             }
+
             else -> false
         }
     }
@@ -242,9 +257,11 @@ class Telos2HubMission : QGHubMission() {
             Stage.DestroyFleet -> {
                 info.addPara { part2Json.query<String>("/stages/destroyFleet/intel/desc").qgFormat() }
             }
+
             Stage.LandOnPlanetFirst -> {
                 info.addPara { part2Json.query<String>("/stages/landOnPlanetFirst/intel/desc").qgFormat() }
             }
+
             Stage.LandOnPlanetSecondPsicon -> {
                 info.addPara { part2Json.query<String>("/stages/landOnPlanetSecondPsicon/intel/desc").qgFormat() }
             }
