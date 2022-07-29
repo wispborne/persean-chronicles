@@ -21,7 +21,7 @@ import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
-import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1PirateFleetInteractionDialogPluginImpl
+import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2PirateFleetInteractionDialogPluginImpl
 import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.addPara
@@ -188,7 +188,7 @@ class Telos2HubMission : QGHubMission() {
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
         return when {
             interactionTarget.hasTag(PIRATE_FLEET_TAG) ->
-                PluginPick(Telos1PirateFleetInteractionDialogPluginImpl(), CampaignPlugin.PickPriority.MOD_SPECIFIC)
+                PluginPick(Telos2PirateFleetInteractionDialogPluginImpl(), CampaignPlugin.PickPriority.MOD_SPECIFIC)
 
             interactionTarget.id == Telos1HubMission.state.karengoPlanet?.id -> {
                 when (currentStage) {

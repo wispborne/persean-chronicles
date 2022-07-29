@@ -1,4 +1,4 @@
-package wisp.perseanchronicles.telos.pt1_deliveryToEarth
+package wisp.perseanchronicles.telos.pt2_dart.battle
 
 import com.fs.starfarer.api.impl.campaign.FleetInteractionDialogPluginImpl
 import org.json.JSONArray
@@ -7,7 +7,7 @@ import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.query
 
-class Telos1PirateFleetInteractionDialogPluginImpl : FleetInteractionDialogPluginImpl() {
+class Telos2PirateFleetInteractionDialogPluginImpl : FleetInteractionDialogPluginImpl() {
     val dialogLogic = BattleCommsInteractionDialog(this)
     val dialogPlugin = dialogLogic.build()
 
@@ -51,7 +51,7 @@ class Telos1PirateFleetInteractionDialogPluginImpl : FleetInteractionDialogPlugi
     }
 
     class BattleCommsInteractionDialog(
-        parentDialog: Telos1PirateFleetInteractionDialogPluginImpl,
+        parentDialog: Telos2PirateFleetInteractionDialogPluginImpl,
         val json: JSONArray = TelosCommon.readJson()
             .query("/wisp_perseanchronicles/telos/part1_deliveryToEarth/stages/pirateComms/pages")
     ) : InteractionDialogLogic<BattleCommsInteractionDialog>(
@@ -64,15 +64,15 @@ class Telos1PirateFleetInteractionDialogPluginImpl : FleetInteractionDialogPlugi
                         "closeComms" -> option.copy(
                             disableAutomaticHandling = true,
                             onOptionSelected = {
-                            parentDialog.optionSelected(null, OptionId.CUT_COMM)
-                        })
+                                parentDialog.optionSelected(null, OptionId.CUT_COMM)
+                            })
 
                         "startPirateBattleWithAdvantage" -> option.copy(
                             disableAutomaticHandling = true,
                             onOptionSelected = {
-                            parentDialog.crippleEnemyFleet()
-                            parentDialog.optionSelected(null, OptionId.ENGAGE)
-                        })
+                                parentDialog.crippleEnemyFleet()
+                                parentDialog.optionSelected(null, OptionId.ENGAGE)
+                            })
 
                         else -> option
                     }
