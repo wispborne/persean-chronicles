@@ -21,8 +21,8 @@ import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
-import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2PirateFleetInteractionDialogPluginImpl
 import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle
+import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2PirateFleetInteractionDialogPluginImpl
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.addPara
 import wisp.questgiver.spriteName
@@ -135,6 +135,11 @@ class Telos2HubMission : QGHubMission() {
                 Telos1HubMission.state.karengoPlanet
             )
             triggerMakeHostile()
+            triggerMakeFleetIgnoreOtherFleetsExceptPlayer()
+            triggerFleetNoAutoDespawn()
+            triggerFleetNoJump()
+            triggerMakeFleetIgnoredByOtherFleets()
+            triggerSetPirateFleet()
             triggerAutoAdjustFleetStrengthModerate()
             triggerPickLocationAroundEntity(Telos1HubMission.state.karengoPlanet, 1f)
             triggerSpawnFleetAtPickedLocation(badFleetFlag, null)
