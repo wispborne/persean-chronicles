@@ -11,9 +11,9 @@ class BlindMe : BaseCommand {
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }
 
-//        game.sector.addScript(NocturneScript())
-        game.sector.addScript(TelevisionScript())
-
+        game.sector.addScript(NocturneScript())
+//        game.sector.addScript(TelevisionScript())
+        game.sector.characterData.addAbility("wisp_perseanchronicles_television")
         return BaseCommand.CommandResult.SUCCESS
     }
 }

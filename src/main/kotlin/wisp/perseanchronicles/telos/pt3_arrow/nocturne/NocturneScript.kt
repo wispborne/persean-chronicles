@@ -34,6 +34,8 @@ class NocturneScript : EveryFrameScript {
     private val initialGameDifficulty = game.sector.difficulty
     private val initialEasySensorBonus = game.settings.getFloat("easySensorBonus")
 
+    val abilitiesAllowedUnderNocturne = listOf(Abilities.EMERGENCY_BURN, Abilities.GO_DARK, Abilities.SUSTAINED_BURN, "wisp_perseanchronicles_television")
+
     private var isDone = false
     private var secsElapsed = 0f
 
@@ -116,6 +118,7 @@ class NocturneScript : EveryFrameScript {
             game.sector.playerFleet.isVisibleToSensorsOf(game.sector.playerFleet)
         } else {
             if (gameInternalEasySensorBonus <= 0f) {
+                // Update the in-memory setting and then call obf method to reload settings.
                 game.settings.setFloat("easySensorBonus", initialEasySensorBonus)
                 StarfarerSettings.ÕÔ0000()
             }
@@ -146,7 +149,6 @@ class NocturneScript : EveryFrameScript {
     }
 
     private fun disableAbilities() {
-        val abilitiesAllowedUnderNocturne = listOf(Abilities.EMERGENCY_BURN, Abilities.GO_DARK, Abilities.SUSTAINED_BURN)
         game.sector.playerFleet.getAbility(Abilities.TRANSPONDER).apply {
             deactivate()
             forceDisable()

@@ -104,7 +104,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
 
         state.startLocation = createdAt?.primaryEntity
 
-        state.karengoPlanet = SystemFinder()
+        state.karengoPlanet = SystemFinder(includeHiddenSystems = false)
             .requireSystemOnFringeOfSector()
             .requireSystemHasAtLeastNumJumpPoints(min = 1)
             .requirePlanetNotGasGiant()
