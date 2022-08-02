@@ -13,7 +13,9 @@ import com.fs.starfarer.campaign.CustomCampaignEntity
 import org.lwjgl.opengl.GL11
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.game
+import wisp.questgiver.wispLib.distanceFromPlayerInHyperspace
 import wisp.questgiver.wispLib.equalsAny
+import wisp.questgiver.wispLib.getDistanceToPlayerLY
 import java.awt.Color
 import java.util.*
 import kotlin.math.abs
@@ -22,8 +24,8 @@ import kotlin.math.roundToInt
 import kotlin.math.sin
 
 class TelevisionScript : BaseToggleAbility() {
-    //    private var isDone = false
-    private var secsElapsed = 0f
+    private val HYPERSPACE_RANGE = 20000f
+
     private val originalMaxZoom = game.settings.getFloat("maxCampaignZoom")
 
     override fun runWhilePaused() = true
@@ -37,21 +39,9 @@ class TelevisionScript : BaseToggleAbility() {
     override fun advance(amount: Float) {
         super.advance(amount)
 
-        if (!game.sector.isPaused) {
-            secsElapsed += amount
-        }
-
-        val isEffectOver = secsElapsed > 10
-
         val days = Global.getSector().clock.convertToDays(if (game.sector.isPaused) 0f else amount)
         phaseAngle += days * 360f * 10f
         phaseAngle = Misc.normalizeAngle(phaseAngle)
-
-//
-//        if (isEffectOver) {
-//            game.logger.i { "Ending TeleVision effect." }
-//            isDone = true
-//        }
     }
 
     override fun activateImpl() {
@@ -91,7 +81,7 @@ class TelevisionScript : BaseToggleAbility() {
         title.setHighlightColor(gray)
 
         val pad = 10f
-        
+
         tooltip.addPara(
             "By focusing, you are able to observe stellar objects and fleets with perfect detail.", pad
         )
@@ -117,13 +107,20 @@ class TelevisionScript : BaseToggleAbility() {
 //        val mult = 1.1f
 //        viewport.set(viewport.llx * mult, viewport.lly * mult, viewport.visibleWidth * mult, viewport.visibleHeight * mult)
 
-        game.sector.currentLocation.allEntities
-            .filterNot { obj ->
-                obj is RingBandAPI ||
-                        obj.tags.any { it.equalsAny(Tags.TERRAIN, Tags.ORBITAL_JUNK) } ||
-                        (obj is CustomCampaignEntity && obj.sprite == null)
-            }
-            .forEach { render(it, game.sector.viewport) }
+        if (fleet.isInHyperspace) {
+            game.sector.currentLocation.fleets
+                .filter { it.locationInHyperspace.distanceFromPlayerInHyperspace < HYPERSPACE_RANGE }
+                .forEach { render(it, game.sector.viewport) }
+        } else {
+            game.sector.currentLocation.allEntities
+                .filter { Misc.getDistance(it, game.sector.playerFleet) <= 3000f }
+                .filterNot { obj ->
+                    obj is RingBandAPI ||
+                            obj.tags.any { it.equalsAny(Tags.TERRAIN, Tags.ORBITAL_JUNK) } ||
+                            (obj is CustomCampaignEntity && obj.sprite == null)
+                }
+                .forEach { render(it, game.sector.viewport) }
+        }
     }
 
     fun getEntityColor(obj: SectorEntityToken): Color = when (obj) {
@@ -132,15 +129,31 @@ class TelevisionScript : BaseToggleAbility() {
             obj.isHostileTo(game.sector.playerFleet) -> Color.RED
             else -> obj.faction.color
         }
-        is JumpPointAPI -> Color(128, 100, 255)
+
+        is JumpPointAPI -> Color(128, 100, 255) // ideally would get color from the sprite for recolor mods.
         else -> obj.indicatorColor
     }
 
-    private fun getSpikiness(obj: SectorEntityToken) = when (obj) {
-        is CampaignFleetAPI -> 15f
-        is JumpPointAPI -> 4f
-        else -> 1f
-    }
+    inline fun getEntitySpikeColor(obj: SectorEntityToken): Color =
+        when {
+            obj is CampaignFleetAPI && obj.isHostileTo(game.sector.playerFleet) -> Color.RED
+            else -> getEntityColor(obj)
+        }
+
+    private inline fun getSpikiness(obj: SectorEntityToken) =
+        when (obj) {
+            game.sector.playerFleet -> 0f
+            is CampaignFleetAPI -> 8f
+            is JumpPointAPI -> 3f
+            else -> .5f
+        }
+
+    private inline fun getSpikeSize(obj: SectorEntityToken): Float =
+        when (obj) {
+            game.sector.playerFleet -> 0f
+            is CampaignFleetAPI -> (Misc.getDangerLevel(obj) / 5f) * 750f
+            else -> 0f
+        }
 
     @Transient
     protected var texture: SpriteAPI? = null
@@ -153,8 +166,10 @@ class TelevisionScript : BaseToggleAbility() {
 
         val bandWidthInTexture = 256f // vanilla 256
         var bandIndex: Float
-        val radStart = getRingRadius(obj)
-        val radEnd = radStart + 75f
+//        val radStart = getRingRadius(obj)
+//        val radEnd = radStart + 75f
+        val radStart = 0f
+        val radEnd = getRingRadius(obj) * 2 + 75f
         val circ = (Math.PI * 2f * (radStart + radEnd) / 2f).toFloat()
         val pixelsPerSegment = circ / 360f
         val segments = (circ / pixelsPerSegment).roundToInt().toFloat()
@@ -170,7 +185,7 @@ class TelevisionScript : BaseToggleAbility() {
         GL11.glTranslatef(x, y, 0f)
 
         GL11.glEnable(GL11.GL_TEXTURE_2D)
-        if (texture == null) texture = Global.getSettings().getSprite("abilities", "neutrino_detector")
+        if (texture == null) texture = Global.getSettings().getSprite("wisp_perseanchronicles_telos", "television")
         texture!!.bindTexture()
         GL11.glEnable(GL11.GL_BLEND)
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
@@ -180,7 +195,6 @@ class TelevisionScript : BaseToggleAbility() {
         val texHeight = texture!!.textureHeight
         val imageHeight = texture!!.height
         var texPerSegment = pixelsPerSegment * texHeight / imageHeight * bandWidthInTexture / thickness
-        texPerSegment *= 1f
         val totalTex = (texPerSegment * segments).roundToInt().toFloat().coerceAtLeast(1f)
         texPerSegment = totalTex / segments
         val texWidth = texture!!.textureWidth //* 3
@@ -212,9 +226,8 @@ class TelevisionScript : BaseToggleAbility() {
                     Math.toRadians(-phaseAngle.toDouble()).toFloat() + (segIndex * anglePerSegment * 17f)
                 }
 
-                val pulseSin = Math.sin(phaseAngleRad.toDouble()).toFloat()
+                val pulseSin = sin(phaseAngleRad.toDouble()).toFloat()
                 val pulseMax = getSpikiness(obj)
-
 
                 val pulseAmount = pulseSin * pulseMax
                 val pulseInner = pulseAmount * 0.1f
@@ -228,7 +241,7 @@ class TelevisionScript : BaseToggleAbility() {
 
                 // Adds the spikes
                 // var grav = GraviticScanData(graviticScanAbility).apply { advance(.5f) }.getDataAt(angle)  //data.getDataAt(angle)
-                var grav = 0f.coerceAtMost(750f)
+                var grav = getSpikeSize(obj).coerceAtMost(750f)
                 grav *= 250f / 750f
                 grav *= level
                 rOuter += grav

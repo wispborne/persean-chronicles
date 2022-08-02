@@ -24,7 +24,8 @@
       "portrait": "graphics/portraits/portrait18.png"
     },
     "wisp_perseanchronicles_telos": {
-      "nocturneBlackout": "graphics/telos/nocturneBlackout.png"
+      "nocturneBlackout": "graphics/telos/nocturneBlackout.png",
+      "television": "graphics/telos/television.png"
     }
   }
 }
