@@ -98,17 +98,17 @@ class NocturneScript : EveryFrameScript {
     private fun setPlayerSensorStrength() {
         val modIdMult = "nocturneMult"
         val modIdFlat = "nocturneFlat"
-        val gameInternalEasySensorBonus = StarfarerSettings.ÕÓ0000()
+//        val gameInternalEasySensorBonus = StarfarerSettings.ÕÓ0000()
 
         if (secsElapsed < 10) {
 //            if (game.sector.difficulty == Difficulties.EASY) {
 //                game.sector.difficulty = initialGameDifficulty
 //            }
 //            game.sector.playerFleet.sensorRangeMod.modifyMult(modIdMult, 1f, "Darkness...")
-            if (gameInternalEasySensorBonus > 0f) {
-                game.settings.setFloat("easySensorBonus", 0f)
-                StarfarerSettings.ÕÔ0000()
-            }
+//            if (gameInternalEasySensorBonus > 0f) {
+//                game.settings.setFloat("easySensorBonus", 0f)
+//                StarfarerSettings.ÕÔ0000()
+//            }
 
             game.sector.playerFleet.sensorRangeMod.modifyFlat(
                 modIdFlat,
@@ -117,11 +117,11 @@ class NocturneScript : EveryFrameScript {
             )
             game.sector.playerFleet.isVisibleToSensorsOf(game.sector.playerFleet)
         } else {
-            if (gameInternalEasySensorBonus <= 0f) {
-                // Update the in-memory setting and then call obf method to reload settings.
-                game.settings.setFloat("easySensorBonus", initialEasySensorBonus)
-                StarfarerSettings.ÕÔ0000()
-            }
+//            if (gameInternalEasySensorBonus <= 0f) {
+//                 Update the in-memory setting and then call obf method to reload settings.
+//                game.settings.setFloat("easySensorBonus", initialEasySensorBonus)
+//                StarfarerSettings.ÕÔ0000()
+//            }
 //            game.sector.difficulty = initialGameDifficulty
             game.sector.playerFleet.sensorRangeMod.unmodifyMult(modIdMult)
             game.sector.playerFleet.sensorRangeMod.unmodifyFlat(modIdFlat)

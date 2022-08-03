@@ -15,7 +15,6 @@ import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.distanceFromPlayerInHyperspace
 import wisp.questgiver.wispLib.equalsAny
-import wisp.questgiver.wispLib.getDistanceToPlayerLY
 import java.awt.Color
 import java.util.*
 import kotlin.math.abs
@@ -110,16 +109,19 @@ class TelevisionScript : BaseToggleAbility() {
         if (fleet.isInHyperspace) {
             game.sector.currentLocation.fleets
                 .filter { it.locationInHyperspace.distanceFromPlayerInHyperspace < HYPERSPACE_RANGE }
-                .forEach { render(it, game.sector.viewport) }
+                .run { render(this, game.sector.viewport) }
         } else {
             game.sector.currentLocation.allEntities
+                .asSequence()
                 .filter { Misc.getDistance(it, game.sector.playerFleet) <= 3000f }
                 .filterNot { obj ->
                     obj is RingBandAPI ||
                             obj.tags.any { it.equalsAny(Tags.TERRAIN, Tags.ORBITAL_JUNK) } ||
                             (obj is CustomCampaignEntity && obj.sprite == null)
                 }
-                .forEach { render(it, game.sector.viewport) }
+                .run {
+                    render(this.toList(), game.sector.viewport)
+                }
         }
     }
 
@@ -158,7 +160,7 @@ class TelevisionScript : BaseToggleAbility() {
     @Transient
     protected var texture: SpriteAPI? = null
 
-    fun render(obj: SectorEntityToken, viewport: ViewportAPI) {
+    fun render(objs: List<SectorEntityToken>, viewport: ViewportAPI) {
         if (!this.isActive) return
 
         val level: Float = .524f//1f
@@ -169,107 +171,111 @@ class TelevisionScript : BaseToggleAbility() {
 //        val radStart = getRingRadius(obj)
 //        val radEnd = radStart + 75f
         val radStart = 0f
-        val radEnd = getRingRadius(obj) * 2 + 75f
-        val circ = (Math.PI * 2f * (radStart + radEnd) / 2f).toFloat()
-        val pixelsPerSegment = circ / 360f
-        val segments = (circ / pixelsPerSegment).roundToInt().toFloat()
-
         val startRad = Math.toRadians(0.0).toFloat()
         val endRad = Math.toRadians(360.0).toFloat()
         val spanRad = abs(endRad - startRad)
-        val anglePerSegment = spanRad / segments
-        val loc: Vector2f = obj.location
-        val x = loc.x
-        val y = loc.y
-        GL11.glPushMatrix()
-        GL11.glTranslatef(x, y, 0f)
 
         GL11.glEnable(GL11.GL_TEXTURE_2D)
         if (texture == null) texture = Global.getSettings().getSprite("wisp_perseanchronicles_telos", "television")
         texture!!.bindTexture()
         GL11.glEnable(GL11.GL_BLEND)
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
 
-        val thickness = (radEnd - radStart) //* (1 + 1 / radStart)
-        var texProgress = 0f
-        val texHeight = texture!!.textureHeight
-        val imageHeight = texture!!.height
-        var texPerSegment = pixelsPerSegment * texHeight / imageHeight * bandWidthInTexture / thickness
-        val totalTex = (texPerSegment * segments).roundToInt().toFloat().coerceAtLeast(1f)
-        texPerSegment = totalTex / segments
-        val texWidth = texture!!.textureWidth //* 3
-        val imageWidth = texture!!.width
-        val color = getEntityColor(obj)
+        objs.forEach { obj ->
+            val radEnd = getRingRadius(obj) * 2 + 75f
+            val circ = (Math.PI * 2f * (radStart + radEnd) / 2f).toFloat()
+            val pixelsPerSegment = circ / 360f
+            val segments = (circ / pixelsPerSegment).toInt().toFloat()
 
-        repeat(times = 2) { iter ->
-            if (iter == 0) {
-                bandIndex = 1f
-            } else {
-                bandIndex = 0f
-                texProgress = segments / 2f * texPerSegment
-            }
+            val anglePerSegment = spanRad / segments
+            val loc: Vector2f = obj.location
+            val x = loc.x
+            val y = loc.y
+            GL11.glPushMatrix()
+            GL11.glTranslatef(x, y, 0f)
 
-            if (iter == 1) {
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE)
-            }
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
 
-            val leftTX = bandIndex * texWidth * bandWidthInTexture / imageWidth
-            val rightTX = (bandIndex + 1f) * texWidth * bandWidthInTexture / imageWidth - 0.001f
-            GL11.glBegin(GL11.GL_QUAD_STRIP)
+            val thickness = (radEnd - radStart) //* (1 + 1 / radStart)
+            var texProgress = 0f
+            val texHeight = texture!!.textureHeight
+            val imageHeight = texture!!.height
+            var texPerSegment = pixelsPerSegment * texHeight / imageHeight * bandWidthInTexture / thickness
+            val totalTex = (texPerSegment * segments).toInt().toFloat().coerceAtLeast(1f)
+            texPerSegment = totalTex / segments
+            val texWidth = texture!!.textureWidth //* 3
+            val imageWidth = texture!!.width
+            val color = getEntityColor(obj)
 
-            repeat(times = segments.toInt() + 1) { i ->
-                val segIndex = i % segments.toInt()
-
-                val phaseAngleRad: Float = if (iter == 0) {
-                    Math.toRadians(phaseAngle.toDouble()).toFloat() + (segIndex * anglePerSegment * 29f)
+            repeat(times = 2) { iter ->
+                if (iter == 0) {
+                    bandIndex = 1f
                 } else {
-                    Math.toRadians(-phaseAngle.toDouble()).toFloat() + (segIndex * anglePerSegment * 17f)
+                    bandIndex = 0f
+                    texProgress = segments / 2f * texPerSegment
                 }
 
-                val pulseSin = sin(phaseAngleRad.toDouble()).toFloat()
-                val pulseMax = getSpikiness(obj)
+                if (iter == 1) {
+                    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE)
+                }
 
-                val pulseAmount = pulseSin * pulseMax
-                val pulseInner = pulseAmount * 0.1f
+                val leftTX = bandIndex * texWidth * bandWidthInTexture / imageWidth
+                val rightTX = (bandIndex + 1f) * texWidth * bandWidthInTexture / imageWidth - 0.001f
+                GL11.glBegin(GL11.GL_QUAD_STRIP)
 
-                val theta = anglePerSegment * segIndex
-                val cos = cos(theta.toDouble()).toFloat()
-                val sin = sin(theta.toDouble()).toFloat()
-                val rInner = radStart - pulseInner
+                repeat(times = segments.toInt() + 1) { i ->
+                    val segIndex = i % segments.toInt()
 
-                var rOuter = radStart + thickness - pulseAmount
+                    val phaseAngleRad: Float = if (iter == 0) {
+                        Math.toRadians(phaseAngle.toDouble()).toFloat() + (segIndex * anglePerSegment * 29f)
+                    } else {
+                        Math.toRadians(-phaseAngle.toDouble()).toFloat() + (segIndex * anglePerSegment * 17f)
+                    }
 
-                // Adds the spikes
-                // var grav = GraviticScanData(graviticScanAbility).apply { advance(.5f) }.getDataAt(angle)  //data.getDataAt(angle)
-                var grav = getSpikeSize(obj).coerceAtMost(750f)
-                grav *= 250f / 750f
-                grav *= level
-                rOuter += grav
+                    val pulseSin = sin(phaseAngleRad.toDouble()).toFloat()
+                    val pulseMax = getSpikiness(obj)
 
-                var alpha = alphaMult
-                alpha *= 0.25f + (grav / 100).coerceAtMost(0.75f)
+                    val pulseAmount = pulseSin * pulseMax
+                    val pulseInner = pulseAmount * 0.1f
 
-                val x1 = cos * rInner
-                val y1 = sin * rInner
-                var x2 = cos * rOuter
-                var y2 = sin * rOuter
-                x2 += (cos(phaseAngleRad.toDouble()) * pixelsPerSegment * 0.33f).toFloat()
-                y2 += (sin(phaseAngleRad.toDouble()) * pixelsPerSegment * 0.33f).toFloat()
-                GL11.glColor4ub(
-                    color.red.toByte(),
-                    color.green.toByte(),
-                    color.blue.toByte(),
-                    Byte.MAX_VALUE
-//                    (color.alpha.toFloat() * alphaMult * alpha).toInt().toByte()
-                )
-                GL11.glTexCoord2f(leftTX, texProgress)
-                GL11.glVertex2f(x1, y1)
-                GL11.glTexCoord2f(rightTX, texProgress)
-                GL11.glVertex2f(x2, y2)
-                texProgress += texPerSegment * 1f
+                    val theta = anglePerSegment * segIndex
+                    val cos = cos(theta.toDouble()).toFloat()
+                    val sin = sin(theta.toDouble()).toFloat()
+                    val rInner = radStart - pulseInner
+
+                    var rOuter = radStart + thickness - pulseAmount
+
+                    // Adds the spikes
+                    // var grav = GraviticScanData(graviticScanAbility).apply { advance(.5f) }.getDataAt(angle)  //data.getDataAt(angle)
+                    var grav = getSpikeSize(obj).coerceAtMost(750f)
+                    grav *= 250f / 750f
+                    grav *= level
+                    rOuter += grav
+
+                    var alpha = alphaMult
+                    alpha *= 0.25f + (grav / 100).coerceAtMost(0.75f)
+
+                    val x1 = cos * rInner
+                    val y1 = sin * rInner
+                    var x2 = cos * rOuter
+                    var y2 = sin * rOuter
+                    x2 += (cos(phaseAngleRad.toDouble()) * pixelsPerSegment * 0.33f).toFloat()
+                    y2 += (sin(phaseAngleRad.toDouble()) * pixelsPerSegment * 0.33f).toFloat()
+                    GL11.glColor4ub(
+                        color.red.toByte(),
+                        color.green.toByte(),
+                        color.blue.toByte(),
+                        Byte.MAX_VALUE
+                    )
+                    GL11.glTexCoord2f(leftTX, texProgress)
+                    GL11.glVertex2f(x1, y1)
+                    GL11.glTexCoord2f(rightTX, texProgress)
+                    GL11.glVertex2f(x2, y2)
+                    texProgress += texPerSegment
+                }
+
+                GL11.glEnd()
             }
-            GL11.glEnd()
+            GL11.glPopMatrix()
         }
-        GL11.glPopMatrix()
     }
 }
