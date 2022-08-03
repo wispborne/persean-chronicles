@@ -113,7 +113,7 @@ class TelevisionScript : BaseToggleAbility() {
         } else {
             game.sector.currentLocation.allEntities
                 .asSequence()
-                .filter { Misc.getDistance(it, game.sector.playerFleet) <= 3000f }
+                .filter { Misc.getDistance(it, game.sector.playerFleet) <= 4000f }
                 .filterNot { obj ->
                     obj is RingBandAPI ||
                             obj.tags.any { it.equalsAny(Tags.TERRAIN, Tags.ORBITAL_JUNK) } ||
@@ -181,9 +181,18 @@ class TelevisionScript : BaseToggleAbility() {
         GL11.glEnable(GL11.GL_BLEND)
 
         objs.forEach { obj ->
-            val radEnd = getRingRadius(obj) * 2 + 75f
+            val spikiness = getSpikiness(obj)
+            val radius = getRingRadius(obj)
+            val radEnd = radius * 2 + 75f
             val circ = (Math.PI * 2f * (radStart + radEnd) / 2f).toFloat()
-            val pixelsPerSegment = circ / 360f
+            // magic number that fixes all performance problems, thank you tomatopaste
+            val segmentAdjustment = when {
+                radius < 0f -> 8f
+                spikiness < 8f -> 30f
+                spikiness < 10f -> 60f
+                else -> 80f
+            }
+            val pixelsPerSegment = circ / segmentAdjustment
             val segments = (circ / pixelsPerSegment).toInt().toFloat()
 
             val anglePerSegment = spanRad / segments
@@ -191,7 +200,7 @@ class TelevisionScript : BaseToggleAbility() {
             val x = loc.x
             val y = loc.y
             GL11.glPushMatrix()
-            GL11.glTranslatef(x, y, 0f)
+//            GL11.glTranslatef(x, y, 0f)
 
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
 
@@ -232,7 +241,7 @@ class TelevisionScript : BaseToggleAbility() {
                     }
 
                     val pulseSin = sin(phaseAngleRad.toDouble()).toFloat()
-                    val pulseMax = getSpikiness(obj)
+                    val pulseMax = spikiness
 
                     val pulseAmount = pulseSin * pulseMax
                     val pulseInner = pulseAmount * 0.1f
@@ -267,15 +276,15 @@ class TelevisionScript : BaseToggleAbility() {
                         Byte.MAX_VALUE
                     )
                     GL11.glTexCoord2f(leftTX, texProgress)
-                    GL11.glVertex2f(x1, y1)
+                    GL11.glVertex2f(x1 + x, y1 + y)
                     GL11.glTexCoord2f(rightTX, texProgress)
-                    GL11.glVertex2f(x2, y2)
+                    GL11.glVertex2f(x2 + x, y2 + y)
                     texProgress += texPerSegment
                 }
 
                 GL11.glEnd()
             }
-            GL11.glPopMatrix()
+//            GL11.glPopMatrix()
         }
     }
 }
