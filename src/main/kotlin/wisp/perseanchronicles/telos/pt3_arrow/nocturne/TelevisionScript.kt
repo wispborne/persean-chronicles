@@ -9,7 +9,6 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.campaign.CampaignEngine
-import com.fs.starfarer.campaign.CustomCampaignEntity
 import org.lwjgl.opengl.GL11
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.game
@@ -19,7 +18,6 @@ import java.awt.Color
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.cos
-import kotlin.math.roundToInt
 import kotlin.math.sin
 
 class TelevisionScript : BaseToggleAbility() {
@@ -115,9 +113,9 @@ class TelevisionScript : BaseToggleAbility() {
                 .asSequence()
                 .filter { Misc.getDistance(it, game.sector.playerFleet) <= 4000f }
                 .filterNot { obj ->
-                    obj is RingBandAPI ||
-                            obj.tags.any { it.equalsAny(Tags.TERRAIN, Tags.ORBITAL_JUNK) } ||
-                            (obj is CustomCampaignEntity && obj.sprite == null)
+                    obj is RingBandAPI
+                            || obj.tags.any { it.equalsAny(Tags.TERRAIN, Tags.ORBITAL_JUNK) }
+//                            || (obj is CustomCampaignEntity && obj.sprite == null) // This decides whether things like derelicts are shown.
                 }
                 .run {
                     render(this.toList(), game.sector.viewport)

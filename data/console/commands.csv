@@ -8,4 +8,4 @@ PerseanChronicles_SpawnNirvanaSystem,wisp.perseanchronicles.nirvana.SpawnNirvana
 PerseanChronicles_ResetLaborerQuest,wisp.perseanchronicles.laborer.ResetLaborerQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetLaborerQuest,Reset the Laborer quest in Persean Chronicles.
 SpawnGate,wisp.perseanchronicles.commands.SpawnGate,"gates,campaign",SpawnGate,Spawns a Gate at your current location (from Persean Chronicles).
 PerseanChronicles_TestBattle,wisp.perseanchronicles.telos.pt2_dart.battle.Telos2TestBattleCommand,PerseanChronicles_TestBattle,"For debugging, starts a battle. Ought to remove this before going live..."
-PerseanChronicles_BlindMe,wisp.perseanchronicles.telos.pt3_arrow.BlindMe,PerseanChronicles_BlindMe,"For debugging, blinds the player. Ought to remove this before going live..."
+PerseanChronicles_BlindMe,wisp.perseanchronicles.telos.pt3_arrow.BlindMeCommand,PerseanChronicles_BlindMe,"For debugging, blinds the player. Ought to remove this before going live..."

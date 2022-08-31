@@ -2,6 +2,9 @@
   "wisp_perseanchronicles": {
     "telos": {
       "part3_arrow": {
+        "strings": {
+          "title": "Telos - The Arrow"
+        },
         "stages": {
           "goToPlanet": {
             "intel": {
@@ -12,20 +15,22 @@
               {
                 "id": "1-psi",
                 "paras": [
-                  "$f:perseanchronicles_telos{you can feel it too can’t you}",
-                  "you send to Karengo, and he sends the mental map of the base by way of assent.",
-                  "$f:perseanchronicles_telos{uncertainly: and a ship deep below}",
-                  "The sensation of the ship grows as the shuttle speeds toward the base, landing legs extending until it settles again into the soil, just meters from the entrance to the Telos base.",
-                  "$f:perseanchronicles_telos{it is [ready/thirsty] to fly let us descend to it}."
+                  "todo"
                 ],
                 "options": [
                   {
-                    "text": "Six hours earlier...",
-                    "goToPage": "1.1-psi"
+                    "id": "leave",
+                    "text": "Leave"
                   }
                 ]
               }
             ]
+          },
+          "escape": {
+            "intel": {
+              "subtitle": "Leave the system",
+              "desc": "Sensors are jammed. GET TO THE JUMP POINT!"
+            }
           }
         }
       }

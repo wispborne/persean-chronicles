@@ -4,6 +4,7 @@ import org.json.JSONObject
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle
+import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.query
@@ -39,12 +40,18 @@ class Telos2SecondLandingDialog(
                             }
                         }
                     )
+
                     "leave" -> option.copy(
                         onOptionSelected = {
                             mission.setCurrentStage(Telos2HubMission.Stage.Completed, this.dialog, null)
+                            Telos3HubMission().apply {
+                                if (create(createdAt = null, barEvent = false))
+                                    accept(/* dialog = */ null, /* memoryMap = */ null)
+                            }
                             navigator.close(doNotOfferAgain = true)
                         }
                     )
+
                     else -> option
                 }
             }

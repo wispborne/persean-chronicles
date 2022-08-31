@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.telos.pt3_arrow
 
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.CampaignPlugin
 import com.fs.starfarer.api.campaign.InteractionDialogAPI
@@ -94,7 +95,8 @@ class Telos3HubMission : QGHubMission() {
         // todo change me
         setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
 
-        val chasingFleet = "$${MISSION_ID}_chasingFleet"
+        val chasingFleetFlag = "$${MISSION_ID}_chasingFleet"
+        val chasingFleetTag = "${MISSION_ID}_chasingFleet"
 
         state.ruinsPlanet = SystemFinder()
             .requireSystemTags(mode = ReqMode.NOT_ANY, Tags.THEME_CORE)
@@ -118,14 +120,26 @@ class Telos3HubMission : QGHubMission() {
             )
             triggerMakeHostile()
             triggerAutoAdjustFleetStrengthExtreme()
+            triggerFleetAddTags(chasingFleetTag)
             triggerPickLocationAroundEntity(state.ruinsPlanet?.starSystem?.jumpPoints?.random(), 1f)
-            triggerSpawnFleetAtPickedLocation(chasingFleet, null)
+            triggerSpawnFleetAtPickedLocation(chasingFleetFlag, null)
             triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
-
             triggerCustomAction {
                 // Blind player
                 game.sector.addScript(NocturneScript())
             }
+
+            // Make jump points important
+            val jumpPoints = state.ruinsPlanet!!.containingLocation.jumpPoints.orEmpty()
+            jumpPoints.forEach { jumpPoint ->
+                triggerCustomAction { context -> context.entity = jumpPoint }
+                triggerEntityMakeImportant("$${jumpPoint.id}_importantFlag", Stage.EscapeSystem)
+            }
+        }
+
+        trigger {
+            beginEnteredLocationTrigger(game.sector.hyperspace, Stage.GoToPlanet)
+
         }
 
         return true
@@ -199,18 +213,21 @@ class Telos3HubMission : QGHubMission() {
                 }
                 true
             }
+
             Stage.EscapeSystem -> {
                 info.addPara(padding = 3f, textColor = Misc.getGrayColor()) {
-                    part3Json.query<String>("/stages/landOnPlanetFirst/intel/subtitle").qgFormat()
+                    part3Json.query<String>("/stages/escape/intel/subtitle").qgFormat()
                 }
                 true
             }
+
             Stage.Completed -> {
                 info.addPara(padding = 3f, textColor = Misc.getGrayColor()) {
-                    part3Json.query<String>("/stages/landOnPlanetSecondPsicon/intel/subtitle").qgFormat()
+                    part3Json.query<String>("/stages/escape/intel/subtitle").qgFormat()
                 }
                 true
             }
+
             else -> false
         }
     }
@@ -220,11 +237,13 @@ class Telos3HubMission : QGHubMission() {
             Stage.GoToPlanet -> {
                 info.addPara { part3Json.query<String>("/stages/goToPlanet/intel/desc").qgFormat() }
             }
+
             Stage.EscapeSystem -> {
-                info.addPara { part3Json.query<String>("/stages/landOnPlanetFirst/intel/desc").qgFormat() }
+                info.addPara { part3Json.query<String>("/stages/escape/intel/desc").qgFormat() }
             }
+
             Stage.Completed -> {
-                info.addPara { part3Json.query<String>("/stages/landOnPlanetSecondPsicon/intel/desc").qgFormat() }
+                info.addPara { part3Json.query<String>("/stages/escape/intel/desc").qgFormat() }
             }
         }
     }
