@@ -15,7 +15,7 @@ import java.util.Properties
     val modId = "wisp_perseanchronicles"
     val modName = "Persean Chronicles"
     val author = "Wisp"
-    val description = "Adds a small collection of quests to bars around the Persean Sector."
+    val modDescription = "Adds a small collection of quests to bars around the Persean Sector."
     val gameVersion = "0.95.1a-RC6"
     val jars = arrayOf("jars/PerseanChronicles.jar")//, "libs/Questgiver-$questgiverVersion.jar")
     val modPlugin = "wisp.perseanchronicles.LifecyclePlugin"
@@ -145,7 +145,7 @@ tasks {
                         separator = "."
                     )
                 }",
-                        "description": "${description}",
+                        "description": "${modDescription}",
                         "gameVersion": "${gameVersion}",
                         "jars":[${jars.joinToString() { "\"$it\"" }}],
                         "modPlugin":"${modPlugin}",

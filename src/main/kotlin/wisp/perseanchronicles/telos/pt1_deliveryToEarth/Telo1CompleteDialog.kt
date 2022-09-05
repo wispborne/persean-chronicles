@@ -19,8 +19,15 @@ class Telo1CompleteDialog(
     pages = PagesFromJson(
         pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
-            "2" to {
+            "3" to {
                 this.dialog.visualPanel.showPersonInfo(DragonsQuest.karengo)
+                mission.setCurrentStage(Telos1HubMission.Stage.Completed, dialog, null)
+
+                // Start Part 2 on finishing dialog.
+                Telos2HubMission().apply {
+                    if (create(null, false))
+                        accept(dialog, null)
+                }
             }
         ),
         optionConfigurator = { options ->
@@ -28,12 +35,6 @@ class Telo1CompleteDialog(
                 when (option.id) {
                     "close" -> option.copy(
                         onOptionSelected = {
-                            mission.setCurrentStage(Telos1HubMission.Stage.Completed, null, null)
-                            // Start Part 2 on finishing dialog.
-                            Telos2HubMission().apply {
-                                if (create(null, false))
-                                    accept(null, null)
-                            }
                             it.close(doNotOfferAgain = true)
                         })
                     else -> option

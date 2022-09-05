@@ -25,7 +25,16 @@ class Telos2SecondLandingDialog(
     people = { listOf(DragonsQuest.karengo) },
     pages = PagesFromJson(
         stageJson.query("/pages"),
-        onPageShownHandlersByPageId = emptyMap(),
+        onPageShownHandlersByPageId = mapOf(
+            "7.1-noPsi" to {
+                mission.setCurrentStage(Telos2HubMission.Stage.Completed, dialog, null)
+
+                Telos3HubMission().apply {
+                    if (create(null, false))
+                        accept(dialog, null)
+                }
+            }
+        ),
         optionConfigurator = { options ->
             options.map { option ->
                 when (option.id) {
