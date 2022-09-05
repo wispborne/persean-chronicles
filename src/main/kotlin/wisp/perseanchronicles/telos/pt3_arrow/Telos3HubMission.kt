@@ -208,21 +208,21 @@ class Telos3HubMission : QGHubMission() {
     override fun addNextStepText(info: TooltipMakerAPI, tc: Color?, pad: Float): Boolean {
         return when (currentStage) {
             Stage.GoToPlanet -> {
-                info.addPara(padding = 3f, textColor = Misc.getGrayColor()) {
+                info.addPara(padding = pad, textColor = Misc.getGrayColor()) {
                     part3Json.query<String>("/stages/goToPlanet/intel/subtitle").qgFormat()
                 }
                 true
             }
 
             Stage.EscapeSystem -> {
-                info.addPara(padding = 3f, textColor = Misc.getGrayColor()) {
+                info.addPara(padding = pad, textColor = Misc.getGrayColor()) {
                     part3Json.query<String>("/stages/escape/intel/subtitle").qgFormat()
                 }
                 true
             }
 
             Stage.Completed -> {
-                info.addPara(padding = 3f, textColor = Misc.getGrayColor()) {
+                info.addPara(padding = pad, textColor = Misc.getGrayColor()) {
                     part3Json.query<String>("/stages/escape/intel/subtitle").qgFormat()
                 }
                 true

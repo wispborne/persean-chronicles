@@ -88,8 +88,8 @@
                     "goToPage": "4-psi"
                   },
                   {
-                    "id": "leave", # todo
-                    "text": "Continue"
+                    "text": "Continue",
+                    "goToPage": "5-psi"
                   }
                 ]
               },
@@ -99,12 +99,124 @@
                   "$f:perseanchronicles_telos{questioning: who was [captain eugel/the leader of the hegemony reinforcement fleet] they were taking enjoyment from the [slaughter/destruction]} you send.",
                   "$f:perseanchronicles_telos{unsure/uncaring: there were lots of [ghouls/zealots] after the first ai war now let us see this ship}"
                 ],
-                "onPageShown": {
-                  "goToPage": "3-psi"
-                }
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "5-psi"
+                  }
+                ]
+              },
+              {
+                "id": "5-psi",
+                "paras": [
+                  "The small craft awakens at a mental touch. A ramp unfolds from its belly and you stare up from the first step, taking in the design.",
+                  "The shell seems to be crafted entirely from curves, broad and sweeping, carving a hull unlike any you’ve seen in the sector. The colors are all blues and translucence, creating an ethereal effect that would look more at home in a holovid of an advanced, invading alien force than sleeping through routine docking procedures at Asharu."
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "5.1-psi"
+                  }
+                ]
+              },
+              {
+                "id": "5.1-psi",
+                "paras": [
+                  "With Karengo in the lead, you step over the threshold. Hidden lighting softly illuminates a polished corridor leading into the depths."
+                ],
+                "options": [
+                  {
+                    "text": "Explore the ship",
+                    "goToPage": "6.1-psi"
+                  },
+                  {
+                    "text": "Head for the bridge",
+                    "goToPage": "6-psi"
+                  }
+                ]
+              },
+              {
+                "id": "6.1-psi",
+                "paras": [
+                  "You split your exploration efforts between the mental and physical. A brief scan of the specs reveals that the original, pre-Collapse design integrated a full beta-level AI. The subsequent Telos overhaul replaced it with a non-sentient core and full telepathic integration, resulting in a ship requiring no physical interaction and without any of the risk of sentience.",
+                  "The mess and standard activity rooms are small, with the rest of the ==HULL-NAME== given to high-tech crew compartments. Any one of them would meet the cool approval of a Tri-Tachyon aristocrat, you note."
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "6.2-psi"
+                  }
+                ]
+              },
+              {
+                "id": "6.2-psi",
+                "paras": [
+                  "The Psicon integration, however, is easily the craft’s most advanced feature. Focusing your mind, you can not only access every onboard system, but you can actually feel Karengo’s feet stomping into the dining area as he searches for long-store food."
+                ],
+                "options": [
+                  {
+                    "text": "Head for the bridge",
+                    "goToPage": "6-psi"
+                  }
+                ]
+              },
+              {
+                "id": "6-psi",
+                "paras": [
+                  "The bridge has been partially converted to a sort of lounge, with a comfortable-looking couch - which you sit on - and pillows taking up most of the space. Only a small area resembles a traditional bridge, containing recognizable, if basic, emergency manual controls."
+                ],
+                "options": [
+                  {
+                    "text": "Check on Karengo",
+                    "goToPage": "7.1-psi"
+                  },
+                  {
+                    "text": "Return to the fleet",
+                    "goToPage": "7-psi"
+                  }
+                ]
+              },
+              {
+                "id": "7.1-psi",
+                "paras": [
+                  "You turn your mind toward Karengo just in time to receive a thought from him."
+                ],
+                "freeText1": "$f:perseanchronicles_telos{how do i turn off this ship sense/feeling  i can feel you sitting on that couch and i’d rather not}|$f:perseanchronicles_telos{how do i turn off this ship sense/feeling  i can feel you sitting on the couch not that i mind but it’s distracting}",
+                "freeText2": "The ship shows you how to limit the integration, but you can’t help but wonder what it would have felt like to be aboard at the height of the Telos.",
+                "options": [
+                  {
+                    "text": "Return to the fleet",
+                    "goToPage": "7-psi"
+                  }
+                ]
+              },
+              {
+                "id": "7-psi",
+                "paras": [
+                  "Still enveloped by the couch, you dive into the ship’s systems and raise it into the air. The handling is strange but intuitive, and you revolve in place to face the hanger doors as they grind open. The tunnel to the surface is blocked in many places, but the onboard weapons easily bore a way through."
+                  "$f:perseanchronicles_telos{there is another planet that the telos settled on  i was going to go there next}",
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "8-psi"
+                  }
+                ]
+              },
+              {
+                "id": "8-psi",
+                "paras": [
+                  "You receive a hyperspace coordinate and add it to your intel suite."
+                ],
+                "options": [
+                  {
+                    "id": "leave",
+                    "text": "Leave"
+                  }
+                ]
               }
             ]
-          },
+          }
         }
       }
     }

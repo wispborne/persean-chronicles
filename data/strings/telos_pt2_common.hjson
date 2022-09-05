@@ -3,7 +3,7 @@
     "telos": {
       "part2_dart": {
         "strings": {
-          "title": "The Telos"
+          "title": "Telos: Distress Call"
         },
         "stages": {
           "destroyFleet": {
@@ -252,6 +252,11 @@
                 ]
               }
             ]
+          },
+          "completed": {
+            "intel": {
+              "subtitle": "A distress call unearthed Karengo, an extinct faction, and a strange frigate.",
+            }
           },
           # Not a real Stage but the strings are the same on both forks so I didn't want to put them in one or the other.
           "battle": {

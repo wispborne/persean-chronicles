@@ -79,11 +79,22 @@
             },
             "pages": [
               {
-                "id": "1",
+                "id": "1.1",
                 "paras": [
                   "Your navigation officer waves a hand to get your attention. “Captain, we’re in the right area for dropoff of the,” they glance at their screen, “uh, ASPIRARDs. I’ll have the cargo guys push it outside.”",
                   "The container drifts away, then splits apart with a simulated ‘whoosh’. Sensors detect a coded hyperwave burst and, moments later, ==${telosCredits}== appears in your account.",
-                  "Scores of drones rush out and stream in what must be the direction of old Earth. Details on the project were scarce. How long will they take to reach their destination? What are they expecting to find? Why send drones looking now?",
+                  "Scores of drones rush out and stream in what must be the direction of old Earth. Details on the project were scarce. How long will they take to reach their destination? What are they expecting to find? Why send drones looking now?"
+                ],
+                "options": [
+                  {
+                    "text": "Continue",
+                    "goToPage": "1"
+                  }
+                ]
+              },
+              {
+                "id": "1",
+                "paras": [
                   "Your reverie is broken by a deferent cough. \"Captain?\" asks your comms chief. \"I know how we feel about distress signals…but you've worked with a 'Mr. Karengo' before, right?"
                 ],
                 "options": [
@@ -112,7 +123,10 @@
               },
               {
                 "id": "2",
-                "paras": [],
+                "paras": [
+                  "They continue, “We’ve got a ping from a nearby system. Playing the audio now.”",
+                  "The bridge echoes with Karengo’s booming voice, confident despite the message. “Spacers, this here’s Karengo offering a quick and easy cleanup job. Go on an’ send the boys in orbit around ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== home, and we’ll talk recompense - see, I’ve found something hidden, and I’m willing to share. Just take care of them unfriendly types and we’ll have a talk worth all the trouble.”"
+                ],
                 "options": [
                   {
                     "text": "Continue",
@@ -123,8 +137,6 @@
               {
                 "id": "3",
                 "paras": [
-                  "They continue, “We’ve got a ping from a nearby system. Playing the audio now.”",
-                  "The bridge echoes with Karengo’s booming voice, confident despite the message. “Spacers, this here’s Karengo offering a quick and easy cleanup job. Go on an’ send the boys in orbit around ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== home, and we’ll talk recompense - see, I’ve found something hidden, and I’m willing to share. Just take care of them unfriendly types and we’ll have a talk worth all the trouble.”",
                   "The Intel holodisplay shimmers, displaying the location of a $f:pirates{pirate} fleet."
                 ],
                 "options": [
@@ -170,7 +182,7 @@
                   {
                     "id": "closeComms",
                     "text": "Cut the comm link"
-                  },
+                  }
                 ]
               },
               {

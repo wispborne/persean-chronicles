@@ -172,7 +172,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
     override fun addNextStepText(info: TooltipMakerAPI, tc: Color?, pad: Float): Boolean {
         return when (currentStage) {
             Stage.GoToSectorEdge -> {
-                info.addPara(textColor = Misc.getGrayColor()) {
+                info.addPara(textColor = Misc.getGrayColor(), padding = pad) {
                     part1Json.optQuery<String>("/stages/deliveryToEarth/intel/subtitle")?.qgFormat() ?: ""
                 }
                 true
