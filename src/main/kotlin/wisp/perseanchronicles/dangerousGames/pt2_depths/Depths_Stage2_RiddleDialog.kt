@@ -43,7 +43,7 @@ class Depths_Stage2_RiddleDialog : InteractionDefinition<Depths_Stage2_RiddleDia
         ),
         Page(
             id = 2,
-            image = DepthsQuest.diveIllustration,
+            image = DepthsQuest.subIllustration,
             onPageShown = {
                 para { game.text["dg_de_stg2_pg2_para1"] }
                 navigator.promptToContinue(game.text["dg_de_stg2_pg2_para1_continue"]) {

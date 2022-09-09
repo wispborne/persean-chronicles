@@ -9,3 +9,4 @@ PerseanChronicles_ResetLaborerQuest,wisp.perseanchronicles.laborer.ResetLaborerQ
 SpawnGate,wisp.perseanchronicles.commands.SpawnGate,"gates,campaign",SpawnGate,Spawns a Gate at your current location (from Persean Chronicles).
 PerseanChronicles_TestBattle,wisp.perseanchronicles.telos.pt2_dart.battle.Telos2TestBattleCommand,PerseanChronicles_TestBattle,"For debugging, starts a battle. Ought to remove this before going live..."
 PerseanChronicles_BlindMe,wisp.perseanchronicles.telos.pt3_arrow.BlindMeCommand,PerseanChronicles_BlindMe,"For debugging, blinds the player. Ought to remove this before going live..."
+PerseanChronicles_StartTelosQuest,wisp.perseanchronicles.telos.StartTelosQuestCommand,PerseanChronicles_StartTelosQuest,"Start Persean Chronicles's Telos quest immediately."

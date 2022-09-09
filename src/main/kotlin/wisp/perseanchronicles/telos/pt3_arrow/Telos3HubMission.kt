@@ -20,6 +20,7 @@ import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
+import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.perseanchronicles.telos.pt3_arrow.nocturne.NocturneScript
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.addPara
@@ -100,6 +101,7 @@ class Telos3HubMission : QGHubMission() {
 
         state.ruinsPlanet = SystemFinder()
             .requireSystemTags(mode = ReqMode.NOT_ANY, Tags.THEME_CORE)
+            .preferSystemOutsideRangeOf(Telos1HubMission.state.karengoSystem?.location, 5f)
             .requireSystemHasAtLeastNumJumpPoints(min = 1)
             .requirePlanetNotGasGiant()
             .requirePlanetNotStar()
@@ -127,6 +129,8 @@ class Telos3HubMission : QGHubMission() {
             triggerCustomAction {
                 // Blind player
                 game.sector.addScript(NocturneScript())
+                // Give them vision ability
+                game.sector.characterData.addAbility("wisp_perseanchronicles_television")
             }
 
             // Make jump points important

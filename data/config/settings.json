@@ -11,7 +11,8 @@
     "wisp_perseanchronicles_depths": {
       "icon": "graphics/depths/kelp.png",
       "diveIllustration": "graphics/depths/diveIllustration.png",
-      "intelIllustration": "graphics/depths/intelIllustration.png"
+      "intelIllustration": "graphics/depths/intelIllustration.png",
+      "sub": "graphics/depths/sub.png"
     },
     "wisp_perseanchronicles_riley": {
       "icon": "graphics/riley/riley.png"
@@ -25,7 +26,8 @@
     },
     "wisp_perseanchronicles_telos": {
       "nocturneBlackout": "graphics/telos/nocturneBlackout.png",
-      "television": "graphics/telos/television.png"
+      "television": "graphics/telos/television.png",
+      "chapel": "graphics/telos/chapel.png"
     }
   }
 }

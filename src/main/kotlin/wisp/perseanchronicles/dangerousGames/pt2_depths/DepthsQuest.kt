@@ -55,6 +55,7 @@ object DepthsQuest : AutoQuestFacilitator(
 
     val icon = InteractionDefinition.Portrait(category = "wisp_perseanchronicles_depths", id = "icon")
     val diveIllustration = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_depths", id = "diveIllustration")
+    val subIllustration = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_depths", id = "sub")
     val intelIllustration =
         InteractionDefinition.Illustration(category = "wisp_perseanchronicles_depths", id = "intelIllustration")
 
