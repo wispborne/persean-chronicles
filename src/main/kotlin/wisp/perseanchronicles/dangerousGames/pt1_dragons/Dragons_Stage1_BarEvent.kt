@@ -1,21 +1,32 @@
 package wisp.perseanchronicles.dangerousGames.pt1_dragons
 
-import com.fs.starfarer.api.characters.FullName
-import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
-import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
+import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.util.Misc
 import org.lwjgl.input.Keyboard
 import wisp.perseanchronicles.game
-import wisp.questgiver.AutoBarEventDefinition
-import wisp.questgiver.BarEventDefinition
-import wisp.questgiver.wispLib.lastName
+import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
+import wisp.questgiver.BarEventWiring
+import wisp.questgiver.QGBarEventCreator
+import wisp.questgiver.spriteName
+import wisp.questgiver.v2.BarEventLogic
+import wisp.questgiver.v2.IInteractionLogic.*
 
-class Dragons_Stage1_BarEvent : AutoBarEventDefinition<Dragons_Stage1_BarEvent>(
-    questFacilitator = DragonsQuest,
+class Dragons_Stage1_BarEvent : BarEventLogic<DragonsHubMission>(
     createInteractionPrompt = {
         para { game.text["dg_dr_stg1_prompt"] }
     },
-    onInteractionStarted = {},
-    textToStartInteraction = { game.text["dg_dr_stg1_startBarEvent"] },
+    onInteractionStarted = {
+        dialog.visualPanel.showMapMarker(
+            Telos1HubMission.state.karengoSystem?.hyperspaceAnchor,
+            "",
+            Misc.getTextColor(),
+            true,
+            DragonsHubMission.icon.spriteName(game),
+            null,
+            Telos1HubMission.tags.minus(Tags.INTEL_ACCEPTED).toSet()
+        )
+    },
+    textToStartInteraction = { Option(game.text["dg_dr_stg1_startBarEvent"]) },
     pages = listOf(
         Page(
             id = 1,
@@ -74,18 +85,21 @@ class Dragons_Stage1_BarEvent : AutoBarEventDefinition<Dragons_Stage1_BarEvent>(
                 Option(
                     text = { game.text["dg_dr_stg1_pg3_opt1"] },
                     onOptionSelected = {
-                        DragonsQuest.startStage1(startLocation = this.dialog.interactionTarget)
+                        mission.setCurrentStage(DragonsHubMission.Stage.GoToPlanet, dialog, null)
                         it.close(doNotOfferAgain = true)
                     }
                 )
             )
         )
     ),
-    people = listOf(DragonsQuest.karengo)
-) {
-    override fun createInstanceOfSelf() = Dragons_Stage1_BarEvent()
-}
+    people = { listOf(mission.karengo) }
+)
 
-class DragonsPart1_BarEventCreator : BaseBarEventCreator() {
-    override fun createBarEvent(): PortsideBarEvent = Dragons_Stage1_BarEvent().buildBarEvent()
+class DragonsBarEventWiring :
+    BarEventWiring<DragonsHubMission>(missionId = DragonsHubMission.MISSION_ID, isPriority = false) {
+    override fun createBarEventLogic() = Dragons_Stage1_BarEvent()
+    override fun createMission() = DragonsHubMission()
+    override fun shouldBeAddedToBarEventPool() = DragonsHubMission.state.startDateMillis == null
+    override fun createBarEventCreator() = DragonsBarEventCreator(this)
+    class DragonsBarEventCreator(wiring: DragonsBarEventWiring) : QGBarEventCreator<DragonsHubMission>(wiring)
 }

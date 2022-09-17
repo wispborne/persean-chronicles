@@ -29,7 +29,7 @@ import wisp.questgiver.wispLib.*
 import java.awt.Color
 import java.util.*
 
-class Telos1HubMission : QGHubMissionWithBarEvent() {
+class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
     companion object {
         val MISSION_ID = "telosPt1"
 
@@ -132,6 +132,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
                 return
             }
 
+        state.startLocation = startLocation
         game.logger.i { "${this.name} start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
         state.startDateMillis = game.sector.clock.timestamp
 
@@ -169,10 +170,10 @@ class Telos1HubMission : QGHubMissionWithBarEvent() {
     /**
      * Bullet points on left side of intel.
      */
-    override fun addNextStepText(info: TooltipMakerAPI, tc: Color?, pad: Float): Boolean {
+    override fun addNextStepText(info: TooltipMakerAPI, tc: Color, pad: Float): Boolean {
         return when (currentStage) {
             Stage.GoToSectorEdge -> {
-                info.addPara(textColor = Misc.getGrayColor(), padding = pad) {
+                info.addPara(pad, tc) {
                     part1Json.optQuery<String>("/stages/deliveryToEarth/intel/subtitle")?.qgFormat() ?: ""
                 }
                 true

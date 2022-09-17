@@ -16,7 +16,7 @@ class Telos1OfferQuest : BaseCommandPlugin() {
         memoryMap: MutableMap<String, MemoryAPI>?
     ): Boolean {
         val wiring = Telos1BarEventWiring()
-        val event: BarEvent<Telos1HubMission> = wiring.createBarEvent()
+        val event: BarEvent<Telos1HubMission> = wiring.createBarEventCreator().createBarEvent()
 
         // Creates the HubMission.
         if (!event.shouldShowAtMarket(dialog?.interactionTarget?.market)) {

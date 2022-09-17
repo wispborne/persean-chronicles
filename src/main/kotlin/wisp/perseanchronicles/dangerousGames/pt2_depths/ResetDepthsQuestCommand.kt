@@ -2,7 +2,6 @@ package wisp.perseanchronicles.dangerousGames.pt2_depths
 
 import org.lazywizard.console.BaseCommand
 import org.lazywizard.console.Console
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
 
 class ResetDepthsQuestCommand : BaseCommand {
     override fun runCommand(args: String, context: BaseCommand.CommandContext): BaseCommand.CommandResult {

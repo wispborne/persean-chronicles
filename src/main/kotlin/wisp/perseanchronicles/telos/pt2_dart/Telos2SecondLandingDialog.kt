@@ -3,7 +3,7 @@ package wisp.perseanchronicles.telos.pt2_dart
 import com.fs.starfarer.api.characters.FullName
 import org.json.JSONArray
 import org.json.JSONObject
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
+import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle
 import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
@@ -25,7 +25,7 @@ class Telos2SecondLandingDialog(
     onInteractionStarted = {
 
     },
-    people = { listOf(DragonsQuest.karengo) },
+    people = { listOfNotNull(DragonsHubMission.karengo) },
     pages = PagesFromJson(
         pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(

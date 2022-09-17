@@ -4,7 +4,7 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.util.Misc
 import org.lazywizard.console.BaseCommand
 import org.lazywizard.console.Console
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
+import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.dangerousGames.pt2_depths.DepthsQuest
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.laborer.LaborerQuest
@@ -25,9 +25,10 @@ class ViewDebugInfoCommand : BaseCommand {
 
         info.appendLine("Persean Chronicles Debug Info (SPOILERS)")
         info.appendLine("-------")
-        info.appendLine("Dragonriders origin planet: ${DragonsQuest.state.startingPlanet?.fullName} in ${DragonsQuest.state.startingPlanet?.starSystem?.baseName}")
-        info.appendLine("Dragonriders destination planet: ${DragonsQuest.state.dragonPlanet?.fullName} in ${DragonsQuest.state.dragonPlanet?.starSystem?.baseName}")
-        info.appendLine("Dragonriders quest stage: ${DragonsQuest.stage}")
+        val dragons = Global.getSector().intelManager.findFirst<DragonsHubMission>()
+        info.appendLine("Dragonriders origin planet: ${DragonsHubMission.state.startingPlanet?.fullName} in ${DragonsHubMission.state.startingPlanet?.starSystem?.baseName}")
+        info.appendLine("Dragonriders destination planet: ${DragonsHubMission.state.dragonPlanet?.fullName} in ${DragonsHubMission.state.dragonPlanet?.starSystem?.baseName}")
+        info.appendLine("Dragonriders quest stage: ${dragons?.currentStage}")
         info.appendLine()
         info.appendLine("Depths origin planet: ${DepthsQuest.state.startingPlanet?.fullName} in ${DepthsQuest.state.startingPlanet?.starSystem?.baseName}")
         info.appendLine("Depths destination planet: ${DepthsQuest.state.depthsPlanet?.fullName} in ${DepthsQuest.state.depthsPlanet?.starSystem?.baseName}")

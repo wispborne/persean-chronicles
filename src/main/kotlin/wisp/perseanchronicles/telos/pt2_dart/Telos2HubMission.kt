@@ -17,7 +17,7 @@ import data.scripts.util.MagicCampaign
 import org.json.JSONArray
 import org.json.JSONObject
 import wisp.perseanchronicles.MOD_ID
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
+import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
@@ -117,7 +117,7 @@ class Telos2HubMission : QGHubMission() {
         setSuccessStage(Stage.Completed)
 
         name = part2Json.query("/strings/title")
-        personOverride = DragonsQuest.karengo // Shows on intel, needed for rep reward or else crash.
+        personOverride = DragonsHubMission.karengo // Shows on intel, needed for rep reward or else crash.
 
         // todo change me
         setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
@@ -227,7 +227,7 @@ class Telos2HubMission : QGHubMission() {
     /**
      * Bullet points on left side of intel.
      */
-    override fun addNextStepText(info: TooltipMakerAPI, tc: Color?, pad: Float): Boolean {
+    override fun addNextStepText(info: TooltipMakerAPI, tc: Color, pad: Float): Boolean {
         return when (currentStage) {
             Stage.DestroyFleet -> {
                 info.addPara(padding = pad, textColor = Misc.getGrayColor()) {

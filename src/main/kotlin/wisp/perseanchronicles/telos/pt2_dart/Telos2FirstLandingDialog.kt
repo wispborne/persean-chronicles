@@ -2,7 +2,7 @@ package wisp.perseanchronicles.telos.pt2_dart
 
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
+import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.InteractionDialogLogic
@@ -15,7 +15,7 @@ class Telos2FirstLandingDialog(
     mission: Telos2HubMission = game.sector.intelManager.findFirst()!!
 ) : InteractionDialogLogic<Telos2FirstLandingDialog>(
     onInteractionStarted = null,
-    people = { listOf(DragonsQuest.karengo) },
+    people = { listOfNotNull(DragonsHubMission.karengo) },
     pages = PagesFromJson(
         stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(

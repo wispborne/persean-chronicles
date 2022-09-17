@@ -1,13 +1,15 @@
 package wisp.perseanchronicles.dangerousGames.pt2_depths
 
-import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
+import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.questgiver.AutoBarEventDefinition
+import wisp.questgiver.wispLib.findFirst
 
-class Depths_Stage1_BarEvent : AutoBarEventDefinition<Depths_Stage1_BarEvent>(
+class Depths_Stage1_BarEvent(
+    val dragons: DragonsHubMission = game.sector.intelManager.findFirst()!!
+) : AutoBarEventDefinition<Depths_Stage1_BarEvent>(
     questFacilitator = DepthsQuest,
     createInteractionPrompt = {
         para { game.text["dg_de_stg1_prompt"] }
@@ -61,7 +63,7 @@ class Depths_Stage1_BarEvent : AutoBarEventDefinition<Depths_Stage1_BarEvent>(
             )
         )
     ),
-    people = listOf(DragonsQuest.karengo)
+    people = listOf(dragons.karengo)
 ) {
     override fun createInstanceOfSelf() = Depths_Stage1_BarEvent()
 }

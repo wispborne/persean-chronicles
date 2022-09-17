@@ -5,7 +5,6 @@ import com.fs.starfarer.api.campaign.BaseCampaignPlugin
 import com.fs.starfarer.api.campaign.CampaignPlugin
 import com.fs.starfarer.api.campaign.InteractionDialogPlugin
 import com.fs.starfarer.api.campaign.SectorEntityToken
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
 import wisp.perseanchronicles.dangerousGames.pt2_depths.DepthsQuest
 import wisp.perseanchronicles.laborer.LaborerQuest
 import wisp.perseanchronicles.laborer.Laborer_Stage2_Dialog
@@ -33,24 +32,6 @@ class CampaignPlugin : BaseCampaignPlugin() {
      */
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
         return when {
-            // Land on planet with dragons
-            interactionTarget.hasSameMarketAs(DragonsQuest.state.dragonPlanet)
-                    && DragonsQuest.stage == DragonsQuest.Stage.GoToPlanet -> {
-                PluginPick(
-                    wisp.perseanchronicles.dangerousGames.pt1_dragons.Dragons_Stage2_Dialog().build(),
-                    CampaignPlugin.PickPriority.MOD_SPECIFIC
-                )
-            }
-
-            // Finish Dragonriders by landing at quest-giving planet
-            interactionTarget.hasSameMarketAs(DragonsQuest.state.startingPlanet)
-                    && DragonsQuest.stage == DragonsQuest.Stage.ReturnToStart -> {
-                PluginPick(
-                    wisp.perseanchronicles.dangerousGames.pt1_dragons.Dragons_Stage3_Dialog().build(),
-                    CampaignPlugin.PickPriority.MOD_SPECIFIC
-                )
-            }
-
             // Land on ocean planet for Depths quest
             interactionTarget.hasSameMarketAs(DepthsQuest.state.depthsPlanet)
                     && DepthsQuest.stage == DepthsQuest.Stage.GoToPlanet -> {
@@ -107,6 +88,7 @@ class CampaignPlugin : BaseCampaignPlugin() {
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
             }
+
             else -> null
         }
     }

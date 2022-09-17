@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.dangerousGames.pt2_depths
 
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.CargoAPI
 import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
@@ -12,7 +13,7 @@ import com.fs.starfarer.api.impl.campaign.ids.MemFlags
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
+import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.questgiver.AutoQuestFacilitator
 import wisp.questgiver.InteractionDefinition
@@ -33,8 +34,9 @@ object DepthsQuest : AutoQuestFacilitator(
     autoBarEventInfo = AutoBarEventInfo(
         barEventCreator = Depths_Stage1_BarEventCreator(),
         shouldGenerateBarEvent = {
-            DragonsQuest.stage == DragonsQuest.Stage.Done
-                    && game.sector.clock.getElapsedDaysSince(DragonsQuest.state.startDate ?: 0) >= 30
+            val dragons: DragonsHubMission? = Global.getSector().intelManager.findFirst()
+            dragons?.currentStage == DragonsHubMission.Stage.Done
+                    && game.sector.clock.getElapsedDaysSince(DragonsHubMission.state.startDateMillis ?: 0) >= 30
         },
         shouldOfferFromMarket = { market ->
             market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
@@ -54,7 +56,8 @@ object DepthsQuest : AutoQuestFacilitator(
     )
 
     val icon = InteractionDefinition.Portrait(category = "wisp_perseanchronicles_depths", id = "icon")
-    val diveIllustration = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_depths", id = "diveIllustration")
+    val diveIllustration =
+        InteractionDefinition.Illustration(category = "wisp_perseanchronicles_depths", id = "diveIllustration")
     val subIllustration = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_depths", id = "sub")
     val intelIllustration =
         InteractionDefinition.Illustration(category = "wisp_perseanchronicles_depths", id = "intelIllustration")
@@ -177,16 +180,19 @@ object DepthsQuest : AutoQuestFacilitator(
                 entity.addDropRandom("blueprints", 5)
                 entity.addDropRandom("rare_tech", 2)
             }
+
             2 -> {
                 entity.addDropValue(Drops.BASIC, 30000)
                 entity.addDropRandom("blueprints", 4)
                 entity.addDropRandom("rare_tech", 1)
             }
+
             1 -> {
                 entity.addDropValue(Drops.BASIC, 20000)
                 entity.addDropRandom("blueprints", 3)
                 entity.addDropRandom("rare_tech", 1)
             }
+
             else -> {
                 entity.addDropValue(Drops.BASIC, 10000)
                 entity.addDropRandom("blueprints", 2)
@@ -233,10 +239,12 @@ object DepthsQuest : AutoQuestFacilitator(
                                     game.logger.i { "Adding decivved planet ${planet.fullName} in ${planet.starSystem.baseName} to Depths candidate list" }
                                     add(planet, 3f)
                                 }
+
                                 planet.market?.size == 0 -> {
                                     game.logger.i { "Adding uninhabited planet ${planet.fullName} in ${planet.starSystem.baseName} to Depths candidate list" }
                                     add(planet, 2f)
                                 }
+
                                 else -> {
                                     game.logger.i { "Adding planet ${planet.fullName} in ${planet.starSystem.baseName} to Depths candidate list" }
                                     add(planet, 1f)

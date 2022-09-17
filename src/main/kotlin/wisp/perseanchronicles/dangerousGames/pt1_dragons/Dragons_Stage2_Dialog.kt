@@ -1,14 +1,16 @@
 package wisp.perseanchronicles.dangerousGames.pt1_dragons
 
+import com.fs.starfarer.api.Global
 import wisp.perseanchronicles.game
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.wispLib.empty
+import wisp.questgiver.wispLib.findFirst
 
-class Dragons_Stage2_Dialog : InteractionDefinition<Dragons_Stage2_Dialog>(
+class Dragons_Stage2_Dialog(val dragons: DragonsHubMission = Global.getSector().intelManager.findFirst()!!) : InteractionDefinition<Dragons_Stage2_Dialog>(
     pages = listOf(
         Page(
             id = 1,
-            image = DragonsQuest.dragonPlanetImage,
+            image = DragonsHubMission.dragonPlanetImage,
             onPageShown = {
                 // The men load into a shuttle and Karengo directs you down through the atmosphere
                 para {
@@ -71,7 +73,7 @@ class Dragons_Stage2_Dialog : InteractionDefinition<Dragons_Stage2_Dialog>(
                 Option(
                     text = { game.text["dg_dr_stg2_pg-abandon_opt1"] },
                     onOptionSelected = {
-                        DragonsQuest.failQuestByLeavingOthersToGetEatenByDragons()
+                        dragons.setCurrentStage(DragonsHubMission.Stage.FailedByAbandoningDragonriders, dialog, null)
                         it.close(doNotOfferAgain = true)
                     }
                 )
@@ -116,7 +118,7 @@ class Dragons_Stage2_Dialog : InteractionDefinition<Dragons_Stage2_Dialog>(
                 Option(
                     text = { game.text["dg_dr_stg2_pg5_opt1"] },
                     onOptionSelected = {
-                        DragonsQuest.startPart2()
+                        dragons.setCurrentStage(DragonsHubMission.Stage.ReturnToStart, dialog, null)
                         it.close(doNotOfferAgain = true)
                     }
                 )
@@ -125,7 +127,7 @@ class Dragons_Stage2_Dialog : InteractionDefinition<Dragons_Stage2_Dialog>(
     )
 ) {
     override fun createInstanceOfSelf() = Dragons_Stage2_Dialog()
-    private fun planetName() = DragonsQuest.state.dragonPlanet?.name
+    private fun planetName() = DragonsHubMission.state.dragonPlanet?.name
 
     enum class Pages {
         TellEveryoneToGetOnBoard,
@@ -134,5 +136,5 @@ class Dragons_Stage2_Dialog : InteractionDefinition<Dragons_Stage2_Dialog>(
         TakeOff
     }
 
-    private fun isPlanetColonized() = DragonsQuest.state.dragonPlanet?.activePerson != null
+    private fun isPlanetColonized() = DragonsHubMission.state.dragonPlanet?.activePerson != null
 }

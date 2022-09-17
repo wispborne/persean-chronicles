@@ -1,7 +1,7 @@
 package wisp.perseanchronicles.telos.pt3_arrow
 
 import org.json.JSONObject
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
+import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
@@ -15,7 +15,7 @@ class Telos3LandingDialog(
     onInteractionStarted = {
 
     },
-    people = { listOf(DragonsQuest.karengo) },
+    people = { listOfNotNull(DragonsHubMission.karengo) },
     pages = PagesFromJson(
         stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(),

@@ -1,6 +1,5 @@
 package wisp.perseanchronicles.telos.pt3_arrow
 
-import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.CampaignPlugin
 import com.fs.starfarer.api.campaign.InteractionDialogAPI
@@ -16,11 +15,10 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import wisp.perseanchronicles.MOD_ID
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
+import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
-import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.perseanchronicles.telos.pt3_arrow.nocturne.NocturneScript
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.addPara
@@ -91,7 +89,7 @@ class Telos3HubMission : QGHubMission() {
         setSuccessStage(Stage.Completed)
 
         name = part3Json.query("/strings/title")
-        personOverride = DragonsQuest.karengo // Shows on intel, needed for rep reward or else crash.
+        personOverride = DragonsHubMission.karengo // Shows on intel, needed for rep reward or else crash.
 
         // todo change me
         setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
@@ -209,7 +207,7 @@ class Telos3HubMission : QGHubMission() {
         currentStage = null
     }
 
-    override fun addNextStepText(info: TooltipMakerAPI, tc: Color?, pad: Float): Boolean {
+    override fun addNextStepText(info: TooltipMakerAPI, tc: Color, pad: Float): Boolean {
         return when (currentStage) {
             Stage.GoToPlanet -> {
                 info.addPara(padding = pad, textColor = Misc.getGrayColor()) {

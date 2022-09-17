@@ -1,14 +1,12 @@
 package wisp.perseanchronicles
 
 import com.fs.starfarer.api.BaseModPlugin
-import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.characters.FullName
 import com.thoughtworks.xstream.XStream
 import org.apache.log4j.Level
 import org.json.JSONObject
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsPart1_BarEventCreator
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsQuest_Intel
+import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsBarEventWiring
+import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
 import wisp.perseanchronicles.dangerousGames.pt2_depths.*
 import wisp.perseanchronicles.laborer.*
@@ -25,7 +23,6 @@ import wisp.questgiver.wispLib.lastName
 import wisp.questgiver.wispLib.toStringList
 import wisp.questgiver.wispLib.tryGet
 import java.util.*
-
 
 class LifecyclePlugin : BaseModPlugin() {
     init {
@@ -58,7 +55,6 @@ class LifecyclePlugin : BaseModPlugin() {
 
         Questgiver.loadQuests(
             questFacilitators = listOfNotNull(
-                if (settings.tryGet("isDragonsQuestEnabled") { true }) DragonsQuest else null,
                 if (settings.tryGet("isDepthsQuestEnabled") { true }) DepthsQuest else null,
                 if (settings.tryGet("isRileyQuestEnabled") { true }) RileyQuest else null,
                 if (settings.tryGet("isNirvanaQuestEnabled") { true }) NirvanaQuest else null,
@@ -68,6 +64,7 @@ class LifecyclePlugin : BaseModPlugin() {
                 if (settings.tryGet("isTelosQuestEnabled") { true })
                     Telos1BarEventWiring()
                 else null,
+                if (settings.tryGet("isDragonsQuestEnabled") { true }) DragonsBarEventWiring() else null,
             ),
             configuration = readConfiguration(settings),
         )
@@ -104,11 +101,11 @@ class LifecyclePlugin : BaseModPlugin() {
         // DO NOT CHANGE THESE STRINGS, DOING SO WILL BREAK SAVE GAMES
         // No periods allowed in the serialized name, causes crash.
         val aliases = listOf(
-            DragonsQuest_Intel::class to "DragonsQuest_Intel",
-            Dragons_Stage1_BarEvent::class to "DragonsPart1_BarEvent",
-            DragonsPart1_BarEventCreator::class to "DragonsPart1_BarEventCreator",
             CampaignPlugin::class to "CampaignPlugin",
-            DragonsQuest.Stage::class to "DragonsQuest_Stage",
+            Dragons_Stage1_BarEvent::class to "DragonsPart1_BarEvent",
+            DragonsHubMission::class to "DragonsHubMission",
+            DragonsHubMission.Stage::class to "DragonsHubMission_Stage",
+            DragonsBarEventWiring::class to "DragonsBarEventWiring",
             DepthsQuest.Stage::class to "DepthsQuest_Stage",
             DepthsQuest_Intel::class to "DepthsQuest_Intel",
             Depths_Stage1_BarEvent::class to "Depths_Stage1_BarEvent",
