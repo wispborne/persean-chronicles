@@ -40,19 +40,26 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         val dragonPlanetImage =
             InteractionDefinition.Illustration("wisp_perseanchronicles_dragonriders", "planetIllustration")
 
-        val karengo = Global.getSector().intelManager.findFirst<DragonsHubMission>()?.karengo
+        val karengo: PersonAPI
+            get() {
+                val key = "karengo"
+                if (game.memory[key] == null) {
+                    game.memory[key] =
+                        Global.getSettings().createPerson().apply {
+                            this.name = FullName("Karengo", "", FullName.Gender.MALE)
+                            this.setFaction(Factions.INDEPENDENT)
+                            this.postId = Ranks.CITIZEN
+                            this.rankId = Ranks.CITIZEN
+                            this.portraitSprite = "graphics/portraits/portrait20.png"
+                        }
+                }
+
+                return game.memory[key] as PersonAPI
+            }
     }
 
-    val karengo: PersonAPI by lazy {
-        Global.getSettings().createPerson().apply {
-            this.name = FullName("Karengo", "", FullName.Gender.MALE)
-            this.setFaction(Factions.INDEPENDENT)
-            this.postId = Ranks.CITIZEN
-            this.rankId = Ranks.CITIZEN
-            this.portraitSprite = "graphics/portraits/portrait20.png"
-        }
-    }
-
+    val karengo
+        get() = DragonsHubMission.karengo
 
     class State(val map: MutableMap<String, Any?>) {
         var seed: Random? by map
@@ -62,11 +69,14 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         var startingPlanet: SectorEntityToken? by map
         val dragonSystem: StarSystemAPI?
             get() = dragonPlanet?.starSystem
+
     }
 
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
-        return (market ?: return false)
-            .factionId.lowercase(Locale.getDefault()) !in listOf(Factions.LUDDIC_CHURCH, Factions.LUDDIC_PATH)
+        market ?: return false
+
+        return DragonsBarEventWiring().shouldBeAddedToBarEventPool()
+                && market.factionId.lowercase() !in listOf(Factions.LUDDIC_CHURCH, Factions.LUDDIC_PATH)
                 && market.starSystem != null
                 && market.size > 3
 //                && state.dragonPlanet != null
@@ -119,11 +129,11 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         // Sets the system as the map objective.
         makeImportant(state.dragonPlanet, null, Stage.GoToPlanet)
         makeImportant(state.startingPlanet, null, Stage.ReturnToStart)
-//        makePrimaryObjective(state.dragonPlanet)
+        makePrimaryObjective(state.dragonPlanet)
 
         trigger {
             beginStageTrigger(Stage.ReturnToStart)
-//            makePrimaryObjective(state.startingPlanet)
+            makePrimaryObjective(state.startingPlanet)
         }
     }
 
@@ -193,7 +203,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
         val part1Color =
-            if (currentStage != Stage.NotStarted) Misc.getGrayColor()
+            if (currentStage != Stage.GoToPlanet) Misc.getGrayColor()
             else Misc.getTextColor()
 
         info.addImage(intelDetailHeaderImage.spriteName(game), width, Padding.DESCRIPTION_PANEL)

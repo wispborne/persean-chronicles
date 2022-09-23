@@ -1,46 +1,58 @@
 package wisp.perseanchronicles.dangerousGames.pt2_depths
 
-import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
-import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
+import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.game
-import wisp.questgiver.AutoBarEventDefinition
-import wisp.questgiver.wispLib.findFirst
+import wisp.questgiver.spriteName
+import wisp.questgiver.v2.BarEventLogic
+import wisp.questgiver.v2.IInteractionLogic
 
-class Depths_Stage1_BarEvent(
-    val dragons: DragonsHubMission = game.sector.intelManager.findFirst()!!
-) : AutoBarEventDefinition<Depths_Stage1_BarEvent>(
-    questFacilitator = DepthsQuest,
+class DepthsBarEventLogic : BarEventLogic<DepthsHubMission>(
     createInteractionPrompt = {
         para { game.text["dg_de_stg1_prompt"] }
     },
-    textToStartInteraction = { game.text["dg_de_stg1_startBarEvent"] },
+    textToStartInteraction = {
+        Option(
+            text = game.text["dg_de_stg1_startBarEvent"],
+            textColor = Misc.getHighlightColor()
+        )
+    },
     onInteractionStarted = {},
     pages = listOf(
-        Page(
+        IInteractionLogic.Page(
             id = 1,
             onPageShown = {
                 para { game.text["dg_de_stg1_pg1_para1"] }
                 para { game.text["dg_de_stg1_pg1_para2"] }
                 para { game.text["dg_de_stg1_pg1_para3"] }
                 para { game.text["dg_de_stg1_pg1_para4"] }
+
+                dialog.visualPanel.showMapMarker(
+                    /* marker = */ DepthsHubMission.state.depthsPlanet?.starSystem?.hyperspaceAnchor,
+                    /* title = */ "",
+                    /* titleColor = */ Misc.getTextColor(),
+                    /* withIntel = */ false,
+                    /* icon = */ DepthsHubMission.icon.spriteName(game),
+                    /* text = */ null,
+                    /* intelTags = */ DepthsHubMission.tags.minus(Tags.INTEL_ACCEPTED).toSet()
+                )
             },
             options = listOf(
-                Option(
+                IInteractionLogic.Option(
                     text = { game.text["dg_de_stg1_pg1_opt1"] },
                     onOptionSelected = { it.goToPage(2) }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     text = { game.text["dg_de_stg1_pg1_opt2"] },
                     onOptionSelected = { it.goToPage(2) }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     text = { game.text["dg_de_stg1_pg1_opt3"] },
                     onOptionSelected = { it.close(doNotOfferAgain = true) }
                 )
             )
         ),
-        Page(
+        IInteractionLogic.Page(
             id = 2,
             onPageShown = {
                 para {
@@ -49,25 +61,21 @@ class Depths_Stage1_BarEvent(
                 para {
                     game.text["dg_de_stg1_pg2_para2"]
                 }
+                mission.accept(dialog, null)
+                mission.setCurrentStage(DepthsHubMission.Stage.GoToPlanet, dialog, null)
             },
             options = listOf(
-                Option(
+                IInteractionLogic.Option(
                     text = {
+                        // "We leave at noon!"
                         game.text["dg_de_stg1_pg2_opt1"]
                     },
                     onOptionSelected = {
-                        DepthsQuest.startStage1()
                         it.close(doNotOfferAgain = true)
                     }
                 )
             )
         )
     ),
-    people = listOf(dragons.karengo)
-) {
-    override fun createInstanceOfSelf() = Depths_Stage1_BarEvent()
-}
-
-class Depths_Stage1_BarEventCreator : BaseBarEventCreator() {
-    override fun createBarEvent(): PortsideBarEvent = Depths_Stage1_BarEvent().buildBarEvent()
-}
+    people = { listOfNotNull(DepthsHubMission.karengo) }
+)

@@ -1,8 +1,9 @@
 package wisp.perseanchronicles.telos.pt1_deliveryToEarth
 
 import com.fs.starfarer.api.Global
-import com.fs.starfarer.api.PluginPick
-import com.fs.starfarer.api.campaign.*
+import com.fs.starfarer.api.campaign.InteractionDialogAPI
+import com.fs.starfarer.api.campaign.SectorEntityToken
+import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.characters.FullName
@@ -93,6 +94,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
 
         startingStage = Stage.GoToSectorEdge
         setSuccessStage(Stage.Completed)
+        setAbandonStage(Stage.Abandoned)
 
         name = part1Json.optQuery("/strings/title")
         setCreditReward(CreditReward.VERY_HIGH) // 95k ish, we want the player to take this.
@@ -115,6 +117,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
             // If we're in Perseus Arm and up faces in direction of galactic spin, Sol is to bottom-left.
             .preferSystemInDirectionFrom(Vector2f(0f, 0f), 220f, 45f)
             .preferSystemNotPulsar()
+            .preferSystemTags(ReqMode.NOT_ANY, Tags.THEME_REMNANT, Tags.THEME_UNSAFE)
             .pickPlanet()
             ?: kotlin.run { game.logger.w { "Unable to find a planet for ${this.name}." }; return false }
 
@@ -178,6 +181,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
                 }
                 true
             }
+
             else -> false
         }
     }
@@ -190,6 +194,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
             Stage.GoToSectorEdge -> {
                 info.addPara { part1Json.query<String>("/stages/deliveryToEarth/intel/desc").qgFormat() }
             }
+
             Stage.Completed -> {
                 info.addPara { part1Json.query<String>("/stages/deliveryDropoff/intel/desc").qgFormat() }
             }
@@ -199,5 +204,6 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
     enum class Stage {
         GoToSectorEdge,
         Completed,
+        Abandoned,
     }
 }

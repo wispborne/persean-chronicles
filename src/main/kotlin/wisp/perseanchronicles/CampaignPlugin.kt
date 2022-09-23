@@ -5,7 +5,6 @@ import com.fs.starfarer.api.campaign.BaseCampaignPlugin
 import com.fs.starfarer.api.campaign.CampaignPlugin
 import com.fs.starfarer.api.campaign.InteractionDialogPlugin
 import com.fs.starfarer.api.campaign.SectorEntityToken
-import wisp.perseanchronicles.dangerousGames.pt2_depths.DepthsQuest
 import wisp.perseanchronicles.laborer.LaborerQuest
 import wisp.perseanchronicles.laborer.Laborer_Stage2_Dialog
 import wisp.perseanchronicles.nirvana.NirvanaQuest
@@ -32,24 +31,6 @@ class CampaignPlugin : BaseCampaignPlugin() {
      */
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
         return when {
-            // Land on ocean planet for Depths quest
-            interactionTarget.hasSameMarketAs(DepthsQuest.state.depthsPlanet)
-                    && DepthsQuest.stage == DepthsQuest.Stage.GoToPlanet -> {
-                PluginPick(
-                    wisp.perseanchronicles.dangerousGames.pt2_depths.Depths_Stage2_RiddleDialog().build(),
-                    CampaignPlugin.PickPriority.MOD_SPECIFIC
-                )
-            }
-
-            // Finish Depths by landing at quest-giving planet
-            interactionTarget.hasSameMarketAs(DepthsQuest.state.startingPlanet)
-                    && DepthsQuest.stage == DepthsQuest.Stage.ReturnToStart -> {
-                PluginPick(
-                    wisp.perseanchronicles.dangerousGames.pt2_depths.Depths_Stage2_EndDialog().build(),
-                    CampaignPlugin.PickPriority.MOD_SPECIFIC
-                )
-            }
-
             // Finish Riley quest by landing at father's planet
             interactionTarget.hasSameMarketAs(RileyQuest.state.destinationPlanet)
                     && RileyQuest.stage.equalsAny(

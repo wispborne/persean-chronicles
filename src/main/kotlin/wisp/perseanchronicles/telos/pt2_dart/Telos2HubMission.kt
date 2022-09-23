@@ -230,28 +230,28 @@ class Telos2HubMission : QGHubMission() {
     override fun addNextStepText(info: TooltipMakerAPI, tc: Color, pad: Float): Boolean {
         return when (currentStage) {
             Stage.DestroyFleet -> {
-                info.addPara(padding = pad, textColor = Misc.getGrayColor()) {
+                info.addPara(padding = pad, textColor = tc) {
                     part2Json.query<String>("/stages/destroyFleet/intel/subtitle").qgFormat()
                 }
                 true
             }
 
             Stage.LandOnPlanetFirst -> {
-                info.addPara(padding = pad, textColor = Misc.getGrayColor()) {
+                info.addPara(padding = pad, textColor = tc) {
                     part2Json.query<String>("/stages/landOnPlanetFirst/intel/subtitle").qgFormat()
                 }
                 true
             }
 
             Stage.LandOnPlanetSecondPsicon -> {
-                info.addPara(padding = pad, textColor = Misc.getGrayColor()) {
+                info.addPara(padding = pad, textColor = tc) {
                     part2Json.query<String>("/stages/landOnPlanetSecondPsicon/intel/subtitle").qgFormat()
                 }
                 true
             }
 
             Stage.Completed -> {
-                info.addPara(padding = pad, textColor = Misc.getGrayColor()) {
+                info.addPara(padding = pad, textColor = tc) {
                     part2Json.query<String>("/stages/completed/intel/subtitle").qgFormat()
                 }
                 true

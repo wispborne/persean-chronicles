@@ -105,7 +105,9 @@
               {
                 "id": "5",
                 "paras": [
-                  "Karengo lowers his voice theatrically and glances around, as if ensuring there are no eavesdroppers. “My source says this here was a ==Telos== base.” At your blank look, he continues. “Telos…one of the pre-Collapse Tri-Tachyon research branches the Hegemony erased. They created this Psicon goo” - he taps a finger against the gray tube - “then left to live out away from the Core Worlds. And then the Hegemony hunted ‘em down and purged ‘em from history. Gone.”"
+                  "Karengo lowers his voice theatrically and glances around, as if ensuring there are no eavesdroppers.",
+                  "“My source says this here was a ==Telos== base.”",
+                  "At your blank look, he continues. “Telos…one of the pre-Collapse Tri-Tachyon research branches the Hegemony erased. They created this Psicon goo” - he taps a finger against the gray tube - “then left to live out away from the Core Worlds. And then the Hegemony hunted ‘em down and purged ‘em from history. Gone.”"
                 ],
                 "options": [
                   {
@@ -117,7 +119,7 @@
               {
                 "id": "6",
                 "paras": [
-                  "“Because this goo is nanites,” he says. “An’ after the Second AI War, do you think the Big Hedge were gonna let a bunch of scientists run off with nanotech? Not a chance. They killed ‘em all, then covered up the whole mess.” He straightens a little. “Least, that’s what my source says.”",
+                  "“Because this goo is nanites,” he says. “An’ after the First AI War, do you think the Big Hedge were gonna let a bunch of scientists run off with nanotech? Not a chance. They killed ‘em all, then covered up the whole mess.” He straightens a little. “Least, that’s what my source says.”",
                   "“So…ready to try it out?”"
                 ],
                 "onPageShown": {
@@ -140,7 +142,7 @@
               {
                 "id": "8",
                 "paras": [
-                  "Consciousness returns unwillingly. Your head reverberates with unfamiliar awarenesses; just as you know, without looking, where your bridge crew is while in flight, you are inexplicably aware that you’re in the chapel. The power station is offline, but the backup battery supplying power to the hanger tunnel door is - "
+                  "Consciousness returns unwillingly. Your head reverberates with unfamiliar awareness; just as you know, without looking, where your bridge crew is while in flight, you are inexplicably aware that you’re in the chapel. The power station is offline, but the backup battery supplying power to the hanger tunnel door is - "
                 ],
                 "options": [
                   {
@@ -194,7 +196,8 @@
               {
                 "id": "11",
                 "paras": [
-                  "“That was you,” he says finally. “I didn’t think- I mean, it actually worked.” This is the first time he has expressed anything but confidence in the safety of the nanite injection, but it’s difficult to feel betrayed with the stairs down to the hanger wide open, the lone ship there sleeping, waiting to be woken again. Even after so many cycles, it hums with stored energy, and you slip into it. Fractured silicates coat your-its hull, knocked loose by the bombardment, pebbles and dust gathering in divots along the sleek, smooth exterior like vernal pools. You could effortlessly bring the entire system online, shaking free the rubble to soar again. A thought reaches out to-"
+                  "“That was you,” he says finally. “I didn’t think- I mean, it actually worked.”",
+                  "This is the first time he has expressed anything but confidence in the safety of the nanite injection, but it’s difficult to feel betrayed with the stairs down to the hanger wide open, the lone ship there sleeping, waiting to be woken again. Even after so many cycles, it hums with stored energy, and you slip into it. Fractured silicates coat your-its hull, knocked loose by the bombardment, pebbles and dust gathering in divots along the sleek, smooth exterior like vernal pools. You could effortlessly bring the entire system online, shaking free the rubble to soar again. A thought reaches out to-"
                 ],
                 "options": [
                   {

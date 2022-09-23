@@ -113,12 +113,13 @@ class Dragons_Stage2_Dialog(val dragons: DragonsHubMission = Global.getSector().
                                     String.empty
                     )
                 }
+                dragons.setCurrentStage(DragonsHubMission.Stage.ReturnToStart, dialog, null)
             },
             options = listOf(
                 Option(
+                    // Take the men back home
                     text = { game.text["dg_dr_stg2_pg5_opt1"] },
                     onOptionSelected = {
-                        dragons.setCurrentStage(DragonsHubMission.Stage.ReturnToStart, dialog, null)
                         it.close(doNotOfferAgain = true)
                     }
                 )
@@ -136,5 +137,5 @@ class Dragons_Stage2_Dialog(val dragons: DragonsHubMission = Global.getSector().
         TakeOff
     }
 
-    private fun isPlanetColonized() = DragonsHubMission.state.dragonPlanet?.activePerson != null
+    private fun isPlanetColonized() = DragonsHubMission.state.dragonPlanet?.market?.size ?: 0 > 0
 }

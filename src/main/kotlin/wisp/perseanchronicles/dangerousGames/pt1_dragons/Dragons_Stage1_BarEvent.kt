@@ -4,7 +4,6 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
 import org.lwjgl.input.Keyboard
 import wisp.perseanchronicles.game
-import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 import wisp.questgiver.BarEventWiring
 import wisp.questgiver.QGBarEventCreator
 import wisp.questgiver.spriteName
@@ -16,17 +15,13 @@ class Dragons_Stage1_BarEvent : BarEventLogic<DragonsHubMission>(
         para { game.text["dg_dr_stg1_prompt"] }
     },
     onInteractionStarted = {
-        dialog.visualPanel.showMapMarker(
-            Telos1HubMission.state.karengoSystem?.hyperspaceAnchor,
-            "",
-            Misc.getTextColor(),
-            true,
-            DragonsHubMission.icon.spriteName(game),
-            null,
-            Telos1HubMission.tags.minus(Tags.INTEL_ACCEPTED).toSet()
+    },
+    textToStartInteraction = {
+        Option(
+            text = game.text["dg_dr_stg1_startBarEvent"],
+            textColor = Misc.getHighlightColor()
         )
     },
-    textToStartInteraction = { Option(game.text["dg_dr_stg1_startBarEvent"]) },
     pages = listOf(
         Page(
             id = 1,
@@ -48,6 +43,15 @@ class Dragons_Stage1_BarEvent : BarEventLogic<DragonsHubMission>(
         Page(
             id = 2,
             onPageShown = {
+                dialog.visualPanel.showMapMarker(
+                    /* marker = */ DragonsHubMission.state.dragonSystem?.hyperspaceAnchor,
+                    /* title = */ "",
+                    /* titleColor = */ Misc.getTextColor(),
+                    /* withIntel = */ false,
+                    /* icon = */ DragonsHubMission.icon.spriteName(game),
+                    /* text = */ null,
+                    /* intelTags = */ DragonsHubMission.tags.minus(Tags.INTEL_ACCEPTED).toSet()
+                )
                 para {
                     game.text["dg_dr_stg1_pg2_para1"]
                 }
@@ -55,12 +59,14 @@ class Dragons_Stage1_BarEvent : BarEventLogic<DragonsHubMission>(
                     game.text["dg_dr_stg1_pg2_para2"]
                 }
                 para {
+                    // A cheer goes up from the men
                     game.text["dg_dr_stg1_pg2_para3"]
                 }
             },
             options = listOf(
                 Option(
                     text = {
+                        // We leave at dawn!
                         game.text["dg_dr_stg1_pg2_opt1"]
                     },
                     onOptionSelected = {
@@ -80,12 +86,14 @@ class Dragons_Stage1_BarEvent : BarEventLogic<DragonsHubMission>(
                 para {
                     game.text["dg_dr_stg1_pg3_onShown"]
                 }
+                mission.accept(dialog, null)
+                mission.setCurrentStage(DragonsHubMission.Stage.GoToPlanet, dialog, null)
             },
             options = listOf(
                 Option(
+                    // Leave
                     text = { game.text["dg_dr_stg1_pg3_opt1"] },
                     onOptionSelected = {
-                        mission.setCurrentStage(DragonsHubMission.Stage.GoToPlanet, dialog, null)
                         it.close(doNotOfferAgain = true)
                     }
                 )

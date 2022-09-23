@@ -63,8 +63,8 @@ class Dragons_Stage3_Dialog(val dragons: DragonsHubMission = Global.getSector().
                 onPageShown = {
                     para {
                         game.text.getf(
-                            "dg_dr_stg3_pg3_para1",
-                            mapOf("rewardCredits" to Misc.getDGSCredits(dragons.creditsReward.toFloat()))
+                            key = "dg_dr_stg3_pg3_para1",
+                            values = mapOf("rewardCredits" to Misc.getDGSCredits(dragons.creditsReward.toFloat()))
                         )
                     }
                 },
@@ -86,12 +86,12 @@ class Dragons_Stage3_Dialog(val dragons: DragonsHubMission = Global.getSector().
                 id = 4,
                 onPageShown = {
                     para { game.text["dg_dr_stg3_pg4_para1"] }
+                    dragons.setCurrentStage(DragonsHubMission.Stage.Done, dialog, null)
                 },
                 options = listOf(
                     Option(
                         text = { game.text["dg_dr_stg3_pg4_para1_opt1"] },
                         onOptionSelected = {
-                            dragons.setCurrentStage(DragonsHubMission.Stage.Done, dialog, null)
                             val interactionTarget = dialog.interactionTarget
                             it.close(doNotOfferAgain = true)
                             // Show normal planet dialog after quest finishes

@@ -55,7 +55,6 @@ class LifecyclePlugin : BaseModPlugin() {
 
         Questgiver.loadQuests(
             questFacilitators = listOfNotNull(
-                if (settings.tryGet("isDepthsQuestEnabled") { true }) DepthsQuest else null,
                 if (settings.tryGet("isRileyQuestEnabled") { true }) RileyQuest else null,
                 if (settings.tryGet("isNirvanaQuestEnabled") { true }) NirvanaQuest else null,
                 if (settings.tryGet("isLaborerQuestEnabled") { true }) LaborerQuest else null,
@@ -65,6 +64,7 @@ class LifecyclePlugin : BaseModPlugin() {
                     Telos1BarEventWiring()
                 else null,
                 if (settings.tryGet("isDragonsQuestEnabled") { true }) DragonsBarEventWiring() else null,
+                if (settings.tryGet("isDepthsQuestEnabled") { true }) DepthsBarEventWiring() else null,
             ),
             configuration = readConfiguration(settings),
         )
@@ -106,10 +106,11 @@ class LifecyclePlugin : BaseModPlugin() {
             DragonsHubMission::class to "DragonsHubMission",
             DragonsHubMission.Stage::class to "DragonsHubMission_Stage",
             DragonsBarEventWiring::class to "DragonsBarEventWiring",
-            DepthsQuest.Stage::class to "DepthsQuest_Stage",
-            DepthsQuest_Intel::class to "DepthsQuest_Intel",
-            Depths_Stage1_BarEvent::class to "Depths_Stage1_BarEvent",
-            Depths_Stage1_BarEventCreator::class to "Depths_Stage1_BarEventCreator",
+            DepthsHubMission::class to "DepthsHubMission",
+            DepthsHubMission.Stage::class to "DepthsHubMission_Stage",
+            DepthsBarEventLogic::class to "DepthsBarEventLogic",
+            DepthsBarEventWiring::class to "DepthsBarEventWiring",
+            DepthsBarEventCreator::class to "DepthsBarEventCreator",
             Depths_Stage2_RiddleDialog::class to "Depths_Stage2_RiddleDialog",
             Depths_Stage2_EndDialog::class to "Depths_Stage2_EndDialog",
             Depths_Stage2_RiddleDialog.RiddleChoice.Riddle1Choice.EastMorg::class to "1East",
