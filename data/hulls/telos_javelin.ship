@@ -1,16 +1,19 @@
 {
-  "hullName": "Dart",
-  "hullId": "wisp_perschron_dart",
+  "hullName": "Javelin",
+  "hullId": "wisp_perschron_javelin",
   "hullSize": "CRUISER",
-  "spriteName": "graphics/telos/ships/telos_dart.png",
+  "spriteName": "graphics/telos/ships/telos_javelin.png",
   "style": "HIGH_TECH",
-  "height": 209,
-  "width": 170,
-  "center": [85, 104.5],
-  "collisionRadius": 0,
-  "shieldCenter": [0, 0],
-  "shieldRadius": 0,
+  "height": 256,
+  "width": 196,
+  "center": [98, 138.5],
+  "collisionRadius": 155.5,
+  "shieldCenter": [0, 0.5],
+  "shieldRadius": 146.5,
   "viewOffset": 0,
+  "builtInWeapons": {
+    "GLOW": "wisp_perschron_javelin_glow"
+  },
   "weaponSlots": [
     {
       "id": "WS0001",
@@ -19,7 +22,7 @@
       "mount": "HARDPOINT",
       "arc": 0,
       "angle": 0,
-      "locations": [28, 62]
+      "locations": [29.5, 73.5]
     },
     {
       "id": "WS0002",
@@ -28,7 +31,7 @@
       "mount": "HARDPOINT",
       "arc": 0,
       "angle": -0,
-      "locations": [28, -62]
+      "locations": [29.5, -73]
     },
     {
       "id": "WS0003",
@@ -37,7 +40,7 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": 0,
-      "locations": [-17, 34]
+      "locations": [-22.5, 39]
     },
     {
       "id": "WS0004",
@@ -46,7 +49,7 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": -0,
-      "locations": [-17, -34]
+      "locations": [-22.5, -39]
     },
     {
       "id": "WS0005",
@@ -55,7 +58,7 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": -0,
-      "locations": [31.5, 29]
+      "locations": [33.5, 33.5]
     },
     {
       "id": "WS0006",
@@ -64,7 +67,7 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": 0,
-      "locations": [31.5, -29]
+      "locations": [33.5, -34]
     },
     {
       "id": "WS0007",
@@ -73,7 +76,7 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": 0,
-      "locations": [-45, 28]
+      "locations": [-55, 32.5]
     },
     {
       "id": "WS0008",
@@ -82,7 +85,7 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": -0,
-      "locations": [-45, -28]
+      "locations": [-56, -32.5]
     },
     {
       "id": "WS0009",
@@ -91,7 +94,7 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": 0,
-      "locations": [1, 52.5]
+      "locations": [-2, 62.5]
     },
     {
       "id": "WS0010",
@@ -100,19 +103,43 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": -0,
-      "locations": [1, -52.5]
+      "locations": [-2.5, -62.5]
+    },
+    {
+      "id": "GLOW",
+      "size": "LARGE",
+      "type": "DECORATIVE",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-2.5, -0]
     }
   ],
   "engineSlots": [],
   "bounds": [
-    -101, 26.5,
-    35.5, 84.5,
-    80, 54,
-    104.5, 8.5,
-    104.5, -8.5,
-    80, -54,
-    35.5, -84.5,
-    -101, -26.5,
-    -55.5, -1.5
+    -67, -3,
+    -18.5, -14.5,
+    -105.5, -16,
+    -114, -31.5,
+    3, -76.5,
+    20.5, -95.5,
+    44, -95.5,
+    74, -65.5,
+    90.5, -57.5,
+    76.5, -47.5,
+    76.5, -30.5,
+    115.5, -6,
+    115.5, 6,
+    76.5, 30.5,
+    76.5, 48,
+    91.5, 57.5,
+    74, 65.5,
+    44, 95.5,
+    20.5, 95.5,
+    3, 76.5,
+    -114, 31.5,
+    -105.5, 16,
+    -18.5, 14.5,
+    -67, 3.5
   ]
 }

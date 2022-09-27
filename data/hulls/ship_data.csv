@@ -1,4 +1,4 @@
 name,id,designation,tech/manufacturer,system id,fleet pts,hitpoints,armor rating,max flux,8/6/5/4%,flux dissipation,ordnance points,fighter bays,max speed,acceleration,deceleration,max turn rate,turn acceleration,mass,shield type,defense id,shield arc,shield upkeep,shield efficiency,phase cost,phase upkeep,min crew,max crew,cargo,fuel,fuel/ly,range,max burn,base value,cr %/day,CR to deploy,peak CR sec,CR loss/sec,supplies/rec,supplies/mo,hints,tags,rarity,breakProb,minPieces,maxPieces,number
-Dart,wisp_perschron_dart,,Telos,,5,2000,100,4000,,250,40,,160,200,130,70,100,150,OMNI,,180,.3,1.5,,,1,30,100,100,2,30,12,12000,7,20,240,0.15,10,10,HIDE_IN_CODEX,,,0.2,3,3,100
+Javelin,wisp_perschron_javelin,,Telos,,5,2000,100,4000,,250,40,,160,200,130,70,100,150,OMNI,,180,.3,1.5,,,1,30,100,100,2,30,12,12000,7,20,240,0.15,10,10,HIDE_IN_CODEX,,,0.2,3,3,100
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
