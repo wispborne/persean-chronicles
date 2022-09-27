@@ -12,7 +12,8 @@
   "shieldRadius": 146.5,
   "viewOffset": 0,
   "builtInWeapons": {
-    "GLOW": "wisp_perschron_javelin_glow"
+    "OUTER_GLOW": "wisp_perschron_javelin_outerglow",
+    "INNER_GLOW": "wisp_perschron_javelin_innerglow",
   },
   "weaponSlots": [
     {
@@ -106,13 +107,22 @@
       "locations": [-2.5, -62.5]
     },
     {
-      "id": "GLOW",
+      "id": "OUTER_GLOW",
       "size": "LARGE",
       "type": "DECORATIVE",
       "mount": "HARDPOINT",
       "arc": 0,
       "angle": 0,
-      "locations": [-2.5, -0]
+      "locations": [-9, -0]
+    },
+    {
+      "id": "INNER_GLOW",
+      "size": "LARGE",
+      "type": "DECORATIVE",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-9, -0]
     }
   ],
   "engineSlots": [],

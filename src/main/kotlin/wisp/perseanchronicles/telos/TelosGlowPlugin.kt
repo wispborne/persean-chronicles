@@ -7,21 +7,39 @@ import com.fs.starfarer.api.util.Misc
 import org.lazywizard.lazylib.MathUtils
 import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
-import kotlin.math.min
 import kotlin.math.pow
+
+enum class Scalar {
+    SPEED,
+    FLUX
+}
+
+class TelosSpeedGlowPlugin : EveryFrameWeaponEffectPlugin {
+    private val plugin = TelosGlowPlugin(Scalar.SPEED)
+    override fun advance(amount: Float, engine: CombatEngineAPI, weapon: WeaponAPI) =
+        plugin.advance(amount, engine, weapon)
+}
+
+class TelosFluxGlowPlugin : EveryFrameWeaponEffectPlugin {
+    private val plugin = TelosGlowPlugin(Scalar.FLUX)
+    override fun advance(amount: Float, engine: CombatEngineAPI, weapon: WeaponAPI) =
+        plugin.advance(amount, engine, weapon)
+}
 
 /**
  * Originally by Nia.
  */
-class TelosGlowPlugin : EveryFrameWeaponEffectPlugin {
+class TelosGlowPlugin(
+    val scalar: Scalar
+) {
     companion object {
-        private const val MAX_JITTER_DISTANCE = 0.5f
+        private const val MAX_JITTER_DISTANCE = 0.0f
         private const val ALPHA_MULT = 3f
     }
 
     private var runOnce = true
 
-    override fun advance(amount: Float, engine: CombatEngineAPI, weapon: WeaponAPI) {
+    fun advance(amount: Float, engine: CombatEngineAPI, weapon: WeaponAPI) {
         val ship = weapon.ship
         val fluxColor = Color.decode("#39a3ff")
 
@@ -33,7 +51,14 @@ class TelosGlowPlugin : EveryFrameWeaponEffectPlugin {
             return
         }
 
-        val scalar = ship.velocity.length() / ship.maxSpeed
+        val ec = ship.engineController
+
+
+        val scalar = when (scalar) {
+            Scalar.SPEED -> ship.velocity.length() / ship.maxSpeed
+            Scalar.FLUX -> ship.fluxLevel
+        }
+
         var baseColor = Color.CYAN
 
         if (ship.shield != null) {
@@ -47,7 +72,15 @@ class TelosGlowPlugin : EveryFrameWeaponEffectPlugin {
         val red = newColor.red.toFloat() / 255f
         val green = newColor.green.toFloat() / 255f
         val blue = newColor.blue.toFloat() / 255f
-        val alpha = min(1f, scalar * ALPHA_MULT)
+        val alpha = (100f * scalar).let { alpha ->
+            if (ec.isAccelerating || ec.isAcceleratingBackwards || ec.isAcceleratingBackwards || ec.isStrafingLeft || ec.isStrafingRight) {
+                alpha + (500f * amount).coerceAtMost(155f)
+            } else {
+                alpha - (500f * amount).coerceAtLeast(0f)
+            }
+        }.let { alpha ->
+            (alpha * ALPHA_MULT).coerceIn(0f, 255f) / 255f
+        }
 
         // switch to actual sprite if > 0 alpha (to avoid showing in refit screen)
         if (alpha > 0f) {
