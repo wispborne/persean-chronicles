@@ -2,15 +2,16 @@ package wisp.perseanchronicles.riley
 
 import wisp.perseanchronicles.game
 import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.wispLib.findFirst
 
-class Riley_Stage2_Dialog : InteractionDefinition<Riley_Stage2_Dialog>(
-    onInteractionStarted = {
-        RileyQuest.startStage3()
-    },
+class Riley_Stage2_Dialog(
+    val mission: RileyHubMission = game.intelManager.findFirst()!!
+) : InteractionDefinition<Riley_Stage2_Dialog>(
+    onInteractionStarted = {},
     pages = listOf(
         Page(
             id = 1,
-            image = RileyQuest.icon,
+            image = RileyHubMission.icon,
             onPageShown = {
                 para { game.text["riley_stg2_pg1_para1"] }
                 navigator.promptToContinue(game.text["continue"]) {

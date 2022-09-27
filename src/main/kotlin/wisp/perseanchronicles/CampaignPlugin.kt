@@ -10,8 +10,6 @@ import wisp.perseanchronicles.laborer.Laborer_Stage2_Dialog
 import wisp.perseanchronicles.nirvana.NirvanaQuest
 import wisp.perseanchronicles.nirvana.Nirvana_Stage2_Dialog
 import wisp.perseanchronicles.nirvana.Nirvana_Stage3_Dialog
-import wisp.perseanchronicles.riley.RileyQuest
-import wisp.questgiver.wispLib.equalsAny
 import wisp.questgiver.wispLib.hasSameMarketAs
 
 typealias InteractionPluginPick = (interactionTarget: SectorEntityToken) -> PluginPick<InteractionDialogPlugin>?
@@ -31,17 +29,6 @@ class CampaignPlugin : BaseCampaignPlugin() {
      */
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
         return when {
-            // Finish Riley quest by landing at father's planet
-            interactionTarget.hasSameMarketAs(RileyQuest.state.destinationPlanet)
-                    && RileyQuest.stage.equalsAny(
-                RileyQuest.Stage.InitialTraveling,
-                RileyQuest.Stage.LandingOnPlanet
-            ) -> {
-                PluginPick(
-                    wisp.perseanchronicles.riley.Riley_Stage4_Dialog().build(),
-                    CampaignPlugin.PickPriority.MOD_SPECIFIC
-                )
-            }
 
             // Finish Nirvana quest by landing at pulsar planet
             interactionTarget.hasSameMarketAs(NirvanaQuest.state.destPlanet)

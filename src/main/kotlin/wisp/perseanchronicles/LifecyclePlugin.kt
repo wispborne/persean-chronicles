@@ -55,7 +55,6 @@ class LifecyclePlugin : BaseModPlugin() {
 
         Questgiver.loadQuests(
             questFacilitators = listOfNotNull(
-                if (settings.tryGet("isRileyQuestEnabled") { true }) RileyQuest else null,
                 if (settings.tryGet("isNirvanaQuestEnabled") { true }) NirvanaQuest else null,
                 if (settings.tryGet("isLaborerQuestEnabled") { true }) LaborerQuest else null,
             ),
@@ -65,6 +64,7 @@ class LifecyclePlugin : BaseModPlugin() {
                 else null,
                 if (settings.tryGet("isDragonsQuestEnabled") { true }) DragonsBarEventWiring() else null,
                 if (settings.tryGet("isDepthsQuestEnabled") { true }) DepthsBarEventWiring() else null,
+                if (settings.tryGet("isRileyQuestEnabled") { true }) RileyBarEventWiring() else null,
             ),
             configuration = readConfiguration(settings),
         )
@@ -123,9 +123,9 @@ class LifecyclePlugin : BaseModPlugin() {
             Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice.NorthKoijuu::class to "3North",
             Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice.EastWall::class to "3East",
             Depths_Stage2_RiddleDialog.RiddleChoice.Riddle3Choice.SouthSuccess::class to "3South",
-            RileyIntel::class to "RileyIntel",
+            RileyHubMission::class to "RileyHubMission",
             Riley_Stage1_BarEvent::class to "Riley_Stage1_BarEvent",
-            Riley_Stage1_BarEventCreator::class to "Riley_Stage1_BarEventCreator",
+            RileyBarEventWiring::class to "RileyBarEventWiring",
             Riley_Stage2_TriggerDialogScript::class to "Riley_Stage2_TriggerDialogScript",
             Riley_Stage2_TriggerDialogScript::class to "Riley_Stage2_Dialog",
             Riley_EnteredDestinationSystemListener::class to "Riley_EnteredDestinationSystemListener",

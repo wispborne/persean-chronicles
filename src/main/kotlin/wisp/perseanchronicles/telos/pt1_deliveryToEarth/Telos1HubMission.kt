@@ -82,7 +82,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["telosCredits"] = { Misc.getDGSCredits(creditsReward.toFloat()) }
         text.globalReplacementGetters["telosPt1Stg1DestPlanet"] = { state.karengoPlanet?.name }
-        text.globalReplacementGetters["telosPt1Stg1DestSystem"] = { state.karengoSystem?.name }
+        text.globalReplacementGetters["telosPt1Stg1DestSystem"] = { state.karengoSystem?.baseName }
         text.globalReplacementGetters["telosStarName"] = { state.karengoPlanet?.starSystem?.star?.name }
     }
 

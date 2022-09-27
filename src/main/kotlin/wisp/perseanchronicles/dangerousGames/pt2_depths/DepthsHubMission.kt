@@ -48,7 +48,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
 
         val karengo: PersonAPI
-            get() = Global.getSector().intelManager.findFirst<DragonsHubMission>()?.karengo!!
+            get() = DragonsHubMission.karengo
     }
 
     class State(val map: MutableMap<String, Any?>) {

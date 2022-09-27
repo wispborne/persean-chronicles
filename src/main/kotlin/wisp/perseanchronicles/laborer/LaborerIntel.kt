@@ -7,6 +7,7 @@ import wisp.perseanchronicles.game
 import wisp.questgiver.*
 import wisp.questgiver.wispLib.asList
 import wisp.questgiver.wispLib.preferredConnectedEntity
+import wisp.questgiver.wispLib.textColorOrElseGrayIf
 
 class LaborerIntel(startLocation: SectorEntityToken?, endLocation: SectorEntityToken?) : IntelDefinition(
     title = {

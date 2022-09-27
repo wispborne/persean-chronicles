@@ -193,8 +193,8 @@
               {
                 "id": "7-psi",
                 "paras": [
-                  "Still enveloped by the couch, you dive into the ship’s systems and raise it into the air. The handling is strange but intuitive, and you revolve in place to face the hanger doors as they grind open. The tunnel to the surface is blocked in many places, but the onboard weapons easily bore a way through."
-                  "$f:perseanchronicles_telos{there is another planet that the telos settled on  i was going to go there next}",
+                  "Still enveloped by the couch, you dive into the ship’s systems and raise it into the air. The handling is strange but intuitive, and you revolve in place to face the hanger doors as they grind open. The tunnel to the surface is blocked in many places, but the onboard weapons easily bore a way through.",
+                  "$f:perseanchronicles_telos{the ship shows another planet that the telos settled on  we should go there next}"
                 ],
                 "options": [
                   {

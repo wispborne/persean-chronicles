@@ -1,14 +1,18 @@
 package wisp.perseanchronicles.riley
 
+import com.fs.starfarer.api.Global
 import wisp.perseanchronicles.game
 import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.wispLib.findFirst
 
-class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
+class Riley_Stage4_Dialog(
+    val mission: RileyHubMission = Global.getSector().intelManager.findFirst()!!
+) : InteractionDefinition<Riley_Stage4_Dialog>(
     onInteractionStarted = { },
     pages = listOf(
         Page(
             id = 1,
-            image = RileyQuest.icon,
+            image = RileyHubMission.icon,
             onPageShown = {
                 para { game.text["riley_stg4_pg1_para1"] }
                 para { game.text["riley_stg4_pg1_para2"] }
@@ -17,7 +21,7 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                 Option(
                     text = {
                         // Ask to visit father
-                        if (RileyQuest.choices.refusedPayment == true)
+                        if (RileyHubMission.choices.refusedPayment == true)
                             game.text["riley_stg4_pg1_opt1_ifNotPaid"]
                         else
                             game.text["riley_stg4_pg1_opt1_ifPaid"]
@@ -26,20 +30,21 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                 ),
                 Option(
                     // Ask if DJing pays well
-                    showIf = { RileyQuest.choices.askedAboutDJingPay == null },
+                    showIf = { RileyHubMission.choices.askedAboutDJingPay == null },
                     text = { game.text["riley_stg4_pg1_opt2"] },
                     onOptionSelected = { navigator ->
                         para { game.text["riley_stg4_pg1_opt2_onSelected"] }
-                        RileyQuest.choices.askedAboutDJingPay = true
+                        RileyHubMission.choices.askedAboutDJingPay = true
                         navigator.refreshOptions()
                     }
                 ),
                 Option(
                     // Tell her to keep the money
-                    showIf = { RileyQuest.choices.refusedPayment == null },
+                    showIf = { RileyHubMission.choices.refusedPayment == null },
                     text = { game.text["riley_stg4_pg1_opt3"] },
                     onOptionSelected = { navigator ->
-                        RileyQuest.choices.refusedPayment = true
+                        RileyHubMission.choices.refusedPayment = true
+                        mission.setCreditReward(0)
                         para { game.text["riley_stg4_pg1_opt3_onSelected"] }
                         navigator.refreshOptions()
                     }
@@ -48,8 +53,9 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                     // Leave without going to house
                     text = { game.text["riley_stg4_pg1_opt4"] },
                     onOptionSelected = { navigator ->
-                        RileyQuest.choices.visitedFather = false
-                        RileyQuest.complete()
+                        RileyHubMission.choices.visitedFather = false
+                        // TODO show this on success screen
+                        mission.setCurrentStage(RileyHubMission.Stage.Completed, dialog, null)
                         navigator.close(doNotOfferAgain = true)
                     }
                 )
@@ -72,7 +78,7 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                     // Romance thanks
                     text = { game.text["riley_stg4_pg2_opt2"] },
                     onOptionSelected = { navigator ->
-                        RileyQuest.choices.movedCloserToRiley = true
+                        RileyHubMission.choices.movedCloserToRiley = true
                         para { game.text["riley_stg4_pg2_opt2_onSelected"] }
                         navigator.goToPage(3)
                     }
@@ -85,7 +91,7 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                 para { game.text["riley_stg4_pg3_para1"] }
                 navigator.promptToContinue(game.text["continue"]) {
                     para {
-                        if (RileyQuest.isFatherWorkingWithGovt)
+                        if (RileyHubMission.isFatherWorkingWithGovt)
                             game.text["riley_stg4_pg3_para2_ifGovtInvolved"]
                         else
                             game.text["riley_stg4_pg3_para2_ifGovtNotInvolved"]
@@ -112,7 +118,7 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                     // Hold her (needed for romance, but really this is a perfectly normal response)
                     text = { game.text["riley_stg4_pg3_opt2"] },
                     onOptionSelected = { navigator ->
-                        RileyQuest.choices.heldRiley = true
+                        RileyHubMission.choices.heldRiley = true
                         para { game.text["riley_stg4_pg3_opt2_onSelected"] }
                         navigator.goToPage(4)
                     }
@@ -132,11 +138,11 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
             options = listOf(
                 Option(
                     // Ask if legal
-                    showIf = { RileyQuest.choices.askedIfLegal == null },
+                    showIf = { RileyHubMission.choices.askedIfLegal == null },
                     text = { game.text["riley_stg4_pg4_opt1"] },
                     onOptionSelected = { navigator ->
-                        RileyQuest.choices.askedIfLegal = true
-                        if (RileyQuest.isFatherWorkingWithGovt) {
+                        RileyHubMission.choices.askedIfLegal = true
+                        if (RileyHubMission.isFatherWorkingWithGovt) {
                             para { game.text["riley_stg4_pg4_opt1_onSelected_ifIllegal_para1"] }
                             para { game.text["riley_stg4_pg4_opt1_onSelected_ifIllegal_para2"] }
                         } else {
@@ -147,10 +153,10 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                 ),
                 Option(
                     // Ask how Riley feels
-                    showIf = { RileyQuest.choices.askedWhatRileyThinks == null },
+                    showIf = { RileyHubMission.choices.askedWhatRileyThinks == null },
                     text = { game.text["riley_stg4_pg4_opt2"] },
                     onOptionSelected = { navigator ->
-                        RileyQuest.choices.askedWhatRileyThinks = true
+                        RileyHubMission.choices.askedWhatRileyThinks = true
                         para { game.text["riley_stg4_pg4_opt2_onSelected_para1"] }
                         para { game.text["riley_stg4_pg4_opt2_onSelected_para2"] }
 
@@ -163,12 +169,12 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                 Option(
                     // Try to convince her to come with you
                     showIf = {
-                        RileyQuest.choices.askedWhatRileyThinks == true
-                                && RileyQuest.choices.triedToConvinceToJoinYou == null
+                        RileyHubMission.choices.askedWhatRileyThinks == true
+                                && RileyHubMission.choices.triedToConvinceToJoinYou == null
                     },
                     text = { game.text["riley_stg4_pg4_opt3"] },
                     onOptionSelected = { navigator ->
-                        RileyQuest.choices.triedToConvinceToJoinYou = true
+                        RileyHubMission.choices.triedToConvinceToJoinYou = true
                         para { game.text["riley_stg4_pg4_opt3_onSelected"] }
                         navigator.refreshOptions()
                     }
@@ -176,22 +182,23 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                 Option(
                     // Leave
                     showIf = {
-                        RileyQuest.choices.askedWhatRileyThinks == true
+                        RileyHubMission.choices.askedWhatRileyThinks == true
                     },
                     text = { game.text["riley_stg4_pg4_opt4"] },
                     onOptionSelected = { navigator ->
-                        RileyQuest.choices.leftRileyWithFather = true
+                        RileyHubMission.choices.leftRileyWithFather = true
                         para { game.text["riley_stg4_pg4_opt4_onSelected_para1"] }
 
-                        if (RileyQuest.choices.movedCloserToRiley == true
-                            && RileyQuest.choices.heldRiley == true
+                        if (RileyHubMission.choices.movedCloserToRiley == true
+                            && RileyHubMission.choices.heldRiley == true
                         ) {
                             para { game.text["riley_stg4_pg4_opt4_onSelected_ifRomanced"] }
                         }
 
                         para { game.text["riley_stg4_pg4_opt4_onSelected_para2"] }
                         navigator.promptToContinue(game.text["leave"]) {
-                            RileyQuest.complete()
+                            // TODO show this on success screen
+                            mission.setCurrentStage(RileyHubMission.Stage.Completed, dialog, null)
                             navigator.close(doNotOfferAgain = true)
                         }
                     }
@@ -200,11 +207,12 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                     // Destroy the Core
                     text = { game.text["riley_stg4_pg4_opt5"] },
                     onOptionSelected = { navigator ->
-                        RileyQuest.choices.destroyedTheCore = true
+                        RileyHubMission.choices.destroyedTheCore = true
                         para { game.text["riley_stg4_pg4_opt5_onSelected_para1"] }
                         para { game.text["riley_stg4_pg4_opt5_onSelected_para2"] }
                         navigator.promptToContinue(game.text["leave"]) {
-                            RileyQuest.complete()
+                            // TODO show this on success screen
+                            mission.setCurrentStage(RileyHubMission.Stage.Completed, dialog, null)
                             navigator.close(doNotOfferAgain = true)
                         }
                     }
@@ -212,22 +220,23 @@ class Riley_Stage4_Dialog : InteractionDefinition<Riley_Stage4_Dialog>(
                 Option(
                     // Turn in for a bounty
                     showIf = {
-                        RileyQuest.choices.askedIfLegal == true
-                                && RileyQuest.isFatherWorkingWithGovt
+                        RileyHubMission.choices.askedIfLegal == true
+                                && RileyHubMission.isFatherWorkingWithGovt
                     },
                     text = { game.text["riley_stg4_pg4_opt6"] },
                     onOptionSelected = { navigator ->
-                        RileyQuest.choices.turnedInForABounty = true
-                        game.sector.playerFleet.cargo.credits.add(RileyQuest.BOUNTY_CREDITS.toFloat())
+                        RileyHubMission.choices.turnedInForABounty = true
+                        game.sector.playerFleet.cargo.credits.add(RileyHubMission.BOUNTY_CREDITS.toFloat())
                         para {
                             game.text.getf(
                                 "riley_stg4_pg4_opt6_onSelected_para1",
-                                "rileyDestPlanetControllingFactionWithoutArticle" to RileyQuest.state.destinationPlanet?.faction?.displayName
+                                "rileyDestPlanetControllingFactionWithoutArticle" to RileyHubMission.state.destinationPlanet?.faction?.displayName
                             )
                         }
                         para { game.text["riley_stg4_pg4_opt6_onSelected_para2"] }
                         navigator.promptToContinue(game.text["leave"]) {
-                            RileyQuest.complete()
+                            // TODO show this on success screen
+                            mission.setCurrentStage(RileyHubMission.Stage.Completed, dialog, null)
                             navigator.close(doNotOfferAgain = true)
                         }
                     }

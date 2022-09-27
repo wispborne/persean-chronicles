@@ -10,6 +10,7 @@ import wisp.questgiver.addPara
 import wisp.questgiver.spriteName
 import wisp.questgiver.wispLib.asList
 import wisp.questgiver.wispLib.preferredConnectedEntity
+import wisp.questgiver.wispLib.textColorOrElseGrayIf
 
 class NirvanaIntel(startLocation: SectorEntityToken?, endLocation: SectorEntityToken?) : IntelDefinition(
     iconPath = { game.settings.getSpriteName(NirvanaQuest.icon.category, NirvanaQuest.icon.id) },

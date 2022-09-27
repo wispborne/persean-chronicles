@@ -1,20 +1,23 @@
 package wisp.perseanchronicles.riley
 
-import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
-import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
+import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.game
-import wisp.questgiver.AutoBarEventDefinition
-import wisp.questgiver.wispLib.preferredConnectedEntity
+import wisp.questgiver.v2.BarEventLogic
+import wisp.questgiver.v2.IInteractionLogic
 
-class Riley_Stage1_BarEvent : AutoBarEventDefinition<Riley_Stage1_BarEvent>(
-    questFacilitator = RileyQuest,
+class Riley_Stage1_BarEvent : BarEventLogic<RileyHubMission>(
     createInteractionPrompt = {
         para { game.text["riley_stg1_prompt"] }
     },
-    textToStartInteraction = { game.text["riley_stg1_startBarEvent"] },
+    textToStartInteraction = {
+        Option(
+            text = game.text["riley_stg1_startBarEvent"],
+            textColor = Misc.getHighlightColor()
+        )
+    },
     onInteractionStarted = {},
     pages = listOf(
-        Page(
+        IInteractionLogic.Page(
             id = 1,
             onPageShown = {
                 para { game.text["riley_stg1_pg1_para1"] }
@@ -22,28 +25,28 @@ class Riley_Stage1_BarEvent : AutoBarEventDefinition<Riley_Stage1_BarEvent>(
                 para { game.text["riley_stg1_pg1_para3"] }
             },
             options = listOf(
-                Option(
+                IInteractionLogic.Option(
                     // accept
                     text = { game.text["riley_stg1_pg1_opt1"] },
                     onOptionSelected = {
                         para { game.text["riley_stg1_pg1_opt1_onSelected"] }
+                        mission.setCurrentStage(RileyHubMission.Stage.InitialTraveling, dialog, null)
                         navigator.promptToContinue(game.text["riley_stg1_pg1_opt1_onSelected_continue"]) {
-                            RileyQuest.start(dialog.interactionTarget.market.preferredConnectedEntity!!)
                             it.close(doNotOfferAgain = true)
                         }
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // why not buy your own ship?
-                    showIf = { RileyQuest.choices.askedWhyNotBuyOwnShip != true },
+                    showIf = { RileyHubMission.choices.askedWhyNotBuyOwnShip != true },
                     text = { game.text["riley_stg1_pg1_opt2"] },
                     onOptionSelected = { navigator ->
                         para { game.text["riley_stg1_pg1_opt2_onSelected"] }
-                        RileyQuest.choices.askedWhyNotBuyOwnShip = true
+                        RileyHubMission.choices.askedWhyNotBuyOwnShip = true
                         navigator.refreshOptions()
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // decline
                     text = { game.text["riley_stg1_pg1_opt3"] },
                     onOptionSelected = { navigator ->
@@ -55,12 +58,5 @@ class Riley_Stage1_BarEvent : AutoBarEventDefinition<Riley_Stage1_BarEvent>(
                 )
             )
         )
-    ),
-    people = listOf(RileyQuest.riley)
-) {
-    override fun createInstanceOfSelf() = Riley_Stage1_BarEvent()
-}
-
-class Riley_Stage1_BarEventCreator : BaseBarEventCreator() {
-    override fun createBarEvent(): PortsideBarEvent = Riley_Stage1_BarEvent().buildBarEvent()
-}
+    )
+)
