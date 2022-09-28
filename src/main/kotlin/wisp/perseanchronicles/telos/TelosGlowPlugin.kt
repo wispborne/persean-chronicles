@@ -4,10 +4,8 @@ import com.fs.starfarer.api.combat.CombatEngineAPI
 import com.fs.starfarer.api.combat.EveryFrameWeaponEffectPlugin
 import com.fs.starfarer.api.combat.WeaponAPI
 import com.fs.starfarer.api.util.Misc
-import org.lazywizard.lazylib.MathUtils
-import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
-import kotlin.math.pow
+import kotlin.math.roundToInt
 
 enum class Scalar {
     SPEED,
@@ -33,15 +31,16 @@ class TelosGlowPlugin(
     val scalar: Scalar
 ) {
     companion object {
-        private const val MAX_JITTER_DISTANCE = 0.0f
-        private const val ALPHA_MULT = 3f
+        private const val ALPHA_MULT = 1f
     }
 
     private var runOnce = true
+    var scalarAlpha = 0f
+    var engineAlpha = 0f
 
     fun advance(amount: Float, engine: CombatEngineAPI, weapon: WeaponAPI) {
         val ship = weapon.ship
-        val fluxColor = Color.decode("#39a3ff")
+        val baseColor = Color.decode("#39a3ff")
 
         if (ship == null || !ship.isAlive) {
             if (runOnce) {
@@ -51,34 +50,41 @@ class TelosGlowPlugin(
             return
         }
 
+        // These must add up to 255
+        val scalarMaxValue = 180f
+        val engineAccelMaxValue = 255f - scalarMaxValue
+
+        // How slow/fast the glow transition should be, higher is faster
+        val smoothing = 500f
+
         val ec = ship.engineController
 
+        val fluxColor = when (scalar) {
+            Scalar.SPEED -> Color.decode("#03c6fc")
+            Scalar.FLUX -> Color.decode("#ff4069")
+        }
 
         val scalar = when (scalar) {
-            Scalar.SPEED -> ship.velocity.length() / ship.maxSpeed
-            Scalar.FLUX -> ship.fluxLevel
+            Scalar.SPEED -> ship.velocity.length() / ship.maxSpeed * scalarMaxValue
+            Scalar.FLUX -> ship.fluxLevel * scalarMaxValue
         }
-
-        var baseColor = Color.CYAN
-
-        if (ship.shield != null) {
-            baseColor = ship.shield.innerColor
-        }
-
-        val flux = ship.hardFluxLevel.pow(2)
 
         // set up glow color according to flux level
-        val newColor = Misc.interpolateColor(baseColor, fluxColor, flux)
+        val newColor = Misc.interpolateColor(baseColor, fluxColor, ship.fluxLevel)
         val red = newColor.red.toFloat() / 255f
         val green = newColor.green.toFloat() / 255f
         val blue = newColor.blue.toFloat() / 255f
-        val alpha = (100f * scalar).let { alpha ->
-            if (ec.isAccelerating || ec.isAcceleratingBackwards || ec.isAcceleratingBackwards || ec.isStrafingLeft || ec.isStrafingRight) {
-                alpha + (500f * amount).coerceAtMost(155f)
-            } else {
-                alpha - (500f * amount).coerceAtLeast(0f)
-            }
-        }.let { alpha ->
+        scalarAlpha = if (scalarAlpha > scalar) {
+            (scalarAlpha - (smoothing * amount)).coerceAtLeast(scalar)
+        } else {
+            (scalarAlpha + (smoothing * amount) ).coerceAtMost(scalar)
+        }
+        engineAlpha = if (ec.isAccelerating || ec.isAcceleratingBackwards || ec.isAcceleratingBackwards || ec.isStrafingLeft || ec.isStrafingRight) {
+            (engineAlpha + (smoothing * amount)).coerceAtMost(engineAccelMaxValue)
+        } else {
+            (engineAlpha - (smoothing * amount)).coerceAtLeast(0f)
+        }
+        val alpha = (scalarAlpha + engineAlpha).let { alpha ->
             (alpha * ALPHA_MULT).coerceIn(0f, 255f) / 255f
         }
 
@@ -92,14 +98,5 @@ class TelosGlowPlugin(
         // actually set color
         val colorToUse = Color(red, green, blue, alpha)
         weapon.sprite.color = colorToUse
-
-        // jitter
-        if (scalar > 0.666) {
-            val randomOffset = MathUtils.getRandomPointInCircle(
-                Vector2f(weapon.sprite.width / 2f, weapon.sprite.height / 2f),
-                MAX_JITTER_DISTANCE
-            )
-            weapon.sprite.setCenter(randomOffset.x, randomOffset.y)
-        }
     }
 }

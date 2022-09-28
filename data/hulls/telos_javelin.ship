@@ -12,8 +12,8 @@
   "shieldRadius": 146.5,
   "viewOffset": 0,
   "builtInWeapons": {
-    "OUTER_GLOW": "wisp_perschron_javelin_outerglow",
     "INNER_GLOW": "wisp_perschron_javelin_innerglow",
+    "OUTER_GLOW": "wisp_perschron_javelin_outerglow"
   },
   "weaponSlots": [
     {
@@ -113,7 +113,7 @@
       "mount": "HARDPOINT",
       "arc": 0,
       "angle": 0,
-      "locations": [-9, -0]
+      "locations": [-87.5, -0]
     },
     {
       "id": "INNER_GLOW",
@@ -122,7 +122,7 @@
       "mount": "HARDPOINT",
       "arc": 0,
       "angle": 0,
-      "locations": [-9, -0]
+      "locations": [-72, -0]
     }
   ],
   "engineSlots": [],
