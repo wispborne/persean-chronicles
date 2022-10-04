@@ -1,11 +1,10 @@
-package wisp.perseanchronicles.telos
+package wisp.perseanchronicles.telos.boats
 
 import com.fs.starfarer.api.combat.CombatEngineAPI
 import com.fs.starfarer.api.combat.EveryFrameWeaponEffectPlugin
 import com.fs.starfarer.api.combat.WeaponAPI
 import com.fs.starfarer.api.util.Misc
 import java.awt.Color
-import kotlin.math.roundToInt
 
 enum class Scalar {
     SPEED,
@@ -74,16 +73,19 @@ class TelosGlowPlugin(
         val red = newColor.red.toFloat() / 255f
         val green = newColor.green.toFloat() / 255f
         val blue = newColor.blue.toFloat() / 255f
+
         scalarAlpha = if (scalarAlpha > scalar) {
             (scalarAlpha - (smoothing * amount)).coerceAtLeast(scalar)
         } else {
             (scalarAlpha + (smoothing * amount) ).coerceAtMost(scalar)
         }
+        
         engineAlpha = if (ec.isAccelerating || ec.isAcceleratingBackwards || ec.isAcceleratingBackwards || ec.isStrafingLeft || ec.isStrafingRight) {
             (engineAlpha + (smoothing * amount)).coerceAtMost(engineAccelMaxValue)
         } else {
             (engineAlpha - (smoothing * amount)).coerceAtLeast(0f)
         }
+
         val alpha = (scalarAlpha + engineAlpha).let { alpha ->
             (alpha * ALPHA_MULT).coerceIn(0f, 255f) / 255f
         }

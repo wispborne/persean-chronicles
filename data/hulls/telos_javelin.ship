@@ -13,7 +13,8 @@
   "viewOffset": 0,
   "builtInWeapons": {
     "INNER_GLOW": "wisp_perschron_javelin_innerglow",
-    "OUTER_GLOW": "wisp_perschron_javelin_outerglow"
+    "OUTER_GLOW": "wisp_perschron_javelin_outerglow",
+    "PHASE_ENGINES": "wisp_perschron_phaseengines"
   },
   "weaponSlots": [
     {
@@ -123,9 +124,17 @@
       "arc": 0,
       "angle": 0,
       "locations": [-72, -0]
+    },
+    {
+      "id": "PHASE_ENGINES",
+      "size": "LARGE",
+      "type": "DECORATIVE",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-72, -0]
     }
   ],
-  "engineSlots": [],
   "bounds": [
     -67, -3,
     -18.5, -14.5,

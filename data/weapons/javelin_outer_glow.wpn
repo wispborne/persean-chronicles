@@ -1,6 +1,6 @@
 {
 	"specClass":"beam",
-	"everyFrameEffect":"wisp.perseanchronicles.telos.TelosSpeedGlowPlugin",
+	"everyFrameEffect":"wisp.perseanchronicles.telos.boats.TelosSpeedGlowPlugin",
 	"numFrames":2,
 	"frameRate":0,
 	"renderHints":["RENDER_ADDITIVE"],

@@ -16,7 +16,13 @@ This mod uses modSettings.json. See usage here: <https://starsector.fandom.com/w
 
 ## Credits
 
-Avanitia for proof-reading literally _everything_ and providing an incredible amount of feedback. 
+Avanitia for proof-reading literally _everything_ and providing an incredible amount of feedback.
+
+Selkie for Telos sprites (creator of many botes).
+
+Nia for Telos effects and sprites (master of effects).
+
+SleepyFish for Telos sprites (transparency expert).
 
 Market condition code inspired by Tartiflette's [Unknown Skies](https://fractalsoftworks.com/forum/index.php?topic=12041.0).
 
