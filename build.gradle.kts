@@ -55,6 +55,7 @@ dependencies {
     compileOnly(fileTree("$starsectorModDirectory/LazyLib/jars") { include("*.jar") })
     compileOnly(fileTree("$starsectorModDirectory/MagicLib-0.42.1/jars") { include("*.jar") })
     compileOnly(fileTree("$starsectorModDirectory/Console Commands/jars") { include("*.jar") })
+    compileOnly(fileTree("$starsectorModDirectory/zz GraphicsLib-1.6.1/jars") { include("*.jar") })
 
     // This grabs local files from the /libs folder, see `repositories` block.
     compileOnly("starfarer:starfarer-api:1.0.0")

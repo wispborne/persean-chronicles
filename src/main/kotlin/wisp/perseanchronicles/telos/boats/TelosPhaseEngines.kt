@@ -6,6 +6,8 @@ import com.fs.starfarer.api.combat.CombatEngineLayers
 import com.fs.starfarer.api.combat.EveryFrameWeaponEffectPlugin
 import com.fs.starfarer.api.combat.WeaponAPI
 import com.fs.starfarer.api.util.IntervalUtil
+import org.dark.shaders.distortion.DistortionShader
+import org.dark.shaders.distortion.RippleDistortion
 import org.lazywizard.lazylib.VectorUtils
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.game
@@ -19,7 +21,7 @@ import kotlin.math.roundToInt
  */
 class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
     companion object {
-        val interval = IntervalUtil(0.06f, 0.07f)
+        val interval = IntervalUtil(0.1f, 0.11f)
     }
 
     private var alphaMult = 0f
@@ -44,6 +46,17 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
             (alphaMult - amount * 2f).coerceAtLeast(0f)
         }
 
+        // Fix ripples on the ship
+        val activeRipples = ship.customData["ripples"] as? MutableList<RippleDistortion>
+
+        activeRipples?.forEach {
+            if (it.remainingLifetime <= 0f) {
+                activeRipples.remove(it)
+            } else {
+                it.location = ship.location
+            }
+        }
+
         // jump out if interval hasn't elapsed yet
         if (!interval.intervalElapsed()) return
 
@@ -57,9 +70,12 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
         val vel = Vector2f(100f * velocityScale, 0f * velocityScale)
         VectorUtils.rotate(vel, ship.facing + 180f)
 
-        val negativeColor = Color(24, 254, 109).modify(green = 255, alpha = (1 * alphaMult * alphaScale).roundToInt().coerceIn(0..255))
-        val nebulaColor = Color.decode("#5F78CC").modify(alpha = (70 * alphaMult * alphaScale).roundToInt().coerceIn(0..255))
-        val swirlyNebulaColor = Color.decode("#3DAECC").modify(alpha = (25 * alphaMult * alphaScale).roundToInt().coerceIn(0..255))
+        val negativeColor =
+            Color(24, 254, 109).modify(green = 255, alpha = (1 * alphaMult * alphaScale).roundToInt().coerceIn(0..255))
+        val nebulaColor =
+            Color.decode("#5F78CC").modify(alpha = (70 * alphaMult * alphaScale).roundToInt().coerceIn(0..255))
+        val swirlyNebulaColor =
+            Color.decode("#3DAECC").modify(alpha = (25 * alphaMult * alphaScale).roundToInt().coerceIn(0..255))
 
         val negativeNebulaSprite = game.settings.getSprite("misc", "nebula_particles")
         val nebulaSprite = game.settings.getSprite("misc", "nebula_particles")
@@ -123,5 +139,75 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
                 false
             )
         }
+
+        if (!ship.customData.containsKey("ripples")) {
+            ship.setCustomData("ripples", mutableListOf<RippleDistortion>())
+        }
+
+        createGfxLibRippleDistortion(
+            location = ship.location,
+            velocity = ship.velocity,
+            size = ship.spriteAPI.width - 60f,
+            intensity = 3f,
+            flip = false,
+            angle = 0f,
+            arc = 360f,
+            edgeSmooth = 0f,
+            fadeIn = 1f,
+            last = 3f,
+            fadeOut = 2f,
+            growthTime = 0.1f,
+            shrinkTime = 1f
+        )?.let { (ship.customData["ripples"] as MutableList<RippleDistortion>).add(it) }
+    }
+
+    // From Seeker, with modifications. Originally `data.scripts.util.CustomRippleDistortion`.
+    fun createGfxLibRippleDistortion(
+        location: Vector2f?,
+        velocity: Vector2f?,
+        size: Float,
+        intensity: Float,
+        flip: Boolean,
+        angle: Float,
+        arc: Float,
+        edgeSmooth: Float = 0f,
+        fadeIn: Float = 0f,
+        last: Float,
+        fadeOut: Float = 0f,
+        growthTime: Float = 0f,
+        shrinkTime: Float = 0f,
+    ): RippleDistortion? {
+        if (!game.settings.modManager.isModEnabled("shaderLib")) return null
+
+        val ripple = RippleDistortion(location, velocity)
+        ripple.intensity = intensity
+        ripple.size = size
+        ripple.setArc(angle - arc / 2, angle + arc / 2)
+
+        if (edgeSmooth != 0f) {
+            ripple.arcAttenuationWidth = edgeSmooth
+        }
+
+        if (fadeIn != 0f) {
+            ripple.fadeInIntensity(fadeIn)
+        }
+
+        if (fadeOut != 0f) {
+            ripple.autoFadeIntensityTime = fadeOut
+        }
+
+        if (growthTime != 0f) {
+            ripple.fadeInSize(growthTime)
+        }
+
+        if (shrinkTime != 0f) {
+            ripple.autoFadeSizeTime = shrinkTime
+        }
+
+        ripple.flip(flip)
+        ripple.setLifetime(last)
+        ripple.frameRate = 60f
+        DistortionShader.addDistortion(ripple)
+        return ripple
     }
 }
