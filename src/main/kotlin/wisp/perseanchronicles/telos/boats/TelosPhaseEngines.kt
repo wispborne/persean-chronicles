@@ -8,20 +8,22 @@ import com.fs.starfarer.api.combat.WeaponAPI
 import com.fs.starfarer.api.util.IntervalUtil
 import org.dark.shaders.distortion.DistortionShader
 import org.dark.shaders.distortion.RippleDistortion
-import org.lazywizard.lazylib.VectorUtils
+import org.lazywizard.lazylib.ext.plus
+import org.lazywizard.lazylib.ext.rotate
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.modify
 import wisp.questgiver.wispLib.random
 import java.awt.Color
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 /**
  * Originally `tahlan_PhaseEngines`, thank you Nia.
  */
 class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
     companion object {
-        val interval = IntervalUtil(0.1f, 0.11f)
+        val interval = IntervalUtil(0.07f, 0.08f)
     }
 
     private var alphaMult = 0f
@@ -61,19 +63,33 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
         if (!interval.intervalElapsed()) return
 
         val velocityScale = .3f
-        val sizeScale = 1.5f
-        val durationScale = .6f
-        val rampUpScale = 1f
-        val alphaScale = .75f
+        val sizeScale = 1.7f
+        val durationScale = 1.1f
+        val rampUpScale = 1.0f
+        val alphaScale = .25f
         val endSizeScale = 1.55f
+        val densityInverted = 0.07f // Lower is more dense
+        val distortionIntensity = 7f
+        val trailMomentumScale = .45f
 
-        val vel = Vector2f(100f * velocityScale, 0f * velocityScale)
-        VectorUtils.rotate(vel, ship.facing + 180f)
+        if (interval.minInterval != densityInverted) {
+            interval.setInterval(densityInverted, densityInverted * 0.2f)
+        }
+
+
+        val vel = Vector2f(100f * velocityScale, 100f * velocityScale)
+            .rotate(Random.nextFloat() * 360f)
+            .let { dest ->
+                val shipVel = ship.velocity.let { Vector2f(it.x * trailMomentumScale, it.y * trailMomentumScale) }
+                dest.plus(shipVel)
+            }
+
+//        VectorUtils.rotate(vel, ship.facing + 180f)
 
         val negativeColor =
             Color(24, 254, 109).modify(green = 255, alpha = (1 * alphaMult * alphaScale).roundToInt().coerceIn(0..255))
         val nebulaColor =
-            Color.decode("#5F78CC").modify(alpha = (70 * alphaMult * alphaScale).roundToInt().coerceIn(0..255))
+            Color.decode("#374676").modify(alpha = (70 * alphaMult * alphaScale).roundToInt().coerceIn(0..255))
         val swirlyNebulaColor =
             Color.decode("#3DAECC").modify(alpha = (25 * alphaMult * alphaScale).roundToInt().coerceIn(0..255))
 
@@ -81,62 +97,69 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
         val nebulaSprite = game.settings.getSprite("misc", "nebula_particles")
         val swirlyNebulaSprite = game.settings.getSprite("misc", "fx_particles2")
 
-        for (emitterPoints in ship.hullSpec.allWeaponSlotsCopy) {
-            val location = emitterPoints.location.let { Vector2f(it) }.translate(ship.location.x, ship.location.y)
+        val emitters = ship.hullSpec.allWeaponSlotsCopy
+            .map { Vector2f(it.location).translate(ship.location.x, ship.location.y) }
+            .plus(Vector2f(ship.location))
+
+        for (location in emitters) {
+            // Negative swirl under
             CustomRender.addNebula(
-                location,
-                vel,
-                (40f..60f).random() * sizeScale,
-                endSizeScale,
-                (1.2f..1.5f).random() * durationScale,
-                0.1f * rampUpScale,
-                0.5f,
-                negativeColor,
-                CombatEngineLayers.UNDER_SHIPS_LAYER,
-                CustomRender.NebulaType.SWIRLY,
-                true
+                location = location,
+                velocity = vel,
+                size = (40f..60f).random() * sizeScale,
+                endSizeMult = endSizeScale,
+                duration = (1.2f..1.5f).random() * durationScale,
+                inFraction = 0.1f * rampUpScale,
+                outFraction = 0.5f,
+                color = negativeColor,
+                layer = CombatEngineLayers.UNDER_SHIPS_LAYER,
+                type = CustomRender.NebulaType.SWIRLY,
+                negative = true
             )
 
+            // Swirl under
             CustomRender.addNebula(
-                location,
-                vel,
-                (30f..50f).random() * sizeScale,
-                endSizeScale,
-                (1f..1.3f).random() * durationScale,
-                0.1f * rampUpScale,
-                0.5f,
-                nebulaColor,
-                CombatEngineLayers.UNDER_SHIPS_LAYER,
-                CustomRender.NebulaType.SWIRLY,
-                false
+                location = location,
+                velocity = vel,
+                size = (30f..50f).random() * sizeScale,
+                endSizeMult = endSizeScale,
+                duration = (1f..1.3f).random() * durationScale,
+                inFraction = 0.1f * rampUpScale,
+                outFraction = 0.5f,
+                color = nebulaColor,
+                layer = CombatEngineLayers.UNDER_SHIPS_LAYER,
+                type = CustomRender.NebulaType.SWIRLY,
+                negative = false
             )
 
+            // Normal on top
             CustomRender.addNebula(
-                location,
-                vel,
-                (30f..50f).random() * sizeScale,
-                endSizeScale,
-                (1f..1.3f).random() * durationScale,
-                0.1f * rampUpScale,
-                0.5f,
-                nebulaColor.modify(alpha = (nebulaColor.alpha * .5f).roundToInt()),
-                CombatEngineLayers.ABOVE_SHIPS_AND_MISSILES_LAYER,
-                CustomRender.NebulaType.SWIRLY,
-                false
+                location = location,
+                velocity = vel,
+                size = (30f..50f).random() * sizeScale,
+                endSizeMult = endSizeScale,
+                duration = (1f..1.3f).random() * durationScale,
+                inFraction = 0.1f * rampUpScale,
+                outFraction = 0.5f,
+                color = nebulaColor.modify(alpha = (nebulaColor.alpha * .5f).roundToInt()),
+                layer = CombatEngineLayers.ABOVE_SHIPS_AND_MISSILES_LAYER,
+                type = CustomRender.NebulaType.NORMAL,
+                negative = false
             )
 
+            // Swirl on top
             CustomRender.addNebula(
-                location,
-                vel,
-                (30f..50f).random() * sizeScale,
-                endSizeScale,
-                (1f..1.3f).random() * durationScale,
-                0.1f * rampUpScale,
-                0.5f,
-                swirlyNebulaColor,
-                CombatEngineLayers.ABOVE_SHIPS_AND_MISSILES_LAYER,
-                CustomRender.NebulaType.SWIRLY,
-                false
+                location = location,
+                velocity = vel,
+                size = (30f..50f).random() * sizeScale,
+                endSizeMult = endSizeScale,
+                duration = (1f..1.3f).random() * durationScale,
+                inFraction = 0.1f * rampUpScale,
+                outFraction = 0.5f,
+                color = swirlyNebulaColor,
+                layer = CombatEngineLayers.ABOVE_SHIPS_AND_MISSILES_LAYER,
+                type = CustomRender.NebulaType.SWIRLY,
+                negative = false
             )
         }
 
@@ -148,10 +171,10 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
             location = ship.location,
             velocity = ship.velocity,
             size = ship.spriteAPI.width - 60f,
-            intensity = 3f,
+            intensity = distortionIntensity,
             flip = false,
-            angle = 0f,
-            arc = 360f,
+            angle = ship.facing + 180f,
+            arc = 140f,
             edgeSmooth = 0f,
             fadeIn = 1f,
             last = 3f,
