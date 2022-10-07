@@ -24,7 +24,7 @@ import kotlin.random.Random
  */
 class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
     companion object {
-        val interval = IntervalUtil(0.07f, 0.08f)
+        val interval = IntervalUtil(0.03f, 0.04f)
     }
 
     private var alphaMult = 0f
@@ -33,6 +33,7 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
         Global.getCombatEngine()?.addPlugin(CustomRender())
     }
 
+    // TODO: optimization
     override fun advance(amount: Float, engine: CombatEngineAPI, weapon: WeaponAPI) {
         interval.advance(amount)
         val combatEngine = Global.getCombatEngine() ?: return
@@ -65,14 +66,14 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
 
         val velocityScale = .1f
         val sizeScale = 1.3f
-        val durationScale = 1.3f
+        val durationScale = 1.0f
         val rampUpScale = 1.0f
-        val alphaScale = .25f
+        val alphaScale = .45f
         val topLayerAlphaScale = .1f
         val endSizeScale = 1.55f
         val densityInverted = 0.03f // Lower is more dense
-        val distortionIntensity = 7f
-        val trailMomentumScale = .1f // How much the trail keeps ship momentum
+        val distortionIntensity = 10f
+        val trailMomentumScale = .7f // How much the trail keeps ship momentum
 
         if (interval.minInterval != densityInverted) {
             interval.setInterval(densityInverted, densityInverted * 0.2f)
@@ -100,7 +101,11 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
 
         val emitters = ship.hullSpec.allWeaponSlotsCopy
             .filter { it.isSystemSlot }
-            .map { Vector2f(it.location).translate(ship.location.x, ship.location.y).rotateAroundPivot(ship.location, ship.facing) }
+            .map {
+                Vector2f(it.location)
+                    .translate(ship.location.x, ship.location.y)
+                    .rotateAroundPivot(ship.location, ship.facing)
+            }
 //            .plus(Vector2f(ship.location))
 
         for (location in emitters) {
