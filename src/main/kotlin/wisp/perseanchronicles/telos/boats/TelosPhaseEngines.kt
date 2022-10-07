@@ -10,6 +10,7 @@ import org.dark.shaders.distortion.DistortionShader
 import org.dark.shaders.distortion.RippleDistortion
 import org.lazywizard.lazylib.ext.plus
 import org.lazywizard.lazylib.ext.rotate
+import org.lazywizard.lazylib.ext.rotateAroundPivot
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.modify
@@ -62,15 +63,16 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
         // jump out if interval hasn't elapsed yet
         if (!interval.intervalElapsed()) return
 
-        val velocityScale = .3f
-        val sizeScale = 1.7f
-        val durationScale = 1.1f
+        val velocityScale = .1f
+        val sizeScale = 1.3f
+        val durationScale = 1.3f
         val rampUpScale = 1.0f
         val alphaScale = .25f
+        val topLayerAlphaScale = .1f
         val endSizeScale = 1.55f
-        val densityInverted = 0.07f // Lower is more dense
+        val densityInverted = 0.03f // Lower is more dense
         val distortionIntensity = 7f
-        val trailMomentumScale = .45f
+        val trailMomentumScale = .1f // How much the trail keeps ship momentum
 
         if (interval.minInterval != densityInverted) {
             interval.setInterval(densityInverted, densityInverted * 0.2f)
@@ -83,8 +85,7 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
                 val shipVel = ship.velocity.let { Vector2f(it.x * trailMomentumScale, it.y * trailMomentumScale) }
                 dest.plus(shipVel)
             }
-
-//        VectorUtils.rotate(vel, ship.facing + 180f)
+//            .rotate(ship.facing + 180f)
 
         val negativeColor =
             Color(24, 254, 109).modify(green = 255, alpha = (1 * alphaMult * alphaScale).roundToInt().coerceIn(0..255))
@@ -98,8 +99,9 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
         val swirlyNebulaSprite = game.settings.getSprite("misc", "fx_particles2")
 
         val emitters = ship.hullSpec.allWeaponSlotsCopy
-            .map { Vector2f(it.location).translate(ship.location.x, ship.location.y) }
-            .plus(Vector2f(ship.location))
+            .filter { it.isSystemSlot }
+            .map { Vector2f(it.location).translate(ship.location.x, ship.location.y).rotateAroundPivot(ship.location, ship.facing) }
+//            .plus(Vector2f(ship.location))
 
         for (location in emitters) {
             // Negative swirl under
@@ -141,7 +143,7 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
                 duration = (1f..1.3f).random() * durationScale,
                 inFraction = 0.1f * rampUpScale,
                 outFraction = 0.5f,
-                color = nebulaColor.modify(alpha = (nebulaColor.alpha * .5f).roundToInt()),
+                color = nebulaColor.modify(alpha = (nebulaColor.alpha * topLayerAlphaScale).roundToInt()),
                 layer = CombatEngineLayers.ABOVE_SHIPS_AND_MISSILES_LAYER,
                 type = CustomRender.NebulaType.NORMAL,
                 negative = false
@@ -156,7 +158,7 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
                 duration = (1f..1.3f).random() * durationScale,
                 inFraction = 0.1f * rampUpScale,
                 outFraction = 0.5f,
-                color = swirlyNebulaColor,
+                color = swirlyNebulaColor.modify(alpha = (nebulaColor.alpha * topLayerAlphaScale).roundToInt()),
                 layer = CombatEngineLayers.ABOVE_SHIPS_AND_MISSILES_LAYER,
                 type = CustomRender.NebulaType.SWIRLY,
                 negative = false
