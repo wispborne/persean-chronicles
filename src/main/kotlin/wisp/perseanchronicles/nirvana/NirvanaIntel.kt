@@ -13,13 +13,6 @@ import wisp.questgiver.wispLib.preferredConnectedEntity
 import wisp.questgiver.wispLib.textColorOrElseGrayIf
 
 class NirvanaIntel(startLocation: SectorEntityToken?, endLocation: SectorEntityToken?) : IntelDefinition(
-    iconPath = { game.settings.getSpriteName(NirvanaQuest.icon.category, NirvanaQuest.icon.id) },
-    title = {
-        if (!NirvanaQuest.stage.isCompleted)
-            game.text["nirv_intel_title"]
-        else
-            game.text["nirv_intel_title_completed"]
-    },
     subtitleCreator = { info ->
         if (!NirvanaQuest.stage.isCompleted) {
             info?.addPara(

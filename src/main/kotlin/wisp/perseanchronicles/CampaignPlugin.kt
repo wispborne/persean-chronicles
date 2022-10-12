@@ -29,7 +29,6 @@ class CampaignPlugin : BaseCampaignPlugin() {
      */
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
         return when {
-
             // Finish Nirvana quest by landing at pulsar planet
             interactionTarget.hasSameMarketAs(NirvanaQuest.state.destPlanet)
                     && NirvanaQuest.shouldShowStage2Dialog() -> {
