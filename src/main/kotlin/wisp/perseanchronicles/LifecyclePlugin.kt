@@ -55,7 +55,6 @@ class LifecyclePlugin : BaseModPlugin() {
 
         Questgiver.loadQuests(
             questFacilitators = listOfNotNull(
-                if (settings.tryGet("isNirvanaQuestEnabled") { true }) NirvanaQuest else null,
                 if (settings.tryGet("isLaborerQuestEnabled") { true }) LaborerQuest else null,
             ),
             creators = listOfNotNull(
@@ -65,6 +64,7 @@ class LifecyclePlugin : BaseModPlugin() {
                 if (settings.tryGet("isDragonsQuestEnabled") { true }) DragonsBarEventWiring() else null,
                 if (settings.tryGet("isDepthsQuestEnabled") { true }) DepthsBarEventWiring() else null,
                 if (settings.tryGet("isRileyQuestEnabled") { true }) RileyBarEventWiring() else null,
+                if (settings.tryGet("isNirvanaQuestEnabled") { true }) NirvanaBarEventWiring() else null,
             ),
             configuration = readConfiguration(settings),
         )
@@ -131,9 +131,9 @@ class LifecyclePlugin : BaseModPlugin() {
             Riley_EnteredDestinationSystemListener::class to "Riley_EnteredDestinationSystemListener",
             Riley_Stage3_Dialog::class to "Riley_Stage3_Dialog",
             Riley_Stage4_Dialog::class to "Riley_Stage4_Dialog",
+            NirvanaHubMission::class to "NirvanaHubMission",
             Nirvana_Stage1_BarEvent::class to "Nirvana_Stage1_BarEvent",
-            Nirvana_Stage1_BarEventCreator::class to "Nirvana_Stage1_BarEventCreator",
-            NirvanaIntel::class to "NirvanaIntel",
+            NirvanaBarEventCreator::class to "NirvanaBarEventCreator",
             Nirvana_Stage2_Dialog::class to "Nirvana_Stage2_Dialog",
             Nirvana_Stage3_Dialog::class to "Nirvana_Stage3_Dialog",
             LaborerIntel::class to "LaborerIntel",

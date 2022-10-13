@@ -1,21 +1,24 @@
 package wisp.perseanchronicles.nirvana
 
-import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
-import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
 import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity
+import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.game
-import wisp.questgiver.AutoBarEventDefinition
-import wisp.questgiver.wispLib.preferredConnectedEntity
+import wisp.questgiver.v2.BarEventLogic
+import wisp.questgiver.v2.IInteractionLogic
 
-class Nirvana_Stage1_BarEvent : AutoBarEventDefinition<Nirvana_Stage1_BarEvent>(
-    questFacilitator = NirvanaQuest,
+class Nirvana_Stage1_BarEvent : BarEventLogic<NirvanaHubMission>(
     createInteractionPrompt = {
         para { game.text["nirv_stg1_prompt"] }
     },
     onInteractionStarted = { },
-    textToStartInteraction = { game.text["nirv_stg1_startBarEvent"] },
+    textToStartInteraction = {
+        Option(
+            text = game.text["nirv_stg1_startBarEvent"],
+            textColor = Misc.getHighlightColor()
+        )
+    },
     pages = listOf(
-        Page(
+        IInteractionLogic.Page(
             id = 1,
             onPageShown = {
                 para { game.text["nirv_stg1_pg1_para1"] }
@@ -23,14 +26,14 @@ class Nirvana_Stage1_BarEvent : AutoBarEventDefinition<Nirvana_Stage1_BarEvent>(
                 para { game.text["nirv_stg1_pg1_para3"] }
             },
             options = listOf(
-                Option(
+                IInteractionLogic.Option(
                     // accept
                     text = { game.text["nirv_stg1_pg1_opt1"] },
                     onOptionSelected = {
                         it.goToPage(2)
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // decline
                     text = { game.text["nirv_stg1_pg1_opt2"] },
                     onOptionSelected = { navigator ->
@@ -39,41 +42,41 @@ class Nirvana_Stage1_BarEvent : AutoBarEventDefinition<Nirvana_Stage1_BarEvent>(
                 )
             )
         ),
-        Page(
+        IInteractionLogic.Page(
             id = 2,
             onPageShown = {
                 para { game.text["nirv_stg1_pg2_para1"] }
             },
             options = listOf(
-                Option(
+                IInteractionLogic.Option(
                     // fully accept
-                    showIf = { game.sector.playerFleet.cargo.spaceLeft >= NirvanaQuest.CARGO_WEIGHT },
-                    text = { game.text["nirv_stg1_pg2_opt1"] },
+                    showIf = { game.sector.playerFleet.cargo.spaceLeft >= NirvanaHubMission.CARGO_WEIGHT },
+                    text = { game.text["nirv_stg1_pg2_opt1"] }, // "Done. We'll handle that and be under way shortly."
                     onOptionSelected = {
                         para { game.text["nirv_stg1_pg2_opt1_onSelected"] }
                         AddRemoveCommodity.addCommodityGainText(
-                            NirvanaQuest.CARGO_TYPE,
-                            NirvanaQuest.CARGO_WEIGHT,
+                            NirvanaHubMission.CARGO_TYPE,
+                            NirvanaHubMission.CARGO_WEIGHT,
                             dialog.textPanel
                         )
-                        val preferredConnectedEntity = dialog.interactionTarget.market.preferredConnectedEntity
+                        mission.setCurrentStage(NirvanaHubMission.Stage.GoToPlanet, dialog, null)
+
                         navigator.promptToContinue(game.text["continue"]) {
-                            NirvanaQuest.start(preferredConnectedEntity!!)
                             navigator.close(doNotOfferAgain = true)
                         }
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // not enough space
-                    showIf = { game.sector.playerFleet.cargo.spaceLeft < NirvanaQuest.CARGO_WEIGHT },
+                    showIf = { game.sector.playerFleet.cargo.spaceLeft < NirvanaHubMission.CARGO_WEIGHT },
                     text = { game.text["nirv_stg1_pg2_opt2"] },
                     onOptionSelected = {
                         navigator.close(doNotOfferAgain = false)
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // decline
-                    showIf = { game.sector.playerFleet.cargo.spaceLeft >= NirvanaQuest.CARGO_WEIGHT },
+                    showIf = { game.sector.playerFleet.cargo.spaceLeft >= NirvanaHubMission.CARGO_WEIGHT },
                     text = { game.text["nirv_stg1_pg2_opt3"] },
                     onOptionSelected = {
                         navigator.close(doNotOfferAgain = false)
@@ -81,12 +84,4 @@ class Nirvana_Stage1_BarEvent : AutoBarEventDefinition<Nirvana_Stage1_BarEvent>(
                 )
             )
         )
-    ),
-    people = listOf(NirvanaQuest.david)
-) {
-    override fun createInstanceOfSelf() = Nirvana_Stage1_BarEvent()
-}
-
-class Nirvana_Stage1_BarEventCreator : BaseBarEventCreator() {
-    override fun createBarEvent(): PortsideBarEvent = Nirvana_Stage1_BarEvent().buildBarEvent()
-}
+    ))

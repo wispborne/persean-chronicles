@@ -1,13 +1,11 @@
 package wisp.perseanchronicles.nirvana
 
-import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
-import com.fs.starfarer.api.campaign.econ.MarketAPI
-import com.fs.starfarer.api.characters.FullName
-import com.fs.starfarer.api.characters.PersonAPI
-import com.fs.starfarer.api.impl.campaign.ids.*
+import com.fs.starfarer.api.impl.campaign.ids.Conditions
+import com.fs.starfarer.api.impl.campaign.ids.StarTypes
+import com.fs.starfarer.api.impl.campaign.ids.Terrain
 import com.fs.starfarer.api.impl.campaign.procgen.PlanetGenDataSpec
 import com.fs.starfarer.api.impl.campaign.procgen.StarGenDataSpec
 import com.fs.starfarer.api.impl.campaign.terrain.StarCoronaTerrainPlugin.CoronaParams
@@ -15,37 +13,19 @@ import com.fs.starfarer.api.util.Misc
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
-import wisp.perseanchronicles.laborer.LaborerQuest
-import wisp.questgiver.*
 import wisp.questgiver.wispLib.*
 import kotlin.random.Random
 
-object NirvanaQuest : AutoQuestFacilitator(
-    stageBackingField = PersistentData(key = "nirvanaStage", defaultValue = { Stage.NotStarted }),
-    autoBarEventInfo = AutoBarEventInfo(
-        barEventCreator = Nirvana_Stage1_BarEventCreator(),
-        shouldGenerateBarEvent = { game.sector.playerStats.level >= 10 },
-        shouldOfferFromMarket = { market ->
-            market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT.toLowerCase())
-                    && market.starSystem != null // No prism freeport
-                    && market.size > 3
-                    && NirvanaQuest.state.destPlanet != null
-        }),
-    autoIntelInfo = AutoIntelInfo(NirvanaIntel::class.java) {
-        NirvanaIntel(NirvanaQuest.state.startLocation, NirvanaQuest.state.destPlanet)
-    }
-) {
+object NirvanaQuest {
 
-
-    fun completeSecret() {
-        stage = Stage.CompletedSecret
-        state.secretCompleteDateInMillis = game.sector.clock.timestamp
-    }
-
-    private fun isValidPlanetForDestination(planet: PlanetAPI): Boolean =
+    fun isValidPlanetForDestination(planet: PlanetAPI): Boolean =
         planet.market?.factionId?.toLowerCase() !in listOf("luddic_church", "luddic_path")
                 && !planet.isGasGiant
                 && !planet.isStar
+
+    fun completeSecret() {
+        NirvanaHubMission.state.secretCompleteDateInMillis = game.sector.clock.timestamp
+    }
 
     fun createPulsarSystem(): Boolean {
         if (game.sector.getStarSystem(game.text["nirv_starSystem_name"]) != null) {

@@ -8,6 +8,7 @@ import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.dangerousGames.pt2_depths.DepthsHubMission
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.laborer.LaborerQuest
+import wisp.perseanchronicles.nirvana.NirvanaHubMission
 import wisp.perseanchronicles.nirvana.NirvanaQuest
 import wisp.perseanchronicles.riley.RileyHubMission
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
@@ -40,8 +41,9 @@ class ViewDebugInfoCommand : BaseCommand {
         info.appendLine("Riley quest stage: ${riley?.currentStage}")
         info.appendLine("Riley quest choices: ${riley?.choices?.map?.entries?.joinToString()}")
         info.appendLine()
-        info.appendLine("Nirvana destination planet: ${NirvanaQuest.state.destPlanet?.fullName} in ${NirvanaQuest.state.destPlanet?.starSystem?.baseName}")
-        info.appendLine("Nirvana quest stage: ${NirvanaQuest.stage}")
+        val nirv = Global.getSector().intelManager.findFirst<NirvanaHubMission>()
+        info.appendLine("Nirvana destination planet: ${NirvanaHubMission.state.destPlanet?.fullName} in ${NirvanaHubMission.state.destPlanet?.starSystem?.baseName}")
+        info.appendLine("Nirvana quest stage: ${nirv?.currentStage}")
         info.appendLine()
         info.appendLine("Laborer destination planet: ${LaborerQuest.state.destPlanet?.fullName} in ${LaborerQuest.state.destPlanet?.starSystem?.baseName}")
         info.appendLine("Laborer quest stage: ${LaborerQuest.stage}")

@@ -1,26 +1,18 @@
 package wisp.perseanchronicles.nirvana
 
 import com.fs.starfarer.api.Global
-import com.fs.starfarer.api.campaign.InteractionDialogAPI
-import com.fs.starfarer.api.campaign.SectorEntityToken
-import com.fs.starfarer.api.campaign.StarSystemAPI
+import com.fs.starfarer.api.PluginPick
+import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.impl.campaign.ids.*
-import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import org.json.JSONObject
-import org.lwjgl.util.vector.Vector2f
-import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
-import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.*
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
-import wisp.questgiver.v2.json.optQuery
-import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.*
 import java.awt.Color
 import java.util.*
@@ -32,7 +24,8 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         const val CARGO_TYPE = Commodities.HEAVY_MACHINERY
         const val CARGO_WEIGHT = 5
         val icon = InteractionDefinition.Portrait(category = "wisp_perseanchronicles_nirvana", id = "davidRengel")
-        val background = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_nirvana", id = "background")
+        val background =
+            InteractionDefinition.Illustration(category = "wisp_perseanchronicles_nirvana", id = "background")
 
         val state = State(PersistentMapData<String, Any?>(key = "nirvanaState").withDefault { null })
 
@@ -66,7 +59,12 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
     }
 
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
-        return state.startDateMillis == null // todo
+        return state.startDateMillis == null
+                && market != null
+                && market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT.toLowerCase())
+                && market.starSystem != null // No prism freeport
+                && market.size > 3
+                && NirvanaHubMission.state.destPlanet != null
     }
 
     override fun onGameLoad() {
@@ -93,17 +91,14 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
 
         name = game.text["nirv_intel_title"]
         setCreditReward(CreditReward.VERY_HIGH) // 95k ish, we want the player to take this.
-        setGiverFaction(stage1Engineer.faction.id) // Rep reward.
-        personOverride = stage1Engineer // Shows on intel, needed for rep reward or else crash.
+        setGiverFaction(david.faction.id) // Rep reward.
+        personOverride = david // Shows on intel, needed for rep reward or else crash.
 
-        // todo change me
         setIconName(game.settings.getSpriteName(NirvanaHubMission.icon.category, NirvanaHubMission.icon.id))
 
         state.startLocation = createdAt?.primaryEntity
 
-        findOrCreateAndSetDestination(interactionTarget, createdAt)
-
-
+        findOrCreateAndSetDestination(createdAt!!.primaryEntity, createdAt)
 
         return true
     }
@@ -111,7 +106,7 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
     override fun acceptImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
         super.acceptImpl(dialog, memoryMap)
 
-        val startLocation = dialog?.interactionTarget
+        val startLocation = dialog?.interactionTarget?.market?.preferredConnectedEntity
             ?: kotlin.run {
                 game.logger.e { "Aborting acceptance of ${this.name} because dialog was null." }
                 abort()
@@ -119,7 +114,6 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
             }
 
         game.logger.i { "Nirvana start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
-        NirvanaQuest.stage = AutoQuestFacilitator.Stage.GoToPlanet
         game.sector.playerFleet.cargo.addCommodity(CARGO_TYPE, CARGO_WEIGHT.toFloat())
         state.startDateMillis = game.sector.clock.timestamp
 
@@ -128,18 +122,8 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         state.startDateMillis = game.sector.clock.timestamp
 
         // Sets the system as the map objective.
-        makeImportant(state.karengoSystem?.hyperspaceAnchor, null, Stage.GoToSectorEdge)
-        makePrimaryObjective(state.karengoSystem?.hyperspaceAnchor)
-
-        // Complete Part 1, show conclusion dialog.
-        trigger {
-            beginWithinHyperspaceRangeTrigger(state.karengoSystem, 1f, true, Stage.GoToSectorEdge)
-
-            triggerCustomAction {
-                Telo1CompleteDialog().build().show(game.sector.campaignUI, game.sector.playerFleet)
-                game.sector.playerFleet.clearAssignments()
-            }
-        }
+        makeImportant(state.destSystem?.hyperspaceAnchor, null, Stage.GoToPlanet)
+        makePrimaryObjective(state.destSystem?.hyperspaceAnchor)
     }
 
     override fun endSuccessImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
@@ -160,7 +144,7 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
     }
 
     fun shouldShowStage2Dialog() =
-        NirvanaQuest.stage == AutoQuestFacilitator.Stage.GoToPlanet
+        currentStage == Stage.GoToPlanet
                 && game.sector.playerFleet.cargo.getCommodityQuantity(CARGO_TYPE) >= CARGO_WEIGHT
 
     /**
@@ -177,14 +161,17 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
 
     private fun findOrCreateAndSetDestination(
         interactionTarget: SectorEntityToken,
-        market: MarketAPI?
+        market: MarketAPI?,
+        retries: Int = 3
     ) {
+        if (retries == 0) return
+
         val system = game.sector.starSystemsAllowedForQuests
             .filter { sys -> sys.star?.spec?.isPulsar == true }
             .prefer { it.distanceFromPlayerInHyperspace >= 18 } // 18+ LY away
             .ifEmpty {
                 NirvanaQuest.createPulsarSystem()
-                NirvanaQuest.regenerateQuest(interactionTarget, market)
+                findOrCreateAndSetDestination(interactionTarget, market, retries - 1)
                 return
             }
             .let { pulsarSystems ->
@@ -224,33 +211,69 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         state.destPlanet = planet
     }
 
+    override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
+        return when {
+            // Finish Nirvana quest by landing at pulsar planet
+            interactionTarget.hasSameMarketAs(state.destPlanet)
+                    && shouldShowStage2Dialog() -> {
+                PluginPick(
+                    Nirvana_Stage2_Dialog().build(),
+                    CampaignPlugin.PickPriority.MOD_SPECIFIC
+                )
+            }
+
+            // Shhhhh
+            interactionTarget.hasSameMarketAs(state.destPlanet)
+                    && shouldShowStage3Dialog() -> {
+                PluginPick(
+                    Nirvana_Stage3_Dialog().build(),
+                    CampaignPlugin.PickPriority.MOD_SPECIFIC
+                )
+            }
+
+            else -> null
+        }
+    }
+
     /**
      * Bullet points on left side of intel.
      */
     override fun addNextStepText(info: TooltipMakerAPI, tc: Color, pad: Float): Boolean {
-        return when (currentStage) {
-            Stage.GoToSectorEdge -> {
-                info.addPara(pad, tc) {
-                    part1Json.optQuery<String>("/stages/deliveryToEarth/intel/subtitle")?.qgFormat() ?: ""
-                }
-                true
-            }
-
-            else -> false
+        if (currentStage != Stage.Completed) {
+            info.addPara(
+                padding = 0f,
+                textColor = Misc.getGrayColor()
+            ) { game.text["nirv_intel_subtitle"] }
+            return true
         }
+
+        return false
     }
 
     /**
      * Description on right side of intel.
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
+        info.addImage(
+            NirvanaHubMission.background.spriteName(game),
+            width,
+            0f
+        )
+
         when (currentStage) {
-            Stage.GoToSectorEdge -> {
-                info.addPara { part1Json.query<String>("/stages/deliveryToEarth/intel/desc").qgFormat() }
+            Stage.GoToPlanet -> {
+                info.addPara {
+                    game.text["nirv_intel_description_para1"]
+                }
+                info.addPara {
+                    game.text["nirv_intel_description_para2"]
+                }
             }
 
             Stage.Completed -> {
-                info.addPara { part1Json.query<String>("/stages/deliveryDropoff/intel/desc").qgFormat() }
+                info.addPara {
+                    game.text["nirv_intel_description_completed_para1"]
+                }
             }
         }
     }
@@ -259,7 +282,6 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         NotStarted,
         GoToPlanet,
         Completed,
-        CompletedSecret,
         Abandoned,
     }
 }

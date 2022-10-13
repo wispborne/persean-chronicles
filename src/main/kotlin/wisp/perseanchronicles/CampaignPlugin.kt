@@ -7,9 +7,6 @@ import com.fs.starfarer.api.campaign.InteractionDialogPlugin
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import wisp.perseanchronicles.laborer.LaborerQuest
 import wisp.perseanchronicles.laborer.Laborer_Stage2_Dialog
-import wisp.perseanchronicles.nirvana.NirvanaQuest
-import wisp.perseanchronicles.nirvana.Nirvana_Stage2_Dialog
-import wisp.perseanchronicles.nirvana.Nirvana_Stage3_Dialog
 import wisp.questgiver.wispLib.hasSameMarketAs
 
 typealias InteractionPluginPick = (interactionTarget: SectorEntityToken) -> PluginPick<InteractionDialogPlugin>?
@@ -29,24 +26,6 @@ class CampaignPlugin : BaseCampaignPlugin() {
      */
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
         return when {
-            // Finish Nirvana quest by landing at pulsar planet
-            interactionTarget.hasSameMarketAs(NirvanaQuest.state.destPlanet)
-                    && NirvanaQuest.shouldShowStage2Dialog() -> {
-                PluginPick(
-                    Nirvana_Stage2_Dialog().build(),
-                    CampaignPlugin.PickPriority.MOD_SPECIFIC
-                )
-            }
-
-            // Shhhhh
-            interactionTarget.hasSameMarketAs(NirvanaQuest.state.destPlanet)
-                    && NirvanaQuest.shouldShowStage3Dialog() -> {
-                PluginPick(
-                    Nirvana_Stage3_Dialog().build(),
-                    CampaignPlugin.PickPriority.MOD_SPECIFIC
-                )
-            }
-
             // Finish laborer quest
             interactionTarget.hasSameMarketAs(LaborerQuest.state.destPlanet)
                     && LaborerQuest.shouldShowStage2Dialog() -> {

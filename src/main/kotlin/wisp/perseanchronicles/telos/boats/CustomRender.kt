@@ -12,12 +12,13 @@ import wisp.questgiver.wispLib.random
 import java.awt.Color
 import java.util.*
 import kotlin.math.floor
+import kotlin.math.sqrt
 
 
 class CustomRender : BaseEveryFrameCombatPlugin() {
 
     enum class NebulaType {
-        NORMAL, SWIRLY, SPLINTER
+        NORMAL, SWIRLY, SPLINTER, DUST
     }
 
     override fun init(engine: CombatEngineAPI) {
@@ -28,21 +29,26 @@ class CustomRender : BaseEveryFrameCombatPlugin() {
 
     // Ticking our lifetimes and removing expired
     override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
-        if (Global.getCombatEngine().isPaused) return
+        val engine = Global.getCombatEngine()
+        if (engine.isPaused) return
 
-        val toRemove: MutableList<Nebula> = ArrayList()
+        // clean up nebula list
+        val nebulaToRemove: MutableList<Nebula> = ArrayList()
         nebulaData.forEach { nebula ->
-            nebula.lifetime += Global.getCombatEngine().elapsedInLastFrame
+            nebula.lifetime += engine.elapsedInLastFrame
             if (nebula.lifetime > nebula.duration)
-                toRemove.add(nebula)
+                nebulaToRemove.add(nebula)
         }
-        nebulaData.removeAll(toRemove)
+        nebulaData.removeAll(nebulaToRemove)
+
+        // clean up spear list
+        val projToRemove: MutableList<DamagingProjectileAPI> = ArrayList()
+        effectProjectiles.forEach { if (!engine.isEntityInPlay(it)) projToRemove.add(it) }
+        effectProjectiles.removeAll(projToRemove)
     }
 
-    private fun render(layer: CombatEngineLayers, view: ViewportAPI) {
-        nebulaData.forEach { nebula ->
-            if (layer == nebula.layer) renderNebula(nebula, view)
-        }
+    fun render(layer: CombatEngineLayers, view: ViewportAPI) {
+        nebulaData.filter { it.layer == layer }.forEach { renderNebula(it, view) }
     }
 
     private fun renderNebula(nebula: Nebula, view: ViewportAPI) {
@@ -51,7 +57,9 @@ class CustomRender : BaseEveryFrameCombatPlugin() {
             NebulaType.NORMAL -> Global.getSettings().getSprite("misc", "nebula_particles")
             NebulaType.SWIRLY -> Global.getSettings().getSprite("misc", "fx_particles2")
             NebulaType.SPLINTER -> Global.getSettings().getSprite("misc", "fx_particles1")
+            NebulaType.DUST -> Global.getSettings().getSprite("misc", "dust_particles")
         } ?: return
+
         var alpha = nebula.color.alpha
         if (nebula.lifetime < nebula.duration * nebula.inFraction) {
             alpha = (alpha * (nebula.lifetime / (nebula.duration * nebula.inFraction))).toInt().coerceIn(0, 255)
@@ -60,16 +68,21 @@ class CustomRender : BaseEveryFrameCombatPlugin() {
                 (alpha - alpha * ((nebula.lifetime - nebula.duration * (1f - nebula.outFraction)) / (nebula.duration * nebula.outFraction))).toInt()
                     .coerceIn(0, 255)
         }
-        cloudSprite.color = nebula.color.modify(alpha = alpha)
-        cloudSprite.setAdditiveBlend()
-        cloudSprite.angle = nebula.angle
 
         val actualSize =
-            if (nebula.endSizeMult > 1f)
-                nebula.size + nebula.size * (nebula.endSizeMult - 1f) * (nebula.lifetime / nebula.duration) * 2f
-            else
-                nebula.size - nebula.size * (1f - nebula.endSizeMult) * (nebula.lifetime / nebula.duration) * 2f
-        cloudSprite.setSize(actualSize * 4f, actualSize * 4f)
+            if (nebula.sqrt) {
+                nebula.size + (nebula.endSize - nebula.size) * sqrt(nebula.lifetime / nebula.duration)
+            } else {
+                nebula.size + (nebula.endSize - nebula.size) * nebula.lifetime / nebula.duration
+            }
+
+
+        cloudSprite.apply {
+            color = nebula.color.modify(alpha = alpha)
+            setAdditiveBlend()
+            angle = nebula.angle
+            setSize(actualSize * 4f, actualSize * 4f)
+        }
 
         val xIndex: Int = nebula.index % 4
         val yIndex = floor(nebula.index / 4f).toInt()
@@ -95,35 +108,35 @@ class CustomRender : BaseEveryFrameCombatPlugin() {
         )
 
         // DO NOT FORGET TO TURN OFF FUNKY MODE
-        if (nebula.negative) {
-            glBlendEquation(GL_FUNC_ADD)
-        }
+        if (nebula.negative) glBlendEquation(GL_FUNC_ADD)
     }
 
-    data class Nebula(
+    private data class Nebula(
         val location: Vector2f,
         val velocity: Vector2f,
         val size: Float,
-        val endSizeMult: Float,
+        val endSize: Float,
         val duration: Float,
         val inFraction: Float,
         val outFraction: Float,
         val color: Color,
         val layer: CombatEngineLayers,
         val type: NebulaType,
-        val negative: Boolean
+        val negative: Boolean,
+        val sqrt: Boolean
     ) {
-        internal var lifetime = 0f
-        internal val index = (0..11).random()
-        internal val angle = (0f..359f).random()
+        var lifetime = 0f
+        val index = (0..11).random()
+        val angle = (0f..359f).random()
     }
 
     companion object {
-        internal val nebulaData: MutableList<Nebula> = ArrayList()
+        private val nebulaData: MutableList<Nebula> = ArrayList()
+        private val effectProjectiles: MutableList<DamagingProjectileAPI> = ArrayList()
+        fun addProjectile(projectile: DamagingProjectileAPI) {
+            effectProjectiles.add(projectile)
+        }
 
-        /**
-         * Does stuff, thanks Nia.
-         */
         fun addNebula(
             location: Vector2f,
             velocity: Vector2f,
@@ -135,35 +148,37 @@ class CustomRender : BaseEveryFrameCombatPlugin() {
             color: Color,
             layer: CombatEngineLayers = CombatEngineLayers.ABOVE_SHIPS_AND_MISSILES_LAYER,
             type: NebulaType = NebulaType.NORMAL,
-            negative: Boolean = false
+            negative: Boolean = false,
+            expandAsSqrt: Boolean = false
         ) {
             val newNebula =
                 Nebula(
-                    location,
-                    velocity,
+                    Vector2f(location),
+                    Vector2f(velocity),
                     size,
-                    endSizeMult,
+                    endSizeMult * size,
                     duration,
                     inFraction,
                     outFraction,
                     color,
                     layer,
                     type,
-                    negative
+                    negative,
+                    expandAsSqrt
                 )
             nebulaData.add(newNebula)
         }
     }
 
-    private class CustomRenderer
+    internal class CustomRenderer
         (private val parentPlugin: CustomRender) : BaseCombatLayeredRenderingPlugin() {
         override fun render(layer: CombatEngineLayers, view: ViewportAPI) {
-            Global.getCombatEngine() ?: return
+            val engine = Global.getCombatEngine() ?: return
             parentPlugin.render(layer, view)
         }
 
         override fun getRenderRadius(): Float {
-            return Float.POSITIVE_INFINITY
+            return 999999999999999f
         }
 
         override fun getActiveLayers(): EnumSet<CombatEngineLayers> {
