@@ -87,7 +87,6 @@ class Dragons_Stage1_BarEvent : BarEventLogic<DragonsHubMission>(
                     game.text["dg_dr_stg1_pg3_onShown"]
                 }
                 mission.accept(dialog, null)
-                mission.setCurrentStage(DragonsHubMission.Stage.GoToPlanet, dialog, null)
             },
             options = listOf(
                 Option(

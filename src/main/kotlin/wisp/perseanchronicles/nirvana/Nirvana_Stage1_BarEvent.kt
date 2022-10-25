@@ -59,7 +59,7 @@ class Nirvana_Stage1_BarEvent : BarEventLogic<NirvanaHubMission>(
                             NirvanaHubMission.CARGO_WEIGHT,
                             dialog.textPanel
                         )
-                        mission.setCurrentStage(NirvanaHubMission.Stage.GoToPlanet, dialog, null)
+                        mission.accept(dialog, null)
 
                         navigator.promptToContinue(game.text["continue"]) {
                             navigator.close(doNotOfferAgain = true)

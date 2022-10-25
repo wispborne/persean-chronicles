@@ -34,7 +34,7 @@
               {
                 "id": "1.5",
                 "paras": [
-                  "“My beard, is that Captain ${playerLastName}?” he asks with a touch of incredulity, “Fate sure has a way. My best pilot-for-hire. Good job on those bounty hunters, boss; now come on, follow me.” Bending over a large metal slab, he runs his glove along the side until, with a rumble you can feel through the blasted soil, it slides open to reveal a narrow staircase. Emergency lights strobe on, their blue tint giving the sensation of descending, yet again, into the watery depths with Karengo."
+                  "“My beard, is that Captain ${playerLastName}?” he asks with a touch of incredulity, “Didn't expect to see my best pilot-for-hire out here. Good job on those bounty hunters, boss. Now come on, follow me.” Bending over a large metal slab, he runs his glove along the side until there's an audible click and, with a rumble you can feel through the blasted soil, it slides open to reveal a narrow staircase, lit by gentle blue emergency lighting. A memory surfaces, unbidden, of diving below the waves on Karengo's previous adventure, and you start down the stairs."
                 ],
                 "options": [
                   {
@@ -46,8 +46,8 @@
               {
                 "id": "1.6",
                 "paras": [
-                  "At last, the corridor levels out and flares into a small amphitheater. Low, padded benches are arranged in an arc, all facing a small, overturned lectern at the far end, but there is none of the expected symbology of a religion. The nearest thing is a blue crest behind the lectern, reminiscent of the Tri-Tachyon logo, with the word ‘Telos’ embossed beneath. The room is minimally decorated, even accounting for the seismic devastation that occurred here, knocking music stands and paintings of paradise worlds to the floor.",
-                  "Lying on or near the benches are a dozen desiccated bodies. Even in death, they are holding hands, as if in silent prayer."
+                  "At last, the corridor levels out and flares into a small amphitheater. Low, padded benches are arranged in a scattered arc around an overturned lectern at the far end. A blue crest hangs behind it, with the word ‘TELOS’ embossed beneath. The room is minimally decorated, even accounting for the seismic devastation from the bombardment. Sheaves of paper, music stands and paintings of paradise worlds litter the cracked floor.",
+                  "Splayed across the benches are a dozen desiccated bodies. Even in death, they are holding hands, as if in silent prayer."
                 ],
                 "options": [
                   {
@@ -154,8 +154,8 @@
               {
                 "id": "8.1",
                 "paras": [
-                  "With an effort, you crack your eyes open. Karengo is pacing the far end of the chapel, picking up and then tossing detritus at the wall - dead TriPads, wall ornaments, small sculptures. With a smile, you realize he’s searching for secret doors, not realizing that it’s next to his feet. At your thought, the metal panel below the rich throw rug under the lectern whirs, then starts to grind open.",
-                  "In the stillness of the chamber, the new sound reverberates. Karengo looks down, then at the spot on the wall where he’d shattered a porcelain figurine moments before, and finally at you."
+                  "With effort, you crack your eyes open. Karengo is pacing restlessly at the far end of the chapel, picking up and then tossing detritus at the wall - dead TriPads, wall ornaments, small sculptures - possibly searching for secret doors and possibly just killing time. At your thought, the reinforced slab below the rich throw rug under the wrecked lectern whirs, then starts to grind open. Karengo’s arm freezes mid-throw.",
+                  "In the sudden stillness of the chamber, the new sound reverberates. Karengo looks down, then at the spot on the wall where he’d shattered a porcelain figurine moments before, and finally at you. "
                 ],
                 "options": [
                   {

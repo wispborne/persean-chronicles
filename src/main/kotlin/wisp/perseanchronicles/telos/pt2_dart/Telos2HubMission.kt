@@ -9,10 +9,13 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.characters.PersonAPI
+import com.fs.starfarer.api.fleet.FleetMemberType
 import com.fs.starfarer.api.impl.campaign.events.OfficerManagerEvent
 import com.fs.starfarer.api.impl.campaign.ids.*
+import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import com.fs.starfarer.campaign.Faction
 import data.scripts.util.MagicCampaign
 import org.json.JSONArray
 import org.json.JSONObject
@@ -286,6 +289,25 @@ class Telos2HubMission : QGHubMission() {
     fun getBattleQuotes(): List<String> = part2Json.query<JSONArray>("/stages/battle/quotes").toStringList()
     fun getBattleVictoryQuote(): String = part2Json.query("/stages/battle/victoryQuote")
     fun getEugelShipName(): String = part2Json.query("/stages/battle/flagshipName")
+
+    fun giveShipOrPutInOrbit(dialog: InteractionDialogAPI) {
+        val ship = game.factory.createFleetMember(FleetMemberType.SHIP, TelosCommon.JAVELIN_ID)
+
+        if (game.sector.playerFleet.numShips >= game.settings.maxShipsInFleet) {
+            val fleet =
+                game.factory.createEmptyFleet(Faction.NO_FACTION.id, "Telos ${TelosCommon.DART_NAME}", false).apply {
+                    fleetData.addFleetMember(ship)
+                }
+
+            val planet = Telos1HubMission.state.karengoPlanet!!
+            fleet.containingLocation = planet.containingLocation
+            fleet.setLocation(planet.location.x, planet.location.y)
+            MagicCampaign.placeOnStableOrbit(fleet, false)
+        } else {
+            game.sector.playerFleet.fleetData.addFleetMember(ship)
+            AddRemoveCommodity.addFleetMemberGainText(ship, dialog.textPanel)
+        }
+    }
 
     enum class Stage {
         DestroyFleet,

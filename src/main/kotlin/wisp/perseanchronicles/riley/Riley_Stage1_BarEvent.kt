@@ -30,7 +30,7 @@ class Riley_Stage1_BarEvent : BarEventLogic<RileyHubMission>(
                     text = { game.text["riley_stg1_pg1_opt1"] },
                     onOptionSelected = {
                         para { game.text["riley_stg1_pg1_opt1_onSelected"] }
-                        mission.setCurrentStage(RileyHubMission.Stage.InitialTraveling, dialog, null)
+                        mission.accept(dialog, null)
                         navigator.promptToContinue(game.text["riley_stg1_pg1_opt1_onSelected_continue"]) {
                             it.close(doNotOfferAgain = true)
                         }

@@ -29,6 +29,9 @@ class Telos2SecondLandingDialog(
     pages = PagesFromJson(
         pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
+            "7-noPsi" to {
+
+            },
             "7.1-noPsi" to {
                 mission.setCurrentStage(Telos2HubMission.Stage.Completed, dialog, null)
 
