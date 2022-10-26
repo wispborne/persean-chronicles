@@ -1,10 +1,7 @@
 package wisp.perseanchronicles.telos.boats
 
 import com.fs.starfarer.api.Global
-import com.fs.starfarer.api.combat.CombatEngineAPI
-import com.fs.starfarer.api.combat.CombatEngineLayers
-import com.fs.starfarer.api.combat.EveryFrameWeaponEffectPlugin
-import com.fs.starfarer.api.combat.WeaponAPI
+import com.fs.starfarer.api.combat.*
 import com.fs.starfarer.api.util.IntervalUtil
 import org.dark.shaders.distortion.DistortionShader
 import org.dark.shaders.distortion.RippleDistortion
@@ -66,7 +63,14 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
 
         val velocityScale = .1f
         val sizeScale = 1.3f
-        val durationScale = 1.0f
+        val durationScale = 1.0f * (when (ship.hullSize) {
+            ShipAPI.HullSize.FIGHTER -> 0.3f
+            ShipAPI.HullSize.FRIGATE -> 0.5f
+            ShipAPI.HullSize.DESTROYER -> 0.8f
+            ShipAPI.HullSize.CRUISER -> 1f
+            ShipAPI.HullSize.CAPITAL_SHIP -> 1.2f
+            else -> 1f
+        })
         val rampUpScale = 1.0f
         val alphaScale = .45f
         val topLayerAlphaScale = .1f
@@ -174,21 +178,22 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
             ship.setCustomData("ripples", mutableListOf<RippleDistortion>())
         }
 
-        createGfxLibRippleDistortion(
-            location = ship.location,
-            velocity = ship.velocity,
-            size = ship.spriteAPI.width - 60f,
-            intensity = distortionIntensity,
-            flip = false,
-            angle = ship.facing + 180f,
-            arc = 140f,
-            edgeSmooth = 0f,
-            fadeIn = 1f,
-            last = 3f,
-            fadeOut = 2f,
-            growthTime = 0.1f,
-            shrinkTime = 1f
-        )?.let { (ship.customData["ripples"] as MutableList<RippleDistortion>).add(it) }
+        // Ripples cause glitching, doesn't look good.
+//        createGfxLibRippleDistortion(
+//            location = ship.location,
+//            velocity = ship.velocity,
+//            size = ship.spriteAPI.width - 60f,
+//            intensity = distortionIntensity,
+//            flip = false,
+//            angle = ship.facing + 180f,
+//            arc = 140f,
+//            edgeSmooth = 0f,
+//            fadeIn = 1f,
+//            last = 3f,
+//            fadeOut = 2f,
+//            growthTime = 0.1f,
+//            shrinkTime = 1f
+//        )?.let { (ship.customData["ripples"] as MutableList<RippleDistortion>).add(it) }
     }
 
     // From Seeker, with modifications. Originally `data.scripts.util.CustomRippleDistortion`.
