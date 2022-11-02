@@ -4,6 +4,8 @@ import com.fs.starfarer.api.BaseModPlugin
 import com.fs.starfarer.api.characters.FullName
 import com.thoughtworks.xstream.XStream
 import org.apache.log4j.Level
+import org.dark.shaders.util.ShaderLib
+import org.dark.shaders.util.TextureData
 import org.json.JSONObject
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsBarEventWiring
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
@@ -37,7 +39,6 @@ class LifecyclePlugin : BaseModPlugin() {
     override fun onGameLoad(newGame: Boolean) {
         super.onGameLoad(newGame)
         Questgiver.onGameLoad()
-//        Locale.setDefault(Locale.GERMAN)
 
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator(Questgiver.game, CampaignPlugin())
@@ -89,6 +90,8 @@ class LifecyclePlugin : BaseModPlugin() {
 
         // Register this so we can intercept and replace interactions
         game.sector.registerPlugin(game.campaignPlugin)
+
+        initGraphicsLib()
     }
 
     /**
@@ -212,5 +215,13 @@ class LifecyclePlugin : BaseModPlugin() {
         game.logger.i { "Persean Chronicles system blacklist loaded in ${game.sector.clock.timestamp - startTime} seconds.\n$conf" }
 
         return conf
+    }
+
+    fun initGraphicsLib() {
+        if (game.settings.modManager.isModEnabled("shaderLib")) {
+            ShaderLib.init()
+//            LightData.readLightDataCSV("data/lights/perschron_light_data.csv")
+            TextureData.readTextureDataCSV("data/lights/perschron_texture_data.csv")
+        }
     }
 }

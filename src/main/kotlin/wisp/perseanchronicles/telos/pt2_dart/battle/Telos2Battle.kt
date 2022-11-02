@@ -165,6 +165,7 @@ object Telos2Battle {
                 this.fleetData.sort()
                 this.fleetData.setSyncNeeded()
                 this.fleetData.syncIfNeeded()
+
             }
     }
 }

@@ -340,6 +340,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
      */
     private fun findAndTagDepthsPlanet(playersCurrentStarSystem: StarSystemAPI?): PlanetAPI? {
         return try {
+            // TODO test the spawn for this, make sure it's being properly random
             game.sector.starSystemsAllowedForQuests
                 .filter { it.id != playersCurrentStarSystem?.id }
                 .filter { system -> system.solidPlanets.any { planet -> planet.typeId in DEPTHS_PLANET_TYPES } }
