@@ -69,7 +69,7 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
         val bottomLayerAlphaScale = .40f
         val endSizeScale = 1.55f
         val densityInverted = 0.03f // Lower is more dense
-        val trailMomentumScale = .7f // How much the trail keeps ship momentum
+        val trailMomentumScale = -.3f // How much the trail keeps ship momentum
 
         if (interval.minInterval != densityInverted) {
             interval.setInterval(densityInverted, densityInverted * 0.2f)
@@ -101,12 +101,14 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
                 Vector2f(it.location)
                     .translate(ship.location.x, ship.location.y)
                     .rotateAroundPivot(ship.location, ship.facing)
+                    .translate(-ship.location.x, -ship.location.y)
             }
 
         for (location in emitters) {
             // Negative swirl under
             CustomRender.addNebula(
                 location = location,
+                anchorLocation = ship.location,
                 velocity = vel,
                 size = (40f..60f).random() * sizeScale,
                 endSizeMult = endSizeScale,
@@ -122,6 +124,7 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
             // Normal under
             CustomRender.addNebula(
                 location = location,
+                anchorLocation = ship.location,
                 velocity = vel,
                 size = (30f..50f).random() * sizeScale,
                 endSizeMult = endSizeScale,
@@ -137,6 +140,7 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
             // Swirl under
             CustomRender.addNebula(
                 location = location,
+                anchorLocation = ship.location,
                 velocity = vel,
                 size = (30f..50f).random() * sizeScale,
                 endSizeMult = endSizeScale,
@@ -152,6 +156,7 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
             // Normal on top
             CustomRender.addNebula(
                 location = location,
+                anchorLocation = ship.location,
                 velocity = vel,
                 size = (30f..50f).random() * sizeScale,
                 endSizeMult = endSizeScale,
@@ -167,6 +172,7 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
             // Swirl on top
             CustomRender.addNebula(
                 location = location,
+                anchorLocation = ship.location,
                 velocity = vel,
                 size = (30f..50f).random() * sizeScale,
                 endSizeMult = endSizeScale,

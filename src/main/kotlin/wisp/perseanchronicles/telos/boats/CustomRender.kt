@@ -4,6 +4,7 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.combat.*
 import com.fs.starfarer.api.input.InputEventAPI
 import org.lazywizard.lazylib.VectorUtils
+import org.lazywizard.lazylib.ext.plus
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL14.*
 import org.lwjgl.util.vector.Vector2f
@@ -35,7 +36,7 @@ class CustomRender : BaseEveryFrameCombatPlugin() {
         // clean up nebula list
         val nebulaToRemove: MutableList<Nebula> = ArrayList()
         nebulaData.forEach { nebula ->
-            nebula.lifetime += engine.elapsedInLastFrame
+            nebula.lifetime += (engine.elapsedInLastFrame / Global.getCombatEngine().timeMult.modified)
             if (nebula.lifetime > nebula.duration)
                 nebulaToRemove.add(nebula)
         }
@@ -88,9 +89,8 @@ class CustomRender : BaseEveryFrameCombatPlugin() {
         val yIndex = floor(nebula.index / 4f).toInt()
         var offsetPos = Vector2f(actualSize * (1.5f - xIndex), actualSize * (1.5f - yIndex))
         offsetPos = VectorUtils.rotate(offsetPos, nebula.angle)
-        val actualLocation = Vector2f()
         val delta = Vector2f(nebula.velocity)
-        Vector2f.add(nebula.location, delta.scale(nebula.lifetime) as Vector2f, actualLocation)
+        val actualLocation = nebula.location + (delta.scale(nebula.lifetime) as Vector2f) + nebula.anchorLocation
 
         // OpenGL witchcraft that I don't actually understand
         if (nebula.negative) {
@@ -111,19 +111,20 @@ class CustomRender : BaseEveryFrameCombatPlugin() {
         if (nebula.negative) glBlendEquation(GL_FUNC_ADD)
     }
 
-    private data class Nebula(
-        val location: Vector2f,
-        val velocity: Vector2f,
-        val size: Float,
-        val endSize: Float,
-        val duration: Float,
-        val inFraction: Float,
-        val outFraction: Float,
-        val color: Color,
-        val layer: CombatEngineLayers,
-        val type: NebulaType,
-        val negative: Boolean,
-        val sqrt: Boolean
+    data class Nebula(
+        var location: Vector2f,
+        var anchorLocation: Vector2f,
+        var velocity: Vector2f,
+        var size: Float,
+        var endSize: Float,
+        var duration: Float,
+        var inFraction: Float,
+        var outFraction: Float,
+        var color: Color,
+        var layer: CombatEngineLayers,
+        var type: NebulaType,
+        var negative: Boolean,
+        var sqrt: Boolean
     ) {
         var lifetime = 0f
         val index = (0..11).random()
@@ -139,6 +140,7 @@ class CustomRender : BaseEveryFrameCombatPlugin() {
 
         fun addNebula(
             location: Vector2f,
+            anchorLocation: Vector2f,
             velocity: Vector2f,
             size: Float,
             endSizeMult: Float,
@@ -150,24 +152,22 @@ class CustomRender : BaseEveryFrameCombatPlugin() {
             type: NebulaType = NebulaType.NORMAL,
             negative: Boolean = false,
             expandAsSqrt: Boolean = false
-        ) {
-            val newNebula =
-                Nebula(
-                    Vector2f(location),
-                    Vector2f(velocity),
-                    size,
-                    endSizeMult * size,
-                    duration,
-                    inFraction,
-                    outFraction,
-                    color,
-                    layer,
-                    type,
-                    negative,
-                    expandAsSqrt
-                )
-            nebulaData.add(newNebula)
-        }
+        ) = Nebula(
+            location = Vector2f(location),
+            anchorLocation = anchorLocation,
+            velocity = Vector2f(velocity),
+            size = size,
+            endSize = endSizeMult * size,
+            duration = duration,
+            inFraction = inFraction,
+            outFraction = outFraction,
+            color = color,
+            layer = layer,
+            type = type,
+            negative = negative,
+            sqrt = expandAsSqrt
+        )
+            .also { newNebula -> nebulaData.add(newNebula) }
     }
 
     internal class CustomRenderer

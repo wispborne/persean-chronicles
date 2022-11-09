@@ -51,6 +51,10 @@ class TelosLungeSystem : BaseShipSystemScript() {
 //                    duration = 200f
 //                )
             TelosPhase.apply(stats, id, state, effectLevel)
+
+            kotlin.runCatching {
+
+            }
         }
 
 
