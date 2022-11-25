@@ -1,2 +1,2 @@
 name,id,tier,rarity,tech/manufacturer,tags,uiTags,base value,unlocked,hidden,hiddenEverywhere,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,desc,short,sprite
-Reconsider Inertia,wisp_perseanchronicles_inertia,,,Telos,,,,,FALSE,,0,0,0,0,wisp.perseanchronicles.telos.ReconsiderInertiaHullmod,,,graphics/icons/skills/officer_training.png
+Reconsider Inertia,wisp_perseanchronicles_inertia,,,Telos,,,,,FALSE,,0,0,0,0,wisp.perseanchronicles.telos.boats.ReconsiderInertiaHullmod,,,graphics/icons/skills/officer_training.png

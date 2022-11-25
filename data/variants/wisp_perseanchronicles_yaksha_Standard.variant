@@ -1,0 +1,13 @@
+{
+    "displayName": "Yaksha",
+    "variantId": "wisp_perseanchronicles_yaksha_Standard",
+    "hullId": "wisp_perseanchronicles_yaksha_drone",
+    "fluxCapacitors": 0,
+    "fluxVents": 0,
+    "goalVariant": true,
+    "hullMods": [
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "weaponGroups":[],
+}

@@ -15,6 +15,7 @@ class TelosLungeSystem : BaseShipSystemScript() {
     val speedBoost = 1000f
     private var previousTimestamp: Float? = null
     private var timeSinceStart = 0f
+    var applied = false
 
     override fun apply(
         stats: MutableShipStatsAPI,
@@ -24,6 +25,17 @@ class TelosLungeSystem : BaseShipSystemScript() {
     ) {
         if (Global.getCombatEngine().isPaused) return
         val ship = stats.entity as ShipAPI
+
+        ship.childModulesCopy.orEmpty()
+            .filter { it.hullSpec.hullId == "wisp_perseanchronicles_avalok_module" }
+            .forEach { module ->
+//                if (!applied) {
+//                    repeat(times = 4) {
+                        module.useSystem()
+//                    }
+//                    applied = true
+//                }
+            }
 
         if (state == ShipSystemStatsScript.State.IN) {
             previousTimestamp = game.combatEngine.getTotalElapsedTime(false)

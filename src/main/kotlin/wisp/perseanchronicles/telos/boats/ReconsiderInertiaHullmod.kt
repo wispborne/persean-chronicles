@@ -1,4 +1,4 @@
-package wisp.perseanchronicles.telos
+package wisp.perseanchronicles.telos.boats
 
 import com.fs.starfarer.api.combat.BaseHullMod
 import com.fs.starfarer.api.combat.ShipAPI

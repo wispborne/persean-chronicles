@@ -1,8 +1,8 @@
 {
   "hullName": "Avalok",
-  "hullId": "wisp_perschron_javelin",
+  "hullId": "wisp_perseanchronicles_avalok",
   "hullSize": "CRUISER",
-  "spriteName": "graphics/telos/ships/telos_javelin.png",
+  "spriteName": "graphics/telos/ships/telos_avalok.png",
   "style": "HIGH_TECH",
   "height": 256,
   "width": 196,
@@ -12,9 +12,9 @@
   "shieldRadius": 146.5,
   "viewOffset": 0,
   "builtInWeapons": {
-    "INNER_GLOW": "wisp_perschron_javelin_innerglow",
-    "OUTER_GLOW": "wisp_perschron_javelin_outerglow",
-    "PHASE_ENGINES": "wisp_perschron_phaseengines"
+    "INNER_GLOW": "wisp_perseanchronicles_avalok_innerglow",
+    "OUTER_GLOW": "wisp_perseanchronicles_avalok_outerglow",
+    "PHASE_ENGINES": "wisp_perseanchronicles_phaseengines"
   },
   "weaponSlots": [
     {
@@ -205,6 +205,15 @@
       "arc": 0,
       "angle": -0,
       "locations": [-4.5, -55.5]
+    },
+    {
+      "id": "WS0019",
+      "size": "LARGE",
+      "type": "STATION_MODULE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [0, 0]
     }
   ],
   "engineSlots": [],

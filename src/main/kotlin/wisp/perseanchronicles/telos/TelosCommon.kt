@@ -24,7 +24,7 @@ object TelosCommon {
     private val FACTION_TELOS
         get() = "perseanchronicles_telos"
 
-    const val JAVELIN_ID = "wisp_perschron_javelin"
+    const val JAVELIN_ID = "wisp_perseanchronicles_avalok"
 
     const val DART_NAME = "Dart"
 }

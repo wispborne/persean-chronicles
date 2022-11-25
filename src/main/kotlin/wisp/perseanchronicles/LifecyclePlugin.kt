@@ -220,8 +220,8 @@ class LifecyclePlugin : BaseModPlugin() {
     fun initGraphicsLib() {
         if (game.settings.modManager.isModEnabled("shaderLib")) {
             ShaderLib.init()
-//            LightData.readLightDataCSV("data/lights/perschron_light_data.csv")
-            TextureData.readTextureDataCSV("data/lights/perschron_texture_data.csv")
+//            LightData.readLightDataCSV("data/lights/perseanchronicles_light_data.csv")
+            TextureData.readTextureDataCSV("data/lights/perseanchronicles_texture_data.csv")
         }
     }
 }

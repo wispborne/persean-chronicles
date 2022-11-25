@@ -1,0 +1,44 @@
+{
+  "hullName": "Yaksha Drone",
+  "hullId": "wisp_perseanchronicles_yaksha_drone",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/telos/ships/telos_yaksha_drone.png",
+  "style": "HIGH_TECH",
+  "height": 21,
+  "width": 18,
+  "center": [ 9, 10 ],
+  "collisionRadius": 17.691807,
+  "shieldCenter": [ 0.5, -0 ],
+  "shieldRadius": 17,
+  "viewOffset": 0,
+  #"builtInMods": [
+  #  "swp_ray_core"
+  #],
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "HIDDEN",
+      "arc": 90,
+      "angle": 0,
+      "locations": [ -3, -0 ]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [ -7.5, -0 ],
+      "length": 24,
+      "width": 12,
+      "angle": -180,
+      "contrailSize": 64,
+      "style": "HIGH_TECH"
+    }
+  ],
+  "bounds": [
+    10, -3.5,
+    -7, -7.5,
+    -7, 7.5,
+    10, 3.5
+  ]
+}

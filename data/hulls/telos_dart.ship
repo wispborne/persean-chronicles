@@ -1,6 +1,6 @@
 {
   "hullName": "Vara",
-  "hullId": "wisp_perschron_dart",
+  "hullId": "wisp_perseanchronicles_vara",
   "hullSize": "FRIGATE",
   "spriteName": "graphics/telos/ships/telos_dart.png",
   "style": "HIGH_TECH",
@@ -12,7 +12,7 @@
   "shieldRadius": 77,
   "viewOffset": 0,
   "builtInWeapons": {
-    "PHASE_ENGINES": "wisp_perschron_phaseengines"
+    "PHASE_ENGINES": "wisp_perseanchronicles_phaseengines"
   },
   "weaponSlots": [
     {
