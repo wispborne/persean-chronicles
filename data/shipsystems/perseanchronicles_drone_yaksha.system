@@ -4,7 +4,7 @@
   "aiType": "DRONE_LAUNCHER_STANDARD",
 
   "droneVariant": "wisp_perseanchronicles_yaksha_Standard",
-  "statsScript": "wisp.perseanchronicles.telos.boats.TelosYakshaSystem",
+#  "statsScript": "wisp.perseanchronicles.telos.boats.TelosYakshaSystem",
 
   "allowFreeRoam": false,
 
