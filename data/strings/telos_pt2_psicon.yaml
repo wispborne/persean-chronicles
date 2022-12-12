@@ -151,7 +151,7 @@ wisp_perseanchronicles:
               couch not that i mind but it’s distracting}"
               freeText2: 'The ship shows you how to limit the integration, but you can’t
                 help but wonder what it would have felt like to be aboard at the height
-                of the Telos.'
+                of the Telos, surrounded by the shared sensations and thoughts of a full crew.'
               options:
                 - text: 'Return to the fleet'
                   goToPage: 7-psi
@@ -163,7 +163,7 @@ wisp_perseanchronicles:
                   the surface is blocked in many places, but the onboard weapons easily
                   bore a way through.'
                 - "$f:perseanchronicles_telos{the ship shows another planet that the telos
-              settled on  we should go there next}"
+              settled on  we should go there next  there is/was? a hidden shipyard there}"
               options:
                 - text: 'Continue'
                   goToPage: 8-psi

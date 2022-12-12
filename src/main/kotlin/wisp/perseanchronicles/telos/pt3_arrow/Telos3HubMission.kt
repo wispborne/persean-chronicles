@@ -103,6 +103,7 @@ class Telos3HubMission : QGHubMission() {
             .requireSystemHasAtLeastNumJumpPoints(min = 1)
             .requirePlanetNotGasGiant()
             .requirePlanetNotStar()
+            // todo
             .preferEntityUndiscovered()
             .preferSystemNotPulsar()
             .preferPlanetWithRuins()

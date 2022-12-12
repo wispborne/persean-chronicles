@@ -40,6 +40,7 @@ class Telos2SecondLandingDialog(
                         accept(dialog, null)
                 }
             },
+            // Manually show text based upon conditions.
             "7.1-psi" to {
                 val page = stageJson.query<JSONArray>("/pages")
                     .map<Any, JSONObject> { it as JSONObject }

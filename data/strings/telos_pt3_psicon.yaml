@@ -10,12 +10,25 @@ wisp_perseanchronicles:
             desc: 'Karengo claims that there is a second Telos ruin on ==${telosPt3RuinsPlanet}==
               in ==${telosPt3RuinsSystem}==.'
           pages:
-            - id: 1-psi
+            - id: '1-psi'
               paras:
-                - todo
+                - 'The ships of your fleet settle into an orbit above the Telos shipyard coordinates. 
+                Iron-rich dust from the asteroid belt streaks past your shuttle as it falls toward the planet; 
+                the dust had, in fact, been a concern raised by a few engineers, but it technically fell within allowances.'
+                - '$f:perseanchronicles_telos{what will we find} you send to Karengo'
+                - '$f:perseanchronicles_telos{if we are lucky  some destroyers/itesh} he responds $f:perseanchronicles_telos{if we are very lucky  a cruiser/avalok}'
               options:
-                - id: leave
-                  text: 'Leave'
+                - text: '$f:perseanchronicles_telos{and what if we are unlucky}'
+                  goToPage: '1.1-psi'
+                - text: 'say nothing'
+                  goToPage: '2-psi'
+            - id: '1.1-psi'
+              paras:
+                - '$f:perseanchronicles_telos{we are not unlucky} The reply is dismissive.'
+              goToPage: '2-psi'
+            - id: '2-psi'
+              paras:
+                - ''
         escape:
           intel:
             subtitle: 'Leave the system'
