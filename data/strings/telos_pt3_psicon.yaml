@@ -6,15 +6,15 @@ wisp_perseanchronicles:
       stages:
         goToPlanet:
           intel:
-            subtitle: 'Go to ${telosPt1Stg1DestSystem}'
+            subtitle: 'Go to ${telosPt3RuinsSystem}'
             desc: 'Karengo claims that there is a second Telos ruin on ==${telosPt3RuinsPlanet}==
               in ==${telosPt3RuinsSystem}==.'
           pages:
             - id: '1-psi'
               paras:
                 - 'The ships of your fleet settle into an orbit above the Telos shipyard coordinates. 
-                Iron-rich dust from the asteroid belt streaks past your shuttle as it falls toward the planet; 
-                the dust had, in fact, been a concern raised by a few engineers, but it technically fell within allowances.'
+                Iron-rich dust from the asteroid belt streaks past your shuttle as it falls toward the planet. 
+                A few engineers had voiced concerns about the dust, but in the end, most decided that it was inert, the leftovers of battles hundreds of cycles old.'
                 - '$f:perseanchronicles_telos{what will we find} you send to Karengo'
                 - '$f:perseanchronicles_telos{if we are lucky  some destroyers/itesh} he responds $f:perseanchronicles_telos{if we are very lucky  a cruiser/avalok}'
               options:

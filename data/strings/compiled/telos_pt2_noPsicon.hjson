@@ -111,8 +111,8 @@
               {
                 "id": "5.2-noPsi",
                 "paras": [
-                  "Curious about luxury accomodations in a frigate loaded for combat, you query the computer on the hull’s history.", 
-                  "“While the ==<HULL-MAKER> <HULL-NAME>== line were designed as comfortable, intelligent transport for highly discerning clients,” a fluid, indeterminate voice explains, “the Telos overhaul exchanged beta-level AI integration for combat potential, filling the automation gap with direct Psicon integration.”",
+                  "Curious about luxury accommodations in a frigate loaded for combat, you query the computer on the hull’s history.",
+                  "“While the ==Tri-Tachyon Vara== line was designed to be comfortable, intelligent transport for highly discerning clients,” a fluid, indeterminate voice explains, “the Telos overhaul exchanged beta-level AI integration for increased combat potential, filling the automation gap with direct Psicon integration.”",
                   "“Limited manual control is available for unnetworked guests,” it adds smoothly."
                 ],
                 "options": [
@@ -138,7 +138,7 @@
               {
                 "id": "7-noPsi",
                 "paras": [
-                  "The controls, at least, are familiar, and you coax the ==<HULL-NAME>== into the air, ordering the ship to open the hanger doors.",
+                  "The controls, at least, are familiar, and you coax the ==Vara== into the air, ordering the ship to open the hanger doors.",
                   "“Yes, captain,” acknowledges the fluid voice, and the massive metal slabs grate apart. A few collapses block the tunnel to the surface, but short weapon bursts easily bore a passage through.",
                   "As soon as you rendezvous, techs swarm the ship. Karengo pulls you aside."
                 ],
@@ -152,7 +152,7 @@
               {
                 "id": "7.1-noPsi",
                 "paras": [
-                  "“==There’s another planet the Telos settled==,” he says, leaning in conspiratorially, “that I got out of the ship computer; their ==secret shipyard==.” He pulls your TriPad over, taps a finger on a point in hyperspace, and releases it. “I am going to thank you for your hospitality while you go about your business,” he waves his hands dismissively, “but we should really go take a look there."
+                  "“==There’s another planet the Telos settled==,” he says, leaning in conspiratorially, “that I got out of the ship computer; their ==secret shipyard==.” He pulls your TriPad over and taps a finger on a point in hyperspace before letting go. “You go about your business,” he waves his hands dismissively, “but we should really go take a look there."
                 ],
                 "options": [
                   {

@@ -12,6 +12,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
 import com.fs.starfarer.api.mission.FleetSide
 import data.scripts.util.MagicCampaign
+import org.lazywizard.lazylib.ext.campaign.addShip
 import wisp.perseanchronicles.common.BattleSide
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
@@ -21,8 +22,6 @@ import wisp.questgiver.wispLib.swapFleets
 import java.util.*
 
 object Telos2Battle {
-    private val flagshipVariantId = "shrike_Attack"
-
     class CampaignPlugin : BaseCampaignPlugin() {
         override fun pickBattleCreationPlugin(opponent: SectorEntityToken?): PluginPick<com.fs.starfarer.api.campaign.BattleCreationPlugin> =
             PluginPick(
@@ -77,10 +76,10 @@ object Telos2Battle {
     fun createTelosFleet(): CampaignFleetAPI {
         return FleetFactoryV3.createEmptyFleet(Factions.INDEPENDENT, FleetTypes.TASK_FORCE, null)
             .apply {
-                this.addShipVariant(variantId = flagshipVariantId, count = 1).first().apply {
+                this.addShipVariant(variantOrHullId = "wisp_perseanchronicles_vara_Standard", count = 1).first().apply {
                     this.isFlagship = true
                 }
-                this.addShipVariant(variantId = "kite_original_Stock", count = 3)
+                this.addShipVariant(variantOrHullId = "wisp_perseanchronicles_vara_Standard", count = 3)
                 // todo add some Telos ships.
                 this.fleetData.sort()
                 this.fleetData.isOnlySyncMemberLists = true
@@ -94,10 +93,10 @@ object Telos2Battle {
      */
     fun createInitialHegemonyFleet(): CampaignFleetAPI {
         return FleetFactoryV3.createEmptyFleet(Factions.HEGEMONY, FleetTypes.TASK_FORCE, null).apply {
-            this.addShipVariant(variantId = "hound_hegemony_Standard", count = 2)
-            this.addShipVariant(variantId = "kite_hegemony_Interceptor", count = 3)
-            this.addShipVariant(variantId = "condor_Support", count = 1)
-            this.addShipVariant(variantId = "brawler_Assault", count = 1).single().apply {
+            this.addShipVariant(variantOrHullId = "hound_hegemony_Standard", count = 1)
+            this.addShipVariant(variantOrHullId = "kite_hegemony_Interceptor", count = 1)
+            this.addShipVariant(variantOrHullId = "condor_Support", count = 1)
+            this.addShipVariant(variantOrHullId = "brawler_Assault", count = 1).single().apply {
                 this.isFlagship = true
             }
 

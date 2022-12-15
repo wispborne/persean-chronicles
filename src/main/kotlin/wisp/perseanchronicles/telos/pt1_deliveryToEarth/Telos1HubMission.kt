@@ -129,11 +129,8 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         super.acceptImpl(dialog, memoryMap)
 
         val startLocation = dialog?.interactionTarget
-            ?: kotlin.run {
-                game.logger.e { "Aborting acceptance of ${this.name} because dialog was null." }
-                abort()
-                return
-            }
+            ?: Misc.findNearestLocalMarket(game.sector.playerFleet, 1000f) { true }?.preferredConnectedEntity
+            ?: game.sector.starSystems.first { it.star != null }.star
 
         state.startLocation = startLocation
         game.logger.i { "${this.name} start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }

@@ -43,7 +43,7 @@ class TelosLungeSystem : BaseShipSystemScript() {
 
         timeSinceStart += (game.combatEngine.getTotalElapsedTime(false) - previousTimestamp!!)
         previousTimestamp = game.combatEngine.getTotalElapsedTime(false)
-        game.logger.i { "Time since start: $timeSinceStart." }
+        game.logger.d { "Time since start: $timeSinceStart." }
 
         if (state == ShipSystemStatsScript.State.IN) {
             ship.allWeapons

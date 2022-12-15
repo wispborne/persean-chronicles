@@ -21,7 +21,7 @@
                 "image": null,
                 "paras": [
                   "After a brief wait, a woman answers, dressed in the ubiquitous grease-marked weave of a shop engineer.",
-                  "\"We have a container of ASPIRARDs that need to be dropped off near the ==edge of the Sector==.,” she explains, “They’ll make their way toward old Earth, sending data back the whole way. You will be paid ==${telosCredits}== upon dropoff confirmation.\""
+                  "\"We have a container of ASPIRARDs that need to be dropped off near the ==edge of the Sector==.,\" she explains, \"They’ll make their way toward old Earth, sending data back the whole way. You will be paid ==${telosCredits}== upon dropoff confirmation.\""
                 ],
                 "options": [
                   {
@@ -44,7 +44,7 @@
               {
                 "id": "2",
                 "paras": [
-                  "She releases a tired sigh. “Sorry - that’s Autonomous Self-Propelled Interstellar Research and …something… Drones. Reconnaissance, maybe. Our boss came up with it, and-” she cuts herself off. “Do you think you can make this dropoff?”"
+                  "She releases a tired sigh. \"Sorry - that’s Autonomous Self-Propelled Interstellar Research and …something… Drones. Reconnaissance, maybe. Our boss came up with it, and-\" she cuts herself off. \"Do you think you can make this dropoff?\""
                 ],
                 "options": [
                   {
@@ -62,7 +62,7 @@
               {
                 "id": "3",
                 "paras": [
-                  "“Excellent!” she taps her TriPad and, a moment later, you forward the pickup information to your crew. “Once you’re in place, release the containers into hyperspace and they’ll do the rest.”"
+                  "\"Excellent!\" she taps her TriPad and, a moment later, you forward the pickup information to your crew. \"Once you’re in place, release the containers into hyperspace and they’ll do the rest.\""
                 ],
                 "options": [
                   {
@@ -81,8 +81,8 @@
               {
                 "id": "1.1",
                 "paras": [
-                  "Your navigation officer waves a hand to get your attention. “Captain, we’re in the right area for dropoff of the,” they glance at their screen, “uh, ASPIRARDs. I’ll have the cargo guys push it outside.”",
-                  "The container drifts away, then splits apart with a simulated ‘whoosh’. Sensors detect a coded hyperwave burst and, moments later, ==${telosCredits}== appears in your account.",
+                  "Your navigation officer waves a hand to get your attention. \"Captain, we’re in the right area for dropoff of the,\" they glance at their screen, \"uh, ASPIRARDs. I’ll have the cargo guys push it outside.\"",
+                  "The container drifts away from the hull, then splits apart with a simulated ‘whoosh’. Sensors detect a coded hyperwave burst and, moments later, ==${telosCredits}== appears in your account.",
                   "Scores of drones rush out and stream in what must be the direction of old Earth. Details on the project were scarce. How long will they take to reach their destination? What are they expecting to find? Why send drones looking now?"
                 ],
                 "options": [
@@ -124,8 +124,9 @@
               {
                 "id": "2",
                 "paras": [
-                  "They continue, “We’ve got a ping from a nearby system. Playing the audio now.”",
-                  "The bridge echoes with Karengo’s booming voice, confident despite the message. “Spacers, this here’s Karengo offering a quick and easy cleanup job. Go on an’ send the boys in orbit around ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== home, and we’ll talk recompense - see, I’ve found something hidden, and I’m willing to share. Just take care of them unfriendly types and we’ll have a talk worth all the trouble.”"
+                  "They continue, \"We’ve got a ping from a nearby system. Playing the audio now.\"",
+                  "The bridge echoes with Karengo’s booming voice, confident despite the message.",
+                  "\"Spacers, this here’s Karengo offering a quick and easy cleanup job. Go on an’ send the boys in orbit around ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== home, and we’ll talk recompense - see, I’ve found something hidden, and I’m willing to share. Just take care of the unfriendly folks and we’ll have a talk worth all the trouble.\""
                 ],
                 "options": [
                   {
@@ -153,7 +154,7 @@
               {
                 "id": "0",
                 "paras": [
-                  "Before the holo even stabilizes, the pirate captain has spit out a warning. “I don’t know who you are or why you’re here, but you don't want to be involved in this. Turn around, now, or we will open fire.”"
+                  "Before the holo even stabilizes, the pirate captain has spit out a warning. \"I don’t know who you are or why you’re here, but you don't want to be involved in this. Turn around, now, or we will open fire.\""
                 ],
                 "options": [
                   {
@@ -169,10 +170,10 @@
               {
                 "id": "1",
                 "paras": [
-                  "Every ship has its oddballs, and one of yours takes the form of a junior officer who, despite good-natured grumbling from the rest of the bridge, insists on playing self-improvement recordings \"because a good crew is self-edifying.\"",
+                  "Every ship has its oddballs, and one of yours is a junior officer who, despite good-natured grumbling from the rest of the bridge, insists on playing self-improvement recordings \"because a good crew is self-edifying.\"",
                   "The latest recording they’ve commandeered the intercom for has been a selection of chapters on the Art of Negotiation. With a meaningful glance at the junior, you press Transmit.",
-                  "“How can I simply turn around? A man needs our help.”",
-                  "The pirate’s face goes slack as they confront the unexpected question. “Fair point. I, er, not quite sure.” With an apparent effort, they regain their bravado. “But that’s for you to figure out!” Their video feed clicks off."
+                  "\"How can I simply turn around? A man needs our help.\"",
+                  "The pirate’s face freezes as they confront the unexpected question. \"You have a point. I, uh...\" They seem to be struggling to regain their bravado.  “But that’s for you to figure out! I didn't mutiny this ship just to solve your problems!” Their video feed clicks off."
                 ],
                 "options": [
                   {
@@ -188,7 +189,7 @@
               {
                 "id": "2",
                 "paras": [
-                  "You persist. “How can I do that, though, with your fleet blocking my way?”",
+                  "You persist. \"How can I do that, though, with your fleet blocking my way?\"",
                   "Their video clicks back on, the man’s face creased in consternation."
                 ],
                 "options": [
@@ -201,7 +202,7 @@
               {
                 "id": "3",
                 "paras": [
-                  "At last, their eyes light up and land on something off-screen. “Jeff! Jeff’s your man, he does this all the time. Jeff, sit here.” Jeff’s face appears nervously on the display. “Jeff’s the nav guy, he can walk you through the maneuver.”"
+                  "At last, their eyes light up and land on something off-screen. \"Jeff! Jeff’s your man, he does this all the time. Jeff, sit here.\" Jeff’s face appears nervously on the display. \"Jeff’s the nav guy, he can walk you through the maneuver.\""
                 ],
                 "options": [
                   {

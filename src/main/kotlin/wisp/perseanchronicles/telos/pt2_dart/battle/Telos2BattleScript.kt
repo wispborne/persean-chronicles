@@ -64,7 +64,10 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
                         secsSinceLastQuote = 0f
                     }
                 }
-            } else if (game.combatEngine.winningSideId != BattleSide.PLAYER && !saidLastQuote) {
+            }
+
+            val playerFleet = game.combatEngine.getFleetManager(FleetSide.PLAYER)
+            if (playerFleet.deployedCopy.isEmpty() && playerFleet.reservesCopy.isEmpty() && !saidLastQuote) {
                 // Speak final quote on victory.
                 eugelInBattle.say(
                     text = telos2HubMission?.getBattleVictoryQuote().orEmpty(),

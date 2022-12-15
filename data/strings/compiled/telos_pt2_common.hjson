@@ -9,7 +9,7 @@
           "destroyFleet": {
             "intel": {
               "subtitle": "Destroy the $f:pirates{pirate} fleet.",
-              "desc": "Karengo's distress signal claims that he has discovered something hidden, but he is stranded on-world.\n\nDestroy the $f:pirates{pirate} fleet around ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}."
+              "desc": "Karengo's distress signal claims that he has discovered something hidden, but he is stranded on-world.\nDestroy the $f:pirates{pirate} fleet around ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}."
             }
           },
           "landOnPlanetFirst": {
@@ -34,7 +34,7 @@
               {
                 "id": "1.5",
                 "paras": [
-                  "“My beard, is that Captain ${playerLastName}?” he asks with a touch of incredulity, “Didn't expect to see my best pilot-for-hire out here. Good job on those bounty hunters, boss. Now come on, follow me.” Bending over a large metal slab, he runs his glove along the side until there's an audible click and, with a rumble you can feel through the blasted soil, it slides open to reveal a narrow staircase, lit by gentle blue emergency lighting. A memory surfaces, unbidden, of diving below the waves on Karengo's previous adventure, and you start down the stairs."
+                  "“My beard, is that Captain ${playerLastName}?” he asks with a touch of incredulity, “Didn't expect to see my best pilot-for-hire out here. Good job on those bounty hunters, boss. Dumb as holovids, but well enough armed. Now come on, follow me.” Bending over a large metal slab, he runs his glove along the side until there's an audible click and, with a rumble you can feel through the blasted soil, it slides open to reveal a narrow staircase lit by gentle blue emergency lighting. A memory surfaces, unbidden, of diving below the waves on your previous adventure with the man. You start down the stairs."
                 ],
                 "options": [
                   {
@@ -155,7 +155,7 @@
                 "id": "8.1",
                 "paras": [
                   "With effort, you crack your eyes open. Karengo is pacing restlessly at the far end of the chapel, picking up and then tossing detritus at the wall - dead TriPads, wall ornaments, small sculptures - possibly searching for secret doors and possibly just killing time. At your thought, the reinforced slab below the rich throw rug under the wrecked lectern whirs, then starts to grind open. Karengo’s arm freezes mid-throw.",
-                  "In the sudden stillness of the chamber, the new sound reverberates. Karengo looks down, then at the spot on the wall where he’d shattered a porcelain figurine moments before, and finally at you. "
+                  "In the sudden stillness of the chamber, the new sound reverberates. Karengo looks down, then at the spot on the wall where he’d shattered a porcelain figurine moments before, and finally at you."
                 ],
                 "options": [
                   {
@@ -258,10 +258,9 @@
           },
           "completed": {
             "intel": {
-              "subtitle": "A distress call unearthed Karengo, an extinct faction, and a strange frigate.",
+              "subtitle": "A distress call unearthed Karengo, an extinct faction, and a strange frigate."
             }
           },
-          # Not a real Stage but the strings are the same on both forks so I didn't want to put them in one or the other.
           "battle": {
             "flagshipName": "Eugel’s Blade",
             "quotes": [

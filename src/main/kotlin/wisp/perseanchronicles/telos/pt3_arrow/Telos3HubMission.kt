@@ -1,10 +1,7 @@
 package wisp.perseanchronicles.telos.pt3_arrow
 
 import com.fs.starfarer.api.PluginPick
-import com.fs.starfarer.api.campaign.CampaignPlugin
-import com.fs.starfarer.api.campaign.InteractionDialogAPI
-import com.fs.starfarer.api.campaign.InteractionDialogPlugin
-import com.fs.starfarer.api.campaign.SectorEntityToken
+import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
@@ -97,17 +94,27 @@ class Telos3HubMission : QGHubMission() {
         val chasingFleetFlag = "$${MISSION_ID}_chasingFleet"
         val chasingFleetTag = "${MISSION_ID}_chasingFleet"
 
+        val allRingFoci = game.sector.starSystems.asSequence()
+            .flatMap { it.allEntities }
+            .filterIsInstance<RingBandAPI>()
+            .mapNotNull { it to it.focus }
+            .distinct()
+            .toList()
+
+        // Must have rings
         state.ruinsPlanet = SystemFinder()
             .requireSystemTags(mode = ReqMode.NOT_ANY, Tags.THEME_CORE)
             .preferSystemOutsideRangeOf(Telos1HubMission.state.karengoSystem?.location, 5f)
             .requireSystemHasAtLeastNumJumpPoints(min = 1)
             .requirePlanetNotGasGiant()
             .requirePlanetNotStar()
-            // todo
+            .requirePlanet { planet -> allRingFoci.map { (_, focus) -> focus.id }.contains(planet.id) }
             .preferEntityUndiscovered()
             .preferSystemNotPulsar()
             .preferPlanetWithRuins()
             .preferPlanetInDirectionOfOtherMissions()
+            // Prefer a ring close to the planet
+            .preferPlanet { planet -> ((allRingFoci.firstOrNull { (_, focus) -> focus.id == planet.id }?.first?.middleRadius ?: 0f) - planet.radius) < 500f }
             .pickPlanet()
 
         trigger {
