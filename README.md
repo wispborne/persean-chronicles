@@ -30,9 +30,11 @@ MesoTroniK for music.
 
 Vayra for Dragons art.
 
-NTNU (https://www.ntnu.edu/oceans/deep-sea-mining) for Depths art.
-
 Inventor Raccoon for Secrets of the Frontier, which was a light in the darkness of 0.95a questbuilding.
+
+Selkie for Telos ship spriting
+
+SleepyFish for Telos ship spriting assistance.
 
 
 ## License

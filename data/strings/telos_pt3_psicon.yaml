@@ -24,10 +24,11 @@ wisp_perseanchronicles:
                   goToPage: '2-psi'
             - id: '1.1-psi'
               paras:
-                - '$f:perseanchronicles_telos{we are not unlucky} The reply is dismissive.'
+                - '$f:perseanchronicles_telos{karengo is not unlucky} This is sent as a statement of fact, as though describing the color of a sky.'
               goToPage: '2-psi'
             - id: '2-psi'
               paras:
+                - 'The shuttle drops onto its landing gear and, immediately, alarms and damage reports slam into your mind. Entire sections of the shipyard have been destroyed...'
                 - ''
         escape:
           intel:
