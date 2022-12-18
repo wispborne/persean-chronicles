@@ -5,7 +5,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import wisp.perseanchronicles.game
-import wisp.questgiver.addPara
+import wisp.questgiver.wispLib.addPara
 
 class CrystalMarketMod : BaseHazardCondition() {
     companion object {

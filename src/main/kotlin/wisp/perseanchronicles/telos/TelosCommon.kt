@@ -21,10 +21,10 @@ object TelosCommon {
 
     val telepathyColor: Color
         get() = game.sector.getFaction(FACTION_TELOS).color
-    private val FACTION_TELOS
+    val FACTION_TELOS
         get() = "perseanchronicles_telos"
 
     const val JAVELIN_ID = "wisp_perseanchronicles_avalok"
 
-    const val DART_NAME = "Dart"
+    const val DART_NAME = "Vara"
 }

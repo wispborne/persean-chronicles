@@ -14,16 +14,14 @@ import wisp.perseanchronicles.dangerousGames.pt2_depths.*
 import wisp.perseanchronicles.laborer.*
 import wisp.perseanchronicles.nirvana.*
 import wisp.perseanchronicles.riley.*
+import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1BarEventWiring
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
 import wisp.questgiver.Configuration
 import wisp.questgiver.Questgiver
-import wisp.questgiver.wispLib.firstName
-import wisp.questgiver.wispLib.lastName
-import wisp.questgiver.wispLib.toStringList
-import wisp.questgiver.wispLib.tryGet
+import wisp.questgiver.wispLib.*
 import java.util.*
 
 class LifecyclePlugin : BaseModPlugin() {
@@ -39,6 +37,7 @@ class LifecyclePlugin : BaseModPlugin() {
     override fun onGameLoad(newGame: Boolean) {
         super.onGameLoad(newGame)
         Questgiver.onGameLoad()
+        ColorVariables.colors["pc_telos"] = TelosCommon.telepathyColor
 
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator(Questgiver.game, CampaignPlugin())

@@ -4,9 +4,11 @@ import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
+import com.fs.starfarer.api.impl.campaign.ids.Conditions
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
 import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.impl.campaign.missions.hub.HubMissionWithSearch.PlanetIsPopulatedReq
 import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
@@ -18,7 +20,6 @@ import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 import wisp.perseanchronicles.telos.pt3_arrow.nocturne.NocturneScript
 import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.addPara
 import wisp.questgiver.spriteName
 import wisp.questgiver.v2.QGHubMission
 import wisp.questgiver.v2.json.query
@@ -101,6 +102,7 @@ class Telos3HubMission : QGHubMission() {
             .distinct()
             .toList()
 
+        // TODO create planet if it doesn't exist
         // Must have rings
         state.ruinsPlanet = SystemFinder()
             .requireSystemTags(mode = ReqMode.NOT_ANY, Tags.THEME_CORE)
@@ -109,12 +111,16 @@ class Telos3HubMission : QGHubMission() {
             .requirePlanetNotGasGiant()
             .requirePlanetNotStar()
             .requirePlanet { planet -> allRingFoci.map { (_, focus) -> focus.id }.contains(planet.id) }
+            .requirePlanet(PlanetIsPopulatedReq(true))
             .preferEntityUndiscovered()
+            .preferPlanet { planet -> planet.hasCondition(Conditions.HABITABLE) }
             .preferSystemNotPulsar()
             .preferPlanetWithRuins()
             .preferPlanetInDirectionOfOtherMissions()
             // Prefer a ring close to the planet
-            .preferPlanet { planet -> ((allRingFoci.firstOrNull { (_, focus) -> focus.id == planet.id }?.first?.middleRadius ?: 0f) - planet.radius) < 500f }
+            .preferPlanet { planet ->
+                ((allRingFoci.firstOrNull { (_, focus) -> focus.id == planet.id }?.first?.middleRadius ?: 0f) - planet.radius) < 500f
+            }
             .pickPlanet()
 
         trigger {

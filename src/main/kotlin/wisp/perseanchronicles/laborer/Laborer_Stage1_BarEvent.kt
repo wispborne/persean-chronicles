@@ -1,17 +1,9 @@
 package wisp.perseanchronicles.laborer
 
-import com.fs.starfarer.api.characters.FullName
-import com.fs.starfarer.api.impl.campaign.ids.Commodities
-import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator
-import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity
 import wisp.perseanchronicles.game
 import wisp.questgiver.AutoBarEventDefinition
-import wisp.questgiver.BarEventDefinition
-import wisp.questgiver.spriteName
-import wisp.questgiver.wispLib.empty
-import wisp.questgiver.wispLib.preferredConnectedEntity
 
 class Laborer_Stage1_BarEvent : AutoBarEventDefinition<Laborer_Stage1_BarEvent>(
     questFacilitator = LaborerQuest,

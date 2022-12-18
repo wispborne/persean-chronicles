@@ -10,7 +10,7 @@ wisp_perseanchronicles:
           pages:
             - id: 1-psi
               paras:
-                - "$f:perseanchronicles_telos{you can feel it too can’t you}"
+                - "$cv:pc_telos{you can feel it too can’t you}"
                 - 'you send to Karengo, and he sends the mental map of the base by way
                   of assent.'
                 - "$f:perseanchronicles_telos{uncertainly: and a ship deep below}"

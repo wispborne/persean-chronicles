@@ -4,10 +4,10 @@ import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.game
-import wisp.questgiver.*
-import wisp.questgiver.wispLib.asList
-import wisp.questgiver.wispLib.preferredConnectedEntity
-import wisp.questgiver.wispLib.textColorOrElseGrayIf
+import wisp.questgiver.IntelDefinition
+import wisp.questgiver.spriteName
+import wisp.questgiver.spritePath
+import wisp.questgiver.wispLib.*
 
 class LaborerIntel(startLocation: SectorEntityToken?, endLocation: SectorEntityToken?) : IntelDefinition(
     title = {

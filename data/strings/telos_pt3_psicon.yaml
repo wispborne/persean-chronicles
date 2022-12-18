@@ -15,21 +15,28 @@ wisp_perseanchronicles:
                 - 'The ships of your fleet settle into an orbit above the Telos shipyard coordinates. 
                 Iron-rich dust from the asteroid belt streaks past your shuttle as it falls toward the planet. 
                 A few engineers had voiced concerns about the dust, but in the end, most decided that it was inert, the leftovers of battles hundreds of cycles old.'
-                - '$f:perseanchronicles_telos{what will we find} you send to Karengo'
-                - '$f:perseanchronicles_telos{if we are lucky  some destroyers/itesh} he responds $f:perseanchronicles_telos{if we are very lucky  a cruiser/avalok}'
+                - '$cv:pc_telos{what will we find} you send to Karengo'
+                - '$cv:pc_telos{if we are lucky  some destroyers/itesh} he responds $cv:pc_telos{if we are very lucky  a cruiser/avalok}'
               options:
-                - text: '$f:perseanchronicles_telos{and what if we are unlucky}'
+                - text: '$cv:pc_telos{and what if we are unlucky}'
                   goToPage: '1.1-psi'
                 - text: 'say nothing'
                   goToPage: '2-psi'
             - id: '1.1-psi'
               paras:
-                - '$f:perseanchronicles_telos{karengo is not unlucky} This is sent as a statement of fact, as though describing the color of a sky.'
+                - '$cv:pc_telos{karengo is not unlucky} It''s a statement of fact, as though he is describing the color of a sky.'
               goToPage: '2-psi'
             - id: '2-psi'
               paras:
                 - 'The shuttle drops onto its landing gear and, immediately, alarms and damage reports slam into your mind. Entire sections of the shipyard have been destroyed...'
-                - ''
+                - '$cv:pc_telos{the base PsiCon systems are still transmitting} You and Karengo reach the conclusion at the same time.'
+              options:
+                - text: '$cv:pc_telos{query/ what happened here}'
+                  goToPage: '2.1-psi'
+            - id: '2.1-psi'
+              paras:
+                - 'The system''s response is immediate. Your mind is filled with scenes of orbital bombardment; gouts of flame scream toward the ground and erupt in conflagration. 
+                Buildings are flattened and air vents doused in liquid fire. With the certainty of a dream, you know that the ships overhead are Hegemoney, led by a Captain Eugel.'
         escape:
           intel:
             subtitle: 'Leave the system'

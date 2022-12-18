@@ -21,7 +21,6 @@ import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.addPara
 import wisp.questgiver.spriteName
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
 import wisp.questgiver.v2.json.optQuery
