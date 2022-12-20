@@ -36,7 +36,16 @@ wisp_perseanchronicles:
             - id: '2.1-psi'
               paras:
                 - 'The system''s response is immediate. Your mind is filled with scenes of orbital bombardment; gouts of flame scream toward the ground and erupt in conflagration. 
-                Buildings are flattened and air vents doused in liquid fire. With the certainty of a dream, you know that the ships overhead are Hegemoney, led by a Captain Eugel.'
+                Buildings are flattened and air vents doused in liquid fire. With the certainty of a dream, you identify the ships overhead as Hegemony under the command of Captain Eugel.'
+                - 'They''d arrived in-system after their attack on the other Telos base. No demands were made and, despite the potent defences circling in orbit, the settlement had been dealt blow after unyielding blow.'
+                - 'It fell in hours.'
+              options:
+                - text: 'Go inside'
+                  goToPage: '3-psi'
+            - id: '3-psi'
+              paras:
+              - 'Blueprints blossom in your memory as if you are revisiting an old haunt. You make your way to a staircase - the cover is missing, torn off as by the hand of a god - but you clear the passage itself of detritus and descend.'
+              - 'Traps react to the PsiCon in your veins, deactivating themselves as you rush past. '
         escape:
           intel:
             subtitle: 'Leave the system'
