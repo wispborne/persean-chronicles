@@ -44,8 +44,11 @@ wisp_perseanchronicles:
                   goToPage: '3-psi'
             - id: '3-psi'
               paras:
-              - 'Blueprints blossom in your memory as if you are revisiting an old haunt. You make your way to a staircase - the cover is missing, torn off as by the hand of a god - but you clear the passage itself of detritus and descend.'
-              - 'Traps react to the PsiCon in your veins, deactivating themselves as you rush past. '
+                - 'Blueprints blossom in your memory. You make your way to a staircase - the cover is missing, torn away by an explosion - but you clear the passage itself of detritus and descend.'
+                - 'Traps react to the PsiCon in your blood, deactivating themselves as you make your way toward the hanger. One single ship sits there; an Itesh destroyer.'
+              options:
+                - text: ''
+
         escape:
           intel:
             subtitle: 'Leave the system'

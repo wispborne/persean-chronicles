@@ -9,6 +9,7 @@ import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle
 import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
+import wisp.questgiver.v2.json.getPageById
 import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.findFirst
 import wisp.questgiver.wispLib.map
@@ -42,11 +43,7 @@ class Telos2SecondLandingDialog(
             },
             // Manually show text based upon conditions.
             "7.1-psi" to {
-                val page = stageJson.query<JSONArray>("/pages")
-                    .map<Any, JSONObject> { it as JSONObject }
-                    .firstOrNull {
-                        it.optString("id") == "7.1-psi"
-                    }
+                val page = getPageById(stageJson.query("/pages"), "7.1-psi")
 
                 if (page != null) {
                     // (if not female)
