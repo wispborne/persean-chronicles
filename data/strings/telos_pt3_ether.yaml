@@ -29,7 +29,7 @@ wisp_perseanchronicles:
             - id: '2-psi'
               paras:
                 - 'The shuttle drops onto its landing gear and, immediately, alarms and damage reports slam into your mind. Entire sections of the shipyard have been destroyed...'
-                - '$cv:pc_telos{the base PsiCon systems are still transmitting} You and Karengo reach the conclusion at the same time.'
+                - '$cv:pc_telos{the base Ether systems are still transmitting} You and Karengo reach the conclusion at the same time.'
               options:
                 - text: '$cv:pc_telos{query/ what happened here}'
                   goToPage: '2.1-psi'
@@ -45,7 +45,7 @@ wisp_perseanchronicles:
             - id: '3-psi'
               paras:
                 - 'Blueprints blossom in your memory. You make your way to a staircase - the cover is missing, torn away by an explosion - but you clear the passage itself of detritus and descend.'
-                - 'Traps react to the PsiCon in your blood, deactivating themselves as you make your way toward the hanger. One single ship sits there; an Itesh destroyer.'
+                - 'Traps react to the Ether in your blood, deactivating themselves as you make your way toward the hanger. One single ship sits there; an Itesh destroyer.'
               options:
                 - text: ''
 

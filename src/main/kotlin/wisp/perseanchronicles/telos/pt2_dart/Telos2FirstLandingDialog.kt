@@ -28,25 +28,25 @@ class Telos2FirstLandingDialog(
                 )
             },
             "11.1" to {
-                mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondPsicon, this.dialog, null)
+                mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondEther, this.dialog, null)
             },
             "12.2" to {
-                mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondNoPsicon, this.dialog, null)
+                mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondNoEther, this.dialog, null)
             }
         ),
         optionConfigurator = { options ->
             options.map { option ->
                 when (option.id) {
                     "requestMoreInfo" -> option.copy(
-                        showIf = { Telos2HubMission.choices.askedForMorePsiconInfo == null },
+                        showIf = { Telos2HubMission.choices.askedForMoreEtherInfo == null },
                         onOptionSelected = {
-                            Telos2HubMission.choices.askedForMorePsiconInfo = true
+                            Telos2HubMission.choices.askedForMoreEtherInfo = true
                         })
 
                     "afterYou" -> option.copy(
-                        showIf = { Telos2HubMission.choices.toldKarengoToTakePsiconFirst == null },
+                        showIf = { Telos2HubMission.choices.toldKarengoToTakeEtherFirst == null },
                         onOptionSelected = {
-                            Telos2HubMission.choices.toldKarengoToTakePsiconFirst = true
+                            Telos2HubMission.choices.toldKarengoToTakeEtherFirst = true
                         })
 
                     "injectSelf" -> option.copy(
@@ -60,7 +60,7 @@ class Telos2FirstLandingDialog(
                         } else {
                             option.text
                         },
-                        showIf = { Telos2HubMission.choices.toldKarengoToTakePsiconFirst == true },
+                        showIf = { Telos2HubMission.choices.toldKarengoToTakeEtherFirst == true },
                         onOptionSelected = {
                             Telos2HubMission.choices.injectedSelf = false
                         }

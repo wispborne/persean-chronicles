@@ -3,7 +3,7 @@ wisp_perseanchronicles:
   telos:
     part2_dart:
       stages:
-        landOnPlanetSecondNoPsicon:
+        landOnPlanetSecondNoEther:
           intel:
             subtitle: 'Return to the planet'
             desc: 'Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}==
@@ -67,10 +67,9 @@ wisp_perseanchronicles:
             - id: 5-noPsi
               paras:
                 - 'Your mind searches for a word to describe the frigate sitting in the
-              hanger and finally settles on one: flowing.'
-                - 'The hull is almost entirely made of intersecting curves, some parts
-                  a glowing blue and others nearly translucent. It looks small, fast,
-                  and dangerous. ==<more description here>=='
+              hanger and finally settles on one: svelte.'
+                - 'The high-tech hull is almost entirely coated with a sleek, semi-opaque shell, some parts
+                  a glowing blue and others nearly translucent. It looks small, fast, and dangerous.'
                 - 'A ramp unfolds from the belly of the ship, all smooth elegance, and
               Karengo climbs inside. You follow, soft lighting illuminating a polished
               corridor. '
@@ -98,7 +97,7 @@ wisp_perseanchronicles:
                 - "“While the ==Tri-Tachyon Vara== line was designed to be comfortable,
               intelligent transport for highly discerning clients,” a fluid, indeterminate
               voice explains, “the Telos overhaul exchanged beta-level AI integration
-              for increased combat potential, filling the automation gap with direct Psicon
+              for increased combat potential, filling the automation gap with direct Ether
               integration.”"
                 - "“Limited manual control is available for unnetworked guests,” it adds
               smoothly."

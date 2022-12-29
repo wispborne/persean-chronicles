@@ -2,7 +2,7 @@ wisp_perseanchronicles:
   telos:
     part2_dart:
       stages:
-        landOnPlanetSecondPsicon:
+        landOnPlanetSecondEther:
           intel:
             subtitle: 'Return to the planet'
             desc: 'Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}==
@@ -26,7 +26,7 @@ wisp_perseanchronicles:
               paras:
                 - 'Your chief medical officer’s dryly professional summary of your test
                   results ended in a astonished “sir!” as Karengo stuck the syringe of
-                  Psicon into his leg, depressed the plunger, and then sprawled onto a
+                  Ether into his leg, depressed the plunger, and then sprawled onto a
                   couch, grinning like a madman. By the time orderlies arrived with a
                   gurney, he was snoring, and by the time they rolled him into the med
                   bay, he was stirring again, his consciousness an uneven pressure on
@@ -123,7 +123,7 @@ wisp_perseanchronicles:
                   goToPage: 6.2-psi
             - id: 6.2-psi
               paras:
-                - 'The Psicon integration, however, is easily the craft’s most advanced
+                - 'The Ether integration, however, is easily the craft’s most advanced
                   feature. Focusing your mind, you can not only access every onboard system,
                   but you can actually feel Karengo’s feet stomping into the dining area
                   as he searches for long-store food.'

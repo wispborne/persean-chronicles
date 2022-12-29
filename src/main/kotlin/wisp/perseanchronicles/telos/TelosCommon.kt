@@ -11,10 +11,10 @@ object TelosCommon {
             paths = listOf(
                 "data/strings/compiled/telos_pt1.hjson",
                 "data/strings/compiled/telos_pt2_common.hjson",
-                "data/strings/compiled/telos_pt2_psicon.hjson",
-                "data/strings/compiled/telos_pt2_noPsicon.hjson",
-                "data/strings/compiled/telos_pt3_psicon.hjson",
-                "data/strings/compiled/telos_pt3_noPsicon.hjson",
+                "data/strings/compiled/telos_pt2_ether.hjson",
+                "data/strings/compiled/telos_pt2_noEther.hjson",
+                "data/strings/compiled/telos_pt3_ether.hjson",
+                "data/strings/compiled/telos_pt3_noEther.hjson",
             ),
             masterMod = MOD_ID
         )

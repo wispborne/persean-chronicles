@@ -13,11 +13,13 @@ import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
+import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
+import wisp.perseanchronicles.dangerousGames.pt2_depths.DepthsHubMission
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.InteractionDefinition
@@ -181,6 +183,9 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
             else -> false
         }
     }
+
+    override fun getIntelTags(map: SectorMapAPI?) =
+        (super.getIntelTags(map) + tags).distinct().toSet()
 
     /**
      * Description on right side of intel.

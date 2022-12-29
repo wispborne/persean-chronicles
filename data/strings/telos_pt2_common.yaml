@@ -60,7 +60,7 @@ wisp_perseanchronicles:
                 - 'Karengo sweeps past the scene to a cracked door on the far side and
                   steps through. "Here''s what we came for!" he calls. Stepping back out,
                   he hands you one of two capped syringes, the contents gray.'
-                - '"It''s Psicon," he says. "One shot o’this, and your mind will be expanded.
+                - '"It''s Ether," he says. "One shot o’this, and your mind will be expanded.
               I’m talking telepathy, mind meld, telekinesis, remote vision…it''s taken
               months to track down this site, and this vial’s for you as my thanks
               for the lift."'
@@ -94,7 +94,7 @@ wisp_perseanchronicles:
                   there are no eavesdroppers.'
                 - "“My source says this here was a ==Telos== base.”"
                 - 'At your blank look, he continues. “Telos…one of the pre-Collapse Tri-Tachyon
-                  research branches the Hegemony erased. They created this Psicon goo”
+                  research branches the Hegemony erased. They created this Ether goo”
                   - he taps a finger against the gray tube - “then left to live out away
                   from the Core Worlds. And then the Hegemony hunted ‘em down and purged
                   ‘em from history. Gone.”'
@@ -194,7 +194,7 @@ wisp_perseanchronicles:
                   text: 'Leave'
             - id: '12'
               paras:
-                - 'Karengo tucks his syringe of Psicon into one of the endless pockets
+                - 'Karengo tucks his syringe of Ether into one of the endless pockets
                   in his tactical jacket and you follow suit, the cylinder pressing against
                   your ribs. “According to my contact,” he says, glancing around, “there
                   is tunnel access to a hanger from this room.” At your raised eyebrows,

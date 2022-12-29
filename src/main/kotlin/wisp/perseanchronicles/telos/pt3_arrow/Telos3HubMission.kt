@@ -10,6 +10,7 @@ import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.missions.hub.HubMissionWithSearch.PlanetIsPopulatedReq
 import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
+import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
@@ -203,8 +204,8 @@ class Telos3HubMission : QGHubMission() {
                     Telos3LandingDialog().build(),
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
-//                Stage.LandOnPlanetSecondPsicon,
-//                Stage.LandOnPlanetSecondNoPsicon -> PluginPick(
+//                Stage.LandOnPlanetSecondEther,
+//                Stage.LandOnPlanetSecondNoEther -> PluginPick(
 //                    Telos2SecondLandingDialog().build(),
 //                    CampaignPlugin.PickPriority.MOD_SPECIFIC
 //                )
@@ -263,6 +264,9 @@ class Telos3HubMission : QGHubMission() {
             }
         }
     }
+
+    override fun getIntelTags(map: SectorMapAPI?) =
+        (super.getIntelTags(map) + tags).distinct().toSet()
 
     enum class Stage {
         GoToPlanet,

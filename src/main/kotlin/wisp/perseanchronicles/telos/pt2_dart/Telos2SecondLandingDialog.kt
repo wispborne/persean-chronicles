@@ -17,9 +17,9 @@ import wisp.questgiver.wispLib.map
 class Telos2SecondLandingDialog(
     stageJson: JSONObject =
         if (Telos2HubMission.choices.injectedSelf == true) {
-            Telos2HubMission.part2Json.query("/stages/landOnPlanetSecondPsicon")
+            Telos2HubMission.part2Json.query("/stages/landOnPlanetSecondEther")
         } else {
-            Telos2HubMission.part2Json.query("/stages/landOnPlanetSecondNoPsicon")
+            Telos2HubMission.part2Json.query("/stages/landOnPlanetSecondNoEther")
         },
     mission: Telos2HubMission = game.sector.intelManager.findFirst()!!
 ) : InteractionDialogLogic<Telos2SecondLandingDialog>(

@@ -13,6 +13,7 @@ import com.fs.starfarer.api.fleet.FleetMemberType
 import com.fs.starfarer.api.impl.campaign.events.OfficerManagerEvent
 import com.fs.starfarer.api.impl.campaign.ids.*
 import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity
+import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.campaign.Faction
@@ -79,8 +80,8 @@ class Telos2HubMission : QGHubMission() {
     }
 
     class Choices(val map: MutableMap<String, Any?>) {
-        var askedForMorePsiconInfo: Boolean? by map
-        var toldKarengoToTakePsiconFirst: Boolean? by map
+        var askedForMoreEtherInfo: Boolean? by map
+        var toldKarengoToTakeEtherFirst: Boolean? by map
         var injectedSelf: Boolean? by map // Null if choice not made yet.
     }
 
@@ -164,8 +165,8 @@ class Telos2HubMission : QGHubMission() {
             null,
             Stage.DestroyFleet,
             Stage.LandOnPlanetFirst,
-            Stage.LandOnPlanetSecondPsicon,
-            Stage.LandOnPlanetSecondNoPsicon,
+            Stage.LandOnPlanetSecondEther,
+            Stage.LandOnPlanetSecondNoEther,
         )
         makePrimaryObjective(Telos1HubMission.state.karengoPlanet)
     }
@@ -204,8 +205,8 @@ class Telos2HubMission : QGHubMission() {
                         CampaignPlugin.PickPriority.MOD_SPECIFIC
                     )
 
-                    Stage.LandOnPlanetSecondPsicon,
-                    Stage.LandOnPlanetSecondNoPsicon -> PluginPick(
+                    Stage.LandOnPlanetSecondEther,
+                    Stage.LandOnPlanetSecondNoEther -> PluginPick(
                         Telos2SecondLandingDialog().build(),
                         CampaignPlugin.PickPriority.MOD_SPECIFIC
                     )
@@ -245,9 +246,9 @@ class Telos2HubMission : QGHubMission() {
                 true
             }
 
-            Stage.LandOnPlanetSecondPsicon -> {
+            Stage.LandOnPlanetSecondEther -> {
                 info.addPara(padding = pad, textColor = tc) {
-                    part2Json.query<String>("/stages/landOnPlanetSecondPsicon/intel/subtitle").qgFormat()
+                    part2Json.query<String>("/stages/landOnPlanetSecondEther/intel/subtitle").qgFormat()
                 }
                 true
             }
@@ -276,11 +277,14 @@ class Telos2HubMission : QGHubMission() {
                 info.addPara { part2Json.query<String>("/stages/landOnPlanetFirst/intel/desc").qgFormat() }
             }
 
-            Stage.LandOnPlanetSecondPsicon -> {
-                info.addPara { part2Json.query<String>("/stages/landOnPlanetSecondPsicon/intel/desc").qgFormat() }
+            Stage.LandOnPlanetSecondEther -> {
+                info.addPara { part2Json.query<String>("/stages/landOnPlanetSecondEther/intel/desc").qgFormat() }
             }
         }
     }
+
+    override fun getIntelTags(map: SectorMapAPI?) =
+        (super.getIntelTags(map) + tags).distinct().toSet()
 
     /**
      * Quotes from Captain Eugel in battle. In chronological order.
@@ -311,8 +315,8 @@ class Telos2HubMission : QGHubMission() {
     enum class Stage {
         DestroyFleet,
         LandOnPlanetFirst,
-        LandOnPlanetSecondPsicon,
-        LandOnPlanetSecondNoPsicon,
+        LandOnPlanetSecondEther,
+        LandOnPlanetSecondNoEther,
         PostBattle,
         Completed,
     }
