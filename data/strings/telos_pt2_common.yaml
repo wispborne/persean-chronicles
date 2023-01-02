@@ -160,7 +160,7 @@ wisp_perseanchronicles:
             - id: '10'
               paras:
                 - 'You shrug casually at Karengo’s confusion. For the first time since
-                  you met, you’re a step ahead. You take a moment
+                  you met, you’re a step ahead of the adventurer. You take a moment
                   to savor it.'
               options:
                 - text: 'Continue'

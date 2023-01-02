@@ -45,7 +45,7 @@ wisp_perseanchronicles:
             - id: '3-psi'
               paras:
                 - 'Blueprints blossom in your memory. You make your way to a staircase - the cover is missing, torn away by an explosion - but you clear the passage itself of detritus and descend.'
-                - 'Traps react to the Ether in your blood, deactivating themselves as you make your way toward the hanger. A single ship sits there; an Itesh destroyer.'
+                - 'Traps react to the Ether in your blood, disarming as you make your way toward the hanger. A single ship sits there; an Itesh destroyer.'
               options:
                 - text: 'Continue'
                   goToPage: '4-psi'
