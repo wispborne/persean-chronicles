@@ -24,7 +24,7 @@ wisp_perseanchronicles:
               freetext2-nirvanaquest-in-progress:
                 - '"Actually it looks like...the contract is still open. But that''s not what I''m here about today. Let''s talk business.'
               freetext2-nirvanaquest-in-progress-over-1-cycle:
-                - '"Actually it looks like...the contract is still open. And has been for," she blows out some air, "quite a while."'
+                - '"Actually it looks like...the contract is still open. And has been for," she blows some out out of her mouth, "quite a while."'
                 - '"But that''s not what I''m here about, although I know my colleagues would appreciate that delivery. Let''s talk about today''s business.'
               onPageShown:
                 goToPage: '1.1'
@@ -106,9 +106,9 @@ wisp_perseanchronicles:
               paras:
                 - 'They continue, "We’ve got a ping from a nearby system. Playing the audio
                   now."'
-                - 'The bridge echoes with Karengo’s booming voice, confident despite the
-                  message.'
-                - '"Spacers, this here’s Karengo offering a quick and easy cleanup
+                - 'The bridge echoes with Karengo’s booming voice, confident despite his
+                  words.'
+                - '"Spacers, this is Karengo of Karengo''s  offering a quick and easy cleanup
                   job. Go on an’ send the boys in orbit around ==${telosPt1Stg1DestPlanet}==
                   in ==${telosPt1Stg1DestSystem}== home, and we’ll talk recompense - see,
                   I’ve found something hidden, and I’m willing to share. Just take care

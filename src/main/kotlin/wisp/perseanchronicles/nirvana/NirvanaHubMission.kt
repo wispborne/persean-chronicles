@@ -154,8 +154,9 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         // If complete date is set, use that. If not (happens if quest was completed prior to the field being added)
         // then use startDate. If neither exist, use "0" just to avoid null, since the stage needs to be Completed anyway
         // so it won't trigger before then.
-        val timestampQuestCompletedInSeconds = (state.completeDateInMillis ?: state.startDateMillis ?: 0)
+        val timestampQuestCompletedInSeconds = (state.completeDateInMillis ?: state.startDateMillis)
         return (currentStage == Stage.Completed
+                && timestampQuestCompletedInSeconds != null
                 && game.sector.clock.getElapsedDaysSince(timestampQuestCompletedInSeconds) > (365 * 10))
     }
 

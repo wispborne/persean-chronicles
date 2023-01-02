@@ -15,7 +15,7 @@ wisp_perseanchronicles:
                   by brute force and liberal application of plasma. A disgruntled tech
                   explains that there was a datafield present that could have, theoretically,
                   been the door control, but the interface was ‘chaos’, unhackable without
-                  an installed and powered Alpha Core. You gather that ensuring the door
+                  a locally installed and powered Alpha Core. You gather that ensuring the door
                   was open before your return was prioritized.'
               options:
                 - text: 'Continue'
@@ -53,10 +53,10 @@ wisp_perseanchronicles:
                   Hegemony in a fair fight, eh?”'
                 - 'He turns away, towards the hanger door and the lone ship in the bay.'
               options:
+                - text: 'Go investigate the ship'
+                  goToPage: 5-noPsi
                 - text: 'Ask about the Hegemony Commander'
                   goToPage: 4-noPsi
-                - text: 'Investigate the ship'
-                  goToPage: 5-noPsi
             - id: 4-noPsi
               paras:
                 - "“That Eugel guy? No idea. Seemed to take the nanites kinda personally,
@@ -70,6 +70,7 @@ wisp_perseanchronicles:
               hanger and finally settles on one: svelte.'
                 - 'The high-tech hull is almost entirely coated with a sleek, semi-opaque shell, some parts
                   a glowing blue and others nearly translucent. It looks small, fast, and dangerous.'
+                - 'There are no visible engines and you reason that the plating may somehow serve the same purpose.'
                 - 'A ramp unfolds from the belly of the ship, all smooth elegance, and
               Karengo climbs inside. You follow, soft lighting illuminating a polished
               corridor. '

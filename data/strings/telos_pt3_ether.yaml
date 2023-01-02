@@ -13,8 +13,8 @@ wisp_perseanchronicles:
             - id: '1-psi'
               paras:
                 - 'The ships of your fleet settle into an orbit above the Telos shipyard coordinates. 
-                Iron-rich dust from the asteroid belt streaks past your shuttle as it falls toward the planet. 
-                A few engineers had voiced concerns about the dust, but in the end, most decided that it was inert, the leftovers of battles hundreds of cycles old.'
+                Iron-rich dust from the asteroid belt streaks past your shuttle in its perpetual fall toward the planet. 
+                A few engineers had voiced concerns about the dust, but in the end, most decided that it was inert, likely the leftovers of battles hundreds of cycles old.'
                 - '$cv:pc_telos{what will we find} you send to Karengo'
                 - '$cv:pc_telos{if we are lucky  some destroyers/itesh} he responds $cv:pc_telos{if we are very lucky  a cruiser/avalok}'
               options:
@@ -28,16 +28,16 @@ wisp_perseanchronicles:
               goToPage: '2-psi'
             - id: '2-psi'
               paras:
-                - 'The shuttle drops onto its landing gear and, immediately, alarms and damage reports slam into your mind. Entire sections of the shipyard have been destroyed...'
-                - '$cv:pc_telos{the base Ether systems are still transmitting} You and Karengo reach the conclusion at the same time.'
+                - 'The shuttle drops onto its landing gear and, immediately, alarms and damage reports slam into your mind. Entire sections of the shipyard - which refers to itself as Yerpa - have been destroyed...'
+                - '$cv:pc_telos{the base''s Ether network is still transmitting} You and Karengo reach the conclusion at the same time.'
               options:
-                - text: '$cv:pc_telos{query/ what happened here}'
+                - text: '$cv:pc_telos{query: what happened here}'
                   goToPage: '2.1-psi'
             - id: '2.1-psi'
               paras:
                 - 'The system''s response is immediate. Your mind is filled with scenes of orbital bombardment; gouts of flame scream toward the ground and erupt in conflagration. 
                 Buildings are flattened and air vents doused in liquid fire. With the certainty of a dream, you identify the ships overhead as Hegemony under the command of Captain Eugel.'
-                - 'They''d arrived in-system after their attack on the other Telos base. No demands were made and, despite the potent defences circling in orbit, the settlement had been dealt blow after unyielding blow.'
+                - 'They''d arrived in-system after their attack on the other Telos base, Menri. No demands were made and, despite the potent defences circling in orbit, the settlement had been dealt blow after unyielding blow.'
                 - 'It fell in hours.'
               options:
                 - text: 'Go inside'
@@ -45,9 +45,16 @@ wisp_perseanchronicles:
             - id: '3-psi'
               paras:
                 - 'Blueprints blossom in your memory. You make your way to a staircase - the cover is missing, torn away by an explosion - but you clear the passage itself of detritus and descend.'
-                - 'Traps react to the Ether in your blood, deactivating themselves as you make your way toward the hanger. One single ship sits there; an Itesh destroyer.'
+                - 'Traps react to the Ether in your blood, deactivating themselves as you make your way toward the hanger. A single ship sits there; an Itesh destroyer.'
               options:
-                - text: ''
+                - text: 'Continue'
+                  goToPage: '4-psi'
+            - id: '4-psi'
+              paras:
+                - 'DESTROYER DESCRIPTION GOES HERE: TODO'
+                - 'Suddenly, '
+              options:
+                - text:
 
         escape:
           intel:

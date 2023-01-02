@@ -14,8 +14,7 @@ class Riley_Stage2_TriggerDialogScript(
     override fun runWhilePaused(): Boolean = false
 
     override fun advance(p0: Float) {
-        val startDate = RileyHubMission.state.startDateMillis
-        startDate ?: return
+        val startDate = RileyHubMission.state.startDateMillis ?: return
 
         if (game.sector.clock.getElapsedDaysSince(startDate) >= RileyHubMission.DAYS_UNTIL_DIALOG) {
             mission.showDaysPassedDialog()

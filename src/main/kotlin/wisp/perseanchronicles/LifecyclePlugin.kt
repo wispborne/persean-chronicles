@@ -155,12 +155,12 @@ class LifecyclePlugin : BaseModPlugin() {
     private fun addTextToServiceLocator() {
         game.text.resourceBundles.addAll(
             listOf(
-                ResourceBundle.getBundle("Stories_Shared"),
-                ResourceBundle.getBundle("Stories_DangerousGames_Dragons"),
-                ResourceBundle.getBundle("Stories_DangerousGames_Depths"),
-                ResourceBundle.getBundle("Stories_Nirvana"),
-                ResourceBundle.getBundle("Stories_Laborer"),
-                ResourceBundle.getBundle("Stories_Riley")
+                ResourceBundle.getBundle("PerseanChronicles_Shared"),
+                ResourceBundle.getBundle("PerseanChronicles_Karengo_1_Dragons"),
+                ResourceBundle.getBundle("PerseanChronicles_Karengo_2_Depths"),
+                ResourceBundle.getBundle("PerseanChronicles_Nirvana"),
+                ResourceBundle.getBundle("PerseanChronicles_Laborer"),
+                ResourceBundle.getBundle("PerseanChronicles_Riley_1_Father")
             )
         )
     }

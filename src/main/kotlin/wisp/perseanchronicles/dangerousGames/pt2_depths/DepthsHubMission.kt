@@ -109,7 +109,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         super.create(createdAt, barEvent)
         state.seed = genRandom
 
-        state.depthsPlanet = findAndTagDepthsPlanet(createdAt?.starSystem)
+        state.depthsPlanet = findAndTagDepthsPlanet(createdAt?.starSystem) ?:  return false
         val planet = state.depthsPlanet
         game.logger.i { "Set Depths quest destination to ${planet?.fullName} in ${planet?.starSystem?.baseName}" }
 

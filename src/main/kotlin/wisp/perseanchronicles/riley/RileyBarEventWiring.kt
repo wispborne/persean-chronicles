@@ -10,7 +10,8 @@ class RileyBarEventWiring :
     override fun createBarEventLogic() = Riley_Stage1_BarEvent()
     override fun createMission() = RileyHubMission()
     override fun shouldBeAddedToBarEventPool(): Boolean {
-        return game.sector.clock.getElapsedDaysSince(DragonsHubMission.state.completeDateInMillis ?: 0) >= 30
+        return DragonsHubMission.state.completeDateInMillis != null
+                && game.sector.clock.getElapsedDaysSince(DragonsHubMission.state.completeDateInMillis!!) >= 30
     }
 
     override fun createBarEventCreator() = RileyBarEventCreator(this)

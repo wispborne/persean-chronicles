@@ -10,7 +10,8 @@ class DepthsBarEventWiring :
     override fun createBarEventLogic() = DepthsBarEventLogic()
     override fun createMission() = DepthsHubMission()
     override fun shouldBeAddedToBarEventPool(): Boolean {
-        return game.sector.clock.getElapsedDaysSince(DragonsHubMission.state.completeDateInMillis ?: 0) >= 30
+        return DragonsHubMission.state.completeDateInMillis != null
+                && game.sector.clock.getElapsedDaysSince(DragonsHubMission.state.completeDateInMillis!!) >= 30
     }
 
     override fun createBarEventCreator() = DepthsBarEventCreator(this)

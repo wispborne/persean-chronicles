@@ -21,7 +21,7 @@ import java.awt.Color
 import java.util.*
 import kotlin.math.roundToInt
 
-
+// TODO: lower the credit reward to < 5k, but give the location of a blueprint or two on success because "my gramma's a historian"
 class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     companion object {
         const val MISSION_ID = "riley"

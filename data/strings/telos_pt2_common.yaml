@@ -57,7 +57,7 @@ wisp_perseanchronicles:
                   goToPage: '2'
             - id: '2'
               paras:
-                - 'Karengo sweeps past the scene to a cracked door on the far side and
+                - 'Karengo sweeps past the scene to a door on the far side and
                   steps through. "Here''s what we came for!" he calls. Stepping back out,
                   he hands you one of two capped syringes, the contents gray.'
                 - '"It''s Ether," he says. "One shot o’this, and your mind will be expanded.
@@ -160,7 +160,7 @@ wisp_perseanchronicles:
             - id: '10'
               paras:
                 - 'You shrug casually at Karengo’s confusion. For the first time since
-                  you met, you’re the one in control of the situation and you take a moment
+                  you met, you’re a step ahead. You take a moment
                   to savor it.'
               options:
                 - text: 'Continue'

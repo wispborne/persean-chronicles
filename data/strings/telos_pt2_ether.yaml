@@ -50,12 +50,12 @@ wisp_perseanchronicles:
               paras:
                 - 'The walk down the trapdoor steps feels like a dream coalescing into
                   reality. At the bottom of the stairs will be/is a door to the communications
-                  room overlooking the hanger, empty but for the lonely Dart. No words
+                  room overlooking the hanger, empty but for the lonely frigate/Vara. No words
                   are exchanged anymore - emotions and thoughts flow between you like
                   the mixing of currents. Karengo focuses on a recording in the awakened
                   comms data and pushes it to you.'
-                - "$f:perseanchronicles_telos{tri-tachyon invasion/destruction of this
-              base, let us [replay/immerse/join] it}"
+                - "$f:perseanchronicles_telos{hegemony invasion/destruction of this
+              base  let us [replay/immerse/join] it}"
               options:
                 - text: 'Continue'
                   goToPage: 2.1-psi
@@ -79,7 +79,7 @@ wisp_perseanchronicles:
             - id: 4-psi
               paras:
                 - "$f:perseanchronicles_telos{questioning: who was [captain eugel/the
-              leader of the hegemony reinforcement fleet] they were taking enjoyment
+              leader of the hegemony fleet] they were taking enjoyment
               from the [slaughter/destruction]} you send."
                 - "$f:perseanchronicles_telos{unsure/uncaring: there were lots of [ghouls/zealots]
               after the first ai war now let us see this ship}"
@@ -90,11 +90,9 @@ wisp_perseanchronicles:
               paras:
                 - 'The small craft awakens at a mental touch. A ramp unfolds from its belly
                   and you stare up from the first step, taking in the design.'
-                - 'The shell seems to be crafted entirely from curves, broad and sweeping,
-                  carving a hull unlike any you’ve seen in the sector. The colors are
-                  all blues and translucence, creating an ethereal effect that would look
-                  more at home in a holovid of an advanced, invading alien force than
-                  sleeping through routine docking procedures at Asharu.'
+                - 'Its shell seems to be crafted entirely from a translucent blue material, broad and sweeping,
+                  carving a hull unlike any you’ve seen in the sector. It coats a more standard high-tech interior like armor.'
+                - 'There are no visible engines and you reason that the semi-opaque plating may somehow serve the same purpose.'
               options:
                 - text: 'Continue'
                   goToPage: 5.1-psi
