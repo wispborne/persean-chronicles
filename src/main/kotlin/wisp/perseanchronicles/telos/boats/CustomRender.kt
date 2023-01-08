@@ -53,7 +53,9 @@ class CustomRender : BaseEveryFrameCombatPlugin() {
     }
 
     private fun renderNebula(nebula: Nebula, view: ViewportAPI) {
-        if (!view.isNearViewport(nebula.location, view.visibleWidth)) return
+        // Rude for performance but it's not like there will be a ton of ships using this offscreen.
+//        if (!view.isNearViewport(nebula.location, 500f)) return
+
         val cloudSprite = when (nebula.type) {
             NebulaType.NORMAL -> Global.getSettings().getSprite("misc", "nebula_particles")
             NebulaType.SWIRLY -> Global.getSettings().getSprite("misc", "fx_particles2")

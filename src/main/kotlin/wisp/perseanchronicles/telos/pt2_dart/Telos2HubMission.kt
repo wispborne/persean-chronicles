@@ -77,6 +77,8 @@ class Telos2HubMission : QGHubMission() {
     class State(val map: MutableMap<String, Any?>) {
         var startDateMillis: Long? by map
         var completeDateInMillis: Long? by map
+        // If they won this, they cheated.
+        var wonRecordedBattle: Boolean? by map
     }
 
     class Choices(val map: MutableMap<String, Any?>) {

@@ -27,4 +27,30 @@ object TelosCommon {
     const val JAVELIN_ID = "wisp_perseanchronicles_avalok"
 
     const val DART_NAME = "Vara"
+
+    const val MUSIC_INVESTIGATION = "wisp_perseanchronicles_telosExplorationMusic"
+
+    fun playMusic() {
+        kotlin.runCatching {
+            game.soundPlayer.playCustomMusic(
+                /* fadeOutIfAny = */ 0,
+                /* fadeIn = */ 0,
+                /* musicSetId = */ TelosCommon.MUSIC_INVESTIGATION,
+                /* looping = */ true
+            )
+        }
+            .onFailure { game.logger.e(it) }
+    }
+
+    fun stopMusic() {
+        kotlin.runCatching {
+            game.soundPlayer.playCustomMusic(
+                /* fadeOutIfAny = */ 0,
+                /* fadeIn = */ 5,
+                /* musicSetId = */ null,
+                /* looping = */ false
+            )
+        }
+            .onFailure { game.logger.e(it) }
+    }
 }

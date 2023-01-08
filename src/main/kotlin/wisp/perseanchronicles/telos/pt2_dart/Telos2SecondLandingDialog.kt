@@ -5,6 +5,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle
 import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
 import wisp.questgiver.v2.InteractionDialogLogic
@@ -30,6 +31,12 @@ class Telos2SecondLandingDialog(
     pages = PagesFromJson(
         pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
+            "1" to {
+                TelosCommon.playMusic()
+            },
+            "6-finished-battle" to {
+                TelosCommon.playMusic()
+            },
             "7-noPsi" to {
 
             },
@@ -42,8 +49,8 @@ class Telos2SecondLandingDialog(
                 }
             },
             // Manually show text based upon conditions.
-            "7.1-psi" to {
-                val page = getPageById(stageJson.query("/pages"), "7.1-psi")
+            "9-check-karengo" to {
+                val page = getPageById(stageJson.query("/pages"), "9-check-karengo")
 
                 if (page != null) {
                     // (if not female)
@@ -79,7 +86,7 @@ class Telos2SecondLandingDialog(
                             Telos2Battle.startBattle()
                             mission.setCurrentStage(Telos2HubMission.Stage.PostBattle, this.dialog, null)
                             if (Telos2HubMission.choices.injectedSelf == true) {
-                                navigator.goToPage("3-psi")
+                                navigator.goToPage("6-finished-battle")
                             } else {
                                 navigator.goToPage("3-noPsi")
                             }
@@ -88,6 +95,7 @@ class Telos2SecondLandingDialog(
 
                     "leave" -> option.copy(
                         onOptionSelected = {
+                            TelosCommon.stopMusic()
                             navigator.close(doNotOfferAgain = true)
                         }
                     )

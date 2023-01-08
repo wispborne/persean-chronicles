@@ -4,6 +4,7 @@ import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
@@ -19,6 +20,9 @@ class Telos2FirstLandingDialog(
     pages = PagesFromJson(
         stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
+            "1" to {
+                TelosCommon.playMusic()
+            },
             "1.6" to {
                 dialog.visualPanel.showImagePortion(
                     IInteractionLogic.Illustration(

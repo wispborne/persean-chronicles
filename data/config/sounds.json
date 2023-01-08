@@ -6,6 +6,13 @@
         "source": "sounds/music",
         "volume": 1
       }
+    ],
+    "wisp_perseanchronicles_telosExplorationMusic": [
+      {
+        "file": "Telos.ogg",
+        "source": "sounds/music",
+        "volume": 1
+      }
     ]
   }
 }

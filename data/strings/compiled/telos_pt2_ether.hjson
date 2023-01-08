@@ -1,221 +1,140 @@
 {
-  "wisp_perseanchronicles": {
-    "telos": {
-      "part2_dart": {
-        "stages": {
-          "landOnPlanetSecondEther": {
-            "intel": {
-              "subtitle": "Return to the planet",
-              "desc": "Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== to investigate the underground sections."
+  "wisp_perseanchronicles" : {
+    "telos" : {
+      "part2_dart" : {
+        "stages" : {
+          "landOnPlanetSecondEther" : {
+            "intel" : {
+              "subtitle" : "Return to the planet",
+              "desc" : "Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== to investigate the underground sections."
             },
-            "pages": [
-              {
-                "id": "1-psi",
-                "paras": [
-                  "$f:perseanchronicles_telos{you can feel it too can’t you}",
-                  "you send to Karengo, and he sends the mental map of the base by way of assent.",
-                  "$f:perseanchronicles_telos{uncertainly: and a ship deep below}",
-                  "The sensation of the ship grows as the shuttle speeds toward the base, landing legs extending until it settles again into the soil, just meters from the entrance to the Telos base.",
-                  "$f:perseanchronicles_telos{it is [ready/thirsty] to fly let us descend to it}."
-                ],
-                "options": [
-                  {
-                    "text": "Six hours earlier...",
-                    "goToPage": "1.1-psi"
-                  }
-                ]
-              },
-              {
-                "id": "1.1-psi",
-                "paras": [
-                  "Your chief medical officer’s dryly professional summary of your test results ended in a astonished “sir!” as Karengo stuck the syringe of Ether into his leg, depressed the plunger, and then sprawled onto a couch, grinning like a madman. By the time orderlies arrived with a gurney, he was snoring, and by the time they rolled him into the med bay, he was stirring again, his consciousness an uneven pressure on your head like a reactor flickering online."
-                ],
-                "options": [
-                  {
-                    "text": "Intuition took over",
-                    "goToPage": "1.2-psi"
-                  }
-                ]
-              },
-              {
-                "id": "1.2-psi",
-                "paras": [
-                  "A wave of lethargy washed against the shore of your mind, and you reached out.",
-                  "$f:perseanchronicles_telos{carefully/questioningly: karengo can you [hear/feel] this}",
-                  "The response came as a medley of emotion: shock, confusion, comprehension, awe, curiosity, and finally",
-                  "$f:perseanchronicles_telos{yes}"
-                ],
-                "options": [
-                  {
-                    "text": "Return to the present time",
-                    "goToPage": "2-psi"
-                  }
-                ]
-              },
-              {
-                "id": "2-psi",
-                "paras": [
-                  "The walk down the trapdoor steps feels like a dream coalescing into reality. At the bottom of the stairs will be/is a door to the communications room overlooking the hanger, empty but for the lonely Dart. No words are exchanged anymore - emotions and thoughts flow between you like the mixing of currents. Karengo focuses on a recording in the awakened comms data and pushes it to you.",
-                  "$f:perseanchronicles_telos{tri-tachyon invasion/destruction of this base, let us [replay/immerse/join] it}"
-                ],
-                "options": [
-                  {
-                    "text": "Continue",
-                    "goToPage": "2.1-psi"
-                  }
-                ]
-              },
-              {
-                "id": "2.1-psi",
-                "paras": [
-                  "The recording is of the final stand of the base and, as you focus on the Telos machine, the scene comes alive within your mind."
-                ],
-                "options": [
-                  {
-                    "id": "startBattle",
-                    "text": "$f:perseanchronicles_telos{begin battle}"
-                  }
-                ]
-              },
-              {
-                "id": "3-psi",
-                "paras": [
-                  "With a start, you come back to yourself. The emotional imprints of tearing metal and dying Telos recede quickly, and Karengo is already moving out of the comms room and to the hanger below."
-                ],
-                "options": [
-                  {
-                    "text": "Ask about the Hegemony Commander",
-                    "goToPage": "4-psi"
-                  },
-                  {
-                    "text": "Continue",
-                    "goToPage": "5-psi"
-                  }
-                ]
-              },
-              {
-                "id": "4-psi",
-                "paras": [
-                  "$f:perseanchronicles_telos{questioning: who was [captain eugel/the leader of the hegemony reinforcement fleet] they were taking enjoyment from the [slaughter/destruction]} you send.",
-                  "$f:perseanchronicles_telos{unsure/uncaring: there were lots of [ghouls/zealots] after the first ai war now let us see this ship}"
-                ],
-                "options": [
-                  {
-                    "text": "Continue",
-                    "goToPage": "5-psi"
-                  }
-                ]
-              },
-              {
-                "id": "5-psi",
-                "paras": [
-                  "The small craft awakens at a mental touch. A ramp unfolds from its belly and you stare up from the first step, taking in the design.",
-                  "The shell seems to be crafted entirely from curves, broad and sweeping, carving a hull unlike any you’ve seen in the sector. The colors are all blues and translucence, creating an ethereal effect that would look more at home in a holovid of an advanced, invading alien force than sleeping through routine docking procedures at Asharu."
-                ],
-                "options": [
-                  {
-                    "text": "Continue",
-                    "goToPage": "5.1-psi"
-                  }
-                ]
-              },
-              {
-                "id": "5.1-psi",
-                "paras": [
-                  "With Karengo in the lead, you step over the threshold. Hidden lighting softly illuminates a polished corridor leading into the depths."
-                ],
-                "options": [
-                  {
-                    "text": "Explore the ship",
-                    "goToPage": "6.1-psi"
-                  },
-                  {
-                    "text": "Head for the bridge",
-                    "goToPage": "6-psi"
-                  }
-                ]
-              },
-              {
-                "id": "6.1-psi",
-                "paras": [
-                  "You split your exploration efforts between the mental and physical. A brief scan of the specs reveals that the original, pre-Collapse design integrated a full beta-level AI. The subsequent Telos overhaul replaced it with a non-sentient core and full telepathic integration, resulting in a ship requiring no physical interaction and without any of the risk of sentience.",
-                  "The mess and standard activity rooms are small, with the rest of the ==Vara== given to high-tech crew compartments. Any one of them would meet the cool approval of a Tri-Tachyon aristocrat, you note."
-                ],
-                "options": [
-                  {
-                    "text": "Continue",
-                    "goToPage": "6.2-psi"
-                  }
-                ]
-              },
-              {
-                "id": "6.2-psi",
-                "paras": [
-                  "The Ether integration, however, is easily the craft’s most advanced feature. Focusing your mind, you can not only access every onboard system, but you can actually feel Karengo’s feet stomping into the dining area as he searches for long-store food."
-                ],
-                "options": [
-                  {
-                    "text": "Head for the bridge",
-                    "goToPage": "6-psi"
-                  }
-                ]
-              },
-              {
-                "id": "6-psi",
-                "paras": [
-                  "The bridge has been partially converted to a sort of lounge, with a comfortable-looking couch - which you sit on - and pillows taking up most of the space. Only a small area resembles a traditional bridge, containing recognizable, if basic, emergency manual controls."
-                ],
-                "options": [
-                  {
-                    "text": "Check on Karengo",
-                    "goToPage": "7.1-psi"
-                  },
-                  {
-                    "text": "Return to the fleet",
-                    "goToPage": "7-psi"
-                  }
-                ]
-              },
-              {
-                "id": "7.1-psi",
-                "paras": [
-                  "You turn your mind toward Karengo just in time to receive a thought from him."
-                ],
-                "freeText1": "$f:perseanchronicles_telos{how do i turn off this ship sense/feeling  i can feel you sitting on that couch and i’d rather not}|$f:perseanchronicles_telos{how do i turn off this ship sense/feeling  i can feel you sitting on the couch not that i mind but it’s distracting}",
-                "freeText2": "The ship shows you how to limit the integration, but you can’t help but wonder what it would have felt like to be aboard at the height of the Telos, surrounded by the shared sensations and thoughts of a full crew.",
-                "options": [
-                  {
-                    "text": "Return to the fleet",
-                    "goToPage": "7-psi"
-                  }
-                ]
-              },
-              {
-                "id": "7-psi",
-                "paras": [
-                  "Still enveloped by the couch, you dive into the ship’s systems and raise it into the air. The handling is strange but intuitive, and you revolve in place to face the hanger doors as they grind open. The tunnel to the surface is blocked in many places, but the onboard weapons easily bore a way through.",
-                  "$f:perseanchronicles_telos{the ship shows another planet that the telos settled on  we should go there next  there is/was? a hidden shipyard there}"
-                ],
-                "options": [
-                  {
-                    "text": "Continue",
-                    "goToPage": "8-psi"
-                  }
-                ]
-              },
-              {
-                "id": "8-psi",
-                "paras": [
-                  "You receive a hyperspace coordinate and add it to your intel suite."
-                ],
-                "options": [
-                  {
-                    "id": "leave",
-                    "text": "Leave"
-                  }
-                ]
-              }
-            ]
+            "pages" : [ null, {
+              "id" : 1,
+              "paras" : [ "$cv:pc_telos{you can feel it too can’t you}", "you send to Karengo, and he sends the mental map of the base by way of assent.", "$f:perseanchronicles_telos{uncertainly: and a ship deep below}", "The sensation of the ship grows as the shuttle speeds toward the base, landing legs extending until it settles again into the soil, just meters from the entrance to the Telos base.", "$f:perseanchronicles_telos{it is [ready/thirsty] to fly let us descend to it}." ],
+              "options" : [ {
+                "text" : "Six hours earlier...",
+                "goToPage" : "2-previously"
+              } ]
+            }, {
+              "id" : "2-previously",
+              "paras" : [ "Your chief medical officer’s dryly professional summary of your test results was cut short by an astonished “sir!” as Karengo stuck the syringe of Ether into his leg, depressed the plunger, and then sprawled onto a couch, grinning like a madman. By the time orderlies arrived with a gurney, he was snoring, and by the time they rolled him into the med bay, he was stirring again, his consciousness an uneven pressure on your head like a reactor flickering online." ],
+              "options" : [ {
+                "text" : "Intuition took over",
+                "goToPage" : "3-end-flashback"
+              } ]
+            }, {
+              "id" : "3-end-flashback",
+              "paras" : [ "A wave of lethargy washed against the shore of your mind, and you reached out.", "$f:perseanchronicles_telos{carefully/questioningly: karengo can you [hear/feel] this}", "The response came as a medley of emotion: shock, confusion, comprehension, awe, curiosity, and finally", "$f:perseanchronicles_telos{yes}" ],
+              "options" : [ {
+                "text" : "Return to the present time",
+                "goToPage" : "4-trapdoor"
+              } ]
+            }, {
+              "id" : "4-trapdoor",
+              "paras" : [ "The walk down the trapdoor steps feels like a dream coalescing into reality. At the bottom of the stairs will be/is a door to the communications room overlooking the hanger, empty but for the lonely frigate/Vara. No words are exchanged anymore - emotions and thoughts flow between you like the mixing of currents. Karengo focuses on a recording in the awakened comms data and pushes it to you.", "$f:perseanchronicles_telos{hegemony invasion/destruction of this base  let us [replay/immerse/join] it}" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "5-battle"
+              } ]
+            }, {
+              "id" : "5-battle",
+              "paras" : [ "The recording is of the final stand of the base and, as you focus on the Telos machine, the scene comes alive within your mind." ],
+              "options" : [ {
+                "id" : "startBattle",
+                "text" : "$f:perseanchronicles_telos{begin battle}"
+              } ]
+            }, {
+              "id" : "6-finished-battle",
+              "paras" : [ "With a start, you come back to yourself. The emotional imprints of tearing metal and dying Telos recede quickly, and Karengo is already moving out of the comms room and to the hanger below." ],
+              "options" : [ {
+                "text" : "Ask about the Hegemony Commander",
+                "goToPage" : "6-ask"
+              }, {
+                "text" : "Continue",
+                "goToPage" : "7-vara"
+              } ]
+            }, {
+              "id" : "6-ask",
+              "paras" : [ "$f:perseanchronicles_telos{questioning: who was [captain eugel/the leader of the hegemony fleet] he was taking enjoyment from the [slaughter/destruction]} you send.", "$f:perseanchronicles_telos{unsure/uncaring: there were lots of [ghouls/zealots] in the first ai war now let us see this ship}" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "7-vara"
+              } ]
+            }, {
+              "id" : "7-vara",
+              "paras" : [ "The small craft - the ==Vara== - awakens at a mental touch. A ramp unfolds from its belly and you stare up from the first step, taking in the design.", "Its shell seems to be crafted entirely from a translucent blue material, broad and sweeping, carving a hull unlike any you’ve seen in the sector. It coats a more standard high-tech interior like armor.", "There are no visible engines and you reason that the semi-opaque plating may - somehow - serve the same purpose." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "8-vara-inside"
+              } ]
+            }, {
+              "id" : "8-vara-inside",
+              "paras" : [ "With Karengo in the lead, you step over the threshold. Hidden lighting softly illuminates a polished corridor leading into the depths." ],
+              "options" : [ {
+                "text" : "Explore the ship",
+                "goToPage" : "8-explore"
+              }, {
+                "text" : "Head straight for the bridge",
+                "goToPage" : "9-bridge"
+              } ]
+            }, {
+              "id" : "8-explore",
+              "paras" : [ "You split your exploration efforts between the mental and physical. A brief scan of the specs reveals that the original, pre-Collapse Tri-Tachyon design integrated a full beta-level AI. The subsequent Telos overhaul replaced it with a non-sentient core and telepathic integration, resulting in a ship requiring no physical interaction and without any of the risk of sentience.", "The mess and standard activity rooms are small, with the rest of the Vara given to high-tech crew compartments. Any one of them would meet the cool approval of a Tri-Tachyon aristocrat, you note." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "8-explore2"
+              } ]
+            }, {
+              "id" : "8-explore2",
+              "paras" : [ "The Ether integration, however, is easily the craft’s most advanced feature. Focusing your mind, you can not only access every onboard system, but you can feel the tread of Karengo’s boots stomping into the dining area as he searches for long-store food." ],
+              "options" : [ {
+                "text" : "Head for the bridge",
+                "goToPage" : "9-bridge"
+              } ]
+            }, {
+              "id" : "9-bridge",
+              "paras" : [ "The bridge has been partially converted to a sort of lounge, with a comfortable-looking couch - which you sit on - and pillows take up most of the space. Only a small area resembles a traditional bridge, containing recognizable, if basic, emergency manual controls." ],
+              "options" : [ {
+                "text" : "Check on Karengo",
+                "goToPage" : "9-check-karengo"
+              }, {
+                "text" : "Query the system for more information on the Telos",
+                "goToPage" : "10-query"
+              } ]
+            }, {
+              "id" : "9-check-karengo",
+              "paras" : [ "You turn your mind toward Karengo just as he sends a thought." ],
+              "freeText1" : "$f:perseanchronicles_telos{how do i turn off this ship sense/feeling  i can feel you sitting on that couch and i’d rather not}|$f:perseanchronicles_telos{how do i turn off this ship sense/feeling  i can feel you sitting on the couch not that i mind but it’s distracting}",
+              "freeText2" : "The ship shows you how to limit the integration, but you can’t help but wonder what it would have felt like to be aboard at the height of the Telos, surrounded by the shared sensations and thoughts of a full crew.",
+              "options" : [ {
+                "text" : "Query the system for more information on the Telos",
+                "goToPage" : "10-query"
+              } ]
+            }, {
+              "id" : "10-query",
+              "paras" : [ "$cv:pc_telos{computer  what happened to the telos}", "A timeline flashes through the surface of your thoughts as images laden with context.", "$cv:pc_telos{a scientist/krypta split from the tri-tachyon corporation in c+85 with 162 others  they infused themselves with ether and settled a remote system/yerpa}", "$cv:pc_telos{the ai war raged  in c+91 30 telos landed on a secondary system/menri/this planet as a backup base}", "$cv:pc_telos{a knight of ludd/eugel brought a hegemony attack fleet to menri/here in c+105  the base was destroyed}", "", "$cv:pc_telos{primary base/yerpa  status unknown}" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "11-"
+              } ]
+            }, {
+              "id" : "11-",
+              "paras" : [ null ]
+            }, {
+              "id" : "7-psi",
+              "paras" : [ "Still enveloped by the couch, you dive into the ship’s systems and raise it into the air. The handling is strange but intuitive, and you revolve in place to face the hanger doors as they grind open. The tunnel to the surface is blocked in many places, but the onboard weapons easily bore a way through.", "$f:perseanchronicles_telos{the ship shows another planet that the telos settled on  we should go there next  there is/was? a hidden shipyard there}" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "8-psi"
+              } ]
+            }, {
+              "id" : "8-psi",
+              "paras" : [ "You receive a hyperspace coordinate and add it to your intel suite." ],
+              "options" : [ {
+                "id" : "leave",
+                "text" : "Leave"
+              } ]
+            } ]
           }
         }
       }

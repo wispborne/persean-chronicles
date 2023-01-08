@@ -9,7 +9,7 @@ wisp_perseanchronicles:
             desc: 'Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}==
               in ==${telosPt1Stg1DestSystem}== to investigate the underground sections.'
           pages:
-            - id: 1-noPsi
+            - id: 1
               paras:
                 - 'In the end, the hidden trapdoor in the underground Telos room was opened
                   by brute force and liberal application of plasma. A disgruntled tech

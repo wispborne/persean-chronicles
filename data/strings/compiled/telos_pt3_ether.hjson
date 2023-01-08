@@ -1,54 +1,63 @@
 {
-  "wisp_perseanchronicles": {
-    "telos": {
-      "part3_arrow": {
-        "strings": {
-          "title": "Telos: Guarded World"
+  "wisp_perseanchronicles" : {
+    "telos" : {
+      "part3_arrow" : {
+        "strings" : {
+          "title" : "Telos: Guarded World"
         },
-        "stages": {
-          "goToPlanet": {
-            "intel": {
-              "subtitle": "Go to ${telosPt3RuinsSystem}",
-              "desc": "Karengo claims that there is a second Telos ruin on ==${telosPt3RuinsPlanet}== in ==${telosPt3RuinsSystem}==."
+        "stages" : {
+          "goToPlanet" : {
+            "intel" : {
+              "subtitle" : "Go to ${telosPt3RuinsSystem}",
+              "desc" : "Karengo claims that there is a second Telos ruin on ==${telosPt3RuinsPlanet}== in ==${telosPt3RuinsSystem}==."
             },
-            "pages": [
-              {
-                "id": "1-psi",
-                "paras": [
-                  "The ships of your fleet settle into an orbit above the Telos shipyard coordinates.  Iron-rich dust from the asteroid belt streaks past your shuttle as it falls toward the planet;  the dust had, in fact, been a concern raised by a few engineers, but it technically fell within allowances.",
-                  "$f:perseanchronicles_telos{what will we find} you send to Karengo",
-                  "$f:perseanchronicles_telos{if we are lucky  some destroyers/itesh} he responds $f:perseanchronicles_telos{if we are very lucky  a cruiser/avalok}"
-                ],
-                "options": [
-                  {
-                    "text": "$f:perseanchronicles_telos{and what if we are unlucky}",
-                    "goToPage": "1.1-psi"
-                  },
-                  {
-                    "text": "say nothing",
-                    "goToPage": "2-psi"
-                  }
-                ]
-              },
-              {
-                "id": "1.1-psi",
-                "paras": [
-                  "$f:perseanchronicles_telos{we are not unlucky} The reply is dismissive."
-                ],
-                "goToPage": "2-psi"
-              },
-              {
-                "id": "2-psi",
-                "paras": [
-                  ""
-                ]
-              }
-            ]
+            "pages" : [ {
+              "id" : "1-start",
+              "paras" : [ "The ships of your fleet settle into an orbit above the Telos shipyard coordinates. Iron-rich dust from the asteroid belt streaks past your shuttle in its perpetual fall toward the planet. A few engineers had voiced concerns about the dust, but in the end, most decided that it was inert, likely the leftovers of battles hundreds of cycles old.", "$cv:pc_telos{what will we find} you send to Karengo", "$cv:pc_telos{if we are lucky  some destroyers/itesh} he responds $cv:pc_telos{if we are very lucky  a cruiser/avalok}" ],
+              "options" : [ {
+                "text" : "$cv:pc_telos{and what if we are unlucky}",
+                "goToPage" : "1-lucky"
+              }, {
+                "text" : "say nothing",
+                "goToPage" : "2-land"
+              } ]
+            }, {
+              "id" : "1-lucky",
+              "paras" : [ "$cv:pc_telos{karengo is not unlucky} It's a statement of fact, as though he is describing the color of a sky." ],
+              "goToPage" : "2-land"
+            }, {
+              "id" : "2-land",
+              "paras" : [ "The shuttle drops onto its landing gear and, immediately, alarms and damage reports slam into your mind. Entire sections of the shipyard - which refers to itself as Yerpa - have been destroyed...", "$cv:pc_telos{the base's Ether network is still transmitting} You and Karengo reach the conclusion at the same time." ],
+              "options" : [ {
+                "text" : "$cv:pc_telos{query: what happened here}",
+                "goToPage" : "3-ask-system"
+              } ]
+            }, {
+              "id" : "3-ask-system",
+              "paras" : [ "The system's response is immediate. Your mind is filled with scenes of orbital bombardment; gouts of flame scream toward the ground and erupt in conflagration. Buildings are flattened and air vents doused in liquid fire. With the certainty of a dream, you identify the ships overhead as Hegemony under the command of Captain Eugel.", "They'd arrived in-system after their attack on the other Telos base, Menri. No demands were made and, despite the potent defences circling in orbit, the settlement had been dealt blow after unyielding blow.", "It fell in hours." ],
+              "options" : [ {
+                "text" : "Go inside",
+                "goToPage" : "4-go-inside"
+              } ]
+            }, {
+              "id" : "4-go-inside",
+              "paras" : [ "Blueprints blossom in your memory. You make your way to a staircase - the cover is missing, torn away by an explosion - but you clear the passage itself of detritus and descend.", "Traps react to the Ether in your blood, disarming as you make your way toward the hanger. A single ship sits there; an Itesh destroyer." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "5-destroyer"
+              } ]
+            }, {
+              "id" : "5-destroyer",
+              "paras" : [ "You make your way through the tunnels. They are made of stone, smoothly bored through by some unknown mechanical means. Common rooms form intersections and you see the same spartan decoration as before. There are empty classrooms, a few kitchens, domiciles, prayer rooms, ", "DESTROYER DESCRIPTION GOES HERE: TODO", "The interior matches the refined polish of its smaller Vara cousin." ],
+              "options" : [ {
+                "text" : null
+              } ]
+            } ]
           },
-          "escape": {
-            "intel": {
-              "subtitle": "Leave the system",
-              "desc": "Sensors are jammed. GET TO THE JUMP POINT!"
+          "escape" : {
+            "intel" : {
+              "subtitle" : "Leave the system",
+              "desc" : "Sensors are jammed. GET TO THE JUMP POINT!"
             }
           }
         }

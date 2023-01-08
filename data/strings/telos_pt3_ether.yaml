@@ -10,7 +10,7 @@ wisp_perseanchronicles:
             desc: 'Karengo claims that there is a second Telos ruin on ==${telosPt3RuinsPlanet}==
               in ==${telosPt3RuinsSystem}==.'
           pages:
-            - id: '1-psi'
+            - id: '1-start'
               paras:
                 - 'The ships of your fleet settle into an orbit above the Telos shipyard coordinates. 
                 Iron-rich dust from the asteroid belt streaks past your shuttle in its perpetual fall toward the planet. 
@@ -19,21 +19,21 @@ wisp_perseanchronicles:
                 - '$cv:pc_telos{if we are lucky  some destroyers/itesh} he responds $cv:pc_telos{if we are very lucky  a cruiser/avalok}'
               options:
                 - text: '$cv:pc_telos{and what if we are unlucky}'
-                  goToPage: '1.1-psi'
+                  goToPage: '1-lucky'
                 - text: 'say nothing'
-                  goToPage: '2-psi'
-            - id: '1.1-psi'
+                  goToPage: '2-land'
+            - id: '1-lucky'
               paras:
                 - '$cv:pc_telos{karengo is not unlucky} It''s a statement of fact, as though he is describing the color of a sky.'
-              goToPage: '2-psi'
-            - id: '2-psi'
+              goToPage: '2-land'
+            - id: '2-land'
               paras:
                 - 'The shuttle drops onto its landing gear and, immediately, alarms and damage reports slam into your mind. Entire sections of the shipyard - which refers to itself as Yerpa - have been destroyed...'
                 - '$cv:pc_telos{the base''s Ether network is still transmitting} You and Karengo reach the conclusion at the same time.'
               options:
                 - text: '$cv:pc_telos{query: what happened here}'
-                  goToPage: '2.1-psi'
-            - id: '2.1-psi'
+                  goToPage: '3-ask-system'
+            - id: '3-ask-system'
               paras:
                 - 'The system''s response is immediate. Your mind is filled with scenes of orbital bombardment; gouts of flame scream toward the ground and erupt in conflagration. 
                 Buildings are flattened and air vents doused in liquid fire. With the certainty of a dream, you identify the ships overhead as Hegemony under the command of Captain Eugel.'
@@ -41,18 +41,20 @@ wisp_perseanchronicles:
                 - 'It fell in hours.'
               options:
                 - text: 'Go inside'
-                  goToPage: '3-psi'
-            - id: '3-psi'
+                  goToPage: '4-go-inside'
+            - id: '4-go-inside'
               paras:
                 - 'Blueprints blossom in your memory. You make your way to a staircase - the cover is missing, torn away by an explosion - but you clear the passage itself of detritus and descend.'
                 - 'Traps react to the Ether in your blood, disarming as you make your way toward the hanger. A single ship sits there; an Itesh destroyer.'
               options:
                 - text: 'Continue'
-                  goToPage: '4-psi'
-            - id: '4-psi'
+                  goToPage: '5-destroyer'
+            - id: '5-destroyer'
               paras:
+                - 'You make your way through the tunnels. They are made of stone, smoothly bored through by some unknown mechanical means. 
+                Common rooms form intersections and you see the same spartan decoration as before. There are empty classrooms, a few kitchens, domiciles, prayer rooms, '
                 - 'DESTROYER DESCRIPTION GOES HERE: TODO'
-                - 'Suddenly, '
+                - 'The interior matches the refined polish of its smaller Vara cousin.'
               options:
                 - text:
 

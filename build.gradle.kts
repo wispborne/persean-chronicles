@@ -1,27 +1,31 @@
+import com.fasterxml.jackson.core.PrettyPrinter
+import com.fasterxml.jackson.databind.json.JsonMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.Properties
+import java.util.*
+
 
 /////////////////
 // VARIABLES TO CHANGE
-    val props = Properties().apply {
-        load(project.rootProject.file("local.properties").reader())
-    }
+val props = Properties().apply {
+    load(project.rootProject.file("local.properties").reader())
+}
 
-    val starsectorDirectory = props.getProperty("gamePath") //"C:/Program Files (x86)/Fractal Softworks/Starsector"
-    val modVersion = "3.0.0"
-    val questgiverVersion = "3.1.0"
-    val jarFileName = "PerseanChronicles.jar"
+val starsectorDirectory = props.getProperty("gamePath") //"C:/Program Files (x86)/Fractal Softworks/Starsector"
+val modVersion = "3.0.0"
+val questgiverVersion = "3.1.0"
+val jarFileName = "PerseanChronicles.jar"
 
-    val modId = "wisp_perseanchronicles"
-    val modName = "Persean Chronicles"
-    val author = "Wisp"
-    val modDescription = "Adds a small collection of quests to bars around the Persean Sector."
-    val gameVersion = "0.95.1a-RC6"
-    val jars = arrayOf("jars/PerseanChronicles.jar")//, "libs/Questgiver-$questgiverVersion.jar")
-    val modPlugin = "wisp.perseanchronicles.LifecyclePlugin"
-    val isUtilityMod = false
-    val masterVersionFile = "https://raw.githubusercontent.com/davidwhitman/stories/master/$modId.version"
-    val modThreadId = "19830"
+val modId = "wisp_perseanchronicles"
+val modName = "Persean Chronicles"
+val author = "Wisp"
+val modDescription = "Adds a small collection of quests to bars around the Persean Sector."
+val gameVersion = "0.95.1a-RC6"
+val jars = arrayOf("jars/PerseanChronicles.jar")//, "libs/Questgiver-$questgiverVersion.jar")
+val modPlugin = "wisp.perseanchronicles.LifecyclePlugin"
+val isUtilityMod = false
+val masterVersionFile = "https://raw.githubusercontent.com/davidwhitman/stories/master/$modId.version"
+val modThreadId = "19830"
 /////////////////
 
 val starsectorCoreDirectory = props["gameCorePath"] ?: "${starsectorDirectory}/starsector-core"
@@ -33,6 +37,15 @@ plugins {
 }
 
 version = modVersion
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.1")
+    }
+}
 
 repositories {
     maven(url = uri("$projectDir/libs"))
@@ -53,7 +66,7 @@ dependencies {
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersionInLazyLib")
 
     compileOnly(fileTree("$starsectorModDirectory/LazyLib/jars") { include("*.jar") })
-    compileOnly(fileTree("$starsectorModDirectory/MagicLib-0.42.1/jars") { include("*.jar") })
+    compileOnly(fileTree("$starsectorModDirectory/MagicLib-0.45.2/jars") { include("*.jar") })
     compileOnly(fileTree("$starsectorModDirectory/Console Commands/jars") { include("*.jar") })
     compileOnly(fileTree("$starsectorModDirectory/zz GraphicsLib-1.6.1/jars") { include("*.jar") })
 
@@ -183,6 +196,26 @@ tasks {
                     }
                 """.trimIndent()
             )
+    }
+
+    register("transpileYamlFiles") {
+        val outputDirName = "compiled"
+
+        val yamlFiles = projectDir.resolve("data/strings")
+            .listFiles { file -> file.name.endsWith(".yaml") }
+            .toList()
+        println("Transpiling yaml files:\n${yamlFiles.joinToString(separator = "\n")}")
+
+        val yamlMapper = YAMLMapper()
+        val jsonMapper = JsonMapper().writerWithDefaultPrettyPrinter()
+        yamlFiles.map { file ->
+            yamlMapper.readTree(file)
+                .let { node ->
+                    val jsonFileOutput = file.parentFile.resolve("$outputDirName/${file.nameWithoutExtension}.hjson")
+                    jsonFileOutput.parentFile.mkdirs()
+                    jsonMapper.writeValue(jsonFileOutput, node)
+                }
+        }
     }
 }
 

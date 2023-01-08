@@ -79,8 +79,8 @@ object Telos2Battle {
                 this.addShipVariant(variantOrHullId = "wisp_perseanchronicles_vara_Standard", count = 1).first().apply {
                     this.isFlagship = true
                 }
-                this.addShipVariant(variantOrHullId = "wisp_perseanchronicles_vara_Standard", count = 3)
-                // todo add some Telos ships.
+                this.addShipVariant(variantOrHullId = "wisp_perseanchronicles_vara_Standard", count = 4)
+                // todo add some aggressive officers.
                 this.fleetData.sort()
                 this.fleetData.isOnlySyncMemberLists = true
                 this.fleetData.setSyncNeeded()
