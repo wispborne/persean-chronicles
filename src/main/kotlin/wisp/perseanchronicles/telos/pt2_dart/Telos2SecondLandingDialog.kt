@@ -1,7 +1,6 @@
 package wisp.perseanchronicles.telos.pt2_dart
 
 import com.fs.starfarer.api.characters.FullName
-import org.json.JSONArray
 import org.json.JSONObject
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
@@ -13,7 +12,6 @@ import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.getPageById
 import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.findFirst
-import wisp.questgiver.wispLib.map
 
 class Telos2SecondLandingDialog(
     stageJson: JSONObject =
@@ -32,10 +30,26 @@ class Telos2SecondLandingDialog(
         pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
             "1" to {
-                TelosCommon.playMusic()
+                TelosCommon.playThemeMusic()
             },
             "6-finished-battle" to {
-                TelosCommon.playMusic()
+                TelosCommon.playThemeMusic()
+            },
+            "6-ask" to {
+                // Resume music
+                TelosCommon.playThemeMusic()
+            },
+            "7-vara" to {
+                // Resume music
+                TelosCommon.playThemeMusic()
+            },
+            "5-noPsi" to {
+                // Resume music
+                TelosCommon.playThemeMusic()
+            },
+            "4-noPsi" to {
+                // Resume music
+                TelosCommon.playThemeMusic()
             },
             "7-noPsi" to {
 
@@ -95,7 +109,7 @@ class Telos2SecondLandingDialog(
 
                     "leave" -> option.copy(
                         onOptionSelected = {
-                            TelosCommon.stopMusic()
+                            TelosCommon.stopAllCustomMusic()
                             navigator.close(doNotOfferAgain = true)
                         }
                     )

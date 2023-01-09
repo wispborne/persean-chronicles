@@ -4,7 +4,6 @@ import com.fs.starfarer.api.impl.campaign.ids.Terrain
 import com.fs.starfarer.api.impl.campaign.terrain.PulsarBeamTerrainPlugin
 import com.fs.starfarer.api.impl.campaign.terrain.StarCoronaTerrainPlugin
 import com.fs.starfarer.api.impl.combat.BattleCreationPluginImpl
-import com.fs.starfarer.api.mission.MissionDefinitionAPI
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.game
 import java.awt.Color
@@ -12,7 +11,9 @@ import java.util.*
 
 class Telos2BattleCreationPlugin() : BattleCreationPluginImpl() {
     override fun createMap(random: Random?) {
-        loader.initMap(-width / 2f, width / 2f, -height / 2f, height / 2f)
+        // Vanilla sets map to half of width and height, but let's make this a small map so it doesn't last forever.
+        val sizeDivider = 4
+        loader.initMap(-width / sizeDivider, width / sizeDivider, -height / sizeDivider, height / sizeDivider)
 
         val playerFleet = context.playerFleet
         var nebulaTex: String? = null
@@ -141,7 +142,7 @@ class Telos2BattleCreationPlugin() : BattleCreationPluginImpl() {
 //        if (playerFleet.containingLocation === Global.getSector().hyperspace) {
 //            loader.setHyperspaceMode(true)
 //        } else {
-            loader.setHyperspaceMode(false)
+        loader.setHyperspaceMode(false)
 //        }
 
         //addMultiplePlanets();

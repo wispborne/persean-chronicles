@@ -8,11 +8,13 @@ Persean Chronicles is a mod for the game Starsector that adds a small collection
 
 Requires LazyLib 2.5b or later.
 
-Written in [Kotlin](https://kotlinlang.org/docs/reference/faq.html). Relies on [Questgiver](https://github.com/davidwhitman/questgiver) to simplify quest code (packaged with the mod).
+Written in [Kotlin](https://kotlinlang.org/docs/reference/faq.html). Relies on [Questgiver](https://github.com/davidwhitman/questgiver) to simplify
+quest code (packaged with the mod).
 
 ## Blacklisting systems from being used
 
-This mod uses modSettings.json. See usage here: <https://starsector.fandom.com/wiki/Category:Modding#Cross-mod_integration_via_the_modSettings.json_file_and_data.2Fconfig.2FmodFiles_folder>
+This mod uses modSettings.json. See usage
+here: <https://starsector.fandom.com/wiki/Category:Modding#Cross-mod_integration_via_the_modSettings.json_file_and_data.2Fconfig.2FmodFiles_folder>
 
 ## Credits
 
@@ -24,18 +26,15 @@ Nia for Telos effects and sprites (master of effects).
 
 SleepyFish for Telos sprites (transparency expert).
 
-Market condition code inspired by Tartiflette's [Unknown Skies](https://fractalsoftworks.com/forum/index.php?topic=12041.0).
+Haplogynae for Telos music.
 
-MesoTroniK for music.
-
-Vayra for Dragons art.
+MesoTroniK for Depths music.
 
 Inventor Raccoon for Secrets of the Frontier, which was a light in the darkness of 0.95a questbuilding.
 
-Selkie for Telos ship spriting
+Market condition code in Depths inspired by Tartiflette's [Unknown Skies](https://fractalsoftworks.com/forum/index.php?topic=12041.0).
 
-SleepyFish for Telos ship spriting assistance.
-
+Vayra for Dragons art.
 
 ## License
 

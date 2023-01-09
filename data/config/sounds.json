@@ -7,9 +7,16 @@
         "volume": 1
       }
     ],
-    "wisp_perseanchronicles_telosExplorationMusic": [
+    "wisp_perseanchronicles_telosThemeMusic": [
       {
         "file": "Telos.ogg",
+        "source": "sounds/music",
+        "volume": 1
+      }
+    ],
+    "wisp_perseanchronicles_telosDoomedMusic": [
+      {
+        "file": "TelosDoomed.ogg",
         "source": "sounds/music",
         "volume": 1
       }

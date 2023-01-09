@@ -21,7 +21,7 @@ class Telos2FirstLandingDialog(
         stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
             "1" to {
-                TelosCommon.playMusic()
+                TelosCommon.playThemeMusic()
             },
             "1.6" to {
                 dialog.visualPanel.showImagePortion(

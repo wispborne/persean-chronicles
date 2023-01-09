@@ -30,10 +30,15 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
     private val quotesItr = quotes.iterator()
     private var secsSinceLastQuote: Float? = null
     private var saidLastQuote = false
+    private var startedThemeMusic = false
 
     override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
         if (game.combatEngine.isPaused)
             return
+
+        if (!startedThemeMusic) {
+            TelosCommon.playThemeMusic()
+        }
 
         val enemyFleetManager = game.combatEngine.getFleetManager(FleetSide.ENEMY)
         val hasDestroyedEnoughOfEnemy = enemyFleetManager.destroyedCopy.size > 5
@@ -44,19 +49,22 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
         secsSinceWave1WasDefeated = secsSinceWave1WasDefeated?.plus(amount)
 
         // Spawn wave 2 five seconds after player defeats initial fleet.
-        if (secsSinceWave1WasDefeated != null
-            || (secsSinceWave2Arrived == null && (game.combatEngine.isEnemyInFullRetreat || hasDestroyedEnoughOfEnemy))
+        if (secsSinceWave1WasDefeated == null && (game.combatEngine.isEnemyInFullRetreat || hasDestroyedEnoughOfEnemy)
         ) {
             secsSinceWave1WasDefeated = 0f
             game.combatEngine.combatNotOverFor = 10f // seconds. Prevents player from claiming victory after they think they've won.
+        }
 
-            if (secsSinceWave2Arrived == null && secsSinceWave1WasDefeated!! > secsBeforeWave2Arrives) {
-                wave2.forEach { reinforcement ->
-                    enemyFleetManager.addToReserves(reinforcement)
-                }
-
-                secsSinceWave2Arrived = 0f
+        if (secsSinceWave2Arrived == null
+            && secsSinceWave1WasDefeated != null
+            && secsSinceWave1WasDefeated!! > secsBeforeWave2Arrives
+        ) {
+            wave2.forEach { reinforcement ->
+                enemyFleetManager.addToReserves(reinforcement)
             }
+
+            secsSinceWave2Arrived = 0f
+            TelosCommon.playDoomedMusic(fadeOut = 0, fadeIn = 0)
         }
 
         // Eugel starts spouting quotes after he arrives
@@ -128,8 +136,5 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
         game.sector.playerFleet.swapFleets(
             otherFleet = originalPlayerFleet
         )
-
-        // Resume music
-        TelosCommon.playMusic()
     }
 }
