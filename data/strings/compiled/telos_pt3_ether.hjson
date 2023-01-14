@@ -27,7 +27,7 @@
               "goToPage" : "2-land"
             }, {
               "id" : "2-land",
-              "paras" : [ "The shuttle drops onto its landing gear and, immediately, alarms and damage reports slam into your mind. Entire sections of the shipyard - which refers to itself as Yerpa - have been destroyed...", "$cv:pc_telos{the base's Ether network is still transmitting} You and Karengo reach the conclusion at the same time." ],
+              "paras" : [ "The shuttle drops onto its landing gear and, immediately, alarms and damage reports slam into your mind. Entire sections of the shipyard have been destroyed...", "$cv:pc_telos{the base's Ether network is still transmitting} You and Karengo reach the conclusion at the same time." ],
               "options" : [ {
                 "text" : "$cv:pc_telos{query: what happened here}",
                 "goToPage" : "3-ask-system"

@@ -1,4 +1,28 @@
 wisp_perseanchronicles:
   telos:
     intel_lore:
-      
+      intel:
+        title: 'Telos Ether'
+        subtitle: 'Query the Ether-Net'
+        desc: 'Telos ships have integrated sub-sentient AI that are always ready to answer the queries of their crew.'
+      pages:
+        - id: 'home'
+          paras: '$cv:pc_telos{welcome  how may i be of assistance}'
+          options:
+            - text: 'Ask about the history of the Telos'
+              goToPage: 'telos-history'
+        - id: 'telos-history'
+          paras:
+            - '$cv:pc_telos{the telos were formed in c+85 by a brilliant woman/tri-trachyon scientist named krypta}'
+            - '$cv:pc_telos{her research lab created the nanite solution/ether before defecting from the tri-tachyon over their use of ai warships}'
+            - '$cv:pc_telos{the 163 telos formed a base on yerpa/a new system to live quietly and focus on the exploration/connections of self/others through ether}'
+          options:
+            - text: "Continue"
+              goToPage: 'telos-history-2'
+        - id: 'text-history-2'
+          paras:
+            - '$cv:pc_telos{as war broke out the decision was formed to expand to menri/secondary planet/system}'
+            - '$cv:pc_telos{a small number/30 telos settled/created it in c+91}'
+            - '$cv:pc_telos{at the same time  the settlement on yerpa was moved underground and the telos fleet was built}'
+          onPageShown:
+            goToPage: 'home'

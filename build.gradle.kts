@@ -13,7 +13,6 @@ val props = Properties().apply {
 
 val starsectorDirectory = props.getProperty("gamePath") //"C:/Program Files (x86)/Fractal Softworks/Starsector"
 val modVersion = "3.0.0"
-val questgiverVersion = "3.1.0"
 val jarFileName = "PerseanChronicles.jar"
 
 val modId = "wisp_perseanchronicles"
@@ -29,7 +28,7 @@ val modThreadId = "19830"
 /////////////////
 
 val starsectorCoreDirectory = props["gameCorePath"] ?: "${starsectorDirectory}/starsector-core"
-val starsectorModDirectory = "${starsectorDirectory}/mods"
+val starsectorModDirectory = props["modsPath"] ?: "${starsectorDirectory}/mods"
 
 plugins {
     kotlin("jvm") version "1.5.31"
@@ -53,12 +52,13 @@ repositories {
 }
 
 dependencies {
+    println("Mod folder: $starsectorModDirectory")
     val kotlinVersionInLazyLib = "1.6.21"
 
     // Questgiver lib
     implementation(fileTree("libs")
     {
-        include("Questgiver-${questgiverVersion}.jar")
+        include("Questgiver-4.0.0.jar")
     })
 
     // Get kotlin sdk from LazyLib during runtime, only use it here during compile time
@@ -66,9 +66,9 @@ dependencies {
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersionInLazyLib")
 
     compileOnly(fileTree("$starsectorModDirectory/LazyLib/jars") { include("*.jar") })
-    compileOnly(fileTree("$starsectorModDirectory/MagicLib-0.45.2/jars") { include("*.jar") })
+    compileOnly(fileTree("$starsectorModDirectory/MagicLib/jars") { include("*.jar") })
     compileOnly(fileTree("$starsectorModDirectory/Console Commands/jars") { include("*.jar") })
-    compileOnly(fileTree("$starsectorModDirectory/zz GraphicsLib-1.6.1/jars") { include("*.jar") })
+    compileOnly(fileTree("$starsectorModDirectory/GraphicsLib/jars") { include("*.jar") })
 
     // This grabs local files from the /libs folder, see `repositories` block.
     compileOnly("starfarer:starfarer-api:1.0.0")
