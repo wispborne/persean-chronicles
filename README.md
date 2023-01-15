@@ -4,12 +4,17 @@ By Wispborne (Wisp#0302 on Discord)
 
 ## Description
 
-Persean Chronicles is a mod for the game Starsector that adds a small collection of one-off text-only quests to bars around the Persean Sector.
+Persean Chronicles is a mod for the game Starsector that adds a collection of one-off text-only quests to bars around the Persean Sector.
 
 Requires LazyLib 2.5b or later.
 
-Written in [Kotlin](https://kotlinlang.org/docs/reference/faq.html). Relies on [Questgiver](https://github.com/davidwhitman/questgiver) to simplify
-quest code (packaged with the mod).
+- Riley: A woman books a ride with your fleet to visit family.
+- Dragons: A expedition takes you up close and personal with some wildlife.
+- Depths: Following 'Dragons', an expedition takes you deep underwater.
+- Telos: Following 'Depths', you investigate a lost mini-faction.
+    - Nexerelin's random systems (Corvus Mode) is not supported for 'Telos'.
+- Nirvana: Some scientists need you to perform a cargo delivery.
+- Laborer: A down-on-his-luck worker wants off-world.
 
 ## Blacklisting systems from being used
 
@@ -52,7 +57,7 @@ SPOILERS!
 
 .
 
-This will reveal how many quests there are and their names.
+This will reveal quest start conditions.
 
 Do not read ahead if you would prefer to be surprised.
 
@@ -76,5 +81,6 @@ Do not read ahead if you would prefer to be surprised.
 - Dragons: Starts from a planet with pop 4 or greater.
 - Depths: Starts from a planet with pop 5 or greater and 30 days after successfully completing Dragons.
 - Telos: Starts from TODO and 30 days after successfully completing Depths.
+  - Nexerelin's Random Mode (Corvus Mode) is not supported.
 - Nirvana: Starts from an Independent planet with pop 4 or greater.
 - Laborer: Starts from a planet with pop 3 or greater and the Mining industry.

@@ -104,8 +104,8 @@ wisp_perseanchronicles:
               smoothly."
               options:
                 - text: 'Head for the bridge'
-                  goToPage: 6-noPsi
-            - id: 6-noPsi
+                  goToPage: '6-noPsi'
+            - id: '6-noPsi'
               paras:
                 - 'The usual complement of screens, chairs, and controls are absent from
                   the bridge. A lounge area fills the space, full of pillows and an addictive-looking
@@ -118,8 +118,8 @@ wisp_perseanchronicles:
               see how she flies.”"
               options:
                 - text: 'Return to the fleet'
-                  goToPage: 7-noPsi
-            - id: 7-noPsi
+                  goToPage: '7-noPsi'
+            - id: '7-noPsi'
               paras:
                 - 'The controls, at least, are familiar, and you coax the ==Vara==
                   into the air, ordering the ship to open the hanger doors.'
@@ -129,14 +129,14 @@ wisp_perseanchronicles:
                 - 'As soon as you rendezvous, techs swarm the ship. Karengo pulls you aside.'
               options:
                 - text: 'Continue'
-                  goToPage: 7.1-noPsi
-            - id: 7.1-noPsi
+                  goToPage: '7.1-noPsi'
+            - id: '7.1-noPsi'
               paras:
-                - "“==There’s another planet the Telos settled==,” he says, leaning in
-              conspiratorially, “that I got out of the ship computer; their ==secret
-              shipyard==.” He pulls your TriPad over and taps a finger on a point in
+                - "“==There’s another planet the Telos settled== before this one,” he says, leaning in
+              conspiratorially, “that I got out of the ship computer; they had a ==secret
+              shipyard==. Could have more ships. Maybe even cryosleepers.” He pulls your TriPad over and taps a finger on a point in
               hyperspace before letting go. “You go about your business,” he waves his hands dismissively,
               “but we should really go take a look there."
               options:
-                - id: leave
+                - id: 'leave'
                   text: 'Close'

@@ -9,7 +9,7 @@
           "goToPlanet" : {
             "intel" : {
               "subtitle" : "Go to ${telosPt3RuinsSystem}",
-              "desc" : "Karengo claims that there is a second Telos ruin on ==${telosPt3RuinsPlanet}== in ==${telosPt3RuinsSystem}==."
+              "desc" : "Investigate the Telos's first settlement on ==${telosPt3RuinsPlanet}== in ==${telosPt3RuinsSystem}==. It may still hold ships or even sleepers."
             },
             "pages" : [ {
               "id" : "1-start",

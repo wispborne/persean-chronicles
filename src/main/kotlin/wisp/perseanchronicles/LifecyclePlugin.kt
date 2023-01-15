@@ -53,12 +53,15 @@ class LifecyclePlugin : BaseModPlugin() {
             )
             .getJSONObject(MOD_ID)
 
+        // Too lazy to add a compile-time dependency on Nexerelin.
+        val isNexCorvusModeEnabled = game.sector.memory.getBoolean("\$nex_corvusMode")
+
         Questgiver.loadQuests(
             questFacilitators = listOfNotNull(
                 if (settings.tryGet("isLaborerQuestEnabled") { true }) LaborerQuest else null,
             ),
             creators = listOfNotNull(
-                if (settings.tryGet("isTelosQuestEnabled") { true })
+                if (!isNexCorvusModeEnabled && settings.tryGet("isTelosQuestEnabled") { true })
                     Telos1BarEventWiring()
                 else null,
                 if (settings.tryGet("isDragonsQuestEnabled") { true }) DragonsBarEventWiring() else null,
