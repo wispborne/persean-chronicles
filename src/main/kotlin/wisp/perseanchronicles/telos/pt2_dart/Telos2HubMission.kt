@@ -25,7 +25,7 @@ import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
-import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle
+import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2BattleCoordinator
 import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2PirateFleetInteractionDialogPluginImpl
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.spriteName
@@ -49,7 +49,7 @@ class Telos2HubMission : QGHubMission() {
         val choices = Choices(PersistentMapData<String, Any?>(key = "telosPt2Choices").withDefault { null })
         const val badFleetDefeatTrigger = "wisp_perseanchronicles_telosPt2_badfleetdefeated"
 
-        fun startBattle() = Telos2Battle.startBattle()
+        fun startBattle() = Telos2BattleCoordinator.startBattle()
 
         val captainEugel: PersonAPI = game.memory["capEugel"] as? PersonAPI? ?: kotlin.run {
             MagicCampaign.createCaptain(

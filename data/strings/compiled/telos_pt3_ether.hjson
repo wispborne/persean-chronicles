@@ -41,14 +41,16 @@
               } ]
             }, {
               "id" : "4-go-inside",
-              "paras" : [ "Blueprints blossom in your memory. You make your way to a staircase - the cover is missing, torn away by an explosion - but you clear the passage itself of detritus and descend.", "Traps react to the Ether in your blood, disarming as you make your way toward the hanger. A single ship sits there; an Itesh destroyer." ],
+              "paras" : [ "Blueprints blossom in your memory. You make your way to a staircase - the cover is missing, torn away by an explosion - but you clear the passage itself of detritus and descend.", "Traps react to the Ether in your blood, disarming as you enter a large hallway. Doorways between deeply fissured decorative facades reveal tunnels, smoothly bored through by some unknown mechanical means.", "They lead to classrooms, laboratories, domiciles, kitchens, storage rooms, places of communion; everything needed for a community of spiritual scientists to live." ],
               "options" : [ {
-                "text" : "Continue",
+                "text" : "Head straight for the shipyard",
                 "goToPage" : "5-destroyer"
+              }, {
+                "text" : ""
               } ]
             }, {
               "id" : "5-destroyer",
-              "paras" : [ "You make your way through the tunnels. They are made of stone, smoothly bored through by some unknown mechanical means. Common rooms form intersections and you see the same spartan decoration as before. There are empty classrooms, a few kitchens, domiciles, prayer rooms, ", "DESTROYER DESCRIPTION GOES HERE: TODO", "The interior matches the refined polish of its smaller Vara cousin." ],
+              "paras" : [ "DESTROYER DESCRIPTION GOES HERE: TODO", "The interior matches the refined polish of its smaller Vara cousin." ],
               "options" : [ {
                 "text" : null
               } ]

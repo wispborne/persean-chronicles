@@ -12,17 +12,15 @@ import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
 import com.fs.starfarer.api.mission.FleetSide
 import data.scripts.util.MagicCampaign
-import org.lazywizard.lazylib.ext.campaign.addShip
 import wisp.perseanchronicles.common.BattleSide
 import wisp.perseanchronicles.game
-import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.wispLib.addShipVariant
 import wisp.questgiver.wispLib.findFirst
 import wisp.questgiver.wispLib.swapFleets
 import java.util.*
 
-object Telos2Battle {
+object Telos2BattleCoordinator {
     class CampaignPlugin : BaseCampaignPlugin() {
         override fun pickBattleCreationPlugin(opponent: SectorEntityToken?): PluginPick<com.fs.starfarer.api.campaign.BattleCreationPlugin> =
             PluginPick(
@@ -66,8 +64,9 @@ object Telos2Battle {
             }
         })
         game.combatEngine.getFleetManager(FleetSide.ENEMY).isCanForceShipsToEngageWhenBattleClearlyLost = true
+        game.combatEngine.getFleetManager(FleetSide.PLAYER).isCanForceShipsToEngageWhenBattleClearlyLost = true
 
-        // Call in reinforcements when player starts to win.
+        // Script to call in reinforcements when player starts to win.
         game.combatEngine.addPlugin(Telos2BattleScript(playerFleetHolder))
     }
 

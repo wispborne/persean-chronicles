@@ -21,7 +21,7 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
     private var secsSinceWave2Arrived: Float? = null
     private var secsSinceWave3Arrived: Float? = null
 
-    private val hegFleet = Telos2Battle.createHegemonyFleetReinforcements()
+    private val hegFleet = Telos2BattleCoordinator.createHegemonyFleetReinforcements()
     private val captEugeneShip = hegFleet.flagship
     private val wave2 = hegFleet.fleetData.membersListCopy.filter { it.isFlagship }
     private val wave3 = hegFleet.fleetData.membersListCopy.filter { !it.isFlagship }
@@ -36,8 +36,10 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
         if (game.combatEngine.isPaused)
             return
 
-        if (!startedThemeMusic) {
+        if (secsSinceWave1WasDefeated == null) {
             TelosCommon.playThemeMusic()
+        } else {
+            TelosCommon.playDoomedMusic(fadeOut = 3, fadeIn = 3)
         }
 
         val enemyFleetManager = game.combatEngine.getFleetManager(FleetSide.ENEMY)
@@ -64,7 +66,6 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
             }
 
             secsSinceWave2Arrived = 0f
-            TelosCommon.playDoomedMusic(fadeOut = 0, fadeIn = 0)
         }
 
         // Eugel starts spouting quotes after he arrives

@@ -28,26 +28,39 @@ object TelosCommon {
 
     const val DART_NAME = "Vara"
 
+    /**
+     * Idempotent.
+     */
     fun playThemeMusic() {
+        val musicId = "wisp_perseanchronicles_telosThemeMusic"
+
         kotlin.runCatching {
-            game.soundPlayer.playCustomMusic(
-                /* fadeOutIfAny = */ 0,
-                /* fadeIn = */ 0,
-                /* musicSetId = */ "wisp_perseanchronicles_telosThemeMusic",
-                /* looping = */ true
-            )
+            if (game.soundPlayer.currentMusicId != musicId) {
+                game.soundPlayer.playCustomMusic(
+                    /* fadeOutIfAny = */ 0,
+                    /* fadeIn = */ 0,
+                    /* musicSetId = */ musicId,
+                    /* looping = */ true
+                )
+            }
         }
             .onFailure { game.logger.e(it) }
     }
 
+    /**
+     * Idempotent.
+     */
     fun playDoomedMusic(fadeOut: Int, fadeIn: Int) {
+        val musicId = "wisp_perseanchronicles_telosDoomedMusic"
         kotlin.runCatching {
-            game.soundPlayer.playCustomMusic(
-                /* fadeOutIfAny = */ fadeOut,
-                /* fadeIn = */ fadeIn,
-                /* musicSetId = */ "wisp_perseanchronicles_telosDoomedMusic",
-                /* looping = */ true
-            )
+            if (game.soundPlayer.currentMusicId != musicId) {
+                game.soundPlayer.playCustomMusic(
+                    /* fadeOutIfAny = */ fadeOut,
+                    /* fadeIn = */ fadeIn,
+                    /* musicSetId = */ musicId,
+                    /* looping = */ true
+                )
+            }
         }
             .onFailure { game.logger.e(it) }
     }

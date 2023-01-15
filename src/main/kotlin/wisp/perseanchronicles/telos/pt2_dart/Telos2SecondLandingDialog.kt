@@ -5,7 +5,7 @@ import org.json.JSONObject
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
-import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2Battle
+import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2BattleCoordinator
 import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
@@ -97,7 +97,7 @@ class Telos2SecondLandingDialog(
                 when (option.id) {
                     "startBattle" -> option.copy(
                         onOptionSelected = {
-                            Telos2Battle.startBattle()
+                            Telos2BattleCoordinator.startBattle()
                             mission.setCurrentStage(Telos2HubMission.Stage.PostBattle, this.dialog, null)
                             if (Telos2HubMission.choices.injectedSelf == true) {
                                 navigator.goToPage("6-finished-battle")

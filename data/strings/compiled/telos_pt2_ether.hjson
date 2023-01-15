@@ -106,29 +106,40 @@
               "paras" : [ "You turn your mind toward Karengo just as he sends a thought." ],
               "freeText1" : "$f:perseanchronicles_telos{how do i turn off this ship sense/feeling  i can feel you sitting on that couch and i’d rather not}|$f:perseanchronicles_telos{how do i turn off this ship sense/feeling  i can feel you sitting on the couch not that i mind but it’s distracting}",
               "freeText2" : "The ship shows you how to limit the integration, but you can’t help but wonder what it would have felt like to be aboard at the height of the Telos, surrounded by the shared sensations and thoughts of a full crew.",
+              "onPageShown" : {
+                "goToPage" : "10-query-or-leave"
+              }
+            }, {
+              "id" : "10-query-or-leave",
               "options" : [ {
                 "text" : "Query the system for more information on the Telos",
-                "goToPage" : "10-query"
+                "goToPage" : "10-query-history"
+              }, {
+                "text" : "Return to your fleet",
+                "goToPage" : "11-return-orbit"
               } ]
             }, {
-              "id" : "10-query",
-              "paras" : [ "$cv:pc_telos{computer  what happened to the telos}", "A timeline flashes through the surface of your thoughts as images laden with context.", "$cv:pc_telos{a scientist/krypta split from the tri-tachyon corporation in c+85 with 162 others  they infused themselves with ether and settled a remote system/yerpa}", "$cv:pc_telos{the ai war raged  in c+91 30 telos landed on a secondary system/menri/this planet as a backup base}", "$cv:pc_telos{a knight of ludd/eugel brought a hegemony attack fleet to menri/here in c+105  the base was destroyed}", "", "$cv:pc_telos{primary base/yerpa  status unknown}" ],
+              "id" : "10-query-history",
+              "paras" : [ "The timeline flashes through the surface of your thoughts as images laden with context.", "$cv:pc_telos{the telos were formed in c+85 by a scientist named krypta}", "$cv:pc_telos{her research lab created the nanite solution/ether before defecting from the tri-tachyon over their use of ai warships}", "$cv:pc_telos{the 163 telos formed a base on a remote system/planet yerpa to live quietly and focus on the exploration/connections of self/others through ether}" ],
               "options" : [ {
                 "text" : "Continue",
-                "goToPage" : "11-"
+                "goToPage" : "10-query-history-2"
               } ]
             }, {
-              "id" : "11-",
-              "paras" : [ null ]
+              "id" : "10-query-history-2",
+              "paras" : [ "$cv:pc_telos{as the ai war broke out the decision was formed to expand to menri/secondary planet/system}", "$cv:pc_telos{a small number/30 telos settled/created it in c+91}", "$cv:pc_telos{at the same time  the settlement on yerpa was moved underground and the tri-tachyon ships remade for combat/survival}", "$cv:pc_telos{a knight of ludd/eugel brought a hegemony attack fleet to menri in c+105  the base was destroyed}", "", "$cv:pc_telos{primary base/yerpa   status unknown}" ],
+              "onPageShown" : {
+                "goToPage" : "10-query-or-leave"
+              }
             }, {
-              "id" : "7-psi",
-              "paras" : [ "Still enveloped by the couch, you dive into the ship’s systems and raise it into the air. The handling is strange but intuitive, and you revolve in place to face the hanger doors as they grind open. The tunnel to the surface is blocked in many places, but the onboard weapons easily bore a way through.", "$f:perseanchronicles_telos{the ship shows another planet that the telos settled on  we should go there next  there is/was? a hidden shipyard there}" ],
+              "id" : "11-return-orbit",
+              "paras" : [ "Still enveloped by the couch, you dive into the ship’s systems and raise it into the air. The handling is intuitive, like an extension of your own body, and you revolve in place to face the hanger doors as they grind open. The tunnel to the surface is blocked in many places, but the onboard weapons easily bore a way through.", "$f:perseanchronicles_telos{the ship shows another planet that the telos settled on  we should go there next}' - $f:perseanchronicles_telos{there is/was a hidden shipyard there and perhaps survivors}" ],
               "options" : [ {
                 "text" : "Continue",
-                "goToPage" : "8-psi"
+                "goToPage" : "12-leave"
               } ]
             }, {
-              "id" : "8-psi",
+              "id" : "12-leave",
               "paras" : [ "You receive a hyperspace coordinate and add it to your intel suite." ],
               "options" : [ {
                 "id" : "leave",
