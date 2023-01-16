@@ -1,6 +1,5 @@
 package wisp.perseanchronicles.telos.boats
 
-import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.combat.*
 import com.fs.starfarer.api.util.IntervalUtil
 import org.lazywizard.lazylib.ext.plus
@@ -29,10 +28,6 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
 
     private val interval = IntervalUtil(0.03f, 0.04f)
     private var alphaMult = 0f
-
-    init {
-        Global.getCombatEngine()?.addPlugin(CustomRender())
-    }
 
     // TODO: optimization
     override fun advance(amount: Float, engine: CombatEngineAPI, weapon: WeaponAPI) {
@@ -69,7 +64,10 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
         val bottomLayerAlphaScale = .40f
         val endSizeScale = 1.55f
         val densityInverted = 0.03f // Lower is more dense
-        val trailMomentumScale = -.3f // How much the trail keeps ship momentum
+        val trailMomentumScale = (when (ship.hullSize) {
+//            ShipAPI.HullSize.FRIGATE -> -0.15f
+            else -> -0.3f
+        }) // How much the trail keeps ship momentum
 
         if (interval.minInterval != densityInverted) {
             interval.setInterval(densityInverted, densityInverted * 0.2f)
@@ -106,7 +104,7 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
 
         for (location in emitters) {
             // Negative swirl under
-            CustomRender.addNebula(
+            CustomRenderer.addNebula(
                 location = location,
                 anchorLocation = ship.location,
                 velocity = vel,
@@ -117,12 +115,12 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
                 outFraction = 0.5f,
                 color = negativeColor,
                 layer = CombatEngineLayers.UNDER_SHIPS_LAYER,
-                type = CustomRender.NebulaType.SWIRLY,
+                type = CustomRenderer.NebulaType.SWIRLY,
                 negative = true
             )
 
             // Normal under
-            CustomRender.addNebula(
+            CustomRenderer.addNebula(
                 location = location,
                 anchorLocation = ship.location,
                 velocity = vel,
@@ -133,12 +131,12 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
                 outFraction = 0.5f,
                 color = nebulaColor.modify(alpha = (nebulaColor.alpha * bottomLayerAlphaScale).roundToInt()),
                 layer = CombatEngineLayers.UNDER_SHIPS_LAYER,
-                type = CustomRender.NebulaType.NORMAL,
+                type = CustomRenderer.NebulaType.NORMAL,
                 negative = false
             )
 
             // Swirl under
-            CustomRender.addNebula(
+            CustomRenderer.addNebula(
                 location = location,
                 anchorLocation = ship.location,
                 velocity = vel,
@@ -149,12 +147,12 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
                 outFraction = 0.5f,
                 color = swirlyNebulaColor.modify(alpha = (swirlyNebulaColor.alpha * bottomLayerAlphaScale).roundToInt()),
                 layer = CombatEngineLayers.UNDER_SHIPS_LAYER,
-                type = CustomRender.NebulaType.SWIRLY,
+                type = CustomRenderer.NebulaType.SWIRLY,
                 negative = false
             )
 
             // Normal on top
-            CustomRender.addNebula(
+            CustomRenderer.addNebula(
                 location = location,
                 anchorLocation = ship.location,
                 velocity = vel,
@@ -165,12 +163,12 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
                 outFraction = 0.5f,
                 color = nebulaColor.modify(alpha = (nebulaColor.alpha * topLayerAlphaScale).roundToInt()),
                 layer = CombatEngineLayers.ABOVE_SHIPS_AND_MISSILES_LAYER,
-                type = CustomRender.NebulaType.NORMAL,
+                type = CustomRenderer.NebulaType.NORMAL,
                 negative = false
             )
 
             // Swirl on top
-            CustomRender.addNebula(
+            CustomRenderer.addNebula(
                 location = location,
                 anchorLocation = ship.location,
                 velocity = vel,
@@ -181,7 +179,7 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
                 outFraction = 0.5f,
                 color = swirlyNebulaColor.modify(alpha = (nebulaColor.alpha * topLayerAlphaScale).roundToInt()),
                 layer = CombatEngineLayers.ABOVE_SHIPS_AND_MISSILES_LAYER,
-                type = CustomRender.NebulaType.SWIRLY,
+                type = CustomRenderer.NebulaType.SWIRLY,
                 negative = false
             )
         }

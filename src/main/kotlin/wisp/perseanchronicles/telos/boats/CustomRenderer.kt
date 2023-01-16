@@ -15,8 +15,10 @@ import java.util.*
 import kotlin.math.floor
 import kotlin.math.sqrt
 
-
-class CustomRender : BaseEveryFrameCombatPlugin() {
+/**
+ * Makes fancy nebula effects used for Telos engines. Created by Nia, modified by me.
+ */
+class CustomRenderer : BaseEveryFrameCombatPlugin() {
 
     enum class NebulaType {
         NORMAL, SWIRLY, SPLINTER, DUST
@@ -173,7 +175,7 @@ class CustomRender : BaseEveryFrameCombatPlugin() {
     }
 
     internal class CustomRenderer
-        (private val parentPlugin: CustomRender) : BaseCombatLayeredRenderingPlugin() {
+        (private val parentPlugin: wisp.perseanchronicles.telos.boats.CustomRenderer) : BaseCombatLayeredRenderingPlugin() {
         override fun render(layer: CombatEngineLayers, view: ViewportAPI) {
             val engine = Global.getCombatEngine() ?: return
             parentPlugin.render(layer, view)

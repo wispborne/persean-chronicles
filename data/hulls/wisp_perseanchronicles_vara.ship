@@ -12,9 +12,29 @@
   "shieldRadius": 77,
   "viewOffset": 0,
   "builtInWeapons": {
+    "INNER_GLOW": "wisp_perseanchronicles_vara_innerglow",
+    "OUTER_GLOW": "wisp_perseanchronicles_vara_outerglow",
     "TELOS_ENGINES": "wisp_perseanchronicles_telosengines"
   },
   "weaponSlots": [
+    {
+      "id": "OUTER_GLOW",
+      "size": "LARGE",
+      "type": "DECORATIVE",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-17, -0]
+    },
+    {
+      "id": "INNER_GLOW",
+      "size": "LARGE",
+      "type": "DECORATIVE",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-17, -0]
+    },
     {
       "id": "TELOS_ENGINES",
       "size": "LARGE",

@@ -42,14 +42,14 @@ object TelosCommon {
             .onFailure { game.logger.e(it) }
     }
 
-    fun playDoomedMusic(fadeOutSecs: Int, fadeInSecs: Int) {
+    fun playDoomedMusic(fadeOutSecs: Int, fadeInSecs: Int, loop: Boolean = false) {
         val musicSetId = "wisp_perseanchronicles_telosDoomedMusic"
         kotlin.runCatching {
             game.soundPlayer.playCustomMusic(
                 /* fadeOutIfAny = */ fadeOutSecs,
                 /* fadeIn = */ fadeInSecs,
                 /* musicSetId = */ musicSetId,
-                /* looping = */ true
+                /* looping = */ loop
             )
         }
             .onFailure { game.logger.e(it) }

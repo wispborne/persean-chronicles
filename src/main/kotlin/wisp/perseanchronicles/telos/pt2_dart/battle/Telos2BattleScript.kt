@@ -2,7 +2,6 @@ package wisp.perseanchronicles.telos.pt2_dart.battle
 
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
-import com.fs.starfarer.api.combat.CombatEngineAPI
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.mission.FleetSide
 import wisp.perseanchronicles.common.BattleSide
@@ -16,6 +15,7 @@ import wisp.questgiver.wispLib.swapFleets
 class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : BaseEveryFrameCombatPlugin() {
     private val telos2HubMission = game.intelManager.findFirst<Telos2HubMission>()
 
+    private var totalTimeElapsed = 0f
     private var secsSinceWave1WasDefeated: Float? = null
     private val secsBeforeWave2Arrives = 4
     private val secsBeforeWave3Arrives = 15
@@ -31,17 +31,21 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
     private val quotesItr = quotes.iterator()
     private var secsSinceLastQuote: Float? = null
     private var saidLastQuote = false
+    private var startedThemeMusic = false
     private var startedDoomedMusic = false
-
-    override fun init(engine: CombatEngineAPI?) {
-        super.init(engine)
-        game.soundPlayer.setSuspendDefaultMusicPlayback(true)
-        TelosCommon.playThemeMusic(0, 0)
-    }
 
     override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
         if (game.combatEngine.isPaused)
             return
+
+        totalTimeElapsed += amount
+
+        // Wait a moment after start because otherwise there's a race condition starting music.
+        if (!startedThemeMusic && totalTimeElapsed > 1f) {
+            game.soundPlayer.setSuspendDefaultMusicPlayback(true)
+            TelosCommon.playThemeMusic(0, 0)
+            startedThemeMusic = true
+        }
 
         if (secsSinceWave1WasDefeated != null && !startedDoomedMusic) {
             TelosCommon.playDoomedMusic(fadeOutSecs = 3, fadeInSecs = 3)
