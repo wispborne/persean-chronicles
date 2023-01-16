@@ -12,11 +12,11 @@
   "shieldRadius": 77,
   "viewOffset": 0,
   "builtInWeapons": {
-    "PHASE_ENGINES": "wisp_perseanchronicles_phaseengines"
+    "TELOS_ENGINES": "wisp_perseanchronicles_telosengines"
   },
   "weaponSlots": [
     {
-      "id": "PHASE_ENGINES",
+      "id": "TELOS_ENGINES",
       "size": "LARGE",
       "type": "DECORATIVE",
       "mount": "HARDPOINT",

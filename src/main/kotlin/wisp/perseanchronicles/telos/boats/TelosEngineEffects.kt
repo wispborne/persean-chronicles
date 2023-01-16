@@ -16,9 +16,8 @@ import kotlin.random.Random
 /**
  * Originally `tahlan_PhaseEngines`, thank you Nia.
  */
-class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
+class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
     companion object {
-        val interval = IntervalUtil(0.03f, 0.04f)
         val baseNegativeColor = Color(24, 254, 109)
         val baseNebulaColor = Color.decode("#1972DB")
         val baseSwirlyNebulaColor = Color.decode("#3498db")
@@ -28,6 +27,7 @@ class TelosPhaseEngines : EveryFrameWeaponEffectPlugin {
     var baseNebulaColorOverride: Color? = null
     var baseSwirlyNebulaColorOverride: Color? = null
 
+    private val interval = IntervalUtil(0.03f, 0.04f)
     private var alphaMult = 0f
 
     init {

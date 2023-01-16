@@ -1,7 +1,7 @@
 {
 	"animationType": "NONE",
 	"barrelMode": "ALTERNATING",
-	"everyFrameEffect":"wisp.perseanchronicles.telos.boats.TelosPhaseEngines",
+	"everyFrameEffect":"wisp.perseanchronicles.telos.boats.TelosEngineEffects",
 	"hardpointAngleOffsets": [
 		0
 	],
@@ -10,7 +10,7 @@
 		0
 	],
 	"hardpointSprite": "",
-	"id": "wisp_perseanchronicles_phaseengines",
+	"id": "wisp_perseanchronicles_telosengines",
 	"noImpactSounds": false,
 	"noNonShieldImpactSounds": false,
 	"noShieldImpactSounds": false,

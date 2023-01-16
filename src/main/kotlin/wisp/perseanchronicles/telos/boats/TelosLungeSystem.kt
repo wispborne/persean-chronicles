@@ -49,7 +49,7 @@ class TelosLungeSystem : BaseShipSystemScript() {
             ship.allWeapons
                 .orEmpty()
                 .mapNotNull { it.effectPlugin }
-                .filterIsInstance<TelosPhaseEngines>()
+                .filterIsInstance<TelosEngineEffects>()
                 .forEach { it.baseNebulaColorOverride = Color.decode("#F065FF") }
 
             stats.maxSpeed.modifyFlat(id, speedBoost)
@@ -77,7 +77,7 @@ class TelosLungeSystem : BaseShipSystemScript() {
             ship.allWeapons
                 .orEmpty()
                 .mapNotNull { it.effectPlugin }
-                .filterIsInstance<TelosPhaseEngines>()
+                .filterIsInstance<TelosEngineEffects>()
                 .forEach { it.baseNebulaColorOverride = Color.decode("#9648ff") }
 
             TelosPhase.apply(stats, id, state, effectLevel)
@@ -90,7 +90,7 @@ class TelosLungeSystem : BaseShipSystemScript() {
             ship.allWeapons
                 .orEmpty()
                 .mapNotNull { it.effectPlugin }
-                .filterIsInstance<TelosPhaseEngines>()
+                .filterIsInstance<TelosEngineEffects>()
                 .forEach { it.baseNebulaColorOverride = null }
         }
     }

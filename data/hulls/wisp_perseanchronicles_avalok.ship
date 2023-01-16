@@ -14,7 +14,7 @@
   "builtInWeapons": {
     "INNER_GLOW": "wisp_perseanchronicles_avalok_innerglow",
     "OUTER_GLOW": "wisp_perseanchronicles_avalok_outerglow",
-    "PHASE_ENGINES": "wisp_perseanchronicles_phaseengines"
+    "TELOS_ENGINES": "wisp_perseanchronicles_telosengines"
   },
   "weaponSlots": [
     {
@@ -126,7 +126,7 @@
       "locations": [-72, -0]
     },
     {
-      "id": "PHASE_ENGINES",
+      "id": "TELOS_ENGINES",
       "size": "LARGE",
       "type": "DECORATIVE",
       "mount": "HARDPOINT",

@@ -28,39 +28,29 @@ object TelosCommon {
 
     const val DART_NAME = "Vara"
 
-    /**
-     * Idempotent.
-     */
-    fun playThemeMusic() {
-        val musicId = "wisp_perseanchronicles_telosThemeMusic"
+    fun playThemeMusic(fadeOutSeconds: Int = 3, fadeInSeconds: Int = 3) {
+        val musicSetId = "wisp_perseanchronicles_telosThemeMusic"
 
         kotlin.runCatching {
-            if (game.soundPlayer.currentMusicId != musicId) {
-                game.soundPlayer.playCustomMusic(
-                    /* fadeOutIfAny = */ 0,
-                    /* fadeIn = */ 0,
-                    /* musicSetId = */ musicId,
-                    /* looping = */ true
-                )
-            }
+            game.soundPlayer.playCustomMusic(
+                /* fadeOutIfAny = */ fadeOutSeconds,
+                /* fadeIn = */ fadeInSeconds,
+                /* musicSetId = */ musicSetId,
+                /* looping = */ true
+            )
         }
             .onFailure { game.logger.e(it) }
     }
 
-    /**
-     * Idempotent.
-     */
-    fun playDoomedMusic(fadeOut: Int, fadeIn: Int) {
-        val musicId = "wisp_perseanchronicles_telosDoomedMusic"
+    fun playDoomedMusic(fadeOutSecs: Int, fadeInSecs: Int) {
+        val musicSetId = "wisp_perseanchronicles_telosDoomedMusic"
         kotlin.runCatching {
-            if (game.soundPlayer.currentMusicId != musicId) {
-                game.soundPlayer.playCustomMusic(
-                    /* fadeOutIfAny = */ fadeOut,
-                    /* fadeIn = */ fadeIn,
-                    /* musicSetId = */ musicId,
-                    /* looping = */ true
-                )
-            }
+            game.soundPlayer.playCustomMusic(
+                /* fadeOutIfAny = */ fadeOutSecs,
+                /* fadeIn = */ fadeInSecs,
+                /* musicSetId = */ musicSetId,
+                /* looping = */ true
+            )
         }
             .onFailure { game.logger.e(it) }
     }

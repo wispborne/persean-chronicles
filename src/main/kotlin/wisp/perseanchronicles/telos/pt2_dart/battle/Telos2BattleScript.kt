@@ -2,6 +2,7 @@ package wisp.perseanchronicles.telos.pt2_dart.battle
 
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
+import com.fs.starfarer.api.combat.CombatEngineAPI
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.mission.FleetSide
 import wisp.perseanchronicles.common.BattleSide
@@ -30,16 +31,21 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
     private val quotesItr = quotes.iterator()
     private var secsSinceLastQuote: Float? = null
     private var saidLastQuote = false
-    private var startedThemeMusic = false
+    private var startedDoomedMusic = false
+
+    override fun init(engine: CombatEngineAPI?) {
+        super.init(engine)
+        game.soundPlayer.setSuspendDefaultMusicPlayback(true)
+        TelosCommon.playThemeMusic(0, 0)
+    }
 
     override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
         if (game.combatEngine.isPaused)
             return
 
-        if (secsSinceWave1WasDefeated == null) {
-            TelosCommon.playThemeMusic()
-        } else {
-            TelosCommon.playDoomedMusic(fadeOut = 3, fadeIn = 3)
+        if (secsSinceWave1WasDefeated != null && !startedDoomedMusic) {
+            TelosCommon.playDoomedMusic(fadeOutSecs = 3, fadeInSecs = 3)
+            startedDoomedMusic = true
         }
 
         val enemyFleetManager = game.combatEngine.getFleetManager(FleetSide.ENEMY)

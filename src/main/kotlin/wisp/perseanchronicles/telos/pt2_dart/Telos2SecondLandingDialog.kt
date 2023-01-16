@@ -109,6 +109,7 @@ class Telos2SecondLandingDialog(
 
                     "leave" -> option.copy(
                         onOptionSelected = {
+                            game.soundPlayer.setSuspendDefaultMusicPlayback(false)
                             TelosCommon.stopAllCustomMusic()
                             navigator.close(doNotOfferAgain = true)
                         }
