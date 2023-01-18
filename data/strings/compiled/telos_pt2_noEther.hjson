@@ -65,7 +65,7 @@
               } ]
             }, {
               "id" : "5.2-noPsi",
-              "paras" : [ "Curious about luxury accommodations in a frigate loaded for combat, you query the computer on the hull’s history.", "“While the ==Tri-Tachyon Vara== line was designed to be comfortable, intelligent transport for highly discerning clients,” a fluid, indeterminate voice explains, “the Telos overhaul exchanged beta-level AI integration for increased combat potential, filling the automation gap with direct Ether integration.”", "“Limited manual control is available for unnetworked guests,” it adds smoothly." ],
+              "paras" : [ "Curious about luxury accommodations in a frigate loaded for combat, you query the computer on the hull’s history.", "“While this Tri-Tachyon line was originally designed to be comfortable, intelligent transport for highly discerning clients,” a fluid, indeterminate voice explains, “the Telos overhaul exchanged beta-level AI control for increased combat potential, filling the automation gap with direct Ether integration.”", "“Limited manual control is available for unnetworked guests,” it adds smoothly." ],
               "options" : [ {
                 "text" : "Head for the bridge",
                 "goToPage" : "6-noPsi"

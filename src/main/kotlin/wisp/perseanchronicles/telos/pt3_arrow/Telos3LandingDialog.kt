@@ -22,12 +22,21 @@ class Telos3LandingDialog(
         optionConfigurator = { options ->
             options.map { option ->
                 when (option.id) {
+                    "take-ether" -> option.copy(
+                        showIf = { Telos3HubMission.choices.tookEtherVials == null && Telos3HubMission.choices.destroyedEtherVials == null },
+                        onOptionSelected = { Telos3HubMission.choices.tookEtherVials = true })
+
+                    "destroy-ether" -> option.copy(
+                        showIf = { Telos3HubMission.choices.tookEtherVials == null && Telos3HubMission.choices.destroyedEtherVials == null },
+                        onOptionSelected = { Telos3HubMission.choices.destroyedEtherVials = true })
+
                     "leave" -> {
                         option.copy(onOptionSelected = {
                             mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystem, null, null)
                             this.navigator.close(doNotOfferAgain = true)
                         })
                     }
+
                     else -> option
                 }
             }

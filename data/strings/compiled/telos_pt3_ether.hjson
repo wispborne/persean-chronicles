@@ -11,7 +11,7 @@
               "subtitle" : "Go to ${telosPt3RuinsSystem}",
               "desc" : "Investigate the Telos's first settlement on ==${telosPt3RuinsPlanet}== in ==${telosPt3RuinsSystem}==. It may still hold ships or even sleepers."
             },
-            "pages" : [ {
+            "pages" : [ null, {
               "id" : "1-start",
               "paras" : [ "The ships of your fleet settle into an orbit above the Telos shipyard coordinates. Iron-rich dust from the asteroid belt streaks past your shuttle in its perpetual fall toward the planet. A few engineers had voiced concerns about the dust, but in the end, most decided that it was inert, likely the leftovers of battles hundreds of cycles old.", "$cv:pc_telos{what will we find} you send to Karengo", "$cv:pc_telos{if we are lucky  some destroyers/itesh} he responds $cv:pc_telos{if we are very lucky  a cruiser/avalok}" ],
               "options" : [ {
@@ -41,15 +41,67 @@
               } ]
             }, {
               "id" : "4-go-inside",
-              "paras" : [ "Blueprints blossom in your memory. You make your way to a staircase - the cover is missing, torn away by an explosion - but you clear the passage itself of detritus and descend.", "Traps react to the Ether in your blood, disarming as you enter a large hallway. Doorways between deeply fissured decorative facades reveal tunnels, smoothly bored through by some unknown mechanical means.", "They lead to classrooms, laboratories, domiciles, kitchens, storage rooms, places of communion; everything needed for a community of spiritual scientists to live." ],
+              "paras" : [ "Blueprints blossom in your memory. You make your way to a staircase - the cover is missing, torn away by an explosion - but you clear the passage itself of detritus and descend.", "Traps react to the Ether in your blood, disarming as you enter a large hallway. Doorways between deeply fissured decorative facades reveal tunnels, smoothly bored through by some unknown mechanical means.", "They lead to laboratories, domiciles, kitchens, storage rooms, places of communion, a medical facility; everything needed for a large group of spiritual scientists to live." ],
+              "onPageShown" : {
+                "goToPage" : "4-choices"
+              }
+            }, {
+              "id" : "4-choices",
               "options" : [ {
-                "text" : "Head straight for the shipyard",
-                "goToPage" : "5-destroyer"
+                "text" : "Investigate the laboratories",
+                "goToPage" : "4-labs"
               }, {
-                "text" : ""
+                "text" : "Search for survivors",
+                "goToPage" : "4-survivors"
+              }, {
+                "text" : "Head straight for the shipyard",
+                "goToPage" : "5-shipyard"
               } ]
             }, {
-              "id" : "5-destroyer",
+              "id" : "4-labs",
+              "paras" : [ "There are two laboratories in the southern arm of the tunnel system. The instruments inside of one are smashed and broken as a result of sabotage, but you recognize enough to tell that this is where the unique drive system and uncommonly powerful shielding was developed. It is little wonder that they chose to destroy this lab rather than let it fall into the hands of their enemies.", "The other lab has the same result of seismic shock as everything else, but otherwise appears intact. Centrifuges and different types of fabricators dot the room while snakelike TT-arms hang from the ceiling. A row of vials full of Ether glisten neatly." ],
+              "options" : [ {
+                "id" : "take-ether",
+                "text" : "Take the vials of Ether",
+                "goToPage" : "4-labs-take-ether"
+              }, {
+                "id" : "destroy-ether",
+                "text" : "Destroy the vials of Ether",
+                "goToPage" : "4-labs-destroy-ether"
+              }, {
+                "id" : "ignore-ether",
+                "text" : "Leave the lab",
+                "goToPage" : "4-choices"
+              } ]
+            }, {
+              "id" : "4-labs-take-ether",
+              "paras" : [ "You slip the swirling gray tubes into a pocket. It's always better to have something and not need it than the other way around." ],
+              "options" : [ {
+                "text" : "Leave the lab",
+                "goToPage" : "4-choices"
+              } ]
+            }, {
+              "id" : "4-labs-destroy-ether",
+              "paras" : [ "You push the rack of tubes off of the polished stone table. They slip from the holder and tumble in midair before shattering. The thick, grey liquid spreads slowly into a pool on the floor.", "$cv:pc_telos{you just destroyed the remaining ether} Karengo's anger flares in your head. $cv:pc_telos{i could have sold that}" ],
+              "options" : [ {
+                "text" : "$cv:pc_telos{the sector could not handle this technology  nanites are too dangerous}",
+                "goToPage" : "4-labs-destroy-ether-leave"
+              }, {
+                "text" : "$cv:pc_telos{then you would deal in the craft of demons}",
+                "goToPage" : "4-labs-destroy-ether-leave"
+              }, {
+                "text" : "Say nothing",
+                "goToPage" : "4-labs-destroy-ether-leave"
+              } ]
+            }, {
+              "id" : "4-labs-destroy-ether-leave",
+              "paras" : [ "The anger emanating from Karengo cuts off like a bulkhead closing.", "$cv:pc_telos{it is fine. there is still much here to see}" ],
+              "options" : [ {
+                "text" : "Leave the lab",
+                "goToPage" : "4-choices"
+              } ]
+            }, {
+              "id" : "5-shipyard",
               "paras" : [ "DESTROYER DESCRIPTION GOES HERE: TODO", "The interior matches the refined polish of its smaller Vara cousin." ],
               "options" : [ {
                 "text" : null

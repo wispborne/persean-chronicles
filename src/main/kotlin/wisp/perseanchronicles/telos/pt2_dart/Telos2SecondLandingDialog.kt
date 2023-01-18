@@ -35,22 +35,6 @@ class Telos2SecondLandingDialog(
             "6-finished-battle" to {
                 TelosCommon.playThemeMusic()
             },
-            "6-ask" to {
-                // Resume music
-                TelosCommon.playThemeMusic()
-            },
-            "7-vara" to {
-                // Resume music
-                TelosCommon.playThemeMusic()
-            },
-            "5-noPsi" to {
-                // Resume music
-                TelosCommon.playThemeMusic()
-            },
-            "4-noPsi" to {
-                // Resume music
-                TelosCommon.playThemeMusic()
-            },
             "7-noPsi" to {
 
             },
