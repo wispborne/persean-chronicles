@@ -73,6 +73,7 @@ class Telos3HubMission : QGHubMission() {
             { Telos1HubMission.state.karengoPlanet?.starSystem?.star?.name }
         text.globalReplacementGetters["telosPt3RuinsSystem"] = { state.ruinsPlanet?.starSystem?.name }
         text.globalReplacementGetters["telosPt3RuinsPlanet"] = { state.ruinsPlanet?.name }
+        text.globalReplacementGetters["cyclesSinceTelosDestroyed"] = { game.sector.clock.cycle - 105 }
     }
 
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {

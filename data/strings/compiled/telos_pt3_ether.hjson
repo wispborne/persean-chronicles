@@ -90,6 +90,9 @@
                 "text" : "$cv:pc_telos{then you would deal in the craft of demons}",
                 "goToPage" : "4-labs-destroy-ether-leave"
               }, {
+                "text" : "$cv:pc_telos{oops}",
+                "goToPage" : "4-labs-destroy-ether-leave"
+              }, {
                 "text" : "Say nothing",
                 "goToPage" : "4-labs-destroy-ether-leave"
               } ]
@@ -99,6 +102,30 @@
               "options" : [ {
                 "text" : "Leave the lab",
                 "goToPage" : "4-choices"
+              } ]
+            }, {
+              "id" : "4-survivors",
+              "paras" : [ "$cv:pc_telos{computer} you query the base's system. $cv:pc_telos{are they any surviving Telos here}", "", "$cv:pc_telos{unknown}" ],
+              "options" : [ {
+                "text" : "$cv:pc_telos{what do you mean  unknown}",
+                "goToPage" : "4-survivors-cryo"
+              } ]
+            }, {
+              "id" : "4-survivors-cryo",
+              "paras" : [ "You see scenes of exploding spaceships for a moment, then the computer continues.", "$cv:pc_telos{before leaving  the adults put their children into cryosleep units  however the ether-net connection was disrupted during the bombardment}", "$cv:pc_telos{the sleeper room has been out of communication for ${cyclesSinceTelosDestroyed} cycles}" ],
+              "options" : [ {
+                "text" : "Go investigate the cryosleep room",
+                "goToPage" : "4-survivors-investigate"
+              }, {
+                "text" : "Not right now",
+                "goToPage" : "4-choices"
+              } ]
+            }, {
+              "id" : "4-survivors-investigate",
+              "paras" : [ "" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "otherPageId"
               } ]
             }, {
               "id" : "5-shipyard",
