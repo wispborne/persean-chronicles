@@ -69,6 +69,8 @@ wisp_perseanchronicles:
                   goToPage: '4-labs'
                 - text: 'Search for survivors'
                   goToPage: '4-survivors'
+                - text: 'Look through the common areas'
+                  goToPage: '4-common-areas'
                 - text: 'Head straight for the shipyard'
                   goToPage: '5-shipyard'
 
@@ -122,7 +124,7 @@ wisp_perseanchronicles:
 
             - id: '4-survivors'
               paras:
-                - '$cv:pc_telos{computer} you query the base''s system. $cv:pc_telos{are they any surviving Telos here}'
+                - '$cv:pc_telos{computer} you query the base''s system. $cv:pc_telos{are they any surviving telos here}'
                 - ''
                 - '$cv:pc_telos{unknown}'
               options:
@@ -135,12 +137,33 @@ wisp_perseanchronicles:
                 - '$cv:pc_telos{before leaving  the adults put their children into cryosleep units  however the ether-net connection was disrupted during the bombardment}'
                 - '$cv:pc_telos{the sleeper room has been out of communication for ${cyclesSinceTelosDestroyed} cycles}'
               options:
-                - text: 'Go investigate the cryosleep room'
+                - text: 'Investigate the cryosleep room'
                   goToPage: '4-survivors-investigate'
-                - text: 'Not right now'
+                - text: 'Consider other options'
                   goToPage: '4-choices'
 
             - id: '4-survivors-investigate'
+              paras:
+                - 'The sleeper room interior is a blank spot in your mental map, but it doesn''t take long to work your way through the tunnel system
+                 to the heavy analog door. Karengo adds his weight to yours before the latch slides and the door swings forward.'
+                - 'The smell hits you like an e-burn and you reel, retching.'
+              options:
+                - text: 'Continue'
+                  goToPage: '4-survivors-investigate-2'
+
+            - id: '4-survivors-investigate-2'
+              paras:
+                - 'After fastening a breather firmly over your nose and mouth, you enter the cramped chamber. 
+                A dozen cryosleep units stand against the walls, bathed in arterial red by the glow of their error readouts.'
+                - 'Karengo waits outside while you visit each unit in turn. Those that still have power catalogue the breakdown of the body inside; 
+                most are simply dark and dead. The floor is crusty with leakage.'
+                - 'There is nothing to do here.'
+              options:
+                - text: 'Leave'
+                  goToPage: '4-choices'
+
+            # domiciles, kitchens, storage rooms, places of communion
+            - id: '4-common-areas'
               paras:
                 - ''
               options:

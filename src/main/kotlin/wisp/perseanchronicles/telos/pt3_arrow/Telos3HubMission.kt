@@ -102,7 +102,7 @@ class Telos3HubMission : QGHubMission() {
         val allRingFoci = game.sector.starSystems.asSequence()
             .flatMap { it.allEntities }
             .filterIsInstance<RingBandAPI>()
-            .mapNotNull { it to it.focus }
+            .map { it to it.focus }
             .distinct()
             .toList()
 
