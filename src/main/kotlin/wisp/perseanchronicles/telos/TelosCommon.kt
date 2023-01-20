@@ -2,6 +2,7 @@ package wisp.perseanchronicles.telos
 
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
+import wisp.questgiver.wispLib.ColorVariables
 import wisp.questgiver.wispLib.getMergedJSONForMod
 import java.awt.Color
 
@@ -19,8 +20,13 @@ object TelosCommon {
             masterMod = MOD_ID
         )
 
-    val telepathyColor: Color
-        get() = game.sector.getFaction(FACTION_TELOS).color
+    fun onGameLoad() {
+        ColorVariables.colors["pc_telos"] = game.sector.getFaction(FACTION_TELOS).color
+        ColorVariables.colors["pc_karengo"] = Color.decode("#359FFF")
+        ColorVariables.colors["pc_computer"] = Color.decode("#87C6FF")
+        ColorVariables.colors["pc_krypta"] = Color.decode("#0F8BFB")
+    }
+
     val FACTION_TELOS
         get() = "perseanchronicles_telos"
 

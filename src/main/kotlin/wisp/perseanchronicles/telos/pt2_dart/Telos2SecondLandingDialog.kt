@@ -32,48 +32,38 @@ class Telos2SecondLandingDialog(
             "1" to {
                 TelosCommon.playThemeMusic()
             },
-            "6-finished-battle" to {
+            "7-vara" to {
+                // Resume music
                 TelosCommon.playThemeMusic()
             },
-            "7-noPsi" to {
-
-            },
-            "7.1-noPsi" to {
-                mission.setCurrentStage(Telos2HubMission.Stage.Completed, dialog, null)
-
-                Telos3HubMission().apply {
-                    if (create(null, false))
-                        accept(dialog, null)
-                }
+            "5-noPsi" to {
+                // Resume music
+                TelosCommon.playThemeMusic()
             },
             // Manually show text based upon conditions.
             "9-check-karengo" to {
                 val page = getPageById(stageJson.query("/pages"), "9-check-karengo")
 
                 if (page != null) {
-                    // (if not female)
-                    // how do i turn off this ship sense/feeling  i can feel you sitting on that couch and i’d rather not
-                    // (if female)
-                    // how do i turn off this ship sense/feeling  i can feel you sitting on the couch not that i mind but it’s distracting
-                    val (l, r) = page.optString("freeText1").split("|")
-
-                    if (game.sector.playerPerson.gender != FullName.Gender.FEMALE) {
-                        para { l }
+                    if (game.sector.playerPerson.gender == FullName.Gender.FEMALE) {
+                        // how do i turn off this ship sense/feeling  i can feel you sitting on the couch not that i mind but it’s distracting
+                        para { page.optString("shipSense1-female") }
                     } else {
-                        para { r }
+                        // how do i turn off this ship sense/feeling  i can feel you sitting on that couch and i’d rather not
+                        para { page.optString("shipSense1-notFemale") }
                     }
 
                     // The ship shows you how to limit the integration, but you can’t help but wonder what it would have felt like to be aboard at the height of the Telos.
-                    para { page.optString("freeText2") }
+                    para { page.optString("shipSense2") }
                 }
             },
-            "8-psi" to {
-                mission.setCurrentStage(Telos2HubMission.Stage.Completed, dialog, null)
-
-                Telos3HubMission().apply {
-                    if (create(null, false))
-                        accept(dialog, null)
-                }
+            // Without Ether
+            "7.1-noPsi" to {
+                completeMission(mission)
+            },
+            // With Ether
+            "12-leave" to {
+                completeMission(mission)
             },
         ),
         optionConfigurator = { options ->
@@ -105,4 +95,13 @@ class Telos2SecondLandingDialog(
             // TODO check out FronSecWSEidolonOpen.java
         }
     )
-)
+) {
+    private fun completeMission(mission: Telos2HubMission) {
+        mission.setCurrentStage(Telos2HubMission.Stage.Completed, dialog, null)
+
+        Telos3HubMission().apply {
+            if (create(null, false))
+                accept(dialog, null)
+        }
+    }
+}

@@ -37,7 +37,7 @@ class LifecyclePlugin : BaseModPlugin() {
     override fun onGameLoad(newGame: Boolean) {
         super.onGameLoad(newGame)
         Questgiver.onGameLoad()
-        ColorVariables.colors["pc_telos"] = TelosCommon.telepathyColor
+        TelosCommon.onGameLoad()
 
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator(Questgiver.game, CampaignPlugin())

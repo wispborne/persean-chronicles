@@ -54,17 +54,17 @@ wisp_perseanchronicles:
                 - 'He turns away, towards the hanger door and the lone ship in the bay.'
               options:
                 - text: 'Go investigate the ship'
-                  goToPage: 5-noPsi
+                  goToPage: '5-noPsi'
                 - text: 'Ask about the Hegemony Commander'
-                  goToPage: 4-noPsi
+                  goToPage: '4-noPsi'
             - id: 4-noPsi
               paras:
                 - "“That Eugel guy? No idea. Seemed to take the nanites kinda personally,
               though.” He starts walking to the hanger."
               options:
                 - text: 'Investigate the ship'
-                  goToPage: 5-noPsi
-            - id: 5-noPsi
+                  goToPage: '5-noPsi'
+            - id: '5-noPsi'
               paras:
                 - 'Your mind searches for a word to describe the frigate sitting in the
               hanger and finally settles on one: svelte.'

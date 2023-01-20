@@ -93,7 +93,7 @@
               } ]
             }, {
               "id" : "8",
-              "paras" : [ "Consciousness returns unwillingly. Your head reverberates with unfamiliar awareness; just as you know, without looking, where your bridge crew is while in flight, you are inexplicably aware that you’re in the chapel. The power station is offline, but the backup battery supplying power to the hanger tunnel door is - " ],
+              "paras" : [ "Consciousness returns unwillingly. Your head reverberates with unfamiliar awareness; just as you know, without looking, where your bridge crew is while in flight, you are inexplicably aware that you’re in the chapel. The power station is offline, but the backup battery supplying power to the hanger tunnel door is- " ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "8.1"

@@ -1,6 +1,7 @@
 package wisp.perseanchronicles.telos.pt3_arrow
 
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
+import com.fs.starfarer.api.impl.campaign.ids.Drops
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
@@ -9,6 +10,7 @@ import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
+import wisp.questgiver.v2.json.getPageById
 import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.addCommodityGainText
 import wisp.questgiver.wispLib.findFirst
@@ -24,36 +26,46 @@ class Telos3LandingDialog(
     people = { listOfNotNull(DragonsHubMission.karengo) },
     pages = PagesFromJson(
         stageJson.query("/pages"),
-        onPageShownHandlersByPageId = mapOf(),
+        onPageShownHandlersByPageId = mapOf(
+            "4-labs-2" to {
+                if (Telos3HubMission.choices.etherVialChoice == null)
+                    para { getPageById(stageJson.query("/pages"), "4-labs-2")?.optString("vials") ?: "" }
+            },
+            "4-storage" to {
+                if (Telos3HubMission.choices.retrievedSupplies != true) {
+                    val random = Misc.getRandom(game.sector.memoryWithoutUpdate.getLong(MemFlags.SALVAGE_SEED), 100)
+                    dialog.interactionTarget.addDropValue(Drops.SUPPLY, (game.sector.playerFleet.totalSupplyCostPerDay * 3000).roundToInt())
+                    val supplies = SalvageEntity.generateSalvage(
+                        random,
+                        1f,
+                        1f,
+                        1f,
+                        1f,
+                        dialog.interactionTarget.dropValue,
+                        dialog.interactionTarget.dropRandom
+                    ).supplies
+                    dialog.interactionTarget.dropValue.clear()
+
+                    // todo add any that don't fit onboard to orbit
+                    dialog.textPanel.addCommodityGainText(commodityId = Commodities.SUPPLIES, quantity = supplies.roundToInt())
+                    Telos3HubMission.choices.retrievedSupplies = true
+                }
+            }
+        ),
         optionConfigurator = { options ->
             options.map { option ->
                 when (option.id) {
                     // Let player collect supplies only once.
                     "search-storage" -> option.copy(
-                        showIf = { Telos3HubMission.choices.retrievedSupplies != true },
-                        onOptionSelected = {
-                            val random = Misc.getRandom(game.sector.memoryWithoutUpdate.getLong(MemFlags.SALVAGE_SEED), 100)
-                            val salvage =
-                                SalvageEntity.generateSalvage(
-                                    random,
-                                    1f,
-                                    1f,
-                                    1f,
-                                    1f,
-                                    dialog.interactionTarget.dropValue,
-                                    dialog.interactionTarget.dropRandom
-                                )
-                            dialog.textPanel.addCommodityGainText(commodityId = Commodities.SUPPLIES, quantity = salvage.supplies.roundToInt())
-                            Telos3HubMission.choices.retrievedSupplies = true
-                        })
+                        showIf = { Telos3HubMission.choices.retrievedSupplies != true })
 
                     "take-ether" -> option.copy(
-                        showIf = { Telos3HubMission.choices.tookEtherVials == null && Telos3HubMission.choices.destroyedEtherVials == null },
-                        onOptionSelected = { Telos3HubMission.choices.tookEtherVials = true })
+                        showIf = { Telos3HubMission.choices.etherVialChoice == null },
+                        onOptionSelected = { Telos3HubMission.choices.etherVialChoice = Telos3HubMission.EtherVialsChoice.Took })
 
                     "destroy-ether" -> option.copy(
-                        showIf = { Telos3HubMission.choices.tookEtherVials == null && Telos3HubMission.choices.destroyedEtherVials == null },
-                        onOptionSelected = { Telos3HubMission.choices.destroyedEtherVials = true })
+                        showIf = { Telos3HubMission.choices.etherVialChoice == null },
+                        onOptionSelected = { Telos3HubMission.choices.etherVialChoice = Telos3HubMission.EtherVialsChoice.Destroyed })
 
                     "leave" -> {
                         option.copy(onOptionSelected = {

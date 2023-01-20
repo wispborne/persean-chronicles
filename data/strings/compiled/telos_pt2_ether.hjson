@@ -8,7 +8,7 @@
               "subtitle" : "Return to the planet",
               "desc" : "Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== to investigate the underground sections."
             },
-            "pages" : [ null, {
+            "pages" : [ {
               "id" : 1,
               "paras" : [ "$cv:pc_telos{you can feel it too can’t you}", "you send to Karengo, and he sends the mental map of the base by way of assent.", "$f:perseanchronicles_telos{uncertainly: and a ship deep below}", "The sensation of the ship grows as the shuttle speeds toward the base, landing legs extending until it settles again into the soil, just meters from the entrance to the Telos base.", "$f:perseanchronicles_telos{it is [ready/thirsty] to fly let us descend to it}." ],
               "options" : [ {
@@ -104,8 +104,9 @@
             }, {
               "id" : "9-check-karengo",
               "paras" : [ "You turn your mind toward Karengo just as he sends a thought." ],
-              "freeText1" : "$f:perseanchronicles_telos{how do i turn off this ship sense/feeling  i can feel you sitting on that couch and i’d rather not}|$f:perseanchronicles_telos{how do i turn off this ship sense/feeling  i can feel you sitting on the couch not that i mind but it’s distracting}",
-              "freeText2" : "The ship shows you how to limit the integration, but you can’t help but wonder what it would have felt like to be aboard at the height of the Telos, surrounded by the shared sensations and thoughts of a full crew.",
+              "shipSense1-female" : "$f:perseanchronicles_telos{how do i turn off this ship sense/feeling  i can feel you sitting on the couch not that i mind but it’s distracting}",
+              "shipSense1-notFemale" : "$f:perseanchronicles_telos{how do i turn off this ship sense/feeling \\ i can feel you sitting on that couch and i’d rather not}",
+              "shipSense2" : "The ship shows you how to limit the integration, but you can’t help but wonder what it would have felt like to be aboard at the height of the Telos, surrounded by the shared sensations and thoughts of a full crew.",
               "onPageShown" : {
                 "goToPage" : "10-query-or-leave"
               }
