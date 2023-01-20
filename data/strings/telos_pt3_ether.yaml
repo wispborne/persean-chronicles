@@ -71,6 +71,9 @@ wisp_perseanchronicles:
                   goToPage: '4-survivors'
                 - text: 'Look through the common areas'
                   goToPage: '4-common-areas'
+                - id: 'search-storage'
+                  text: 'Search the storage areas'
+                  goToPage: '4-storage'
                 - text: 'Head straight for the shipyard'
                   goToPage: '5-shipyard'
 
@@ -139,7 +142,7 @@ wisp_perseanchronicles:
               options:
                 - text: 'Investigate the cryosleep room'
                   goToPage: '4-survivors-investigate'
-                - text: 'Consider other options'
+                - text: 'Return'
                   goToPage: '4-choices'
 
             - id: '4-survivors-investigate'
@@ -159,16 +162,48 @@ wisp_perseanchronicles:
                 most are simply dark and dead. The floor is crusty with leakage.'
                 - 'There is nothing to do here.'
               options:
-                - text: 'Leave'
+                - text: 'Leave the chamber'
                   goToPage: '4-choices'
 
-            # domiciles, kitchens, storage rooms, places of communion
+            # Common areas, Krypta
             - id: '4-common-areas'
               paras:
-                - ''
+                - 'The base was left tidy. Sheets are folded at the foot of beds, clothes are put away, and food is stored, 
+                although the cooling units have long since ceased operation. Decoration and adornment are not fully absent, but they are minimal, 
+                and physical comforts are similarly restrained. Nowhere do you find anything approaching the plush cushioning in the Vara-class frigate.'
+                - 'The largest communal space is a great circular chamber with a low, domed ceiling. 
+                Dust from long, jagged fractures coats the low benches and glossy stone floor. Crumbling illustrations of verdant Core worlds line the 
+                walls, some fallen.'
               options:
                 - text: 'Continue'
-                  goToPage: 'otherPageId'
+                  goToPage: '4-common-areas-2'
+
+            - id: '4-common-areas-2'
+              paras:
+                - 'An unbidden collective memory brings the cavern to life like a daydream.'
+                - 'The Telos wander in in small groups. Their faces are alive with contentment and you understand, sensing the web that connects them 
+                all. There are no barriers between them; no misunderstandings, no jealousies, no power dynamics. You wonder how much of that is from the Ether.'
+                - Time skips forward.
+              options:
+                - text: 'Continue'
+                  goToPage: '4-common-areas-3'
+
+            - id: '4-common-areas-3'
+              paras:
+                - 'The people are nervous now. Something everpresent is missing, and they do not know why.'
+                - 'A woman at the far end of the chamber stands and you know her as Krypta, creator of the Ether.'
+                - '$cv:pc_telos{telos  as you know the hyperwave emitter at menri is silent   i have confirmed our fears}'
+                - '$cv:pc_telos{the hegemony have destroyed menri   they are on their way here}'
+                - 'The daydream dissolves. The room, now empty of people, seems more cavernous than before.'
+              options:
+                - text: 'Return'
+                  goToPage: '4-choices'
+
+            - id: '4-storage'
+              paras:
+                - 'The storage areas are both well stocked with timeworn supplies and accessible from the surface. You direct your crew to retrieve them.'
+              onPageShown:
+                goToPage: '4-choices'
 
             - id: '5-shipyard'
               paras:

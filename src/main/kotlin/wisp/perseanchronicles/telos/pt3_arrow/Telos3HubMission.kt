@@ -51,6 +51,7 @@ class Telos3HubMission : QGHubMission() {
     class Choices(val map: MutableMap<String, Any?>) {
         var tookEtherVials: Boolean? by map
         var destroyedEtherVials: Boolean? by map
+        var retrievedSupplies: Boolean? by map
     }
 
     init {
