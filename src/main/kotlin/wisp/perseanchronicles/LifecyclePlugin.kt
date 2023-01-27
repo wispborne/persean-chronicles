@@ -7,6 +7,8 @@ import org.apache.log4j.Level
 import org.dark.shaders.util.ShaderLib
 import org.dark.shaders.util.TextureData
 import org.json.JSONObject
+import org.lazywizard.lazylib.ext.clampLength
+import org.lazywizard.lazylib.ui.LazyFont
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsBarEventWiring
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
@@ -42,7 +44,6 @@ class LifecyclePlugin : BaseModPlugin() {
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator(Questgiver.game, CampaignPlugin())
         game.logger.level = Level.ALL // try to remember to change this for release
-
 
         addTextToServiceLocator()
 

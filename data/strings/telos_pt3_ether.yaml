@@ -75,8 +75,8 @@ wisp_perseanchronicles:
                 - id: 'search-storage'
                   text: 'Search the storage areas'
                   goToPage: '4-storage'
-                - text: 'Head straight for the shipyard'
-                  goToPage: '5-shipyard'
+                - text: 'Head for the hanger'
+                  goToPage: '5-shipyard-choice'
 
             - id: '4-labs'
               paras:
@@ -114,7 +114,7 @@ wisp_perseanchronicles:
               paras:
                 - 'You push the rack of tubes off of the polished stone table. They slip from the holder and tumble in midair before shattering. 
                 The thick, grey liquid spreads slowly into a pool on the floor.'
-                - $cv:pc_karengo{you just destroyed the remaining ether} Karengo's anger flares in your head. $cv:pc_karengo{i could have sold that}
+                - '$cv:pc_karengo{you just destroyed the remaining ether} Karengo''s anger flares in your head. $cv:pc_karengo{i could have sold that}'
               options:
                 - text: '$cv:pc_telos{the sector could not handle this technology  nanites are too dangerous}'
                   goToPage: '4-labs-destroy-ether-leave'
@@ -128,14 +128,14 @@ wisp_perseanchronicles:
             - id: '4-labs-destroy-ether-leave'
               paras:
                 - 'The anger emanating from Karengo cuts off like a bulkhead closing.'
-                - $cv:pc_karengo{it is fine. there is still much here to see}
+                - '$cv:pc_karengo{it is fine. there is still much here to see}'
               options:
                 - text: 'Leave the lab'
                   goToPage: '4-choices'
 
             - id: '4-survivors'
               paras:
-                - '$cv:pc_telos{computer} you query the base''s system. $cv:pc_telos{are they any surviving telos here}'
+                - '$cv:pc_telos{computer} you query the base''s system. $cv:pc_telos{are there any surviving telos here}'
                 - ''
                 - '$cv:pc_computer{unknown}'
               options:
@@ -144,7 +144,7 @@ wisp_perseanchronicles:
 
             - id: '4-survivors-cryo'
               paras:
-                - 'You see scenes of exploding spaceships for a moment, then the computer continues.'
+                - 'You see visions of spaceships torn apart by explosions for a moment before the computer continues.'
                 - '$cv:pc_computer{before leaving  the adults put their children into cryosleep units  however the ether-net connection was disrupted during the bombardment}'
                 - '$cv:pc_computer{the sleeper room has been out of communication for ${cyclesSinceTelosDestroyed} cycles}'
               options:
@@ -173,7 +173,7 @@ wisp_perseanchronicles:
                 - text: 'Leave the chamber'
                   goToPage: '4-choices'
 
-            # Common areas, Krypta
+            # Common areas, daydream with Krypta
             - id: '4-common-areas'
               paras:
                 - 'The base was left tidy. Sheets are folded at the foot of beds, clothes are put away, and food is stored, 
@@ -191,7 +191,7 @@ wisp_perseanchronicles:
                 - 'A memory not your own brings the cavern to life like a daydream.'
                 - 'The Telos wander in in small groups. Their faces are alive with contentment and you understand, sensing the web that connects them 
                 all. There are no barriers between them; no misunderstandings, no jealousies, no power dynamics. You wonder how much of that is from the Ether.'
-                - Time skips forward.
+                - 'Time skips forward.'
               options:
                 - text: 'Continue'
                   goToPage: '4-common-areas-3'
@@ -215,17 +215,30 @@ wisp_perseanchronicles:
 
             - id: '4-storage'
               paras:
-                - 'The storage areas are both well stocked with timeworn supplies and accessible from the surface. You direct your crew to retrieve them.'
+                - 'The storage areas are both well stocked with timeworn supplies and accessible from the surface. You direct your crew to bring them to orbit.'
               onPageShown:
                 goToPage: '4-choices'
 
-            - id: '5-shipyard'
+            - id: '5-shipyard-choice'
               paras:
+                - '$cv:pc_karengo{the hanger is quite a walk} Karengo sends $cv:pc_karengo{are you finished exploring here}'
                 - 'DESTROYER DESCRIPTION GOES HERE: TODO'
                 - 'The interior matches the refined polish of its smaller Vara cousin.'
               options:
-                - id: 'leave'
-                  text: 'Leave'
+                - text: '$cv:pc_telos{yes  time to go}'
+                  goToPage: '4-choices'
+                - text: '$cv:pc_telos{not yet}'
+                  goToPage: '4-choices'
+
+            - id: '6-shipyard'
+              paras:
+                - 'You''ve been able to feel the presence of the destroyer sitting in the hanger since making contact with the base Ether-net. 
+                When queried, the base computer explains that the ship was unfinished when the Telos went to battle. 
+                Automated systems completed it only after there were none left to fly it.'
+                - ''
+              options:
+                - text: 'Continue'
+                  goToPage: 'otherPageId'
 
         escape:
           intel:

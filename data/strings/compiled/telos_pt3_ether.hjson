@@ -64,8 +64,8 @@
                 "text" : "Search the storage areas",
                 "goToPage" : "4-storage"
               }, {
-                "text" : "Head straight for the shipyard",
-                "goToPage" : "5-shipyard"
+                "text" : "Head for the hanger",
+                "goToPage" : "5-shipyard-choice"
               } ]
             }, {
               "id" : "4-labs",
@@ -123,14 +123,14 @@
               } ]
             }, {
               "id" : "4-survivors",
-              "paras" : [ "$cv:pc_telos{computer} you query the base's system. $cv:pc_telos{are they any surviving telos here}", "", "$cv:pc_computer{unknown}" ],
+              "paras" : [ "$cv:pc_telos{computer} you query the base's system. $cv:pc_telos{are there any surviving telos here}", "", "$cv:pc_computer{unknown}" ],
               "options" : [ {
                 "text" : "$cv:pc_telos{what do you mean  unknown}",
                 "goToPage" : "4-survivors-cryo"
               } ]
             }, {
               "id" : "4-survivors-cryo",
-              "paras" : [ "You see scenes of exploding spaceships for a moment, then the computer continues.", "$cv:pc_computer{before leaving  the adults put their children into cryosleep units  however the ether-net connection was disrupted during the bombardment}", "$cv:pc_computer{the sleeper room has been out of communication for ${cyclesSinceTelosDestroyed} cycles}" ],
+              "paras" : [ "You see visions of spaceships torn apart by explosions for a moment before the computer continues.", "$cv:pc_computer{before leaving  the adults put their children into cryosleep units  however the ether-net connection was disrupted during the bombardment}", "$cv:pc_computer{the sleeper room has been out of communication for ${cyclesSinceTelosDestroyed} cycles}" ],
               "options" : [ {
                 "text" : "Investigate the cryosleep room",
                 "goToPage" : "4-survivors-investigate"
@@ -182,16 +182,26 @@
               } ]
             }, {
               "id" : "4-storage",
-              "paras" : [ "The storage areas are both well stocked with timeworn supplies and accessible from the surface. You direct your crew to retrieve them." ],
+              "paras" : [ "The storage areas are both well stocked with timeworn supplies and accessible from the surface. You direct your crew to bring them to orbit." ],
               "onPageShown" : {
                 "goToPage" : "4-choices"
               }
             }, {
-              "id" : "5-shipyard",
-              "paras" : [ "DESTROYER DESCRIPTION GOES HERE: TODO", "The interior matches the refined polish of its smaller Vara cousin." ],
+              "id" : "5-shipyard-choice",
+              "paras" : [ "$cv:pc_karengo{the hanger is quite a walk} Karengo sends $cv:pc_karengo{are you finished exploring here}", "DESTROYER DESCRIPTION GOES HERE: TODO", "The interior matches the refined polish of its smaller Vara cousin." ],
               "options" : [ {
-                "id" : "leave",
-                "text" : "Leave"
+                "text" : "$cv:pc_telos{yes  time to go}",
+                "goToPage" : "4-choices"
+              }, {
+                "text" : "$cv:pc_telos{not yet}",
+                "goToPage" : "4-choices"
+              } ]
+            }, {
+              "id" : "6-shipyard",
+              "paras" : [ "You've been able to feel the presence of the destroyer sitting in the hanger since making contact with the base Ether-net. When queried, the base computer explains that the ship was unfinished when the Telos went to battle. Automated systems completed it only after there were none left to fly it.", "" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "otherPageId"
               } ]
             } ]
           },

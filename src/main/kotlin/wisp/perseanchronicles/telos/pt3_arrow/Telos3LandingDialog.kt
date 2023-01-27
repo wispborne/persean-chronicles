@@ -8,6 +8,7 @@ import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.getPageById
@@ -27,6 +28,18 @@ class Telos3LandingDialog(
     pages = PagesFromJson(
         stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
+            "1-start" to {
+                TelosCommon.playThemeMusic()
+            },
+            "4-labs" to {
+                Telos3HubMission.choices.visitedLabs = true
+            },
+            "4-survivors" to {
+                Telos3HubMission.choices.searchedForSurvivors = true
+            },
+            "4-common-areas" to {
+                Telos3HubMission.choices.sawKryptaDaydream = true
+            },
             "4-labs-2" to {
                 if (Telos3HubMission.choices.etherVialChoice == null)
                     para { getPageById(stageJson.query("/pages"), "4-labs-2")?.optString("vials") ?: "" }
@@ -43,11 +56,11 @@ class Telos3LandingDialog(
                         1f,
                         dialog.interactionTarget.dropValue,
                         dialog.interactionTarget.dropRandom
-                    ).supplies
+                    ).supplies.roundToInt()
                     dialog.interactionTarget.dropValue.clear()
 
                     // todo add any that don't fit onboard to orbit
-                    dialog.textPanel.addCommodityGainText(commodityId = Commodities.SUPPLIES, quantity = supplies.roundToInt())
+                    dialog.textPanel.addCommodityGainText(commodityId = Commodities.SUPPLIES, quantity = supplies)
                     Telos3HubMission.choices.retrievedSupplies = true
                 }
             }
