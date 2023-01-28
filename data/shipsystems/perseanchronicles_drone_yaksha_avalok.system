@@ -1,0 +1,47 @@
+{
+  "id": "perseanchronicles_drone_yaksha_avalok",
+  "type": "DRONE_LAUNCHER",
+  "aiType": "DRONE_LAUNCHER_STANDARD",
+
+  "droneVariant": "wisp_perseanchronicles_yaksha_Standard",
+#  "statsScript": "wisp.perseanchronicles.telos.boats.TelosYakshaSystem",
+
+  "allowFreeRoam": false,
+
+  "launchSpeed": 50,
+  "launchDelay": 0.5,
+  "maxDrones": 4,
+  "droneBehavior": [
+    { "droneIndex": [ 0 ],
+      "defaultFacing": "MATCH_SHIP_FACING",
+      "faceEnemy": false,
+      "holdRoamRange": 60,
+      "freeRoamRange": 0,
+      "targetPriority": [ SHIP_TARGET, SHIP, FIGHTER ],
+      "initialOrbitAngle": 100,
+      "orbitRadius": 100,
+      "orbitDir": 1,
+      "orbitSpeed": 0,
+    },
+    { "droneIndex": [ 1 ],
+      "defaultFacing": "MATCH_SHIP_FACING",
+      "faceEnemy": false,
+      "holdRoamRange": 60,
+      "freeRoamRange": 0,
+      "targetPriority": [ SHIP_TARGET, SHIP, FIGHTER ],
+      "initialOrbitAngle": -100,
+      "orbitRadius": 100,
+      "orbitDir": 1,
+      "orbitSpeed": 0,
+    },
+  ],
+
+  "useSound": "drone_launch",
+  "outOfUsesSound": "gun_out_of_ammo",
+
+  "aiHints": {
+    "activeSpeedIncrease": 0,
+    "burstMovementPotential": 0,
+    "averageSpeedIncrease": 0,
+  }
+}

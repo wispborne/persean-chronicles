@@ -1,5 +1,5 @@
 {
-  "id": "perseanchronicles_drone_yaksha",
+  "id": "perseanchronicles_drone_yaksha_itesh",
   "type": "DRONE_LAUNCHER",
   "aiType": "DRONE_LAUNCHER_STANDARD",
 
@@ -10,7 +10,7 @@
 
   "launchSpeed": 50,
   "launchDelay": 0.5,
-  "maxDrones": 4,
+  "maxDrones": 2,
   "droneBehavior": [
     { "droneIndex": [ 0 ],
       "defaultFacing": "MATCH_SHIP_FACING",

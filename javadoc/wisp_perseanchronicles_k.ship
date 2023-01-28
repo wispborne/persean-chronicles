@@ -4,12 +4,12 @@
   "hullSize": "FRIGATE",
   "spriteName": "graphics/telos/ships/telos_vara.png",
   "style": "HIGH_TECH",
-  "height": 86,
-  "width": 74,
-  "center": [37, 45.5],
-  "collisionRadius": 56,
-  "shieldCenter": [0, -0],
-  "shieldRadius": 51,
+  "height": 145,
+  "width": 118,
+  "center": [59, 72.5],
+  "collisionRadius": 82.5,
+  "shieldCenter": [0, 0],
+  "shieldRadius": 77,
   "viewOffset": 0,
   "builtInWeapons": {
     "INNER_GLOW": "wisp_perseanchronicles_vara_innerglow",
@@ -24,7 +24,7 @@
       "mount": "HARDPOINT",
       "arc": 0,
       "angle": 0,
-      "locations": [-4, 0]
+      "locations": [-17, -0]
     },
     {
       "id": "INNER_GLOW",
@@ -33,7 +33,7 @@
       "mount": "HARDPOINT",
       "arc": 0,
       "angle": 0,
-      "locations": [-4, -0]
+      "locations": [-17, -0]
     },
     {
       "id": "TELOS_ENGINES",
@@ -42,7 +42,7 @@
       "mount": "HARDPOINT",
       "arc": 0,
       "angle": 0,
-      "locations": [-4, -0]
+      "locations": [-17, -0]
     },
     {
       "id": "WS0001",
@@ -51,7 +51,7 @@
       "mount": "TURRET",
       "arc": 32,
       "angle": 0,
-      "locations": [21.5, 23]
+      "locations": [10.5, 35]
     },
     {
       "id": "WS0002",
@@ -60,7 +60,25 @@
       "mount": "TURRET",
       "arc": 32,
       "angle": -0,
-      "locations": [21.5, -23]
+      "locations": [10.5, -35]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "TURRET",
+      "arc": 191,
+      "angle": 90,
+      "locations": [-12.5, 30]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "TURRET",
+      "arc": 191,
+      "angle": -90,
+      "locations": [-12.5, -30]
     },
     {
       "id": "WS0005",
@@ -69,7 +87,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 0,
-      "locations": [-10, -0]
+      "locations": [-17, -0]
     },
     {
       "id": "WS0006",
@@ -78,7 +96,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 0,
-      "locations": [15.5, 28.5]
+      "locations": [11.5, 25]
     },
     {
       "id": "WS0007",
@@ -87,7 +105,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": -0,
-      "locations": [15.5, -28.5]
+      "locations": [11.5, -25]
     },
     {
       "id": "WS0005",
@@ -96,7 +114,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": -2.5,
-      "locations": [30, 22.5]
+      "locations": [32.5, 24.5]
     },
     {
       "id": "WS0008",
@@ -105,7 +123,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 2.5,
-      "locations": [30, -22.5]
+      "locations": [32.5, -24.5]
     },
     {
       "id": "WS0009",
@@ -114,7 +132,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 0,
-      "locations": [-24, 20]
+      "locations": [-5.5, 21]
     },
     {
       "id": "WS0010",
@@ -123,7 +141,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": -0,
-      "locations": [-24, -20]
+      "locations": [-5.5, -21]
     },
     {
       "id": "WS0011",
@@ -132,7 +150,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": -0,
-      "locations": [-4, -24]
+      "locations": [2.5, -23.5]
     },
     {
       "id": "WS0012",
@@ -141,29 +159,34 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 0,
-      "locations": [-4, 24]
+      "locations": [2.5, 23.5]
     }
   ],
   "engineSlots": [],
   "bounds": [
-    -12, 4.5,
-    -38, 16,
-    -32.5, 29,
-    -9.5, 31,
-    5, 36,
-    18, 36,
-    34.5, 30.5,
-    39.5, 20.5,
-    30, 8.5,
-    30, -8.5,
-    39.5, -20.5,
-    34.5, -30.5,
-    18, -36,
-    5, -36,
-    -9.5, -31,
-    -32.5, -29,
-    -38, -16,
-    -12, -4.5,
-    -14.5, -0
+    -23.5, -7.5,
+    -67, -10.5,
+    -56.5, -14,
+    -72, -23,
+    -61, -35.5,
+    -35.5, -36,
+    14.5, -57.5,
+    57.5, -33,
+    47.5, -23.5,
+    53, -16,
+    73, -11.5,
+    36.5, -7,
+    36.5, 7,
+    73, 11.5,
+    53, 16,
+    47.5, 23.5,
+    57.5, 33,
+    14.5, 57.5,
+    -35.5, 36,
+    -61, 35.5,
+    -72, 23,
+    -56.5, 14,
+    -67, 10.5,
+    -23.5, 7.5
   ]
 }

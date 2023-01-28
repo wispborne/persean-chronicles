@@ -1,0 +1,16 @@
+{
+  "displayName": "Itesh",
+  "variantId": "wisp_perseanchronicles_itesh_Standard",
+  "hullId": "wisp_perseanchronicles_itesh",
+  "fluxCapacitors": 0,
+  "fluxVents": 0,
+  "goalVariant": true,
+  "hullMods": [ ],
+  "modules": [
+    { "WS0019": "wisp_perseanchronicles_itesh_module_Standard" }
+  ],
+  "permaMods": [ ],
+  "sMods": [ ],
+  "weaponGroups": [ ],
+  #"wings": ["tahlan_cord_fighter_wing"]
+}
