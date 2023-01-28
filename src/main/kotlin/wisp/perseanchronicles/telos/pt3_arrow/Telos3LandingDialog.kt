@@ -25,27 +25,34 @@ class Telos3LandingDialog(
 
     },
     people = { listOfNotNull(DragonsHubMission.karengo) },
+    firstPageSelector = {
+        if (Telos3HubMission.state.visitedPrimaryPlanet == true)
+            this.single { it.id == "4-go-inside" }
+        else
+            this.first()
+    },
     pages = PagesFromJson(
         stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
             "1-start" to {
                 TelosCommon.playThemeMusic()
+                Telos3HubMission.state.visitedPrimaryPlanet = true
             },
             "4-labs" to {
-                Telos3HubMission.choices.visitedLabs = true
+                Telos3HubMission.state.visitedLabs = true
             },
             "4-survivors" to {
-                Telos3HubMission.choices.searchedForSurvivors = true
+                Telos3HubMission.state.searchedForSurvivors = true
             },
             "4-common-areas" to {
-                Telos3HubMission.choices.sawKryptaDaydream = true
+                Telos3HubMission.state.sawKryptaDaydream = true
             },
             "4-labs-2" to {
-                if (Telos3HubMission.choices.etherVialChoice == null)
+                if (Telos3HubMission.state.etherVialChoice == null)
                     para { getPageById(stageJson.query("/pages"), "4-labs-2")?.optString("vials") ?: "" }
             },
             "4-storage" to {
-                if (Telos3HubMission.choices.retrievedSupplies != true) {
+                if (Telos3HubMission.state.retrievedSupplies != true) {
                     val random = Misc.getRandom(game.sector.memoryWithoutUpdate.getLong(MemFlags.SALVAGE_SEED), 100)
                     dialog.interactionTarget.addDropValue(Drops.SUPPLY, (game.sector.playerFleet.totalSupplyCostPerDay * 3000).roundToInt())
                     val supplies = SalvageEntity.generateSalvage(
@@ -61,7 +68,7 @@ class Telos3LandingDialog(
 
                     // todo add any that don't fit onboard to orbit
                     dialog.textPanel.addCommodityGainText(commodityId = Commodities.SUPPLIES, quantity = supplies)
-                    Telos3HubMission.choices.retrievedSupplies = true
+                    Telos3HubMission.state.retrievedSupplies = true
                 }
             }
         ),
@@ -70,15 +77,19 @@ class Telos3LandingDialog(
                 when (option.id) {
                     // Let player collect supplies only once.
                     "search-storage" -> option.copy(
-                        showIf = { Telos3HubMission.choices.retrievedSupplies != true })
+                        showIf = { Telos3HubMission.state.retrievedSupplies != true })
 
                     "take-ether" -> option.copy(
-                        showIf = { Telos3HubMission.choices.etherVialChoice == null },
-                        onOptionSelected = { Telos3HubMission.choices.etherVialChoice = Telos3HubMission.EtherVialsChoice.Took })
+                        showIf = { Telos3HubMission.state.etherVialChoice == null },
+                        onOptionSelected = { Telos3HubMission.state.etherVialChoice = Telos3HubMission.EtherVialsChoice.Took })
 
                     "destroy-ether" -> option.copy(
-                        showIf = { Telos3HubMission.choices.etherVialChoice == null },
-                        onOptionSelected = { Telos3HubMission.choices.etherVialChoice = Telos3HubMission.EtherVialsChoice.Destroyed })
+                        showIf = { Telos3HubMission.state.etherVialChoice == null },
+                        onOptionSelected = { Telos3HubMission.state.etherVialChoice = Telos3HubMission.EtherVialsChoice.Destroyed })
+
+                    "return-to-orbit" -> option.copy(
+                        onOptionSelected = { }
+                    )
 
                     "leave" -> {
                         option.copy(onOptionSelected = {

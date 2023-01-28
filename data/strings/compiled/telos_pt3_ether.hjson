@@ -64,6 +64,10 @@
                 "text" : "Search the storage areas",
                 "goToPage" : "4-storage"
               }, {
+                "id" : "return-to-orbit",
+                "text" : "Come back later",
+                "tooltip" : "You may return to your fleet and continue exploring another time."
+              }, {
                 "text" : "Head for the hanger",
                 "goToPage" : "5-shipyard-choice"
               } ]
@@ -198,7 +202,7 @@
               } ]
             }, {
               "id" : "6-shipyard",
-              "paras" : [ "You've been able to feel the presence of the destroyer sitting in the hanger since making contact with the base Ether-net. When queried, the base computer explains that the ship was unfinished when the Telos went to battle. Automated systems completed it only after there were none left to fly it.", "" ],
+              "paras" : [ "You've been able to feel the presence of the destroyer sitting in the hanger since making contact with the base Ether-net. When queried, the computer explains that the ship was unfinished when the Telos went to battle. Automated systems completed it only after there were none left to fly it.", "" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "otherPageId"

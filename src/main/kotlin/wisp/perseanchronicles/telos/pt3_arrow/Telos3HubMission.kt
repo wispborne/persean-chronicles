@@ -39,16 +39,14 @@ class Telos3HubMission : QGHubMission() {
         val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 
         val state = State(PersistentMapData<String, Any?>(key = "telosPt3State").withDefault { null })
-        val choices = Choices(PersistentMapData<String, Any?>(key = "telosPt3Choices").withDefault { null })
     }
 
     class State(val map: MutableMap<String, Any?>) {
         var startDateMillis: Long? by map
         var completeDateInMillis: Long? by map
-        var ruinsPlanet: SectorEntityToken? by map
-    }
+        var primaryTelosPlanet: SectorEntityToken? by map
 
-    class Choices(val map: MutableMap<String, Any?>) {
+        var visitedPrimaryPlanet: Boolean? by map
         var etherVialChoice: EtherVialsChoice? by map
         var retrievedSupplies: Boolean? by map
         var searchedForSurvivors: Boolean? by map
@@ -79,8 +77,8 @@ class Telos3HubMission : QGHubMission() {
         text.globalReplacementGetters["telosPt1Stg1DestSystem"] = { Telos1HubMission.state.karengoSystem?.name }
         text.globalReplacementGetters["telosStarName"] =
             { Telos1HubMission.state.karengoPlanet?.starSystem?.star?.name }
-        text.globalReplacementGetters["telosPt3RuinsSystem"] = { state.ruinsPlanet?.starSystem?.name }
-        text.globalReplacementGetters["telosPt3RuinsPlanet"] = { state.ruinsPlanet?.name }
+        text.globalReplacementGetters["telosPt3RuinsSystem"] = { state.primaryTelosPlanet?.starSystem?.name }
+        text.globalReplacementGetters["telosPt3RuinsPlanet"] = { state.primaryTelosPlanet?.name }
         text.globalReplacementGetters["cyclesSinceTelosDestroyed"] = { game.sector.clock.cycle - 105 }
     }
 
@@ -116,7 +114,7 @@ class Telos3HubMission : QGHubMission() {
 
         // TODO create planet if it doesn't exist
         // Must have rings
-        state.ruinsPlanet = SystemFinder()
+        state.primaryTelosPlanet = SystemFinder()
             .requireSystemTags(mode = ReqMode.NOT_ANY, Tags.THEME_CORE)
             .preferSystemOutsideRangeOf(Telos1HubMission.state.karengoSystem?.location, 5f)
             .requireSystemHasAtLeastNumJumpPoints(min = 1)
@@ -142,12 +140,12 @@ class Telos3HubMission : QGHubMission() {
                 FleetQuality.SMOD_1,
                 Factions.HEGEMONY,
                 FleetTypes.TASK_FORCE,
-                state.ruinsPlanet
+                state.primaryTelosPlanet
             )
             triggerMakeHostile()
             triggerAutoAdjustFleetStrengthExtreme()
             triggerFleetAddTags(chasingFleetTag)
-            triggerPickLocationAroundEntity(state.ruinsPlanet?.starSystem?.jumpPoints?.random(), 1f)
+            triggerPickLocationAroundEntity(state.primaryTelosPlanet?.starSystem?.jumpPoints?.random(), 1f)
             triggerSpawnFleetAtPickedLocation(chasingFleetFlag, null)
             triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
             triggerCustomAction {
@@ -158,7 +156,7 @@ class Telos3HubMission : QGHubMission() {
             }
 
             // Make jump points important
-            val jumpPoints = state.ruinsPlanet!!.containingLocation.jumpPoints.orEmpty()
+            val jumpPoints = state.primaryTelosPlanet!!.containingLocation.jumpPoints.orEmpty()
             jumpPoints.forEach { jumpPoint ->
                 triggerCustomAction { context -> context.entity = jumpPoint }
                 triggerEntityMakeImportant("$${jumpPoint.id}_importantFlag", Stage.EscapeSystem)
@@ -179,11 +177,11 @@ class Telos3HubMission : QGHubMission() {
         state.startDateMillis = game.sector.clock.timestamp
         setCurrentStage(Stage.GoToPlanet, null, null)
         makeImportant(
-            state.ruinsPlanet,
+            state.primaryTelosPlanet,
             null,
             Stage.GoToPlanet,
         )
-        makePrimaryObjective(state.ruinsPlanet)
+        makePrimaryObjective(state.primaryTelosPlanet)
     }
 
     override fun endSuccessImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
@@ -209,7 +207,7 @@ class Telos3HubMission : QGHubMission() {
     }
 
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
-        return if (interactionTarget.id == state.ruinsPlanet?.id) {
+        return if (interactionTarget.id == state.primaryTelosPlanet?.id) {
             when (currentStage) {
                 Stage.GoToPlanet -> PluginPick(
                     Telos3LandingDialog().build(),
