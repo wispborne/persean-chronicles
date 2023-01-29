@@ -75,7 +75,7 @@ class LifecyclePlugin : BaseModPlugin() {
 
         game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
         game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
-        game.text.globalReplacementGetters["playerPronoun"] = {
+        game.text.globalReplacementGetters["playerPronounHimHer"] = {
             when (game.sector.playerPerson.gender) {
                 FullName.Gender.MALE -> game.text["playerPronounHim"]
                 FullName.Gender.FEMALE -> game.text["playerPronounHer"]
@@ -89,6 +89,13 @@ class LifecyclePlugin : BaseModPlugin() {
                 else -> game.text["playerPronounThey"]
             }
         }
+        game.text.globalReplacementGetters["playerSirOrMaam"] = {
+            when (game.sector.playerPerson.gender) {
+                FullName.Gender.FEMALE -> game.text["playerMadam"]
+                else -> game.text["playerSir"] // Use Sir for genderless because it can technically be used for women as well.
+            }
+        }
+        game.text.globalReplacementGetters["playerSirOrMaam"] = {  }
         game.text.globalReplacementGetters["playerFlagshipName"] = { game.sector.playerFleet.flagship?.shipName }
 
         // Register this so we can intercept and replace interactions

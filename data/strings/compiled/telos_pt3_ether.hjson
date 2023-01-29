@@ -192,7 +192,7 @@
               }
             }, {
               "id" : "5-shipyard-choice",
-              "paras" : [ "$cv:pc_karengo{the hanger is quite a walk} Karengo sends $cv:pc_karengo{are you finished exploring here}", "DESTROYER DESCRIPTION GOES HERE: TODO", "The interior matches the refined polish of its smaller Vara cousin." ],
+              "paras" : [ "$cv:pc_karengo{the hanger is quite a walk} Karengo sends $cv:pc_karengo{are you finished exploring here}" ],
               "options" : [ {
                 "text" : "$cv:pc_telos{yes  time to go}",
                 "goToPage" : "4-choices"
@@ -202,7 +202,38 @@
               } ]
             }, {
               "id" : "6-shipyard",
-              "paras" : [ "You've been able to feel the presence of the destroyer sitting in the hanger since making contact with the base Ether-net. When queried, the computer explains that the ship was unfinished when the Telos went to battle. Automated systems completed it only after there were none left to fly it.", "" ],
+              "paras" : [ "You've been able to feel the presence of the destroyer sitting in the hanger since making contact with the base Ether-net. When queried, the computer explains that the ship was unfinished when the Telos went to battle. Automated systems completed it only after there were none left to fly it.", "Walking through the long tunnels to the hanger and shipyard gives you time to remotely examine the ship." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "7-shipyard-itesh"
+              } ]
+            }, {
+              "id" : "7-shipyard-itesh",
+              "paras" : [ "Like the smaller Vara, the Itesh destroyer is a lost pre-Collapse Tri-Tachyon design intended as a luxury vessel for the extremely wealthy. The Telos overhaul replaced much of the extravagance with weapons, shielding, agility, and Ether control.", "$cv:pc_karengo{look at this} An image from Karengo surfaces in your mind's eye of two drones nestled into a compartment of the Itesh. $cv:pc_karengo{now we are seeing some real firepower}", "Before you can respond, an incoming call from orbit grabs your attention." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "8-shipyard-the-call"
+              } ]
+            }, {
+              "id" : "8-shipyard-the-call",
+              "paras" : [ "\"${playerSirOrMaam}, one of my engineers did some tests on that 'dust' in orbit.\" Your Engineering Officer sounds concerned, but not alarmed.", "\"It's actually a very old type of minefield - that's why we didn't recognize it. Won't scuttle a ship, but it'll sure do a lot of surface damage. Sensors, comms, anything on the outside.\"", "\"The good news is they aren't automatic. It probably dates back to when the hyperwave network was up. Whoever deployed these is probably long dead, and certainly not in-system.\"" ],
+              "options" : [ {
+                "text" : "Direct the fleet to change orbit",
+                "goToPage" : "9-enemy-arrival"
+              }, {
+                "text" : "Allow the fleet to stay locked overhead",
+                "goToPage" : "9-enemy-arrival"
+              } ]
+            }, {
+              "id" : "9-enemy-arrival",
+              "paras" : [ "As you open your mouth to speak, a higher priority call replaces their image.", "\"Captain, one of the in-system jump points just opened. You said you wanted to know if anything happens while you're down there. Might be nothing, might be pi-\"", "The comm link disconnects." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "10-disconnected"
+              } ]
+            }, {
+              "id" : "10-disconnected",
+              "paras" : [ "" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "otherPageId"

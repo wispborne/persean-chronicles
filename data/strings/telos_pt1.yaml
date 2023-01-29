@@ -38,12 +38,12 @@ wisp_perseanchronicles:
                 - id: 'ASPIRARDs?'
                   text: '"ASPIRARDs?"'
                   goToPage: '2'
-                - id: accept
+                - id: 'accept'
                   text: 'Accept'
                   goToPage: '3'
-                - id: decline
+                - id: 'decline'
                   text: 'Not now'
-                  shortcut: Escape
+                  shortcut: 'Escape'
             - id: '2'
               paras:
                 - 'She releases a tired sigh. "Sorry - that’s Autonomous Self-Propelled
@@ -51,19 +51,19 @@ wisp_perseanchronicles:
                   Our boss came up with it, and-" she cuts herself off. "Do you think
                   you can make this dropoff?"'
               options:
-                - id: accept
+                - id: 'accept'
                   text: 'Accept'
                   goToPage: '3'
-                - id: decline
+                - id: 'decline'
                   text: 'Not now'
-                  shortcut: Escape
+                  shortcut: 'Escape'
             - id: '3'
               paras:
                 - '"Excellent!" she taps her TriPad and, a moment later, you forward the
               pickup information to your crew. "Once you’re in place, release the
               containers into hyperspace and they’ll do the rest."'
               options:
-                - id: done
+                - id: 'done'
                   text: 'Done'
         deliveryDropoff:
           intel:
@@ -96,8 +96,8 @@ wisp_perseanchronicles:
                 - text: 'Sigh, but nod'
                   goToPage: '2'
                 - text: '"No" (lie)'
-                  goToPage: 1.5-lie
-            - id: 1.5-lie
+                  goToPage: '1.5-lie'
+            - id: '1.5-lie'
               paras:
                 - 'The officer''s eyebrow twitches, but their face remains composed.'
               onPageShown:
@@ -121,7 +121,7 @@ wisp_perseanchronicles:
                 - 'The Intel holodisplay shimmers, displaying the location of a $f:pirates{pirate}
                   fleet.'
               options:
-                - id: close
+                - id: 'close'
                   text: 'Close'
         pirateComms:
           pages:
@@ -133,7 +133,7 @@ wisp_perseanchronicles:
               options:
                 - text: 'Try to talk the pirate down.'
                   goToPage: '1'
-                - id: closeComms
+                - id: 'closeComms'
                   text: 'Cut the comm link'
             - id: '1'
               paras:
@@ -151,7 +151,7 @@ wisp_perseanchronicles:
               options:
                 - text: 'Continue negotiating.'
                   goToPage: '2'
-                - id: closeComms
+                - id: 'closeComms'
                   text: 'Cut the comm link'
             - id: '2'
               paras:
@@ -181,7 +181,7 @@ wisp_perseanchronicles:
                   is clear. Your tactical officer watches you expectantly, waiting for
                   the signal.'
               options:
-                - id: startPirateBattleWithAdvantage
+                - id: 'startPirateBattleWithAdvantage'
                   text: 'Engage the unprepared pirates'
-                - id: closeComms
+                - id: 'closeComms'
                   text: 'Cut the comm link'
