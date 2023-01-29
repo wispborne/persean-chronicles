@@ -202,7 +202,7 @@
               } ]
             }, {
               "id" : "6-shipyard",
-              "paras" : [ "You've been able to feel the presence of the destroyer sitting in the hanger since making contact with the base Ether-net. When queried, the computer explains that the ship was unfinished when the Telos went to battle. Automated systems completed it only after there were none left to fly it.", "Walking through the long tunnels to the hanger and shipyard gives you time to remotely examine the ship." ],
+              "paras" : [ "You've been able to feel the presence of the destroyer sitting in the hanger since making contact with the base Ether-net. When queried, the computer explains that the ship was unfinished when the Telos went to battle. Automated systems completed the final warship only after there were none left to fly it.", "Walking through the long tunnels to the hanger and shipyard gives you time to remotely examine the ship." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "7-shipyard-itesh"
@@ -211,7 +211,7 @@
               "id" : "7-shipyard-itesh",
               "paras" : [ "Like the smaller Vara, the Itesh destroyer is a lost pre-Collapse Tri-Tachyon design intended as a luxury vessel for the extremely wealthy. The Telos overhaul replaced much of the extravagance with weapons, shielding, agility, and Ether control.", "$cv:pc_karengo{look at this} An image from Karengo surfaces in your mind's eye of two drones nestled into a compartment of the Itesh. $cv:pc_karengo{now we are seeing some real firepower}", "Before you can respond, an incoming call from orbit grabs your attention." ],
               "options" : [ {
-                "text" : "Continue",
+                "text" : "Answer",
                 "goToPage" : "8-shipyard-the-call"
               } ]
             }, {
@@ -228,12 +228,34 @@
               "id" : "9-enemy-arrival",
               "paras" : [ "As you open your mouth to speak, a higher priority call replaces their image.", "\"Captain, one of the in-system jump points just opened. You said you wanted to know if anything happens while you're down there. Might be nothing, might be pi-\"", "The comm link disconnects." ],
               "options" : [ {
-                "text" : "Continue",
+                "text" : "Try to raise the fleet",
                 "goToPage" : "10-disconnected"
               } ]
             }, {
               "id" : "10-disconnected",
-              "paras" : [ "" ],
+              "paras" : [ "You and Karengo close rest of the distance to the hanger at a run, bulkheads springing open at your approach, as you try different options to get a signal to your fleet. Nothing works.", "By the time you and Karengo climb aboard, breathing heavily, the destroyer is fueled. You send a signal to open the hanger doors, then extend your mind to encompass the ship." ],
+              "options" : [ {
+                "text" : "Blast off",
+                "goToPage" : "11-takeoff-fast"
+              }, {
+                "text" : "Ease out",
+                "goToPage" : "11-takeoff-slow"
+              } ]
+            }, {
+              "id" : "11-takeoff-fast",
+              "paras" : [ "The Itesh throws itself through the massive double doors and into the Yerpan sky. The exotic plating glows with azure radiance, adding fast-shrinking shadows to the landscape." ],
+              "onPageShown" : {
+                "goToPage" : "12-return-to-fleet"
+              }
+            }, {
+              "id" : "11-takeoff-slow",
+              "paras" : [ "You lift the Itesh through the massive double doors and into the Yerpan sky. The exotic plating glows, adding azure-tinged shadows to the landscape." ],
+              "onPageShown" : {
+                "goToPage" : "12-return-to-fleet"
+              }
+            }, {
+              "id" : "12-return-to-fleet",
+              "paras" : [ "Sensor data floods in. ", null ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "otherPageId"

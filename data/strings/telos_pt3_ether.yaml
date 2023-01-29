@@ -249,7 +249,7 @@ wisp_perseanchronicles:
                 $cv:pc_karengo{now we are seeing some real firepower}'
                 - 'Before you can respond, an incoming call from orbit grabs your attention.'
               options:
-                - text: 'Continue'
+                - text: 'Answer'
                   goToPage: '8-shipyard-the-call'
 
             - id: '8-shipyard-the-call'
@@ -273,12 +273,39 @@ wisp_perseanchronicles:
                 happens while you''re down there. Might be nothing, might be pi-"'
                 - 'The comm link disconnects.'
               options:
-                - text: 'Continue'
+                - text: 'Try to raise the fleet'
                   goToPage: '10-disconnected'
 
             - id: '10-disconnected'
               paras:
-                - ''
+                - 'You and Karengo close rest of the distance to the hanger at a run, bulkheads springing open at your approach, 
+                as you try different options to get a signal to your fleet. Nothing works.'
+                - 'By the time you and Karengo climb aboard, breathing heavily, the destroyer is fueled. You send a signal to open the hanger doors, 
+                 then extend your mind to encompass the ship.'
+              options:
+                - text: 'Blast off'
+                  goToPage: '11-takeoff-fast'
+                - text: 'Ease out'
+                  goToPage: '11-takeoff-slow'
+
+            - id: '11-takeoff-fast'
+              paras:
+                - 'The Itesh throws itself through the massive double doors and into the Yerpan sky. 
+                The exotic plating glows with azure radiance, adding fast-shrinking shadows to the landscape.'
+              onPageShown:
+                goToPage: '12-return-to-fleet'
+
+            - id: '11-takeoff-slow'
+              paras:
+                - 'You lift the Itesh through the massive double doors and into the Yerpan sky. 
+                The exotic plating glows, adding azure-tinged shadows to the landscape.'
+              onPageShown:
+                goToPage: '12-return-to-fleet'
+
+            - id: '12-return-to-fleet'
+              paras:
+                - 'Sensor data floods in. '
+                -
               options:
                 - text: 'Continue'
                   goToPage: 'otherPageId'
