@@ -255,7 +255,30 @@
               }
             }, {
               "id" : "12-return-to-fleet",
-              "paras" : [ "Sensor data floods in. ", null ],
+              "paras" : [ "Sensor data floods in and your tension eases. Slightly. The fleet still hangs overhead, but closer to the planet than before - and there are no signs of drive engines.", "$cv:pc_karengo{that is not good} says Karengo." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "13-arrive-at-fleet"
+              } ]
+            }, {
+              "id" : "13-arrive-at-fleet",
+              "paras" : [ "The fleet grows until you can make out details with the optical cams. The planetary ring is gone, self-destructed. Your fleet's hulls are blackened and cratered, but all are in one piece and interior lights shine through spiderwebbed windows.", "Despite the continued absence of communication, a docking bay door slides open and a shuttle races out.", "You find yourself bustled to your bridge officers with grim-faced efficiency." ],
+              "options" : [ {
+                "text" : "Ask who arrived at the jump point",
+                "goToPage" : "14-debrief-who"
+              }, {
+                "text" : "Ask what happened",
+                "goToPage" : "14-debrief-what"
+              }, {
+                "text" : "Ask when repairs will be complete",
+                "goToPage" : "14-debrief-when"
+              }, {
+                "text" : "Ask what the nav options are",
+                "goToPage" : "14-debrief-where"
+              } ]
+            }, {
+              "id" : "14-debrief-who",
+              "paras" : [ "" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "otherPageId"
