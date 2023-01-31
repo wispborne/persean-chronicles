@@ -8,7 +8,7 @@
     "description": "Adds a small collection of quests to bars around the Persean Sector.",
     "gameVersion": "0.95.1a-RC6",
     "jars":["jars/PerseanChronicles.jar"],
-    "modPlugin":"wisp.perseanchronicles.LifecyclePlugin",
+    "modPlugin":"wisp.perseanchronicles.PerseanChroniclesModPlugin",
     "dependencies": [
         {
             "id": "lw_lazylib",

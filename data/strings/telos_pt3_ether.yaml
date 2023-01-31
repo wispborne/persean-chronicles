@@ -254,7 +254,7 @@ wisp_perseanchronicles:
 
             - id: '8-shipyard-the-call'
               paras:
-                - '"${playerSirOrMaam}, one of my engineers did some tests on that ''dust'' in orbit." 
+                - '"${playerSirOrMaamUcFirst}, one of my engineers did some tests on that ''dust'' in orbit." 
                 Your Engineering Officer sounds concerned, but not alarmed.'
                 - '"It''s actually a very old type of minefield - that''s why we didn''t recognize it. Won''t scuttle a ship, but it''ll sure 
                 do a lot of surface damage. Sensors, comms, anything on the outside."'
@@ -308,31 +308,71 @@ wisp_perseanchronicles:
                 but closer to the planet than before - and there are no signs of drive engines.'
                 - '$cv:pc_karengo{that is not good} says Karengo.'
               options:
-                - text: 'Continue'
-                  goToPage: '13-arrive-at-fleet'
+                - text: 'Fly to the fleet'
+                  goToPage: '13-getting-to-bridge'
 
-            - id: '13-arrive-at-fleet'
+            - id: '13-getting-to-bridge'
               paras:
                 - 'The fleet grows until you can make out details with the optical cams. The planetary ring is gone, self-destructed. 
                 Your fleet''s hulls are blackened and cratered, but all are in one piece and interior lights shine through spiderwebbed windows.'
+              options:
+                - text: 'Approach'
+                  goToPage: '13-bustlin'
+
+            - id: '13-bustlin'
+              paras:
                 - 'Despite the continued absence of communication, a docking bay door slides open and a shuttle races out.'
                 - 'You find yourself bustled to your bridge officers with grim-faced efficiency.'
+              onPageShown:
+                goToPage: '14-question-bridge'
+
+            - id: '14-question-bridge'
+              paras:
               options:
-                - text: 'Ask who arrived at the jump point'
+                - id: 'debrief-who'
+                  text: 'Ask who arrived at the jump point'
                   goToPage: '14-debrief-who'
-                - text: 'Ask what happened'
+                - id: 'debrief-what'
+                  text: 'Ask what happened'
                   goToPage: '14-debrief-what'
-                - text: 'Ask when repairs will be complete'
+                - id: 'debrief-when'
+                  text: 'Ask when repairs will be complete'
                   goToPage: '14-debrief-when'
-                - text: 'Ask what the nav options are'
+                - id: 'debrief-where'
+                  text: 'Ask what the nav options are'
                   goToPage: '14-debrief-where'
 
             - id: '14-debrief-who'
               paras:
-                - ''
-              options:
-                - text: 'Continue'
-                  goToPage: 'otherPageId'
+                - 'Your sensors officer takes the question.'
+                - '"Frankly, we don''t know. But we had long-sensors trained on the jump points, just in case, and I can 
+                say that the fleet is our size. Larger, perhaps."'
+              onPageShown:
+                goToPage: '14-question-bridge'
+
+            - id: '14-debrief-what'
+              paras:
+                - 'The engineering officer looks uncomfortable.'
+                - '"Minefield was remotely detonated, ${playerSirOrMaam}. Seconds after that jump point opened. 
+                Think it''s fair to assume a connection, but I''d prefer not to speculate. The codes to trigger 
+                the field would be dozens of cycles old."'
+                - '"It took out engines, sensors, comms, anything the dust got into."'
+              onPageShown:
+                goToPage: '14-question-bridge'
+
+            - id: '14-debrief-when'
+              paras:
+                - '"Two days, if we just focus on drives, and nobody sleeps," answers your engineering officer, "I''ve only got so many people qualified 
+                to work drives."'
+                - '"And active sensors...three days. Maybe four. I could go quicker but it''d mean sitting here longer."'
+              onPageShown:
+                goToPage: '14-question-bridge'
+
+            - id: '14-debrief-where'
+              paras:
+                - '""'
+              onPageShown:
+                goToPage: '14-question-bridge'
 
         escape:
           intel:

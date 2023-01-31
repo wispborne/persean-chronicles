@@ -2,13 +2,12 @@ package wisp.perseanchronicles
 
 import com.fs.starfarer.api.BaseModPlugin
 import com.fs.starfarer.api.characters.FullName
+import com.fs.starfarer.api.util.Misc
 import com.thoughtworks.xstream.XStream
 import org.apache.log4j.Level
 import org.dark.shaders.util.ShaderLib
 import org.dark.shaders.util.TextureData
 import org.json.JSONObject
-import org.lazywizard.lazylib.ext.clampLength
-import org.lazywizard.lazylib.ui.LazyFont
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsBarEventWiring
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
@@ -26,7 +25,7 @@ import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.*
 import java.util.*
 
-class LifecyclePlugin : BaseModPlugin() {
+class PerseanChroniclesModPlugin : BaseModPlugin() {
     init {
         Questgiver.init(modPrefix = MOD_ID)
     }
@@ -73,6 +72,15 @@ class LifecyclePlugin : BaseModPlugin() {
             configuration = readConfiguration(settings),
         )
 
+        applyTextVariableSubstitutions()
+
+        // Register this so we can intercept and replace interactions
+        game.sector.registerPlugin(game.campaignPlugin)
+
+        initGraphicsLib()
+    }
+
+    private fun applyTextVariableSubstitutions() {
         game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
         game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
         game.text.globalReplacementGetters["playerPronounHimHer"] = {
@@ -89,19 +97,20 @@ class LifecyclePlugin : BaseModPlugin() {
                 else -> game.text["playerPronounThey"]
             }
         }
+        game.text.globalReplacementGetters["playerSirOrMaamUcFirst"] = {
+            when (game.sector.playerPerson.gender) {
+                FullName.Gender.FEMALE -> game.text["playerMadam"]
+                else -> game.text["playerSir"] // Use Sir for genderless because it can technically be used for women as well.
+            }
+                .let { Misc.ucFirst(it) }
+        }
         game.text.globalReplacementGetters["playerSirOrMaam"] = {
             when (game.sector.playerPerson.gender) {
                 FullName.Gender.FEMALE -> game.text["playerMadam"]
                 else -> game.text["playerSir"] // Use Sir for genderless because it can technically be used for women as well.
             }
         }
-        game.text.globalReplacementGetters["playerSirOrMaam"] = {  }
         game.text.globalReplacementGetters["playerFlagshipName"] = { game.sector.playerFleet.flagship?.shipName }
-
-        // Register this so we can intercept and replace interactions
-        game.sector.registerPlugin(game.campaignPlugin)
-
-        initGraphicsLib()
     }
 
     /**
