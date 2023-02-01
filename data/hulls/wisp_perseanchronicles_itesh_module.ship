@@ -3,7 +3,7 @@
   "hullId": "wisp_perseanchronicles_itesh_module",
   "hullSize": "CRUISER",
   "spriteName": "graphics/telos/ships/telos_blank.png",
-  "style": "HIGH_TECH",
+  "style": "PERSEAN_CHRONICLES_TELOS",
   "height": 6,
   "width": 6,
   "center": [98, 138.5],

@@ -3,7 +3,7 @@
   "hullId": "wisp_perseanchronicles_itesh",
   "hullSize": "DESTROYER",
   "spriteName": "graphics/telos/ships/telos_itesh.png",
-  "style": "HIGH_TECH",
+  "style": "PERSEAN_CHRONICLES_TELOS",
   "height": 176,
   "width": 154,
   "center": [77.5, 92.5],

@@ -19,10 +19,14 @@ import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1BarEventWiring
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
+import wisp.perseanchronicles.telos.pt3_arrow.MenriSystemCreator
 import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
 import wisp.questgiver.Configuration
 import wisp.questgiver.Questgiver
-import wisp.questgiver.wispLib.*
+import wisp.questgiver.wispLib.firstName
+import wisp.questgiver.wispLib.lastName
+import wisp.questgiver.wispLib.toStringList
+import wisp.questgiver.wispLib.tryGet
 import java.util.*
 
 class PerseanChroniclesModPlugin : BaseModPlugin() {
@@ -78,6 +82,16 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
         game.sector.registerPlugin(game.campaignPlugin)
 
         initGraphicsLib()
+
+        if (game.settings.isDevMode) {
+            kotlin.runCatching {
+                if (MenriSystemCreator.createMenri()) {
+                    val menri = game.sector.getStarSystem("menri")
+//                    game.sector.playerFleet.loca
+                }
+            }
+                .onFailure { game.logger.e(it) }
+        }
     }
 
     private fun applyTextVariableSubstitutions() {

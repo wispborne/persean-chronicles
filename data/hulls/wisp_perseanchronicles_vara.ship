@@ -3,7 +3,7 @@
   "hullId": "wisp_perseanchronicles_vara",
   "hullSize": "FRIGATE",
   "spriteName": "graphics/telos/ships/telos_vara.png",
-  "style": "HIGH_TECH",
+  "style": "PERSEAN_CHRONICLES_TELOS",
   "height": 86,
   "width": 74,
   "center": [37, 45.5],

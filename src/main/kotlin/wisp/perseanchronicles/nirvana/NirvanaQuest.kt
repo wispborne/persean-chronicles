@@ -81,51 +81,15 @@ object NirvanaQuest {
         // Add planet
         addPlanetToSystem(newSystem)
 
-        // Find a constellation to add it to
-        val constellations =
-            game.sector.getConstellations()
-                // Prefer an un-visited constellation
-                .prefer { it.systems.all { system -> system.lastPlayerVisitTimestamp == 0L } }
-                .sortedByDescending { it.location.distanceFromPlayerInHyperspace }
+        if (!newSystem.placeInSector()) {
+            game.logger.i { "Failed to find anywhere to add a new system!" }
+            return false
+        }
 
         // Need to put in hyperspace and generate jump points so we have a maxRadiusInHyperspace
         newSystem.autogenerateHyperspaceJumpPoints(true, true)
 
-        for (constellation in constellations) {
-            val xCoords = constellation.systems.mapNotNull { it.location.x }
-            val yCoords = constellation.systems.mapNotNull { it.location.y }
-
-            // Try 5000 points
-            for (i in 0..5000) {
-                val point =
-                    Vector2f(
-                        (xCoords.minOrNull()!!..xCoords.maxOrNull()!!).random(),
-                        (yCoords.minOrNull()!!..yCoords.maxOrNull()!!).random()
-                    )
-
-
-                val doesPointIntersectWithAnySystems = constellation.systems.any { system ->
-                    doCirclesIntersect(
-                        centerA = point,
-                        radiusA = newSystem.maxRadiusInHyperspace,
-                        centerB = system.location,
-                        radiusB = system.maxRadiusInHyperspace
-                    )
-                }
-
-                if (!doesPointIntersectWithAnySystems) {
-                    newSystem.constellation = constellation
-                    constellation.systems.add(newSystem)
-                    newSystem.location.set(point)
-                    newSystem.autogenerateHyperspaceJumpPoints(true, true)
-                    game.logger.i { "System ${newSystem.baseName} added to the ${constellation.name} constellation." }
-                    return true
-                }
-            }
-        }
-
-        game.logger.i { "Failed to find anywhere to add a new system!" }
-        return false
+        return true
     }
 
     fun addPlanetToSystem(system: StarSystemAPI) {

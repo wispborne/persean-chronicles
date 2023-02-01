@@ -116,15 +116,15 @@ wisp_perseanchronicles:
 
             - id: '8-explore'
               paras:
-                - 'You split your exploration efforts between the mental and physical.
-                  A brief scan of the specs reveals that the original, pre-Collapse Tri-Tachyon design
+                - 'You split your exploration efforts between the mental and physical.'
+                - 'A brief scan of the specs reveals that the original, pre-Collapse Tri-Tachyon design
                   integrated a full beta-level AI. The subsequent Telos overhaul replaced
                   it with a non-sentient core and telepathic integration, resulting
                   in a ship requiring no physical interaction and without any of the risk
                   of sentience.'
                 - 'The mess and standard activity rooms are small, with the rest of the
                   Vara given to high-tech crew compartments. Any one of them
-                  would meet the cool approval of a Tri-Tachyon aristocrat, you note.'
+                  would meet the cool approval of a Tri-Tachyon aristocrat.'
               options:
                 - text: 'Continue'
                   goToPage: '8-explore2'
@@ -158,7 +158,7 @@ wisp_perseanchronicles:
               do i turn off this ship sense/feeling  i can feel you sitting on the
               couch not that i mind but it’s distracting}'
               shipSense1-notFemale: '$f:perseanchronicles_telos{how do i turn off this ship sense/feeling
-              \ i can feel you sitting on that couch and i’d rather not}'
+                i can feel you sitting on that couch and i’d rather not}'
               shipSense2: 'The ship shows you how to limit the integration, but you can’t
                 help but wonder what it would have felt like to be aboard at the height
                 of the Telos, surrounded by the shared sensations and thoughts of a full crew.'

@@ -59,8 +59,8 @@ class Telos2FirstLandingDialog(
                         })
 
                     "noInject" -> option.copy(
-                        text = if (Misc.random.nextFloat() > 0.98f) {
-                            { """"Holy shit, no."""" } // 2% chance lol
+                        text = if (Misc.random.nextFloat() > 0.95f) {
+                            { """"Holy shit, no."""" } // 5% chance lol
                         } else {
                             option.text
                         },

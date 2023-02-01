@@ -3,7 +3,7 @@
   "hullId": "wisp_perseanchronicles_avalok",
   "hullSize": "CRUISER",
   "spriteName": "graphics/telos/ships/telos_avalok.png",
-  "style": "HIGH_TECH",
+  "style": "PERSEAN_CHRONICLES_TELOS",
   "height": 256,
   "width": 196,
   "center": [98, 138.5],
