@@ -240,7 +240,6 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         return try {
             game.sector.starSystemsAllowedForQuests
                 .filter { it.id != playersCurrentStarSystem?.id }
-                .filter { Tags.THEME_HIDDEN !in it.tags }
                 .filter { system ->
                     system.solidPlanets
                         .any { planet -> DRAGON_PLANET_TYPES.any { it == planet.typeId } }

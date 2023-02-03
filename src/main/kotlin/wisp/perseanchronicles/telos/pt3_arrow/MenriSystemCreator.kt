@@ -1,12 +1,13 @@
 package wisp.perseanchronicles.telos.pt3_arrow
 
 import com.fs.starfarer.api.impl.campaign.ids.*
-import com.fs.starfarer.api.impl.campaign.procgen.NebulaEditor
-import com.fs.starfarer.api.impl.campaign.terrain.BaseRingTerrain.RingParams
-import com.fs.starfarer.api.impl.campaign.terrain.HyperspaceTerrainPlugin
+import com.fs.starfarer.api.impl.campaign.procgen.StarAge
 import com.fs.starfarer.api.util.Misc
+import data.scripts.util.MagicCampaign
+import org.magiclib.kotlin.addNebulaFromPNG
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.placeInSector
+import java.awt.Color
 
 object MenriSystemCreator {
 
@@ -24,15 +25,6 @@ object MenriSystemCreator {
 
         val system = game.sector.createStarSystem("Lama")
 
-        if (!system.placeInSector(
-                startAtHyperspaceLocation = Misc.getFactionMarkets(Factions.TRITACHYON).firstOrNull()?.locationInHyperspace
-                    ?: game.sector.playerFleet.locationInHyperspace
-            )
-        ) {
-            game.logger.e { "Catastrophic failure! Unable to find somewhere to place Lama! Quest cannot continue." }
-            return false
-        }
-
         system.backgroundTextureFilename = "graphics/backgrounds/background5.jpg"
         system.addTag(Tags.THEME_HIDDEN)
 
@@ -48,6 +40,19 @@ object MenriSystemCreator {
                 name = "Lama"
                 applySpecChanges()
             }
+
+        // System nebula
+        val nebula = system.addNebulaFromPNG(
+            image = "graphics/telos/terrain/lama_nebula.png",
+            centerX = 0f,
+            centerY = 0f,
+            category = "terrain",
+            key = "nebula",
+            tilesWide = 4,
+            tilesHigh = 4,
+            terrainType = Terrain.NEBULA,
+            age = StarAge.AVERAGE
+        )
 
         // Menri
         val menri = system.addPlanet(
@@ -70,75 +75,72 @@ object MenriSystemCreator {
             }
 
         // Menri Ring
-        system.addTerrain(
-            Terrain.RING,
-            RingParams(
-                156f,
-                250f,
-                menri,
-                "Menri Dust Ring"
-            )
-        ).apply {
-            setCircularOrbit(menri, 0f, 0f, systemOrbitDays)
-            id = "pc_menri_ring"
-        }
+        system.addRingBand(
+            /* focus = */ menri,
+            /* category = */ "wisp_perseanchronicles_telos",
+            /* key = */ "menri_ring",
+            /* bandWidthInTexture = */ 512f,
+            /* bandIndex = */ 0,
+            /* color = */ Color(255, 220, 220, 200),
+            /* bandWidthInEngine = */ 156f,
+            /* middleRadius = */ 200f,
+            /* orbitDays = */ -140f
+        )
 
         // Gas Giant
-        val gasGiantDal = system.addPlanet(
-            "pc_Dal",
-            star,
-            "Dal",
-            "gas_giant",
-            0f,
-            400f,
-            5300f,
-            systemOrbitDays
+        system.addPlanet(
+            /* id = */ "pc_Dal",
+            /* focus = */ star,
+            /* name = */ "Dal",
+            /* type = */ "gas_giant",
+            /* angle = */ 0f,
+            /* radius = */ 400f,
+            /* orbitRadius = */ 5300f,
+            /* orbitDays = */ systemOrbitDays
         )
 
         // Jump point A
-        val jumpPointA = game.factory.createJumpPoint(
-            "pc_jpA",
-            "Jump Point"
-        ).apply {
-            setCircularOrbit(star, 90f, 10000f, systemOrbitDays)
-            setStandardWormholeToHyperspaceVisual();
-        }
-        system.addEntity(jumpPointA)
+        MagicCampaign.addJumpPoint(
+            /* id = */ "pc_jpA",
+            /* name = */ "Inner System Jump-point",
+            /* linkedPlanet = */ null,
+            /* orbitCenter = */ star,
+            /* orbitStartAngle = */ 105f,
+            /* orbitRadius = */ 10000f,
+            /* orbitDays = */ systemOrbitDays
+        )
 
         // Jump point B
-        val jumpPointB = game.factory.createJumpPoint(
-            "pc_jpB",
-            "Jump Point"
-        ).apply {
-            setCircularOrbit(star, 160f, 9000f, systemOrbitDays)
-            setStandardWormholeToHyperspaceVisual()
+        MagicCampaign.addJumpPoint(
+            /* id = */ "pc_jpB",
+            /* name = */ "Inner System Jump-point",
+            /* linkedPlanet = */ null,
+            /* orbitCenter = */ star,
+            /* orbitStartAngle = */ 225f,
+            /* orbitRadius = */ 9000f,
+            /* orbitDays = */ systemOrbitDays
+        )
+
+        // Create gas giant jump point and add matching jump point sides in hyperspace.
+        // If you don't call this, the hyperspace side isn't generated and also it crashes when you hover them.
+        system.autogenerateHyperspaceJumpPoints(
+            true, false, false
+        )
+
+        // Place system
+        if (!system.placeInSector(
+                startAtHyperspaceLocation = Misc.getFactionMarkets(Factions.TRITACHYON).firstOrNull()?.locationInHyperspace
+                    ?: game.sector.playerFleet.locationInHyperspace
+            )
+        ) {
+            game.logger.e { "Catastrophic failure! Unable to find somewhere to place Lama! Quest cannot continue." }
+            return false
         }
-        system.addEntity(jumpPointB)
 
-        // Nebulae
-        val hyperPlugin = Misc.getHyperspaceTerrain().plugin as HyperspaceTerrainPlugin
-        val nebulaEditor = NebulaEditor(hyperPlugin)
-        val minRadius: Float = hyperPlugin.tileSize * 2f
-        val radius = system.maxRadiusInHyperspace
-        nebulaEditor.clearArc(
-            /* x = */ system.location.x,
-            /* y = */ system.location.y,
-            /* innerRadius = */ 0f,
-            /* outerRadius = */ radius + minRadius,
-            /* startAngle = */ 0f,
-            /* endAngle = */ 360f
-        )
-        nebulaEditor.clearArc(
-            /* x = */ system.location.x,
-            /* y = */ system.location.y,
-            /* innerRadius = */ 0f,
-            /* outerRadius = */ radius + minRadius,
-            /* startAngle = */ 0f,
-            /* endAngle = */ 360f,
-            /* noiseThresholdToClear = */ 0.25f
-        )
+        // Pave the hyperspace clouds
+        MagicCampaign.hyperspaceCleanup(system)
 
-        system.autogenerateHyperspaceJumpPoints(true, false)
+        system.updateAllOrbits()
 
         game.logger.i { "Placed Lama at ${system.location.x}, ${system.location.y} in the ${system.constellation?.name} constellation." }
 

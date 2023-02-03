@@ -2,6 +2,7 @@ package wisp.perseanchronicles
 
 import com.fs.starfarer.api.BaseModPlugin
 import com.fs.starfarer.api.characters.FullName
+import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
 import com.thoughtworks.xstream.XStream
 import org.apache.log4j.Level
@@ -201,13 +202,15 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
 
     private fun readConfiguration(modSettings: JSONObject): Configuration {
         val startTime = game.sector.clock.timestamp
-        val blacklistedEntityTags = kotlin.runCatching {
-            modSettings.getJSONArray("entity_tags_to_blacklist")
+        val blacklistedSystemTags = kotlin.runCatching {
+            modSettings.getJSONArray("system_tags_to_blacklist")
                 .toStringList()
                 .distinct()
         }
             .onFailure { game.logger.e(it) { it.message } }
             .getOrElse { emptyList() }
+            // Don't let quests go to TTBlacksite or hidden mod systems.
+            .plus(Tags.THEME_HIDDEN)
 
         val blacklistedMarketIds = kotlin.runCatching {
             modSettings.getJSONArray("market_ids_to_blacklist")
@@ -238,7 +241,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
             blacklist = Configuration.Blacklist(
                 systemIds = blacklistedSystemIds,
                 marketIds = blacklistedMarketIds,
-                systemTags = blacklistedEntityTags
+                systemTags = blacklistedSystemTags
             ),
             whitelist = Configuration.Whitelist(
                 factionIds = whitelistedFactions

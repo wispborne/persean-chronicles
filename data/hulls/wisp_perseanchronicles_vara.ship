@@ -24,7 +24,7 @@
       "mount": "HARDPOINT",
       "arc": 0,
       "angle": 0,
-      "locations": [-4, 0]
+      "locations": [-25, -0.5]
     },
     {
       "id": "INNER_GLOW",
@@ -33,7 +33,7 @@
       "mount": "HARDPOINT",
       "arc": 0,
       "angle": 0,
-      "locations": [-4, -0]
+      "locations": [-25, 0.5]
     },
     {
       "id": "TELOS_ENGINES",
@@ -42,7 +42,7 @@
       "mount": "HARDPOINT",
       "arc": 0,
       "angle": 0,
-      "locations": [-4, -0]
+      "locations": [-7, -0]
     },
     {
       "id": "WS0001",
@@ -69,7 +69,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 0,
-      "locations": [-10, -0]
+      "locations": [-9, 0]
     },
     {
       "id": "WS0006",

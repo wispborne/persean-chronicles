@@ -2,7 +2,7 @@
   "plugins": {
     "wisp_perseanchronicles_customrenderer": "wisp.perseanchronicles.telos.boats.CustomRenderer"
   },
-  "ruleCommandPackages":[
+  "ruleCommandPackages": [
     "wisp.perseanchronicles.telos.pt1_deliveryToEarth"
   ],
   "graphics": {
@@ -30,7 +30,8 @@
     "wisp_perseanchronicles_telos": {
       "nocturneBlackout": "graphics/telos/nocturneBlackout.png",
       "television": "graphics/telos/television.png",
-      "chapel": "graphics/telos/chapel.png"
-    }
+      "chapel": "graphics/telos/chapel.png",
+      "menri_ring": "graphics/telos/terrain/menri_dust.png"
+    },
   }
 }

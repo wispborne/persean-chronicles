@@ -14,13 +14,14 @@ val props = Properties().apply {
 val starsectorDirectory = props.getProperty("gamePath") //"C:/Program Files (x86)/Fractal Softworks/Starsector"
 val modVersion = "3.0.0"
 val jarFileName = "PerseanChronicles.jar"
+val questgiverVersion = "4.0.0"
 
 val modId = "wisp_perseanchronicles"
 val modName = "Persean Chronicles"
 val author = "Wisp"
 val modDescription = "Adds a small collection of quests to bars around the Persean Sector."
 val gameVersion = "0.95.1a-RC6"
-val jars = arrayOf("jars/PerseanChronicles.jar")//, "libs/Questgiver-$questgiverVersion.jar")
+val jars = arrayOf("jars/PerseanChronicles.jar", "libs/wisp/questgiver/$questgiverVersion/Questgiver-$questgiverVersion.jar")
 val modPlugin = "wisp.perseanchronicles.PerseanChroniclesModPlugin"
 val isUtilityMod = false
 val masterVersionFile = "https://raw.githubusercontent.com/davidwhitman/stories/master/$modId.version"
@@ -55,11 +56,11 @@ dependencies {
     println("Mod folder: $starsectorModDirectory")
     val kotlinVersionInLazyLib = "1.6.21"
 
-    // Questgiver lib
-    implementation(fileTree("libs")
-    {
-        include("Questgiver-4.0.0.jar")
-    })
+//    // Questgiver lib
+//    implementation(fileTree("libs")
+//    {
+//        include("Questgiver-4.0.0.jar")
+//    })
 
     // Get kotlin sdk from LazyLib during runtime, only use it here during compile time
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersionInLazyLib")
@@ -72,6 +73,7 @@ dependencies {
 
     // This grabs local files from the /libs folder, see `repositories` block.
     compileOnly("starfarer:starfarer-api:1.0.0")
+    compileOnly("wisp:questgiver:$questgiverVersion")
 
     // Starsector jars and dependencies
     compileOnly(fileTree(starsectorCoreDirectory) {
