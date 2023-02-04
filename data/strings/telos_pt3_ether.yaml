@@ -393,22 +393,22 @@ wisp_perseanchronicles:
                 base back in c+105, making him over 130 cycles old.'
                 - '"Hegemony commander?" one officer asks dubiously, but you''ve already thought through this.'
               options:
-                - text: '"The Hegemony and Luddic Church used to work together"'
+                - text: 'Share your theory'
                   goToPage: '14-debrief-who-eugel3-remember2'
 
             - id: '14-debrief-who-eugel3-remember2'
               paras:
-                - 'You give a brief history lesson.'
-                - '"Around 95 cycles after the Collapse," you explain to the bridge, "they allied to stop Tri-Tachyon and the Persean League 
-                from developing what they considered dangerous AI."'
+                - '"When the Hegemony and Luddic Church allied during the First AI War," you explain to the bridge, 
+                "Eugel may have already been a Church member, or have joined shortly afterwards. The could explain how 
+                he ended up leading a Hegemony fleet to destroy the technologically advanced Telos."'
+                - '"Strange times make for strange bedfellows, after all."'
               options:
                 - text: 'Continue'
                   goToPage: '14-debrief-who-eugel3-remember3'
 
             - id: '14-debrief-who-eugel3-remember3'
               paras:
-                - '"It''s possible that Eugel was always a Church member, or he joined shortly afterwards. Strange times make for strange bedfellows."'
-                - 'You have to resist the urge to continue the lesson, and refocus on the issues at hand.'
+                - 'You resist the urge to continue the lesson, and refocus on the issues at hand.'
               onPageShown:
                 goToPage: '14-question-bridge'
 
@@ -462,7 +462,7 @@ wisp_perseanchronicles:
             - id: '16-powerup-thinky'
               paras:
                 - 'Despite - finally - having some peace and quiet for contemplation, no answers seem forthcoming.'
-                - 'There is at least one fleet of unknown size that most likely triggered an ancient defense system, 
+                - 'There is at least one fleet of unknown size that triggered an ancient defense system, 
                 crippling your fleet, and in all probability it is '
               options:
                 - text: 'Continue'
