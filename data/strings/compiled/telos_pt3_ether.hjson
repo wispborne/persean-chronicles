@@ -295,7 +295,57 @@
               } ]
             }, {
               "id" : "14-debrief-who",
-              "paras" : [ "Your sensors officer takes the question.", "\"Frankly, we don't know. But we had long-sensors trained on the jump points, just in case, and I can say that the fleet is our size. Larger, perhaps.\"" ],
+              "paras" : [ "Your sensors officer takes the question.", "\"Frankly, we don't know for sure. But we had long-sensors trained on the jump points, just in case, and I can say that the fleet is our size. Larger, perhaps.\"", "\"And,\" they add, \"we received this just before we lost comms.\" A central holo lights up." ],
+              "onPageShown" : {
+                "goToPage" : "14-debrief-who-eugel1"
+              }
+            }, {
+              "id" : "14-debrief-who-eugel1",
+              "paras" : [ "\"My name is Knight-Captain Eugel.\" Entire worlds could be lost between the creases of the man's wizened face, but his eyes are shrewd and cold.", "\"Who you are does not matter. I had hoped that the past could stay the past without needing me to intervene, but apparently not. Digging up that other world was a mistake, but coming here was folly.\"" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "14-debrief-who-eugel2"
+              } ]
+            }, {
+              "id" : "14-debrief-who-eugel2",
+              "paras" : [ "\"If you survive the next few minutes, please stay where you are. It will make this much easier.\"", "The holo fades." ],
+              "options" : [ {
+                "text" : "\"Who was that?\"",
+                "goToPage" : "14-debrief-who-eugel3-who"
+              }, {
+                "text" : "\"I know that man.\"",
+                "goToPage" : "14-debrief-who-eugel3-remember"
+              } ]
+            }, {
+              "id" : "14-debrief-who-eugel3-who",
+              "paras" : [ "The head of engineering is quick to query the archive.", "\"One of the Church of Ludd's Knight's,\" they read, scanning quickly, \"Old and reclusive, but known for his conservatism, even by Church standards.\"", "The officer's eyebrows shoot up. \"According to this, he's over 130.\"" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "14-debrief-who-eugel3-who2"
+              } ]
+            }, {
+              "id" : "14-debrief-who-eugel3-who2",
+              "paras" : [ "Karengo has evidently been listening in, as he forms a thought in your head.", "$pc_karengo{i remember that guy  he was the hegemony commander of the fleet that destroyed the other telos base}" ],
+              "onPageShown" : {
+                "goToPage" : "14-question-bridge"
+              }
+            }, {
+              "id" : "14-debrief-who-eugel3-remember",
+              "paras" : [ "Quickly, you fill them in, explaining that he was the commander of the Hegemony fleet that destroyed the other Telos base back in c+105, making him over 130 cycles old.", "\"Hegemony commander?\" one officer asks dubiously, but you've already thought through this." ],
+              "options" : [ {
+                "text" : "\"The Hegemony and Luddic Church used to work together\"",
+                "goToPage" : "14-debrief-who-eugel3-remember2"
+              } ]
+            }, {
+              "id" : "14-debrief-who-eugel3-remember2",
+              "paras" : [ "You give a brief history lesson.", "\"Around 95 cycles after the Collapse,\" you explain to the bridge, \"they allied to stop Tri-Tachyon and the Persean League from developing what they considered dangerous AI.\"" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "14-debrief-who-eugel3-remember3"
+              } ]
+            }, {
+              "id" : "14-debrief-who-eugel3-remember3",
+              "paras" : [ "\"It's possible that Eugel was always a Church member, or he joined shortly afterwards. Strange times make for strange bedfellows.\"", "You have to resist the urge to continue the lesson, and refocus on the issues at hand." ],
               "onPageShown" : {
                 "goToPage" : "14-question-bridge"
               }
@@ -313,10 +363,39 @@
               }
             }, {
               "id" : "14-debrief-where",
-              "paras" : [ "\"\"" ],
+              "paras" : [ "\"Well, that is a bit of problem, actually,\" replies your nav officer, \"We can't move, we don't know where the enemy is, and we don't know how fast they are. Even when the sensors are up, the nebula means we won't even see much.\"", "\"It's safe to say that our nav option,\" they stress the last word, \"is to get some sleep, or pray, or whatever you need to do, and hope that these repairs aren't delayed.\"" ],
               "onPageShown" : {
                 "goToPage" : "14-question-bridge"
               }
+            }, {
+              "id" : "15-powerup-choice",
+              "paras" : [ "The impromptu meeting breaks apart and you find yourself with time on your hands. Karengo has disappeared from sight, but you can sense him in the mess hall.", "You stand for a moment in a hallway, considering your options." ],
+              "options" : [ {
+                "text" : "Think though the problem in your study.",
+                "goToPage" : "16-powerup-thinky"
+              }, {
+                "text" : "Socialize with the crew.",
+                "goToPage" : "16-powerup-socialize"
+              }, {
+                "text" : "Visit Karengo.",
+                "goToPage" : "16-powerup-karengo"
+              }, {
+                "text" : "Go to your prayer room.",
+                "goToPage" : "16-powerup-pray"
+              }, {
+                "text" : "Practice a hobby.",
+                "goToPage" : "16-powerup-ddr"
+              }, {
+                "text" : "Head to the bar.",
+                "goToPage" : "16-powerup-drink"
+              } ]
+            }, {
+              "id" : "16-powerup-thinky",
+              "paras" : [ "Despite - finally - having some peace and quiet for contemplation, no answers seem forthcoming.", "There is at least one fleet of unknown size that most likely triggered an ancient defense system, crippling your fleet, and in all probability it is " ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "otherPageId"
+              } ]
             } ]
           },
           "escape" : {

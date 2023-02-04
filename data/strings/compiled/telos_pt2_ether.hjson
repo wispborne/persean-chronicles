@@ -56,6 +56,8 @@
             }, {
               "id" : "6-ask",
               "paras" : [ "$f:perseanchronicles_telos{questioning: who was [captain eugel/the leader of the hegemony fleet] he was taking enjoyment from the [slaughter/destruction]} you send.", "$f:perseanchronicles_telos{unsure/uncaring: there were lots of [ghouls/zealots] in the first ai war now let us see this ship}" ],
+              "ludd-friendly" : "You linger for a moment, thinking. You know the Church of Ludd well, and recall an old firebrand named Eugel. Could it be the same man?",
+              "ludd-friendly2" : "You shake your head and follow Karengo to the hanger.",
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "7-vara"

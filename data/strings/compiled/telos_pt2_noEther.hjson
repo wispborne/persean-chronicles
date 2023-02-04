@@ -9,7 +9,7 @@
               "desc" : "Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== to investigate the underground sections."
             },
             "pages" : [ {
-              "id" : 1,
+              "id" : "1",
               "paras" : [ "In the end, the hidden trapdoor in the underground Telos room was opened by brute force and liberal application of plasma. A disgruntled tech explains that there was a datafield present that could have, theoretically, been the door control, but the interface was ‘chaos’, unhackable without a locally installed and powered Alpha Core. You gather that ensuring the door was open before your return was prioritized." ],
               "options" : [ {
                 "text" : "Continue",
@@ -42,6 +42,8 @@
             }, {
               "id" : "4-noPsi",
               "paras" : [ "“That Eugel guy? No idea. Seemed to take the nanites kinda personally, though.” He starts walking to the hanger." ],
+              "ludd-friendly" : "You linger for a moment, thinking. You know the Church of Ludd well, and recall an old firebrand named Eugel. Could it be the same man?",
+              "ludd-friendly2" : "You shake your head and follow Karengo to the hanger.",
               "options" : [ {
                 "text" : "Investigate the ship",
                 "goToPage" : "5-noPsi"

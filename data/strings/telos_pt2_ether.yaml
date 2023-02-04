@@ -68,7 +68,7 @@ wisp_perseanchronicles:
                 - 'The recording is of the final stand of the base and, as you focus on
                   the Telos machine, the scene comes alive within your mind.'
               options:
-                - id: startBattle
+                - id: 'startBattle'
                   text: "$f:perseanchronicles_telos{begin battle}"
 
             - id: '6-finished-battle'
@@ -89,6 +89,9 @@ wisp_perseanchronicles:
               from the [slaughter/destruction]} you send."
                 - "$f:perseanchronicles_telos{unsure/uncaring: there were lots of [ghouls/zealots]
               in the first ai war now let us see this ship}"
+              ludd-friendly: 'You linger for a moment, thinking. You know the Church of Ludd well, 
+              and recall an old firebrand named Eugel. Could it be the same man?'
+              ludd-friendly2: 'You shake your head and follow Karengo to the hanger.'
               options:
                 - text: 'Continue'
                   goToPage: '7-vara'

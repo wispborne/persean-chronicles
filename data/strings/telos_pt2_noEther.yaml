@@ -9,7 +9,8 @@ wisp_perseanchronicles:
             desc: 'Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}==
               in ==${telosPt1Stg1DestSystem}== to investigate the underground sections.'
           pages:
-            - id: 1
+
+            - id: '1'
               paras:
                 - 'In the end, the hidden trapdoor in the underground Telos room was opened
                   by brute force and liberal application of plasma. A disgruntled tech
@@ -19,8 +20,9 @@ wisp_perseanchronicles:
                   was open before your return was prioritized.'
               options:
                 - text: 'Continue'
-                  goToPage: 1.1-noPsi
-            - id: 1.1-noPsi
+                  goToPage: '1.1-noPsi'
+
+            - id: '1.1-noPsi'
               paras:
                 - 'The opening was left unexplored per your request and Karengo steps down
                   the polished staircase, led far below the surface by more blue safety
@@ -34,8 +36,9 @@ wisp_perseanchronicles:
                   produced in the sector.'
               options:
                 - text: 'Continue'
-                  goToPage: 2-noPsi
-            - id: 2-noPsi
+                  goToPage: '2-noPsi'
+
+            - id: '2-noPsi'
               paras:
                 - "“${playerLastName}, c’mere.” Karengo has brought one of the displays
               online and is swiping through data. “This’s telemetry of the Hegemony
@@ -44,9 +47,10 @@ wisp_perseanchronicles:
                 - 'With another swipe, more holodisplays light up the room and launch into
                   a recording of the battle.'
               options:
-                - id: startBattle
-                  text: Begin battle
-            - id: 3-noPsi
+                - id: 'startBattle'
+                  text: 'Begin battle'
+
+            - id: '3-noPsi'
               paras:
                 - 'The simulated explosions echo briefly around the room before dying.
                   Karengo glances over and shrugs. “An’ that’s why you don’t take the
@@ -57,13 +61,18 @@ wisp_perseanchronicles:
                   goToPage: '5-noPsi'
                 - text: 'Ask about the Hegemony Commander'
                   goToPage: '4-noPsi'
-            - id: 4-noPsi
+
+            - id: '4-noPsi'
               paras:
                 - "“That Eugel guy? No idea. Seemed to take the nanites kinda personally,
               though.” He starts walking to the hanger."
+              ludd-friendly: 'You linger for a moment, thinking. You know the Church of Ludd well, 
+              and recall an old firebrand named Eugel. Could it be the same man?'
+              ludd-friendly2: 'You shake your head and follow Karengo to the hanger.'
               options:
                 - text: 'Investigate the ship'
                   goToPage: '5-noPsi'
+
             - id: '5-noPsi'
               paras:
                 - 'You search for a word to describe the frigate sitting in the
@@ -76,10 +85,11 @@ wisp_perseanchronicles:
               corridor.'
               options:
                 - text: 'Explore the ship'
-                  goToPage: 5.1-noPsi
+                  goToPage: '5.1-noPsi'
                 - text: 'Head straight for the bridge'
-                  goToPage: 6-noPsi
-            - id: 5.1-noPsi
+                  goToPage: '6-noPsi'
+
+            - id: '5.1-noPsi'
               paras:
                 - 'It doesn’t take long to explore the full interior. Designed with the
                   same flowing style as the outer hull, the ship is largely given to crew
@@ -90,8 +100,9 @@ wisp_perseanchronicles:
                   boasts a microfab loaded with millions of recipes.'
               options:
                 - text: 'Continue'
-                  goToPage: 5.2-noPsi
-            - id: 5.2-noPsi
+                  goToPage: '5.2-noPsi'
+
+            - id: '5.2-noPsi'
               paras:
                 - 'Curious about luxury accommodations in a frigate loaded for combat, you
                   query the computer on the hull’s history.'
@@ -105,6 +116,7 @@ wisp_perseanchronicles:
               options:
                 - text: 'Head for the bridge'
                   goToPage: '6-noPsi'
+
             - id: '6-noPsi'
               paras:
                 - 'The usual complement of screens, chairs, and controls are absent from
@@ -119,6 +131,7 @@ wisp_perseanchronicles:
               options:
                 - text: 'Return to the fleet'
                   goToPage: '7-noPsi'
+
             - id: '7-noPsi'
               paras:
                 - 'The controls, at least, are familiar, and you coax the ==Vara==
@@ -130,6 +143,7 @@ wisp_perseanchronicles:
               options:
                 - text: 'Continue'
                   goToPage: '7.1-noPsi'
+
             - id: '7.1-noPsi'
               paras:
                 - "“==There’s another planet the Telos settled== before this one,” he says, leaning in
