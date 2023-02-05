@@ -383,7 +383,7 @@ wisp_perseanchronicles:
             - id: '14-debrief-who-eugel3-who2'
               paras:
                 - 'Karengo has evidently been listening in, as he forms a thought in your head.'
-                - '$pc_karengo{i remember that guy  he was the hegemony commander of the fleet that destroyed the other telos base}'
+                - '$cv:pc_karengo{i remember that guy  he was the hegemony commander of the fleet that destroyed the other telos base}'
               onPageShown:
                 goToPage: '14-question-bridge'
 
@@ -461,12 +461,54 @@ wisp_perseanchronicles:
 
             - id: '16-powerup-thinky'
               paras:
-                - 'Despite - finally - having some peace and quiet for contemplation, no answers seem forthcoming.'
-                - 'There is at least one fleet of unknown size that triggered an ancient defense system, 
-                crippling your fleet, and in all probability it is '
+                - 'Despite - finally - having some peace and quiet for contemplation, no answers seem forthcoming. 
+                Your fleet is crippled and at least one fleet of unknown makeup is on its way to eliminate witnesses.'
+              withVara: 'You find yourself withdrawing, examining your own state of mind, and you notice the other presences. 
+              Karengo, still in the mess hall. The Vara, hull crawling with repair crew. The Itesh, drifting peacefully.'
+              withoutVara: 'You find yourself withdrawing, examining your own state of mind, and you notice the other presences. 
+              Karengo, still in the mess hall. The Itesh, drifting peacefully.'
               options:
                 - text: 'Continue'
-                  goToPage: 'otherPageId'
+                  goToPage: '16-powerup-thinky-2'
+
+            - id: '16-powerup-thinky-2'
+              paras:
+                - 'At the edge of the now-familiar, though, you feel other things not easily explained.'
+              options:
+                - text: 'Focus'
+                  goToPage: '16-powerup-thinky-3'
+
+            - id: '16-powerup-thinky-3'
+              paras:
+                - 'You close your eyes and reach out. The strongest sensation dwarfs the rest, radiant, hot; the yellow star at the center of the system.'
+                - 'The rest are dimmer, but you focus past the star, reaching across light minutes and zeroing in on pinpricks, bright against the void. 
+                It''s a fleet, burning bright as it crawls toward you.'
+                - 'It seems to pulse with hostility.'
+              options:
+                - text: 'Explore further'
+                  goToPage: '16-powerup-thinky-4'
+
+            - id: '16-powerup-thinky-4'
+              paras:
+                - 'You release your focus on the fleet and dive into other dimples in your awareness. Nebulae. Asteroids. The planet spinning below. 
+                The other jump point. And there; another fleet moving toward yours, angry with intent.'
+                - 'You open your eyes, mind spinning. There are two fleets out there stalking you, but a few days off still. You can still sense them; 
+                still sense everything in the system.'
+                - 'With some effort, you block it out and refocus on the ship around you.'
+              options:
+                - text: 'Continue'
+                  goToPage: '16-powerup-thinky-5'
+
+            - id: '16-powerup-thinky-5'
+              paras:
+#                - 'You show this ability to Karengo. It takes him longer to learn, but when he does, he walls off his mind.
+#                $cv:pc_karengo{i will be in my bunk} is all he says before disappearing.'
+                - 'Without going into specifics, you update your bridge crew on the location of the enemy fleets. It changes nothing about the situation, 
+                but they trust you implicitly and the intel visibly calms them.'
+                - 'The rest of the time spent waiting for engine repairs to complete passes uneventfully.'
+              options:
+                - text: 'Continue'
+                  goToPage: ''
 
         escape:
           intel:

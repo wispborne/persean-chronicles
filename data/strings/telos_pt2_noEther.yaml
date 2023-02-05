@@ -146,11 +146,12 @@ wisp_perseanchronicles:
 
             - id: '7.1-noPsi'
               paras:
-                - "“==There’s another planet the Telos settled== before this one,” he says, leaning in
+                - '“==There’s another planet the Telos settled== before this one,” he says, leaning in
               conspiratorially, “that I got out of the ship computer; they had a ==secret
-              shipyard==. Could have more ships. Maybe even cryosleepers.” He pulls your TriPad over and taps a finger on a point in
+              shipyard==. Could have more ships. Maybe even cryosleepers.”'
+                - 'He pulls your TriPad over and taps a finger on a point in
               hyperspace before letting go. “You go about your business,” he waves his hands dismissively,
-              “but we should really go take a look there."
+              “but we should really go take a look there."'
               options:
                 - id: 'leave'
                   text: 'Close'

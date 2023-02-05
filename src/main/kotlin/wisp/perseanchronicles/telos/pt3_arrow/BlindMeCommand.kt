@@ -12,7 +12,7 @@ class BlindMeCommand : BaseCommand {
 
         game.sector.addScript(NocturneScript())
 //        game.sector.addScript(TelevisionScript())
-        game.sector.characterData.addAbility("wisp_perseanchronicles_television")
+        game.sector.characterData.addAbility("wisp_perseanchronicles_ethersight")
         return BaseCommand.CommandResult.SUCCESS
     }
 }

@@ -1,7 +1,7 @@
 package wisp.perseanchronicles.telos.pt1_deliveryToEarth
 
 import org.json.JSONObject
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
+import wisp.perseanchronicles.common.PersChronCharacters
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.v2.InteractionDialogLogic
@@ -20,7 +20,7 @@ class Telo1CompleteDialog(
         pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
             "3" to {
-                this.dialog.visualPanel.showPersonInfo(DragonsHubMission.karengo)
+                this.dialog.visualPanel.showPersonInfo(PersChronCharacters.karengo)
                 mission.setCurrentStage(Telos1HubMission.Stage.Completed, dialog, null)
 
                 // Start Part 2 on finishing dialog.

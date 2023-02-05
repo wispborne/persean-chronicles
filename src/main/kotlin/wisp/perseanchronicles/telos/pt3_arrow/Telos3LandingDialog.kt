@@ -6,13 +6,14 @@ import com.fs.starfarer.api.impl.campaign.ids.MemFlags
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
+import wisp.perseanchronicles.common.PersChronCharacters
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.getPageById
 import wisp.questgiver.v2.json.query
+import wisp.questgiver.wispLib.addAbilityGainText
 import wisp.questgiver.wispLib.addCommodityGainText
 import wisp.questgiver.wispLib.findFirst
 import kotlin.math.roundToInt
@@ -24,7 +25,7 @@ class Telos3LandingDialog(
     onInteractionStarted = {
 
     },
-    people = { listOfNotNull(DragonsHubMission.karengo) },
+    people = { listOfNotNull(PersChronCharacters.karengo) },
     firstPageSelector = {
         if (Telos3HubMission.state.visitedPrimaryPlanet == true)
             this.single { it.id == "4-go-inside" }
@@ -70,6 +71,17 @@ class Telos3LandingDialog(
                     dialog.textPanel.addCommodityGainText(commodityId = Commodities.SUPPLIES, quantity = supplies)
                     Telos3HubMission.state.retrievedSupplies = true
                 }
+            },
+            "16-powerup-thinky" to {
+                val page = navigator.currentPage()!!
+
+                if (game.sector.playerFleet.fleetData.membersListCopy.any { it.hullId == "wisp_perseanchronicles_vara" })
+                    para { page.extraData["withVara"] as String }
+                else
+                    para { page.extraData["withoutVara"] as String }
+            },
+            "16-powerup-thinky-4" to {
+                dialog.textPanel.addAbilityGainText("wisp_perseanchronicles_ethersight")
             }
         ),
         optionConfigurator = { options ->
@@ -81,7 +93,10 @@ class Telos3LandingDialog(
 
                     "take-ether" -> option.copy(
                         showIf = { Telos3HubMission.state.etherVialChoice == null },
-                        onOptionSelected = { Telos3HubMission.state.etherVialChoice = Telos3HubMission.EtherVialsChoice.Took })
+                        onOptionSelected = {
+                            Telos3HubMission.state.etherVialChoice = Telos3HubMission.EtherVialsChoice.Took
+
+                        })
 
                     "destroy-ether" -> option.copy(
                         showIf = { Telos3HubMission.state.etherVialChoice == null },

@@ -3,6 +3,7 @@ package wisp.perseanchronicles.telos.pt1_deliveryToEarth
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
+import wisp.perseanchronicles.common.PersChronCharacters
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.nirvana.NirvanaHubMission
 import wisp.questgiver.v2.BarEventLogic
@@ -76,5 +77,5 @@ class Telos1BarEventLogic(
             }
         }
     ),
-    people = { listOf(mission.stage1Engineer) }
+    people = { listOf(PersChronCharacters.kellyMcDonald) }
 )

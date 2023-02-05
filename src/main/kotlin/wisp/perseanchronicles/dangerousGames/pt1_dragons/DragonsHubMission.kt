@@ -1,18 +1,15 @@
 package wisp.perseanchronicles.dangerousGames.pt1_dragons
 
-import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
-import com.fs.starfarer.api.characters.FullName
-import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
-import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import wisp.perseanchronicles.common.PersChronCharacters
 import wisp.perseanchronicles.game
 import wisp.questgiver.*
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
@@ -39,27 +36,10 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
             InteractionDefinition.Illustration("wisp_perseanchronicles_dragonriders", "intelPicture")
         val dragonPlanetImage =
             InteractionDefinition.Illustration("wisp_perseanchronicles_dragonriders", "planetIllustration")
-
-        val karengo: PersonAPI
-            get() {
-                val key = "karengo"
-                if (game.memory[key] == null) {
-                    game.memory[key] =
-                        Global.getSettings().createPerson().apply {
-                            this.name = FullName("Karengo", "", FullName.Gender.MALE)
-                            this.setFaction(Factions.INDEPENDENT)
-                            this.postId = Ranks.CITIZEN
-                            this.rankId = Ranks.CITIZEN
-                            this.portraitSprite = "graphics/portraits/portrait20.png"
-                        }
-                }
-
-                return game.memory[key] as PersonAPI
-            }
     }
 
     val karengo
-        get() = DragonsHubMission.karengo
+        get() = PersChronCharacters.karengo
 
     class State(val map: MutableMap<String, Any?>) {
         var seed: Random? by map

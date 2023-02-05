@@ -5,6 +5,7 @@ import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
+import wisp.perseanchronicles.common.PersChronCharacters
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -27,7 +28,7 @@ class Telos2SecondLandingDialog(
     onInteractionStarted = {
 
     },
-    people = { listOfNotNull(DragonsHubMission.karengo) },
+    people = { listOfNotNull(PersChronCharacters.karengo) },
     pages = PagesFromJson(
         pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(

@@ -1,20 +1,20 @@
 package wisp.perseanchronicles.riley
 
-import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
-import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
-import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import wisp.perseanchronicles.common.PersChronCharacters
 import wisp.perseanchronicles.game
-import wisp.questgiver.*
+import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.spriteName
+import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
 import wisp.questgiver.wispLib.*
 import java.awt.Color
@@ -36,27 +36,12 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         val icon = InteractionDefinition.Portrait(category = "wisp_perseanchronicles_riley", id = "icon")
 
         val isFatherWorkingWithGovt: Boolean
-            get() = state.destinationPlanet?.faction?.id?.toLowerCase() in govtsSponsoringSafeAi
+            get() = state.destinationPlanet?.faction?.id?.lowercase() in govtsSponsoringSafeAi
 
         val state = State(PersistentMapData<String, Any?>(key = "rileyState").withDefault { null })
         val choices: Choices = Choices(PersistentMapData<String, Any?>(key = "rileyChoices").withDefault { null })
-
         val riley: PersonAPI
-            get() {
-                val key = "riley"
-                if (game.memory[key] == null) {
-                    game.memory[key] =
-                        Global.getSettings().createPerson().apply {
-                            this.name = FullName(game.text["riley_name"], String.empty, FullName.Gender.FEMALE)
-                            this.setFaction(Factions.INDEPENDENT)
-                            this.postId = Ranks.CITIZEN
-                            this.rankId = Ranks.CITIZEN
-                            this.portraitSprite = game.settings.getSpriteName(icon.category, icon.id)
-                        }
-                }
-
-                return game.memory[key] as PersonAPI
-            }
+            get() = PersChronCharacters.riley
     }
 
     class State(val map: MutableMap<String, Any?>) {
@@ -303,7 +288,7 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
             .sortedByDescending { it.center.distanceFrom(starSystem.center) }
             .filter { it.id != starSystem.id }
             .flatMap { it.solidPlanets }
-            .prefer { it.market?.factionId?.toLowerCase() in govtsSponsoringSafeAi }
+            .prefer { it.market?.factionId?.lowercase() in govtsSponsoringSafeAi }
             .prefer { (it.market?.size ?: 0) > 2 }
             .getNonHostileOnlyIfPossible()
             .take(5)

@@ -10,6 +10,7 @@ import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.impl.campaign.ids.*
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import wisp.perseanchronicles.common.PersChronCharacters
 import wisp.perseanchronicles.game
 import wisp.questgiver.*
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
@@ -32,16 +33,6 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
     }
 
-    val david: PersonAPI by lazy {
-        Global.getSettings().createPerson().apply {
-            this.name = FullName("David", "Rengel", FullName.Gender.MALE)
-            this.setFaction(Factions.INDEPENDENT)
-            this.postId = Ranks.CITIZEN
-            this.rankId = Ranks.CITIZEN
-            this.portraitSprite = NirvanaHubMission.icon.spriteName(game)
-        }
-    }
-
     class State(val map: MutableMap<String, Any?>) {
         var seed: Random? by map
         var startDateMillis: Long? by map
@@ -61,7 +52,7 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
         return state.startDateMillis == null
                 && market != null
-                && market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT.toLowerCase())
+                && market.factionId.lowercase() in listOf(Factions.INDEPENDENT.lowercase())
                 && market.starSystem != null // No prism freeport
                 && market.size > 3
                 && NirvanaHubMission.state.destPlanet != null
@@ -91,8 +82,8 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
 
         name = game.text["nirv_intel_title"]
         setCreditReward(CreditReward.VERY_HIGH) // 95k ish, we want the player to take this.
-        setGiverFaction(david.faction.id) // Rep reward.
-        personOverride = david // Shows on intel, needed for rep reward or else crash.
+        setGiverFaction(PersChronCharacters.davidRengal.faction.id) // Rep reward.
+        personOverride = PersChronCharacters.davidRengal // Shows on intel, needed for rep reward or else crash.
 
         setIconName(game.settings.getSpriteName(NirvanaHubMission.icon.category, NirvanaHubMission.icon.id))
 

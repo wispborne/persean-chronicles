@@ -1,16 +1,11 @@
 package wisp.perseanchronicles.telos.pt1_deliveryToEarth
 
-import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.InteractionDialogAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
-import com.fs.starfarer.api.characters.FullName
-import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.impl.campaign.ids.Conditions
-import com.fs.starfarer.api.impl.campaign.ids.Factions
-import com.fs.starfarer.api.impl.campaign.ids.Ranks
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
 import com.fs.starfarer.api.ui.SectorMapAPI
@@ -19,7 +14,7 @@ import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
-import wisp.perseanchronicles.dangerousGames.pt2_depths.DepthsHubMission
+import wisp.perseanchronicles.common.PersChronCharacters
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.InteractionDefinition
@@ -42,16 +37,6 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         val state = State(PersistentMapData<String, Any?>(key = "telosPt1State").withDefault { null })
         val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
     }
-
-    val stage1Engineer: PersonAPI =
-        Global.getSector().getFaction(Factions.INDEPENDENT)
-            .createRandomPerson(FullName.Gender.FEMALE, getGenRandom()).apply {
-                this.name = FullName("Kelly", "McDonald", FullName.Gender.FEMALE)
-                this.setFaction(Factions.INDEPENDENT)
-                this.postId = Ranks.CITIZEN
-                this.rankId = Ranks.CITIZEN
-                this.portraitSprite = "graphics/portraits/portrait27.png"
-            }
 
     class State(val map: MutableMap<String, Any?>) {
         var seed: Random? by map
@@ -99,8 +84,8 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
 
         name = part1Json.optQuery("/strings/title")
         setCreditReward(CreditReward.VERY_HIGH) // 95k ish, we want the player to take this.
-        setGiverFaction(stage1Engineer.faction.id) // Rep reward.
-        personOverride = stage1Engineer // Shows on intel, needed for rep reward or else crash.
+        setGiverFaction(PersChronCharacters.kellyMcDonald.faction.id) // Rep reward.
+        personOverride = PersChronCharacters.kellyMcDonald // Shows on intel, needed for rep reward or else crash.
 
         // todo change me
         setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))

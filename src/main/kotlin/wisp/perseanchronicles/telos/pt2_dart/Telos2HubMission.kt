@@ -21,7 +21,7 @@ import data.scripts.util.MagicCampaign
 import org.json.JSONArray
 import org.json.JSONObject
 import wisp.perseanchronicles.MOD_ID
-import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
+import wisp.perseanchronicles.common.PersChronCharacters
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
@@ -122,7 +122,7 @@ class Telos2HubMission : QGHubMission() {
         setSuccessStage(Stage.Completed)
 
         name = part2Json.query("/strings/title")
-        personOverride = DragonsHubMission.karengo // Shows on intel, needed for rep reward or else crash.
+        personOverride = PersChronCharacters.karengo // Shows on intel, needed for rep reward or else crash.
 
         // todo change me
         setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))

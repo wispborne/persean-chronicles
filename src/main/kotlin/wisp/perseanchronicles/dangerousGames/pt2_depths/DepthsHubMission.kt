@@ -12,6 +12,7 @@ import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
+import wisp.perseanchronicles.common.PersChronCharacters
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.questgiver.*
@@ -48,7 +49,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
 
         val karengo: PersonAPI
-            get() = DragonsHubMission.karengo
+            get() = PersChronCharacters.karengo
     }
 
     class State(val map: MutableMap<String, Any?>) {
@@ -100,7 +101,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         market ?: return false
 
         return DepthsBarEventWiring().shouldBeAddedToBarEventPool()
-                && market.factionId.toLowerCase() !in listOf("luddic_church", "luddic_path")
+                && market.factionId.lowercase() !in listOf("luddic_church", "luddic_path")
                 && market.starSystem != null // No prism freeport
                 && market.size > 4
     }
@@ -119,7 +120,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
         name = game.text["dg_de_intel_title"]
         setCreditReward(CreditReward.HIGH)
-        setGiverFaction(karengo?.faction?.id) // Rep reward.
+        setGiverFaction(karengo.faction?.id) // Rep reward.
         personOverride = karengo // Shows on intel, needed for rep reward or else crash.
 
         setIconName(DepthsHubMission.icon.spriteName(game))
