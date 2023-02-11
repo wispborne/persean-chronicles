@@ -10,7 +10,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import wisp.perseanchronicles.common.PersChronCharacters
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.spriteName
@@ -41,7 +41,7 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         val state = State(PersistentMapData<String, Any?>(key = "rileyState").withDefault { null })
         val choices: Choices = Choices(PersistentMapData<String, Any?>(key = "rileyChoices").withDefault { null })
         val riley: PersonAPI
-            get() = PersChronCharacters.riley
+            get() = PerseanChroniclesNPCs.riley
     }
 
     class State(val map: MutableMap<String, Any?>) {

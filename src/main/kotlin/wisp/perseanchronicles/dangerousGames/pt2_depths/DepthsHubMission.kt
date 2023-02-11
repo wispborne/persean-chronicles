@@ -1,6 +1,5 @@
 package wisp.perseanchronicles.dangerousGames.pt2_depths
 
-import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.campaign.econ.MarketAPI
@@ -12,7 +11,7 @@ import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
-import wisp.perseanchronicles.common.PersChronCharacters
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.questgiver.*
@@ -49,7 +48,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
 
         val karengo: PersonAPI
-            get() = PersChronCharacters.karengo
+            get() = PerseanChroniclesNPCs.karengo
     }
 
     class State(val map: MutableMap<String, Any?>) {

@@ -6,7 +6,8 @@ import com.fs.starfarer.api.impl.campaign.ids.MemFlags
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
-import wisp.perseanchronicles.common.PersChronCharacters
+import org.magiclib.kotlin.adjustReputationWithPlayer
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.v2.InteractionDialogLogic
@@ -25,7 +26,7 @@ class Telos3LandingDialog(
     onInteractionStarted = {
 
     },
-    people = { listOfNotNull(PersChronCharacters.karengo) },
+    people = { listOfNotNull(PerseanChroniclesNPCs.karengo) },
     firstPageSelector = {
         if (Telos3HubMission.state.visitedPrimaryPlanet == true)
             this.single { it.id == "4-go-inside" }
@@ -72,7 +73,20 @@ class Telos3LandingDialog(
                     Telos3HubMission.state.retrievedSupplies = true
                 }
             },
-            "16-powerup-thinky" to {
+            "16-powerup-bar" to {
+                val page = navigator.currentPage()!!
+
+                if (game.settings.modManager.isModEnabled("alcoholism")) {
+                    if (game.settings.modManager.isModEnabled("PAGSM")) {
+                        para { page.extraData["order-alcoholism-pagsm"] as String }
+                    } else {
+                        para { page.extraData["order-alcoholism"] as String }
+                    }
+                } else {
+                    para { page.extraData["order-vanilla"] as String }
+                }
+            },
+            "16-powerup-main-1" to {
                 val page = navigator.currentPage()!!
 
                 if (game.sector.playerFleet.fleetData.membersListCopy.any { it.hullId == "wisp_perseanchronicles_vara" })
@@ -80,7 +94,7 @@ class Telos3LandingDialog(
                 else
                     para { page.extraData["withoutVara"] as String }
             },
-            "16-powerup-thinky-4" to {
+            "16-powerup-main-4" to {
                 dialog.textPanel.addAbilityGainText("wisp_perseanchronicles_ethersight")
             }
         ),
@@ -95,7 +109,6 @@ class Telos3LandingDialog(
                         showIf = { Telos3HubMission.state.etherVialChoice == null },
                         onOptionSelected = {
                             Telos3HubMission.state.etherVialChoice = Telos3HubMission.EtherVialsChoice.Took
-
                         })
 
                     "destroy-ether" -> option.copy(
@@ -105,6 +118,12 @@ class Telos3LandingDialog(
                     "return-to-orbit" -> option.copy(
                         onOptionSelected = { }
                     )
+
+                    "karengo-cabin" -> option.copy { PerseanChroniclesNPCs.karengo.adjustReputationWithPlayer(.1f, dialog.textPanel) }
+
+                    "cheers-karengo" -> option.copy { PerseanChroniclesNPCs.karengo.adjustReputationWithPlayer(.05f, dialog.textPanel) }
+
+                    "worry-agree" -> option.copy { PerseanChroniclesNPCs.karengo.adjustReputationWithPlayer(.05f, dialog.textPanel) }
 
                     "leave" -> {
                         option.copy(onOptionSelected = {

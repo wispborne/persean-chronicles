@@ -1,16 +1,13 @@
 package wisp.perseanchronicles.nirvana
 
-import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
-import com.fs.starfarer.api.characters.FullName
-import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.impl.campaign.ids.*
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import wisp.perseanchronicles.common.PersChronCharacters
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.questgiver.*
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
@@ -82,8 +79,8 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
 
         name = game.text["nirv_intel_title"]
         setCreditReward(CreditReward.VERY_HIGH) // 95k ish, we want the player to take this.
-        setGiverFaction(PersChronCharacters.davidRengal.faction.id) // Rep reward.
-        personOverride = PersChronCharacters.davidRengal // Shows on intel, needed for rep reward or else crash.
+        setGiverFaction(PerseanChroniclesNPCs.davidRengal.faction.id) // Rep reward.
+        personOverride = PerseanChroniclesNPCs.davidRengal // Shows on intel, needed for rep reward or else crash.
 
         setIconName(game.settings.getSpriteName(NirvanaHubMission.icon.category, NirvanaHubMission.icon.id))
 

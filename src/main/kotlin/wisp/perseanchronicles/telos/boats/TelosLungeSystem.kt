@@ -9,7 +9,6 @@ import com.fs.starfarer.api.impl.combat.BaseShipSystemScript
 import com.fs.starfarer.api.impl.combat.PhaseCloakStats
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript
 import wisp.perseanchronicles.game
-import java.awt.Color
 
 class TelosLungeSystem : BaseShipSystemScript() {
     val speedBoost = 1000f
@@ -31,7 +30,7 @@ class TelosLungeSystem : BaseShipSystemScript() {
             .forEach { module ->
 //                if (!applied) {
 //                    repeat(times = 4) {
-                        module.useSystem()
+                module.useSystem()
 //                    }
 //                    applied = true
 //                }
@@ -49,7 +48,7 @@ class TelosLungeSystem : BaseShipSystemScript() {
                 .orEmpty()
                 .mapNotNull { it.effectPlugin }
                 .filterIsInstance<TelosEngineEffects>()
-                .forEach { it.baseNebulaColorOverride = Color.decode("#F065FF") }
+                .forEach { it.baseNebulaColorOverride = TelosEngineEffects.currentPalette.phaseInitial }
 
             stats.maxSpeed.modifyFlat(id, speedBoost)
             stats.acceleration.modifyFlat(id, speedBoost)
@@ -77,7 +76,7 @@ class TelosLungeSystem : BaseShipSystemScript() {
                 .orEmpty()
                 .mapNotNull { it.effectPlugin }
                 .filterIsInstance<TelosEngineEffects>()
-                .forEach { it.baseNebulaColorOverride = Color.decode("#9648ff") }
+                .forEach { it.baseNebulaColorOverride = TelosEngineEffects.currentPalette.phaseMain }
 
             TelosPhase.apply(stats, id, state, effectLevel)
         }

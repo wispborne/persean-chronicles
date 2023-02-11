@@ -434,7 +434,7 @@ wisp_perseanchronicles:
               paras:
                 - '"Well, that is a bit of problem, actually," replies your nav officer, "We can''t move, we don''t know where the enemy is, 
                 and we don''t know how fast they are. Even when the sensors are up, the nebula means we won''t even see much."'
-                - '"It''s safe to say that our nav option," they stress the last word, "is to get some sleep, or pray, or whatever you need to do, 
+                - '"It''s safe to say that our nav option," they stress the last word, "is to get some sleep, or drink, or whatever you need to do, 
                 and hope that these repairs aren''t delayed."'
               onPageShown:
                 goToPage: '14-question-bridge'
@@ -452,33 +452,163 @@ wisp_perseanchronicles:
                   goToPage: '16-powerup-socialize'
                 - text: 'Visit Karengo.'
                   goToPage: '16-powerup-karengo' # Romance?????
-                - text: 'Go to your prayer room.'
-                  goToPage: '16-powerup-pray'
-                - text: 'Practice a hobby.'
-                  goToPage: '16-powerup-ddr'
+                # - text: 'Go to your study to pray.'
+                #   goToPage: '16-powerup-pray'
+                # - text: 'Practice a hobby.'
+                #   goToPage: '16-powerup-ddr'
                 - text: 'Head to the bar.' # add drinks from Substance Abuse if enabled.
-                  goToPage: '16-powerup-drink'
+                  goToPage: '16-powerup-bar'
 
             - id: '16-powerup-thinky'
               paras:
-                - 'Despite - finally - having some peace and quiet for contemplation, no answers seem forthcoming. 
-                Your fleet is crippled and at least one fleet of unknown makeup is on its way to eliminate witnesses.'
-              withVara: 'You find yourself withdrawing, examining your own state of mind, and you notice the other presences. 
-              Karengo, still in the mess hall. The Vara, hull crawling with repair crew. The Itesh, drifting peacefully.'
-              withoutVara: 'You find yourself withdrawing, examining your own state of mind, and you notice the other presences. 
-              Karengo, still in the mess hall. The Itesh, drifting peacefully.'
+                - 'Despite - finally - having some peace and quiet for contemplation, no answers seem forthcoming.'
               options:
                 - text: 'Continue'
-                  goToPage: '16-powerup-thinky-2'
+                  goToPage: '16-powerup-main-1'
 
-            - id: '16-powerup-thinky-2'
+            - id: '16-powerup-socialize'
+              paras:
+                - 'To take your mind off matters, you decide to spend some time with the crew you''re closest to.'
+                - 'Time passes quickly, as it always does in good company, although the laughter is perhaps 
+                more strained, the smiles too forced, the conversation too safe.'
+                - 'The ceiling of your cabin stares down at you.'
+              options:
+                - text: 'Continue'
+                  goToPage: '16-powerup-main-1'
+
+            - id: '16-powerup-karengo'
+              paras:
+                - 'Rather than communicating mind-to-mind, you walk to the mess and sit next to Karengo. He pauses halfway through a 
+                strip of AstroBacon, then resumes chewing.'
+                - '$cv:pc_karengo{so what is the plan} he asks, with a surprising lack of concern.'
+                - '$cv:pc_telos{we will be ok when the engines repairs are done} you reply, but you know your uncertainty slips through.'
+                - '$cv:pc_karengo{then we have more than enough time for a drink}'
+              options:
+                - text: 'Go to the bar'
+                  goToPage: '16-powerup-bar'
+                - id: 'karengo-cabin'
+                  text: 'Go to your cabin'
+                  goToPage: '16-powerup-karengo-2'
+
+            # +10 rep
+            - id: '16-powerup-karengo-2'
+              paras:
+                - 'The two of you retire to your own quarters and you unstopper a few ''special occasion'' bottles.'
+                - 'After that, time blurs. Karengo shares more stories from Ailmar and you recount
+                            close calls and near-disasters gathered over the years.'
+                - 'All too soon, Karengo announces he has somewhere to be and leaves you alone with your thoughts -
+                            few of them pleasant.'
+              options:
+                - text: 'Continue'
+                  goToPage: '16-powerup-main-1'
+
+              # hmm
+            #            - id: '16-powerup-karengo-romance'
+            #              paras:
+            #                - ''
+            #              options:
+            #                - text: 'Continue'
+            #                  goToPage: '16-powerup-main-1'
+
+            - id: '16-powerup-bar'
+              paras:
+                - 'The ship''s watering hole is emptier than usual, much of the crew working overtime on repairs, 
+                but you note a higher than usual number of senior officers.'
+              order-vanilla: 'You order a round for everybody, and an extra few for yourself.'
+              order-alcoholism: 'You order a round for everybody, and a few Absynths for yourself.'
+              order-alcoholism-pagsm: 'You order a round of Askonia Sunshines for everybody, plus a few more just for yourself, 
+              which you line up on your table. 
+              Five little Volturn-y the Volturnian Lobster stickers stare at you with crustacean concern.'
+              options:
+                - text: 'Drink'
+                  goToPage: '16-powerup-bar-2'
+
+            - id: '16-powerup-bar-2'
+              paras:
+                - 'You are finishing your fourth drink when Karengo arrives, interrupting a junior officer''s dubious story of the time she 
+                was on Port Tse and witnessed High Hegemon Daud entering the notorious ''Oldest Profession'' establishment. He grabs an 
+                untouched glass.'
+                - '"To beating the odds!" he proclaims, raising his drink.'
+              options:
+                # +5 rep
+                - id: 'cheers-karengo'
+                  text: 'Cheers'
+                  goToPage: '16-powerup-bar-3'
+                - text: 'Do nothing'
+                  goToPage: '16-powerup-bar-3'
+
+            - id: '16-powerup-bar-3'
+              paras:
+                - 'Others clink their glasses politely, but the reminder of ''the odds'' effectively douses the mood. Oblivious, 
+                Karengo launches into a story of when he wrestled one of the dragons of ${dragonPlanet} to the ground.'
+              options:
+                - text: 'Continue'
+                  goToPage: '16-powerup-bar-4'
+
+            - id: '16-powerup-bar-4'
+              paras:
+                - 'Before long, people start to make excuses and leave, looking downcast.'
+                - '$cv:pc_telos{reprovingly: they came here to forget what is coming} you send.'
+                - '$cv:pc_karengo{then they are fools} he replies $cv:pc_karengo{worrying over something you cannot control is a waste of energy}'
+              options:
+                # +5 rep
+                - id: 'worry-agree'
+                  text: '$cv:pc_telos{well said}'
+                  goToPage: '16-powerup-bar-4-ISTJ'
+                - text: '$cv:pc_telos{feeling is just part of being human}'
+                  goToPage: '16-powerup-bar-4-ESFP'
+
+            - id: '16-powerup-bar-4-ISTJ'
+              paras:
+                - '$cv:pc_karengo{you do not survive on your own in this sector with self-inflicted pain}'
+              options:
+                - onPageShown:
+                    goToPage: '16-powerup-bar-5'
+
+            - id: '16-powerup-bar-4-ESFP'
+              paras:
+                - '$cv:pc_karengo{and controlling them is what makes us strong}'
+              options:
+                - onPageShown:
+                    goToPage: '16-powerup-bar-5'
+
+            - id: '16-powerup-bar-5'
+              paras:
+                - 'Karengo pushes himself back from the table.'
+                - '$cv:pc_karengo{anyway  i have a date   or something like that} He somehow manages to wink telepathically on his way out and 
+                you realize you''ve been sitting silently for the last few minutes. The few remaining patrons seem not to notice.'
+              options:
+                - text: 'Continue'
+                  goToPage: '16-powerup-bar-6'
+
+            - id: '16-powerup-bar-6'
+              paras:
+                - 'Head heavy with drink and dread, you return the captain''s cabin. Inevitably, your mind wanders while you pour a glass of water 
+                and settle into a reclining chair.'
+              options:
+                - text: 'Continue'
+                  goToPage: '16-powerup-main-1'
+
+            # Main powerup branch
+            - id: '16-powerup-main-1'
+              paras:
+                - 'Your fleet is crippled and at least one fleet of unknown makeup is on its way to eliminate witnesses.'
+              withVara: 'You find yourself withdrawing, examining your own state of mind, and you notice the other presences. 
+              Karengo, walking the corridors. The Vara, hull crawling with repair crew. The Itesh, drifting peacefully.'
+              withoutVara: 'You find yourself withdrawing, examining your own state of mind, and you notice the other presences. 
+              Karengo, walking the corridors. The Itesh, drifting peacefully.'
+              options:
+                - text: 'Continue'
+                  goToPage: 'otherPageId'
+
+            - id: '16-powerup-main-2'
               paras:
                 - 'At the edge of the now-familiar, though, you feel other things not easily explained.'
               options:
                 - text: 'Focus'
-                  goToPage: '16-powerup-thinky-3'
+                  goToPage: '16-powerup-main-3'
 
-            - id: '16-powerup-thinky-3'
+            - id: '16-powerup-main-3'
               paras:
                 - 'You close your eyes and reach out. The strongest sensation dwarfs the rest, radiant, hot; the yellow star at the center of the system.'
                 - 'The rest are dimmer, but you focus past the star, reaching across light minutes and zeroing in on pinpricks, bright against the void. 
@@ -486,9 +616,9 @@ wisp_perseanchronicles:
                 - 'It seems to pulse with hostility.'
               options:
                 - text: 'Explore further'
-                  goToPage: '16-powerup-thinky-4'
+                  goToPage: '16-powerup-main-4'
 
-            - id: '16-powerup-thinky-4'
+            - id: '16-powerup-main-4'
               paras:
                 - 'You release your focus on the fleet and dive into other dimples in your awareness. Nebulae. Asteroids. The planet spinning below. 
                 The other jump point. And there; another fleet moving toward yours, angry with intent.'
@@ -497,18 +627,27 @@ wisp_perseanchronicles:
                 - 'With some effort, you block it out and refocus on the ship around you.'
               options:
                 - text: 'Continue'
-                  goToPage: '16-powerup-thinky-5'
+                  goToPage: '16-powerup-main-5'
 
-            - id: '16-powerup-thinky-5'
+            - id: '16-powerup-main-5'
               paras:
-#                - 'You show this ability to Karengo. It takes him longer to learn, but when he does, he walls off his mind.
-#                $cv:pc_karengo{i will be in my bunk} is all he says before disappearing.'
+                # - 'You show this ability to Karengo. It takes him longer to learn, but when he does, he walls off his mind.
+                # $cv:pc_karengo{i will be in my bunk} is all he says before disappearing.'
                 - 'Without going into specifics, you update your bridge crew on the location of the enemy fleets. It changes nothing about the situation, 
                 but they trust you implicitly and the intel visibly calms them.'
-                - 'The rest of the time spent waiting for engine repairs to complete passes uneventfully.'
+                - 'The rest of the time passes uneventfully, but the fleets bearing down on yours are never quite out of mind.'
               options:
                 - text: 'Continue'
-                  goToPage: ''
+                  goToPage: '16-powerup-main-6'
+
+            - id: '16-powerup-main-6'
+              paras:
+                - 'At long last, the drive engines are repaired, but the fleet is still far from fighting capacity, 
+                and ==sensors are still offline==.'
+                - 'Every one of your officers agrees; ==running== to fight another day is the best course of action.'
+              options:
+                - id: 'flee'
+                  text: 'Take the helm'
 
         escape:
           intel:

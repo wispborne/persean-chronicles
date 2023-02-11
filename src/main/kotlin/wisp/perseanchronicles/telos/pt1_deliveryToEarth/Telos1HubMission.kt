@@ -14,7 +14,7 @@ import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
-import wisp.perseanchronicles.common.PersChronCharacters
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.InteractionDefinition
@@ -84,8 +84,8 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
 
         name = part1Json.optQuery("/strings/title")
         setCreditReward(CreditReward.VERY_HIGH) // 95k ish, we want the player to take this.
-        setGiverFaction(PersChronCharacters.kellyMcDonald.faction.id) // Rep reward.
-        personOverride = PersChronCharacters.kellyMcDonald // Shows on intel, needed for rep reward or else crash.
+        setGiverFaction(PerseanChroniclesNPCs.kellyMcDonald.faction.id) // Rep reward.
+        personOverride = PerseanChroniclesNPCs.kellyMcDonald // Shows on intel, needed for rep reward or else crash.
 
         // todo change me
         setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))

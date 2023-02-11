@@ -9,7 +9,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import wisp.perseanchronicles.common.PersChronCharacters
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.questgiver.*
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
@@ -39,7 +39,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     }
 
     val karengo
-        get() = PersChronCharacters.karengo
+        get() = PerseanChroniclesNPCs.karengo
 
     class State(val map: MutableMap<String, Any?>) {
         var seed: Random? by map

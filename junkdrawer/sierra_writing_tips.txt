@@ -1,0 +1,23 @@
+Writing Sierra - A Short Guide
+
+- If in doubt, ask me
+
+- Try to keep her personality and vibes consistent with Secrets of the Frontier. Sierra is peppy and optimistic, but not unfalteringly so - life-threatening danger rarely fazes her but "supernatural" occurences and questionable morality definitely can (see post-Ziggurat/Omega/Wayward Star convos for former, post-satbomb convo and her Iron Shell interaction for latter). She's friendly and somewhat naive but not stupid - she can pick up when things are off. Music, nature and technology (especially phase tech) are all bound to pique her interest and she responds well to people who are genuine and passionate in what they do.
+
+- It's really easy to go overboard on the excitement-factor when writing Sierra - she doesn't need to be constantly hyper and spamming exclamation marks in situations that don't call for it.
+
+- Sierra will not reveal herself to a person she doesn't personally know unless the player encourages her to, putting up a facade as a delta-level conversation engine/personal assistant/digital avatar/etc.
+
+- Assume Sierra regularly interfaces with any publicly-accessible planetary/station internet/news equivalent - she knows what's going on in the Sector beyond the confines of the fleet's activity
+
+- Sierra isn't perfect at imitating a human - a particularly perceptive individual might have suspicions (e.g she might forget to add human-appropriate delays when using technology), though determining she's an AI via hacking is nigh-impossible thanks to an Dustkeeper-gifted security package
+
+- All of Sierra's quoted dialogue must be purple
+
+- Any dialogue option that involves the player being unusually rude to Sierra should increase their Guilt score by 0.5. See SotfSierraCMD addHalfGuilt rulecommand
+
+- Sierra can excuse player mistakes, but not outright atrocities like satbombing or explicit betrayal (though she won't recognise minor rudeness - this still adds Guilt, though)
+
+- Sierra's forms: Her ship, her weird-shaped avatar, the repair spiders. That's all until further notice.
+
+- Don't make things weird, no romance, y'know the drill

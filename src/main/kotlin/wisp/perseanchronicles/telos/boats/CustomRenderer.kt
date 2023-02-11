@@ -5,9 +5,9 @@ import com.fs.starfarer.api.combat.*
 import com.fs.starfarer.api.input.InputEventAPI
 import org.lazywizard.lazylib.VectorUtils
 import org.lazywizard.lazylib.ext.plus
-import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL14.*
 import org.lwjgl.util.vector.Vector2f
+import wisp.questgiver.wispLib.interpolateColor
 import wisp.questgiver.wispLib.modify
 import wisp.questgiver.wispLib.random
 import java.awt.Color
@@ -55,6 +55,7 @@ class CustomRenderer : BaseEveryFrameCombatPlugin() {
     }
 
     private fun renderNebula(nebula: Nebula, view: ViewportAPI) {
+        // Removed because it causes the fx to disappear when you zoom in.
         // Rude for performance but it's not like there will be a ton of ships using this offscreen.
 //        if (!view.isNearViewport(nebula.location, 500f)) return
 
@@ -81,9 +82,15 @@ class CustomRenderer : BaseEveryFrameCombatPlugin() {
                 nebula.size + (nebula.endSize - nebula.size) * nebula.lifetime / nebula.duration
             }
 
-
+        val lifeFraction = nebula.lifetime / nebula.duration
         cloudSprite.apply {
-            color = nebula.color.modify(alpha = alpha)
+            color = nebula.color
+
+            if (nebula.color != nebula.outColor) {
+                color = color.interpolateColor(nebula.outColor, lifeFraction)
+            }
+
+            color = color.modify(alpha = alpha)
             setAdditiveBlend()
             angle = nebula.angle
             setSize(actualSize * 4f, actualSize * 4f)
@@ -99,7 +106,7 @@ class CustomRenderer : BaseEveryFrameCombatPlugin() {
         // OpenGL witchcraft that I don't actually understand
         if (nebula.negative) {
             glBlendEquation(GL_FUNC_REVERSE_SUBTRACT)
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE)
+//            glBlendFunc(GL_SRC_ALPHA, GL_ONE)
         }
 
         cloudSprite.renderRegionAtCenter(
@@ -128,7 +135,8 @@ class CustomRenderer : BaseEveryFrameCombatPlugin() {
         var layer: CombatEngineLayers,
         var type: NebulaType,
         var negative: Boolean,
-        var sqrt: Boolean
+        var sqrt: Boolean,
+        val outColor: Color
     ) {
         var lifetime = 0f
         val index = (0..11).random()
@@ -155,7 +163,8 @@ class CustomRenderer : BaseEveryFrameCombatPlugin() {
             layer: CombatEngineLayers = CombatEngineLayers.ABOVE_SHIPS_AND_MISSILES_LAYER,
             type: NebulaType = NebulaType.NORMAL,
             negative: Boolean = false,
-            expandAsSqrt: Boolean = false
+            expandAsSqrt: Boolean = false,
+            outColor: Color = color
         ) = Nebula(
             location = Vector2f(location),
             anchorLocation = anchorLocation,
@@ -169,7 +178,8 @@ class CustomRenderer : BaseEveryFrameCombatPlugin() {
             layer = layer,
             type = type,
             negative = negative,
-            sqrt = expandAsSqrt
+            sqrt = expandAsSqrt,
+            outColor = outColor
         )
             .also { newNebula -> nebulaData.add(newNebula) }
     }
@@ -182,7 +192,7 @@ class CustomRenderer : BaseEveryFrameCombatPlugin() {
         }
 
         override fun getRenderRadius(): Float {
-            return 999999999999999f
+            return 9.9999999E14f
         }
 
         override fun getActiveLayers(): EnumSet<CombatEngineLayers> {

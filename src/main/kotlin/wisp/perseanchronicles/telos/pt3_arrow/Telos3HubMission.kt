@@ -15,7 +15,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import wisp.perseanchronicles.MOD_ID
-import wisp.perseanchronicles.common.PersChronCharacters
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
@@ -97,7 +97,7 @@ class Telos3HubMission : QGHubMission() {
         setSuccessStage(Stage.Completed)
 
         name = part3Json.query("/strings/title")
-        personOverride = PersChronCharacters.karengo // Shows on intel, needed for rep reward or else crash.
+        personOverride = PerseanChroniclesNPCs.karengo // Shows on intel, needed for rep reward or else crash.
 
         // todo change me
         setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))

@@ -4,19 +4,26 @@
       {
         "file": "Threading_The_Abyss.ogg",
         "source": "sounds/music",
-        "volume": 1
+        "volume": 1.2
       }
     ],
     "wisp_perseanchronicles_telosThemeMusic": [
       {
-        "file": "Telos.ogg",
+        "file": "TelosExploration.ogg",
         "source": "sounds/music",
-        "volume": 1
+        "volume": 1.2
       }
     ],
     "wisp_perseanchronicles_telosDoomedMusic": [
       {
         "file": "TelosDoomed.ogg",
+        "source": "sounds/music",
+        "volume": 1
+      }
+    ],
+    "wisp_perseanchronicles_telosEvasionMusic": [
+      {
+        "file": "TelosEvasion.ogg",
         "source": "sounds/music",
         "volume": 1
       }

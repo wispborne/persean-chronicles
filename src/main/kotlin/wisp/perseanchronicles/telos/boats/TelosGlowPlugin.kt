@@ -39,7 +39,7 @@ class TelosGlowPlugin(
 
     fun advance(amount: Float, engine: CombatEngineAPI, weapon: WeaponAPI) {
         val ship = weapon.ship
-        val baseColor = Color.decode("#39a3ff")
+        val baseColor = TelosEngineEffects.currentPalette.glowBase
 
         if (ship == null || !ship.isAlive) {
             if (runOnce) {
@@ -59,8 +59,8 @@ class TelosGlowPlugin(
         val ec = ship.engineController
 
         val fluxColor = when (scalar) {
-            Scalar.SPEED -> Color.decode("#03c6fc")
-            Scalar.FLUX -> Color.decode("#ff4069")
+            Scalar.SPEED -> TelosEngineEffects.currentPalette.speedGlow
+            Scalar.FLUX -> TelosEngineEffects.currentPalette.fluxGlow
         }
 
         val scalar = when (scalar) {

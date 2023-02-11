@@ -2,7 +2,8 @@ package wisp.perseanchronicles.telos.pt2_dart
 
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
-import wisp.perseanchronicles.common.PersChronCharacters
+import org.magiclib.kotlin.adjustReputationWithPlayer
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.v2.IInteractionLogic
@@ -16,7 +17,7 @@ class Telos2FirstLandingDialog(
     mission: Telos2HubMission = game.sector.intelManager.findFirst()!!
 ) : InteractionDialogLogic<Telos2FirstLandingDialog>(
     onInteractionStarted = null,
-    people = { listOfNotNull(PersChronCharacters.karengo) },
+    people = { listOfNotNull(PerseanChroniclesNPCs.karengo) },
     pages = PagesFromJson(
         stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
@@ -56,6 +57,7 @@ class Telos2FirstLandingDialog(
                     "injectSelf" -> option.copy(
                         onOptionSelected = {
                             Telos2HubMission.choices.injectedSelf = true
+                            PerseanChroniclesNPCs.karengo.adjustReputationWithPlayer(.05f, dialog.textPanel)
                         })
 
                     "noInject" -> option.copy(

@@ -16,15 +16,14 @@ import kotlin.random.Random
  * Originally `tahlan_PhaseEngines`, thank you Nia.
  */
 class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
+
     companion object {
-        val baseNegativeColor = Color(24, 254, 109)
-        val baseNebulaColor = Color.decode("#1972DB")
-        val baseSwirlyNebulaColor = Color.decode("#3498db")
+        var currentPalette = ColorPalettes.paletteTeal
     }
 
-    var baseNegativeColorOverride: Color? = null
     var baseNebulaColorOverride: Color? = null
     var baseSwirlyNebulaColorOverride: Color? = null
+    var baseNegativeColorOverride: Color? = null
 
     private val interval = IntervalUtil(0.03f, 0.04f)
     private var alphaMult = 0f
@@ -32,6 +31,9 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
     // TODO: optimization
     override fun advance(amount: Float, engine: CombatEngineAPI, weapon: WeaponAPI) {
         interval.advance(amount)
+
+        // TODO remove
+        currentPalette = ColorPalettes.paletteDefault
 
         // we calculate our alpha every frame since we smoothly shift it
         val ship = weapon.ship
@@ -81,17 +83,16 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
             }
 
         val negativeColor =
-            (baseNegativeColorOverride ?: baseNegativeColor).modify(
-                green = 255,
+            (baseNegativeColorOverride ?: currentPalette.baseNegative).modify(
                 alpha = (1 * alphaMult * alphaScale).roundToInt().coerceIn(0..255)
             )
         val nebulaColor =
-            (baseNebulaColorOverride ?: baseNebulaColor).modify(
+            (baseNebulaColorOverride ?: currentPalette.baseNebula).modify(
                 alpha = (70 * alphaMult * alphaScale).roundToInt().coerceIn(0..255)
             )
         val swirlyNebulaColor =
             (baseSwirlyNebulaColorOverride
-                ?: baseSwirlyNebulaColor).modify(alpha = (55 * alphaMult * alphaScale).roundToInt().coerceIn(0..255))
+                ?: currentPalette.baseSwirlyNebula).modify(alpha = (55 * alphaMult * alphaScale).roundToInt().coerceIn(0..255))
 
         val emitters = ship.hullSpec.allWeaponSlotsCopy
             .filter { it.isSystemSlot }
