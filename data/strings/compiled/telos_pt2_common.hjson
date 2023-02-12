@@ -42,7 +42,7 @@
               "id" : "2",
               "paras" : [ "Karengo sweeps past the scene to a door on the far side and steps through. \"Here's what we came for!\" he calls. Stepping back out, he hands you one of two capped syringes, the contents gray.", "\"It's Ether,\" he says. \"One shot o’this, and your mind will be expanded. I’m talking telepathy, mind meld, telekinesis, remote vision…it's taken months to track down this site, and this vial’s for you as my thanks for the lift.\"" ],
               "onPageShown" : {
-                "goToPage" : 3
+                "goToPage" : "3"
               }
             }, {
               "id" : "3",
@@ -69,7 +69,7 @@
               "id" : "4",
               "paras" : [ "Karengo laughs. “Let’s each hold onto these for now then, yeah? They seem to keep well, so we can use ‘em any time.”" ],
               "onPageShown" : {
-                "goToPage" : 3
+                "goToPage" : "3"
               }
             }, {
               "id" : "5",

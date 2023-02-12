@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.telos.pt3_arrow
 
+import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.impl.campaign.ids.*
 import com.fs.starfarer.api.impl.campaign.procgen.StarAge
 import com.fs.starfarer.api.util.Misc
@@ -11,19 +12,21 @@ import java.awt.Color
 
 object MenriSystemCreator {
 
-    fun createMenri(): Boolean {
+    fun createMenri(): PlanetAPI? {
         // gate
         // habitable with small rings
         // two? jump points
         // some hidey points
         val systemOrbitDays = 180f
+        val planetName = "Menri"
+        val systemName = "Lama"
 
-        if (game.sector.getStarSystem("Lama") != null) {
+        if (game.sector.getStarSystem(systemName) != null) {
             game.logger.w { "Lama system already exists!" }
-            return true
+            return game.sector.getStarSystem(systemName).planets.firstOrNull { it.name == planetName }
         }
 
-        val system = game.sector.createStarSystem("Lama")
+        val system = game.sector.createStarSystem(systemName)
 
         system.backgroundTextureFilename = "graphics/backgrounds/background5.jpg"
         system.addTag(Tags.THEME_HIDDEN)
@@ -37,7 +40,7 @@ object MenriSystemCreator {
         )
             .apply {
                 spec
-                name = "Lama"
+                name = systemName
                 applySpecChanges()
             }
 
@@ -58,7 +61,7 @@ object MenriSystemCreator {
         val menri = system.addPlanet(
             "pc_menri",
             star,
-            "Menri",
+            planetName,
             "rocky_metallic",
             0f,
             100f,
@@ -134,7 +137,7 @@ object MenriSystemCreator {
             )
         ) {
             game.logger.e { "Catastrophic failure! Unable to find somewhere to place Lama! Quest cannot continue." }
-            return false
+            return null
         }
 
         // Pave the hyperspace clouds
@@ -144,6 +147,6 @@ object MenriSystemCreator {
 
         game.logger.i { "Placed Lama at ${system.location.x}, ${system.location.y} in the ${system.constellation?.name} constellation." }
 
-        return true
+        return menri
     }
 }

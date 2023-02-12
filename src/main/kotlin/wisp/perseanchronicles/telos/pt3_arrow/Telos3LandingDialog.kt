@@ -53,6 +53,9 @@ class Telos3LandingDialog(
                 if (Telos3HubMission.state.etherVialChoice == null)
                     para { getPageById(stageJson.query("/pages"), "4-labs-2")?.optString("vials") ?: "" }
             },
+            "4-labs-destroy-ether" to {
+                PerseanChroniclesNPCs.karengo.adjustReputationWithPlayer(-.05f, dialog.textPanel)
+            },
             "4-storage" to {
                 if (Telos3HubMission.state.retrievedSupplies != true) {
                     val random = Misc.getRandom(game.sector.memoryWithoutUpdate.getLong(MemFlags.SALVAGE_SEED), 100)
@@ -71,6 +74,15 @@ class Telos3LandingDialog(
                     // todo add any that don't fit onboard to orbit
                     dialog.textPanel.addCommodityGainText(commodityId = Commodities.SUPPLIES, quantity = supplies)
                     Telos3HubMission.state.retrievedSupplies = true
+                }
+            },
+            "14-question-bridge" to {
+                if (Telos3HubMission.state.viewedWho == true
+                    && Telos3HubMission.state.viewedWhat == true
+                    && Telos3HubMission.state.viewedWhen == true
+                    && Telos3HubMission.state.viewedWhere == true
+                ) {
+                    navigator.goToPage("15-powerup-choice")
                 }
             },
             "16-powerup-bar" to {
@@ -95,8 +107,12 @@ class Telos3LandingDialog(
                     para { page.extraData["withoutVara"] as String }
             },
             "16-powerup-main-4" to {
-                dialog.textPanel.addAbilityGainText("wisp_perseanchronicles_ethersight")
-            }
+                if (TelosCommon.ETHER_SIGHT_ID !in game.sector.characterData.abilities) {
+                    game.sector.characterData.addAbility(TelosCommon.ETHER_SIGHT_ID)
+                    game.sector.playerFleet.addAbility(TelosCommon.ETHER_SIGHT_ID)
+                    dialog.textPanel.addAbilityGainText(TelosCommon.ETHER_SIGHT_ID)
+                }
+            },
         ),
         optionConfigurator = { options ->
             options.map { option ->
@@ -116,7 +132,27 @@ class Telos3LandingDialog(
                         onOptionSelected = { Telos3HubMission.state.etherVialChoice = Telos3HubMission.EtherVialsChoice.Destroyed })
 
                     "return-to-orbit" -> option.copy(
-                        onOptionSelected = { }
+                        onOptionSelected = { this.navigator.close(doNotOfferAgain = false) }
+                    )
+
+                    "debrief-who" -> option.copy(
+                        showIf = { Telos3HubMission.state.viewedWho != true },
+                        onOptionSelected = { Telos3HubMission.state.viewedWho = true },
+                    )
+
+                    "debrief-what" -> option.copy(
+                        showIf = { Telos3HubMission.state.viewedWhat != true },
+                        onOptionSelected = { Telos3HubMission.state.viewedWhat = true },
+                    )
+
+                    "debrief-when" -> option.copy(
+                        showIf = { Telos3HubMission.state.viewedWhen != true },
+                        onOptionSelected = { Telos3HubMission.state.viewedWhen = true },
+                    )
+
+                    "debrief-where" -> option.copy(
+                        showIf = { Telos3HubMission.state.viewedWhere != true },
+                        onOptionSelected = { Telos3HubMission.state.viewedWhere = true },
                     )
 
                     "karengo-cabin" -> option.copy { PerseanChroniclesNPCs.karengo.adjustReputationWithPlayer(.1f, dialog.textPanel) }
@@ -125,7 +161,7 @@ class Telos3LandingDialog(
 
                     "worry-agree" -> option.copy { PerseanChroniclesNPCs.karengo.adjustReputationWithPlayer(.05f, dialog.textPanel) }
 
-                    "leave" -> {
+                    "flee" -> {
                         option.copy(onOptionSelected = {
                             mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystem, null, null)
                             this.navigator.close(doNotOfferAgain = true)

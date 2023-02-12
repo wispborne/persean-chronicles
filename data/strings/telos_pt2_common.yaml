@@ -65,20 +65,20 @@ wisp_perseanchronicles:
               months to track down this site, and this vial’s for you as my thanks
               for the lift."'
               onPageShown:
-                goToPage: 3
+                goToPage: '3'
             - id: '3'
               options:
-                - id: requestMoreInfo
+                - id: 'requestMoreInfo'
                   text: "“I'm gonna need to know a lot more.”"
                   goToPage: '5'
-                - id: afterYou
+                - id: 'afterYou'
                   text: "“Right after you.”"
                   goToPage: '4'
-                - id: noInject
+                - id: 'noInject'
                   text: "==Wait until later=="
                   tooltip: 'This choice will not affect quest rewards.'
                   goToPage: '12'
-                - id: injectSelf
+                - id: 'injectSelf'
                   text: "==Inject yourself=="
                   tooltip: 'This choice will not affect quest rewards.'
                   goToPage: '7'
@@ -87,7 +87,7 @@ wisp_perseanchronicles:
                 - 'Karengo laughs. “Let’s each hold onto these for now then, yeah? They
                   seem to keep well, so we can use ‘em any time.”'
               onPageShown:
-                goToPage: 3
+                goToPage: '3'
             - id: '5'
               paras:
                 - 'Karengo lowers his voice theatrically and glances around, as if ensuring
@@ -190,7 +190,7 @@ wisp_perseanchronicles:
                   “quick and next to painless”. You find yourself with little choice but
                   to wait until they are done before returning planetside.'
               options:
-                - id: leave
+                - id: 'leave'
                   text: 'Leave'
             - id: '12'
               paras:
@@ -221,7 +221,7 @@ wisp_perseanchronicles:
                   head of engineering sounds apologetic. “Just give us a day here and
                   it’ll be open when you return.”'
               options:
-                - id: leave
+                - id: 'leave'
                   text: 'Leave'
         completed:
           intel:

@@ -19,7 +19,6 @@ import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
-import wisp.perseanchronicles.telos.pt3_arrow.nocturne.NocturneScript
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.spriteName
 import wisp.questgiver.v2.QGHubMission
@@ -52,6 +51,10 @@ class Telos3HubMission : QGHubMission() {
         var searchedForSurvivors: Boolean? by map
         var visitedLabs: Boolean? by map
         var sawKryptaDaydream: Boolean? by map
+        var viewedWho: Boolean? by map
+        var viewedWhat: Boolean? by map
+        var viewedWhen: Boolean? by map
+        var viewedWhere: Boolean? by map
     }
 
     enum class EtherVialsChoice {
@@ -95,6 +98,7 @@ class Telos3HubMission : QGHubMission() {
 
         setStartingStage(Stage.GoToPlanet)
         setSuccessStage(Stage.Completed)
+        setAbandonStage(Stage.Abandoned)
 
         name = part3Json.query("/strings/title")
         personOverride = PerseanChroniclesNPCs.karengo // Shows on intel, needed for rep reward or else crash.
@@ -114,24 +118,29 @@ class Telos3HubMission : QGHubMission() {
 
         // TODO create planet if it doesn't exist
         // Must have rings
-        state.primaryTelosPlanet = SystemFinder()
-            .requireSystemTags(mode = ReqMode.NOT_ANY, Tags.THEME_CORE)
-            .preferSystemOutsideRangeOf(Telos1HubMission.state.karengoSystem?.location, 5f)
-            .requireSystemHasAtLeastNumJumpPoints(min = 1)
-            .requirePlanetNotGasGiant()
-            .requirePlanetNotStar()
-            .requirePlanet { planet -> allRingFoci.map { (_, focus) -> focus.id }.contains(planet.id) }
-            .requirePlanet(PlanetIsPopulatedReq(true))
-            .preferEntityUndiscovered()
-            .preferPlanet { planet -> planet.hasCondition(Conditions.HABITABLE) }
-            .preferSystemNotPulsar()
-            .preferPlanetWithRuins()
-            .preferPlanetInDirectionOfOtherMissions()
-            // Prefer a ring close to the planet
-            .preferPlanet { planet ->
-                ((allRingFoci.firstOrNull { (_, focus) -> focus.id == planet.id }?.first?.middleRadius ?: 0f) - planet.radius) < 500f
+        state.primaryTelosPlanet = MenriSystemCreator.createMenri()
+            ?: SystemFinder()
+                .requireSystemTags(mode = ReqMode.NOT_ANY, Tags.THEME_CORE)
+                .preferSystemOutsideRangeOf(Telos1HubMission.state.karengoSystem?.location, 5f)
+                .requireSystemHasAtLeastNumJumpPoints(min = 1)
+                .requirePlanetNotGasGiant()
+                .requirePlanetNotStar()
+                .requirePlanet { planet -> allRingFoci.map { (_, focus) -> focus.id }.contains(planet.id) }
+                .requirePlanet(PlanetIsPopulatedReq(true))
+                .preferEntityUndiscovered()
+                .preferPlanet { planet -> planet.hasCondition(Conditions.HABITABLE) }
+                .preferSystemNotPulsar()
+                .preferPlanetWithRuins()
+                .preferPlanetInDirectionOfOtherMissions()
+                // Prefer a ring close to the planet
+                .preferPlanet { planet ->
+                    ((allRingFoci.firstOrNull { (_, focus) -> focus.id == planet.id }?.first?.middleRadius ?: 0f) - planet.radius) < 500f
+                }
+                .pickPlanet()
+                    ?: kotlin.run {
+                setCurrentStage(Stage.Abandoned, null, null)
+                return false
             }
-            .pickPlanet()
 
         trigger {
             beginStageTrigger(Stage.EscapeSystem)
@@ -149,10 +158,7 @@ class Telos3HubMission : QGHubMission() {
             triggerSpawnFleetAtPickedLocation(chasingFleetFlag, null)
             triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
             triggerCustomAction {
-                // Blind player
-                game.sector.addScript(NocturneScript())
-                // Give them vision ability
-                game.sector.characterData.addAbility("wisp_perseanchronicles_ethersight")
+                game.sector.addScript(TelosFightOrFlightScript())
             }
 
             // Make jump points important
@@ -163,10 +169,10 @@ class Telos3HubMission : QGHubMission() {
             }
         }
 
-        trigger {
-            beginEnteredLocationTrigger(game.sector.hyperspace, Stage.GoToPlanet)
-
-        }
+//        trigger {
+//            beginEnteredLocationTrigger(game.sector.hyperspace, Stage.GoToPlanet)
+//
+//        }
 
         return true
     }
@@ -281,5 +287,6 @@ class Telos3HubMission : QGHubMission() {
         GoToPlanet,
         EscapeSystem,
         Completed,
+        Abandoned,
     }
 }

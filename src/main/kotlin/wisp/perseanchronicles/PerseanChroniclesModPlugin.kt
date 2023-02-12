@@ -48,6 +48,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator(Questgiver.game, CampaignPlugin())
         game.logger.level = Level.ALL // try to remember to change this for release
+        game.text.shouldThrowExceptionOnMissingValue = game.settings.isDevMode
 
         addTextToServiceLocator()
 
@@ -84,9 +85,9 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
 
         initGraphicsLib()
 
-        if (game.settings.isDevMode) {
+        if (game.sector.playerPerson.nameString == "test") {
             kotlin.runCatching {
-                if (MenriSystemCreator.createMenri()) {
+                if (MenriSystemCreator.createMenri() != null) {
                     val menri = game.sector.getStarSystem("menri")
 //                    game.sector.playerFleet.loca
                 }

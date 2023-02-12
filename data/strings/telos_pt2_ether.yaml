@@ -10,14 +10,14 @@ wisp_perseanchronicles:
           pages:
             - id: 1
               paras:
-                - "$cv:pc_telos{you can feel it too can’t you}"
+                - "$cv:pc_player{you can feel it too can’t you}"
                 - 'you send to Karengo, and he sends the mental map of the base by way
                   of assent.'
-                - "$f:perseanchronicles_telos{uncertainly: and a ship deep below}"
+                - "$cv:pc_player{uncertainly: and a ship deep below}"
                 - 'The sensation of the ship grows as the shuttle speeds toward the base,
                   landing legs extending until it settles again into the soil, just meters
                   from the entrance to the Telos base.'
-                - "$f:perseanchronicles_telos{it is [ready/thirsty] to fly let us descend
+                - "$cv:pc_player{it is [ready/thirsty] to fly let us descend
               to it}."
               options:
                 - text: 'Six hours earlier...'
@@ -40,11 +40,11 @@ wisp_perseanchronicles:
               paras:
                 - 'A wave of lethargy washed against the shore of your mind, and you reached
                   out.'
-                - "$f:perseanchronicles_telos{carefully/questioningly: karengo can you
+                - "$cv:pc_player{carefully/questioningly: karengo can you
               [hear/feel] this}"
                 - 'The response came as a medley of emotion: shock, confusion, comprehension,
               awe, curiosity, and finally'
-                - "$f:perseanchronicles_telos{yes}"
+                - "$cv:pc_karengo{yes}"
               options:
                 - text: 'Return to the present time'
                   goToPage: '4-trapdoor'
@@ -57,7 +57,7 @@ wisp_perseanchronicles:
                   are exchanged anymore - emotions and thoughts flow between you like
                   the mixing of currents. Karengo focuses on a recording in the awakened
                   comms data and pushes it to you.'
-                - "$f:perseanchronicles_telos{hegemony invasion/destruction of this
+                - "$cv:pc_karengo{hegemony invasion/destruction of this
               base  let us [replay/immerse/join] it}"
               options:
                 - text: 'Continue'
@@ -69,7 +69,7 @@ wisp_perseanchronicles:
                   the Telos machine, the scene comes alive within your mind.'
               options:
                 - id: 'startBattle'
-                  text: "$f:perseanchronicles_telos{begin battle}"
+                  text: "$cv:pc_player{begin battle}"
 
             - id: '6-finished-battle'
               paras:
@@ -84,10 +84,10 @@ wisp_perseanchronicles:
 
             - id: '6-ask'
               paras:
-                - "$f:perseanchronicles_telos{questioning: who was [captain eugel/the
+                - "$cv:pc_player{questioning: who was [captain eugel/the
               leader of the hegemony fleet] he was taking enjoyment
               from the [slaughter/destruction]} you send."
-                - "$f:perseanchronicles_telos{unsure/uncaring: there were lots of [ghouls/zealots]
+                - "$cv:pc_karengo{unsure/uncaring: there were lots of [ghouls/zealots]
               in the first ai war now let us see this ship}"
               ludd-friendly: 'You linger for a moment, thinking. You know the Church of Ludd well, 
               and recall an old firebrand named Eugel. Could it be the same man?'
@@ -157,10 +157,10 @@ wisp_perseanchronicles:
             - id: '9-check-karengo'
               paras:
                 - 'You turn your mind toward Karengo just as he sends a thought.'
-              shipSense1-female: '$f:perseanchronicles_telos{how
+              shipSense1-female: '$cv:pc_karengo{how
               do i turn off this ship sense/feeling  i can feel you sitting on the
               couch not that i mind but it’s distracting}'
-              shipSense1-notFemale: '$f:perseanchronicles_telos{how do i turn off this ship sense/feeling
+              shipSense1-notFemale: '$cv:pc_karengo{how do i turn off this ship sense/feeling
                 i can feel you sitting on that couch and i’d rather not}'
               shipSense2: 'The ship shows you how to limit the integration, but you can’t
                 help but wonder what it would have felt like to be aboard at the height
@@ -178,21 +178,21 @@ wisp_perseanchronicles:
             - id: '10-query-history'
               paras:
                 - 'The timeline flashes through the surface of your thoughts as images laden with context.'
-                - '$cv:pc_telos{the telos were formed in c+85 by a scientist named krypta}'
-                - '$cv:pc_telos{her research lab created the nanite solution/ether before defecting from the tri-tachyon over their use of ai warships}'
-                - '$cv:pc_telos{the 163 telos formed a base on a remote system/planet yerpa to live quietly and focus on the exploration/connections of self/others through ether}'
+                - '$cv:pc_computer{the telos were formed in c+85 by a scientist named krypta}'
+                - '$cv:pc_computer{her research lab created the nanite solution/ether before defecting from the tri-tachyon over their use of ai warships}'
+                - '$cv:pc_computer{the 163 telos formed a base on a remote system/planet yerpa to live quietly and focus on the exploration/connections of self/others through ether}'
               options:
                 - text: "Continue"
                   goToPage: '10-query-history-2'
 
             - id: '10-query-history-2'
               paras:
-                - '$cv:pc_telos{as the ai war broke out the decision was formed to expand to menri/secondary planet/system}'
-                - '$cv:pc_telos{a small number/30 telos settled/created it in c+91}'
-                - '$cv:pc_telos{at the same time  the settlement on yerpa was moved underground and the tri-tachyon ships remade for combat/survival}'
-                - '$cv:pc_telos{a knight of ludd/eugel brought a hegemony attack fleet to menri in c+105  the base was destroyed}'
+                - '$cv:pc_computer{as the ai war broke out the decision was formed to expand to menri/secondary planet/system}'
+                - '$cv:pc_computer{a small number/30 telos settled/created it in c+91}'
+                - '$cv:pc_computer{at the same time  the settlement on yerpa was moved underground and the tri-tachyon ships remade for combat/survival}'
+                - '$cv:pc_computer{a knight of ludd/eugel brought a hegemony attack fleet to menri in c+105  the base was destroyed}'
                 - ''
-                - '$cv:pc_telos{primary base/yerpa   status unknown}'
+                - '$cv:pc_computer{primary base/yerpa   status unknown}'
               onPageShown:
                 goToPage: '10-query-or-leave'
 
@@ -203,9 +203,9 @@ wisp_perseanchronicles:
                   in place to face the hanger doors as they grind open. The tunnel to
                   the surface is blocked in many places, but the onboard weapons easily
                   bore a way through.'
-                - "$f:perseanchronicles_telos{the ship shows another planet that the telos
+                - "$cv:pc_karengo{the ship shows another planet that the telos
               settled on  we should go there next}'
-                - $f:perseanchronicles_telos{there is/was a hidden shipyard there and perhaps survivors}"
+                - $cv:pc_karengo{there is/was a hidden shipyard there and perhaps survivors}"
               options:
                 - text: 'Continue'
                   goToPage: '12-leave'

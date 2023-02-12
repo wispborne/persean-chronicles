@@ -22,17 +22,18 @@ object TelosCommon {
 
     fun onGameLoad() {
         ColorVariables.colors["pc_telos"] = game.sector.getFaction(FACTION_TELOS).color
-        ColorVariables.colors["pc_karengo"] = Color.decode("#359FFF")
+        ColorVariables.colors["pc_player"] = game.sector.getFaction(FACTION_TELOS).color // #5eb2ff
+        ColorVariables.colors["pc_karengo"] = Color.decode("#57C9CE")
         ColorVariables.colors["pc_computer"] = Color.decode("#87C6FF")
-        ColorVariables.colors["pc_krypta"] = Color.decode("#0F8BFB")
+        ColorVariables.colors["pc_krypta"] = Color.decode("#9894FB")
     }
 
     val FACTION_TELOS
         get() = "perseanchronicles_telos"
 
     const val JAVELIN_ID = "wisp_perseanchronicles_avalok"
-
     const val DART_NAME = "Vara"
+    const val ETHER_SIGHT_ID = "wisp_perseanchronicles_ethersight"
 
     fun playThemeMusic(fadeOutSeconds: Int = 3, fadeInSeconds: Int = 3) {
         val musicSetId = "wisp_perseanchronicles_telosThemeMusic"
@@ -50,6 +51,19 @@ object TelosCommon {
 
     fun playDoomedMusic(fadeOutSecs: Int, fadeInSecs: Int, loop: Boolean = false) {
         val musicSetId = "wisp_perseanchronicles_telosDoomedMusic"
+        kotlin.runCatching {
+            game.soundPlayer.playCustomMusic(
+                /* fadeOutIfAny = */ fadeOutSecs,
+                /* fadeIn = */ fadeInSecs,
+                /* musicSetId = */ musicSetId,
+                /* looping = */ loop
+            )
+        }
+            .onFailure { game.logger.e(it) }
+    }
+
+    fun playEvasionMusic(fadeOutSecs: Int, fadeInSecs: Int, loop: Boolean = false) {
+        val musicSetId = "wisp_perseanchronicles_telosEvasionMusic"
         kotlin.runCatching {
             game.soundPlayer.playCustomMusic(
                 /* fadeOutIfAny = */ fadeOutSecs,

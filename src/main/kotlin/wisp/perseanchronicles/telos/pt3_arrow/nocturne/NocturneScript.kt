@@ -5,7 +5,6 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.impl.campaign.ids.Abilities
 import com.fs.starfarer.campaign.CampaignEngine
-import com.fs.starfarer.settings.StarfarerSettings
 import org.lazywizard.console.Console
 import org.lazywizard.lazylib.FastTrig
 import org.lazywizard.lazylib.MathUtils

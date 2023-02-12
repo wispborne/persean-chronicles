@@ -1,7 +1,7 @@
 {
 	# faction used by Telos for battle
 	"id":"perseanchronicles_telos",
-	"color":[94,178,255,255], # #5eb2ff hex color
+	"color":[94,178,255,255], #5eb2ff hex color
 
 	"baseUIColor":[94,178,255,255],
 	"secondaryUIColor":[84,160,229,255],
