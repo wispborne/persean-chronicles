@@ -2,19 +2,17 @@ package wisp.perseanchronicles.telos.boats
 
 import java.awt.Color
 
-object ColorPalettes {
-    data class ShipPalette(
-        val baseNebula: Color,
-        val baseSwirlyNebula: Color,
-        val baseNegative: Color,
-        val glowBase: Color,
-        val speedGlow: Color,
-        val fluxGlow: Color,
-        val phaseInitial: Color,
-        val phaseMain: Color,
-    )
-
-    val paletteDefault = ShipPalette(
+enum class ShipPalette(
+    val baseNebula: Color,
+    val baseSwirlyNebula: Color,
+    val baseNegative: Color,
+    val glowBase: Color,
+    val speedGlow: Color,
+    val fluxGlow: Color,
+    val phaseInitial: Color,
+    val phaseMain: Color,
+) {
+    DEFAULT(
         baseNebula = Color.decode("#1972DB"),
         baseSwirlyNebula = Color.decode("#3498DB"),
         baseNegative = Color.decode("#18FE6D"),
@@ -23,8 +21,8 @@ object ColorPalettes {
         fluxGlow = Color.decode("#FF4069"),
         phaseInitial = Color.decode("#F065FF"),
         phaseMain = Color.decode("#9648FF"),
-    )
-    val paletteBlue = ShipPalette(
+    ),
+    BLUE(
         baseNebula = Color.decode("#1d5edb"),
         baseSwirlyNebula = Color.decode("#437edb"),
         baseNegative = Color.decode("#18FE6D"),
@@ -33,8 +31,8 @@ object ColorPalettes {
         fluxGlow = Color.decode("#ff4d46"),
         phaseInitial = Color.decode("#ff70df"),
         phaseMain = Color.decode("#d25eff"),
-    )
-    val paletteTeal = ShipPalette(
+    ),
+    TEAL(
         baseNebula = Color(21, 163, 182),
         baseSwirlyNebula = Color(50, 159, 175),
         baseNegative = Color(47, 254, 24),
@@ -43,8 +41,8 @@ object ColorPalettes {
         fluxGlow = Color(255, 64, 105),
         phaseInitial = Color.decode("#ff2456"),
         phaseMain = Color.decode("#E00B43"),
-    )
-    val paletteWhite = ShipPalette(
+    ),
+    WHITE(
         baseNebula = Color.decode("#5489db"),
         baseSwirlyNebula = Color(255, 255, 255),
         baseNegative = Color(24, 254, 109),
@@ -53,8 +51,18 @@ object ColorPalettes {
         fluxGlow = Color(255, 64, 105),
         phaseInitial = Color.decode("#bbbbbb"),
         phaseMain = Color.decode("#aefdff"),
-    )
-    val paletteOrange = ShipPalette(
+    ),
+    SEASERPENT(
+        baseNebula = Color.decode("#57C9CE"),
+        baseSwirlyNebula = Color.decode("#82DFE3"),
+        baseNegative = Color.decode("#18FE6D"),
+        glowBase = Color.decode("#79e2e3"),
+        speedGlow = Color.decode("#6efffc"),
+        fluxGlow = Color.decode("#FFCE6B"),
+        phaseInitial = Color.decode("#8FA8E8"),
+        phaseMain = Color.decode("#6787D6"),
+    ),
+    ORANGE(
         baseNebula = Color(255, 98, 9),
         baseSwirlyNebula = Color(25, 114, 219),
         baseNegative = Color(255, 98, 9),

@@ -39,7 +39,6 @@ class TelosGlowPlugin(
 
     fun advance(amount: Float, engine: CombatEngineAPI, weapon: WeaponAPI) {
         val ship = weapon.ship
-        val baseColor = TelosEngineEffects.currentPalette.glowBase
 
         if (ship == null || !ship.isAlive) {
             if (runOnce) {
@@ -48,6 +47,19 @@ class TelosGlowPlugin(
             }
             return
         }
+
+        val palette =
+            ship.allWeapons
+                .orEmpty()
+                .mapNotNull { it.effectPlugin }
+                .filterIsInstance<TelosEngineEffects>()
+                .firstOrNull()
+                ?.currentPalette ?: ShipPalette.DEFAULT
+        val baseColor = palette.glowBase
+
+        // Set shield color too, why not.
+        ship.shield.innerColor = palette.baseSwirlyNebula
+        ship.shield.ringColor = palette.baseNebula
 
         // These must add up to 255
         val scalarMaxValue = 180f
@@ -59,8 +71,8 @@ class TelosGlowPlugin(
         val ec = ship.engineController
 
         val fluxColor = when (scalar) {
-            Scalar.SPEED -> TelosEngineEffects.currentPalette.speedGlow
-            Scalar.FLUX -> TelosEngineEffects.currentPalette.fluxGlow
+            Scalar.SPEED -> palette.speedGlow
+            Scalar.FLUX -> palette.fluxGlow
         }
 
         val scalar = when (scalar) {
@@ -77,9 +89,9 @@ class TelosGlowPlugin(
         scalarAlpha = if (scalarAlpha > scalar) {
             (scalarAlpha - (smoothing * amount)).coerceAtLeast(scalar)
         } else {
-            (scalarAlpha + (smoothing * amount) ).coerceAtMost(scalar)
+            (scalarAlpha + (smoothing * amount)).coerceAtMost(scalar)
         }
-        
+
         engineAlpha = if (ec.isAccelerating || ec.isAcceleratingBackwards || ec.isAcceleratingBackwards || ec.isStrafingLeft || ec.isStrafingRight) {
             (engineAlpha + (smoothing * amount)).coerceAtMost(engineAccelMaxValue)
         } else {

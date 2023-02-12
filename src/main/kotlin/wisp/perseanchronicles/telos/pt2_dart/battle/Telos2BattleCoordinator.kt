@@ -4,16 +4,20 @@ import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.BaseCampaignPlugin
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
+import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.combat.BattleCreationContext
 import com.fs.starfarer.api.fleet.FleetGoal
 import com.fs.starfarer.api.impl.campaign.fleets.FleetFactoryV3
 import com.fs.starfarer.api.impl.campaign.fleets.FleetParamsV3
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
+import com.fs.starfarer.api.impl.campaign.ids.Personalities
 import com.fs.starfarer.api.mission.FleetSide
 import data.scripts.util.MagicCampaign
 import wisp.perseanchronicles.common.BattleSide
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.telos.TelosCommon
+import wisp.perseanchronicles.telos.boats.ShipPalette
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.wispLib.addShipVariant
 import wisp.questgiver.wispLib.findFirst
@@ -74,13 +78,50 @@ object Telos2BattleCoordinator {
      * The side the player is fighting on, with just enough firepower to take out the initial fleet.
      */
     fun createTelosFleet(): CampaignFleetAPI {
+        val telos = game.sector.getFaction(TelosCommon.FACTION_TELOS_ID)
+
+        val commanders = listOf(
+            MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
+                .firstName("Titania").lastName("Leblanc").gender(FullName.Gender.FEMALE).personality(Personalities.AGGRESSIVE).level(4)
+                .build()
+                .apply {
+                    addTag(ShipPalette.DEFAULT.name)
+                },
+            MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
+                .firstName("Kemi").lastName("Qadri").gender(FullName.Gender.FEMALE).personality(Personalities.AGGRESSIVE).level(5)
+                .build()
+                .apply {
+                    addTag(ShipPalette.BLUE.name)
+                },
+            MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
+                .firstName("Hercules").lastName("Eridani").gender(FullName.Gender.MALE).personality(Personalities.AGGRESSIVE).level(4)
+                .build()
+                .apply {
+                    addTag(ShipPalette.TEAL.name)
+                },
+            MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
+                .firstName("Fescue").lastName("Dust").gender(FullName.Gender.MALE).personality(Personalities.AGGRESSIVE).level(3)
+                .build()
+                .apply {
+                    addTag(ShipPalette.SEASERPENT.name)
+                },
+            MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
+                .firstName("Hom").lastName("Imran").gender(FullName.Gender.FEMALE).personality(Personalities.AGGRESSIVE).level(4)
+                .build()
+                .apply {
+                    addTag(ShipPalette.WHITE.name)
+                })
+
         return FleetFactoryV3.createEmptyFleet(Factions.INDEPENDENT, FleetTypes.TASK_FORCE, null)
             .apply {
-                this.addShipVariant(variantOrHullId = "wisp_perseanchronicles_vara_Standard", count = 1).first().apply {
-                    this.isFlagship = true
+                commanders.forEach { cmdr ->
+                    this.addShipVariant(variantOrHullId = "wisp_perseanchronicles_vara_Standard", count = 1).first().apply {
+                        cmdr.setPersonality(Personalities.AGGRESSIVE)
+                        this.captain = cmdr
+                    }
                 }
-                this.addShipVariant(variantOrHullId = "wisp_perseanchronicles_vara_Standard", count = 4)
-                // todo add some aggressive officers.
+                this.fleetData.membersListCopy.first().isFlagship = true
+                this.fleetData.membersListCopy.forEach { it.repairTracker.cr = it.repairTracker.maxCR }
                 this.fleetData.sort()
                 this.fleetData.isOnlySyncMemberLists = true
                 this.fleetData.setSyncNeeded()

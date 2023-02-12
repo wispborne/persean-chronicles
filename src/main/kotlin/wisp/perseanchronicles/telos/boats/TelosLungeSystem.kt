@@ -24,6 +24,13 @@ class TelosLungeSystem : BaseShipSystemScript() {
     ) {
         if (Global.getCombatEngine().isPaused) return
         val ship = stats.entity as ShipAPI
+        val palette =
+            ship.allWeapons
+                .orEmpty()
+                .mapNotNull { it.effectPlugin }
+                .filterIsInstance<TelosEngineEffects>()
+                .firstOrNull()
+                ?.currentPalette ?: ShipPalette.DEFAULT
 
         ship.childModulesCopy.orEmpty()
             .filter { it.hullSpec.hullId == "wisp_perseanchronicles_avalok_module" }
@@ -48,7 +55,7 @@ class TelosLungeSystem : BaseShipSystemScript() {
                 .orEmpty()
                 .mapNotNull { it.effectPlugin }
                 .filterIsInstance<TelosEngineEffects>()
-                .forEach { it.baseNebulaColorOverride = TelosEngineEffects.currentPalette.phaseInitial }
+                .forEach { it.baseNebulaColorOverride = palette.phaseInitial }
 
             stats.maxSpeed.modifyFlat(id, speedBoost)
             stats.acceleration.modifyFlat(id, speedBoost)
@@ -76,7 +83,7 @@ class TelosLungeSystem : BaseShipSystemScript() {
                 .orEmpty()
                 .mapNotNull { it.effectPlugin }
                 .filterIsInstance<TelosEngineEffects>()
-                .forEach { it.baseNebulaColorOverride = TelosEngineEffects.currentPalette.phaseMain }
+                .forEach { it.baseNebulaColorOverride = palette.phaseMain }
 
             TelosPhase.apply(stats, id, state, effectLevel)
         }

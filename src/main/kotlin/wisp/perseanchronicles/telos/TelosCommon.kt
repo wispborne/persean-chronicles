@@ -21,14 +21,14 @@ object TelosCommon {
         )
 
     fun onGameLoad() {
-        ColorVariables.colors["pc_telos"] = game.sector.getFaction(FACTION_TELOS).color
-        ColorVariables.colors["pc_player"] = game.sector.getFaction(FACTION_TELOS).color // #5eb2ff
+        ColorVariables.colors["pc_telos"] = game.sector.getFaction(FACTION_TELOS_ID).color
+        ColorVariables.colors["pc_player"] = game.sector.getFaction(FACTION_TELOS_ID).color // #5eb2ff
         ColorVariables.colors["pc_karengo"] = Color.decode("#57C9CE")
         ColorVariables.colors["pc_computer"] = Color.decode("#87C6FF")
         ColorVariables.colors["pc_krypta"] = Color.decode("#9894FB")
     }
 
-    val FACTION_TELOS
+    val FACTION_TELOS_ID
         get() = "perseanchronicles_telos"
 
     const val JAVELIN_ID = "wisp_perseanchronicles_avalok"
