@@ -4,11 +4,11 @@ import com.fs.starfarer.api.EveryFrameScriptWithCleanup
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt3_arrow.nocturne.NocturneScript
-import wisp.questgiver.wispLib.addAbilityGainText
 
 class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
     private var done = false
-    private var startedMusic = false
+    @Transient
+    private var didSoundPlayerFail = false
     private var enabledVisionAbility = false
 
     override fun isDone() = done
@@ -16,10 +16,12 @@ class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
     override fun runWhilePaused() = true
 
     override fun advance(amount: Float) {
-        if (!startedMusic && !game.sector.campaignUI.isShowingDialog) {
-            startedMusic = true
+        if (!didSoundPlayerFail && game.soundPlayer.currentMusicId != "TelosEvasion.ogg" && !game.sector.campaignUI.isShowingDialog) {
             kotlin.runCatching { TelosCommon.playEvasionMusic(fadeOutSecs = 0, fadeInSecs = 1, loop = true) }
-                .onFailure { game.logger.w(it) }
+                .onFailure {
+                    game.logger.w(it)
+                    didSoundPlayerFail = true
+                }
         }
 
         if (!game.sector.hasTransientScript(NocturneScript::class.java)) {

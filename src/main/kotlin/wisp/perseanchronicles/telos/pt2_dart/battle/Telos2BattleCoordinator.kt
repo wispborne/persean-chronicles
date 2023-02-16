@@ -33,6 +33,38 @@ object Telos2BattleCoordinator {
             )
     }
 
+    val telosCommanders = listOf(
+        MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
+            .setFirstName("Titania").setLastName("Leblanc").setGender(FullName.Gender.FEMALE).setPersonality(Personalities.AGGRESSIVE).setLevel(4)
+            .create()
+            .apply {
+                addTag(ShipPalette.DEFAULT.name)
+            },
+        MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
+            .setFirstName("Kemi").setLastName("Qadri").setGender(FullName.Gender.FEMALE).setPersonality(Personalities.AGGRESSIVE).setLevel(5)
+            .create()
+            .apply {
+                addTag(ShipPalette.BLUE.name)
+            },
+        MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
+            .setFirstName("Hercules").setLastName("Eridani").setGender(FullName.Gender.MALE).setPersonality(Personalities.AGGRESSIVE).setLevel(4)
+            .create()
+            .apply {
+                addTag(ShipPalette.TEAL.name)
+            },
+        MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
+            .setFirstName("Fescue").setLastName("Dust").setGender(FullName.Gender.MALE).setPersonality(Personalities.AGGRESSIVE).setLevel(3)
+            .create()
+            .apply {
+                addTag(ShipPalette.SEASERPENT.name)
+            },
+        MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
+            .setFirstName("Hom").setLastName("Imran").setGender(FullName.Gender.FEMALE).setPersonality(Personalities.AGGRESSIVE).setLevel(4)
+            .create()
+            .apply {
+                addTag(ShipPalette.WHITE.name)
+            })
+
     fun startBattle() {
         game.sector.registerPlugin(CampaignPlugin())
 
@@ -78,43 +110,11 @@ object Telos2BattleCoordinator {
      * The side the player is fighting on, with just enough firepower to take out the initial fleet.
      */
     fun createTelosFleet(): CampaignFleetAPI {
-        val telos = game.sector.getFaction(TelosCommon.FACTION_TELOS_ID)
 
-        val commanders = listOf(
-            MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
-                .firstName("Titania").lastName("Leblanc").gender(FullName.Gender.FEMALE).personality(Personalities.AGGRESSIVE).level(4)
-                .build()
-                .apply {
-                    addTag(ShipPalette.DEFAULT.name)
-                },
-            MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
-                .firstName("Kemi").lastName("Qadri").gender(FullName.Gender.FEMALE).personality(Personalities.AGGRESSIVE).level(5)
-                .build()
-                .apply {
-                    addTag(ShipPalette.BLUE.name)
-                },
-            MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
-                .firstName("Hercules").lastName("Eridani").gender(FullName.Gender.MALE).personality(Personalities.AGGRESSIVE).level(4)
-                .build()
-                .apply {
-                    addTag(ShipPalette.TEAL.name)
-                },
-            MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
-                .firstName("Fescue").lastName("Dust").gender(FullName.Gender.MALE).personality(Personalities.AGGRESSIVE).level(3)
-                .build()
-                .apply {
-                    addTag(ShipPalette.SEASERPENT.name)
-                },
-            MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
-                .firstName("Hom").lastName("Imran").gender(FullName.Gender.FEMALE).personality(Personalities.AGGRESSIVE).level(4)
-                .build()
-                .apply {
-                    addTag(ShipPalette.WHITE.name)
-                })
 
         return FleetFactoryV3.createEmptyFleet(Factions.INDEPENDENT, FleetTypes.TASK_FORCE, null)
             .apply {
-                commanders.forEach { cmdr ->
+                telosCommanders.forEach { cmdr ->
                     this.addShipVariant(variantOrHullId = "wisp_perseanchronicles_vara_Standard", count = 1).first().apply {
                         cmdr.setPersonality(Personalities.AGGRESSIVE)
                         this.captain = cmdr
@@ -173,33 +173,28 @@ object Telos2BattleCoordinator {
         val telos2HubMission = game.intelManager.findFirst<Telos2HubMission>()
 
         // good luck, kid
-        return MagicCampaign.createFleet(
-            /* fleetName = */ "Hegemony Attack Fleet",
-            /* fleetFaction = */ Factions.HEGEMONY,
-            /* fleetType = */ FleetTypes.TASK_FORCE,
-            /* flagshipName = */ telos2HubMission?.getEugelShipName(),
-            /* flagshipVariant = */ "onslaught_xiv_Elite",
-            /* flagshipRecovery = */ false,
-            /* flagshipAutofit = */ true,
-            /* captain = */ Telos2HubMission.captainEugel,
-            /* supportFleet = */ mapOf(
-                "brawler_Assault" to 13,
-                "condor_Support" to 12,
-                "eagle_Assault" to 8,
-                "legion_Assault" to 10,
-                "onslaught_Elite" to 10,
-            ),
-            /* supportAutofit = */ true,
-            /* minFP = */ 0,
-            /* reinforcementFaction = */ Factions.HEGEMONY,
-            /* qualityOverride = */ 1f,
-            /* spawnLocation = */ null,
-            /* assignment = */ null,
-            /* assignementTarget = */ null,
-            /* isImportant = */ false,
-            /* transponderOn = */ false,
-            /* variantsPath = */ null
-        )
+        return MagicCampaign.createFleetBuilder()
+            .setFleetName("Hegemony Attack Fleet")
+            .setFleetFaction(Factions.HEGEMONY)
+            .setFleetType(FleetTypes.TASK_FORCE)
+            .setFlagshipName(telos2HubMission?.getEugelShipName())
+            .setFlagshipVariant("onslaught_xiv_Elite")
+            .setFlagshipAlwaysRecoverable(false)
+            .setFlagshipAutofit(true)
+            .setCaptain(Telos2HubMission.captainEugel)
+            .setSupportFleet(
+                mapOf(
+                    "brawler_Assault" to 13,
+                    "condor_Support" to 12,
+                    "eagle_Assault" to 8,
+                    "legion_Assault" to 10,
+                    "onslaught_Elite" to 10,
+                )
+            )
+            .setSupportAutofit(true)
+            .setReinforcementFaction(Factions.HEGEMONY)
+            .setQualityOverride(1f)
+            .create()
             .apply {
                 this.fleetData.membersListCopy.forEach { it.owner = BattleSide.ENEMY }
                 this.fleetData.sort()

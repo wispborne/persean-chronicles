@@ -33,7 +33,8 @@ class NocturneScript : EveryFrameScript {
     private val initialGameDifficulty = game.sector.difficulty
     private val initialEasySensorBonus = game.settings.getFloat("easySensorBonus")
 
-    val abilitiesAllowedUnderNocturne = listOf(Abilities.EMERGENCY_BURN, Abilities.GO_DARK, Abilities.SUSTAINED_BURN, "wisp_perseanchronicles_ethersight")
+    val abilitiesAllowedUnderNocturne =
+        listOf(Abilities.EMERGENCY_BURN, Abilities.GO_DARK, Abilities.SUSTAINED_BURN, "wisp_perseanchronicles_ethersight")
 
     private var isDone = false
     private var secsElapsed = 0f
@@ -47,22 +48,22 @@ class NocturneScript : EveryFrameScript {
             secsElapsed += amount
         }
 
-        val isEffectOver = secsElapsed > 10
+        val isEffectOver = false
         minimapWidth = 220f
         minimapHeight = 220f
 //        renderMinimapBlur()
 
 
 //        drawMinimapBlackout()
-        renderViewportInvisible()
+        setViewportVisibility(false)
         setPlayerSensorStrength()
         updateCustomEntity(isEffectOver)
         disableAbilities()
 //        darkenScreen()
 
         if (isEffectOver) {
+            setViewportVisibility(true)
             enableAbilities()
-            game.sector.viewport.alphaMult = 1f
 //            glDeleteTextures(bgTextureId)
             game.logger.i { "Ending Nocturne effect." }
             isDone = true
@@ -140,11 +141,11 @@ class NocturneScript : EveryFrameScript {
          */
     }
 
-    private fun renderViewportInvisible() {
-        if (secsElapsed < 10)
-            game.sector.viewport.alphaMult = 0.0f
-        else
+    private fun setViewportVisibility(isViewportVisible: Boolean) {
+        if (isViewportVisible)
             game.sector.viewport.alphaMult = 1f
+        else
+            game.sector.viewport.alphaMult = 0.0f
     }
 
     private fun disableAbilities() {

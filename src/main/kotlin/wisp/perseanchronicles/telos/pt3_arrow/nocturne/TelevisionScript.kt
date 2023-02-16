@@ -107,18 +107,18 @@ class TelevisionScript : BaseToggleAbility() {
         if (fleet.isInHyperspace) {
             game.sector.currentLocation.fleets
                 .filter { it.locationInHyperspace.distanceFromPlayerInHyperspace < HYPERSPACE_RANGE }
-                .run { render(this, game.sector.viewport) }
+                .run { render(this, viewport) }
         } else {
             game.sector.currentLocation.allEntities
                 .asSequence()
-                .filter { Misc.getDistance(it, game.sector.playerFleet) <= 4000f }
+                .filter { Misc.getDistance(it, game.sector.playerFleet) <= maxOf(viewport.visibleHeight, viewport.visibleWidth) }
                 .filterNot { obj ->
                     obj is RingBandAPI
                             || obj.tags.any { it.equalsAny(Tags.TERRAIN, Tags.ORBITAL_JUNK) }
 //                            || (obj is CustomCampaignEntity && obj.sprite == null) // This decides whether things like derelicts are shown.
                 }
                 .run {
-                    render(this.toList(), game.sector.viewport)
+                    render(this.toList(), viewport)
                 }
         }
     }

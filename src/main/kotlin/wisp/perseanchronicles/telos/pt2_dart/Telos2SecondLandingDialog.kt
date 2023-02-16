@@ -2,8 +2,11 @@ package wisp.perseanchronicles.telos.pt2_dart
 
 import com.fs.starfarer.api.campaign.RepLevel
 import com.fs.starfarer.api.characters.FullName
+import com.fs.starfarer.api.fleet.FleetMemberType
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import org.json.JSONObject
+import org.magiclib.kotlin.addFleetMemberGainText
+import org.magiclib.kotlin.prepareShipForRecovery
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -122,5 +125,21 @@ class Telos2SecondLandingDialog(
             if (create(null, false))
                 accept(dialog, null)
         }
+
+        val vara = game.settings.getVariant("wisp_perseanchronicles_vara_Standard")
+            .let { game.factory.createFleetMember(FleetMemberType.SHIP, it) }
+            .apply {
+                prepareShipForRecovery(
+                    retainAllHullmods = true,
+                    retainKnownHullmods = true,
+                    clearSMods = false,
+                    weaponRetainProb = 1f,
+                    wingRetainProb = 1f
+                )
+                repairTracker.cr = repairTracker.maxCR
+                shipName = Telos2HubMission.part2Json.query("/strings/varaName")
+            }
+        game.sector.playerFleet.fleetData.addFleetMember(vara)
+        dialog.textPanel.addFleetMemberGainText(vara)
     }
 }

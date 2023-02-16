@@ -3,6 +3,7 @@ wisp_perseanchronicles:
     part2_dart:
       strings:
         title: 'Telos: Distress Call'
+        varaName: 'Dart' # from Escape Velocity: Nova
       stages:
         destroyFleet:
           intel:
@@ -31,14 +32,15 @@ wisp_perseanchronicles:
                   goToPage: '1.5'
             - id: '1.5'
               paras:
-                - "“My beard, is that Captain ${playerLastName}?” he asks with a touch
-              of incredulity, “Didn't expect to see my best pilot-for-hire out here.
-              Good job on those bounty hunters, boss. Dumb as holovids, but well enough armed. Now come on, follow me.” Bending
-              over a large metal slab, he runs his glove along the side until there's
+                - '“My beard, is that Captain ${playerLastName}?” he asks with a touch
+              of incredulity, “Didn''t expect to see my best pilot-for-hire out here.
+              Good job on those bounty hunters, boss. Dumb as holovids, but well enough armed. Now come on, follow me.”'
+                - 'Bending over a large metal slab, he runs his glove along the side until there''s
               an audible click and, with a rumble you can feel through the blasted
               soil, it slides open to reveal a narrow staircase lit by gentle blue
-              emergency lighting. A memory surfaces, unbidden, of diving below the
-              waves on your previous adventure with the man. You start down the stairs."
+              emergency lighting.'
+                - 'A memory surfaces, unbidden, of diving below the
+              waves on your previous adventure with the man. You start down the stairs.'
               options:
                 - text: 'Continue'
                   goToPage: '1.6'
@@ -225,11 +227,13 @@ wisp_perseanchronicles:
                   text: 'Leave'
         completed:
           intel:
-            subtitle: 'A distress call unearthed Karengo, an extinct faction, and a
+            subtitle: 'A distress call unearthed Karengo, an extinct faction, and the ==Vara==, a
               strange frigate.'
           # Not a real Stage but the strings are the same on both forks so I didn't want to put them in one or the other.
         battle:
           flagshipName: 'Eugel’s Blade'
+          telosQuotes:
+            - ''
           quotes:
             - 'This is Captain Eugel of the Hegemony. Power down your weapons and any
               forbidden technology.'

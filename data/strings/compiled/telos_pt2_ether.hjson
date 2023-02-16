@@ -9,8 +9,8 @@
               "desc" : "Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== to investigate the underground sections."
             },
             "pages" : [ {
-              "id" : 1,
-              "paras" : [ "$cv:pc_player{you can feel it too can’t you}", "you send to Karengo, and he sends the mental map of the base by way of assent.", "$cv:pc_player{uncertainly: and a ship deep below}", "The sensation of the ship grows as the shuttle speeds toward the base, landing legs extending until it settles again into the soil, just meters from the entrance to the Telos base.", "$cv:pc_player{it is [ready/thirsty] to fly let us descend to it}." ],
+              "id" : "1",
+              "paras" : [ "$cv:pc_player{<you can feel it too can’t you?>}", "you send to Karengo, and he sends the mental map of the base by way of assent.", "$cv:pc_player{<and a ship deep below>}", "The sensation of the ship grows as the shuttle speeds toward the base, landing legs extending until it settles again into the soil, just meters from the entrance to the Telos base.", "$cv:pc_player{<it is [waiting/eager] to fly; let us descend>}" ],
               "options" : [ {
                 "text" : "Six hours earlier...",
                 "goToPage" : "2-previously"
@@ -24,14 +24,14 @@
               } ]
             }, {
               "id" : "3-end-flashback",
-              "paras" : [ "A wave of lethargy washed against the shore of your mind, and you reached out.", "$cv:pc_player{carefully/questioningly: karengo can you [hear/feel] this}", "The response came as a medley of emotion: shock, confusion, comprehension, awe, curiosity, and finally", "$cv:pc_karengo{yes}" ],
+              "paras" : [ "A wave of lethargy washed against the shore of your mind, and you reached out.", "$cv:pc_player{<karengo can you [hear/feel/sense] this?>}", "The response came as a medley of emotion: shock, confusion, comprehension, awe, curiosity, and finally", "$cv:pc_karengo{<yes>}" ],
               "options" : [ {
                 "text" : "Return to the present time",
                 "goToPage" : "4-trapdoor"
               } ]
             }, {
               "id" : "4-trapdoor",
-              "paras" : [ "The walk down the trapdoor steps feels like a dream coalescing into reality. At the bottom of the stairs will be/is a door to the communications room overlooking the hanger, empty but for the lonely frigate/Vara. No words are exchanged anymore - emotions and thoughts flow between you like the mixing of currents. Karengo focuses on a recording in the awakened comms data and pushes it to you.", "$cv:pc_karengo{hegemony invasion/destruction of this base  let us [replay/immerse/join] it}" ],
+              "paras" : [ "The walk down the trapdoor steps feels like a dream coalescing into reality. At the bottom of the stairs [will be/is] a door to the communications room overlooking the hanger, empty but for the lonely [frigate/Vara]. No words are exchanged anymore - emotions and thoughts flow between you like the mixing of currents. Karengo focuses on a recording in the awakened comms data and pushes it to you.", "$cv:pc_karengo{<it is the hegemony invasion/destruction of this base;let us [replay/immerse/join] it>}" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "5-battle"
@@ -41,11 +41,18 @@
               "paras" : [ "The recording is of the final stand of the base and, as you focus on the Telos machine, the scene comes alive within your mind." ],
               "options" : [ {
                 "id" : "startBattle",
-                "text" : "$cv:pc_player{begin battle}"
+                "text" : "$cv:pc_player{<play>}"
               } ]
             }, {
               "id" : "6-finished-battle",
-              "paras" : [ "With a start, you come back to yourself. The emotional imprints of tearing metal and dying Telos recede quickly, and Karengo is already moving out of the comms room and to the hanger below." ],
+              "paras" : [ "With a start, you come back to yourself. The emotional imprints of tearing metal and dying Telos begin to recede." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "6-finished-battle-2"
+              } ]
+            }, {
+              "id" : "6-finished-battle-2",
+              "paras" : [ "Karengo is already moving out of the comms room and to the hanger below." ],
               "options" : [ {
                 "text" : "Ask about the Hegemony Commander",
                 "goToPage" : "6-ask"
@@ -55,7 +62,7 @@
               } ]
             }, {
               "id" : "6-ask",
-              "paras" : [ "$cv:pc_player{questioning: who was [captain eugel/the leader of the hegemony fleet] he was taking enjoyment from the [slaughter/destruction]} you send.", "$cv:pc_karengo{unsure/uncaring: there were lots of [ghouls/zealots] in the first ai war now let us see this ship}" ],
+              "paras" : [ "$cv:pc_player{<who was [captain eugel/the leader of the hegemony fleet] he was taking enjoyment from the [slaughter/destruction]>?} you ask.", "$cv:pc_karengo{<there were lots of [crazies/zealots] in the first ai war now let us see this ship>}" ],
               "ludd-friendly" : "You linger for a moment, thinking. You know the Church of Ludd well, and recall an old firebrand named Eugel. Could it be the same man?",
               "ludd-friendly2" : "You shake your head and follow Karengo to the hanger.",
               "options" : [ {
@@ -106,9 +113,9 @@
             }, {
               "id" : "9-check-karengo",
               "paras" : [ "You turn your mind toward Karengo just as he sends a thought." ],
-              "shipSense1-female" : "$cv:pc_karengo{how do i turn off this ship sense/feeling  i can feel you sitting on the couch not that i mind but it’s distracting}",
-              "shipSense1-notFemale" : "$cv:pc_karengo{how do i turn off this ship sense/feeling i can feel you sitting on that couch and i’d rather not}",
-              "shipSense2" : "The ship shows you how to limit the integration, but you can’t help but wonder what it would have felt like to be aboard at the height of the Telos, surrounded by the shared sensations and thoughts of a full crew.",
+              "shipSense1-female" : "$cv:pc_karengo{how <do i turn off this ship [sense/feeling]; i can feel you sitting on the couch not that i mind but it’s distracting>}",
+              "shipSense1-notFemale" : "$cv:pc_karengo{<how do i turn off this ship [sense/feeling]; i can feel you sitting on that couch and i’d rather not>}",
+              "shipSense2" : "The ship shows you how to limit the integration and you can’t help but wonder what it would have felt like to be aboard at the height of the Telos, surrounded by the shared sensations and thoughts of a full crew.",
               "onPageShown" : {
                 "goToPage" : "10-query-or-leave"
               }
@@ -123,20 +130,20 @@
               } ]
             }, {
               "id" : "10-query-history",
-              "paras" : [ "The timeline flashes through the surface of your thoughts as images laden with context.", "$cv:pc_computer{the telos were formed in c+85 by a scientist named krypta}", "$cv:pc_computer{her research lab created the nanite solution/ether before defecting from the tri-tachyon over their use of ai warships}", "$cv:pc_computer{the 163 telos formed a base on a remote system/planet yerpa to live quietly and focus on the exploration/connections of self/others through ether}" ],
+              "paras" : [ "The timeline flashes through the surface of your thoughts as images laden with context.", "$cv:pc_computer{<the telos were formed in c+85 by a scientist named krypta>}", "$cv:pc_computer{<her research lab created the nanite solution/ether before defecting from the tri-tachyon over their use of ai warships>}", "$cv:pc_computer{<the 163 telos formed a base on a remote system/planet yerpa to live quietly and focus on the exploration/connections of [self/others] through ether>}" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "10-query-history-2"
               } ]
             }, {
               "id" : "10-query-history-2",
-              "paras" : [ "$cv:pc_computer{as the ai war broke out the decision was formed to expand to menri/secondary planet/system}", "$cv:pc_computer{a small number/30 telos settled/created it in c+91}", "$cv:pc_computer{at the same time  the settlement on yerpa was moved underground and the tri-tachyon ships remade for combat/survival}", "$cv:pc_computer{a knight of ludd/eugel brought a hegemony attack fleet to menri in c+105  the base was destroyed}", "", "$cv:pc_computer{primary base/yerpa   status unknown}" ],
+              "paras" : [ "$cv:pc_computer{<as the ai war broke out the decision was formed to expand to [menri/secondary planet/system]>}", "$cv:pc_computer{<30 telos settled/created it in c+91>}", "$cv:pc_computer{<at the same time  the settlement on yerpa was moved underground and the tri-tachyon ships remade for [combat/survival]>}", "$cv:pc_computer{<a knight of ludd/eugel brought a hegemony attack fleet to menri in c+105; the base was destroyed>}", "", "$cv:pc_computer{<primary base/yerpa; status unknown>}" ],
               "onPageShown" : {
                 "goToPage" : "10-query-or-leave"
               }
             }, {
               "id" : "11-return-orbit",
-              "paras" : [ "Still enveloped by the couch, you dive into the ship’s systems and raise it into the air. The handling is intuitive, like an extension of your own body, and you revolve in place to face the hanger doors as they grind open. The tunnel to the surface is blocked in many places, but the onboard weapons easily bore a way through.", "$cv:pc_karengo{the ship shows another planet that the telos settled on  we should go there next}' - $cv:pc_karengo{there is/was a hidden shipyard there and perhaps survivors}" ],
+              "paras" : [ "Still enveloped by the couch, you dive into the ship’s systems and raise it into the air. The handling is intuitive, like an extension of your own body, and you revolve in place to face the hanger doors as they grind open. The tunnel to the surface is blocked in many places, but the onboard weapons easily bore a way through.", "$cv:pc_karengo{<the ship shows the primary telos planet; we should go there next>}", "$cv:pc_karengo{<there [is/was] a shipyard there and perhaps survivors>}" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "12-leave"

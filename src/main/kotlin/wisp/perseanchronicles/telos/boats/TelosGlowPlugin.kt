@@ -58,8 +58,10 @@ class TelosGlowPlugin(
         val baseColor = palette.glowBase
 
         // Set shield color too, why not.
-        ship.shield.innerColor = palette.baseSwirlyNebula
-        ship.shield.ringColor = palette.baseNebula
+        if (palette != ShipPalette.DEFAULT) {
+            ship.shield.innerColor = palette.baseSwirlyNebula
+            ship.shield.ringColor = palette.baseNebula
+        }
 
         // These must add up to 255
         val scalarMaxValue = 180f

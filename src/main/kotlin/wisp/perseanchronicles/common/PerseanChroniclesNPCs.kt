@@ -22,7 +22,7 @@ object PerseanChroniclesNPCs {
                         this.setFaction(Factions.INDEPENDENT)
                         this.postId = Ranks.CITIZEN
                         this.rankId = Ranks.CITIZEN
-                        this.portraitSprite = "graphics/portraits/portrait20.png"
+                        this.portraitSprite = "graphics/dragons/karengo.png"
                     }
             }
 

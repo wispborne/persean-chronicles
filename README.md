@@ -47,7 +47,7 @@ Code: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 https://tldrlegal.com/license/creative-commons-attribution-noncommercial-sharealike-4.0-international-(cc-by-nc-sa-4.0)
 
-Music & Images: Do not use without permission, do not redistribute without permission.
+Music & Images, including ships: Do not use any part of without permission, do not redistribute without permission.
 
 ## Quest Starting Conditions (SPOILERS)
 

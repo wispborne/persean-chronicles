@@ -142,30 +142,79 @@ class Telos3HubMission : QGHubMission() {
                 return false
             }
 
+        // Spawn fleet near player
         trigger {
             beginStageTrigger(Stage.EscapeSystem)
+            val spawnLocation = game.sector.playerFleet
             triggerCreateFleet(
-                FleetSize.MAXIMUM,
+                FleetSize.LARGER,
                 FleetQuality.SMOD_1,
-                Factions.HEGEMONY,
+                Factions.LUDDIC_CHURCH,
                 FleetTypes.TASK_FORCE,
-                state.primaryTelosPlanet
+                spawnLocation
             )
             triggerMakeHostile()
             triggerAutoAdjustFleetStrengthExtreme()
-            triggerFleetAddTags(chasingFleetTag)
-            triggerPickLocationAroundEntity(state.primaryTelosPlanet?.starSystem?.jumpPoints?.random(), 1f)
+            triggerMakeFleetIgnoredByOtherFleets()
+//            triggerFleetAddTags(chasingFleetTag)
+            triggerPickLocationAroundEntity(spawnLocation, 4000f, 3000f, 5000f)
             triggerSpawnFleetAtPickedLocation(chasingFleetFlag, null)
+            triggerOrderFleetInterceptPlayer()
             triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
-            triggerCustomAction {
-                game.sector.addScript(TelosFightOrFlightScript())
-            }
+        }
 
+        // Spawn fleet jump point 1
+        trigger {
+            beginStageTrigger(Stage.EscapeSystem)
+            val spawnLocation = state.primaryTelosPlanet?.starSystem?.jumpPoints?.first()
+            triggerCreateFleet(
+                FleetSize.MEDIUM,
+                FleetQuality.SMOD_1,
+                Factions.LUDDIC_CHURCH,
+                FleetTypes.TASK_FORCE,
+                spawnLocation
+            )
+            triggerMakeHostile()
+            triggerMakeFleetIgnoredByOtherFleets()
+//            triggerFleetAddTags(chasingFleetTag)
+            triggerPickLocationAroundEntity(spawnLocation, 1f)
+            triggerSpawnFleetAtPickedLocation(chasingFleetFlag, null)
+            triggerOrderFleetPatrol(spawnLocation)
+            triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
+        }
+
+        // Spawn fleet jump point 2
+        trigger {
+            beginStageTrigger(Stage.EscapeSystem)
+            val spawnLocation = state.primaryTelosPlanet?.starSystem?.jumpPoints?.get(1)
+            triggerCreateFleet(
+                FleetSize.MEDIUM,
+                FleetQuality.SMOD_1,
+                Factions.LUDDIC_CHURCH,
+                FleetTypes.TASK_FORCE,
+                spawnLocation
+            )
+            triggerMakeHostile()
+            triggerMakeFleetIgnoredByOtherFleets()
+//            triggerFleetAddTags(chasingFleetTag)
+            triggerPickLocationAroundEntity(spawnLocation, 1f)
+            triggerSpawnFleetAtPickedLocation(chasingFleetFlag, null)
+            triggerOrderFleetPatrol(spawnLocation)
+            triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
+        }
+
+        // Make jump points the targets and start the script
+        trigger {
+            beginStageTrigger(Stage.EscapeSystem)
             // Make jump points important
             val jumpPoints = state.primaryTelosPlanet!!.containingLocation.jumpPoints.orEmpty()
             jumpPoints.forEach { jumpPoint ->
                 triggerCustomAction { context -> context.entity = jumpPoint }
                 triggerEntityMakeImportant("$${jumpPoint.id}_importantFlag", Stage.EscapeSystem)
+            }
+
+            triggerCustomAction {
+                game.sector.addScript(TelosFightOrFlightScript())
             }
         }
 
