@@ -137,7 +137,7 @@ object Telos2BattleCoordinator {
             this.addShipVariant(variantOrHullId = "hound_hegemony_Standard", count = 1)
             this.addShipVariant(variantOrHullId = "kite_hegemony_Interceptor", count = 1)
             this.addShipVariant(variantOrHullId = "condor_Support", count = 1)
-            this.addShipVariant(variantOrHullId = "brawler_Assault", count = 1).single().apply {
+            this.addShipVariant(variantOrHullId = "eradicator_Overdriven", count = 1).single().apply {
                 this.isFlagship = true
             }
 
@@ -184,7 +184,8 @@ object Telos2BattleCoordinator {
             .setCaptain(Telos2HubMission.captainEugel)
             .setSupportFleet(
                 mapOf(
-                    "brawler_Assault" to 13,
+                    "brawler_Assault" to 7,
+                    "eradicator_Overdriven" to 7,
                     "condor_Support" to 12,
                     "eagle_Assault" to 8,
                     "legion_Assault" to 10,

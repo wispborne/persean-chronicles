@@ -4,9 +4,11 @@ import com.fs.starfarer.api.campaign.RepLevel
 import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.fleet.FleetMemberType
 import com.fs.starfarer.api.impl.campaign.ids.Factions
+import org.json.JSONArray
 import org.json.JSONObject
 import org.magiclib.kotlin.addFleetMemberGainText
 import org.magiclib.kotlin.prepareShipForRecovery
+import org.magiclib.kotlin.toStringList
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -48,6 +50,17 @@ class Telos2SecondLandingDialog(
                 if (game.sector.playerFaction.isAtWorst(Factions.LUDDIC_CHURCH, RepLevel.COOPERATIVE)) {
                     para { page["ludd-friendly"] as String }
                     para { page["ludd-friendly2"] as String }
+                }
+            },
+            "6-finished-battle" to {
+                // With a start, you come back to yourself. The emotional imprints of tearing
+                // metal and dying Telos begin to recede.
+                val page = navigator.currentPage()?.extraData!!
+                if (Telos2HubMission.state.wonRecordedBattle != true)
+                    (page["non-cheater"] as JSONArray).toStringList().forEach { para { it } }
+                else {
+                    val pick = (1..5).random()
+                    (page["cheater$pick"] as JSONArray).toStringList().forEach { para { it } }
                 }
             },
             "6-ask" to {

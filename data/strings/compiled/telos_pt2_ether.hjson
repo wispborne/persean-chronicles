@@ -41,7 +41,7 @@
               "paras" : [ "The recording is of the final stand of the base and, as you focus on the Telos machine, the scene comes alive within your mind." ],
               "options" : [ {
                 "id" : "startBattle",
-                "text" : "$cv:pc_player{<play>}"
+                "text" : "$cv:pc_player{<relive>}"
               } ]
             }, {
               "id" : "6-finished-battle",

@@ -69,9 +69,15 @@ wisp_perseanchronicles:
                   text: "$cv:pc_player{<play>}"
 
             - id: '6-finished-battle'
-              paras:
+              non-cheater:
                 - 'With a start, you come back to yourself. The emotional imprints of tearing
                   metal and dying Telos begin to recede.'
+              cheater1:
+                - 'A grin plastered on your face, you blow up ship after ship without firing a shot.'
+                - '"lol," you think to yourself, wiping pizza grease from your neck. "lmao. dumb modder."'
+              cheater2:
+                - 'A grin plastered on your face, you blow up ship after ship without firing a shot.'
+                - '"lol," you think to yourself, wiping pizza grease from your neck. "lmao. dumb modder."'
               options:
                 - text: 'Continue'
                   goToPage: '6-finished-battle-2'

@@ -1,12 +1,15 @@
 package wisp.perseanchronicles.telos.pt3_arrow
 
+import com.fs.starfarer.api.fleet.FleetMemberType
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Drops
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
+import org.magiclib.kotlin.addFleetMemberGainText
 import org.magiclib.kotlin.adjustReputationWithPlayer
+import org.magiclib.kotlin.prepareShipForRecovery
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -113,6 +116,34 @@ class Telos3LandingDialog(
                     dialog.textPanel.addAbilityGainText(TelosCommon.ETHER_SIGHT_ID)
                 }
             },
+            "16-powerup-main-7" to {
+                mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystem, dialog, null)
+
+                // Give Itesh
+                val itesh = game.settings.getVariant("wisp_perseanchronicles_itesh_Standard")
+                    .let { game.factory.createFleetMember(FleetMemberType.SHIP, it) }
+                    .apply {
+                        prepareShipForRecovery(
+                            retainAllHullmods = true,
+                            retainKnownHullmods = true,
+                            clearSMods = false,
+                            weaponRetainProb = 1f,
+                            wingRetainProb = 1f
+                        )
+                        repairTracker.cr = repairTracker.maxCR
+                        shipName = Telos3HubMission.part3Json.query("/strings/iteshName")
+                    }
+                game.sector.playerFleet.fleetData.addFleetMember(itesh)
+                dialog.textPanel.addFleetMemberGainText(itesh)
+
+                // Damage fleet
+                game.sector.playerFleet.fleetData.membersListCopy
+                    .filter { !it.isMothballed }
+                    .forEach {
+                        // Lower to 20% CR
+                        it.repairTracker.cr = it.repairTracker.cr.coerceAtMost(0.2f)
+                    }
+            },
         ),
         optionConfigurator = { options ->
             options.map { option ->
@@ -163,7 +194,6 @@ class Telos3LandingDialog(
 
                     "flee" -> {
                         option.copy(onOptionSelected = {
-                            mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystem, null, null)
                             this.navigator.close(doNotOfferAgain = true)
                         })
                     }

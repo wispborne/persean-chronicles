@@ -3,6 +3,7 @@ wisp_perseanchronicles:
     part3_arrow:
       strings:
         title: 'Telos: Guarded World'
+        iteshName: 'Arrow'
       stages:
         goToPlanet:
           intel:
@@ -647,7 +648,14 @@ wisp_perseanchronicles:
               paras:
                 - 'At long last, the drive engines are repaired, but the fleet is still far from fighting capacity, 
                 and ==sensors are still offline==.'
-                - 'Every one of your officers agrees; ==running== to fight another day is the best course of action.'
+                - 'Every one of your officers agrees; ==running to fight another day is the best course of action==.'
+              options:
+                - text: 'Continue'
+                  goToPage: '16-powerup-main-7'
+
+            - id: '16-powerup-main-7'
+              paras:
+                - ''
               options:
                 - id: 'flee'
                   text: 'Take the helm'
