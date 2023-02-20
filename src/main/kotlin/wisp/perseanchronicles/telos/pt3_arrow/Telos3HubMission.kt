@@ -214,7 +214,7 @@ class Telos3HubMission : QGHubMission() {
             }
 
             triggerCustomAction {
-                game.sector.addScript(TelosFightOrFlightScript())
+//                game.sector.addScript(TelosFightOrFlightScript())
             }
         }
 

@@ -147,5 +147,6 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
         game.sector.playerFleet.swapFleets(
             otherFleet = originalPlayerFleet
         )
+        game.sector.reportBattleFinished(if (didPlayerWin) game.sector.playerFleet else hegFleet, null)
     }
 }

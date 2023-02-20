@@ -201,7 +201,6 @@ object Telos2BattleCoordinator {
                 this.fleetData.sort()
                 this.fleetData.setSyncNeeded()
                 this.fleetData.syncIfNeeded()
-
             }
     }
 }

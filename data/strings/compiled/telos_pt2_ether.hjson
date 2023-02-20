@@ -41,11 +41,16 @@
               "paras" : [ "The recording is of the final stand of the base and, as you focus on the Telos machine, the scene comes alive within your mind." ],
               "options" : [ {
                 "id" : "startBattle",
-                "text" : "$cv:pc_player{<relive>}"
+                "text" : "$cv:pc_player{<relive battle>}"
               } ]
             }, {
               "id" : "6-finished-battle",
-              "paras" : [ "With a start, you come back to yourself. The emotional imprints of tearing metal and dying Telos begin to recede." ],
+              "non-cheater" : [ "With a start, you come back to yourself. The emotional imprints of tearing metal and dying Telos begin to recede." ],
+              "cheater1" : [ "A grin plastered on your face, you blow up ship after ship without firing a shot.", "\"lol,\" you think to yourself, wiping pizza grease from your neck. \"lmao. dumb modder.\"" ],
+              "cheater2" : [ "The final enemy ship explodes, untouched.", "Cheating complete, you push back from the keyboard to give a mock bow to your admiring fumo collection." ],
+              "cheater3" : [ "This action will have consequences." ],
+              "cheater4" : [ "The wall of anime pinups look down at you.", "\"What?\" you ask them, \"It's not cheating if the battle was rigged.\"", "\"What was that?!\" your mom shouts from upstairs. \"Dinner's almost ready!\"", "\"Coming!\", you shout back, focusing on Starsector." ],
+              "cheater5" : [ "Really, commander?" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "6-finished-battle-2"
@@ -113,7 +118,7 @@
             }, {
               "id" : "9-check-karengo",
               "paras" : [ "You turn your mind toward Karengo just as he sends a thought." ],
-              "shipSense1-female" : "$cv:pc_karengo{how <do i turn off this ship [sense/feeling]; i can feel you sitting on the couch not that i mind but it’s distracting>}",
+              "shipSense1-female" : "$cv:pc_karengo{<how do i turn off this ship [sense/feeling]; i can feel you sitting on the couch not that i mind but it’s distracting>}",
               "shipSense1-notFemale" : "$cv:pc_karengo{<how do i turn off this ship [sense/feeling]; i can feel you sitting on that couch and i’d rather not>}",
               "shipSense2" : "The ship shows you how to limit the integration and you can’t help but wonder what it would have felt like to be aboard at the height of the Telos, surrounded by the shared sensations and thoughts of a full crew.",
               "onPageShown" : {

@@ -66,18 +66,12 @@ wisp_perseanchronicles:
                   the Telos machine, the scene comes alive within your mind.'
               options:
                 - id: 'startBattle'
-                  text: "$cv:pc_player{<play>}"
+                  text: "$cv:pc_player{<relive battle>}"
 
             - id: '6-finished-battle'
               non-cheater:
                 - 'With a start, you come back to yourself. The emotional imprints of tearing
                   metal and dying Telos begin to recede.'
-              cheater1:
-                - 'A grin plastered on your face, you blow up ship after ship without firing a shot.'
-                - '"lol," you think to yourself, wiping pizza grease from your neck. "lmao. dumb modder."'
-              cheater2:
-                - 'A grin plastered on your face, you blow up ship after ship without firing a shot.'
-                - '"lol," you think to yourself, wiping pizza grease from your neck. "lmao. dumb modder."'
               options:
                 - text: 'Continue'
                   goToPage: '6-finished-battle-2'
@@ -164,8 +158,7 @@ wisp_perseanchronicles:
             - id: '9-check-karengo'
               paras:
                 - 'You turn your mind toward Karengo just as he sends a thought.'
-              shipSense1-female: '$cv:pc_karengo{how
-              <do i turn off this ship [sense/feeling]; i can feel you sitting on the
+              shipSense1-female: '$cv:pc_karengo{<how do i turn off this ship [sense/feeling]; i can feel you sitting on the
               couch not that i mind but it’s distracting>}'
               shipSense1-notFemale: '$cv:pc_karengo{<how do i turn off this ship [sense/feeling]; i can feel you sitting 
               on that couch and i’d rather not>}'

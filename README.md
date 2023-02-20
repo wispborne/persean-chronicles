@@ -16,6 +16,11 @@ Requires LazyLib 2.5b or later.
 - Nirvana: Some scientists need you to perform a cargo delivery.
 - Laborer: A down-on-his-luck worker wants off-world.
 
+## Cross-Mod interactions
+
+- Substance Abuse: changes ordered drinks at bar during The Telos.
+- PAGSM: changes description of drinks at bar during The Telos.
+
 ## Blacklisting systems from being used
 
 This mod uses modSettings.json. See usage

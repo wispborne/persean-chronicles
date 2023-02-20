@@ -13,6 +13,7 @@ import org.magiclib.kotlin.prepareShipForRecovery
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
+import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.getPageById
@@ -31,15 +32,23 @@ class Telos3LandingDialog(
     },
     people = { listOfNotNull(PerseanChroniclesNPCs.karengo) },
     firstPageSelector = {
-        if (Telos3HubMission.state.visitedPrimaryPlanet == true)
+        if (Telos3HubMission.state.visitedPrimaryPlanet == true) {
+            // Resume from where player left off.
             this.single { it.id == "4-go-inside" }
-        else
-            this.first()
+        } else if (Telos2HubMission.choices.injectedSelf == true)
+            this.single { it.id == "1-ether-start" }
+        else {
+            this.single { it.id == "1-noEther-start" }
+        }
     },
     pages = PagesFromJson(
         stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
-            "1-start" to {
+            "1-ether-start" to {
+                TelosCommon.playThemeMusic()
+                Telos3HubMission.state.visitedPrimaryPlanet = true
+            },
+            "1-noEther-start" to {
                 TelosCommon.playThemeMusic()
                 Telos3HubMission.state.visitedPrimaryPlanet = true
             },
@@ -194,6 +203,7 @@ class Telos3LandingDialog(
 
                     "flee" -> {
                         option.copy(onOptionSelected = {
+                            game.sector.addScript(TelosFightOrFlightScript())
                             this.navigator.close(doNotOfferAgain = true)
                         })
                     }

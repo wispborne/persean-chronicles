@@ -13,81 +13,81 @@
               "paras" : [ "In the end, the hidden trapdoor in the underground Telos room was opened by brute force and liberal application of plasma. A disgruntled tech explains that there was a datafield present that could have, theoretically, been the door control, but the interface was ‘chaos’, unhackable without a locally installed and powered Alpha Core. You gather that ensuring the door was open before your return was prioritized." ],
               "options" : [ {
                 "text" : "Continue",
-                "goToPage" : "1.1-noPsi"
+                "goToPage" : "1.1-noEther"
               } ]
             }, {
-              "id" : "1.1-noPsi",
+              "id" : "1.1-noEther",
               "paras" : [ "The opening was left unexplored per your request and Karengo steps down the polished staircase, led far below the surface by more blue safety lighting. Just as you start to wonder how far below ground you are, the stairs end at an unlocked door marked “COMMS”, and Karengo presses through.", "The spacious room, immediately recognizable as traffic control, is filled with unpowered holodisplays and blank readouts.The glass wall at the far side of the room overlooks a hanger and, after a moment of searching, you spot a single ship in a corner, clearly unlike anything else still produced in the sector." ],
               "options" : [ {
                 "text" : "Continue",
-                "goToPage" : "2-noPsi"
+                "goToPage" : "2-noEther"
               } ]
             }, {
-              "id" : "2-noPsi",
+              "id" : "2-noEther",
               "paras" : [ "“${playerLastName}, c’mere.” Karengo has brought one of the displays online and is swiping through data. “This’s telemetry of the Hegemony invasion of this Telos stronghold. Bet someone’d pay to keep this quiet, eh? Let’s take a look.”", "With another swipe, more holodisplays light up the room and launch into a recording of the battle." ],
               "options" : [ {
                 "id" : "startBattle",
                 "text" : "Begin battle"
               } ]
             }, {
-              "id" : "3-noPsi",
+              "id" : "3-noEther",
               "paras" : [ "The simulated explosions echo briefly around the room before dying. Karengo glances over and shrugs. “An’ that’s why you don’t take the Hegemony in a fair fight, eh?”", "He turns away, towards the hanger door and the lone ship in the bay." ],
               "options" : [ {
                 "text" : "Go investigate the ship",
-                "goToPage" : "5-noPsi"
+                "goToPage" : "5-noEther"
               }, {
                 "text" : "Ask about the Hegemony Commander",
-                "goToPage" : "4-noPsi"
+                "goToPage" : "4-noEther"
               } ]
             }, {
-              "id" : "4-noPsi",
+              "id" : "4-noEther",
               "paras" : [ "“That Eugel guy? No idea. Seemed to take the nanites kinda personally, though.” He starts walking to the hanger." ],
               "ludd-friendly" : "You linger for a moment, thinking. You know the Church of Ludd well, and recall an old firebrand named Eugel. Could it be the same man?",
               "ludd-friendly2" : "You shake your head and follow Karengo to the hanger.",
               "options" : [ {
                 "text" : "Investigate the ship",
-                "goToPage" : "5-noPsi"
+                "goToPage" : "5-noEther"
               } ]
             }, {
-              "id" : "5-noPsi",
+              "id" : "5-noEther",
               "paras" : [ "You search for a word to describe the frigate sitting in the hanger and finally settle on one: svelte.", "The high-tech hull is almost entirely coated with a sleek, semi-opaque shell, some parts a glowing blue and others nearly translucent. It looks small, fast, and dangerous.", "There are no visible engines and you reason that the plating may somehow serve the same purpose.", "A ramp unfolds from the belly of the ship, all smooth elegance, and Karengo climbs inside. You follow, soft lighting illuminating a polished corridor." ],
               "options" : [ {
                 "text" : "Explore the ship",
-                "goToPage" : "5.1-noPsi"
+                "goToPage" : "5.1-noEther"
               }, {
                 "text" : "Head straight for the bridge",
-                "goToPage" : "6-noPsi"
+                "goToPage" : "6-noEther"
               } ]
             }, {
-              "id" : "5.1-noPsi",
+              "id" : "5.1-noEther",
               "paras" : [ "It doesn’t take long to explore the full interior. Designed with the same flowing style as the outer hull, the ship is largely given to crew compartments, each lavishly furnished.", "In one room, you find Karengo poking a wine bottle floating in a temp-controlled agrav field.", "The gym is equally high-tech and full of agrav equipment, and the kitchen boasts a microfab loaded with millions of recipes." ],
               "options" : [ {
                 "text" : "Continue",
-                "goToPage" : "5.2-noPsi"
+                "goToPage" : "5.2-noEther"
               } ]
             }, {
-              "id" : "5.2-noPsi",
+              "id" : "5.2-noEther",
               "paras" : [ "Curious about luxury accommodations in a frigate loaded for combat, you query the computer on the hull’s history.", "“While this Tri-Tachyon line was originally designed to be comfortable, intelligent transport for highly discerning clients,” a fluid, indeterminate voice explains, “the Telos overhaul exchanged beta-level AI control for increased combat potential, filling the automation gap with direct Ether integration.”", "“Limited manual control is available for unnetworked guests,” it adds smoothly." ],
               "options" : [ {
                 "text" : "Head for the bridge",
-                "goToPage" : "6-noPsi"
+                "goToPage" : "6-noEther"
               } ]
             }, {
-              "id" : "6-noPsi",
+              "id" : "6-noEther",
               "paras" : [ "The usual complement of screens, chairs, and controls are absent from the bridge. A lounge area fills the space, full of pillows and an addictive-looking couch. It takes a few seconds to spot the small corner with manual controls. The ship computer was not exaggerating the claim of “limited” manual control.", "“Captain.” Karengo envelopes himself in the couch and puts his feet up on an arm. “Beauty of a ship, ain’t she? Why don’t you take us on out of here - I’m ready to be off this rock and, besides, I want to see how she flies.”" ],
               "options" : [ {
                 "text" : "Return to the fleet",
-                "goToPage" : "7-noPsi"
+                "goToPage" : "7-noEther"
               } ]
             }, {
-              "id" : "7-noPsi",
+              "id" : "7-noEther",
               "paras" : [ "The controls, at least, are familiar, and you coax the ==Vara== into the air, ordering the ship to open the hanger doors.", "“Yes, captain,” acknowledges the fluid voice, and the massive metal slabs grate apart. A few collapses block the tunnel to the surface, but short weapon bursts easily bore a passage through.", "As soon as you rendezvous, techs swarm the ship. Karengo pulls you aside." ],
               "options" : [ {
                 "text" : "Continue",
-                "goToPage" : "7.1-noPsi"
+                "goToPage" : "7.1-noEther"
               } ]
             }, {
-              "id" : "7.1-noPsi",
+              "id" : "7.1-noEther",
               "paras" : [ "“==There’s another planet the Telos settled== before this one,” he says, leaning in conspiratorially, “that I got out of the ship computer; they had a ==secret shipyard==. Could have more ships. Maybe even cryosleepers.”", "He pulls your TriPad over and taps a finger on a point in hyperspace before letting go. “You go about your business,” he waves his hands dismissively, “but we should really go take a look there.\"" ],
               "options" : [ {
                 "id" : "leave",

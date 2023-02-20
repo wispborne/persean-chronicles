@@ -1,5 +1,8 @@
 package wisp.perseanchronicles.telos.pt2_dart
 
+import com.fs.starfarer.api.campaign.BaseCampaignEventListener
+import com.fs.starfarer.api.campaign.BattleAPI
+import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.campaign.RepLevel
 import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.fleet.FleetMemberType
@@ -42,7 +45,7 @@ class Telos2SecondLandingDialog(
                 // Resume music
                 TelosCommon.playThemeMusic()
             },
-            "4-noPsi" to {
+            "4-noEther" to {
                 // You linger for a moment, thinking. You know the Church of Ludd well,
                 //              and recall an old firebrand named Eugel. Could it be the same man?\n\nYou shake your head and
                 //              follow Karengo to the hanger.
@@ -52,6 +55,15 @@ class Telos2SecondLandingDialog(
                     para { page["ludd-friendly2"] as String }
                 }
             },
+            "3-noEther" to {
+                // The simulated explosions echo briefly around the room before dying.
+                val page = navigator.currentPage()?.extraData!!
+                if (Telos2HubMission.state.wonRecordedBattle != true)
+                    (page["non-cheater"] as JSONArray).toStringList().forEach { para { it } }
+                else {
+                    taunt()
+                }
+            },
             "6-finished-battle" to {
                 // With a start, you come back to yourself. The emotional imprints of tearing
                 // metal and dying Telos begin to recede.
@@ -59,8 +71,7 @@ class Telos2SecondLandingDialog(
                 if (Telos2HubMission.state.wonRecordedBattle != true)
                     (page["non-cheater"] as JSONArray).toStringList().forEach { para { it } }
                 else {
-                    val pick = (1..5).random()
-                    (page["cheater$pick"] as JSONArray).toStringList().forEach { para { it } }
+                    taunt()
                 }
             },
             "6-ask" to {
@@ -73,7 +84,7 @@ class Telos2SecondLandingDialog(
                     para { page["ludd-friendly2"] as String }
                 }
             },
-            "5-noPsi" to {
+            "5-noEther" to {
                 // Resume music
                 TelosCommon.playThemeMusic()
             },
@@ -93,7 +104,7 @@ class Telos2SecondLandingDialog(
                 para { page["shipSense2"] as String }
             },
             // Without Ether
-            "7.1-noPsi" to {
+            "7.1-noEther" to {
                 completeMission(mission)
             },
             // With Ether
@@ -107,12 +118,18 @@ class Telos2SecondLandingDialog(
                     "startBattle" -> option.copy(
                         onOptionSelected = {
                             Telos2BattleCoordinator.startBattle()
-                            mission.setCurrentStage(Telos2HubMission.Stage.PostBattle, this.dialog, null)
-                            if (Telos2HubMission.choices.injectedSelf == true) {
-                                navigator.goToPage("6-finished-battle")
-                            } else {
-                                navigator.goToPage("3-noPsi")
-                            }
+
+                            game.sector.addListener(object : BaseCampaignEventListener(false) {
+                                override fun reportBattleFinished(primaryWinner: CampaignFleetAPI?, battle: BattleAPI?) {
+                                    mission.setCurrentStage(Telos2HubMission.Stage.PostBattle, null, null)
+                                    if (Telos2HubMission.choices.injectedSelf == true) {
+                                        navigator.goToPage("6-finished-battle")
+                                    } else {
+                                        navigator.goToPage("3-noEther")
+                                    }
+                                }
+                            })
+
                         }
                     )
 
@@ -155,4 +172,10 @@ class Telos2SecondLandingDialog(
         game.sector.playerFleet.fleetData.addFleetMember(vara)
         dialog.textPanel.addFleetMemberGainText(vara)
     }
+}
+
+private fun Telos2SecondLandingDialog.taunt() {
+    val taunts = Telos2HubMission.part2Json.query<Map<String, Any>>("/stages/battle/cheaterTaunts")
+    val pick = (1..5).random()
+    (taunts["cheater$pick"] as JSONArray).toStringList().forEach { para { it } }
 }

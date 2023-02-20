@@ -7,6 +7,7 @@ import wisp.perseanchronicles.telos.pt3_arrow.nocturne.NocturneScript
 
 class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
     private var done = false
+
     @Transient
     private var didSoundPlayerFail = false
     private var enabledVisionAbility = false
@@ -16,7 +17,7 @@ class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
     override fun runWhilePaused() = true
 
     override fun advance(amount: Float) {
-        if (!didSoundPlayerFail && game.soundPlayer.currentMusicId != "TelosEvasion.ogg" && !game.sector.campaignUI.isShowingDialog) {
+        if (!didSoundPlayerFail && game.soundPlayer.currentMusicId != "TelosEvasion.ogg") {
             kotlin.runCatching { TelosCommon.playEvasionMusic(fadeOutSecs = 0, fadeInSecs = 1, loop = true) }
                 .onFailure {
                     game.logger.w(it)
