@@ -11,24 +11,21 @@
     "renderCircleIndicatorSelectionFlash": false,
     "scanIconWithZoom": true,
     "interactable": false,
-    "layers": [ ABOVE ],
+    "layers": [ TERRAIN_10 ],
     "pluginClass": "wisp.perseanchronicles.telos.pt3_arrow.nocturne.NocturneCustomEntity"
   },
   "PerseanChronicles_CustomRenderer_Nebula": {
-    "defaultName": "", # used if name=null in addCustomEntity()
-    "defaultRadius": 85, # used if radius<0 in addCustomEntity()
-    "iconWidth": 1,
-    "iconHeight": 1,
-    "renderShadow": false,
-    "useLightColor": false,
-    "showInCampaign": true,
-    "showIconOnMap": false,
-    "showNameOnMap": false,
-    "renderCircleIndicator": false,
-    "renderCircleIndicatorSelectionFlash": false,
-    "scaleNameWithZoom": false,
-    "scaleIconWithZoom": false,
-    "layers": [ ABOVE, FLEETS, ASTEROIDS, JUMP_POINTS, PLANETS, RINGS, STATIONS, TERRAIN_7A ], # what layer(s) to render in. See CampaignEngineLayers.java for possible values
+    "defaultRadius":85, # used if radius<0 in addCustomEntity()
+    "iconWidth":1,
+    "iconHeight":1,
+    "renderShadow":false,
+    "useLightColor":true,
+    "showInCampaign":true,
+    "showIconOnMap":false,
+    "showNameOnMap":false,
+    "scaleNameWithZoom":false,
+    "scaleIconWithZoom":true,
+    "layers":[ABOVE, FLEETS, ASTEROIDS, JUMP_POINTS, PLANETS, RINGS, STATIONS, TERRAIN_7A], # what layer(s) to render in. See CampaignEngineLayers.java for possible values
     "pluginClass": "wisp.perseanchronicles.common.fx.CampaignCustomRenderer",
   },
 }

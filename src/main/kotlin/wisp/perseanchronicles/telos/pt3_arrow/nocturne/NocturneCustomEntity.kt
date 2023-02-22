@@ -4,6 +4,7 @@ import com.fs.starfarer.api.campaign.CampaignEngineLayers
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.combat.ViewportAPI
 import com.fs.starfarer.api.impl.campaign.BaseCustomEntityPlugin
+import org.lwjgl.opengl.GL14
 import wisp.perseanchronicles.game
 
 class NocturneCustomEntity : BaseCustomEntityPlugin() {
@@ -23,7 +24,7 @@ class NocturneCustomEntity : BaseCustomEntityPlugin() {
 //                width = size
 //                height = size
             setSize(viewport.visibleWidth, viewport.visibleHeight)
-            alphaMult = 1f
+            alphaMult = 0.65f
             renderAtCenter(entity.location.x, entity.location.y)
         }
     }

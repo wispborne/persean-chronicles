@@ -145,7 +145,7 @@ class NocturneScript : EveryFrameScript {
         if (isViewportVisible)
             game.sector.viewport.alphaMult = 1f
         else
-            game.sector.viewport.alphaMult = 0.0f
+            game.sector.viewport.alphaMult = 0.001f
     }
 
     private fun disableAbilities() {

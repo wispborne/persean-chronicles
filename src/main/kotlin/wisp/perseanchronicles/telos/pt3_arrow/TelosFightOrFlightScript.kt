@@ -11,6 +11,7 @@ class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
     @Transient
     private var didSoundPlayerFail = false
     private var enabledVisionAbility = false
+    private var blindedPlayer = false
 
     override fun isDone() = done
 
@@ -26,8 +27,9 @@ class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
                 }
         }
 
-        if (!game.sector.hasTransientScript(NocturneScript::class.java)) {
+        if (!blindedPlayer&& !game.sector.hasTransientScript(NocturneScript::class.java)) {
             game.sector.addTransientScript(NocturneScript())
+            blindedPlayer = true
         }
 
         if (!enabledVisionAbility && !game.sector.campaignUI.isShowingDialog) {

@@ -46,6 +46,8 @@ Market condition code in Depths inspired by Tartiflette's [Unknown Skies](https:
 
 Vayra for Dragons art.
 
+President Matt Damon for code help.
+
 ## License
 
 Code: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)

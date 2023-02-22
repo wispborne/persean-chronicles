@@ -253,6 +253,7 @@ class CampaignCustomRenderer : CustomRenderer, BaseCustomEntityPlugin() {
     override fun advance(amount: Float) {
 //        if (game.sector.isPaused) return
         super<CustomRenderer>.advance(amount)
+//        game.sector.viewport.isExternalControl = false
     }
 
     override fun render(layer: CampaignEngineLayers, viewport: ViewportAPI) {
@@ -266,32 +267,8 @@ class CampaignCustomRenderer : CustomRenderer, BaseCustomEntityPlugin() {
     }
 
     private fun mapLayer(layer: CombatEngineLayers): CampaignEngineLayers =
-        when (layer) {
-            CombatEngineLayers.BELOW_PLANETS -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.PLANET_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.ABOVE_PLANETS -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.CLOUD_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.BELOW_SHIPS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.UNDER_SHIPS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.ASTEROIDS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.CAPITAL_SHIPS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.CRUISERS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.DESTROYERS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.FRIGATES_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.BELOW_PHASED_SHIPS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.PHASED_SHIPS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.STATION_WEAPONS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.CONTRAILS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.FIGHTERS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.BELOW_INDICATORS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.FF_INDICATORS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.ABOVE_SHIPS_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.ABOVE_SHIPS_AND_MISSILES_LAYER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.ABOVE_PARTICLES_LOWER -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.ABOVE_PARTICLES -> CampaignEngineLayers.ABOVE
-            CombatEngineLayers.JUST_BELOW_WIDGETS -> CampaignEngineLayers.ABOVE
-        }
+        CampaignEngineLayers.ABOVE
 
-    override fun getRenderRange(): Float = 9999999999999999999999999f
+    override fun getRenderRange(): Float = 1.0E25f
 
 }
