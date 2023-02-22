@@ -99,11 +99,12 @@ object Telos2BattleCoordinator {
                 objectivesAllowed = false
             }
         })
-        game.combatEngine.getFleetManager(FleetSide.ENEMY).isCanForceShipsToEngageWhenBattleClearlyLost = true
-        game.combatEngine.getFleetManager(FleetSide.PLAYER).isCanForceShipsToEngageWhenBattleClearlyLost = true
+        val combatEngine = game.combatEngine!!
+        combatEngine.getFleetManager(FleetSide.ENEMY).isCanForceShipsToEngageWhenBattleClearlyLost = true
+        combatEngine.getFleetManager(FleetSide.PLAYER).isCanForceShipsToEngageWhenBattleClearlyLost = true
 
         // Script to call in reinforcements when player starts to win.
-        game.combatEngine.addPlugin(Telos2BattleScript(playerFleetHolder))
+        combatEngine.addPlugin(Telos2BattleScript(playerFleetHolder))
     }
 
     /**

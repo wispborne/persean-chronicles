@@ -16,6 +16,7 @@ object TelosCommon {
                 "data/strings/compiled/telos_pt2_noEther.hjson",
                 "data/strings/compiled/telos_pt3_ether.hjson",
                 "data/strings/compiled/telos_pt3_noEther.hjson",
+                "data/strings/compiled/telos_pt3_common.hjson",
             ),
             masterMod = MOD_ID
         )
@@ -37,6 +38,7 @@ object TelosCommon {
 
     fun playThemeMusic(fadeOutSeconds: Int = 3, fadeInSeconds: Int = 3) {
         val musicSetId = "wisp_perseanchronicles_telosThemeMusic"
+        game.logger.d { "Starting Telos - Theme/Exploration." }
 
         kotlin.runCatching {
             game.soundPlayer.playCustomMusic(
@@ -51,6 +53,7 @@ object TelosCommon {
 
     fun playDoomedMusic(fadeOutSecs: Int, fadeInSecs: Int, loop: Boolean = false) {
         val musicSetId = "wisp_perseanchronicles_telosDoomedMusic"
+        game.logger.d { "Starting Telos - Doomed." }
         kotlin.runCatching {
             game.soundPlayer.playCustomMusic(
                 /* fadeOutIfAny = */ fadeOutSecs,
@@ -64,6 +67,7 @@ object TelosCommon {
 
     fun playEvasionMusic(fadeOutSecs: Int, fadeInSecs: Int, loop: Boolean = false) {
         val musicSetId = "wisp_perseanchronicles_telosEvasionMusic"
+        game.logger.d { "Starting Telos - Evasion." }
         kotlin.runCatching {
             game.soundPlayer.playCustomMusic(
                 /* fadeOutIfAny = */ fadeOutSecs,
@@ -76,6 +80,7 @@ object TelosCommon {
     }
 
     fun stopAllCustomMusic() {
+        game.logger.d { "Stopping custom music." }
         kotlin.runCatching {
             game.soundPlayer.playCustomMusic(
                 /* fadeOutIfAny = */ 0,

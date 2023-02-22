@@ -35,7 +35,8 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
     private var startedDoomedMusic = false
 
     override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
-        if (game.combatEngine.isPaused)
+        val combatEngine = game.combatEngine!!
+        if (combatEngine.isPaused)
             return
 
         totalTimeElapsed += amount
@@ -52,7 +53,7 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
             startedDoomedMusic = true
         }
 
-        val enemyFleetManager = game.combatEngine.getFleetManager(FleetSide.ENEMY)
+        val enemyFleetManager = combatEngine.getFleetManager(FleetSide.ENEMY)
         val hasDestroyedEnoughOfEnemy = enemyFleetManager.destroyedCopy.size > 5
 
         secsSinceWave2Arrived = secsSinceWave2Arrived?.plus(amount)
@@ -61,10 +62,10 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
         secsSinceWave1WasDefeated = secsSinceWave1WasDefeated?.plus(amount)
 
         // Spawn wave 2 five seconds after player defeats initial fleet.
-        if (secsSinceWave1WasDefeated == null && (game.combatEngine.isEnemyInFullRetreat || hasDestroyedEnoughOfEnemy)
+        if (secsSinceWave1WasDefeated == null && (combatEngine.isEnemyInFullRetreat || hasDestroyedEnoughOfEnemy)
         ) {
             secsSinceWave1WasDefeated = 0f
-            game.combatEngine.combatNotOverFor = 10f // seconds. Prevents player from claiming victory after they think they've won.
+            combatEngine.combatNotOverFor = 10f // seconds. Prevents player from claiming victory after they think they've won.
         }
 
         if (secsSinceWave2Arrived == null
@@ -79,10 +80,10 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
         }
 
         // Eugel starts spouting quotes after he arrives
-        val eugelInBattle = game.combatEngine.ships.firstOrNull { it.fleetMemberId == captEugeneShip.id }
+        val eugelInBattle = combatEngine.ships.firstOrNull { it.fleetMemberId == captEugeneShip.id }
 
         if (eugelInBattle != null && eugelInBattle.isAlive) {
-            if (!game.combatEngine.isCombatOver) {
+            if (!combatEngine.isCombatOver) {
                 // Spout quotes periodically.
                 if (secsSinceWave2Arrived != null && quotesItr.hasNext()) {
                     if ((secsSinceLastQuote ?: Float.MAX_VALUE) > (30..60).random()) {
@@ -95,7 +96,7 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
                 }
             }
 
-            val playerFleet = game.combatEngine.getFleetManager(FleetSide.PLAYER)
+            val playerFleet = combatEngine.getFleetManager(FleetSide.PLAYER)
             if (playerFleet.deployedCopy.isEmpty() && playerFleet.reservesCopy.isEmpty() && !saidLastQuote) {
                 // Speak final quote on victory.
                 eugelInBattle.say(
@@ -119,12 +120,12 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
         }
 
         // Battle is over!
-        if (secsSinceWave2Arrived != null && game.combatEngine.isCombatOver) {
+        if (secsSinceWave2Arrived != null && combatEngine.isCombatOver) {
             onTelosBattleEnded(
-                didPlayerWin = game.combatEngine.winningSideId == BattleSide.PLAYER,
+                didPlayerWin = combatEngine.winningSideId == BattleSide.PLAYER,
                 originalPlayerFleet = playerFleetHolder
             )
-            game.combatEngine.removePlugin(this)
+            combatEngine.removePlugin(this)
         }
     }
 

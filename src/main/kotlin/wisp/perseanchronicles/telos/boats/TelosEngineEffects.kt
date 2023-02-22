@@ -6,6 +6,9 @@ import org.lazywizard.lazylib.ext.plus
 import org.lazywizard.lazylib.ext.rotate
 import org.lazywizard.lazylib.ext.rotateAroundPivot
 import org.lwjgl.util.vector.Vector2f
+import wisp.perseanchronicles.common.fx.CombatCustomRenderer
+import wisp.perseanchronicles.common.fx.CustomRenderer
+import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.modify
 import wisp.questgiver.wispLib.random
 import java.awt.Color
@@ -26,6 +29,7 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
     private val interval = IntervalUtil(0.03f, 0.04f)
     private var alphaMult = 0f
     private var hasSetPalette = false
+    private var customRenderer: CombatCustomRenderer = CombatCustomRenderer.instance!!
 
     // TODO: optimization
     override fun advance(amount: Float, engine: CombatEngineAPI, weapon: WeaponAPI) {
@@ -108,7 +112,7 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
 
         for (location in emitters) {
             // Negative swirl under
-            CustomRenderer.addNebula(
+            customRenderer.addNebula(
                 location = location,
                 anchorLocation = ship.location,
                 velocity = vel,
@@ -124,7 +128,7 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
             )
 
             // Normal under
-            CustomRenderer.addNebula(
+            customRenderer.addNebula(
                 location = location,
                 anchorLocation = ship.location,
                 velocity = vel,
@@ -140,7 +144,7 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
             )
 
             // Swirl under
-            CustomRenderer.addNebula(
+            customRenderer.addNebula(
                 location = location,
                 anchorLocation = ship.location,
                 velocity = vel,
@@ -156,7 +160,7 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
             )
 
             // Normal on top
-            CustomRenderer.addNebula(
+            customRenderer.addNebula(
                 location = location,
                 anchorLocation = ship.location,
                 velocity = vel,
@@ -172,7 +176,7 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
             )
 
             // Swirl on top
-            CustomRenderer.addNebula(
+            customRenderer.addNebula(
                 location = location,
                 anchorLocation = ship.location,
                 velocity = vel,

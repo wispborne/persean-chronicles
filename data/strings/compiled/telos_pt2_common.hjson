@@ -169,7 +169,14 @@
             "flagshipName" : "Eugel’s Blade",
             "telosQuotes" : [ "" ],
             "quotes" : [ "This is Captain Eugel of the Hegemony. Power down your weapons and any forbidden technology.", "I have orders to eliminate all threats to the Domain. Your course is a threat to us all.", "You cannot play God without consequence. I am that consequence.", "I take no joy in ending your march to technological armageddon. But I will end it.", "We can’t expect Ludd to do all the work.", "A brotherhood of Man is a worthy goal, but technology is not the solution.", "This is not a battle you can win, Telos. Your little experiment is over.", "Let it end. The record will note that you fought valiantly." ],
-            "victoryQuote" : "And so another would-be Prometheus falls. Some arts are best left to the Creator."
+            "victoryQuote" : "And so another would-be Prometheus falls. Some arts are best left to the Creator.",
+            "cheaterTaunts" : {
+              "cheater1" : [ "A grin plastered on your face, you blow up ship after ship without firing a shot.", "\"lol,\" you think to yourself, wiping pizza grease from your neck. \"lmao. dumb modder.\"" ],
+              "cheater2" : [ "The final enemy ship explodes, untouched.", "Cheating complete, you push back from the keyboard to give a mock bow to your admiring fumo collection." ],
+              "cheater3" : [ "This action will have consequences." ],
+              "cheater4" : [ "The wall of anime pinups look down at you.", "\"What?\" you ask them, \"It's not cheating if the battle was rigged.\"", "\"What was that?!\" your mom shouts from upstairs. \"Dinner's almost ready!\"", "\"Coming!\", you shout back, focusing on Starsector." ],
+              "cheater5" : [ "Really, commander?" ]
+            }
           }
         }
       }

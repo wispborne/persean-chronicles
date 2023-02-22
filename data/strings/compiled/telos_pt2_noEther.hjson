@@ -31,7 +31,16 @@
               } ]
             }, {
               "id" : "3-noEther",
-              "paras" : [ "The simulated explosions echo briefly around the room before dying. Karengo glances over and shrugs. “An’ that’s why you don’t take the Hegemony in a fair fight, eh?”", "He turns away, towards the hanger door and the lone ship in the bay." ],
+              "paras" : {
+                "non-cheater" : [ "The simulated explosions echo briefly around the room before dying." ]
+              },
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "3-noEther-2"
+              } ]
+            }, {
+              "id" : "3-noEther-2",
+              "paras" : [ "Karengo glances over and shrugs. “An’ that’s why you don’t take the Hegemony in a fair fight, eh?”", "He turns away, towards the hanger door and the lone ship in the bay." ],
               "options" : [ {
                 "text" : "Go investigate the ship",
                 "goToPage" : "5-noEther"

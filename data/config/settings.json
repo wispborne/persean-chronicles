@@ -1,6 +1,6 @@
 {
   "plugins": {
-    "wisp_perseanchronicles_customrenderer": "wisp.perseanchronicles.telos.boats.CustomRenderer"
+    "wisp_perseanchronicles_customrenderer": "wisp.perseanchronicles.common.fx.CombatCustomRenderer"
   },
   "ruleCommandPackages": [
     "wisp.perseanchronicles.telos.pt1_deliveryToEarth"

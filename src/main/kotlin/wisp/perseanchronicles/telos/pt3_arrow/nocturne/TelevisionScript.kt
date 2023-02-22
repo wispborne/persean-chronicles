@@ -5,20 +5,26 @@ import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.combat.ViewportAPI
 import com.fs.starfarer.api.graphics.SpriteAPI
 import com.fs.starfarer.api.impl.campaign.abilities.BaseToggleAbility
+import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.campaign.CampaignEngine
+import org.lazywizard.lazylib.ext.rotate
 import org.lwjgl.opengl.GL11
 import org.lwjgl.util.vector.Vector2f
+import wisp.perseanchronicles.common.fx.CampaignCustomRenderer
+import wisp.perseanchronicles.common.fx.CustomRenderer
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.distanceFromPlayerInHyperspace
 import wisp.questgiver.wispLib.equalsAny
+import wisp.questgiver.wispLib.random
 import java.awt.Color
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.random.Random
 
 class TelevisionScript : BaseToggleAbility() {
     private val HYPERSPACE_RANGE = 20000f
@@ -29,9 +35,10 @@ class TelevisionScript : BaseToggleAbility() {
 
     protected var phaseAngle = 0f
 
-    override fun getActiveLayers(): EnumSet<CampaignEngineLayers?>? {
-        return EnumSet.of(CampaignEngineLayers.ABOVE)
-    }
+    @Transient
+    var customRenderer: CampaignCustomRenderer? = null
+
+    override fun getActiveLayers(): EnumSet<CampaignEngineLayers?>? = EnumSet.of(CampaignEngineLayers.ABOVE)
 
     override fun advance(amount: Float) {
         super.advance(amount)
@@ -39,6 +46,17 @@ class TelevisionScript : BaseToggleAbility() {
         val days = Global.getSector().clock.convertToDays(if (game.sector.isPaused) 0f else amount)
         phaseAngle += days * 360f * 10f
         phaseAngle = Misc.normalizeAngle(phaseAngle)
+
+        if (customRenderer == null)
+            customRenderer = Global.getSector().playerFleet.containingLocation.addCustomEntity(
+                "perseanchronicles_ethersight",
+                "YOU SHOULD NOT SEE THIS",
+                "PerseanChronicles_CustomRenderer_Nebula",
+                Factions.INDEPENDENT,
+                this
+            ).customPlugin as CampaignCustomRenderer
+        customRenderer?.advance(amount)
+        customRenderer?.render(CampaignEngineLayers.ABOVE, game.sector.viewport)
     }
 
     override fun activateImpl() {
@@ -58,7 +76,6 @@ class TelevisionScript : BaseToggleAbility() {
     }
 
     override fun cleanupImpl() {
-
     }
 
     override fun hasTooltip() = true
@@ -107,18 +124,20 @@ class TelevisionScript : BaseToggleAbility() {
         if (fleet.isInHyperspace) {
             game.sector.currentLocation.fleets
                 .filter { it.locationInHyperspace.distanceFromPlayerInHyperspace < HYPERSPACE_RANGE }
-                .run { render(this, viewport) }
+//                .run { render(this, viewport) }
+                .run { renderUsingClouds(this, viewport) }
         } else {
             game.sector.currentLocation.allEntities
                 .asSequence()
-                .filter { Misc.getDistance(it, game.sector.playerFleet) <= maxOf(viewport.visibleHeight, viewport.visibleWidth) }
+//                .filter { Misc.getDistance(it, game.sector.playerFleet) <= maxOf(viewport.visibleHeight, viewport.visibleWidth) }
                 .filterNot { obj ->
                     obj is RingBandAPI
                             || obj.tags.any { it.equalsAny(Tags.TERRAIN, Tags.ORBITAL_JUNK) }
 //                            || (obj is CustomCampaignEntity && obj.sprite == null) // This decides whether things like derelicts are shown.
                 }
                 .run {
-                    render(this.toList(), viewport)
+                    renderUsingClouds(this.toList(), viewport)
+//                    render(this.toList(), viewport)
                 }
         }
     }
@@ -134,13 +153,13 @@ class TelevisionScript : BaseToggleAbility() {
         else -> obj.indicatorColor
     }
 
-    inline fun getEntitySpikeColor(obj: SectorEntityToken): Color =
+    fun getEntitySpikeColor(obj: SectorEntityToken): Color =
         when {
             obj is CampaignFleetAPI && obj.isHostileTo(game.sector.playerFleet) -> Color.RED
             else -> getEntityColor(obj)
         }
 
-    private inline fun getSpikiness(obj: SectorEntityToken) =
+    private fun getSpikiness(obj: SectorEntityToken) =
         when (obj) {
             game.sector.playerFleet -> 0f
             is CampaignFleetAPI -> 8f
@@ -148,7 +167,7 @@ class TelevisionScript : BaseToggleAbility() {
             else -> .5f
         }
 
-    private inline fun getSpikeSize(obj: SectorEntityToken): Float =
+    private fun getSpikeSize(obj: SectorEntityToken): Float =
         when (obj) {
             game.sector.playerFleet -> 0f
             is CampaignFleetAPI -> (Misc.getDangerLevel(obj) / 5f) * 750f
@@ -158,7 +177,39 @@ class TelevisionScript : BaseToggleAbility() {
     @Transient
     protected var texture: SpriteAPI? = null
 
-    fun render(objs: List<SectorEntityToken>, viewport: ViewportAPI) {
+    private fun renderUsingClouds(objs: List<SectorEntityToken>, view: ViewportAPI) {
+        val velocityScale = .000f
+        val sizeScale = 0.001f
+        val durationScale = 1.0f
+        val rampUpScale = 1.0f
+        val alphaScale = .45f
+        val topLayerAlphaScale = .15f
+        val bottomLayerAlphaScale = .40f
+        val endSizeScale = 1.55f
+        val densityInverted = 0.03f // Lower is more dense
+        val vel = Vector2f(100f * velocityScale, 100f * velocityScale)
+            .rotate(Random.nextFloat() * 360f)
+
+        objs.forEach { obj ->
+            val scale = game.settings.screenScaleMult
+            customRenderer?.addNebula(
+                location = Vector2f(view.convertWorldXtoScreenX(obj.location.x) * scale, view.convertWorldYtoScreenY(obj.location.y) * scale),
+                anchorLocation = view.center.negate() as Vector2f,//obj.starSystem?.center?.location ?: obj.containingLocation?.location ?: Vector2f(),
+                velocity = vel,
+                size = (40f..60f).random() * sizeScale,
+                endSizeMult = endSizeScale,
+                duration = (1.2f..1.5f).random() * durationScale,
+                inFraction = 0.1f * rampUpScale,
+                outFraction = 0.5f,
+                color = getEntityColor(obj),
+//                layer = CombatEngineLayers.UNDER_SHIPS_LAYER,
+                type = CustomRenderer.NebulaType.NORMAL,
+                negative = false
+            )
+        }
+    }
+
+    private fun render(objs: List<SectorEntityToken>, viewport: ViewportAPI) {
         if (!this.isActive) return
 
         val level: Float = .524f//1f

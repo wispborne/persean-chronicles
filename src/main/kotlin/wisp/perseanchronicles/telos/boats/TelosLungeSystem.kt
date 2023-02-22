@@ -43,12 +43,13 @@ class TelosLungeSystem : BaseShipSystemScript() {
 //                }
             }
 
+        val combatEngine = game.combatEngine!!
         if (state == ShipSystemStatsScript.State.IN) {
-            previousTimestamp = game.combatEngine.getTotalElapsedTime(false)
+            previousTimestamp = combatEngine.getTotalElapsedTime(false)
         }
 
-        timeSinceStart += (game.combatEngine.getTotalElapsedTime(false) - previousTimestamp!!)
-        previousTimestamp = game.combatEngine.getTotalElapsedTime(false)
+        timeSinceStart += (combatEngine.getTotalElapsedTime(false) - previousTimestamp!!)
+        previousTimestamp = combatEngine.getTotalElapsedTime(false)
 
         if (state == ShipSystemStatsScript.State.IN) {
             ship.allWeapons

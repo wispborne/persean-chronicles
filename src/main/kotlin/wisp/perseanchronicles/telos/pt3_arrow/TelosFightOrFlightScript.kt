@@ -17,7 +17,8 @@ class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
     override fun runWhilePaused() = true
 
     override fun advance(amount: Float) {
-        if (!didSoundPlayerFail && game.soundPlayer.currentMusicId != "TelosEvasion.ogg") {
+        // "nothing" if music is disabled/volume 0
+        if (!didSoundPlayerFail && listOf("TelosEvasion.ogg", "nothing").none { it == game.soundPlayer.currentMusicId }) {
             kotlin.runCatching { TelosCommon.playEvasionMusic(fadeOutSecs = 0, fadeInSecs = 1, loop = true) }
                 .onFailure {
                     game.logger.w(it)
