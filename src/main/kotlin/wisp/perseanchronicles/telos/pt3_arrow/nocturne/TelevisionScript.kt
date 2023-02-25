@@ -8,6 +8,7 @@ import com.fs.starfarer.api.impl.campaign.abilities.BaseToggleAbility
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.ids.Terrain
+import com.fs.starfarer.api.impl.campaign.terrain.BaseRingTerrain
 import com.fs.starfarer.api.impl.campaign.terrain.BaseTiledTerrain
 import com.fs.starfarer.api.impl.campaign.terrain.StarCoronaTerrainPlugin
 import com.fs.starfarer.api.ui.TooltipMakerAPI
@@ -17,16 +18,14 @@ import com.fs.starfarer.campaign.CampaignEngine
 import com.fs.starfarer.campaign.CampaignTerrain
 import com.fs.starfarer.campaign.CustomCampaignEntity
 import org.lazywizard.lazylib.MathUtils
+import org.lazywizard.lazylib.ext.plus
 import org.lazywizard.lazylib.ext.rotate
 import org.lwjgl.opengl.GL11
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.common.fx.CampaignCustomRenderer
 import wisp.perseanchronicles.common.fx.CustomRenderer
 import wisp.perseanchronicles.game
-import wisp.questgiver.wispLib.distanceFromPlayerInHyperspace
-import wisp.questgiver.wispLib.equalsAny
-import wisp.questgiver.wispLib.modify
-import wisp.questgiver.wispLib.random
+import wisp.questgiver.wispLib.*
 import java.awt.Color
 import java.util.*
 import kotlin.math.abs
@@ -144,11 +143,10 @@ class TelevisionScript : BaseToggleAbility() {
             // In-system
             game.sector.currentLocation.allEntities
                 .asSequence()
-                .filter { Misc.getDistance(it, game.sector.playerFleet) <= maxOf(viewport.visibleHeight, viewport.visibleWidth) }
+                .filter { isObjectVisible(it, viewport) }
                 .filterNot { obj ->
-//                    obj is RingBandAPI
-                    (obj is CampaignTerrain && obj.plugin is BaseTiledTerrain) ||
-                            obj.tags.any { it.equalsAny(Tags.ORBITAL_JUNK) }
+                    (obj is CampaignTerrain && obj.type.equalsAny(Terrain.RADIO_CHATTER))
+                            || obj.tags.any { it.equalsAny(Tags.ORBITAL_JUNK) }
                             || ignoreIds.contains(obj.customEntityType)
 //                            || (obj is CustomCampaignEntity && obj.sprite == null) // This decides whether things like derelicts are shown.
                 }
@@ -162,6 +160,13 @@ class TelevisionScript : BaseToggleAbility() {
                 .run { renderUsingClouds(this, viewport) }
         }
     }
+
+    private fun isObjectVisible(obj: SectorEntityToken, viewport: ViewportAPI) =
+        when (obj) {
+            // From [RingBand.render]
+            is RingBandAPI -> viewport.isNearViewport(obj.location, obj.radius + obj.middleRadius + obj.bandWidthInEngine)
+            else -> viewport.isNearViewport(obj.location, obj.radius + 500)
+        }
 
     private fun renderUsingClouds(objs: List<SectorEntityToken>, view: ViewportAPI) {
         if (game.sector.isPaused) return
@@ -183,44 +188,70 @@ class TelevisionScript : BaseToggleAbility() {
 
         objs.forEach { obj ->
             val radius = getRingRadiusForCloudRendering(obj)
-            if (obj is CampaignTerrain && obj.plugin is BaseTiledTerrain) {
-                if (!nebulaDensityInterval!!.intervalElapsed()) return@forEach
+            val size = getSizeForCloudRendering(obj)
+            when {
+                // Nebula clouds
+                obj is CampaignTerrainAPI && obj.type == Terrain.NEBULA -> {
+                    if (!nebulaDensityInterval!!.intervalElapsed()) return@forEach
 
-                val nebulaDensityScale = 0.10f // Lower is more dense
-                if (nebulaDensityInterval!!.minInterval != nebulaDensityScale) {
-                    nebulaDensityInterval!!.setInterval(nebulaDensityScale, nebulaDensityScale * 1.2f)
+                    val nebulaDensityScale = 0.10f // Lower is more dense
+                    if (nebulaDensityInterval!!.minInterval != nebulaDensityScale) {
+                        nebulaDensityInterval!!.setInterval(nebulaDensityScale, nebulaDensityScale * 1.2f)
+                    }
+
+                    getNebulaeCoords(obj, view)
+                        .forEach { point ->
+                            customRenderer?.addNebula(
+                                location = point,
+                                anchorLocation = Vector2f(0f, 0f),
+                                velocity = vel,
+                                size = size * sizeScale,
+                                endSizeMult = endSizeScale,
+                                duration = (1.2f..1.5f).random() * durationScale * 6,
+                                inFraction = 0.1f * rampUpScale,
+                                outFraction = 0.5f,
+                                color = getEntityColor(obj),
+                                type = CustomRenderer.NebulaType.NORMAL,
+                                negative = false
+                            )
+                        }
                 }
 
-                getNebulaeCoords(obj, view)
-                    .forEach { point ->
-                        customRenderer?.addNebula(
-                            location = point,
-                            anchorLocation = Vector2f(0f, 0f),
-                            velocity = vel,
-                            size = radius * sizeScale,
-                            endSizeMult = endSizeScale,
-                            duration = (1.2f..1.5f).random() * durationScale * 6,
-                            inFraction = 0.1f * rampUpScale,
-                            outFraction = 0.5f,
-                            color = getEntityColor(obj),
-                            type = CustomRenderer.NebulaType.NORMAL,
-                            negative = false
-                        )
-                    }
-            } else {
-                customRenderer?.addNebula(
-                    location = MathUtils.getRandomPointInCircle(obj.location, radius / 1.5f),
-                    anchorLocation = Vector2f(0f, 0f),
-                    velocity = vel,
-                    size = radius * sizeScale,
-                    endSizeMult = endSizeScale,
-                    duration = (1.2f..1.5f).random() * durationScale,
-                    inFraction = 0.1f * rampUpScale,
-                    outFraction = 0.5f,
-                    color = getEntityColor(obj),
-                    type = CustomRenderer.NebulaType.NORMAL,
-                    negative = false
-                )
+                // Rings, belts, any circles
+                obj is RingBandAPI || (obj is CampaignTerrainAPI && obj.type.equalsAny(
+                    Terrain.ASTEROID_BELT,
+                    Terrain.RING
+                )) -> {
+                    customRenderer?.addNebula(
+                        location = MathUtils.getRandomPointOnCircumference(obj.location, radius),
+                        anchorLocation = Vector2f(0f, 0f),
+                        velocity = vel,
+                        size = size * sizeScale,
+                        endSizeMult = endSizeScale,
+                        duration = (1.2f..1.5f).random() * durationScale,
+                        inFraction = 0.1f * rampUpScale,
+                        outFraction = 0.5f,
+                        color = getEntityColor(obj),
+                        type = CustomRenderer.NebulaType.NORMAL,
+                        negative = false
+                    )
+                }
+
+                else -> {
+                    customRenderer?.addNebula(
+                        location = MathUtils.getRandomPointInCircle(obj.location, radius / 1.5f),
+                        anchorLocation = Vector2f(0f, 0f),
+                        velocity = vel,
+                        size = size * sizeScale,
+                        endSizeMult = endSizeScale,
+                        duration = (1.2f..1.5f).random() * durationScale,
+                        inFraction = 0.1f * rampUpScale,
+                        outFraction = 0.5f,
+                        color = getEntityColor(obj),
+                        type = CustomRenderer.NebulaType.NORMAL,
+                        negative = false
+                    )
+                }
             }
         }
     }
@@ -233,10 +264,19 @@ class TelevisionScript : BaseToggleAbility() {
 
     private fun getRingRadiusForCloudRendering(obj: SectorEntityToken): Float {
         return ((obj as? CampaignTerrainAPI)?.plugin as? StarCoronaTerrainPlugin)?.ringParams?.bandWidthInEngine
-            ?: (obj as? RingBandAPI)?.bandWidthInEngine
-            ?: (obj.radius + 25f)
+            ?: ((obj as? CampaignTerrain)?.plugin as? BaseRingTerrain)?.ringParams?.middleRadius
+            ?: (obj as? RingBandAPI)?.middleRadius
+            ?: if (obj is CampaignTerrainAPI && obj.plugin is BaseTiledTerrain) obj.radius + 40f else null
+                ?: (obj.radius + 25f)
     }
 
+    private fun getSizeForCloudRendering(obj: SectorEntityToken): Float {
+        return (obj as? RingBandAPI)?.bandWidthInEngine
+            ?: ((obj as? CampaignTerrain)?.plugin as? BaseRingTerrain)?.ringParams?.bandWidthInEngine
+            ?: getRingRadiusForCloudRendering(obj)
+    }
+
+    @Deprecated("Use getRingRadiusForCloudRendering instead")
     private fun getRingRadius(obj: SectorEntityToken): Float {
         return obj.radius - 25f
         //return obj.getRadius() + 25f;
@@ -279,26 +319,26 @@ class TelevisionScript : BaseToggleAbility() {
         val h: Float = tiles[0].size * size
         x -= w / 2f
         y -= h / 2f
-        val extra = (renderSize - size) / 2f + 100f
+        val extraViewportMarginToRender = (renderSize - size) / 2f + 400f
 
         val llx: Float = v.llx
         val lly: Float = v.lly
         val vw: Float = v.visibleWidth
         val vh: Float = v.visibleHeight
 
-        if (llx > x + w + extra) return emptyList()
-        if (lly > y + h + extra) return emptyList()
-        if (llx + vw + extra < x) return emptyList()
-        if (lly + vh + extra < y) return emptyList()
+        if (llx > x + w + extraViewportMarginToRender) return emptyList()
+        if (lly > y + h + extraViewportMarginToRender) return emptyList()
+        if (llx + vw + extraViewportMarginToRender < x) return emptyList()
+        if (lly + vh + extraViewportMarginToRender < y) return emptyList()
 
-        var xStart = ((llx - x - extra) / size).toInt()
+        var xStart = ((llx - x - extraViewportMarginToRender) / size).toInt()
         if (xStart < 0) xStart = 0
-        var yStart = ((lly - y - extra) / size).toInt()
+        var yStart = ((lly - y - extraViewportMarginToRender) / size).toInt()
         if (yStart < 0) yStart = 0
 
-        var xEnd = (((llx + vw - x + extra) / size).toInt() + 1)
+        var xEnd = (((llx + vw - x + extraViewportMarginToRender) / size).toInt() + 1)
         if (xEnd >= tiles.size) xEnd = (tiles.size - 1)
-        var yEnd = (((lly + vw - y + extra) / size).toInt() + 1)
+        var yEnd = (((lly + vw - y + extraViewportMarginToRender) / size).toInt() + 1)
         if (yEnd >= tiles.size) yEnd = (tiles[0].size - 1)
 
 
@@ -322,13 +362,15 @@ class TelevisionScript : BaseToggleAbility() {
                     val rand = Random((i + j * tiles.size).toLong() * 1000000)
                     val xOff: Float = -offRange / 2f + offRange * rand.nextFloat()
                     val yOff: Float = -offRange / 2f + offRange * rand.nextFloat()
+                    val botLeftPoint = Vector2f(
+                        newX + xOff - w / 2f + i * size + size / 2f - renderSize / 2f,
+                        newY + yOff - h / 2f + j * size + size / 2f - renderSize / 2f
+                    )
+                    val center = botLeftPoint + Vector2f(renderSize / 2f, renderSize / 2f)
                     ret.add(
 //                        CampaignUtils.toScreenCoordinates(
                         MathUtils.getRandomPointInCircle(
-                            Vector2f(
-                                newX + xOff - w / 2f + i * size + size / 2f - renderSize / 2f,
-                                newY + yOff - h / 2f + j * size + size / 2f - renderSize / 2f
-                            ),
+                            center,
                             renderSize / 2f
                         )
 //                    )
