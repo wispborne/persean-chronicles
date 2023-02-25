@@ -136,19 +136,19 @@ interface CustomRenderer {
     }
 
     data class Nebula(
-        var location: Vector2f,
-        var anchorLocation: Vector2f,
-        var velocity: Vector2f,
-        var size: Float,
-        var endSize: Float,
-        var duration: Float,
-        var inFraction: Float,
-        var outFraction: Float,
-        var color: Color,
-        var layer: CombatEngineLayers,
-        var type: NebulaType,
-        var negative: Boolean,
-        var sqrt: Boolean,
+        val location: Vector2f,
+        val anchorLocation: Vector2f,
+        val velocity: Vector2f,
+        val size: Float,
+        val endSize: Float,
+        val duration: Float,
+        val inFraction: Float,
+        val outFraction: Float,
+        val color: Color,
+        val layer: CombatEngineLayers,
+        val type: NebulaType,
+        val negative: Boolean,
+        val sqrt: Boolean,
         val outColor: Color
     ) {
         var lifetime = 0f

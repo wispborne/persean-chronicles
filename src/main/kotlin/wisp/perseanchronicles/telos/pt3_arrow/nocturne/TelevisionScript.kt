@@ -7,10 +7,16 @@ import com.fs.starfarer.api.graphics.SpriteAPI
 import com.fs.starfarer.api.impl.campaign.abilities.BaseToggleAbility
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.impl.campaign.ids.Terrain
+import com.fs.starfarer.api.impl.campaign.terrain.BaseTiledTerrain
+import com.fs.starfarer.api.impl.campaign.terrain.StarCoronaTerrainPlugin
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.campaign.CampaignEngine
+import com.fs.starfarer.campaign.CampaignTerrain
+import com.fs.starfarer.campaign.CustomCampaignEntity
+import org.lazywizard.lazylib.MathUtils
 import org.lazywizard.lazylib.ext.rotate
 import org.lwjgl.opengl.GL11
 import org.lwjgl.util.vector.Vector2f
@@ -19,6 +25,7 @@ import wisp.perseanchronicles.common.fx.CustomRenderer
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.distanceFromPlayerInHyperspace
 import wisp.questgiver.wispLib.equalsAny
+import wisp.questgiver.wispLib.modify
 import wisp.questgiver.wispLib.random
 import java.awt.Color
 import java.util.*
@@ -43,7 +50,10 @@ class TelevisionScript : BaseToggleAbility() {
     var visionEntity: CustomCampaignEntityAPI? = null
 
     @Transient
-    private var interval: IntervalUtil? = IntervalUtil(0.03f, 0.04f)
+    private var objDensityInternal: IntervalUtil? = IntervalUtil(0.03f, 0.04f)
+
+    @Transient
+    private var nebulaDensityInterval: IntervalUtil? = IntervalUtil(0.03f, 0.04f)
 
     override fun getActiveLayers(): EnumSet<CampaignEngineLayers?>? = EnumSet.of(CampaignEngineLayers.ABOVE)
 
@@ -64,10 +74,13 @@ class TelevisionScript : BaseToggleAbility() {
             customRenderer = visionEntity?.customPlugin as? CampaignCustomRenderer
         }
 
-        if (interval == null)
-            interval = IntervalUtil(0.03f, 0.04f)
+        if (objDensityInternal == null)
+            objDensityInternal = IntervalUtil(0.03f, 0.04f)
+        objDensityInternal?.advance(amount)
 
-        interval?.advance(amount)
+        if (nebulaDensityInterval == null)
+            nebulaDensityInterval = IntervalUtil(0.03f, 0.04f)
+        nebulaDensityInterval?.advance(amount)
     }
 
     override fun activateImpl() {
@@ -119,64 +132,96 @@ class TelevisionScript : BaseToggleAbility() {
         CampaignEngine.getInstance().uiData.campaignZoom = 30f
         CampaignEngine.getInstance().uiData.campaignMapZoom = 30f
 //        game.sector.playerFleet.starSystem.backgroundTextureFilename = "graphics/backgrounds/empty.png"
+        val ignoreIds = setOf("PerseanChronicles_CustomRenderer_Nebula")
 
         if (fleet.isInHyperspace) {
+            // Hyperspace
             game.sector.currentLocation.fleets
                 .filter { it.locationInHyperspace.distanceFromPlayerInHyperspace < HYPERSPACE_RANGE }
 //                .run { render(this, viewport) }
                 .run { renderUsingClouds(this, viewport) }
         } else {
+            // In-system
             game.sector.currentLocation.allEntities
                 .asSequence()
-//                .filter { Misc.getDistance(it, game.sector.playerFleet) <= maxOf(viewport.visibleHeight, viewport.visibleWidth) }
+                .filter { Misc.getDistance(it, game.sector.playerFleet) <= maxOf(viewport.visibleHeight, viewport.visibleWidth) }
                 .filterNot { obj ->
-                    obj is RingBandAPI
-                            || obj.tags.any { it.equalsAny(Tags.TERRAIN, Tags.ORBITAL_JUNK) }
+//                    obj is RingBandAPI
+                    (obj is CampaignTerrain && obj.plugin is BaseTiledTerrain) ||
+                            obj.tags.any { it.equalsAny(Tags.ORBITAL_JUNK) }
+                            || ignoreIds.contains(obj.customEntityType)
 //                            || (obj is CustomCampaignEntity && obj.sprite == null) // This decides whether things like derelicts are shown.
                 }
                 .run {
                     renderUsingClouds(this.toList(), viewport)
-//                    render(this.toList(), viewport)
                 }
+
+            // Nebulae (don't limit by distance)
+            game.sector.currentLocation.terrainCopy
+                .filter { it.type == Terrain.NEBULA }
+                .run { renderUsingClouds(this, viewport) }
         }
     }
 
     private fun renderUsingClouds(objs: List<SectorEntityToken>, view: ViewportAPI) {
         if (game.sector.isPaused) return
         // jump out if interval hasn't elapsed yet
-        if (!interval!!.intervalElapsed()) return
+        if (!objDensityInternal!!.intervalElapsed()) return
 
-        val velocityScale = .000f
+        val velocityScale = 0f
         val sizeScale = 1f
-        val durationScale = 0.5f
+        val durationScale = 0.8f
         val rampUpScale = 1.0f
-        val alphaScale = .45f
-        val topLayerAlphaScale = .15f
-        val bottomLayerAlphaScale = .40f
         val endSizeScale = 1.55f
-        val densityInverted = 0.03f // Lower is more dense
+        val densityScale = 0.08f // Lower is more dense
         val vel = Vector2f(100f * velocityScale, 100f * velocityScale)
             .rotate(Random.nextFloat() * 360f)
 
-        if (interval!!.minInterval != densityInverted) {
-            interval!!.setInterval(densityInverted, densityInverted * 0.2f)
+        if (objDensityInternal!!.minInterval != densityScale) {
+            objDensityInternal!!.setInterval(densityScale, densityScale * 1.2f)
         }
 
         objs.forEach { obj ->
-            customRenderer?.addNebula(
-                location = obj.location,
-                anchorLocation = Vector2f(0f, 0f),
-                velocity = Vector2f(0f, 0f),
-                size = obj.radius * sizeScale,
-                endSizeMult = endSizeScale,
-                duration = (1.2f..1.5f).random() * durationScale,
-                inFraction = 0.1f * rampUpScale,
-                outFraction = 0.5f,
-                color = getEntityColor(obj),
-//                layer = CombatEngineLayers.UNDER_SHIPS_LAYER,
-                type = CustomRenderer.NebulaType.NORMAL,
-                negative = false
-            )
+            val radius = getRingRadiusForCloudRendering(obj)
+            if (obj is CampaignTerrain && obj.plugin is BaseTiledTerrain) {
+                if (!nebulaDensityInterval!!.intervalElapsed()) return@forEach
+
+                val nebulaDensityScale = 0.10f // Lower is more dense
+                if (nebulaDensityInterval!!.minInterval != nebulaDensityScale) {
+                    nebulaDensityInterval!!.setInterval(nebulaDensityScale, nebulaDensityScale * 1.2f)
+                }
+
+                getNebulaeCoords(obj, view)
+                    .forEach { point ->
+                        customRenderer?.addNebula(
+                            location = point,
+                            anchorLocation = Vector2f(0f, 0f),
+                            velocity = vel,
+                            size = radius * sizeScale,
+                            endSizeMult = endSizeScale,
+                            duration = (1.2f..1.5f).random() * durationScale * 6,
+                            inFraction = 0.1f * rampUpScale,
+                            outFraction = 0.5f,
+                            color = getEntityColor(obj),
+                            type = CustomRenderer.NebulaType.NORMAL,
+                            negative = false
+                        )
+                    }
+            } else {
+                customRenderer?.addNebula(
+                    location = MathUtils.getRandomPointInCircle(obj.location, radius / 1.5f),
+                    anchorLocation = Vector2f(0f, 0f),
+                    velocity = vel,
+                    size = radius * sizeScale,
+                    endSizeMult = endSizeScale,
+                    duration = (1.2f..1.5f).random() * durationScale,
+                    inFraction = 0.1f * rampUpScale,
+                    outFraction = 0.5f,
+                    color = getEntityColor(obj),
+                    type = CustomRenderer.NebulaType.NORMAL,
+                    negative = false
+                )
+            }
         }
     }
 
@@ -184,6 +229,12 @@ class TelevisionScript : BaseToggleAbility() {
         // Update the in-memory setting and then call obf method to reload settings.
 //        game.settings.setFloat("maxCampaignZoom", zoomMult)
 //        StarfarerSettings.ÕÔ0000()
+    }
+
+    private fun getRingRadiusForCloudRendering(obj: SectorEntityToken): Float {
+        return ((obj as? CampaignTerrainAPI)?.plugin as? StarCoronaTerrainPlugin)?.ringParams?.bandWidthInEngine
+            ?: (obj as? RingBandAPI)?.bandWidthInEngine
+            ?: (obj.radius + 25f)
     }
 
     private fun getRingRadius(obj: SectorEntityToken): Float {
@@ -199,8 +250,96 @@ class TelevisionScript : BaseToggleAbility() {
         }
 
         is JumpPointAPI -> Color(128, 100, 255) // ideally would get color from the sprite for recolor mods.
-        else -> obj.indicatorColor
+        is CampaignTerrainAPI ->
+            when (obj.plugin.terrainId) {
+                Terrain.CORONA -> obj.plugin.nameColor.modify(alpha = 15)
+                Terrain.NEBULA -> obj.plugin.nameColor.modify(alpha = 120)
+                else -> obj.plugin.nameColor.modify(alpha = 25)
+            }
+
+        is CustomCampaignEntity -> obj.sprite?.color?.modify(alpha = 25) ?: Color.RED.modify(alpha = 0)
+        is RingBandAPI -> obj.color.modify(alpha = 25)
+        else -> //if (obj)
+            obj.indicatorColor?.modify(alpha = 15) ?: Color.GRAY
     }
+
+
+    private fun getNebulaeCoords(obj: CampaignTerrainAPI, v: ViewportAPI): List<Vector2f> {
+        val plugin = obj.plugin as BaseTiledTerrain
+        val params = plugin.params
+
+        // BaseTiledTerrain.render
+        var x = 0f //entity.location.x
+        var y = 0f //entity.location.y
+        val size: Float = plugin.tileSize
+        val renderSize: Float = plugin.tileRenderSize
+
+        val tiles = plugin.tiles
+        val w: Float = tiles.size * size
+        val h: Float = tiles[0].size * size
+        x -= w / 2f
+        y -= h / 2f
+        val extra = (renderSize - size) / 2f + 100f
+
+        val llx: Float = v.llx
+        val lly: Float = v.lly
+        val vw: Float = v.visibleWidth
+        val vh: Float = v.visibleHeight
+
+        if (llx > x + w + extra) return emptyList()
+        if (lly > y + h + extra) return emptyList()
+        if (llx + vw + extra < x) return emptyList()
+        if (lly + vh + extra < y) return emptyList()
+
+        var xStart = ((llx - x - extra) / size).toInt()
+        if (xStart < 0) xStart = 0
+        var yStart = ((lly - y - extra) / size).toInt()
+        if (yStart < 0) yStart = 0
+
+        var xEnd = (((llx + vw - x + extra) / size).toInt() + 1)
+        if (xEnd >= tiles.size) xEnd = (tiles.size - 1)
+        var yEnd = (((lly + vw - y + extra) / size).toInt() + 1)
+        if (yEnd >= tiles.size) yEnd = (tiles[0].size - 1)
+
+
+        // BaseTiledTerrain.renderSubArea
+        val newX = 0f //entity.location.x
+        val newY = 0f //entity.location.y
+        val startColumn = xStart
+        val endColumn = xEnd
+        val startRow = yStart
+        val endRow = yEnd
+        val ret = mutableListOf<Vector2f>()
+
+        for (i in (startColumn..endColumn)) {
+            if (i < 0 || i >= tiles.size) continue
+            for (j in (startRow..endRow)) {
+                if (j < 0 || j >= tiles[0].size) continue
+                val texIndex = tiles[i][j]
+
+                if (texIndex >= 0) {
+                    val offRange = renderSize * 0.25f
+                    val rand = Random((i + j * tiles.size).toLong() * 1000000)
+                    val xOff: Float = -offRange / 2f + offRange * rand.nextFloat()
+                    val yOff: Float = -offRange / 2f + offRange * rand.nextFloat()
+                    ret.add(
+//                        CampaignUtils.toScreenCoordinates(
+                        MathUtils.getRandomPointInCircle(
+                            Vector2f(
+                                newX + xOff - w / 2f + i * size + size / 2f - renderSize / 2f,
+                                newY + yOff - h / 2f + j * size + size / 2f - renderSize / 2f
+                            ),
+                            renderSize / 2f
+                        )
+//                    )
+                    )
+                }
+            }
+        }
+
+        return ret
+    }
+
 
     fun getEntitySpikeColor(obj: SectorEntityToken): Color =
         when {
@@ -208,24 +347,8 @@ class TelevisionScript : BaseToggleAbility() {
             else -> getEntityColor(obj)
         }
 
-    private fun getSpikiness(obj: SectorEntityToken) =
-        when (obj) {
-            game.sector.playerFleet -> 0f
-            is CampaignFleetAPI -> 8f
-            is JumpPointAPI -> 3f
-            else -> .5f
-        }
-
-    private fun getSpikeSize(obj: SectorEntityToken): Float =
-        when (obj) {
-            game.sector.playerFleet -> 0f
-            is CampaignFleetAPI -> (Misc.getDangerLevel(obj) / 5f) * 750f
-            else -> 0f
-        }
-
-
     @Transient
-    protected var texture: SpriteAPI? = null
+    private var texture: SpriteAPI? = null
 
     @Deprecated("Using clouds now.")
     private fun render(objs: List<SectorEntityToken>, viewport: ViewportAPI) {
@@ -355,4 +478,19 @@ class TelevisionScript : BaseToggleAbility() {
 //            GL11.glPopMatrix()
         }
     }
+
+    private fun getSpikiness(obj: SectorEntityToken) =
+        when (obj) {
+            game.sector.playerFleet -> 0f
+            is CampaignFleetAPI -> 8f
+            is JumpPointAPI -> 3f
+            else -> .5f
+        }
+
+    private fun getSpikeSize(obj: SectorEntityToken): Float =
+        when (obj) {
+            game.sector.playerFleet -> 0f
+            is CampaignFleetAPI -> (Misc.getDangerLevel(obj) / 5f) * 750f
+            else -> 0f
+        }
 }
