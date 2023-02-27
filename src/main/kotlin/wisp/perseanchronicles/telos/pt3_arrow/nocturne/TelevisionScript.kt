@@ -53,11 +53,14 @@ class TelevisionScript : BaseToggleAbility() {
 
     @Transient
     private var nebulaDensityInterval: IntervalUtil? = IntervalUtil(0.03f, 0.04f)
+    private var nocturneEntity: SectorEntityToken? = null
 
     override fun getActiveLayers(): EnumSet<CampaignEngineLayers?>? = EnumSet.of(CampaignEngineLayers.ABOVE)
 
     override fun advance(amount: Float) {
         super.advance(amount)
+
+        if (!turnedOn) return
 
         val days = Global.getSector().clock.convertToDays(if (game.sector.isPaused) 0f else amount)
         phaseAngle += days * 360f * 10f
@@ -65,7 +68,7 @@ class TelevisionScript : BaseToggleAbility() {
 
         if (visionEntity == null || visionEntity?.containingLocation != Global.getSector().playerFleet.containingLocation) {
             visionEntity = Global.getSector().playerFleet.containingLocation.addCustomEntity(
-                "perseanchronicles_ethersight", "Tell your friends about Persean Chronicles today!",
+                "perseanchronicles_ethersight", "Devmode: Tell your friends about Persean Chronicles today!",
                 "PerseanChronicles_CustomRenderer_Nebula", Factions.INDEPENDENT, this
             );
             visionEntity?.setFixedLocation(-100000f, -100000f);
@@ -91,23 +94,24 @@ class TelevisionScript : BaseToggleAbility() {
      * @param level
      */
     override fun applyEffect(amount: Float, level: Float) {
-        setMaxZoom(10f)
+        if (turnedOn) {
+            setMaxZoom(10f)
+            setDimmedScreen(true)
+        }
     }
 
     override fun deactivateImpl() {
         setMaxZoom(originalMaxZoom)
+        setDimmedScreen(false)
     }
 
     override fun cleanupImpl() {
+        setDimmedScreen(false)
     }
 
     override fun hasTooltip() = true
 
     override fun createTooltip(tooltip: TooltipMakerAPI?, expanded: Boolean) {
-        val bad = Misc.getNegativeHighlightColor()
-        val gray = Misc.getGrayColor()
-        val highlight = Misc.getHighlightColor()
-
         var status = " (off)"
         if (turnedOn) {
             status = " (on)"
@@ -115,15 +119,15 @@ class TelevisionScript : BaseToggleAbility() {
 
         val title = tooltip!!.addTitle(spec.name + status)
         title.highlightLast(status)
-        title.setHighlightColor(gray)
+        title.setHighlightColor(Misc.getGrayColor())
 
         val pad = 10f
 
         tooltip.addPara(
-            "By focusing, you are able to observe stellar objects and fleets with perfect detail.", pad
+            "By focusing, you are able to observe stellar objects and fleets from afar.", pad
         )
         tooltip.addPara(
-            "Fleets with a harmful intention show red.", pad
+            "Hostile fleets show in red.", pad
         )
     }
 
@@ -135,31 +139,43 @@ class TelevisionScript : BaseToggleAbility() {
 
         if (fleet.isInHyperspace) {
             // Hyperspace
-            game.sector.currentLocation.fleets
-                .filter { it.locationInHyperspace.distanceFromPlayerInHyperspace < HYPERSPACE_RANGE }
-//                .run { render(this, viewport) }
-                .run { renderUsingClouds(this, viewport) }
+            renderUsingClouds(getHyperspaceObjects(ignoreIds), viewport)
         } else {
             // In-system
-            game.sector.currentLocation.allEntities
-                .asSequence()
-                .filter { isObjectVisible(it, viewport) }
-                .filterNot { obj ->
-                    (obj is CampaignTerrain && obj.type.equalsAny(Terrain.RADIO_CHATTER))
-                            || obj.tags.any { it.equalsAny(Tags.ORBITAL_JUNK) }
-                            || ignoreIds.contains(obj.customEntityType)
-//                            || (obj is CustomCampaignEntity && obj.sprite == null) // This decides whether things like derelicts are shown.
-                }
-                .run {
-                    renderUsingClouds(this.toList(), viewport)
-                }
+            renderUsingClouds(getSystemObjects(viewport, ignoreIds), viewport)
 
             // Nebulae (don't limit by distance)
-            game.sector.currentLocation.terrainCopy
-                .filter { it.type == Terrain.NEBULA }
-                .run { renderUsingClouds(this, viewport) }
+            renderUsingClouds(getNebulaObjects(), viewport)
         }
     }
+
+    private fun getNebulaObjects() =
+        game.sector.currentLocation.terrainCopy
+            .filter { it.type == Terrain.NEBULA }
+
+    private fun getSystemObjects(
+        viewport: ViewportAPI,
+        ignoreIds: Set<String>
+    ) =
+        game.sector.currentLocation.allEntities
+            .asSequence()
+            .filter { isObjectVisible(it, viewport) }
+            .filterNot { obj ->
+                (obj is CampaignTerrain && obj.type.equalsAny(Terrain.RADIO_CHATTER, Terrain.ASTEROID_FIELD))
+                        || obj.tags.any { it.equalsAny(Tags.ORBITAL_JUNK) }
+                        || ignoreIds.contains(obj.customEntityType)
+                //                            || (obj is CustomCampaignEntity && obj.sprite == null) // This decides whether things like derelicts are shown.
+            }
+            .toList()
+
+    private fun getHyperspaceObjects(
+        ignoreIds: Set<String>
+    ) =
+        game.sector.currentLocation.fleets
+            .asSequence()
+            .filter { it.locationInHyperspace.distanceFromPlayerInHyperspace < HYPERSPACE_RANGE }
+            .filterNot { obj -> ignoreIds.contains(obj.customEntityType) }
+            .toList()
 
     private fun isObjectVisible(obj: SectorEntityToken, viewport: ViewportAPI) =
         when (obj) {
@@ -170,7 +186,7 @@ class TelevisionScript : BaseToggleAbility() {
 
     private fun renderUsingClouds(objs: List<SectorEntityToken>, view: ViewportAPI) {
         if (game.sector.isPaused) return
-        // jump out if interval hasn't elapsed yet
+        // return if interval hasn't elapsed yet.
         if (!objDensityInternal!!.intervalElapsed()) return
 
         val velocityScale = 0f
@@ -257,9 +273,7 @@ class TelevisionScript : BaseToggleAbility() {
     }
 
     private fun setMaxZoom(zoomMult: Float) {
-        // Update the in-memory setting and then call obf method to reload settings.
-//        game.settings.setFloat("maxCampaignZoom", zoomMult)
-//        StarfarerSettings.ÕÔ0000()
+        // Alex is adding this in 0.96, I think.
     }
 
     private fun getRingRadiusForCloudRendering(obj: SectorEntityToken): Float {
@@ -276,10 +290,42 @@ class TelevisionScript : BaseToggleAbility() {
             ?: getRingRadiusForCloudRendering(obj)
     }
 
-    @Deprecated("Use getRingRadiusForCloudRendering instead")
-    private fun getRingRadius(obj: SectorEntityToken): Float {
-        return obj.radius - 25f
-        //return obj.getRadius() + 25f;
+
+    private fun setDimmedScreen(showEffect: Boolean) {
+        val nocturneTagAndId = "PerseanChronicles_Telos_Nocturne"
+
+        if (showEffect) {
+            // If effect is ongoing and there's no nocturne entity, create one.
+            if (nocturneEntity == null) {
+                kotlin.runCatching {
+                    nocturneEntity = game.sector.playerFleet.starSystem?.addCustomEntity(
+                        nocturneTagAndId,
+                        "",
+                        nocturneTagAndId,
+                        null
+                    )
+                        ?.apply { addTag(nocturneTagAndId) }
+                }
+                    .onFailure { game.logger.w(it) }
+            }
+
+            // Move it to the player's system or hyperspace if player has moved.
+            if (nocturneEntity?.containingLocation != game.sector.playerFleet.starSystem) {
+                nocturneEntity?.containingLocation?.removeEntity(nocturneEntity)
+                game.sector.playerFleet.starSystem?.addEntity(nocturneEntity)
+            }
+
+            // Then move it to the player's location.
+            nocturneEntity?.setLocation(game.sector.playerFleet.location.x, game.sector.playerFleet.location.y)
+        } else {
+            // Remove any existing nocturne entities from the sector.
+            game.sector.getCustomEntitiesWithTag(nocturneTagAndId)
+                .forEach {
+                    it.containingLocation?.removeEntity(it)
+                    it.containingLocation = null
+                }
+            nocturneEntity = null
+        }
     }
 
     private fun getEntityColor(obj: SectorEntityToken): Color = when (obj) {
@@ -299,7 +345,7 @@ class TelevisionScript : BaseToggleAbility() {
 
         is CustomCampaignEntity -> obj.sprite?.color?.modify(alpha = 25) ?: Color.RED.modify(alpha = 0)
         is RingBandAPI -> obj.color.modify(alpha = 25)
-        else -> //if (obj)
+        else ->
             obj.indicatorColor?.modify(alpha = 15) ?: Color.GRAY
     }
 
@@ -382,18 +428,18 @@ class TelevisionScript : BaseToggleAbility() {
         return ret
     }
 
-
-    fun getEntitySpikeColor(obj: SectorEntityToken): Color =
-        when {
-            obj is CampaignFleetAPI && obj.isHostileTo(game.sector.playerFleet) -> Color.RED
-            else -> getEntityColor(obj)
-        }
+    @Deprecated("Use getRingRadiusForCloudRendering instead")
+    private fun getRingRadius(obj: SectorEntityToken): Float {
+        return obj.radius - 25f
+        //return obj.getRadius() + 25f;
+    }
 
     @Transient
+    @Deprecated("Using clouds now.")
     private var texture: SpriteAPI? = null
 
     @Deprecated("Using clouds now.")
-    private fun render(objs: List<SectorEntityToken>, viewport: ViewportAPI) {
+    private fun renderWithOpengl(objs: List<SectorEntityToken>, viewport: ViewportAPI) {
         if (!this.isActive) return
 
         val level: Float = .524f//1f

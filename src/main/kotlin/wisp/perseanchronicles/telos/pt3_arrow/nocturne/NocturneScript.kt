@@ -22,6 +22,7 @@ import java.awt.Color
 
 
 class NocturneScript : EveryFrameScript {
+    var millisRemaining = -1f // by default, lasts forever, but add a cooldown for testing
     private val screenWidth = Display.getWidth() * Display.getPixelScaleFactor()
     private val screenHeight = Display.getHeight() * Display.getPixelScaleFactor()
     private var minimapWidth = 240f
@@ -29,7 +30,6 @@ class NocturneScript : EveryFrameScript {
     private val minimapX = (screenWidth - minimapWidth).toInt()
     private val minimapY = (screenHeight - minimapHeight).toInt()
     private val bgTextureId = glGenTextures()
-    private var nocturneEntity: SectorEntityToken? = null
     private val initialGameDifficulty = game.sector.difficulty
     private val initialEasySensorBonus = game.settings.getFloat("easySensorBonus")
 
@@ -47,8 +47,17 @@ class NocturneScript : EveryFrameScript {
         if (!game.sector.isPaused) {
             secsElapsed += amount
         }
+        var isEffectOver = false
 
-        val isEffectOver = false
+        if (millisRemaining > 0f) {
+            millisRemaining -= amount
+        }
+
+        if (millisRemaining <= 0f) {
+            isEffectOver = true
+            isDone = true
+        }
+
         minimapWidth = 220f
         minimapHeight = 220f
 //        renderMinimapBlur()
@@ -57,7 +66,6 @@ class NocturneScript : EveryFrameScript {
 //        drawMinimapBlackout()
         setViewportVisibility(false)
         setPlayerSensorStrength()
-        updateCustomEntity(isEffectOver)
         disableAbilities()
 //        darkenScreen()
 
@@ -67,31 +75,6 @@ class NocturneScript : EveryFrameScript {
 //            glDeleteTextures(bgTextureId)
             game.logger.i { "Ending Nocturne effect." }
             isDone = true
-        }
-    }
-
-    private fun updateCustomEntity(isEffectOver: Boolean) {
-        when {
-            !isEffectOver -> {
-                if (nocturneEntity == null) {
-                    kotlin.runCatching {
-                        nocturneEntity = game.sector.playerFleet.starSystem?.addCustomEntity(
-                            "PerseanChronicles_Telos_Nocturne",
-                            "",
-                            "PerseanChronicles_Telos_Nocturne",
-                            null
-                        )
-                    }
-                        .onFailure { game.logger.w(it) }
-                } else {
-                    nocturneEntity?.setLocation(game.sector.playerFleet.location.x, game.sector.playerFleet.location.y)
-                }
-            }
-
-            nocturneEntity != null -> {
-                game.sector.playerFleet.starSystem?.removeEntity(nocturneEntity)
-                nocturneEntity = null
-            }
         }
     }
 

@@ -19,6 +19,7 @@
     "iconWidth":1,
     "iconHeight":1,
     "renderShadow":false,
+    "interactable": false,
     "useLightColor":true,
     "showInCampaign":true,
     "showIconOnMap":false,

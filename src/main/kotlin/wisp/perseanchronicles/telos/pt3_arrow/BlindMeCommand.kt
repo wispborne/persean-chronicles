@@ -6,13 +6,11 @@ import wisp.perseanchronicles.telos.pt3_arrow.nocturne.NocturneScript
 
 class BlindMeCommand : BaseCommand {
     override fun runCommand(args: String, context: BaseCommand.CommandContext): BaseCommand.CommandResult {
-        if (!context.isInCampaign || game.sector.playerFleet.isInHyperspace) {
+        if (!context.isInCampaign) {
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }
 
-        game.sector.addScript(NocturneScript())
-//        game.sector.addScript(TelevisionScript())
-        game.sector.characterData.addAbility("wisp_perseanchronicles_ethersight")
+        game.sector.addScript(NocturneScript().apply { this.millisRemaining = 15000f })
         return BaseCommand.CommandResult.SUCCESS
     }
 }
