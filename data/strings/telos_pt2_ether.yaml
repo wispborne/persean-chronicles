@@ -70,8 +70,7 @@ wisp_perseanchronicles:
 
             - id: '6-finished-battle'
               non-cheater:
-                - 'With a start, you come back to yourself. The emotional imprints of tearing
-                  metal and dying Telos begin to recede.'
+                - 'With a start, you come back to yourself. The dreamlike memory of tearing metal, venting air, and dying Telos begins to drain away.'
               options:
                 - text: 'Continue'
                   goToPage: '6-finished-battle-2'
@@ -153,7 +152,7 @@ wisp_perseanchronicles:
                 - text: 'Check on Karengo'
                   goToPage: '9-check-karengo'
                 - text: 'Query the system for more information on the Telos'
-                  goToPage: '10-query'
+                  goToPage: '10-query-history'
 
             - id: '9-check-karengo'
               paras:

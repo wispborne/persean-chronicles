@@ -111,14 +111,13 @@ object Telos2BattleCoordinator {
      * The side the player is fighting on, with just enough firepower to take out the initial fleet.
      */
     fun createTelosFleet(): CampaignFleetAPI {
-
-
         return FleetFactoryV3.createEmptyFleet(Factions.INDEPENDENT, FleetTypes.TASK_FORCE, null)
             .apply {
                 telosCommanders.forEach { cmdr ->
                     this.addShipVariant(variantOrHullId = "wisp_perseanchronicles_vara_Standard", count = 1).first().apply {
                         cmdr.setPersonality(Personalities.AGGRESSIVE)
                         this.captain = cmdr
+                        this.shipName = cmdr.nameString
                     }
                 }
                 this.fleetData.membersListCopy.first().isFlagship = true

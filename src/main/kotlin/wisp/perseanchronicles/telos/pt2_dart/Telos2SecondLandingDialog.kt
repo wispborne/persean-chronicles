@@ -41,9 +41,14 @@ class Telos2SecondLandingDialog(
             "1" to {
                 TelosCommon.playThemeMusic()
             },
-            "7-vara" to {
-                // Resume music
-                TelosCommon.playThemeMusic()
+            "3-noEther" to {
+                // The simulated explosions echo briefly around the room before dying.
+                val page = navigator.currentPage()?.extraData!!
+                if (Telos2HubMission.state.wonRecordedBattle != true)
+                    (page["non-cheater"] as JSONArray).toStringList().forEach { para { it } }
+                else {
+                    taunt()
+                }
             },
             "4-noEther" to {
                 // You linger for a moment, thinking. You know the Church of Ludd well,
@@ -53,15 +58,6 @@ class Telos2SecondLandingDialog(
                 if (game.sector.playerFaction.isAtWorst(Factions.LUDDIC_CHURCH, RepLevel.COOPERATIVE)) {
                     para { page["ludd-friendly"] as String }
                     para { page["ludd-friendly2"] as String }
-                }
-            },
-            "3-noEther" to {
-                // The simulated explosions echo briefly around the room before dying.
-                val page = navigator.currentPage()?.extraData!!
-                if (Telos2HubMission.state.wonRecordedBattle != true)
-                    (page["non-cheater"] as JSONArray).toStringList().forEach { para { it } }
-                else {
-                    taunt()
                 }
             },
             "6-finished-battle" to {
@@ -87,6 +83,12 @@ class Telos2SecondLandingDialog(
             "5-noEther" to {
                 // Resume music
                 TelosCommon.playThemeMusic()
+                giveVara()
+            },
+            "7-vara" to {
+                // Resume music
+                TelosCommon.playThemeMusic()
+                giveVara()
             },
             // Manually show text based upon conditions.
             "9-check-karengo" to {
@@ -155,23 +157,26 @@ class Telos2SecondLandingDialog(
             if (create(null, false))
                 accept(dialog, null)
         }
-
-        val vara = game.settings.getVariant("wisp_perseanchronicles_vara_Standard")
-            .let { game.factory.createFleetMember(FleetMemberType.SHIP, it) }
-            .apply {
-                prepareShipForRecovery(
-                    retainAllHullmods = true,
-                    retainKnownHullmods = true,
-                    clearSMods = false,
-                    weaponRetainProb = 1f,
-                    wingRetainProb = 1f
-                )
-                repairTracker.cr = repairTracker.maxCR
-                shipName = Telos2HubMission.part2Json.query("/strings/varaName")
-            }
-        game.sector.playerFleet.fleetData.addFleetMember(vara)
-        dialog.textPanel.addFleetMemberGainText(vara)
     }
+}
+
+private fun Telos2SecondLandingDialog.giveVara() {
+    val vara = game.settings.getVariant("wisp_perseanchronicles_vara_Standard")
+        .let { game.factory.createFleetMember(FleetMemberType.SHIP, it) }
+        .apply {
+            prepareShipForRecovery(
+                retainAllHullmods = true,
+                retainKnownHullmods = true,
+                clearSMods = false,
+                weaponRetainProb = 1f,
+                wingRetainProb = 1f
+            )
+            repairTracker.cr = .7f
+            shipName = Telos2HubMission.part2Json.query("/strings/varaName")
+        }
+    game.sector.playerFleet.fleetData.addFleetMember(vara)
+    dialog.textPanel.addFleetMemberGainText(vara)
+    dialog.visualPanel.showFleetMemberInfo(vara)
 }
 
 private fun Telos2SecondLandingDialog.taunt() {

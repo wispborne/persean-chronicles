@@ -4,15 +4,17 @@ import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.mission.FleetSide
+import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.common.BattleSide
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
+import wisp.questgiver.wispLib.TextExtensions
 import wisp.questgiver.wispLib.findFirst
 import wisp.questgiver.wispLib.say
 import wisp.questgiver.wispLib.swapFleets
 
-class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : BaseEveryFrameCombatPlugin() {
+class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : BaseEveryFrameCombatPlugin() {
     private val telos2HubMission = game.intelManager.findFirst<Telos2HubMission>()
 
     private var totalTimeElapsed = 0f
@@ -27,12 +29,15 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
     private val wave2 = hegFleet.fleetData.membersListCopy.filter { it.isFlagship }
     private val wave3 = hegFleet.fleetData.membersListCopy.filter { !it.isFlagship }
 
-    private val quotes = telos2HubMission?.getBattleQuotes() ?: emptyList()
+    private val quotes = telos2HubMission?.getEugelBattleQuotes() ?: emptyList()
     private val quotesItr = quotes.iterator()
-    private var secsSinceLastQuote: Float? = null
+    private var secsSinceLastEugelQuote: Float? = null
+    private var secsSinceLastAllyQuote: Float? = null
     private var saidLastQuote = false
     private var startedThemeMusic = false
     private var startedDoomedMusic = false
+    private val phase1AllyQuotes = telos2HubMission?.getAllyPhase1BattleQuotes()?.toMutableList() // Mutable, remove after using.
+    private val phase2AllyQuotes = telos2HubMission?.getAllyPhase2BattleQuotes()?.toMutableList() // Mutable, remove after using.
 
     override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
         val combatEngine = game.combatEngine!!
@@ -58,8 +63,10 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
 
         secsSinceWave2Arrived = secsSinceWave2Arrived?.plus(amount)
         secsSinceWave3Arrived = secsSinceWave3Arrived?.plus(amount)
-        secsSinceLastQuote = secsSinceLastQuote?.plus(amount)
+        secsSinceLastEugelQuote = secsSinceLastEugelQuote?.plus(amount)
+        secsSinceLastAllyQuote = secsSinceLastAllyQuote?.plus(amount)
         secsSinceWave1WasDefeated = secsSinceWave1WasDefeated?.plus(amount)
+        val playerFleet = combatEngine.getFleetManager(FleetSide.PLAYER)
 
         // Spawn wave 2 five seconds after player defeats initial fleet.
         if (secsSinceWave1WasDefeated == null && (combatEngine.isEnemyInFullRetreat || hasDestroyedEnoughOfEnemy)
@@ -79,6 +86,33 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
             secsSinceWave2Arrived = 0f
         }
 
+        // Ally ships say stuff if you took Ether.
+        if (!combatEngine.isCombatOver && Telos2HubMission.choices.injectedSelf == true) {
+            val quotesToUse =
+                (if (secsSinceWave3Arrived == null) phase1AllyQuotes
+                else phase2AllyQuotes)
+            val quotesWithHighlights = quotesToUse
+                ?.map { TextExtensions.getTextHighlightData(it) }
+                ?.toMutableList()
+
+            if (quotesToUse?.isNotEmpty() == true) {
+                if ((secsSinceLastAllyQuote ?: Float.MAX_VALUE) > (30..60).random()) {
+                    val quote = quotesWithHighlights!!.first()
+                    // Pick a ship to say the quote, basing the ship on the number of quotes left so that there aren't repeats.
+                    playerFleet.deployedCopy
+                        .getOrElse(quotesToUse.size.coerceAtMost(playerFleet.deployedCopy.size)) { null }
+                        ?.let { fm -> combatEngine.ships.firstOrNull { it.fleetMemberId == fm.id } }
+                        ?.say(
+                            text = quote.newString,
+                            prependShipNameInCorner = true,
+                            textColor = quote.replacements.firstOrNull()?.highlightColor ?: Misc.getTextColor()
+                        )
+                    quotesToUse.removeFirst()
+                    secsSinceLastAllyQuote = 0f
+                }
+            }
+        }
+
         // Eugel starts spouting quotes after he arrives
         val eugelInBattle = combatEngine.ships.firstOrNull { it.fleetMemberId == captEugeneShip.id }
 
@@ -86,17 +120,16 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
             if (!combatEngine.isCombatOver) {
                 // Spout quotes periodically.
                 if (secsSinceWave2Arrived != null && quotesItr.hasNext()) {
-                    if ((secsSinceLastQuote ?: Float.MAX_VALUE) > (30..60).random()) {
+                    if ((secsSinceLastEugelQuote ?: Float.MAX_VALUE) > (30..60).random()) {
                         eugelInBattle.say(
                             text = quotesItr.next(),
                             prependShipNameInCorner = true
                         )
-                        secsSinceLastQuote = 0f
+                        secsSinceLastEugelQuote = 0f
                     }
                 }
             }
 
-            val playerFleet = combatEngine.getFleetManager(FleetSide.PLAYER)
             if (playerFleet.deployedCopy.isEmpty() && playerFleet.reservesCopy.isEmpty() && !saidLastQuote) {
                 // Speak final quote on victory.
                 eugelInBattle.say(
@@ -123,7 +156,7 @@ class Telos2BattleScript(private val playerFleetHolder: CampaignFleetAPI) : Base
         if (secsSinceWave2Arrived != null && combatEngine.isCombatOver) {
             onTelosBattleEnded(
                 didPlayerWin = combatEngine.winningSideId == BattleSide.PLAYER,
-                originalPlayerFleet = playerFleetHolder
+                originalPlayerFleet = playerRealFleetHolder
             )
             combatEngine.removePlugin(this)
         }

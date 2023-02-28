@@ -88,6 +88,25 @@ class Telos3LandingDialog(
                     Telos3HubMission.state.retrievedSupplies = true
                 }
             },
+            "10-disconnected" to {
+                // Give Itesh
+                val itesh = game.settings.getVariant("wisp_perseanchronicles_itesh_Standard")
+                    .let { game.factory.createFleetMember(FleetMemberType.SHIP, it) }
+                    .apply {
+                        prepareShipForRecovery(
+                            retainAllHullmods = true,
+                            retainKnownHullmods = true,
+                            clearSMods = false,
+                            weaponRetainProb = 1f,
+                            wingRetainProb = 1f
+                        )
+                        repairTracker.cr = repairTracker.maxCR
+                        shipName = Telos3HubMission.part3Json.query("/strings/iteshName")
+                    }
+                game.sector.playerFleet.fleetData.addFleetMember(itesh)
+                dialog.textPanel.addFleetMemberGainText(itesh)
+                dialog.visualPanel.showFleetMemberInfo(itesh)
+            },
             "14-question-bridge" to {
                 if (Telos3HubMission.state.viewedWho == true
                     && Telos3HubMission.state.viewedWhat == true
@@ -127,23 +146,6 @@ class Telos3LandingDialog(
             },
             "16-powerup-main-7" to {
                 mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystem, dialog, null)
-
-                // Give Itesh
-                val itesh = game.settings.getVariant("wisp_perseanchronicles_itesh_Standard")
-                    .let { game.factory.createFleetMember(FleetMemberType.SHIP, it) }
-                    .apply {
-                        prepareShipForRecovery(
-                            retainAllHullmods = true,
-                            retainKnownHullmods = true,
-                            clearSMods = false,
-                            weaponRetainProb = 1f,
-                            wingRetainProb = 1f
-                        )
-                        repairTracker.cr = repairTracker.maxCR
-                        shipName = Telos3HubMission.part3Json.query("/strings/iteshName")
-                    }
-                game.sector.playerFleet.fleetData.addFleetMember(itesh)
-                dialog.textPanel.addFleetMemberGainText(itesh)
 
                 // Damage fleet
                 game.sector.playerFleet.fleetData.membersListCopy

@@ -187,7 +187,8 @@ class TelevisionScript : BaseToggleAbility() {
     private fun renderUsingClouds(objs: List<SectorEntityToken>, view: ViewportAPI) {
         if (game.sector.isPaused) return
         // return if interval hasn't elapsed yet.
-        if (!objDensityInternal!!.intervalElapsed()) return
+        val objDensityInternalRef = objDensityInternal
+        if (objDensityInternalRef?.intervalElapsed() != true) return
 
         val velocityScale = 0f
         val sizeScale = 1f
@@ -198,8 +199,8 @@ class TelevisionScript : BaseToggleAbility() {
         val vel = Vector2f(100f * velocityScale, 100f * velocityScale)
             .rotate(Random.nextFloat() * 360f)
 
-        if (objDensityInternal!!.minInterval != densityScale) {
-            objDensityInternal!!.setInterval(densityScale, densityScale * 1.2f)
+        if (objDensityInternalRef.minInterval != densityScale) {
+            objDensityInternalRef.setInterval(densityScale, densityScale * 1.2f)
         }
 
         objs.forEach { obj ->
