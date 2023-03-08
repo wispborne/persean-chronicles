@@ -410,7 +410,7 @@
               } ]
             }, {
               "id" : "16-powerup-bar-4",
-              "paras" : [ "Before long, people start to make excuses and leave, looking downcast.", "$cv:pc_player{reprovingly: they came here to forget what is coming} you send.", "$cv:pc_karengo{then they are fools} he replies $cv:pc_karengo{worrying over something you cannot control is a waste of energy}" ],
+              "paras" : [ "Before long, people start to make excuses and leave, looking downcast.", "$cv:pc_player{they came here to forget what is coming} you send reprovingly.", "$cv:pc_karengo{then they are fools} he replies $cv:pc_karengo{worrying over something you cannot control is a waste of energy}" ],
               "options" : [ {
                 "id" : "worry-agree",
                 "text" : "$cv:pc_player{well said}",

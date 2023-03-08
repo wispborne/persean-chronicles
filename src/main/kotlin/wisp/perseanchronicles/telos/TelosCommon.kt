@@ -35,6 +35,7 @@ object TelosCommon {
     const val JAVELIN_ID = "wisp_perseanchronicles_avalok"
     const val DART_NAME = "Vara"
     const val ETHER_SIGHT_ID = "wisp_perseanchronicles_ethersight"
+    const val ETHER_OFFICER_TAG = "wisp_perseanchronicles_etherNetworked"
 
     fun playThemeMusic(fadeOutSeconds: Int = 3, fadeInSeconds: Int = 3) {
         val musicSetId = "wisp_perseanchronicles_telosThemeMusic"

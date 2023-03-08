@@ -7,7 +7,7 @@ wisp_perseanchronicles:
           intel:
             subtitle: 'Return to the planet'
             desc: 'Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}==
-              in ==${telosPt1Stg1DestSystem}== to investigate the underground sections.'
+              in ==${telosPt1Stg1DestSystem}== to investigate underground.'
           pages:
 
             - id: '1'
@@ -60,7 +60,7 @@ wisp_perseanchronicles:
 
             - id: '3-noEther-2'
               paras:
-                - 'Karengo glances over and shrugs. “An’ that’s why you don’t take the Hegemony in a fair fight, eh?”'
+                - 'Karengo glances over and shrugs. “And that’s why you don’t take the Hegemony in a fair fight, eh?”'
                 - 'He turns away, towards the hanger door and the lone ship in the bay.'
               options:
                 - text: 'Go investigate the ship'
@@ -70,7 +70,7 @@ wisp_perseanchronicles:
 
             - id: '4-noEther'
               paras:
-                - "“That Eugel guy? No idea. Seemed to take the nanites kinda personally,
+                - "“That Eugel guy? No idea. Seemed to take the nanites personally,
               though.” He starts walking to the hanger."
               ludd-friendly: 'You linger for a moment, thinking. You know the Church of Ludd well, 
               and recall an old firebrand named Eugel. Could it be the same man?'

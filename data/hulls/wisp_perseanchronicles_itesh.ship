@@ -16,6 +16,7 @@
     "OUTER_GLOW": "wisp_perseanchronicles_itesh_outerglow",
     "TELOS_ENGINES": "wisp_perseanchronicles_telosengines"
   },
+  "builtInMods": [ "wisp_perseanchronicles_catv" ],
   "weaponSlots": [
     {
       "id": "OUTER_GLOW",

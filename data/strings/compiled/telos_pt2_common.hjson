@@ -167,8 +167,8 @@
           },
           "battle" : {
             "flagshipName" : "Eugel’s Blade",
-            "telosQuotesPhase1" : [ "$c:#00CED1{<If we must fight, we must fight>}", "$c:#00BFFF{<This is barbarism>}", "$c:#00CDCD{<We must show them a better way to live>}", "$c:#ADD8E6{<Violence begets violence>}" ],
-            "telosQuotesPhase2" : [ "$c:#00CED1{<Oh my>}", "$c:#00BFFF{<Death is but the next step>}", "$c:#ADD8E6{<The more we fell, the fewer Yerpa must face>}", "$c:#00CDCD{<The Telos live on through Krypta>}" ],
+            "telosQuotesPhase1" : [ "$c:#00CED1{<if we must fight, we must fight>}", "$c:#00BFFF{<this is barbarism>}", "$c:#00CDCD{<we must show them a better way to live>}", "$c:#ADD8E6{<violence begets violence>}", "$c:#00CED1{<we just wanted to live in peace>}" ],
+            "telosQuotesPhase2" : [ "$c:#00CED1{<oh my>}", "$c:#00BFFF{<death is but the next step>}", "$c:#ADD8E6{<the more we fell, the fewer Yerpa must face>}", "$c:#00CDCD{<the Telos live on through Krypta>}" ],
             "quotes" : [ "This is Captain Eugel of the Hegemony. Power down your weapons and any forbidden technology.", "I have orders to eliminate all threats to the Domain. Your course is a threat to us all.", "You cannot play God without consequence. I am that consequence.", "I take no joy in ending your march to technological armageddon. But I will end it.", "We can’t expect Ludd to do all the work.", "A brotherhood of Man is a worthy goal, but technology is not the solution.", "This is not a battle you can win, Telos. Your little experiment is over.", "Let it end. The record will note that you fought valiantly." ],
             "victoryQuote" : "And so another would-be Prometheus falls. Some arts are best left to the Creator.",
             "cheaterTaunts" : {

@@ -65,7 +65,7 @@ wisp_perseanchronicles:
               paras:
                 - 'You push the rack of tubes off of the polished stone table. They slip from the holder and tumble in midair before shattering. 
                 The thick, grey liquid spreads slowly into a pool on the floor.'
-                - '$cv:pc_karengo{you just destroyed the remaining ether} Karengo''s anger flares in your head. $cv:pc_karengo{i could have sold that}'
+                - '$cv:pc_karengo<you just destroyed the remaining ether> Karengo''s anger flares in your head. $cv:pc_karengo<i could have sold that>'
               options:
                 - text: '$cv:pc_player{the sector could not handle this technology  nanites are too dangerous}'
                   goToPage: '4-labs-destroy-ether-leave'
@@ -499,26 +499,26 @@ wisp_perseanchronicles:
             - id: '16-powerup-bar-4'
               paras:
                 - 'Before long, people start to make excuses and leave, looking downcast.'
-                - '$cv:pc_player{reprovingly: they came here to forget what is coming} you send.'
-                - '$cv:pc_karengo{then they are fools} he replies $cv:pc_karengo{worrying over something you cannot control is a waste of energy}'
+                - '$cv:pc_player{<they came here to forget what is coming>} you send reprovingly.'
+                - '$cv:pc_karengo{<then they are fools>} he replies, $cv:pc_karengo{<worrying over something you cannot control is a waste of energy>}'
               options:
                 # +5 rep
                 - id: 'worry-agree'
-                  text: '$cv:pc_player{well said}'
+                  text: '$cv:pc_player{<well said>}'
                   goToPage: '16-powerup-bar-4-ISTJ'
-                - text: '$cv:pc_player{feeling is just part of being human}'
+                - text: '$cv:pc_player{<feeling is just part of being human>}'
                   goToPage: '16-powerup-bar-4-ESFP'
 
             - id: '16-powerup-bar-4-ISTJ'
               paras:
-                - '$cv:pc_karengo{you do not survive on your own in this sector with self-inflicted pain}'
+                - '$cv:pc_karengo{<you do not survive on your own in this sector with self-inflicted pain>}'
               options:
                 - text: 'Continue'
                   goToPage: '16-powerup-bar-5'
 
             - id: '16-powerup-bar-4-ESFP'
               paras:
-                - '$cv:pc_karengo{and controlling our feelings is what makes us strong}'
+                - '$cv:pc_karengo{<and controlling our feelings is what makes us strong>}'
               options:
                 - text: 'Continue'
                   goToPage: '16-powerup-bar-5'
@@ -526,7 +526,7 @@ wisp_perseanchronicles:
             - id: '16-powerup-bar-5'
               paras:
                 - 'Karengo pushes himself back from the table.'
-                - '$cv:pc_karengo{anyway  i have a date   or something like that} He somehow manages to wink telepathically on his way out and 
+                - '$cv:pc_karengo{<anyway, i have a date or something like that>} He somehow manages to wink telepathically on his way out and 
                 you realize you''ve been sitting silently for the last few minutes. The few remaining patrons seem not to notice.'
               options:
                 - text: 'Continue'
