@@ -51,6 +51,9 @@ class Telos3LandingDialog(
             "1-noEther-start" to {
                 TelosCommon.playThemeMusic()
                 Telos3HubMission.state.visitedPrimaryPlanet = true
+                // Injected with Ether
+                game.sector.playerPerson.addTag(TelosCommon.ETHER_OFFICER_TAG)
+                PerseanChroniclesNPCs.karengo.addTag(TelosCommon.ETHER_OFFICER_TAG)
             },
             "4-labs" to {
                 Telos3HubMission.state.visitedLabs = true

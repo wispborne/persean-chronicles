@@ -116,6 +116,7 @@ object Telos2BattleCoordinator {
                 telosCommanders.forEach { cmdr ->
                     this.addShipVariant(variantOrHullId = "wisp_perseanchronicles_vara_Standard", count = 1).first().apply {
                         cmdr.setPersonality(Personalities.AGGRESSIVE)
+                        cmdr.addTag(TelosCommon.ETHER_OFFICER_TAG)
                         this.captain = cmdr
                         this.shipName = cmdr.nameString
                     }

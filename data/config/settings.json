@@ -34,5 +34,9 @@
       "chapel": "graphics/telos/chapel.png",
       "menri_ring": "graphics/telos/terrain/menri_dust.png"
     },
+  },
+
+  "designTypeColors": {
+    "Telos": [ 94,178,255,255 ],
   }
 }

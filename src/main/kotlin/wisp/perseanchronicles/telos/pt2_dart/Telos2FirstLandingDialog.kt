@@ -57,6 +57,9 @@ class Telos2FirstLandingDialog(
                     "injectSelf" -> option.copy(
                         onOptionSelected = {
                             Telos2HubMission.choices.injectedSelf = true
+                            // Injected with Ether
+                            game.sector.playerPerson.addTag(TelosCommon.ETHER_OFFICER_TAG)
+                            PerseanChroniclesNPCs.karengo.addTag(TelosCommon.ETHER_OFFICER_TAG)
                             PerseanChroniclesNPCs.karengo.adjustReputationWithPlayer(.05f, dialog.textPanel)
                         })
 

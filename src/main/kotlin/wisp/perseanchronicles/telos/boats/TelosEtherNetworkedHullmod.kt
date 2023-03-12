@@ -4,7 +4,11 @@ import com.fs.starfarer.api.combat.BaseHullMod
 import com.fs.starfarer.api.combat.MutableShipStatsAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.combat.ShipAPI.HullSize
-import com.fs.starfarer.api.impl.campaign.ids.Stats
+import com.fs.starfarer.api.ui.Alignment
+import com.fs.starfarer.api.ui.TooltipMakerAPI
+import com.fs.starfarer.api.util.Misc
+import wisp.perseanchronicles.telos.TelosCommon
+import wisp.questgiver.wispLib.addPara
 import kotlin.math.absoluteValue
 
 class TelosEtherNetworkedHullmod : BaseHullMod() {
@@ -14,15 +18,11 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
         const val PPT_PERCENT = -20
     }
 
-    override fun applyEffectsAfterShipCreation(ship: ShipAPI?, id: String?) {
-        super.applyEffectsAfterShipCreation(ship, id)
-    }
-
     override fun applyEffectsBeforeShipCreation(hullSize: HullSize?, stats: MutableShipStatsAPI?, id: String?) {
         super.applyEffectsBeforeShipCreation(hullSize, stats, id)
         stats ?: return
 
-        val isDebuffed = true // ETHER_OFFICER_TAG
+        val isDebuffed = stats.fleetMember?.captain?.hasTag(TelosCommon.ETHER_OFFICER_TAG) ?: true
 
         if (isDebuffed) {
             // Manuverability
@@ -36,22 +36,48 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
             stats.peakCRDuration.modifyPercent(id, PPT_PERCENT.toFloat())
         }
     }
+//
+//    override fun getDescriptionParam(index: Int, hullSize: HullSize?, ship: ShipAPI?): String? {
+//        var effectModifier = 1f
+//        if (ship != null) effectModifier = ship.mutableStats.dynamic.getValue(Stats.DMOD_EFFECT_MULT)
+//
+//        val isDebuffed = ship?.captain?.hasTag(TelosCommon.ETHER_OFFICER_TAG) ?: true
+//
+//        return when (index) {
+//            0 -> ""
+//            1 -> ""
+//            2 -> ""
+//            else -> ""
+//        }
+//    }
 
-    override fun getDescriptionParam(index: Int, hullSize: HullSize?, ship: ShipAPI?): String? {
-        var effectModifier = 1f
-        if (ship != null) effectModifier = ship.mutableStats.dynamic.getValue(Stats.DMOD_EFFECT_MULT)
+    override fun addPostDescriptionSection(tooltip: TooltipMakerAPI?, hullSize: HullSize?, ship: ShipAPI?, width: Float, isForModSpec: Boolean) {
+        super.addPostDescriptionSection(tooltip, hullSize, ship, width, isForModSpec)
+        tooltip ?: return
 
-        val isDebuffed = true // ETHER_OFFICER_TAG
+        val isDebuffed = ship?.captain?.hasTag(TelosCommon.ETHER_OFFICER_TAG) != true
+        val tc = if (isDebuffed) Misc.getTextColor() else Misc.getGrayColor()
 
-        return when (index) {
-            0 -> "${MANUV_PERCENT.absoluteValue}%"
-            1 -> "${SPEED_PERCENT.absoluteValue}%"
-            2 -> "${PPT_PERCENT.absoluteValue}%"
-            else -> ""
+        tooltip.addSectionHeading(
+            /* str = */ "Penalty",
+            /* textColor = */
+            if (isDebuffed) Misc.getNegativeHighlightColor() else Misc.getGrayColor(),
+            /* bgColor = */
+            if (isDebuffed) Misc.setAlpha(Misc.scaleColorOnly(Misc.getNegativeHighlightColor(), 0.4f), 175) else Misc.setAlpha(
+                Misc.scaleColorOnly(
+                    Misc.getGrayColor(),
+                    0.4f
+                ), 175
+            ),
+            /* align = */
+            Alignment.MID,
+            /* pad = */
+            10f
+        )
+        tooltip.addPara(textColor = tc, highlightColor = if (isDebuffed) Misc.getHighlightColor() else tc) {
+            "Reduces manuverability by ==${MANUV_PERCENT.absoluteValue}%==, top speed by ==${SPEED_PERCENT.absoluteValue}%==, and PPT by ==${PPT_PERCENT.absoluteValue}%==.\n"
         }
     }
 
-    override fun getUnapplicableReason(ship: ShipAPI?): String? {
-        return "Requires a Telos ship."
-    }
+    override fun getUnapplicableReason(ship: ShipAPI?) = "Requires a Telos ship."
 }
