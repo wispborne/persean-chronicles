@@ -38,6 +38,9 @@ class Telos3HubMission : QGHubMission() {
         val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 
         val state = State(PersistentMapData<String, Any?>(key = "telosPt3State").withDefault { null })
+
+        val chaseFleetFlag = "$${MISSION_ID}chaseFleet"
+        val eugelChaseFleetTag = "${MISSION_ID}eugelChaseFleet"
     }
 
     class State(val map: MutableMap<String, Any?>) {
@@ -55,6 +58,9 @@ class Telos3HubMission : QGHubMission() {
         var viewedWhat: Boolean? by map
         var viewedWhen: Boolean? by map
         var viewedWhere: Boolean? by map
+
+        var talkedWithEugel: Boolean? by map
+        var scuttledTelosShips: Boolean? by map
     }
 
     enum class EtherVialsChoice {
@@ -106,9 +112,6 @@ class Telos3HubMission : QGHubMission() {
         // todo change me
         setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
 
-        val chasingFleetFlag = "$${MISSION_ID}_chasingFleet"
-        val chasingFleetTag = "${MISSION_ID}_chasingFleet"
-
         val allRingFoci = game.sector.starSystems.asSequence()
             .flatMap { it.allEntities }
             .filterIsInstance<RingBandAPI>()
@@ -142,7 +145,8 @@ class Telos3HubMission : QGHubMission() {
                 return false
             }
 
-        // Spawn fleet near player
+
+        // Spawn Eugel's fleet near player
         trigger {
             beginStageTrigger(Stage.EscapeSystem)
             val spawnLocation = game.sector.playerFleet
@@ -158,9 +162,12 @@ class Telos3HubMission : QGHubMission() {
             triggerMakeFleetIgnoredByOtherFleets()
 //            triggerFleetAddTags(chasingFleetTag)
             triggerPickLocationAroundEntity(spawnLocation, 4000f, 3000f, 5000f)
-            triggerSpawnFleetAtPickedLocation(chasingFleetFlag, null)
+            triggerSpawnFleetAtPickedLocation(chaseFleetFlag, null)
+            triggerFleetAddTags(eugelChaseFleetTag)
             triggerOrderFleetInterceptPlayer()
             triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
+            triggerFleetSetFlagship("onslaught_xiv_Elite")
+            triggerFleetSetCommander(PerseanChroniclesNPCs.captainEugel)
         }
 
         // Spawn fleet jump point 1
@@ -178,7 +185,7 @@ class Telos3HubMission : QGHubMission() {
             triggerMakeFleetIgnoredByOtherFleets()
 //            triggerFleetAddTags(chasingFleetTag)
             triggerPickLocationAroundEntity(spawnLocation, 1f)
-            triggerSpawnFleetAtPickedLocation(chasingFleetFlag, null)
+            triggerSpawnFleetAtPickedLocation(chaseFleetFlag, null)
             triggerOrderFleetPatrol(spawnLocation)
             triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
         }
@@ -198,7 +205,7 @@ class Telos3HubMission : QGHubMission() {
             triggerMakeFleetIgnoredByOtherFleets()
 //            triggerFleetAddTags(chasingFleetTag)
             triggerPickLocationAroundEntity(spawnLocation, 1f)
-            triggerSpawnFleetAtPickedLocation(chasingFleetFlag, null)
+            triggerSpawnFleetAtPickedLocation(chaseFleetFlag, null)
             triggerOrderFleetPatrol(spawnLocation)
             triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
         }
@@ -262,20 +269,29 @@ class Telos3HubMission : QGHubMission() {
     }
 
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
-        return if (interactionTarget.id == state.primaryTelosPlanet?.id) {
-            when (currentStage) {
-                Stage.GoToPlanet -> PluginPick(
-                    Telos3LandingDialog().build(),
-                    CampaignPlugin.PickPriority.MOD_SPECIFIC
-                )
-//                Stage.LandOnPlanetSecondEther,
-//                Stage.LandOnPlanetSecondNoEther -> PluginPick(
-//                    Telos2SecondLandingDialog().build(),
-//                    CampaignPlugin.PickPriority.MOD_SPECIFIC
-//                )
-                else -> null
+        return when {
+            interactionTarget.id == state.primaryTelosPlanet?.id -> {
+                when (currentStage) {
+                    Stage.GoToPlanet -> PluginPick(
+                        Telos3LandingDialog().build(),
+                        CampaignPlugin.PickPriority.MOD_SPECIFIC
+                    )
+    //                Stage.LandOnPlanetSecondEther,
+    //                Stage.LandOnPlanetSecondNoEther -> PluginPick(
+    //                    Telos2SecondLandingDialog().build(),
+    //                    CampaignPlugin.PickPriority.MOD_SPECIFIC
+    //                )
+                    else -> null
+                }
             }
-        } else null
+
+            // Interacting with Eugel's chasing fleet.
+            interactionTarget.hasTag(eugelChaseFleetTag) -> PluginPick(
+                EugelFleetInteractionDialogPlugin(),
+                CampaignPlugin.PickPriority.MOD_SPECIFIC
+            )
+            else -> null
+        }
     }
 
     override fun endAbandonImpl() {

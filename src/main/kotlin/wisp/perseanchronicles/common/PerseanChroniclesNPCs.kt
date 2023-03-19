@@ -4,7 +4,9 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
+import com.fs.starfarer.api.impl.campaign.ids.Personalities
 import com.fs.starfarer.api.impl.campaign.ids.Ranks
+import data.scripts.util.MagicCampaign
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.nirvana.NirvanaHubMission
 import wisp.perseanchronicles.riley.RileyHubMission
@@ -83,4 +85,18 @@ object PerseanChroniclesNPCs {
 
             return game.memory[key] as PersonAPI
         }
+
+    val captainEugel: PersonAPI = game.memory["capEugel"] as? PersonAPI? ?: kotlin.run {
+        MagicCampaign.createCaptainBuilder(Factions.LUDDIC_CHURCH)
+            .setFirstName("Captain")
+            .setLastName("Eugel")
+            .setGender(FullName.Gender.MALE)
+            .setPortraitId("graphics/portraits/portrait_hegemony05.png")
+            .setRankId(Ranks.SPACE_COMMANDER)
+            .setPostId(Ranks.POST_FLEET_COMMANDER)
+            .setPersonality(Personalities.STEADY)
+            .setLevel(10)
+            .create()
+            .also { game.memory["capEugel"] = it }
+    }
 }

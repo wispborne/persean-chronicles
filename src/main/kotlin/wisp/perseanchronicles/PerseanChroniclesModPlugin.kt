@@ -2,6 +2,7 @@ package wisp.perseanchronicles
 
 import com.fs.starfarer.api.BaseModPlugin
 import com.fs.starfarer.api.characters.FullName
+import com.fs.starfarer.api.impl.campaign.CoreRuleTokenReplacementGeneratorImpl
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
 import com.thoughtworks.xstream.XStream
@@ -96,9 +97,16 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
         }
     }
 
+    /**
+     * Adds text variable substitutions, including all vanilla ones.
+     * See [com.fs.starfarer.api.impl.campaign.CoreRuleTokenReplacementGeneratorImpl.getTokenReplacements].
+     */
     private fun applyTextVariableSubstitutions() {
-        game.text.globalReplacementGetters["playerFirstName"] = { game.sector.playerPerson.firstName }
-        game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
+        // Add all vanilla replacements to our global replacements.
+        CoreRuleTokenReplacementGeneratorImpl().getTokenReplacements(null, null, null)
+            .entries
+            .forEach { (variable, value) -> game.text.globalReplacementGetters[variable.trim().removePrefix("$")] = { value } }
+
         game.text.globalReplacementGetters["playerPronounHimHer"] = {
             when (game.sector.playerPerson.gender) {
                 FullName.Gender.MALE -> game.text["playerPronounHim"]
@@ -124,6 +132,13 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
             when (game.sector.playerPerson.gender) {
                 FullName.Gender.FEMALE -> game.text["playerMadam"]
                 else -> game.text["playerSir"] // Use Sir for genderless because it can technically be used for women as well.
+            }
+        }
+        game.text.globalReplacementGetters["playerManOrWoman"] = {
+            when (game.sector.playerPerson.gender) {
+                FullName.Gender.FEMALE -> game.text["playerWoman"]
+                FullName.Gender.MALE -> game.text["playerMan"]
+                else -> game.text["playerPerson"]
             }
         }
         game.text.globalReplacementGetters["playerFlagshipName"] = { game.sector.playerFleet.flagship?.shipName }

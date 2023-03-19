@@ -32,17 +32,21 @@ class Telos3LandingDialog(
     },
     people = { listOfNotNull(PerseanChroniclesNPCs.karengo) },
     firstPageSelector = {
+        val pages = this
         if (Telos3HubMission.state.visitedPrimaryPlanet == true) {
             // Resume from where player left off.
-            this.single { it.id == "4-go-inside" }
+            if (Telos2HubMission.choices.injectedSelf == true)
+                pages.single { it.id == "4-noEther-go-inside" }
+            else
+                pages.single { it.id == "14-noEther" }
         } else if (Telos2HubMission.choices.injectedSelf == true)
-            this.single { it.id == "1-ether-start" }
+            pages.single { it.id == "1-ether-start" }
         else {
-            this.single { it.id == "1-noEther-start" }
+            pages.single { it.id == "1-noEther-start" }
         }
     },
     pages = PagesFromJson(
-        stageJson.query("/pages"),
+        pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
             "1-ether-start" to {
                 TelosCommon.playThemeMusic()

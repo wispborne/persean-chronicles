@@ -27,12 +27,18 @@ object TelosCommon {
         ColorVariables.colors["pc_karengo"] = Color.decode("#57C9CE")
         ColorVariables.colors["pc_computer"] = Color.decode("#87C6FF")
         ColorVariables.colors["pc_krypta"] = Color.decode("#9894FB")
+
+        if (game.settings.isDevMode) {
+            readJson() // testing
+        }
     }
 
     val FACTION_TELOS_ID
         get() = "perseanchronicles_telos"
 
-    const val JAVELIN_ID = "wisp_perseanchronicles_avalok"
+    const val VARA_ID = "wisp_perseanchronicles_vara"
+    const val ITESH_ID = "wisp_perseanchronicles_itesh"
+    const val AVALOK_ID = "wisp_perseanchronicles_avalok"
     const val DART_NAME = "Vara"
     const val ETHER_SIGHT_ID = "wisp_perseanchronicles_ethersight"
     const val ETHER_OFFICER_TAG = "wisp_perseanchronicles_etherNetworked"

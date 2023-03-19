@@ -15,6 +15,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Personalities
 import com.fs.starfarer.api.mission.FleetSide
 import data.scripts.util.MagicCampaign
 import wisp.perseanchronicles.common.BattleSide
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.boats.ShipPalette
@@ -182,7 +183,7 @@ object Telos2BattleCoordinator {
             .setFlagshipVariant("onslaught_xiv_Elite")
             .setFlagshipAlwaysRecoverable(false)
             .setFlagshipAutofit(true)
-            .setCaptain(Telos2HubMission.captainEugel)
+            .setCaptain(PerseanChroniclesNPCs.captainEugel)
             .setSupportFleet(
                 mapOf(
                     "brawler_Assault" to 7,

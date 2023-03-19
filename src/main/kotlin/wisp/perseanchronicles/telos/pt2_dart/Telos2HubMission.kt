@@ -7,10 +7,7 @@ import com.fs.starfarer.api.campaign.InteractionDialogPlugin
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
-import com.fs.starfarer.api.characters.FullName
-import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.fleet.FleetMemberType
-import com.fs.starfarer.api.impl.campaign.events.OfficerManagerEvent
 import com.fs.starfarer.api.impl.campaign.ids.*
 import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity
 import com.fs.starfarer.api.ui.SectorMapAPI
@@ -50,26 +47,6 @@ class Telos2HubMission : QGHubMission() {
         const val badFleetDefeatTrigger = "wisp_perseanchronicles_telosPt2_badfleetdefeated"
 
         fun startBattle() = Telos2BattleCoordinator.startBattle()
-
-        val captainEugel: PersonAPI = game.memory["capEugel"] as? PersonAPI? ?: kotlin.run {
-            MagicCampaign.createCaptain(
-                /* isAI = */ false,
-                /* AICoreType = */ null,
-                /* firstName = */ "Captain",
-                /* lastName = */ "Eugel",
-                /* portraitId = */ "graphics/portraits/portrait_hegemony05.png",
-                /* gender = */ FullName.Gender.MALE,
-                /* factionId = */ Factions.HEGEMONY,
-                /* rankId = */ Ranks.SPACE_COMMANDER,
-                /* postId = */ Ranks.POST_FLEET_COMMANDER,
-                /* personality = */ Personalities.STEADY,
-                /* level = */ 10,
-                /* eliteSkillsOverride = */ 0,
-                /* skillPreference = */ OfficerManagerEvent.SkillPickPreference.ANY,
-                /* skillLevels = */ null
-            )
-                .also { game.memory["capEugel"] = it }
-        }
 
         private val PIRATE_FLEET_TAG = MISSION_ID + "_pirateFleet"
     }
@@ -298,7 +275,7 @@ class Telos2HubMission : QGHubMission() {
     fun getEugelShipName(): String = part2Json.query("/stages/battle/flagshipName")
 
     fun giveShipOrPutInOrbit(dialog: InteractionDialogAPI) {
-        val ship = game.factory.createFleetMember(FleetMemberType.SHIP, TelosCommon.JAVELIN_ID)
+        val ship = game.factory.createFleetMember(FleetMemberType.SHIP, TelosCommon.AVALOK_ID)
 
         if (game.sector.playerFleet.numShips >= game.settings.maxShipsInFleet) {
             val fleet =

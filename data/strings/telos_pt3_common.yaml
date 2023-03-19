@@ -307,7 +307,7 @@ wisp_perseanchronicles:
                 - '"My name is Knight-Captain Eugel." Entire worlds could be lost between the creases of the man''s wizened face, 
                 but his eyes are shrewd and cold.'
                 - '"Who you are does not matter. I had hoped that the past could stay the past without needing me to intervene, 
-                but apparently not. Digging up that other world was a mistake, but coming here was folly."'
+                but it seems not. Digging through ${telosPt1Stg1DestSystem} was a mistake. Coming here was folly."'
               options:
                 - text: 'Continue'
                   goToPage: '14-debrief-who-eugel2'

@@ -50,11 +50,11 @@ President Matt Damon for code help.
 
 ## License
 
-Code: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-
-https://tldrlegal.com/license/creative-commons-attribution-noncommercial-sharealike-4.0-international-(cc-by-nc-sa-4.0)
+Everything except music and images: GPLv3
 
 Music & Images, including ships: Do not use any part of without permission, do not redistribute without permission.
+
+Music may be used with the permission of the artist, without needing my permission.
 
 ## Quest Starting Conditions (SPOILERS)
 
