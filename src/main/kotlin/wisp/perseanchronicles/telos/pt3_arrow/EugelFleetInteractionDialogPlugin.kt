@@ -61,6 +61,7 @@ class EugelFleetInteractionDialogPlugin : CustomFleetInteractionDialogPlugin<Eug
             }
         )
     )
+    // TODO unlock an achievement for winning the battle.
 }
 
 fun removeAllPlayerTelosShipsInSector() {

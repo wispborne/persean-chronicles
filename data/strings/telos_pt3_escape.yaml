@@ -4,6 +4,12 @@ wisp_perseanchronicles:
       stages:
         eugelDialog:
           pages:
+            # After having already talked
+            - id: '0-already-talked'
+              paras:
+                - 'There is no answer.'
+
+            # First time talking
             - id: '0'
               paras:
                 - 'Knight-Captain Eugel''s ancient face stares at you from across the gulf.'
@@ -14,10 +20,7 @@ wisp_perseanchronicles:
                 - id: 'eugelBranch'
                   text: 'Continue'
 
-            - id: '0-already-talked'
-              paras:
-                - 'There is no answer.'
-
+            # Regular branch
             - id: '2-notLuddFriend'
               paras:
                 - '"This is goodbye."'
@@ -26,11 +29,12 @@ wisp_perseanchronicles:
                 - id: 'closeComms' # return to the vanilla battle dialog
                   text: 'Continue'
 
+            # Ludd branch
             - id: '2-luddFriend'
               paras:
                 - '"However." He draws out the word. "You are known as a ${playerManOrWoman} of the cloth. 
                 Lapses in faith are more common than you might think."'
-                - 'Rid your congregation of the foul vessels, leave alone the fire of Olympus, and we will welcome you, brother.'
+                - '"Rid your congregation of the foul vessels, leave alone the fire of Olympus, and we will welcome you, ${PlayerBrotherOrSister}."'
               onPageShown:
                 goToPage: '2-luddFriend-options'
 

@@ -4,8 +4,10 @@ import com.fs.starfarer.api.fleet.FleetMemberType
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Drops
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
+import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.CargoPods
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
+import data.scripts.util.MagicCampaign
 import org.json.JSONObject
 import org.magiclib.kotlin.addFleetMemberGainText
 import org.magiclib.kotlin.adjustReputationWithPlayer
@@ -33,8 +35,9 @@ class Telos3LandingDialog(
     people = { listOfNotNull(PerseanChroniclesNPCs.karengo) },
     firstPageSelector = {
         val pages = this
+
+        // Resume from where player left off.
         if (Telos3HubMission.state.visitedPrimaryPlanet == true) {
-            // Resume from where player left off.
             if (Telos2HubMission.choices.injectedSelf == true)
                 pages.single { it.id == "4-noEther-go-inside" }
             else
@@ -73,7 +76,7 @@ class Telos3LandingDialog(
                     para { getPageById(stageJson.query("/pages"), "4-labs-2")?.optString("vials") ?: "" }
             },
             "4-labs-destroy-ether" to {
-                PerseanChroniclesNPCs.karengo.adjustReputationWithPlayer(-.05f, dialog.textPanel)
+                PerseanChroniclesNPCs.karengo.adjustReputationWithPlayer(repChange = -.05f, textPanel = dialog.textPanel)
             },
             "4-storage" to {
                 if (Telos3HubMission.state.retrievedSupplies != true) {
@@ -90,8 +93,18 @@ class Telos3LandingDialog(
                     ).supplies.roundToInt()
                     dialog.interactionTarget.dropValue.clear()
 
-                    // todo add any that don't fit onboard to orbit
+                    if (game.sector.playerFleet.cargo.spaceLeft >= supplies) {
+                        game.sector.playerFleet.cargo.addSupplies(supplies.toFloat())
+                    } else {
+                        game.sector.playerFleet.cargo.addSupplies(game.sector.playerFleet.cargo.spaceLeft)
+                        Misc.addCargoPods(game.sector.playerFleet.containingLocation, game.sector.playerFleet.location)
+                            .also { pods ->
+                                pods.cargo.addSupplies((supplies - game.sector.playerFleet.cargo.spaceLeft))
+                                CargoPods.stabilizeOrbit(pods, true)
+                            }
+                    }
                     dialog.textPanel.addCommodityGainText(commodityId = Commodities.SUPPLIES, quantity = supplies)
+
                     Telos3HubMission.state.retrievedSupplies = true
                 }
             },

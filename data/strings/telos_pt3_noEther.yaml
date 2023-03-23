@@ -96,9 +96,9 @@ wisp_perseanchronicles:
               paras:
                 - 'You focus on clearing your head and recall what you know.'
                 - 'Shortly after entering this abandoned and destroyed old Telos base, you activated some sort of trap and fell unconscious. 
-                Now, you are able to ...sense... other parts of the base in an undescribable way.'
+                Now, you are able to ...sense... other parts of the base in an indescribable way.'
                 - '$cv:pc_karengo{<woah>} says Karengo in your head.'
-                - '$cv:pc_player{<woah>} you reply reflexively'
+                - '$cv:pc_player{<woah>} you reply reflexively.'
               options:
                 - text: 'Continue'
                   goToPage: '12-noEther'

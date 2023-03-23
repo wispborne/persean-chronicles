@@ -121,7 +121,7 @@ class Telos2SecondLandingDialog(
                         onOptionSelected = {
                             Telos2BattleCoordinator.startBattle()
 
-                            // DO NOT LET THIS GET ADDED TO THE SAVE FILE.
+                            // DO NOT LET THIS GET ADDED TO THE SAVE FILE (ie keep it transient).
                             // It will serialize the whole dialog, which can't be deserialized.
                             game.sector.addTransientListener(object : BaseCampaignEventListener(false) {
                                 override fun reportBattleFinished(primaryWinner: CampaignFleetAPI?, battle: BattleAPI?) {
