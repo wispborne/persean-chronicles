@@ -155,9 +155,12 @@ class Telos2SecondLandingDialog(
     private fun completeMission(mission: Telos2HubMission) {
         mission.setCurrentStage(Telos2HubMission.Stage.Completed, dialog, null)
 
-        Telos3HubMission().apply {
-            if (create(null, false))
-                accept(dialog, null)
+        // TODO remove this to enable the Destroyer mission for next release.
+        if (false) {
+            Telos3HubMission().apply {
+                if (create(null, false))
+                    accept(dialog, null)
+            }
         }
     }
 }
