@@ -32,7 +32,9 @@
       "nocturneBlackout": "graphics/telos/nocturneBlackout.png",
       "television": "graphics/telos/television.png",
       "chapel": "graphics/telos/chapel.png",
-      "menri_ring": "graphics/telos/terrain/menri_dust.png"
+      "menri_ring": "graphics/telos/terrain/menri_dust.png",
+      "sleepers": "graphics/telos/sleepers.png",
+      "choices": "graphics/telos/choices.png",
     },
   },
 

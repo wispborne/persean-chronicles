@@ -5,15 +5,15 @@
         "stages" : {
           "eugelDialog" : {
             "pages" : [ {
+              "id" : "0-already-talked",
+              "paras" : [ "There is no answer." ]
+            }, {
               "id" : "0",
               "paras" : [ "Knight-Captain Eugel's ancient face stares at you from across the gulf.", "\"Did I not instruct you to stay put? And yet here you are, flouncing about the system.\" He clasps the fingers of one hand around the other, then methodically unfurls one opposite pair at a time until he peers at you from over the steepled digits." ],
               "options" : [ {
                 "id" : "eugelBranch",
                 "text" : "Continue"
               } ]
-            }, {
-              "id" : "0-already-talked",
-              "paras" : [ "There is no answer." ]
             }, {
               "id" : "2-notLuddFriend",
               "paras" : [ "\"This is goodbye.\"", "The comms link snaps off." ],
@@ -23,7 +23,7 @@
               } ]
             }, {
               "id" : "2-luddFriend",
-              "paras" : [ "\"However.\" He draws out the word. \"You are known as a ${playerManOrWoman} of the cloth. Lapses in faith are more common than you might think.\"", "Rid your congregation of the foul vessels, leave alone the fire of Olympus, and we will welcome you, brother." ],
+              "paras" : [ "\"However.\" He draws out the word. \"You are known as a ${playerManOrWoman} of the cloth. Lapses in faith are more common than you might think.\"", "\"Rid your congregation of the foul vessels, leave alone the fire of Olympus, and we will welcome you, ${PlayerBrotherOrSister}.\"" ],
               "onPageShown" : {
                 "goToPage" : "2-luddFriend-options"
               }

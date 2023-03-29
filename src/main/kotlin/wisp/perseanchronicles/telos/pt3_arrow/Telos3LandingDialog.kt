@@ -16,6 +16,7 @@ import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
+import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.getPageById
@@ -62,6 +63,9 @@ class Telos3LandingDialog(
                 game.sector.playerPerson.addTag(TelosCommon.ETHER_OFFICER_TAG)
                 PerseanChroniclesNPCs.karengo.addTag(TelosCommon.ETHER_OFFICER_TAG)
             },
+            "4-choices" to {
+                dialog.visualPanel.showImagePortion(IInteractionLogic.Illustration("wisp_perseanchronicles_telos", "choices"))
+            },
             "4-labs" to {
                 Telos3HubMission.state.visitedLabs = true
             },
@@ -77,6 +81,9 @@ class Telos3LandingDialog(
             },
             "4-labs-destroy-ether" to {
                 PerseanChroniclesNPCs.karengo.adjustReputationWithPlayer(repChange = -.05f, textPanel = dialog.textPanel)
+            },
+            "4-survivors-investigate-2" to {
+                dialog.visualPanel.showImagePortion(IInteractionLogic.Illustration("wisp_perseanchronicles_telos", "sleepers"))
             },
             "4-storage" to {
                 if (Telos3HubMission.state.retrievedSupplies != true) {

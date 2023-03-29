@@ -20,14 +20,21 @@
             },
             "pages" : [ {
               "id" : "1",
-              "paras" : [ "Your shuttle traces an arc down to the planet’s surface, following the pulse of the distress signal. Surface scans reveal the overgrown ruins of a colony and evidence of orbital bombardment, though nothing is recorded in the - admittedly unreliable - fleet datastore.", "As you step outside, still pondering the ruins, your thoughts are interrupted by Karengo himself, striding purposefully toward the cooling shuttle in his well-used duster - confirming the ship instruments’ classification of the atmosphere as “env-suit optional.”" ],
+              "paras" : [ "Your shuttle traces an arc down to the planet’s surface, following the pulse of the distress signal. Surface scans reveal the overgrown ruins of a colony and evidence of orbital bombardment, though nothing is recorded in the - admittedly unreliable - fleet datastore.", "As you step outside, still pondering the ruins, your thoughts are interrupted by Karengo himself, striding purposefully toward the cooling shuttle in his weathered duster - confirming the ship instruments’ classification of the atmosphere as “env-suit optional.”" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "1.5"
               } ]
             }, {
               "id" : "1.5",
-              "paras" : [ "“My beard, is that Captain ${playerLastName}?” he asks with a touch of incredulity, “Didn't expect to see my best pilot-for-hire out here. Good job on those bounty hunters, boss. Dumb as holovids, but well enough armed. Now come on, follow me.”", "Bending over a large metal slab, he runs his glove along the side until there's an audible click and, with a rumble you can feel through the blasted soil, it slides open to reveal a narrow staircase lit by gentle blue emergency lighting.", "A memory surfaces, unbidden, of diving below the waves on your previous adventure with the man. You start down the stairs." ],
+              "paras" : [ "“Well now, is that Captain ${playerLastName}?” he asks with a touch of incredulity, “Didn't expect to see my best pilot-for-hire out here. Great job on those bounty hunters. Dumb as holovids, but well armed. Now come on, follow me and you'll see why I'm here.”" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "1.5-1"
+              } ]
+            }, {
+              "id" : "1.5-1",
+              "paras" : [ "Bending over a large metal slab, he runs his glove along the side until there's an audible click and, with a rumble you can feel through the blasted soil, it slides open to reveal a narrow staircase lit by gentle blue emergency lighting.", "A memory surfaces, unbidden, of diving below the waves on your previous adventure with the man. You start down the stairs." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "1.6"
