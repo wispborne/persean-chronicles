@@ -35,6 +35,7 @@
       "menri_ring": "graphics/telos/terrain/menri_dust.png",
       "sleepers": "graphics/telos/sleepers.png",
       "choices": "graphics/telos/choices.png",
+      "intel": "graphics/telos/telos_intel.png",
     },
   },
 

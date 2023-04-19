@@ -17,7 +17,7 @@
               } ]
             }, {
               "id" : "2-previously",
-              "paras" : [ "Your chief medical officer’s dryly professional summary of your test results was cut short by an astonished “sir!” as Karengo stuck the syringe of Ether into his leg, depressed the plunger, and then sprawled onto a couch, grinning like a madman. By the time orderlies arrived with a gurney, he was snoring, and by the time they rolled him into the med bay, he was stirring again, his consciousness an uneven pressure on your head like a reactor flickering online." ],
+              "paras" : [ "Your chief medical officer’s dryly professional summary of your test results was cut short by an astonished “sir!” as Karengo stuck the syringe of Ether into his leg, depressed the plunger, and then sprawled onto a couch, grinning like a madman.", "By the time orderlies arrived with a gurney, he was snoring, and by the time they rolled him into the med bay, he was stirring again, his consciousness a wavering pressure on your head like a reactor flickering online." ],
               "options" : [ {
                 "text" : "Intuition took over",
                 "goToPage" : "3-end-flashback"
@@ -38,7 +38,7 @@
               } ]
             }, {
               "id" : "5-battle",
-              "paras" : [ "As you focus on the Telos machine, the base's final stand comes alive within your mind." ],
+              "paras" : [ "As you focus on the Telos machine, the base's ==final stand== against the Hegemony comes alive within your mind." ],
               "options" : [ {
                 "id" : "startBattle",
                 "text" : "$cv:pc_player{<relive battle>}"
@@ -122,9 +122,15 @@
             }, {
               "id" : "10-query-or-leave",
               "options" : [ {
+                "id" : "check-karengo",
+                "text" : "Check on Karengo",
+                "goToPage" : "9-check-karengo"
+              }, {
+                "id" : "query-system",
                 "text" : "Query the system for more information on the Telos",
                 "goToPage" : "10-query-history"
               }, {
+                "id" : "return-fleet",
                 "text" : "Return to your fleet",
                 "goToPage" : "11-return-orbit"
               } ]

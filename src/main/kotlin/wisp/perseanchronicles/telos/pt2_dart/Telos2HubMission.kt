@@ -61,6 +61,8 @@ class Telos2HubMission : QGHubMission() {
     class Choices(val map: MutableMap<String, Any?>) {
         var askedForMoreEtherInfo: Boolean? by map
         var toldKarengoToTakeEtherFirst: Boolean? by map
+        var checkedKarengo: Boolean? by map
+        var queriedSystem: Boolean? by map
         var injectedSelf: Boolean? by map // Null if choice not made yet.
     }
 
@@ -101,8 +103,7 @@ class Telos2HubMission : QGHubMission() {
         name = part2Json.query("/strings/title")
         personOverride = PerseanChroniclesNPCs.karengo // Shows on intel, needed for rep reward or else crash.
 
-        // todo change me
-        setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
+        setIconName(InteractionDefinition.Portrait(category = "wisp_perseanchronicles_telos", id = "intel").spriteName(game))
 
         val badFleetFlag = "$${MISSION_ID}_badfleet"
         val badFleetImportantFlag = "${badFleetFlag}_important"

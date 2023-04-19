@@ -28,13 +28,13 @@ here: <https://starsector.fandom.com/wiki/Category:Modding#Cross-mod_integration
 
 ## Credits
 
-Avanitia for proof-reading literally _everything_ and providing an incredible amount of feedback.
+Avanitia for proof-reading and providing an incredible amount of feedback.
 
 Selkie for Telos sprites (creator of many botes).
 
 Nia for Telos effects and sprites (master of effects).
 
-SleepyFish for Telos sprites (transparency expert).
+SleepyFish for Telos sprites (transparency consultant).
 
 Haplogynae for Telos music.
 

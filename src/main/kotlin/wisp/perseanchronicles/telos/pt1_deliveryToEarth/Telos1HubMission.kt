@@ -6,6 +6,7 @@ import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.impl.campaign.ids.Conditions
+import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
 import com.fs.starfarer.api.ui.SectorMapAPI
@@ -15,6 +16,7 @@ import org.json.JSONObject
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
+import wisp.perseanchronicles.dangerousGames.pt2_depths.DepthsHubMission
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.InteractionDefinition
@@ -26,6 +28,9 @@ import wisp.questgiver.wispLib.*
 import java.awt.Color
 import java.util.*
 
+/**
+ * The first part of the Telos arc.
+ */
 class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
     companion object {
         val MISSION_ID = "telosPt1"
@@ -34,10 +39,22 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
             .query("/$MOD_ID/telos/part1_deliveryToEarth")
             private set
 
+        /**
+         *  Static state for this mission.
+         */
         val state = State(PersistentMapData<String, Any?>(key = "telosPt1State").withDefault { null })
         val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
+
+        /**
+         * Add to bar event pool if we haven't started this one yet and we've completed Depths or we're in dev mode.
+         */
+        fun shouldAddToBarEventPool() = state.startDateMillis == null &&
+                (DepthsHubMission.state.completeDateInMillis != null || game.settings.isDevMode)
     }
 
+    /**
+     * State object for this mission. Saved in [MemoryAPI].
+     */
     class State(val map: MutableMap<String, Any?>) {
         var seed: Random? by map
         var startDateMillis: Long? by map
@@ -53,8 +70,12 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         missionId = MISSION_ID
     }
 
+    /**
+     * Show if we haven't started this one yet.
+     * Show at any market, for now at least.
+     */
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
-        return state.startDateMillis == null // todo
+        return state.startDateMillis == null
     }
 
     override fun onGameLoad() {
@@ -87,8 +108,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         setGiverFaction(PerseanChroniclesNPCs.kellyMcDonald.faction.id) // Rep reward.
         personOverride = PerseanChroniclesNPCs.kellyMcDonald // Shows on intel, needed for rep reward or else crash.
 
-        // todo change me
-        setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
+        setIconName(InteractionDefinition.Portrait(category = "wisp_perseanchronicles_telos", id = "intel").spriteName(game))
 
         state.startLocation = createdAt?.primaryEntity
 

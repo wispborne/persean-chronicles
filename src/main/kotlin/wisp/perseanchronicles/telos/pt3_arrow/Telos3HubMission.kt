@@ -109,8 +109,7 @@ class Telos3HubMission : QGHubMission() {
         name = part3Json.query("/strings/title")
         personOverride = PerseanChroniclesNPCs.karengo // Shows on intel, needed for rep reward or else crash.
 
-        // todo change me
-        setIconName(InteractionDefinition.Portrait(category = "intel", id = "red_planet").spriteName(game))
+        setIconName(InteractionDefinition.Portrait(category = "wisp_perseanchronicles_telos", id = "intel").spriteName(game))
 
         val allRingFoci = game.sector.starSystems.asSequence()
             .flatMap { it.allEntities }

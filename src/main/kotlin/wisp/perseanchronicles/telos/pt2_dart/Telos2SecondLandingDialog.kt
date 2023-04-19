@@ -109,9 +109,18 @@ class Telos2SecondLandingDialog(
             "7.1-noEther" to {
                 completeMission(mission)
             },
+            "9-check-karengo" to {
+                Telos2HubMission.choices.checkedKarengo = true
+            },
+            "10-query-history" to {
+                Telos2HubMission.choices.queriedSystem = true
+            },
             // With Ether
             "12-leave" to {
                 completeMission(mission)
+                if (TelosCommon.isPhase1) {
+                    para { "That concludes Phase 1 of the Telos storyline." }
+                }
             },
         ),
         optionConfigurator = { options ->
@@ -136,7 +145,9 @@ class Telos2SecondLandingDialog(
 
                         }
                     )
-
+                    "check-karengo" -> option.copy(showIf = { Telos2HubMission.choices.checkedKarengo != true })
+                    "query-system" -> option.copy(showIf = { Telos2HubMission.choices.queriedSystem != true })
+                    "return-fleet" -> option.copy(showIf = { Telos2HubMission.choices.queriedSystem == true || Telos2HubMission.choices.checkedKarengo == true })
                     "leave" -> option.copy(
                         onOptionSelected = {
                             game.soundPlayer.setSuspendDefaultMusicPlayback(false)
@@ -155,8 +166,7 @@ class Telos2SecondLandingDialog(
     private fun completeMission(mission: Telos2HubMission) {
         mission.setCurrentStage(Telos2HubMission.Stage.Completed, dialog, null)
 
-        // TODO remove this to enable the Destroyer mission for next release.
-        if (false) {
+        if (!TelosCommon.isPhase1) {
             Telos3HubMission().apply {
                 if (create(null, false))
                     accept(dialog, null)
