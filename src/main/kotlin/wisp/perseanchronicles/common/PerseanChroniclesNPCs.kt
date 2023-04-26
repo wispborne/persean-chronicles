@@ -24,7 +24,7 @@ object PerseanChroniclesNPCs {
                         this.setFaction(Factions.INDEPENDENT)
                         this.postId = Ranks.CITIZEN
                         this.rankId = Ranks.CITIZEN
-                        this.portraitSprite = "graphics/dragons/karengo.png"
+                        this.portraitSprite = game.settings.getSpriteName("wisp_perseanchronicles_dragonriders", "karengo")
                     }
             }
 

@@ -1,4 +1,5 @@
 .psd$
+.kra$
 .ai$
 .afphoto$
 ^.idea
