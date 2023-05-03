@@ -51,6 +51,9 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
 
         val engine = Global.getCombatEngine() ?: return
 
+        // I really think waiting for the rest of the questline to be finished
+        // will be more rewarding than cheating in access to these unfinished ships early,
+        // but if you absolutely can't wait, comment this out or change it to `if (false)`.
         if (TelosCommon.isPhase1) {
             if (ship?.hullSpec?.hullId?.equalsAny(TelosCommon.AVALOK_ID, TelosCommon.ITESH_ID) == true) {
                 rotation = if (rotation == null || engine.getTotalElapsedTime(false) < 5f) {
@@ -82,7 +85,8 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
         super.addPostDescriptionSection(tooltip, hullSize, ship, width, isForModSpec)
         tooltip ?: return
 
-        // Disable during phase 1 because players not taking Ether will never be able to remove the debuff.
+        // Disable during phase 1 because players not taking Ether will never be able to remove the debuff, which means the only reasonable decision
+        // will be them always taking the Ether fork.
         if (TelosCommon.isPhase1) {
             if (ship?.hullSpec?.hullId?.equalsAny(TelosCommon.AVALOK_ID, TelosCommon.ITESH_ID) == true) {
                 tooltip.addPara(textColor = Misc.getNegativeHighlightColor()) { "WARNING: side effects of accessing hidden content include dizzyness." }
