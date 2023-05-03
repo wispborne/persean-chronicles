@@ -10,8 +10,7 @@ import com.fs.starfarer.api.impl.combat.PhaseCloakStats
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript
 import wisp.perseanchronicles.game
 
-class TelosLungeSystem : BaseShipSystemScript() {
-    val speedBoost = 1000f
+class TelosPhaseDashSystem : BaseShipSystemScript() {
     private var previousTimestamp: Float? = null
     private var timeSinceStart = 0f
     var applied = false
@@ -23,7 +22,10 @@ class TelosLungeSystem : BaseShipSystemScript() {
         effectLevel: Float
     ) {
         if (Global.getCombatEngine().isPaused) return
+        val combatEngine = game.combatEngine ?: return
+
         val ship = stats.entity as ShipAPI
+        // Get the palette from the ship's deco weapons so this color coordinates.
         val palette =
             ship.allWeapons
                 .orEmpty()
@@ -32,34 +34,28 @@ class TelosLungeSystem : BaseShipSystemScript() {
                 .firstOrNull()
                 ?.currentPalette ?: ShipPalette.DEFAULT
 
+        // Make Avalok modules lunge too.
         ship.childModulesCopy.orEmpty()
             .filter { it.hullSpec.hullId == "wisp_perseanchronicles_avalok_module" }
             .forEach { module ->
-//                if (!applied) {
-//                    repeat(times = 4) {
                 module.useSystem()
-//                    }
-//                    applied = true
-//                }
             }
 
-        val combatEngine = game.combatEngine!!
         if (state == ShipSystemStatsScript.State.IN) {
             previousTimestamp = combatEngine.getTotalElapsedTime(false)
         }
 
+        // Calculate the time since the system was activated.
         timeSinceStart += (combatEngine.getTotalElapsedTime(false) - previousTimestamp!!)
         previousTimestamp = combatEngine.getTotalElapsedTime(false)
 
         if (state == ShipSystemStatsScript.State.IN) {
+            // Set deco weapon color (the fog) to the palette's initial phase color.
             ship.allWeapons
                 .orEmpty()
                 .mapNotNull { it.effectPlugin }
                 .filterIsInstance<TelosEngineEffects>()
                 .forEach { it.baseNebulaColorOverride = palette.phaseInitial }
-
-            stats.maxSpeed.modifyFlat(id, speedBoost)
-            stats.acceleration.modifyFlat(id, speedBoost)
 
 //            val phaseAlpha =
 //                Easing.Quadratic.easeIn(
@@ -68,7 +64,7 @@ class TelosLungeSystem : BaseShipSystemScript() {
 //                    valueAtEnd = 0f,
 //                    duration = 200f
 //                )
-            TelosPhase.apply(stats, id, state, effectLevel)
+            TelosPhaseDashModifier.apply(stats, id, state, effectLevel)
         }
 
 
@@ -82,11 +78,11 @@ class TelosLungeSystem : BaseShipSystemScript() {
                 .filterIsInstance<TelosEngineEffects>()
                 .forEach { it.baseNebulaColorOverride = palette.phaseMain }
 
-            TelosPhase.apply(stats, id, state, effectLevel)
+            TelosPhaseDashModifier.apply(stats, id, state, effectLevel)
         }
 
         if (state == ShipSystemStatsScript.State.OUT) {
-            TelosPhase.apply(stats, id, state, effectLevel)
+            TelosPhaseDashModifier.apply(stats, id, state, effectLevel)
 
             // Unset phase engine color
             ship.allWeapons
@@ -98,13 +94,13 @@ class TelosLungeSystem : BaseShipSystemScript() {
     }
 
     override fun unapply(stats: MutableShipStatsAPI, id: String) {
-        stats.maxSpeed.unmodifyFlat(id)
-        stats.acceleration.unmodifyFlat(id)
-        TelosPhase.unapply(stats, id)
+        TelosPhaseDashModifier.unapply(stats, id)
     }
 }
 
-object TelosPhase {
+internal object TelosPhaseDashModifier {
+    val speedBoost = 1000f
+
     fun apply(
         stats: MutableShipStatsAPI,
         id: String,
@@ -113,6 +109,11 @@ object TelosPhase {
     ) {
         val ship = stats.entity as? ShipAPI ?: return
         val isPlayer = ship === Global.getCombatEngine().playerShip
+
+        if (state == ShipSystemStatsScript.State.IN) {
+            stats.maxSpeed.modifyFlat(id, speedBoost)
+            stats.acceleration.modifyFlat(id, speedBoost)
+        }
 
         val speedPercentMod = stats.dynamic.getMod(Stats.PHASE_CLOAK_SPEED_MOD).computeEffective(0f)
         val accelPercentMod = stats.dynamic.getMod(Stats.PHASE_CLOAK_ACCEL_MOD).computeEffective(0f)
@@ -147,6 +148,8 @@ object TelosPhase {
     fun unapply(stats: MutableShipStatsAPI, id: String) {
         val ship = stats.entity as? ShipAPI ?: return
 
+        stats.maxSpeed.unmodifyFlat(id)
+        stats.acceleration.unmodifyFlat(id)
         Global.getCombatEngine().timeMult.unmodify(id)
         stats.timeMult.unmodify(id)
         stats.maxSpeed.unmodify(id)

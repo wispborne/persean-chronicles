@@ -20,8 +20,8 @@
               "image" : null,
               "paras" : [ "After a brief wait, a woman answers, dressed in the ubiquitous grease-marked weave of a shop engineer. A breast patch reads 'Nirvana Stellar Engineering'." ],
               "freetext1-worked-with-nirvana" : [ "\"Ah,\" she says, glancing up from her TriPad. \"You've done work for us before.\" It's not phrased as a question, but you nod all the same." ],
-              "freetext2-nirvanaquest-in-progress" : [ "\"Actually it looks like...the contract is still open. But that's not what I'm here about today. Let's talk business." ],
-              "freetext2-nirvanaquest-in-progress-over-1-cycle" : [ "\"Actually it looks like...the contract is still open. And has been for,\" she blows some out out of her mouth, \"quite a while.\"", "\"But that's not what I'm here about, although I know my colleagues would appreciate that delivery. Let's talk about today's business." ],
+              "freetext2-nirvanaquest-in-progress" : [ "\"Actually it looks like \" - she glances down again - \"...the contract is still open. But that's not what I'm here about today. Let's talk business." ],
+              "freetext2-nirvanaquest-in-progress-over-1-cycle" : [ "\"Actually it looks like the contract is still open. And has been for,\" she blows some air out of her mouth, \"quite a while.\"", "\"But that's not what I'm here about, although I know my colleagues would appreciate that delivery. Let's talk about today's business." ],
               "onPageShown" : {
                 "goToPage" : "1.1"
               }

@@ -41,7 +41,7 @@ class Telos1BarEventLogic(
                         // "Ah," she says, glancing up from her TriPad. "You've done work for us before." It's not phrased as a question, but you nod all the same.
                         para { page.optString("freetext1-worked-with-nirvana") }
 
-                        // Started by not finished yet.
+                        // Started but not finished Nirvana yet.
                         if (NirvanaHubMission.state.completeDateInMillis == null) {
                             // If it has been less than 1 year since player took the Nirvana mission
                             if ((game.sector.clock.timestamp - NirvanaHubMission.state.startDateMillis!!) < 31556926000) {

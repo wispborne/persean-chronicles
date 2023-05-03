@@ -14,8 +14,8 @@
 
 	"displayName":"Telos",
 	"displayNameWithArticle":"The Telos",
-	"logo":"graphics/telos/Telos_faction_Flag.png",
-	"crest":"graphics/telos/Telos_faction_Crest.png",
+	"logo":"graphics/telos/telos_faction_flag.png",
+	"crest":"graphics/telos/telos_faction_crest.png",
 	"shipNamePrefix":"",
 	"shipNameSources":{
 		"JAPANESE":2,

@@ -1,10 +1,10 @@
 {
-  "id": "perseanchronicles_dash",
+  "id": "perseanchronicles_phasedash",
   "type":"PHASE_CLOAK",
   "aiType":"PHASE_CLOAK",
   #"aiScript":"data.scripts.shipsystems.ai",
 
-  "statsScript": "wisp.perseanchronicles.telos.boats.TelosLungeSystem",
+  "statsScript": "wisp.perseanchronicles.telos.boats.TelosPhaseDashSystem",
   "runScriptWhilePaused":true, # only for the player's ship
 
   "canNotCauseOverload":true,

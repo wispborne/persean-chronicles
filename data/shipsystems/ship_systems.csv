@@ -1,4 +1,4 @@
 name,id,flux/second,f/s (base rate),f/s (base cap),flux/use,f/u (base rate),f/u (base cap),cr/u,max uses,regen,charge up,active,down,cooldown,toggle,noDissipation,noHardDissipation,hardFlux,noFiring,noTurning,noStrafing,noAccel,noShield,noVent,isPhaseCloak,tags,icon
-Phase Dash,perseanchronicles_dash,,,,,,,,3,8.0,0.5,2.0,0.2,2.7,,,,,,,,,,,true,,graphics/telos/shipsystems/phase_dash.png
+Phase Dash,perseanchronicles_phasedash,,,,,,,,3,8.0,0.5,2.0,0.2,2.7,,,,,,,,,,,true,,graphics/telos/shipsystems/phase_dash.png
 Avalok Yaksha Drones,perseanchronicles_drone_yaksha_avalok,,,,,,,,4,0.05,0,,0,0,,,,,,,,,,,,,graphics/icons/hullsys/drone_sensor.png
 Itesh Yaksha Drones,perseanchronicles_drone_yaksha_itesh,,,,,,,,2,0.05,0,,0,0,,,,,,,,,,,,,graphics/icons/hullsys/drone_sensor.png

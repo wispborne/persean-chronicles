@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.telos.boats
 
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.combat.BaseHullMod
 import com.fs.starfarer.api.combat.MutableShipStatsAPI
 import com.fs.starfarer.api.combat.ShipAPI
@@ -9,6 +10,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.wispLib.addPara
+import wisp.questgiver.wispLib.equalsAny
 import kotlin.math.absoluteValue
 
 class TelosEtherNetworkedHullmod : BaseHullMod() {
@@ -21,6 +23,10 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
     override fun applyEffectsBeforeShipCreation(hullSize: HullSize?, stats: MutableShipStatsAPI?, id: String?) {
         super.applyEffectsBeforeShipCreation(hullSize, stats, id)
         stats ?: return
+
+        if (TelosCommon.isPhase1) {
+            return
+        }
 
         val isDebuffed = stats.fleetMember?.captain?.hasTag(TelosCommon.ETHER_OFFICER_TAG) ?: true
 
@@ -36,7 +42,28 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
             stats.peakCRDuration.modifyPercent(id, PPT_PERCENT.toFloat())
         }
     }
-//
+
+    @Transient
+    private var rotation: Float? = null
+
+    override fun advanceInCombat(ship: ShipAPI?, amount: Float) {
+        super.advanceInCombat(ship, amount)
+
+        val engine = Global.getCombatEngine() ?: return
+
+        if (TelosCommon.isPhase1) {
+            if (ship?.hullSpec?.hullId?.equalsAny(TelosCommon.AVALOK_ID, TelosCommon.ITESH_ID) == true) {
+                rotation = if (rotation == null || engine.getTotalElapsedTime(false) < 5f) {
+                    0f
+                } else {
+                    (amount + rotation!!).coerceAtMost(100f)
+                }
+
+                ship.angularVelocity = (ship.angularVelocity + rotation!!).coerceAtMost(50f)
+            }
+        }
+    }
+    //
 //    override fun getDescriptionParam(index: Int, hullSize: HullSize?, ship: ShipAPI?): String? {
 //        var effectModifier = 1f
 //        if (ship != null) effectModifier = ship.mutableStats.dynamic.getValue(Stats.DMOD_EFFECT_MULT)
@@ -54,6 +81,16 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
     override fun addPostDescriptionSection(tooltip: TooltipMakerAPI?, hullSize: HullSize?, ship: ShipAPI?, width: Float, isForModSpec: Boolean) {
         super.addPostDescriptionSection(tooltip, hullSize, ship, width, isForModSpec)
         tooltip ?: return
+
+        // Disable during phase 1 because players not taking Ether will never be able to remove the debuff.
+        if (TelosCommon.isPhase1) {
+            if (ship?.hullSpec?.hullId?.equalsAny(TelosCommon.AVALOK_ID, TelosCommon.ITESH_ID) == true) {
+                tooltip.addPara(textColor = Misc.getNegativeHighlightColor()) { "WARNING: side effects of accessing hidden content include dizzyness." }
+            } else {
+                tooltip.addPara { "Does nothing...yet." }
+            }
+            return
+        }
 
         val isDebuffed = ship?.captain?.hasTag(TelosCommon.ETHER_OFFICER_TAG) != true
         val tc = if (isDebuffed) Misc.getTextColor() else Misc.getGrayColor()
@@ -75,7 +112,7 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
             10f
         )
         tooltip.addPara(textColor = tc, highlightColor = if (isDebuffed) Misc.getHighlightColor() else tc) {
-            "Reduces manuverability by ==${MANUV_PERCENT.absoluteValue}%==, top speed by ==${SPEED_PERCENT.absoluteValue}%==, and PPT by ==${PPT_PERCENT.absoluteValue}%==.\n"
+            "Reduces maneuverability by ==${MANUV_PERCENT.absoluteValue}%==, top speed by ==${SPEED_PERCENT.absoluteValue}%==, and PPT by ==${PPT_PERCENT.absoluteValue}%==.\n"
         }
     }
 
