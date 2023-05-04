@@ -116,7 +116,7 @@
 		],
 	},
 	"priorityWeapons":{
-		"tags":[],
+		"tags":["tritachyon"],
 		"weapons":[
 		],
 	},

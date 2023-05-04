@@ -57,13 +57,6 @@ class TelosPhaseDashSystem : BaseShipSystemScript() {
                 .filterIsInstance<TelosEngineEffects>()
                 .forEach { it.baseNebulaColorOverride = palette.phaseInitial }
 
-//            val phaseAlpha =
-//                Easing.Quadratic.easeIn(
-//                    time = timeSinceStart,
-//                    valueAtStart = 1f,
-//                    valueAtEnd = 0f,
-//                    duration = 200f
-//                )
             TelosPhaseDashModifier.apply(stats, id, state, effectLevel)
         }
 
@@ -115,6 +108,7 @@ internal object TelosPhaseDashModifier {
             stats.acceleration.modifyFlat(id, speedBoost)
         }
 
+        // Modified vanilla phase code (PhaseCloakStats)
         val speedPercentMod = stats.dynamic.getMod(Stats.PHASE_CLOAK_SPEED_MOD).computeEffective(0f)
         val accelPercentMod = stats.dynamic.getMod(Stats.PHASE_CLOAK_ACCEL_MOD).computeEffective(0f)
         stats.maxSpeed.modifyPercent(id, speedPercentMod * effectLevel)
@@ -127,8 +121,6 @@ internal object TelosPhaseDashModifier {
         stats.acceleration.modifyMult(id, accelMultMod * effectLevel)
         stats.deceleration.modifyMult(id, accelMultMod * effectLevel)
 
-        val jitterLevel = 0f
-        val jitterRangeBonus = 0f
         val levelForAlpha = effectLevel
 
         ship.isPhased = true
@@ -138,6 +130,7 @@ internal object TelosPhaseDashModifier {
         val extra = 0f
         val shipTimeMult = 1f + (PhaseCloakStats.getMaxTimeMult(stats) - 1f) * levelForAlpha * (1f - extra)
         stats.timeMult.modifyMult(id, shipTimeMult)
+
         if (isPlayer) {
             Global.getCombatEngine().timeMult.modifyMult(id, 1f / shipTimeMult)
         } else {
@@ -147,9 +140,12 @@ internal object TelosPhaseDashModifier {
 
     fun unapply(stats: MutableShipStatsAPI, id: String) {
         val ship = stats.entity as? ShipAPI ?: return
+        Global.getCombatEngine() ?: return
 
         stats.maxSpeed.unmodifyFlat(id)
         stats.acceleration.unmodifyFlat(id)
+
+        // Modified vanilla phase code (PhaseCloakStats)
         Global.getCombatEngine().timeMult.unmodify(id)
         stats.timeMult.unmodify(id)
         stats.maxSpeed.unmodify(id)
@@ -158,11 +154,6 @@ internal object TelosPhaseDashModifier {
         stats.deceleration.unmodify(id)
         ship.isPhased = false
         ship.extraAlphaMult = 1f
-        var cloak = ship.phaseCloak
-        if (cloak == null) cloak = ship.system
-
-        if (cloak != null) {
-            (cloak as? PhaseCloakSystemAPI)?.minCoilJitterLevel = 0f
-        }
+        ((ship.phaseCloak ?: ship.system) as? PhaseCloakSystemAPI)?.minCoilJitterLevel = 0f
     }
 }
