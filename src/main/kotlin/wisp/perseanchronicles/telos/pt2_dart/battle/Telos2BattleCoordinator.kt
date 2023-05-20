@@ -3,22 +3,17 @@ package wisp.perseanchronicles.telos.pt2_dart.battle
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.BaseCampaignPlugin
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
-import com.fs.starfarer.api.campaign.FactionAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.combat.BattleCreationContext
 import com.fs.starfarer.api.fleet.FleetGoal
-import com.fs.starfarer.api.impl.campaign.fleets.DefaultFleetInflater
-import com.fs.starfarer.api.impl.campaign.fleets.DefaultFleetInflaterParams
 import com.fs.starfarer.api.impl.campaign.fleets.FleetFactoryV3
 import com.fs.starfarer.api.impl.campaign.fleets.FleetParamsV3
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
 import com.fs.starfarer.api.impl.campaign.ids.Personalities
 import com.fs.starfarer.api.mission.FleetSide
-import com.fs.starfarer.api.plugins.impl.CoreAutofitPlugin
-import com.fs.starfarer.api.util.Misc
-import data.scripts.util.MagicCampaign
+import org.magiclib.util.MagicCampaign
 import wisp.perseanchronicles.common.BattleSide
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
@@ -27,8 +22,10 @@ import wisp.perseanchronicles.telos.boats.ShipPalette
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.wispLib.addShipVariant
 import wisp.questgiver.wispLib.findFirst
+import wisp.questgiver.wispLib.refit
 import wisp.questgiver.wispLib.swapFleets
 import java.util.*
+
 
 object Telos2BattleCoordinator {
     class CampaignPlugin : BaseCampaignPlugin() {
@@ -126,24 +123,13 @@ object Telos2BattleCoordinator {
                         this.captain = cmdr
                         this.shipName = cmdr.nameString
                         try {
-                            CoreAutofitPlugin(cmdr).apply {
-                                setChecked(CoreAutofitPlugin.UPGRADE, true)
-                                setChecked(CoreAutofitPlugin.STRIP, true)
-                                random = Misc.random
-                            }
-                                .doFit(this.variant, this.variant, 1,
-                                    DefaultFleetInflater(DefaultFleetInflaterParams().apply {
-                                        allWeapons = true
-                                        averageSMods = 1
-                                        factionId = TelosCommon.FACTION_TELOS_ID
-                                        persistent = true
-                                        quality = Misc.getShipQuality(null, TelosCommon.FACTION_TELOS_ID)
-                                        mode = FactionAPI.ShipPickMode.PRIORITY_THEN_ALL
-                                        seed = Misc.random.nextLong()
-                                    })
-                                        .apply { inflate(fleetData.fleet) })
+                            this.refit(
+                                shouldUpgrade = true,
+                                shouldStrip = true,
+                                averageSMods = 1
+                            )
                         } catch (e: Exception) {
-                            game.logger.w(e)
+                            game.logger.w(e) { "Unable to refit ${this.shipName} ${this.id}." }
                         }
                     }
                 }
@@ -187,6 +173,16 @@ object Telos2BattleCoordinator {
                 game.intelManager.findFirst<Telos2HubMission>()?.genRandom
                     ?: Random(game.sector.seedString.hashCode().toLong())
             )
+            this.membersWithFightersCopy.forEach {
+                try {
+                    it.refit(
+                        shouldUpgrade = true,
+                        shouldStrip = true
+                    )
+                } catch (e: Exception) {
+                    game.logger.w(e) { "Unable to refit ${it.shipName} ${it.id}." }
+                }
+            }
             this.fleetData.sort()
             this.fleetData.setSyncNeeded()
             this.fleetData.syncIfNeeded()
@@ -225,6 +221,17 @@ object Telos2BattleCoordinator {
             .create()
             .apply {
                 this.fleetData.membersListCopy.forEach { it.owner = BattleSide.ENEMY }
+                this.fleetData.fleet.membersWithFightersCopy.forEach {
+                    try {
+                        it.refit(
+                            shouldUpgrade = true,
+                            shouldStrip = true,
+                            averageSMods = 1
+                        )
+                    } catch (e: Exception) {
+                        game.logger.w(e) { "Unable to refit ${it.shipName} ${it.id}." }
+                    }
+                }
                 this.fleetData.sort()
                 this.fleetData.setSyncNeeded()
                 this.fleetData.syncIfNeeded()

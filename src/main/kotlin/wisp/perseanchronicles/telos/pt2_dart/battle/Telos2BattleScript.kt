@@ -169,12 +169,11 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
         didPlayerWin: Boolean,
         originalPlayerFleet: CampaignFleetAPI
     ) {
+        game.logger.i { "Telos battle ended. Did player win? $didPlayerWin" }
         Telos2HubMission.state.wonRecordedBattle = didPlayerWin
 
         if (didPlayerWin) {
             game.logger.i { "Cheater cheater pumpkin eater!" }
-            // How tf did player win? hax
-            // todo
         }
 
         // Give the player back their fleet.

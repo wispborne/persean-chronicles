@@ -3,6 +3,7 @@ package wisp.perseanchronicles.dangerousGames.pt1_dragons
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.wispLib.findFirst
@@ -100,7 +101,8 @@ class Dragons_Stage3_Dialog(val dragons: DragonsHubMission = Global.getSector().
                     )
                 )
             )
-        )
+        ),
+        people = listOf(PerseanChroniclesNPCs.karengo)
     ) {
     override fun createInstanceOfSelf() = Dragons_Stage3_Dialog()
 }

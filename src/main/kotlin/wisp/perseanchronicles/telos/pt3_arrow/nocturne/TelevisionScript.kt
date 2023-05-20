@@ -25,7 +25,10 @@ import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.common.fx.CampaignCustomRenderer
 import wisp.perseanchronicles.common.fx.CustomRenderer
 import wisp.perseanchronicles.game
-import wisp.questgiver.wispLib.*
+import wisp.questgiver.wispLib.distanceFromPlayerInHyperspace
+import wisp.questgiver.wispLib.equalsAny
+import wisp.questgiver.wispLib.modify
+import wisp.questgiver.wispLib.random
 import java.awt.Color
 import java.util.*
 import kotlin.math.abs

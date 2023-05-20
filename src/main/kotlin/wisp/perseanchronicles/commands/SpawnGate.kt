@@ -3,7 +3,6 @@ package wisp.perseanchronicles.commands
 import com.fs.starfarer.api.campaign.OrbitAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.impl.campaign.ids.Factions
-import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.procgen.StarSystemGenerator
 import com.fs.starfarer.api.impl.campaign.procgen.themes.BaseThemeGenerator
 import com.fs.starfarer.api.util.Misc
@@ -16,11 +15,6 @@ class SpawnGate : BaseCommand {
         if (!context.isInCampaign || game.sector.playerFleet.isInHyperspace) {
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }
-
-//        if (game.sector.playerFleet.containingLocation.getEntitiesWithTag(Tags.GATE).any()) {
-//            Console.showMessage("Multiple Gates in a system are not supported.")
-//            return BaseCommand.CommandResult.ERROR
-//        }
 
         return if (spawnGateAtLocation(game.sector.playerFleet) != null) {
             Console.showMessage("Gate created!")

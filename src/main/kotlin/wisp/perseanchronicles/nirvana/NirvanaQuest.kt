@@ -10,10 +10,10 @@ import com.fs.starfarer.api.impl.campaign.procgen.PlanetGenDataSpec
 import com.fs.starfarer.api.impl.campaign.procgen.StarGenDataSpec
 import com.fs.starfarer.api.impl.campaign.terrain.StarCoronaTerrainPlugin.CoronaParams
 import com.fs.starfarer.api.util.Misc
-import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
-import wisp.questgiver.wispLib.*
+import wisp.questgiver.wispLib.placeInSector
+import wisp.questgiver.wispLib.random
 import kotlin.random.Random
 
 object NirvanaQuest {

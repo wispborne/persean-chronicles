@@ -55,9 +55,9 @@ wisp_perseanchronicles:
             - id: '1.6'
               paras:
                 - 'At last, the corridor levels out and flares into a small amphitheater.
-                  Low, padded benches are arranged in a scattered arc around an overturned
-                  lectern at the far end. A blue crest hangs behind it, with the word
-                  ‘TELOS’ embossed beneath. The room is minimally decorated, even accounting
+                  Low, padded benches are arranged in a scattered circle. 
+                  A blue crest hangs at the far end, with the word ‘TELOS’ embossed beneath. 
+                  The room is minimally decorated, even accounting
                   for the seismic devastation from the bombardment. Sheaves of paper,
                   music stands and paintings of paradise worlds litter the cracked floor.'
                 - 'Splayed across the benches are a dozen desiccated bodies. Even in death,
@@ -148,7 +148,7 @@ wisp_perseanchronicles:
                   at the far end of the chapel, picking up and then tossing detritus at
                   the wall - dead TriPads, wall ornaments, small sculptures - possibly
                   searching for secret doors and possibly just killing time. At your thought,
-                  the reinforced slab below the rich throw rug under the wrecked lectern
+                  the reinforced slab below the rich throw rug under a wrecked bench
                   whirs, then starts to grind open. Karengo’s arm freezes mid-throw.'
                 - 'In the sudden stillness of the chamber, the new sound reverberates.
               Karengo looks down, then at the spot on the wall where he’d shattered
@@ -215,9 +215,9 @@ wisp_perseanchronicles:
                   goToPage: '12.1'
             - id: '12.1'
               paras:
-                - 'After an extended, diligent search, during which more than a few things
+                - 'After an extended search, during which more than a few things
                   are shattered “to see if there’s a key or somethin’ inside”, Karengo
-                  pulls a rug away from the fallen lectern, exposing a metal panel. The
+                  pulls a rug away from an overturned bench, exposing a metal panel. The
                   long scrapes give it away as a sliding trapdoor, but there is no unlock
                   mechanism in sight, kicking off another long period of fruitless searching.'
               options:
@@ -242,29 +242,34 @@ wisp_perseanchronicles:
         battle:
           flagshipName: 'Eugel’s Blade'
           telosQuotesPhase1:
-            - '$c:#00CED1{<if we must fight, we must fight>}'
-            - '$c:#00BFFF{<this is barbarism>}'
-            - '$c:#00CDCD{<we must show them a better way to live>}'
+            - '$c:#00CED1{<it is easier to open comms than pick up a sword...and yet>}'
+            - '$c:#00BFFF{<they are compelled to destroy what they cannot control>}'
+            - '$c:#00CDCD{<hatred is human. we had hoped they would be better>}'
             - '$c:#ADD8E6{<violence begets violence>}'
-            - '$c:#00CED1{<we just wanted to live in peace>}'
+            - '$c:#00CED1{<we only wanted to live in peace>}'
           telosQuotesPhase2:
             - '$c:#00CED1{<oh my>}'
+            - '$c:#00BFFF{<they have walked much too far down the path of war>}'
+            - '$c:#ADD8E6{<the more we fell, the fewer yerpa must face>}'
+            - '$c:#00CDCD{<how can there be so many?>}'
+          telosDeathQuotes:
+            - '$c:#00CED1{<it''s ok>}'
             - '$c:#00BFFF{<death is but the next step>}'
-            - '$c:#ADD8E6{<the more we fell, the fewer Yerpa must face>}'
-            - '$c:#00CDCD{<the Telos live on through Krypta>}'
+            - '$c:#ADD8E6{<i hold with those who favor fire>}'
+            - '$c:#00CDCD{<the telos live on through krypta>}'
           quotes:
-            - 'This is Captain Eugel of the Hegemony. Power down your weapons and forbidden technology.'
-            - 'I have orders to eliminate all threats to the Domain. Your course is a
-              danger to us all.'
-            - 'You cannot play God without consequence. I am that consequence.'
-            - 'I take no joy in ending your march to technological armageddon. But I
-              will end it.'
-            - 'We can’t expect Ludd to do all the work.'
-            - 'A brotherhood of Man is a worthy goal, but technology is not the solution.'
-            - 'This is not a battle you can win, Telos. Your little experiment is over.'
-            - 'Let it end. The record will note that you fought valiantly.'
-          victoryQuote: 'And so another would-be Prometheus falls. Some arts are best
-            left to the Creator.'
+            - '"This is Captain Eugel of the Hegemony. Power down your weapons and forbidden technology."'
+            - '"I have orders to eliminate all threats to the Domain. Your course is a
+              danger to us all."'
+            - '"You cannot play God without consequence. I am that consequence."'
+            - '"I take no joy in ending your march to technological armageddon. But I
+              will end it."'
+            - '"We can’t expect Ludd to do all the work."'
+            - '"A brotherhood of Man is a worthy goal, but technology is not the solution."'
+            - '"This is not a battle you can win, Telos. Your little experiment is over."'
+            - '"Let it end. The record will note that you fought valiantly."'
+          victoryQuote: '"And so another would-be Prometheus falls. Some arts are best
+            left to the Creator."'
           cheaterTaunts:
             cheater1:
               - 'A grin plastered on your face, you blow up ship after ship without firing a shot.'
@@ -275,7 +280,7 @@ wisp_perseanchronicles:
             cheater3:
               - 'This action will have consequences.'
             cheater4:
-              - 'The wall of anime pinups look down at you.'
+              - 'The wall of anime posters look down at you with vapid, disapproving smiles.'
               - '"What?" you ask them, "It''s not cheating if the battle was rigged."'
               - '"What was that?!" your mom shouts from upstairs. "Dinner''s almost ready!"'
               - '"Coming!", you shout back, focusing on Starsector.'

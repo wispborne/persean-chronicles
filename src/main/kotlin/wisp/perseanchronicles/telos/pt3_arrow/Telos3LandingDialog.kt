@@ -7,7 +7,6 @@ import com.fs.starfarer.api.impl.campaign.ids.MemFlags
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.CargoPods
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
-import data.scripts.util.MagicCampaign
 import org.json.JSONObject
 import org.magiclib.kotlin.addFleetMemberGainText
 import org.magiclib.kotlin.adjustReputationWithPlayer

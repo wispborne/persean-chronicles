@@ -14,7 +14,9 @@ import com.fs.starfarer.api.util.WeightedRandomPicker
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
-import wisp.questgiver.*
+import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.spriteName
+import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
 import wisp.questgiver.wispLib.*
 import java.awt.Color

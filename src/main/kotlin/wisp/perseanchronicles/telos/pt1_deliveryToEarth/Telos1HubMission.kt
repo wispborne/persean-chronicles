@@ -1,12 +1,12 @@
 package wisp.perseanchronicles.telos.pt1_deliveryToEarth
 
+import com.fs.starfarer.api.GameState
 import com.fs.starfarer.api.campaign.InteractionDialogAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.impl.campaign.ids.Conditions
-import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
 import com.fs.starfarer.api.ui.SectorMapAPI
@@ -46,10 +46,10 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 
         /**
-         * Add to bar event pool if we haven't started this one yet and we've completed Depths or we're in dev mode.
+         * Add to bar event pool if we haven't started this one yet and we've completed Depths.
          */
         fun shouldAddToBarEventPool() = state.startDateMillis == null &&
-                (DepthsHubMission.state.completeDateInMillis != null || game.settings.isDevMode)
+                (DepthsHubMission.state.completeDateInMillis != null)
     }
 
     /**
@@ -190,7 +190,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
     }
 
     override fun getIntelTags(map: SectorMapAPI?) =
-        (super.getIntelTags(map) + tags).distinct().toSet()
+        (super.getIntelTags(map) + tags).toSet()
 
     /**
      * Description on right side of intel.

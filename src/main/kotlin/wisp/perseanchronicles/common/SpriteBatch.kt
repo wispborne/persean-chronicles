@@ -3,7 +3,6 @@ package wisp.perseanchronicles.common
 import com.fs.starfarer.api.graphics.SpriteAPI
 import org.lwjgl.opengl.GL11
 import java.awt.Color
-import java.util.*
 import kotlin.math.roundToLong
 
 

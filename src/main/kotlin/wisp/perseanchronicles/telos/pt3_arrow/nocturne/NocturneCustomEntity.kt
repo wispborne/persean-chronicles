@@ -4,7 +4,6 @@ import com.fs.starfarer.api.campaign.CampaignEngineLayers
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.combat.ViewportAPI
 import com.fs.starfarer.api.impl.campaign.BaseCustomEntityPlugin
-import org.lwjgl.opengl.GL14
 import wisp.perseanchronicles.game
 
 class NocturneCustomEntity : BaseCustomEntityPlugin() {

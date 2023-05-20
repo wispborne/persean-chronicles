@@ -4,15 +4,15 @@ import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.impl.campaign.ids.*
 import com.fs.starfarer.api.impl.campaign.procgen.StarAge
 import com.fs.starfarer.api.util.Misc
-import data.scripts.util.MagicCampaign
 import org.magiclib.kotlin.addNebulaFromPNG
+import org.magiclib.util.MagicCampaign
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.placeInSector
 import java.awt.Color
 
 object MenriSystemCreator {
 
-    fun createMenri(): PlanetAPI? {
+    fun createMenriSystem(): PlanetAPI? {
         // gate
         // habitable with small rings
         // two? jump points

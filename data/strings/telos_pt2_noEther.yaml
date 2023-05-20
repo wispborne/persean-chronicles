@@ -7,7 +7,7 @@ wisp_perseanchronicles:
           intel:
             subtitle: 'Return to the planet'
             desc: 'Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}==
-              in ==${telosPt1Stg1DestSystem}== to investigate underground.'
+              in ==${telosPt1Stg1DestSystem}== to investigate with Karengo.'
           pages:
 
             - id: '1'
@@ -156,7 +156,7 @@ wisp_perseanchronicles:
               conspiratorially, “that I got out of the ship computer; they had a ==secret
               shipyard==. Could have more ships. Maybe even cryosleepers.”'
                 - 'He pulls your TriPad over and taps a finger on a point in
-              hyperspace before letting go. “You go about your business,” he waves his hands dismissively,
+              hyperspace before letting go. “You go about your business,” he flutters a hand dismissively,
               “but we should really go take a look there."'
               options:
                 - id: 'leave'

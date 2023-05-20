@@ -8,7 +8,6 @@ import org.lazywizard.lazylib.ext.rotateAroundPivot
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.common.fx.CombatCustomRenderer
 import wisp.perseanchronicles.common.fx.CustomRenderer
-import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.modify
 import wisp.questgiver.wispLib.random
 import java.awt.Color

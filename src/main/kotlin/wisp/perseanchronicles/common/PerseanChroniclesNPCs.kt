@@ -6,7 +6,7 @@ import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Personalities
 import com.fs.starfarer.api.impl.campaign.ids.Ranks
-import data.scripts.util.MagicCampaign
+import org.magiclib.util.MagicCampaign
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.nirvana.NirvanaHubMission
 import wisp.perseanchronicles.riley.RileyHubMission

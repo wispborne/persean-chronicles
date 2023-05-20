@@ -2,7 +2,6 @@ package wisp.perseanchronicles.telos.pt3_arrow.nocturne
 
 import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.Global
-import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.impl.campaign.ids.Abilities
 import com.fs.starfarer.campaign.CampaignEngine
 import org.lazywizard.console.Console

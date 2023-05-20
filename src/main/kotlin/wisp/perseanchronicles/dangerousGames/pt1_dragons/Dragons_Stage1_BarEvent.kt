@@ -18,6 +18,7 @@ class Dragons_Stage1_BarEvent : BarEventLogic<DragonsHubMission>(
     },
     textToStartInteraction = {
         Option(
+            // Head over to "Mr. Karengo"
             text = game.text["dg_dr_stg1_startBarEvent"],
             textColor = Misc.getHighlightColor()
         )

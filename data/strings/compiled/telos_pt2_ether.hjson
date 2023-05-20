@@ -6,7 +6,7 @@
           "landOnPlanetSecondEther" : {
             "intel" : {
               "subtitle" : "Return to the planet",
-              "desc" : "Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== to investigate the underground hanger."
+              "desc" : "Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== to investigate the underground hanger with Karengo."
             },
             "pages" : [ {
               "id" : "1",
@@ -17,7 +17,7 @@
               } ]
             }, {
               "id" : "2-previously",
-              "paras" : [ "Your chief medical officer’s dryly professional summary of your test results was cut short by an astonished “sir!” as Karengo stuck the syringe of Ether into his leg, depressed the plunger, and then sprawled onto a couch, grinning like a madman.", "By the time orderlies arrived with a gurney, he was snoring, and by the time they rolled him into the med bay, he was stirring again, his consciousness a wavering pressure on your head like a reactor flickering online." ],
+              "paras" : [ "The chief medical officer’s clinical summary of your test results was cut short by an astonished “sir!” as Karengo stuck the syringe of Ether into his leg, depressed the plunger, and then sprawled onto a couch, grinning like a madman.", "By the time orderlies arrived with a gurney, he was snoring, and by the time they rolled him into the med bay, he was stirring again, his consciousness a wavering pressure on your head like a reactor flickering online." ],
               "options" : [ {
                 "text" : "Intuition took over",
                 "goToPage" : "3-end-flashback"
@@ -149,7 +149,7 @@
               }
             }, {
               "id" : "11-return-orbit",
-              "paras" : [ "Still enveloped by the couch, you dive into the ship’s systems and raise it into the air. The handling is intuitive, like an extension of your own body, and you revolve in place to face the hanger doors as they grind open. The tunnel to the surface is blocked in many places, but the onboard weapons easily bore a way through.", "$cv:pc_karengo{<the ship shows the primary telos planet; we should go there next>}", "$cv:pc_karengo{<there [is/was] a shipyard there and perhaps survivors>}" ],
+              "paras" : [ "Still enveloped by the couch, you dive into the ship’s systems and raise it into the air. The handling is intuitive, like an extension of your own body, and you revolve in place to face the hanger doors as they grind open. The tunnel to the surface is blocked in many places, but the onboard weapons easily bore a way through.", "$cv:pc_karengo{<the ship shows the primary telos planet - this was only a secondary. we should go there next>}", "$cv:pc_karengo{<the telos shipyard [was/may be] there and perhaps survivors>}" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "12-leave"

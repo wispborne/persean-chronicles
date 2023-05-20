@@ -120,7 +120,7 @@ class Telos3HubMission : QGHubMission() {
 
         // TODO create planet if it doesn't exist
         // Must have rings
-        state.primaryTelosPlanet = MenriSystemCreator.createMenri()
+        state.primaryTelosPlanet = MenriSystemCreator.createMenriSystem()
             ?: SystemFinder()
                 .requireSystemTags(mode = ReqMode.NOT_ANY, Tags.THEME_CORE)
                 .preferSystemOutsideRangeOf(Telos1HubMission.state.karengoSystem?.location, 5f)

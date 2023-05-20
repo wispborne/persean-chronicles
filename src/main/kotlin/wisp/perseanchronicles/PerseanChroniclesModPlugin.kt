@@ -25,8 +25,6 @@ import wisp.perseanchronicles.telos.pt3_arrow.MenriSystemCreator
 import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
 import wisp.questgiver.Configuration
 import wisp.questgiver.Questgiver
-import wisp.questgiver.wispLib.firstName
-import wisp.questgiver.wispLib.lastName
 import wisp.questgiver.wispLib.toStringList
 import wisp.questgiver.wispLib.tryGet
 import java.util.*
@@ -88,7 +86,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
 
         if (game.sector.playerPerson.nameString == "test") {
             kotlin.runCatching {
-                if (MenriSystemCreator.createMenri() != null) {
+                if (MenriSystemCreator.createMenriSystem() != null) {
                     val menri = game.sector.getStarSystem("menri")
 //                    game.sector.playerFleet.loca
                 }

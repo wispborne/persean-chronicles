@@ -1,6 +1,5 @@
 package wisp.perseanchronicles.telos
 
-import com.fs.starfarer.api.impl.campaign.missions.hub.HubMissionBarEventWrapper
 import com.fs.starfarer.api.util.Misc
 import org.lazywizard.console.BaseCommand
 import wisp.perseanchronicles.game

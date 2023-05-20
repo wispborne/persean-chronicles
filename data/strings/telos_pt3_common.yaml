@@ -8,8 +8,8 @@ wisp_perseanchronicles:
         goToPlanet:
           intel:
             subtitle: 'Go to ${telosPt3RuinsSystem}'
-            desc: 'Investigate the Telos''s first settlement on ==${telosPt3RuinsPlanet}==
-              in ==${telosPt3RuinsSystem}==. It may still hold ships or even sleepers.'
+            desc: 'Investigate the Telos''s primary settlement on ==${telosPt3RuinsPlanet}==
+              in ==${telosPt3RuinsSystem}== for working ships, supplies, or even sleepers.'
           pages:
 
             - id: '4-choices'

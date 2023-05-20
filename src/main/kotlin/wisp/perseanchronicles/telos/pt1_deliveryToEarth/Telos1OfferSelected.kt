@@ -2,9 +2,7 @@ package wisp.perseanchronicles.telos.pt1_deliveryToEarth
 
 import com.fs.starfarer.api.campaign.InteractionDialogAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
-import com.fs.starfarer.api.impl.campaign.intel.bar.BarEventDialogPlugin
 import com.fs.starfarer.api.impl.campaign.rulecmd.BaseCommandPlugin
-import com.fs.starfarer.api.impl.campaign.rulecmd.missions.BarCMD
 import com.fs.starfarer.api.util.Misc
 
 class Telos1OfferSelected : BaseCommandPlugin() {
