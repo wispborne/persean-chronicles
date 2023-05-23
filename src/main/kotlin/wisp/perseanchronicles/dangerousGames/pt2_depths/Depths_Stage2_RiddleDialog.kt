@@ -10,6 +10,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
         pages = listOf(
             Page(
                 id = 1,
+                image = DepthsHubMission.intelIllustration,
                 onPageShown = {
                     if ((DepthsHubMission.state.depthsPlanet?.market?.size ?: 0) > 0) {
                         para {
@@ -45,10 +46,19 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
             ),
             Page(
                 id = 2,
-                image = DepthsHubMission.subIllustration,
                 onPageShown = {
                     para { game.text["dg_de_stg2_pg2_para1"] }
                     navigator.promptToContinue(game.text["dg_de_stg2_pg2_para1_continue"]) {
+                        dialog.visualPanel.showImagePortion(
+                            DepthsHubMission.subIllustration.category,
+                            DepthsHubMission.subIllustration.id,
+                            DepthsHubMission.subIllustration.width,
+                            DepthsHubMission.subIllustration.height,
+                            DepthsHubMission.subIllustration.xOffset,
+                            DepthsHubMission.subIllustration.yOffset,
+                            DepthsHubMission.subIllustration.displayWidth,
+                            DepthsHubMission.subIllustration.displayHeight
+                        )
                         para { game.text["dg_de_stg2_pg2_para2"] }
                         mission.startMusic()
                     }

@@ -10,6 +10,7 @@ import org.magiclib.util.MagicCampaign
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.nirvana.NirvanaHubMission
 import wisp.perseanchronicles.riley.RileyHubMission
+import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.spriteName
 import wisp.questgiver.wispLib.empty
 
@@ -99,4 +100,23 @@ object PerseanChroniclesNPCs {
             .create()
             .also { game.memory["capEugel"] = it }
     }
+
+
+    val dale: PersonAPI
+        get() {
+            val key = "dale"
+            if (game.memory[key] == null) {
+                game.memory[key] =
+                    Global.getSettings().createPerson().apply {
+                        this.name = FullName("Dale", String.empty, FullName.Gender.MALE)
+                        this.setFaction(Factions.INDEPENDENT)
+                        this.postId = Ranks.CITIZEN
+                        this.rankId = Ranks.CITIZEN
+                        this.portraitSprite =
+                            InteractionDefinition.Portrait(category = "wisp_perseanchronicles_laborer", id = "portrait").spriteName(game)
+                    }
+            }
+
+            return game.memory[key] as PersonAPI
+        }
 }

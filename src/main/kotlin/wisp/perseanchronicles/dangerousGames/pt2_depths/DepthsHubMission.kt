@@ -45,7 +45,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         val intelIllustration =
             InteractionDefinition.Illustration(category = "wisp_perseanchronicles_depths", id = "intelIllustration")
 
-        const val rewardCredits: Int = 100000 // TODO
+        var rewardCredits: Int = 100000 // Set by HubMission
         const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5
 
 
@@ -121,6 +121,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
         name = game.text["dg_de_intel_title"]
         setCreditReward(CreditReward.HIGH)
+        rewardCredits = this.creditsReward
         setGiverFaction(karengo.faction?.id) // Rep reward.
         personOverride = karengo // Shows on intel, needed for rep reward or else crash.
 
@@ -242,7 +243,6 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         ) Misc.getGrayColor()
         else Misc.getTextColor()
 
-        info.addImage(intelIllustration.spriteName(game), width, Padding.DESCRIPTION_PANEL)
         info.addPara(textColor = stg1TextColor) { game.text["dg_de_intel_desc_stg1"] }
 
         if (currentStage.equalsAny(Stage.ReturnToStart, Stage.Done)) {

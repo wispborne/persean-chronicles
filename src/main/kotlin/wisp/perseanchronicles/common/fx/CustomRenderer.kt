@@ -7,6 +7,7 @@ import com.fs.starfarer.api.combat.*
 import com.fs.starfarer.api.graphics.SpriteAPI
 import com.fs.starfarer.api.impl.campaign.BaseCustomEntityPlugin
 import com.fs.starfarer.api.input.InputEventAPI
+import com.fs.starfarer.api.util.Misc
 import org.lazywizard.lazylib.VectorUtils
 import org.lazywizard.lazylib.ext.plus
 import org.lwjgl.opengl.GL14.*
@@ -24,7 +25,7 @@ import kotlin.math.sqrt
  * Makes fancy nebula effects used for Telos engines. Created by Nia, modified by me.
  */
 interface CustomRenderer {
-    val nebulaData: MutableList<Nebula>
+    val nebulaData: MutableMap<Long, Nebula>
 
     enum class NebulaType {
         NORMAL, SWIRLY, SPLINTER, DUST
@@ -37,16 +38,17 @@ interface CustomRenderer {
     // Ticking our lifetimes and removing expired
     fun advance(amount: Float) {
         // clean up nebula list
-        val nebulaToRemove: MutableList<Nebula> = ArrayList()
-        nebulaData.forEach { nebula ->
+        val nebulaToRemove: MutableList<Long> = ArrayList()
+        nebulaData.forEach { (id, nebula) ->
             val timePassed = if (game.combatEngine != null)
                 game.combatEngine!!.elapsedInLastFrame
             else amount
             nebula.lifetime += (timePassed / (game.combatEngine?.timeMult?.modified ?: 1f))
             if (nebula.lifetime > nebula.duration)
-                nebulaToRemove.add(nebula)
+                nebulaToRemove.add(id)
         }
-        nebulaData.removeAll(nebulaToRemove)
+
+        nebulaToRemove.forEach { nebulaData.remove(it) }
     }
 
     fun renderNebula(particle: Nebula, view: ViewportAPI) {
@@ -136,6 +138,7 @@ interface CustomRenderer {
     }
 
     data class Nebula(
+        val id: Long,
         val location: Vector2f,
         val anchorLocation: Vector2f,
         val velocity: Vector2f,
@@ -172,6 +175,7 @@ interface CustomRenderer {
         expandAsSqrt: Boolean = false,
         outColor: Color = color
     ) = Nebula(
+        id = Misc.random.nextLong(),
         location = Vector2f(location),
         anchorLocation = anchorLocation,
         velocity = Vector2f(velocity),
@@ -187,7 +191,7 @@ interface CustomRenderer {
         sqrt = expandAsSqrt,
         outColor = outColor
     )
-        .also { newNebula -> nebulaData.add(newNebula) }
+        .also { newNebula -> nebulaData[newNebula.id] = newNebula }
 }
 
 class CombatCustomRenderer : CustomRenderer, BaseEveryFrameCombatPlugin() {
@@ -195,7 +199,7 @@ class CombatCustomRenderer : CustomRenderer, BaseEveryFrameCombatPlugin() {
         var instance: CombatCustomRenderer? = null
     }
 
-    override val nebulaData = mutableListOf<CustomRenderer.Nebula>()
+    override val nebulaData = mutableMapOf<Long, CustomRenderer.Nebula>()
     val effectProjectiles: MutableList<DamagingProjectileAPI> = mutableListOf()
 
     fun addProjectile(projectile: DamagingProjectileAPI) {
@@ -238,13 +242,14 @@ class CombatCustomRenderer : CustomRenderer, BaseEveryFrameCombatPlugin() {
 
     fun render(layer: CombatEngineLayers, view: ViewportAPI) {
         nebulaData
+            .values
             .filter { it.layer == layer }
             .forEach { renderNebula(it, view) }
     }
 }
 
 class CampaignCustomRenderer : CustomRenderer, BaseCustomEntityPlugin() {
-    override val nebulaData = mutableListOf<CustomRenderer.Nebula>()
+    override val nebulaData = mutableMapOf<Long, CustomRenderer.Nebula>()
 
     override fun init(entity: SectorEntityToken?, pluginParams: Any?) {
         init()
@@ -258,6 +263,7 @@ class CampaignCustomRenderer : CustomRenderer, BaseCustomEntityPlugin() {
 
     override fun render(layer: CampaignEngineLayers, viewport: ViewportAPI) {
         nebulaData
+            .values
             .filter { mapLayer(it.layer) == layer }
             .forEach {
 //                if (!viewport.isNearViewport(it.location, 500f))

@@ -7,7 +7,8 @@ import org.lazywizard.console.Console
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.dangerousGames.pt2_depths.DepthsHubMission
 import wisp.perseanchronicles.game
-import wisp.perseanchronicles.laborer.LaborerQuest
+import wisp.perseanchronicles.laborer.LaborerHubMission
+import wisp.perseanchronicles.laborer.PayoutScript
 import wisp.perseanchronicles.nirvana.NirvanaHubMission
 import wisp.perseanchronicles.riley.RileyHubMission
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
@@ -44,15 +45,16 @@ class ViewDebugInfoCommand : BaseCommand {
         info.appendLine("Nirvana destination planet: ${NirvanaHubMission.state.destPlanet?.fullName} in ${NirvanaHubMission.state.destPlanet?.starSystem?.baseName}")
         info.appendLine("Nirvana quest stage: ${nirv?.currentStage}")
         info.appendLine()
-        info.appendLine("Laborer destination planet: ${LaborerQuest.state.destPlanet?.fullName} in ${LaborerQuest.state.destPlanet?.starSystem?.baseName}")
-        info.appendLine("Laborer quest stage: ${LaborerQuest.stage}")
+        val lab = Global.getSector().intelManager.findFirst<LaborerHubMission>()
+        info.appendLine("Laborer destination planet: ${LaborerHubMission.state.destPlanet?.fullName} in ${LaborerHubMission.state.destPlanet?.starSystem?.baseName}")
+        info.appendLine("Laborer quest stage: ${lab?.currentStage}")
         val daysUntilPayout = game.sector.scripts
-            .filterIsInstance(LaborerQuest.PayoutScript::class.java)
+            .filterIsInstance(PayoutScript::class.java)
             .firstOrNull()
             ?.intervalUtil
             ?.intervalDuration
             ?.let { game.sector.clock.convertToDays(it) }
-        info.appendLine("Laborer payout: ${Misc.getDGSCredits(LaborerQuest.state.payout.toFloat())} in $daysUntilPayout days")
+        info.appendLine("Laborer payout: ${Misc.getDGSCredits(LaborerHubMission.state.payout.toFloat())} in $daysUntilPayout days")
         info.appendLine()
 
         val telos1 = Global.getSector().intelManager.findFirst<Telos1HubMission>()

@@ -38,6 +38,10 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
             InteractionDefinition.Illustration("wisp_perseanchronicles_dragonriders", "intelPicture")
         val dragonPlanetImage =
             InteractionDefinition.Illustration("wisp_perseanchronicles_dragonriders", "planetIllustration")
+
+        // Gilead is a paradise world, one of the only planets where it makes sense for dragons to live.
+        val gilead: PlanetAPI?
+            get() = game.sector.getStarSystem("canaan")?.planets?.firstOrNull { it.id == "gilead" }
     }
 
     val karengo
@@ -60,6 +64,11 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         return DragonsBarEventWiring().shouldBeAddedToBarEventPool()
                 && market.factionId.lowercase() !in listOf(Factions.LUDDIC_CHURCH, Factions.LUDDIC_PATH)
                 && market.starSystem != null
+                // and not near gilead
+                &&
+                (if (gilead != null)
+                    market.starSystem.distanceFrom(gilead!!.starSystem) > minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet
+                else true)
                 && market.size > 3
 //                && state.dragonPlanet != null
     }
@@ -216,9 +225,14 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     }
 
     /**
+     * Ideally Gilead, but use a fallback for random sector.
      * Find a planet with life somewhere near the center, excluding player's current location.
      */
     private fun findAndTagDragonPlanet(playersCurrentStarSystem: StarSystemAPI?): PlanetAPI? {
+        if (gilead != null) {
+            return gilead
+        }
+
         return try {
             game.sector.starSystemsAllowedForQuests
                 .filter { it.id != playersCurrentStarSystem?.id }

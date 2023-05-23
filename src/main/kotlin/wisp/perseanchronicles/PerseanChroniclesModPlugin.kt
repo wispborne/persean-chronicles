@@ -45,7 +45,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
         TelosCommon.onGameLoad()
 
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
-        game = SpaceTalesServiceLocator(Questgiver.game, CampaignPlugin())
+        game = SpaceTalesServiceLocator(Questgiver.game)
         game.logger.level = Level.ALL // try to remember to change this for release
         game.text.shouldThrowExceptionOnMissingValue = game.settings.isDevMode
 
@@ -63,12 +63,12 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
 
         Questgiver.loadQuests(
             questFacilitators = listOfNotNull(
-                if (settings.tryGet("isLaborerQuestEnabled") { true }) LaborerQuest else null,
             ),
             creators = listOfNotNull(
                 if (!isNexCorvusModeEnabled && settings.tryGet("isTelosQuestEnabled") { true })
                     Telos1BarEventWiring()
                 else null,
+                if (settings.tryGet("isLaborerQuestEnabled") { true }) LaborerBarEventWiring() else null,
                 if (settings.tryGet("isDragonsQuestEnabled") { true }) DragonsBarEventWiring() else null,
                 if (settings.tryGet("isDepthsQuestEnabled") { true }) DepthsBarEventWiring() else null,
                 if (settings.tryGet("isRileyQuestEnabled") { true }) RileyBarEventWiring() else null,
@@ -78,9 +78,6 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
         )
 
         applyTextVariableSubstitutions()
-
-        // Register this so we can intercept and replace interactions
-        game.sector.registerPlugin(game.campaignPlugin)
 
         initGraphicsLib()
 
@@ -152,7 +149,6 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
         // DO NOT CHANGE THESE STRINGS, DOING SO WILL BREAK SAVE GAMES
         // No periods allowed in the serialized name, causes crash.
         val aliases = listOf(
-            CampaignPlugin::class to "CampaignPlugin",
             Dragons_Stage1_BarEvent::class to "DragonsPart1_BarEvent",
             DragonsHubMission::class to "DragonsHubMission",
             DragonsHubMission.Stage::class to "DragonsHubMission_Stage",
@@ -187,9 +183,9 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
             NirvanaBarEventCreator::class to "NirvanaBarEventCreator",
             Nirvana_Stage2_Dialog::class to "Nirvana_Stage2_Dialog",
             Nirvana_Stage3_Dialog::class to "Nirvana_Stage3_Dialog",
-            LaborerIntel::class to "LaborerIntel",
+            LaborerHubMission::class to "LaborerHubMission",
             Laborer_Stage1_BarEvent::class to "Laborer_Stage1_BarEvent",
-            Laborer_Stage1_BarEventCreator::class to "Laborer_Stage1_BarEventCreator",
+            LaborerBarEventCreator::class to "LaborerBarEventCreator",
             Laborer_Stage2_Dialog::class to "Laborer_Stage2_Dialog",
             Telos1BarEventWiring::class to "Telos1BarEventWiring",
             Telos1HubMission::class to "Telos1HubMission",

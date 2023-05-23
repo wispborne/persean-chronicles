@@ -1,9 +1,13 @@
 package wisp.perseanchronicles.laborer
 
+import com.fs.starfarer.api.Global
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.riley.RileyHubMission
 import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.wispLib.findFirst
 
-class Laborer_Stage2_Dialog : InteractionDefinition<Laborer_Stage2_Dialog>(
+class Laborer_Stage2_Dialog(
+    val mission: LaborerHubMission = Global.getSector().intelManager.findFirst()!!) : InteractionDefinition<Laborer_Stage2_Dialog>(
     onInteractionStarted = { },
     pages = listOf(
         Page(
@@ -15,34 +19,40 @@ class Laborer_Stage2_Dialog : InteractionDefinition<Laborer_Stage2_Dialog>(
             },
             options = listOf(
                 Option(
+                    // "You have my bank address, right?"
                     text = { game.text["lab_stg2_pg1_opt1"] },
                     onOptionSelected = {
+                        // He shoots you a look of thinly masked annoyance. "Yeah. I'll send you the credits when I have them. Bye, now."
                         para { game.text["lab_stg2_pg1_opt1_onSelected"] }
                         para { game.text["lab_stg2_pg2_para1"] }
+                        mission.setCurrentStage(LaborerHubMission.Stage.Completed, dialog, null)
                         navigator.promptToContinue(game.text["leave"]) {
-                            LaborerQuest.complete()
                             it.close(doNotOfferAgain = true)
                         }
                     }
                 ),
                 Option(
+                    // "I need that money now."
                     text = { game.text["lab_stg2_pg1_opt2"] },
                     onOptionSelected = {
+                        // He shoots you an accused look. "You said I could pay you later. As we discussed, I'll send you the payment when I have it."
                         para { game.text["lab_stg2_pg1_opt2_onSelected"] }
                         para { game.text["lab_stg2_pg2_para1"] }
+                        mission.setCurrentStage(LaborerHubMission.Stage.Completed, dialog, null)
                         navigator.promptToContinue(game.text["leave"]) {
-                            LaborerQuest.complete()
                             it.close(doNotOfferAgain = true)
                         }
                     }
                 ),
                 Option(
+                    // "You're welcome. Better luck on this world."
                     text = { game.text["lab_stg2_pg1_opt3"] },
                     onOptionSelected = {
+                        // He bobs his head at you in farewell. "I'll send you the payment when I have it."
                         para { game.text["lab_stg2_pg1_opt3_onSelected"] }
                         para { game.text["lab_stg2_pg2_para1"] }
+                        mission.setCurrentStage(LaborerHubMission.Stage.Completed, dialog, null)
                         navigator.promptToContinue(game.text["leave"]) {
-                            LaborerQuest.complete()
                             it.close(doNotOfferAgain = true)
                         }
                     }

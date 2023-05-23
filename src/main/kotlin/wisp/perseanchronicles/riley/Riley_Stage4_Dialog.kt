@@ -63,6 +63,7 @@ class Riley_Stage4_Dialog(
         ),
         Page(
             id = 2,
+            image = Illustration("wisp_perseanchronicles_riley", "house"),
             onPageShown = {
                 para { game.text["riley_stg4_pg2_para1"] }
                 para { game.text["riley_stg4_pg2_para2"] }

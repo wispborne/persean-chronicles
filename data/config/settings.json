@@ -16,10 +16,11 @@
       "icon": "graphics/depths/kelp.png",
       "diveIllustration": "graphics/depths/diveIllustration.png",
       "intelIllustration": "graphics/depths/intelIllustration.png",
-      "sub": "graphics/depths/sub.png"
+      "sub": "graphics/depths/sub_mj5.png"
     },
     "wisp_perseanchronicles_riley": {
-      "icon": "graphics/riley/riley.png"
+      "icon": "graphics/riley/riley.png",
+      "house": "graphics/riley/house1.png"
     },
     "wisp_perseanchronicles_nirvana": {
       "davidRengel": "graphics/portraits/portrait30.png",
