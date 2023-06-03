@@ -8,7 +8,7 @@ class LaborerBarEventWiring :
     override fun createBarEventLogic() = Laborer_Stage1_BarEvent()
     override fun createMission() = LaborerHubMission()
     override fun shouldBeAddedToBarEventPool(): Boolean {
-        return LaborerHubMission.state.completeDateInMillis != null
+        return LaborerHubMission.state.completeDateInMillis == null
     }
 
     override fun createBarEventCreator() = LaborerBarEventCreator(this)

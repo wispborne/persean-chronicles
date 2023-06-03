@@ -93,6 +93,7 @@ class Telos2SecondLandingDialog(
             // Manually show text based upon conditions.
             "9-check-karengo" to {
                 val page = navigator.currentPage()?.extraData!!
+                Telos2HubMission.choices.checkedKarengo = true
 
                 if (game.sector.playerPerson.gender == FullName.Gender.FEMALE) {
                     // how do i turn off this ship sense/feeling  i can feel you sitting on the couch not that i mind but it’s distracting
@@ -109,9 +110,6 @@ class Telos2SecondLandingDialog(
             "7.1-noEther" to {
                 completeMission(mission)
             },
-            "9-check-karengo" to {
-                Telos2HubMission.choices.checkedKarengo = true
-            },
             "10-query-history" to {
                 Telos2HubMission.choices.queriedSystem = true
             },
@@ -119,7 +117,7 @@ class Telos2SecondLandingDialog(
             "12-leave" to {
                 completeMission(mission)
                 if (TelosCommon.isPhase1) {
-                    para { "That concludes Phase 1 of the Telos storyline." }
+                    para { "==This concludes Phase 1 of the Telos storyline.==" }
                 }
             },
         ),
@@ -195,7 +193,7 @@ private fun Telos2SecondLandingDialog.giveVara() {
 }
 
 private fun Telos2SecondLandingDialog.taunt() {
-    val taunts = Telos2HubMission.part2Json.query<Map<String, Any>>("/stages/battle/cheaterTaunts")
+    val taunts = Telos2HubMission.part2Json.query<JSONObject>("/stages/battle/cheaterTaunts")
     val pick = (1..5).random()
     (taunts["cheater$pick"] as JSONArray).toStringList().forEach { para { it } }
 }

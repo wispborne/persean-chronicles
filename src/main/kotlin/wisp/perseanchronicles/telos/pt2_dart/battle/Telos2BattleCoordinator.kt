@@ -120,7 +120,7 @@ object Telos2BattleCoordinator {
                     this.addShipVariant(variantOrHullId = "wisp_perseanchronicles_vara_Standard", count = 1).first().apply {
                         cmdr.setPersonality(Personalities.AGGRESSIVE)
                         cmdr.addTag(TelosCommon.ETHER_OFFICER_TAG)
-                        this.captain.memoryWithoutUpdate["\$chatterChar"] = "none"
+                        cmdr.memoryWithoutUpdate["\$chatterChar"] = "none"
                         this.captain = cmdr
                         this.shipName = cmdr.nameString
                         try {

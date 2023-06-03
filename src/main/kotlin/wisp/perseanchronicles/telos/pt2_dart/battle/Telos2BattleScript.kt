@@ -44,6 +44,10 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
         if (combatEngine.isPaused)
             return
 
+        // Disable Combat Chatter.
+//        combatEngine.ships.orEmpty().forEach { it.captain?.memoryWithoutUpdate?.set("\$chatterChar", "none") }
+        combatEngine.ships.orEmpty().forEach { it.captain?.memoryWithoutUpdate?.set("\$chatterChar", "none") }
+
         totalTimeElapsed += amount
 
         // Wait a moment after start because otherwise there's a race condition starting music.

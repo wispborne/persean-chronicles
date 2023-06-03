@@ -235,13 +235,6 @@ class Telos2HubMission : QGHubMission() {
                 true
             }
 
-            Stage.Completed -> {
-                info.addPara(padding = pad, textColor = tc) {
-                    part2Json.query<String>("/stages/completed/intel/subtitle").qgFormat()
-                }
-                true
-            }
-
             else -> false
         }
     }
@@ -261,6 +254,11 @@ class Telos2HubMission : QGHubMission() {
 
             Stage.LandOnPlanetSecondEther -> {
                 info.addPara { part2Json.query<String>("/stages/landOnPlanetSecondEther/intel/desc").qgFormat() }
+            }
+
+            Stage.PostBattle,
+            Stage.Completed -> {
+                info.addPara { part2Json.query<String>("/stages/completed/intel/subtitle").qgFormat() }
             }
         }
     }

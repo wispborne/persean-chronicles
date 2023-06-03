@@ -19,8 +19,10 @@ class Telo1CompleteDialog(
     pages = PagesFromJson(
         pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
-            "3" to {
+            "2" to {
                 this.dialog.visualPanel.showPersonInfo(PerseanChroniclesNPCs.karengo)
+            },
+            "3" to {
                 mission.setCurrentStage(Telos1HubMission.Stage.Completed, dialog, null)
 
                 // Start Part 2 on finishing dialog.
@@ -37,6 +39,7 @@ class Telo1CompleteDialog(
                         onOptionSelected = {
                             it.close(doNotOfferAgain = true)
                         })
+
                     else -> option
                 }
             }

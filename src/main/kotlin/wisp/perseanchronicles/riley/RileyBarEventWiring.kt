@@ -8,7 +8,7 @@ class RileyBarEventWiring :
     override fun createBarEventLogic() = Riley_Stage1_BarEvent()
     override fun createMission() = RileyHubMission()
     override fun shouldBeAddedToBarEventPool(): Boolean {
-        return RileyHubMission.state.completeDateInMillis != null
+        return RileyHubMission.state.completeDateInMillis == null
     }
 
     override fun createBarEventCreator() = RileyBarEventCreator(this)
