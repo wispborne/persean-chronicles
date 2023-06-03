@@ -9,8 +9,9 @@ DO_NOT_USE
 .gradle
 ^gradle
 .flac$
-^.github/
 banner.png$
-
+.github/
+media/
 .run
 junkdrawer
+libs/starfarer/
