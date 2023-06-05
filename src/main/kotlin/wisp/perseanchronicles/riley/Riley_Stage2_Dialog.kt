@@ -1,15 +1,17 @@
 package wisp.perseanchronicles.riley
 
 import wisp.perseanchronicles.game
-import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.v2.IInteractionLogic
+import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.wispLib.findFirst
 
 class Riley_Stage2_Dialog(
     val mission: RileyHubMission = game.intelManager.findFirst()!!
-) : InteractionDefinition<Riley_Stage2_Dialog>(
+) : InteractionDialogLogic<Riley_Stage2_Dialog>(
     onInteractionStarted = {},
+    people = { listOf(RileyHubMission.riley) },
     pages = listOf(
-        Page(
+        IInteractionLogic.Page(
             id = 1,
             image = RileyHubMission.icon,
             onPageShown = {
@@ -22,13 +24,11 @@ class Riley_Stage2_Dialog(
                 }
             },
             options = listOf(
-                Option(
+                IInteractionLogic.Option(
                     text = { game.text["riley_stg2_pg1_opt1"] },
                     onOptionSelected = { it.close(doNotOfferAgain = true) }
                 )
             )
         )
     )
-) {
-    override fun createInstanceOfSelf(): InteractionDefinition<Riley_Stage2_Dialog> = Riley_Stage2_Dialog()
-}
+)

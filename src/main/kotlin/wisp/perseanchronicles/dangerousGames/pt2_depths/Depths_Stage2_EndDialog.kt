@@ -1,13 +1,14 @@
 package wisp.perseanchronicles.dangerousGames.pt2_depths
 
 import wisp.perseanchronicles.game
-import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.v2.IInteractionLogic
+import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.wispLib.findFirst
 
 class Depths_Stage2_EndDialog(val mission: DepthsHubMission = game.intelManager.findFirst()!!) :
-    InteractionDefinition<Depths_Stage2_EndDialog>(
+    InteractionDialogLogic<Depths_Stage2_EndDialog>(
         pages = listOf(
-            Page(
+            IInteractionLogic.Page(
                 id = 1,
                 onPageShown = {
                     para {
@@ -53,13 +54,11 @@ class Depths_Stage2_EndDialog(val mission: DepthsHubMission = game.intelManager.
                 },
                 options = listOf(
                     // Leave
-                    Option(text = { game.text["dg_de_stg3_backToStart_pg1_opt1"] },
+                    IInteractionLogic.Option(text = { game.text["dg_de_stg3_backToStart_pg1_opt1"] },
                         onOptionSelected = {
                             it.close(doNotOfferAgain = true)
                         }
                     )
                 )
             ))
-    ) {
-    override fun createInstanceOfSelf() = Depths_Stage2_EndDialog()
-}
+    )

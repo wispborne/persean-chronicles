@@ -11,10 +11,11 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
-import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.spriteName
 import wisp.questgiver.starSystemsAllowedForQuests
+import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
+import wisp.questgiver.v2.spriteName
 import wisp.questgiver.wispLib.*
 import java.awt.Color
 import java.util.*
@@ -33,11 +34,11 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
             "jungle",
             "US_jungle" // Unknown Skies
         )
-        val icon = InteractionDefinition.Portrait("wisp_perseanchronicles_dragonriders", "icon")
+        val icon = IInteractionLogic.Portrait("wisp_perseanchronicles_dragonriders", "icon")
         val intelDetailHeaderImage =
-            InteractionDefinition.Illustration("wisp_perseanchronicles_dragonriders", "intelPicture")
+            IInteractionLogic.Illustration("wisp_perseanchronicles_dragonriders", "intelPicture")
         val dragonPlanetImage =
-            InteractionDefinition.Illustration("wisp_perseanchronicles_dragonriders", "planetIllustration")
+            IInteractionLogic.Illustration("wisp_perseanchronicles_dragonriders", "planetIllustration")
 
         // Gilead is a paradise world, one of the only planets where it makes sense for dragons to live.
         val gilead: PlanetAPI?

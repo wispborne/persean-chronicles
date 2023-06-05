@@ -12,6 +12,7 @@ import wisp.perseanchronicles.nirvana.NirvanaHubMission
 import wisp.perseanchronicles.riley.RileyHubMission
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.spriteName
+import wisp.questgiver.v2.spriteName
 import wisp.questgiver.wispLib.empty
 
 object PerseanChroniclesNPCs {
@@ -43,7 +44,40 @@ object PerseanChroniclesNPCs {
                         this.setFaction(Factions.INDEPENDENT)
                         this.postId = Ranks.CITIZEN
                         this.rankId = Ranks.CITIZEN
-                        this.portraitSprite = game.settings.getSpriteName(RileyHubMission.icon.category, RileyHubMission.icon.id)
+                        this.portraitSprite = RileyHubMission.icon.spriteName(game)
+                    }
+            }
+
+            return game.memory[key] as PersonAPI
+        }
+
+    val riley_dad: PersonAPI
+        get() {
+            val key = "riley_dad"
+            if (game.memory[key] == null) {
+                game.memory[key] =
+                    Global.getSettings().createPerson().apply {
+                        this.name = FullName(game.text["rileyDad_name"], String.empty, FullName.Gender.MALE)
+                        this.setFaction(Factions.INDEPENDENT)
+                        this.postId = Ranks.CITIZEN
+                        this.rankId = Ranks.CITIZEN
+                        this.portraitSprite = RileyHubMission.dadPortrait.spriteName(game)
+                    }
+            }
+
+            return game.memory[key] as PersonAPI
+        }
+    val riley_dad2: PersonAPI
+        get() {
+            val key = "riley_dad2"
+            if (game.memory[key] == null) {
+                game.memory[key] =
+                    Global.getSettings().createPerson().apply {
+                        this.name = FullName(game.text["rileyDad_name"], String.empty, FullName.Gender.MALE)
+                        this.setFaction(Factions.INDEPENDENT)
+                        this.postId = Ranks.CITIZEN
+                        this.rankId = Ranks.CITIZEN
+                        this.portraitSprite = RileyHubMission.dadPortrait2.spriteName(game)
                     }
             }
 

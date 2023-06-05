@@ -5,14 +5,15 @@ import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
-import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.v2.IInteractionLogic
+import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.wispLib.findFirst
 
 class Dragons_Stage3_Dialog(val dragons: DragonsHubMission = Global.getSector().intelManager.findFirst()!!) :
-    InteractionDefinition<Dragons_Stage3_Dialog>(
+    InteractionDialogLogic<Dragons_Stage3_Dialog>(
         onInteractionStarted = {},
         pages = listOf(
-            Page(
+            IInteractionLogic.Page(
                 id = 1,
                 onPageShown = {
                     para {
@@ -24,13 +25,13 @@ class Dragons_Stage3_Dialog(val dragons: DragonsHubMission = Global.getSector().
                     }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_dr_stg3_pg1_opt1"] },
                         onOptionSelected = { it.goToPage(2) }
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = 2,
                 onPageShown = {
                     para { game.text["dg_dr_stg3_pg2_para1"] }
@@ -39,18 +40,18 @@ class Dragons_Stage3_Dialog(val dragons: DragonsHubMission = Global.getSector().
                     }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_dr_stg3_pg2_opt1"] },
                         onOptionSelected = { it.goToPage(3) }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_dr_stg3_pg2_opt2"] },
                         onOptionSelected = {
                             para { game.text["dg_dr_stg3_pg2_opt2_para1"] }
                             it.goToPage(3)
                         }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_dr_stg3_pg2_opt3"] },
                         onOptionSelected = {
                             para { game.text["dg_dr_stg3_pg2_opt3_para1"] }
@@ -59,7 +60,7 @@ class Dragons_Stage3_Dialog(val dragons: DragonsHubMission = Global.getSector().
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = 3,
                 onPageShown = {
                     para {
@@ -70,11 +71,11 @@ class Dragons_Stage3_Dialog(val dragons: DragonsHubMission = Global.getSector().
                     }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_dr_stg3_pg3_opt1"] },
                         onOptionSelected = { it.goToPage(4) }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_dr_stg3_pg3_opt2"] },
                         onOptionSelected = {
                             para { game.text["dg_dr_stg3_pg3_opt2_para1"] }
@@ -83,14 +84,14 @@ class Dragons_Stage3_Dialog(val dragons: DragonsHubMission = Global.getSector().
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = 4,
                 onPageShown = {
                     para { game.text["dg_dr_stg3_pg4_para1"] }
                     dragons.setCurrentStage(DragonsHubMission.Stage.Done, dialog, null)
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_dr_stg3_pg4_para1_opt1"] },
                         onOptionSelected = {
                             val interactionTarget = dialog.interactionTarget
@@ -102,7 +103,5 @@ class Dragons_Stage3_Dialog(val dragons: DragonsHubMission = Global.getSector().
                 )
             )
         ),
-        people = listOf(PerseanChroniclesNPCs.karengo)
-    ) {
-    override fun createInstanceOfSelf() = Dragons_Stage3_Dialog()
-}
+        people = { listOf(PerseanChroniclesNPCs.karengo) }
+    )

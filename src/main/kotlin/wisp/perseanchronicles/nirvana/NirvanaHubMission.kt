@@ -11,10 +11,10 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
-import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.spriteName
 import wisp.questgiver.starSystemsAllowedForQuests
+import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
+import wisp.questgiver.v2.spriteName
 import wisp.questgiver.wispLib.*
 import java.awt.Color
 import java.util.*
@@ -25,9 +25,9 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
 
         const val CARGO_TYPE = Commodities.HEAVY_MACHINERY
         const val CARGO_WEIGHT = 5
-        val icon = InteractionDefinition.Portrait(category = "wisp_perseanchronicles_nirvana", id = "davidRengel")
+        val icon = IInteractionLogic.Portrait(category = "wisp_perseanchronicles_nirvana", id = "davidRengel")
         val background =
-            InteractionDefinition.Illustration(category = "wisp_perseanchronicles_nirvana", id = "background")
+            IInteractionLogic.Illustration(category = "wisp_perseanchronicles_nirvana", id = "background")
 
         val state = State(PersistentMapData<String, Any?>(key = "nirvanaState").withDefault { null })
 

@@ -6,11 +6,8 @@ import com.fs.starfarer.api.campaign.JumpPointAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.equalsAny
-import wisp.questgiver.wispLib.findFirst
 
-class Riley_EnteredDestinationSystemListener(
-    val mission: RileyHubMission = game.intelManager.findFirst()!!
-) : BaseCampaignEventListener(false) {
+class Riley_EnteredDestinationSystemListener(val mission: RileyHubMission) : BaseCampaignEventListener(false) {
     override fun reportFleetJumped(
         fleet: CampaignFleetAPI?,
         from: SectorEntityToken?,

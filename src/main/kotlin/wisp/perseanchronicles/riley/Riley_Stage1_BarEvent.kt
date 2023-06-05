@@ -16,6 +16,7 @@ class Riley_Stage1_BarEvent : BarEventLogic<RileyHubMission>(
         )
     },
     onInteractionStarted = {},
+    people = { listOf(RileyHubMission.riley) },
     pages = listOf(
         IInteractionLogic.Page(
             id = 1,

@@ -2,15 +2,16 @@ package wisp.perseanchronicles.laborer
 
 import com.fs.starfarer.api.Global
 import wisp.perseanchronicles.game
-import wisp.perseanchronicles.riley.RileyHubMission
-import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.v2.IInteractionLogic
+import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.wispLib.findFirst
 
 class Laborer_Stage2_Dialog(
-    val mission: LaborerHubMission = Global.getSector().intelManager.findFirst()!!) : InteractionDefinition<Laborer_Stage2_Dialog>(
+    val mission: LaborerHubMission = Global.getSector().intelManager.findFirst()!!
+) : InteractionDialogLogic<Laborer_Stage2_Dialog>(
     onInteractionStarted = { },
     pages = listOf(
-        Page(
+        IInteractionLogic.Page(
             id = 1,
             onPageShown = {
                 para { game.text["lab_stg2_pg1_para1"] }
@@ -18,7 +19,7 @@ class Laborer_Stage2_Dialog(
                 para { game.text["lab_stg2_pg1_para3"] }
             },
             options = listOf(
-                Option(
+                IInteractionLogic.Option(
                     // "You have my bank address, right?"
                     text = { game.text["lab_stg2_pg1_opt1"] },
                     onOptionSelected = {
@@ -31,7 +32,7 @@ class Laborer_Stage2_Dialog(
                         }
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // "I need that money now."
                     text = { game.text["lab_stg2_pg1_opt2"] },
                     onOptionSelected = {
@@ -44,7 +45,7 @@ class Laborer_Stage2_Dialog(
                         }
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // "You're welcome. Better luck on this world."
                     text = { game.text["lab_stg2_pg1_opt3"] },
                     onOptionSelected = {
@@ -60,6 +61,4 @@ class Laborer_Stage2_Dialog(
             )
         )
     )
-) {
-    override fun createInstanceOfSelf(): InteractionDefinition<Laborer_Stage2_Dialog> = Laborer_Stage2_Dialog()
-}
+)

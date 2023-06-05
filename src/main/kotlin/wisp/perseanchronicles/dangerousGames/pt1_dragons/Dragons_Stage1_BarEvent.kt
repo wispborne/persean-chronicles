@@ -6,9 +6,9 @@ import org.lwjgl.input.Keyboard
 import wisp.perseanchronicles.game
 import wisp.questgiver.BarEventWiring
 import wisp.questgiver.QGBarEventCreator
-import wisp.questgiver.spriteName
 import wisp.questgiver.v2.BarEventLogic
 import wisp.questgiver.v2.IInteractionLogic.*
+import wisp.questgiver.v2.spriteName
 
 class Dragons_Stage1_BarEvent : BarEventLogic<DragonsHubMission>(
     createInteractionPrompt = {

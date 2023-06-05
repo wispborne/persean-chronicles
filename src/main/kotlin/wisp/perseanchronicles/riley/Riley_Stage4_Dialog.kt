@@ -1,24 +1,26 @@
 package wisp.perseanchronicles.riley
 
 import com.fs.starfarer.api.Global
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
-import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.v2.IInteractionLogic
+import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.wispLib.findFirst
 
 class Riley_Stage4_Dialog(
     val mission: RileyHubMission = Global.getSector().intelManager.findFirst()!!
-) : InteractionDefinition<Riley_Stage4_Dialog>(
+) : InteractionDialogLogic<Riley_Stage4_Dialog>(
     onInteractionStarted = { },
     pages = listOf(
-        Page(
+        IInteractionLogic.Page(
             id = 1,
-            image = RileyHubMission.icon,
+            people = listOf(PerseanChroniclesNPCs.riley),
             onPageShown = {
                 para { game.text["riley_stg4_pg1_para1"] }
                 para { game.text["riley_stg4_pg1_para2"] }
             },
             options = listOf(
-                Option(
+                IInteractionLogic.Option(
                     text = {
                         // Ask to visit father
                         if (RileyHubMission.choices.refusedPayment == true)
@@ -28,7 +30,7 @@ class Riley_Stage4_Dialog(
                     },
                     onOptionSelected = { navigator -> navigator.goToPage(2) }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // Ask if DJing pays well
                     showIf = { RileyHubMission.choices.askedAboutDJingPay == null },
                     text = { game.text["riley_stg4_pg1_opt2"] },
@@ -38,7 +40,7 @@ class Riley_Stage4_Dialog(
                         navigator.refreshOptions()
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // Tell her to keep the money
                     showIf = { RileyHubMission.choices.refusedPayment == null },
                     text = { game.text["riley_stg4_pg1_opt3"] },
@@ -49,7 +51,7 @@ class Riley_Stage4_Dialog(
                         navigator.refreshOptions()
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // Leave without going to house
                     text = { game.text["riley_stg4_pg1_opt4"] },
                     onOptionSelected = { navigator ->
@@ -61,21 +63,23 @@ class Riley_Stage4_Dialog(
                 )
             )
         ),
-        Page(
+        IInteractionLogic.Page(
             id = 2,
-            image = Illustration("wisp_perseanchronicles_riley", "house"),
+            image = IInteractionLogic.Illustration("wisp_perseanchronicles_riley", "house"),
+            people = { listOf(PerseanChroniclesNPCs.riley, PerseanChroniclesNPCs.riley_dad) },
             onPageShown = {
+                // She is taken aback at first, but agrees to let you join, and you wind your way away from the landing pads, across rural, wooded countryside, and finally to a modest house nestled along a valley edge. Riley knocks, and a nurse lets you in.
                 para { game.text["riley_stg4_pg2_para1"] }
                 para { game.text["riley_stg4_pg2_para2"] }
                 para { game.text["riley_stg4_pg2_para3"] }
             },
             options = listOf(
-                Option(
+                IInteractionLogic.Option(
                     // Cordial thanks
                     text = { game.text["riley_stg4_pg2_opt1"] },
                     onOptionSelected = { navigator -> navigator.goToPage(3) }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // Romance thanks
                     text = { game.text["riley_stg4_pg2_opt2"] },
                     onOptionSelected = { navigator ->
@@ -86,7 +90,7 @@ class Riley_Stage4_Dialog(
                 )
             )
         ),
-        Page(
+        IInteractionLogic.Page(
             id = 3,
             onPageShown = {
                 para { game.text["riley_stg4_pg3_para1"] }
@@ -101,13 +105,15 @@ class Riley_Stage4_Dialog(
                     navigator.promptToContinue(game.text["continue"]) {
                         para { game.text["riley_stg4_pg3_para4"] }
                         navigator.promptToContinue(game.text["continue"]) {
+                            // His body relaxes, and he's gone.
+//                            dialog.visualPanel.showPer
                             para { game.text["riley_stg4_pg3_para5"] }
                         }
                     }
                 }
             },
             options = listOf(
-                Option(
+                IInteractionLogic.Option(
                     // Cordial comfort
                     text = { game.text["riley_stg4_pg3_opt1"] },
                     onOptionSelected = { navigator ->
@@ -115,7 +121,7 @@ class Riley_Stage4_Dialog(
                         navigator.goToPage(4)
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // Hold her (needed for romance, but really this is a perfectly normal response)
                     text = { game.text["riley_stg4_pg3_opt2"] },
                     onOptionSelected = { navigator ->
@@ -126,10 +132,12 @@ class Riley_Stage4_Dialog(
                 )
             )
         ),
-        Page(
+        IInteractionLogic.Page(
             id = 4,
+            people = { listOf(PerseanChroniclesNPCs.riley, PerseanChroniclesNPCs.riley_dad) },
             onPageShown = {
                 navigator.promptToContinue(game.text["continue"]) {
+                    // Without warning, you hear Church's voice from a corner of the room. It's coming from an AI Core, held aloft by hundreds of cables dangling from the ceiling.
                     para { game.text["riley_stg4_pg4_para1"] }
                     navigator.promptToContinue(game.text["continue"]) {
                         para { game.text["riley_stg4_pg4_para2"] }
@@ -137,7 +145,7 @@ class Riley_Stage4_Dialog(
                 }
             },
             options = listOf(
-                Option(
+                IInteractionLogic.Option(
                     // Ask if legal
                     showIf = { RileyHubMission.choices.askedIfLegal == null },
                     text = { game.text["riley_stg4_pg4_opt1"] },
@@ -152,7 +160,7 @@ class Riley_Stage4_Dialog(
                         navigator.refreshOptions()
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // Ask how Riley feels
                     showIf = { RileyHubMission.choices.askedWhatRileyThinks == null },
                     text = { game.text["riley_stg4_pg4_opt2"] },
@@ -167,7 +175,7 @@ class Riley_Stage4_Dialog(
                         }
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // Try to convince her to come with you
                     showIf = {
                         RileyHubMission.choices.askedWhatRileyThinks == true
@@ -180,7 +188,7 @@ class Riley_Stage4_Dialog(
                         navigator.refreshOptions()
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // Leave
                     showIf = {
                         RileyHubMission.choices.askedWhatRileyThinks == true
@@ -204,7 +212,7 @@ class Riley_Stage4_Dialog(
                         }
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // Destroy the Core
                     text = { game.text["riley_stg4_pg4_opt5"] },
                     onOptionSelected = { navigator ->
@@ -218,7 +226,7 @@ class Riley_Stage4_Dialog(
                         }
                     }
                 ),
-                Option(
+                IInteractionLogic.Option(
                     // Turn in for a bounty
                     showIf = {
                         RileyHubMission.choices.askedIfLegal == true
@@ -245,6 +253,4 @@ class Riley_Stage4_Dialog(
             )
         )
     )
-) {
-    override fun createInstanceOfSelf(): InteractionDefinition<Riley_Stage4_Dialog> = Riley_Stage4_Dialog()
-}
+)

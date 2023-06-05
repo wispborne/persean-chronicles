@@ -62,8 +62,6 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
         val isNexCorvusModeEnabled = game.sector.memory.getBoolean("\$nex_corvusMode")
 
         Questgiver.loadQuests(
-            questFacilitators = listOfNotNull(
-            ),
             creators = listOfNotNull(
                 if (!isNexCorvusModeEnabled && settings.tryGet("isTelosQuestEnabled") { true })
                     Telos1BarEventWiring()

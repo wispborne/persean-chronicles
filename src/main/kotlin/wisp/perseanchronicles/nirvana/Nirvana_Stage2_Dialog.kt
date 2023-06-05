@@ -3,15 +3,16 @@ package wisp.perseanchronicles.nirvana
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity
 import wisp.perseanchronicles.game
-import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.v2.IInteractionLogic
+import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.wispLib.findFirst
 
 class Nirvana_Stage2_Dialog(val nirv: NirvanaHubMission? = Global.getSector().intelManager.findFirst()) :
-    InteractionDefinition<Nirvana_Stage2_Dialog>(
+    InteractionDialogLogic<Nirvana_Stage2_Dialog>(
         onInteractionStarted = {
         },
         pages = listOf(
-            Page(
+            IInteractionLogic.Page(
                 id = 1,
                 image = NirvanaHubMission.icon,
                 onPageShown = {
@@ -24,19 +25,19 @@ class Nirvana_Stage2_Dialog(val nirv: NirvanaHubMission? = Global.getSector().in
                     )
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         // what are you building?
                         text = { game.text["nirv_stg2_pg1_opt1"] },
                         onOptionSelected = { it.goToPage(2) }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         // leave
                         text = { game.text["nirv_stg2_pg1_opt2"] },
                         onOptionSelected = { it.close(doNotOfferAgain = true) }
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = 2,
                 onPageShown = {
                     para { game.text["nirv_stg2_pg2_para1"] }
@@ -45,7 +46,7 @@ class Nirvana_Stage2_Dialog(val nirv: NirvanaHubMission? = Global.getSector().in
                     }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         // when getting answers?
                         text = { game.text["nirv_stg2_pg2_opt1"] },
                         onOptionSelected = {
@@ -54,20 +55,20 @@ class Nirvana_Stage2_Dialog(val nirv: NirvanaHubMission? = Global.getSector().in
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = 3,
                 onPageShown = {
                     para { game.text["nirv_stg2_pg3_para1"] }
                     nirv?.setCurrentStage(NirvanaHubMission.Stage.Completed, dialog, null)
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["nirv_stg2_pg3_opt1"] },
                         onOptionSelected = {
                             it.close(doNotOfferAgain = true)
                         }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["nirv_stg2_pg3_opt2"] },
                         onOptionSelected = {
                             it.close(doNotOfferAgain = true)
@@ -76,6 +77,4 @@ class Nirvana_Stage2_Dialog(val nirv: NirvanaHubMission? = Global.getSector().in
                 )
             )
         )
-    ) {
-    override fun createInstanceOfSelf(): InteractionDefinition<Nirvana_Stage2_Dialog> = Nirvana_Stage2_Dialog()
-}
+    )

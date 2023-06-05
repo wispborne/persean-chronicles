@@ -37,6 +37,7 @@ class ViewDebugInfoCommand : BaseCommand {
         info.appendLine("Depths quest stage: ${depths?.currentStage}")
         info.appendLine()
         val riley = Global.getSector().intelManager.findFirst<RileyHubMission>()
+        info.appendLine("Riley start planet: ${RileyHubMission.state.startLocation?.fullName} in ${RileyHubMission.state.startLocation?.starSystem?.baseName}")
         info.appendLine("Riley destination planet: ${RileyHubMission.state.destinationPlanet?.fullName} in ${RileyHubMission.state.destinationPlanet?.starSystem?.baseName}")
         info.appendLine("Riley quest stage: ${riley?.currentStage}")
         info.appendLine("Riley quest choices: ${riley?.choices?.map?.entries?.joinToString()}")
@@ -60,11 +61,11 @@ class ViewDebugInfoCommand : BaseCommand {
         val telos1 = Global.getSector().intelManager.findFirst<Telos1HubMission>()
         info.appendLine("Telos Pt.1 source planet: ${Telos1HubMission.state.startLocation?.fullName} in ${Telos1HubMission.state.startLocation?.starSystem?.baseName}")
         info.appendLine("Telos Pt.1+2 destination planet: ${Telos1HubMission.state.karengoPlanet?.fullName} in ${Telos1HubMission.state.karengoPlanet?.starSystem?.baseName}")
-        info.appendLine("Telos Pt.1 quest stage: ${telos1?.currentStage}, state: ${Telos1HubMission.state.map}")
+        info.appendLine("Telos Pt.1 quest stage: ${telos1?.currentStage}, state: ${Telos1HubMission.state.map.toList()}")
         val telos2 = Global.getSector().intelManager.findFirst<Telos2HubMission>()
-        info.appendLine("Telos Pt.2 quest stage: ${telos2?.currentStage}, state: ${Telos2HubMission.state.map}")
+        info.appendLine("Telos Pt.2 quest stage: ${telos2?.currentStage}, state: ${Telos2HubMission.state.map.toList()}")
         val telos3 = Global.getSector().intelManager.findFirst<Telos3HubMission>()
-        info.appendLine("Telos Pt.3 quest stage: ${telos3?.currentStage}, state: ${Telos3HubMission.state.map}")
+        info.appendLine("Telos Pt.3 quest stage: ${telos3?.currentStage}, state: ${Telos3HubMission.state.map.toList()}")
 
         Console.showMessage(info.toString())
 

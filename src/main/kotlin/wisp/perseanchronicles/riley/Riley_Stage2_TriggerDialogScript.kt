@@ -3,11 +3,8 @@ package wisp.perseanchronicles.riley
 import com.fs.starfarer.api.EveryFrameScript
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.equalsAny
-import wisp.questgiver.wispLib.findFirst
 
-class Riley_Stage2_TriggerDialogScript(
-    val mission: RileyHubMission = game.intelManager.findFirst()!!
-) : EveryFrameScript {
+class Riley_Stage2_TriggerDialogScript(val mission: RileyHubMission) : EveryFrameScript {
     override fun isDone(): Boolean =
         !mission.currentStage.equalsAny(RileyHubMission.Stage.NotStarted, RileyHubMission.Stage.InitialTraveling)
 

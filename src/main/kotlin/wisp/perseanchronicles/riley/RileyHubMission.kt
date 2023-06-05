@@ -12,14 +12,15 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
-import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.spriteName
 import wisp.questgiver.starSystemsAllowedForQuests
+import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
+import wisp.questgiver.v2.spriteName
 import wisp.questgiver.wispLib.*
 import java.awt.Color
 import java.util.*
 import kotlin.math.roundToInt
+import kotlin.random.asKotlinRandom
 
 // TODO: lower the credit reward to < 5k, but give the location of a blueprint or two on success because "my gramma's a historian"
 class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
@@ -33,7 +34,9 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
         // Both Hegemony and VIC would have cause to work on subservient AI
         private val govtsSponsoringSafeAi = listOf(Factions.HEGEMONY, "vic")
-        val icon = InteractionDefinition.Portrait(category = "wisp_perseanchronicles_riley", id = "icon")
+        val icon = IInteractionLogic.Portrait(category = "wisp_perseanchronicles_riley", id = "icon")
+        val dadPortrait = IInteractionLogic.Portrait(category = "wisp_perseanchronicles_riley", id = "portraitDad")
+        val dadPortrait2 = IInteractionLogic.Portrait(category = "wisp_perseanchronicles_riley", id = "portraitDad2")
 
         val isFatherWorkingWithGovt: Boolean
             get() = state.destinationPlanet?.faction?.id?.lowercase() in govtsSponsoringSafeAi
@@ -98,10 +101,11 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         market ?: return false
 
         return market.size > 5 // Lives on a populous world
-                && market.starSystem != null // No hyperspace markets
-                && market.factionId.lowercase() !in listOf("luddic_church", "luddic_path")
+                && market.starSystem != null // No hyperspace markets >.<
+                && market.factionId.lowercase() !in listOf(Factions.LUDDIC_CHURCH, Factions.LUDDIC_PATH, Factions.PIRATES)
                 && market.connectedEntities.none { it?.id == state.destinationPlanet?.id }
-                && state.destinationPlanet != null
+//                && state.destinationPlanet != null
+                && RileyBarEventWiring().shouldBeAddedToBarEventPool()
     }
 
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {
@@ -149,8 +153,8 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         game.logger.i { "Riley start planet set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
         state.startLocation = startLocation
         state.startDateMillis = game.sector.clock.timestamp
-        game.sector.addScript(Riley_Stage2_TriggerDialogScript())
-        game.sector.addListener(Riley_EnteredDestinationSystemListener())
+        game.sector.addScript(Riley_Stage2_TriggerDialogScript(this))
+        game.sector.addListener(Riley_EnteredDestinationSystemListener(this))
 
         setTimeLimit(
             /* failStage = */ Stage.FailedTimeout,
@@ -293,7 +297,7 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
             .getNonHostileOnlyIfPossible()
             .take(5)
             .ifEmpty { null }
-            ?.random()
+            ?.random(this.genRandom.asKotlinRandom())
             .also { planet ->
                 game.logger.i { "Riley destination planet set to ${planet?.fullName} in ${planet?.starSystem?.baseName}" }
             }
