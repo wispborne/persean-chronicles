@@ -14,12 +14,13 @@ class Laborer_Stage1_BarEvent : BarEventLogic<LaborerHubMission>(
     textToStartInteraction = {
         Option(
             text = game.text["lab_stg1_startBarEvent"],
-            textColor = Misc.getTextColor()
+            textColor = Misc.getButtonTextColor()
         )
     },
     pages = listOf(
         IInteractionLogic.Page(
             id = 1,
+            people = { listOf(LaborerHubMission.dale)},
             onPageShown = {
                 para { game.text["lab_stg1_pg1_para1"] }
                 para { game.text["lab_stg1_pg1_para2"] }
@@ -63,6 +64,7 @@ class Laborer_Stage1_BarEvent : BarEventLogic<LaborerHubMission>(
             id = 3,
             onPageShown = {
                 para { game.text["lab_stg1_pg3_para1"] }
+                dialog.visualPanel.showMapMarker(LaborerHubMission.state.destPlanet, null, null, false, null, null, emptySet())
             },
             options = listOf(
                 IInteractionLogic.Option(
@@ -70,7 +72,7 @@ class Laborer_Stage1_BarEvent : BarEventLogic<LaborerHubMission>(
                     text = { game.text["lab_stg1_pg3_opt1"] },
                     onOptionSelected = {
                         para { game.text["lab_stg1_pg3_opt1_onSelected"] }
-                        mission.setCurrentStage(LaborerHubMission.Stage.GoToPlanet, dialog, null)
+                        mission.accept(dialog, emptyMap())
                         navigator.promptToContinue(game.text["leave"]) {
                             it.close(doNotOfferAgain = true)
                         }
@@ -98,6 +100,5 @@ class Laborer_Stage1_BarEvent : BarEventLogic<LaborerHubMission>(
                 )
             )
         )
-    ),
-    people = { listOf(PerseanChroniclesNPCs.dale) }
+    )
 )

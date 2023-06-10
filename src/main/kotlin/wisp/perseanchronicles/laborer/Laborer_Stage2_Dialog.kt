@@ -13,6 +13,7 @@ class Laborer_Stage2_Dialog(
     pages = listOf(
         IInteractionLogic.Page(
             id = 1,
+            people = { listOf(LaborerHubMission.dale) },
             onPageShown = {
                 para { game.text["lab_stg2_pg1_para1"] }
                 para { game.text["lab_stg2_pg1_para2"] }

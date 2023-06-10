@@ -12,6 +12,8 @@ import wisp.perseanchronicles.nirvana.NirvanaHubMission
 import wisp.perseanchronicles.riley.RileyHubMission
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.spriteName
+import wisp.questgiver.v2.IInteractionLogic
+import wisp.questgiver.v2.InteractionDialog
 import wisp.questgiver.v2.spriteName
 import wisp.questgiver.wispLib.empty
 
@@ -147,7 +149,7 @@ object PerseanChroniclesNPCs {
                         this.postId = Ranks.CITIZEN
                         this.rankId = Ranks.CITIZEN
                         this.portraitSprite =
-                            InteractionDefinition.Portrait(category = "wisp_perseanchronicles_laborer", id = "portrait").spriteName(game)
+                            IInteractionLogic.Portrait(category = "wisp_perseanchronicles_laborer", id = "portrait").spriteName(game)
                     }
             }
 

@@ -74,11 +74,10 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
         market ?: return false
 
-        return market.factionId.toLowerCase() in listOf(Factions.INDEPENDENT.toLowerCase())
-                && market.starSystem != null // No prism freeport
+        return market.factionId in listOf(Factions.INDEPENDENT)
+                && market.starSystem != null // No hyperspace markets
                 && market.size > 2
                 && market.hasIndustry(Industries.MINING)
-                && state.destPlanet != null
     }
 
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {
@@ -111,10 +110,11 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         setAbandonStage(Stage.Abandoned)
 
         name = game.text["lab_intel_title"]
-//        setCreditReward(CreditReward.)
         setGiverFaction(Factions.INDEPENDENT) // Rep reward.
         personOverride = dale // Shows on intel, needed for rep reward or else crash.
         setIconName(dale.portraitSprite)
+        setCreditReward(0)
+        setNoRepChanges()
 
         if (game.sector.hasScript(PayoutScript::class.java)) {
             game.sector.removeScript(PayoutScript(game.sector.clock))
@@ -171,6 +171,7 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
             }
+
             else -> super.pickInteractionDialogPlugin(interactionTarget)
         }
     }
