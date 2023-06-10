@@ -7,6 +7,7 @@ import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
@@ -30,8 +31,9 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
             IInteractionLogic.Illustration(category = "wisp_perseanchronicles_nirvana", id = "background")
 
         val state = State(PersistentMapData<String, Any?>(key = "nirvanaState").withDefault { null })
+        const val yearsBeforeHiddenEnding = 10
 
-        val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
+        val tags = setOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
     }
 
     class State(val map: MutableMap<String, Any?>) {
@@ -56,7 +58,6 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
                 && market.factionId.lowercase() in listOf(Factions.INDEPENDENT.lowercase())
                 && market.starSystem != null // No prism freeport
                 && market.size > 3
-                && NirvanaHubMission.state.destPlanet != null
     }
 
     override fun onGameLoad() {
@@ -114,8 +115,8 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         state.startDateMillis = game.sector.clock.timestamp
 
         // Sets the system as the map objective.
-        makeImportant(state.destSystem?.hyperspaceAnchor, null, Stage.GoToPlanet)
-        makePrimaryObjective(state.destSystem?.hyperspaceAnchor)
+        makeImportant(state.destPlanet, null, Stage.GoToPlanet)
+        makePrimaryObjective(state.destPlanet)
     }
 
     override fun endSuccessImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
@@ -149,7 +150,7 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         val timestampQuestCompletedInSeconds = (state.completeDateInMillis ?: state.startDateMillis)
         return (currentStage == Stage.Completed
                 && timestampQuestCompletedInSeconds != null
-                && game.sector.clock.getElapsedDaysSince(timestampQuestCompletedInSeconds) > (365 * 10))
+                && game.sector.clock.getElapsedDaysSince(timestampQuestCompletedInSeconds) > (365 * yearsBeforeHiddenEnding))
     }
 
     private fun findOrCreateAndSetDestination(
@@ -250,7 +251,7 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         info.addImage(
             NirvanaHubMission.background.spriteName(game),
             width,
-            0f
+            10f
         )
 
         when (currentStage) {
@@ -270,6 +271,8 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
             }
         }
     }
+
+    override fun getIntelTags(map: SectorMapAPI?) = super.getIntelTags(map) + tags
 
     enum class Stage {
         NotStarted,

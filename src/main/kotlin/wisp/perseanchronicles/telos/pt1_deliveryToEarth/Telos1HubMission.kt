@@ -43,7 +43,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
          *  Static state for this mission.
          */
         val state = State(PersistentMapData<String, Any?>(key = "telosPt1State").withDefault { null })
-        val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
+        val tags = setOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 
         /**
          * Add to bar event pool if we haven't started this one yet and we've completed Depths.
@@ -190,7 +190,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
     }
 
     override fun getIntelTags(map: SectorMapAPI?) =
-        (super.getIntelTags(map) + tags).toSet()
+        (super.getIntelTags(map) + tags)
 
     /**
      * Description on right side of intel.

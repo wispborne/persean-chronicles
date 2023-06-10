@@ -24,7 +24,7 @@ import java.awt.Color
 class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     companion object {
         const val MISSION_ID = "laborer"
-        val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
+        val tags = setOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 
         val state = State(PersistentMapData<String, Any?>(key = "laborerState").withDefault { null })
         val choices: Choices = Choices(PersistentMapData<String, Any?>(key = "laborerChoices").withDefault { null })
@@ -237,8 +237,7 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         }
     }
 
-    override fun getIntelTags(map: SectorMapAPI?) =
-        (super.getIntelTags(map) + tags).distinct().toSet()
+    override fun getIntelTags(map: SectorMapAPI?) = super.getIntelTags(map) + tags
 
     enum class Stage {
         NotStarted,

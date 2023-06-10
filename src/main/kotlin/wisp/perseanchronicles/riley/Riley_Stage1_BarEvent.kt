@@ -24,6 +24,7 @@ class Riley_Stage1_BarEvent : BarEventLogic<RileyHubMission>(
                 para { game.text["riley_stg1_pg1_para1"] }
                 para { game.text["riley_stg1_pg1_para2"] }
                 para { game.text["riley_stg1_pg1_para3"] }
+                dialog.visualPanel.showMapMarker(RileyHubMission.state.destinationPlanet, null, null, false, null, null, RileyHubMission.tags)
             },
             options = listOf(
                 IInteractionLogic.Option(

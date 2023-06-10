@@ -42,7 +42,7 @@ class Telos2HubMission : QGHubMission() {
             TelosCommon.readJson().query("/$MOD_ID/telos/part2_dart") as JSONObject
             private set
 
-        val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
+        val tags = setOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 
         val state = State(PersistentMapData<String, Any?>(key = "telosPt2State").withDefault { null })
         val choices = Choices(PersistentMapData<String, Any?>(key = "telosPt2Choices").withDefault { null })
@@ -264,7 +264,7 @@ class Telos2HubMission : QGHubMission() {
     }
 
     override fun getIntelTags(map: SectorMapAPI?) =
-        (super.getIntelTags(map) + tags).distinct().toSet()
+        (super.getIntelTags(map) + tags)
 
     /**
      * Quotes from Captain Eugel in battle. In chronological order.

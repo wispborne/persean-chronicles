@@ -27,7 +27,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     companion object {
         const val MISSION_ID = "depths"
         val state = State(PersistentMapData<String, Any?>(key = "depthsState").withDefault { null })
-        val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
+        val tags = setOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 
         private val DEPTHS_PLANET_TYPES = listOf(
             "terran",
@@ -295,7 +295,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     }
 
     override fun getIntelTags(map: SectorMapAPI?) =
-        (super.getIntelTags(map) + tags).distinct().toSet()
+        (super.getIntelTags(map) + tags)
 
     fun generateRewardLoot(entity: SectorEntityToken): CargoAPI? {
         when (riddleSuccessesCount) {

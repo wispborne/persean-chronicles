@@ -8,9 +8,7 @@ import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.CargoPods
 import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
-import org.magiclib.kotlin.addFleetMemberGainText
-import org.magiclib.kotlin.adjustReputationWithPlayer
-import org.magiclib.kotlin.prepareShipForRecovery
+import org.magiclib.kotlin.*
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -20,8 +18,6 @@ import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.getPageById
 import wisp.questgiver.v2.json.query
-import wisp.questgiver.wispLib.addAbilityGainText
-import wisp.questgiver.wispLib.addCommodityGainText
 import wisp.questgiver.wispLib.findFirst
 import kotlin.math.roundToInt
 

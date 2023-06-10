@@ -10,8 +10,6 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import org.magiclib.kotlin.addCreditsGainText
-import org.magiclib.kotlin.adjustReputationWithPlayer
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.questgiver.starSystemsAllowedForQuests
@@ -28,7 +26,7 @@ import kotlin.random.asKotlinRandom
 class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     companion object {
         const val MISSION_ID = "riley"
-        val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
+        val tags = setOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 
         const val BOUNTY_CREDITS = 20000
         const val TIME_LIMIT_DAYS = 30
@@ -299,8 +297,7 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
             }
     }
 
-    override fun getIntelTags(map: SectorMapAPI?) =
-        (super.getIntelTags(map) + tags).distinct().toSet()
+    override fun getIntelTags(map: SectorMapAPI?) = super.getIntelTags(map) + tags
 
     enum class Stage {
         NotStarted,

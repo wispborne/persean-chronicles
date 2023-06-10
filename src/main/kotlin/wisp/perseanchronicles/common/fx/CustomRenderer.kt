@@ -12,8 +12,8 @@ import org.lazywizard.lazylib.VectorUtils
 import org.lazywizard.lazylib.ext.plus
 import org.lwjgl.opengl.GL14.*
 import org.lwjgl.util.vector.Vector2f
+import org.magiclib.kotlin.interpolateColor
 import wisp.perseanchronicles.game
-import wisp.questgiver.wispLib.interpolateColor
 import wisp.questgiver.wispLib.modify
 import wisp.questgiver.wispLib.random
 import java.awt.Color

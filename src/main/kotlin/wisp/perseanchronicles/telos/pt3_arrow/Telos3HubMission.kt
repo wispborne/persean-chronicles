@@ -35,7 +35,7 @@ class Telos3HubMission : QGHubMission() {
             TelosCommon.readJson().query("/$MOD_ID/telos/part3_arrow") as JSONObject
             private set
 
-        val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
+        val tags = setOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 
         val state = State(PersistentMapData<String, Any?>(key = "telosPt3State").withDefault { null })
 
@@ -345,7 +345,7 @@ class Telos3HubMission : QGHubMission() {
     }
 
     override fun getIntelTags(map: SectorMapAPI?) =
-        (super.getIntelTags(map) + tags).distinct().toSet()
+        (super.getIntelTags(map) + tags)
 
     enum class Stage {
         GoToPlanet,

@@ -25,7 +25,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     companion object {
         const val MISSION_ID = "dragons"
         val state = State(PersistentMapData<String, Any?>(key = "dragonState").withDefault { null })
-        val tags = listOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
+        val tags = setOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 
         private const val minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet = 5
         private val DRAGON_PLANET_TYPES = listOf(
@@ -261,7 +261,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     }
 
     override fun getIntelTags(map: SectorMapAPI?): Set<String> {
-        return (super.getIntelTags(map) + tags).distinct().toSet()
+        return (super.getIntelTags(map) + tags)
     }
 
     enum class Stage {
