@@ -18,7 +18,7 @@ class Riley_Stage3_Dialog(
                 para { game.text["riley_stg3_pg1_para1"] }
                 para { game.text["riley_stg3_pg1_para2"] }
                 dialog.visualPanel.hideSecondPerson()
-                mission.setCurrentStage(RileyHubMission.Stage.LandingOnPlanet, dialog, null)
+                mission.setCurrentStage(RileyHubMission.Stage.LandingOnPlanet, null, null)
             },
             options = listOf(
                 IInteractionLogic.Option(

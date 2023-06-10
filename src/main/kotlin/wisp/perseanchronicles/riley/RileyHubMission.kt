@@ -10,6 +10,8 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import org.magiclib.kotlin.addCreditsGainText
+import org.magiclib.kotlin.adjustReputationWithPlayer
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.questgiver.starSystemsAllowedForQuests
@@ -67,7 +69,7 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         var refusedPayment by map
         var askedAboutDJingPay by map
         var visitedFather by map
-        var movedCloserToRiley by map
+        var complimentedRiley by map
         var heldRiley by map
         var askedIfLegal by map
         var askedWhatRileyThinks by map
@@ -163,7 +165,7 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         )
 
         // Sets the system as the map objective.
-        makeImportant(state.destinationPlanet, null, Stage.InitialTraveling)
+        makeImportant(state.destinationPlanet, null, Stage.InitialTraveling, Stage.TravellingToSystem, Stage.LandingOnPlanet)
         makePrimaryObjective(state.destinationPlanet)
     }
 
@@ -234,12 +236,6 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
      * Description on right side of intel.
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
-        info.addImage(
-            icon,
-            width,
-            128f,
-            Padding.DESCRIPTION_PANEL
-        )
         info.addPara(
             padding = Padding.DESCRIPTION_PANEL,
             textColor = textColorOrElseGrayIf { currentStage == Stage.Completed }) {
@@ -308,8 +304,22 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
     enum class Stage {
         NotStarted,
+
+        /**
+         * Player has accepted the quest and is traveling to the destination system.
+         * After 3 days, display [Riley_Stage2_Dialog].
+         */
         InitialTraveling,
+
+        /**
+         * [Riley_Stage2_Dialog] has been shown and player is still traveling to the destination system.
+         * [Riley_Stage3_Dialog] will be shown when player enters the destination system.
+         */
         TravellingToSystem,
+
+        /**
+         * [Riley_Stage3_Dialog] has been shown and player will next land on the destination planet.
+         */
         LandingOnPlanet,
         Completed,
         Abandoned,

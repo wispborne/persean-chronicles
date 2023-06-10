@@ -14,8 +14,8 @@ class Riley_EnteredDestinationSystemListener(val mission: RileyHubMission) : Bas
         to: JumpPointAPI.JumpDestination?
     ) {
         if (mission.currentStage.equalsAny(
-                RileyHubMission.Stage.TravellingToSystem,
-                RileyHubMission.Stage.InitialTraveling
+                RileyHubMission.Stage.InitialTraveling,
+                RileyHubMission.Stage.TravellingToSystem
             )
             && fleet == game.sector.playerFleet
             && to?.destination?.starSystem == RileyHubMission.state.destinationPlanet?.starSystem

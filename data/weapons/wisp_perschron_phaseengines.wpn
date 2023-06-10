@@ -15,7 +15,7 @@
 	"noNonShieldImpactSounds": false,
 	"noShieldImpactSounds": false,
 	"projectileSpecId": "",
-	"renderAboveAllWeapons": 0,
+	"renderAboveAllWeapons": false,
 	"size": "MEDIUM",
 	"specClass": "beam",
 	"textureType": ROUGH,

@@ -1,20 +1,28 @@
 package wisp.perseanchronicles.riley
 
 import com.fs.starfarer.api.Global
+import org.magiclib.kotlin.adjustReputationWithPlayer
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.wispLib.findFirst
+import com.fs.starfarer.api.util.Misc
+import org.magiclib.kotlin.addCreditsGainText
 
 class Riley_Stage4_Dialog(
     val mission: RileyHubMission = Global.getSector().intelManager.findFirst()!!
 ) : InteractionDialogLogic<Riley_Stage4_Dialog>(
-    onInteractionStarted = { },
+    onInteractionStarted = {
+        // Increase rep since you've been traveling together
+        Misc.adjustRep(PerseanChroniclesNPCs.riley, 0.2f, null)
+        // Manually handle rep changes from here on out
+        mission.setNoRepChanges()
+    },
     pages = listOf(
         IInteractionLogic.Page(
             id = 1,
-            people = listOf(PerseanChroniclesNPCs.riley),
+            people = { listOf(PerseanChroniclesNPCs.riley) },
             onPageShown = {
                 para { game.text["riley_stg4_pg1_para1"] }
                 para { game.text["riley_stg4_pg1_para2"] }
@@ -28,7 +36,12 @@ class Riley_Stage4_Dialog(
                         else
                             game.text["riley_stg4_pg1_opt1_ifPaid"]
                     },
-                    onOptionSelected = { navigator -> navigator.goToPage(2) }
+                    onOptionSelected = { navigator ->
+                        if (RileyHubMission.choices.refusedPayment != true) {
+                            dialog.textPanel.addCreditsGainText(mission.creditsReward)
+                            mission.setCreditReward(0)
+                        }
+                        navigator.goToPage(2) }
                 ),
                 IInteractionLogic.Option(
                     // Ask if DJing pays well
@@ -47,6 +60,7 @@ class Riley_Stage4_Dialog(
                     onOptionSelected = { navigator ->
                         RileyHubMission.choices.refusedPayment = true
                         mission.setCreditReward(0)
+                        dialog.textPanel.adjustReputationWithPlayer(PerseanChroniclesNPCs.riley, .20f)
                         para { game.text["riley_stg4_pg1_opt3_onSelected"] }
                         navigator.refreshOptions()
                     }
@@ -56,9 +70,10 @@ class Riley_Stage4_Dialog(
                     text = { game.text["riley_stg4_pg1_opt4"] },
                     onOptionSelected = { navigator ->
                         RileyHubMission.choices.visitedFather = false
-                        // TODO show this on success screen
                         mission.setCurrentStage(RileyHubMission.Stage.Completed, dialog, null)
-                        navigator.close(doNotOfferAgain = true)
+                        navigator.promptToContinue(game.text["leave"]) {
+                            navigator.close(doNotOfferAgain = true)
+                        }
                     }
                 )
             )
@@ -74,17 +89,20 @@ class Riley_Stage4_Dialog(
                 para { game.text["riley_stg4_pg2_para3"] }
             },
             options = listOf(
+                // "Riley chartered a flight here aboard my ship. I heard so much about you on the way; it's a pleasure to meet you."
                 IInteractionLogic.Option(
-                    // Cordial thanks
                     text = { game.text["riley_stg4_pg2_opt1"] },
-                    onOptionSelected = { navigator -> navigator.goToPage(3) }
+                    onOptionSelected = { navigator ->
+                        navigator.goToPage(3)
+                        RileyHubMission.choices.complimentedRiley = false
+                    }
                 ),
+                // "Riley and I have gotten to know each other on the long flight here. You've raised an incredible woman."
                 IInteractionLogic.Option(
-                    // Romance thanks
                     text = { game.text["riley_stg4_pg2_opt2"] },
                     onOptionSelected = { navigator ->
-                        RileyHubMission.choices.movedCloserToRiley = true
                         para { game.text["riley_stg4_pg2_opt2_onSelected"] }
+                        RileyHubMission.choices.complimentedRiley = true
                         navigator.goToPage(3)
                     }
                 )
@@ -106,7 +124,7 @@ class Riley_Stage4_Dialog(
                         para { game.text["riley_stg4_pg3_para4"] }
                         navigator.promptToContinue(game.text["continue"]) {
                             // His body relaxes, and he's gone.
-//                            dialog.visualPanel.showPer
+                            dialog.visualPanel.hideSecondPerson()
                             para { game.text["riley_stg4_pg3_para5"] }
                         }
                     }
@@ -114,19 +132,22 @@ class Riley_Stage4_Dialog(
             },
             options = listOf(
                 IInteractionLogic.Option(
-                    // Cordial comfort
+                    // Take a seat
                     text = { game.text["riley_stg4_pg3_opt1"] },
                     onOptionSelected = { navigator ->
                         para { game.text["riley_stg4_pg3_opt1_onSelected"] }
+                        RileyHubMission.choices.heldRiley = false
                         navigator.goToPage(4)
                     }
                 ),
                 IInteractionLogic.Option(
-                    // Hold her (needed for romance, but really this is a perfectly normal response)
+                    // Hold her (needed for romance because it shows that you're a normal human being capable of empathy)
+                    // Comfort her
                     text = { game.text["riley_stg4_pg3_opt2"] },
                     onOptionSelected = { navigator ->
                         RileyHubMission.choices.heldRiley = true
                         para { game.text["riley_stg4_pg3_opt2_onSelected"] }
+                        dialog.textPanel.adjustReputationWithPlayer(PerseanChroniclesNPCs.riley, .2f)
                         navigator.goToPage(4)
                     }
                 )
@@ -134,9 +155,9 @@ class Riley_Stage4_Dialog(
         ),
         IInteractionLogic.Page(
             id = 4,
-            people = { listOf(PerseanChroniclesNPCs.riley, PerseanChroniclesNPCs.riley_dad) },
             onPageShown = {
                 navigator.promptToContinue(game.text["continue"]) {
+                    dialog.visualPanel.showSecondPerson(PerseanChroniclesNPCs.riley_dad2)
                     // Without warning, you hear Church's voice from a corner of the room. It's coming from an AI Core, held aloft by hundreds of cables dangling from the ceiling.
                     para { game.text["riley_stg4_pg4_para1"] }
                     navigator.promptToContinue(game.text["continue"]) {
@@ -148,13 +169,17 @@ class Riley_Stage4_Dialog(
                 IInteractionLogic.Option(
                     // Ask if legal
                     showIf = { RileyHubMission.choices.askedIfLegal == null },
+                    // "Is this ...legal?"
                     text = { game.text["riley_stg4_pg4_opt1"] },
                     onOptionSelected = { navigator ->
                         RileyHubMission.choices.askedIfLegal = true
                         if (RileyHubMission.isFatherWorkingWithGovt) {
+                            // "Well, no," he replies. "Not under ${rileyDestPlanetControllingFaction} law.
                             para { game.text["riley_stg4_pg4_opt1_onSelected_ifIllegal_para1"] }
+                            // You recall that local laws grant a ==${rileyBountyCredits} reward== for turning in a mind upload.
                             para { game.text["riley_stg4_pg4_opt1_onSelected_ifIllegal_para2"] }
                         } else {
+                            // "Here?" he replies. "There's no law against it. My only intention is to continue my work; nothing more."
                             para { game.text["riley_stg4_pg4_opt1_onSelected_ifLegal"] }
                         }
                         navigator.refreshOptions()
@@ -163,9 +188,11 @@ class Riley_Stage4_Dialog(
                 IInteractionLogic.Option(
                     // Ask how Riley feels
                     showIf = { RileyHubMission.choices.askedWhatRileyThinks == null },
+                    // "Riley, what do you think?"
                     text = { game.text["riley_stg4_pg4_opt2"] },
                     onOptionSelected = { navigator ->
                         RileyHubMission.choices.askedWhatRileyThinks = true
+                        // "Dad, is that really you? How do you feel?"
                         para { game.text["riley_stg4_pg4_opt2_onSelected_para1"] }
                         para { game.text["riley_stg4_pg4_opt2_onSelected_para2"] }
 
@@ -181,6 +208,7 @@ class Riley_Stage4_Dialog(
                         RileyHubMission.choices.askedWhatRileyThinks == true
                                 && RileyHubMission.choices.triedToConvinceToJoinYou == null
                     },
+                    // "Are you sure? There's enough room for all of us on my ship. You can stay for as long as you want."
                     text = { game.text["riley_stg4_pg4_opt3"] },
                     onOptionSelected = { navigator ->
                         RileyHubMission.choices.triedToConvinceToJoinYou = true
@@ -193,14 +221,16 @@ class Riley_Stage4_Dialog(
                     showIf = {
                         RileyHubMission.choices.askedWhatRileyThinks == true
                     },
+                    // Say goodbye (leave)
                     text = { game.text["riley_stg4_pg4_opt4"] },
                     onOptionSelected = { navigator ->
                         RileyHubMission.choices.leftRileyWithFather = true
                         para { game.text["riley_stg4_pg4_opt4_onSelected_para1"] }
 
-                        if (RileyHubMission.choices.movedCloserToRiley == true
+                        if (RileyHubMission.choices.complimentedRiley == true
                             && RileyHubMission.choices.heldRiley == true
                         ) {
+                            // She catches your hand and pulls you in for a quick peck on the cheek, then a soft punch on the chest.
                             para { game.text["riley_stg4_pg4_opt4_onSelected_ifRomanced"] }
                         }
 
@@ -213,21 +243,24 @@ class Riley_Stage4_Dialog(
                     }
                 ),
                 IInteractionLogic.Option(
-                    // Destroy the Core
+                    // Draw your gun and destroy the Core
                     text = { game.text["riley_stg4_pg4_opt5"] },
                     onOptionSelected = { navigator ->
                         RileyHubMission.choices.destroyedTheCore = true
+                        // You advance on the Core and start firing at it.
                         para { game.text["riley_stg4_pg4_opt5_onSelected_para1"] }
                         para { game.text["riley_stg4_pg4_opt5_onSelected_para2"] }
+                        dialog.visualPanel.hideSecondPerson()
+                        // You blew up her fake dad
+                        dialog.textPanel.adjustReputationWithPlayer(PerseanChroniclesNPCs.riley, -10f)
+                        mission.setCurrentStage(RileyHubMission.Stage.Completed, dialog, null)
                         navigator.promptToContinue(game.text["leave"]) {
-                            // TODO show this on success screen
-                            mission.setCurrentStage(RileyHubMission.Stage.Completed, dialog, null)
                             navigator.close(doNotOfferAgain = true)
                         }
                     }
                 ),
                 IInteractionLogic.Option(
-                    // Turn in for a bounty
+                    // Turn the Core in for a ${rileyBountyCredits} bounty
                     showIf = {
                         RileyHubMission.choices.askedIfLegal == true
                                 && RileyHubMission.isFatherWorkingWithGovt
@@ -243,9 +276,19 @@ class Riley_Stage4_Dialog(
                             )
                         }
                         para { game.text["riley_stg4_pg4_opt6_onSelected_para2"] }
+                        dialog.visualPanel.hideSecondPerson()
+
+                        // You condemned her fake dad to god knows what
+                        dialog.textPanel.adjustReputationWithPlayer(PerseanChroniclesNPCs.riley, -10f)
+
+                        // Rep reward from the faction that controls the planet
+                        if (RileyHubMission.state.destinationPlanet?.market?.factionId != null) {
+                            dialog.textPanel.adjustReputationWithPlayer(RileyHubMission.state.destinationPlanet?.market?.factionId!!, .05f)
+                        }
+
+                        dialog.textPanel.addCreditsGainText(RileyHubMission.BOUNTY_CREDITS)
+                        mission.setCurrentStage(RileyHubMission.Stage.Completed, dialog, null)
                         navigator.promptToContinue(game.text["leave"]) {
-                            // TODO show this on success screen
-                            mission.setCurrentStage(RileyHubMission.Stage.Completed, dialog, null)
                             navigator.close(doNotOfferAgain = true)
                         }
                     }

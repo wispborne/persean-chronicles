@@ -21,11 +21,12 @@
     "wisp_perseanchronicles_riley": {
       "icon": "graphics/riley/riley.png",
       "portraitDad": "graphics/riley/church.png",
+      "portraitDad2": "graphics/riley/church2.png",
       "house": "graphics/riley/house1.png"
     },
     "wisp_perseanchronicles_nirvana": {
       "davidRengel": "graphics/portraits/portrait30.png",
-      "background": "graphics/nirvana/nirvanaStar.png"
+      "background": "graphics/nirvana/pulsar_MJ5.png"
     },
     "wisp_perseanchronicles_laborer": {
       "portrait": "graphics/portraits/portrait18.png"
