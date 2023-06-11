@@ -2,8 +2,8 @@ package wisp.perseanchronicles.dangerousGames.pt2_depths
 
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
-import wisp.questgiver.BarEventWiring
-import wisp.questgiver.QGBarEventCreator
+import wisp.questgiver.v2.BarEventWiring
+import wisp.questgiver.v2.QGBarEventCreator
 
 class DepthsBarEventWiring :
     BarEventWiring<DepthsHubMission>(missionId = DepthsHubMission.MISSION_ID, isPriority = false) {
@@ -11,7 +11,7 @@ class DepthsBarEventWiring :
     override fun createMission() = DepthsHubMission()
     override fun shouldBeAddedToBarEventPool(): Boolean {
         return DragonsHubMission.state.completeDateInMillis != null
-                && game.sector.clock.getElapsedDaysSince(DragonsHubMission.state.completeDateInMillis!!) >= 30
+                && (game.sector.clock.getElapsedDaysSince(DragonsHubMission.state.completeDateInMillis!!) >= 30 || game.settings.isDevMode)
                 && DepthsHubMission.state.completeDateInMillis == null
     }
 

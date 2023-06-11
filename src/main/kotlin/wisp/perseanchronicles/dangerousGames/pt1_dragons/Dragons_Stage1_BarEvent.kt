@@ -3,9 +3,10 @@ package wisp.perseanchronicles.dangerousGames.pt1_dragons
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
 import org.lwjgl.input.Keyboard
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
-import wisp.questgiver.BarEventWiring
-import wisp.questgiver.QGBarEventCreator
+import wisp.questgiver.v2.BarEventWiring
+import wisp.questgiver.v2.QGBarEventCreator
 import wisp.questgiver.v2.BarEventLogic
 import wisp.questgiver.v2.IInteractionLogic.*
 import wisp.questgiver.v2.spriteName
@@ -43,6 +44,7 @@ class Dragons_Stage1_BarEvent : BarEventLogic<DragonsHubMission>(
         ),
         Page(
             id = 2,
+            people = { listOf(PerseanChroniclesNPCs.karengo) },
             onPageShown = {
                 dialog.visualPanel.showMapMarker(
                     /* marker = */ DragonsHubMission.state.dragonSystem?.hyperspaceAnchor,

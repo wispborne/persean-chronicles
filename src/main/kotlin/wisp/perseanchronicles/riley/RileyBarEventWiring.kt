@@ -1,7 +1,7 @@
 package wisp.perseanchronicles.riley
 
-import wisp.questgiver.BarEventWiring
-import wisp.questgiver.QGBarEventCreator
+import wisp.questgiver.v2.BarEventWiring
+import wisp.questgiver.v2.QGBarEventCreator
 
 class RileyBarEventWiring :
     BarEventWiring<RileyHubMission>(missionId = RileyHubMission.MISSION_ID, isPriority = false) {
@@ -9,6 +9,7 @@ class RileyBarEventWiring :
     override fun createMission() = RileyHubMission()
     override fun shouldBeAddedToBarEventPool(): Boolean {
         return RileyHubMission.state.completeDateInMillis == null
+                && RileyHubMission.state.startDateMillis == null
     }
 
     override fun createBarEventCreator() = RileyBarEventCreator(this)

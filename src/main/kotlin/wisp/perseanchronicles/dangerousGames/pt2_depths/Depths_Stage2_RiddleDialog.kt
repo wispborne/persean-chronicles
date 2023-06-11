@@ -1,14 +1,15 @@
 package wisp.perseanchronicles.dangerousGames.pt2_depths
 
 import wisp.perseanchronicles.game
-import wisp.questgiver.InteractionDefinition
+import wisp.questgiver.v2.IInteractionLogic
+import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.wispLib.empty
 import wisp.questgiver.wispLib.findFirst
 
 class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManager.findFirst()!!) :
-    InteractionDefinition<Depths_Stage2_RiddleDialog>(
+    InteractionDialogLogic<Depths_Stage2_RiddleDialog>(
         pages = listOf(
-            Page(
+            IInteractionLogic.Page(
                 id = 1,
                 image = DepthsHubMission.intelIllustration,
                 onPageShown = {
@@ -31,11 +32,11 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_pg1_opt1"] },
                         onOptionSelected = { it.goToPage(2) }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_pg1_opt2"] },
                         onOptionSelected = {
                             para { game.text["dg_de_stg2_pg1_opt2_onSelected"] }
@@ -44,7 +45,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = 2,
                 onPageShown = {
                     para { game.text["dg_de_stg2_pg2_para1"] }
@@ -63,14 +64,14 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                         mission.startMusic()
                     }
                 },
-                options = listOf(Option(
+                options = listOf(IInteractionLogic.Option(
                     text = { game.text["dg_de_stg2_pg2_opt1"] },
                     onOptionSelected = {
                         it.goToPage(3)
                     }
                 ))
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = 3,
                 onPageShown = {
                     para { game.text["dg_de_stg2_pg3_para1"] }
@@ -85,53 +86,53 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_pg3_opt1"] },
                         onOptionSelected = { it.goToPage(4) }
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = 4,
                 onPageShown = {
                     para { game.text["dg_de_stg2_pg4_para1"] }
                     para { game.text["dg_de_stg2_pg4_para2"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_pg4_opt1"] },
                         onOptionSelected = { it.goToPage(PageId.ViewRiddle1) }
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.ViewRiddle1,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle1_para1"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle1_optEast"] },
                         onOptionSelected = {
                             mission.choices.riddle1Choice = RiddleChoice.Riddle1Choice.EastMorg
                             it.goToPage(PageId.Riddle1_East_Morg)
                         }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle1_optNorth"] },
                         onOptionSelected = {
                             mission.choices.riddle1Choice = RiddleChoice.Riddle1Choice.NorthSuccess
                             it.goToPage(PageId.Riddle1_North_Success)
                         }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle1_optSouth"] },
                         onOptionSelected = {
                             mission.choices.riddle1Choice = RiddleChoice.Riddle1Choice.SouthSmoke
                             it.goToPage(PageId.Riddle1_South_Smoke)
                         }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle1_optWest"] },
                         onOptionSelected = {
                             mission.choices.riddle1Choice = RiddleChoice.Riddle1Choice.WestWall
@@ -140,14 +141,14 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle1_East_Morg,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle1_east_para1"] }
                     para { game.text["dg_de_stg2_riddle1_east_para2"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle1_east_opt1"] },
                         onOptionSelected = {
                             para { game.text["dg_de_stg2_riddle1_east_opt1_onSelected"] }
@@ -156,14 +157,14 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle1_South_Smoke,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle1_south_para1"] }
                     para { game.text["dg_de_stg2_riddle1_south_para2"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle1_south_opt1"] },
                         onOptionSelected = {
                             para { game.text["dg_de_stg2_riddle1_south_opt1_onSelected"] }
@@ -172,7 +173,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle1_West_Wall,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle1_west_para1"] }
@@ -180,7 +181,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     para { game.text["dg_de_stg2_riddle1_west_para3"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle1_west_opt1"] },
                         onOptionSelected = {
                             para { game.text["dg_de_stg2_riddle1_west_opt1_onSelected"] }
@@ -189,14 +190,14 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle1_North_Success,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle1_north_para1"] }
                     para { game.text["dg_de_stg2_riddle1_north_para2"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle1_north_opt1"] },
                         onOptionSelected = {
                             it.goToPage(PageId.ViewRiddle2)
@@ -204,14 +205,14 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle1_Failed,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle1_failure_para1"] }
                     para { game.text["dg_de_stg2_riddle1_failure_para2"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle1_failure_opt1"] },
                         onOptionSelected = {
                             it.goToPage(PageId.ViewRiddle2)
@@ -219,27 +220,27 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.ViewRiddle2,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle2_para1"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle2_optEast"] },
                         onOptionSelected = {
                             mission.choices.riddle2Choice = RiddleChoice.Riddle2Choice.EastSuccess
                             it.goToPage(PageId.Riddle2_East_Success_SecondSuccess)
                         }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle2_optNorth"] },
                         onOptionSelected = {
                             mission.choices.riddle2Choice = RiddleChoice.Riddle2Choice.NorthVines
                             it.goToPage(PageId.Riddle2_North_Vines)
                         }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle2_optWest"] },
                         onOptionSelected = {
                             mission.choices.riddle2Choice = RiddleChoice.Riddle2Choice.WestWall
@@ -251,14 +252,14 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle2_North_Vines,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle2_north_para1"] }
                     para { game.text["dg_de_stg2_riddle2_north_para2"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle2_north_opt1"] },
                         onOptionSelected = {
                             para { game.text["dg_de_stg2_riddle2_north_opt1_onSelected"] }
@@ -267,7 +268,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle2_West_FirstWallCrash,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle2_west_1stWallCrash_para1"] }
@@ -275,7 +276,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     para { game.text["dg_de_stg2_riddle2_west_1stWallCrash_para3"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle2_west_1stWallCrash_opt1"] },
                         onOptionSelected = {
                             para { game.text["dg_de_stg2_riddle2_west_1stWallCrash_opt1_onSelected"] }
@@ -284,13 +285,13 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle2_West_SecondWallCrash,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle2_west_2ndWallCrash_para1"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle2_west_2ndWallCrash_opt1"] },
                         onOptionSelected = {
                             para { game.text["dg_de_stg2_riddle2_west_2ndWallCrash_opt1_onSelected"] }
@@ -299,7 +300,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle2_Failed,
                 onPageShown = {
                     if (mission.choices.riddle1Choice == RiddleChoice.Riddle1Choice.NorthSuccess) {
@@ -311,7 +312,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle2_failure_opt1"] },
                         onOptionSelected = {
                             it.goToPage(PageId.ViewRiddle3)
@@ -319,14 +320,14 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle2_East_Success_FirstSuccess,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle2_east_firstSuccess_para1"] }
                     para { game.text["dg_de_stg2_riddle2_east_firstSuccess_para2"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle2_east_firstSuccess_opt1"] },
                         onOptionSelected = {
                             it.goToPage(PageId.ViewRiddle3)
@@ -334,14 +335,14 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle2_East_Success_SecondSuccess,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle2_east_secondSuccess_para1"] }
                     para { game.text["dg_de_stg2_riddle2_east_secondSuccess_para2"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle2_east_secondSuccess_opt1"] },
                         onOptionSelected = {
                             it.goToPage(PageId.ViewRiddle3)
@@ -349,27 +350,27 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.ViewRiddle3,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle3_para1"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle3_optNorth"] },
                         onOptionSelected = {
                             mission.choices.riddle3Choice = RiddleChoice.Riddle3Choice.NorthKoijuu
                             it.goToPage(PageId.Riddle3_North_Koijuu)
                         }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle3_optEast"] },
                         onOptionSelected = {
                             mission.choices.riddle3Choice = RiddleChoice.Riddle3Choice.EastWall
                             it.goToPage(PageId.Riddle3_East_Wall)
                         }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle3_optSouth"] },
                         onOptionSelected = {
                             mission.choices.riddle3Choice = RiddleChoice.Riddle3Choice.SouthSuccess
@@ -378,7 +379,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle3_North_Koijuu,
                 onPageShown = {
                     para {
@@ -402,13 +403,13 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle3_north_quoijuu_opt1"] },
                         onOptionSelected = { it.goToPage(PageId.Riddle3_Failed) }
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle3_East_Wall,
                 onPageShown = {
                     para {
@@ -427,7 +428,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
 
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         showIf = { mission.wallCrashesCount == 1 }, // Only failed this wall
                         text = { game.text["dg_de_stg2_riddle3_east_wall_firstWallFail_opt1"] },
                         onOptionSelected = {
@@ -435,7 +436,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                             it.goToPage(PageId.Riddle3_Failed)
                         }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         showIf = { mission.wallCrashesCount == 2 }, // Only failed this wall and one other
                         text = { game.text["dg_de_stg2_riddle3_east_wall_secondWallFail_opt1"] },
                         onOptionSelected = {
@@ -443,7 +444,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                             it.goToPage(PageId.Riddle3_Failed)
                         }
                     ),
-                    Option(
+                    IInteractionLogic.Option(
                         showIf = { mission.wallCrashesCount == 3 }, // Failed all three.
                         text = { game.text["dg_de_stg2_riddle3_east_wall_thirdWallFail_opt1"] },
                         onOptionSelected = {
@@ -452,7 +453,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle3_Failed,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle3_failure_para1"] }
@@ -462,7 +463,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
 
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle3_failure_opt1"] },
                         onOptionSelected = {
                             it.goToPage(PageId.ViewTreasure)
@@ -470,7 +471,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.Riddle3_South_Success,
                 onPageShown = {
                     para { game.text["dg_de_stg2_riddle3_south_success_para1"] }
@@ -480,7 +481,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
 
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_riddle3_south_success_opt1"] },
                         onOptionSelected = {
                             it.goToPage(PageId.ViewTreasure)
@@ -488,7 +489,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.ViewTreasure,
                 onPageShown = {
                     para { game.text["dg_de_stg2_viewTreasure_para1"] }
@@ -519,7 +520,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_viewTreasure_opt1"] },
                         onOptionSelected = {
                             it.goToPage(PageId.BackAtTheSurface)
@@ -527,7 +528,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.BackAtTheSurface,
                 onPageShown = {
                     para { game.text["dg_de_stg2_backAtSurface_para1"] }
@@ -541,20 +542,20 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                     para { game.text["dg_de_stg2_backAtSurface_para3"] }
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         text = { game.text["dg_de_stg2_backAtSurface_opt1"] },
                         onOptionSelected = { it.goToPage(PageId.BackInSpace) }
                     )
                 )
             ),
-            Page(
+            IInteractionLogic.Page(
                 id = PageId.BackInSpace,
                 onPageShown = {
                     para { game.text["dg_de_stg2_inSpace_para1"] }
                     mission.setCurrentStage(DepthsHubMission.Stage.ReturnToStart, dialog, null)
                 },
                 options = listOf(
-                    Option(
+                    IInteractionLogic.Option(
                         // Leave
                         text = { game.text["dg_de_stg2_inSpace_opt1"] },
                         onOptionSelected = {
@@ -577,7 +578,6 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
             )
         )
     ) {
-    override fun createInstanceOfSelf() = Depths_Stage2_RiddleDialog()
 
     enum class PageId {
         ViewRiddle1,

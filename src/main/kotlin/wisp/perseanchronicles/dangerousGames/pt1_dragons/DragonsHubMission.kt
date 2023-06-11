@@ -40,7 +40,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         val dragonPlanetImage =
             IInteractionLogic.Illustration("wisp_perseanchronicles_dragonriders", "planetIllustration")
 
-        // Gilead is a paradise world, one of the only planets where it makes sense for dragons to live.
+        // Gilead is a paradise world, one of the few planets where it makes sense for dragons to live.
         val gilead: PlanetAPI?
             get() = game.sector.getStarSystem("canaan")?.planets?.firstOrNull { it.id == "gilead" }
     }
@@ -70,7 +70,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
                 (if (gilead != null)
                     market.starSystem.distanceFrom(gilead!!.starSystem) > minimumDistanceFromPlayerInLightYearsToPlaceDragonPlanet
                 else true)
-                && market.size > 3
+                && market.size >= 3
 //                && state.dragonPlanet != null
     }
 

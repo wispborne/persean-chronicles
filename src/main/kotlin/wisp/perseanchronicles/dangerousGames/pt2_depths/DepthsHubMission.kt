@@ -14,10 +14,11 @@ import com.fs.starfarer.api.util.WeightedRandomPicker
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
-import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.spriteName
 import wisp.questgiver.starSystemsAllowedForQuests
+import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
+import wisp.questgiver.v2.spriteName
 import wisp.questgiver.wispLib.*
 import java.awt.Color
 import java.util.*
@@ -38,12 +39,12 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
             "US_continent" // Unknown Skies
         )
 
-        val icon = InteractionDefinition.Portrait(category = "wisp_perseanchronicles_depths", id = "icon")
+        val icon = IInteractionLogic.Portrait(category = "wisp_perseanchronicles_depths", id = "icon")
         val diveIllustration =
-            InteractionDefinition.Illustration(category = "wisp_perseanchronicles_depths", id = "diveIllustration")
-        val subIllustration = InteractionDefinition.Illustration(category = "wisp_perseanchronicles_depths", id = "sub")
+            IInteractionLogic.Illustration(category = "wisp_perseanchronicles_depths", id = "diveIllustration")
+        val subIllustration = IInteractionLogic.Illustration(category = "wisp_perseanchronicles_depths", id = "sub")
         val intelIllustration =
-            InteractionDefinition.Illustration(category = "wisp_perseanchronicles_depths", id = "intelIllustration")
+            IInteractionLogic.Illustration(category = "wisp_perseanchronicles_depths", id = "intelIllustration")
 
         var rewardCredits: Int = 100000 // Set by HubMission
         const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5
@@ -103,15 +104,15 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
         return DepthsBarEventWiring().shouldBeAddedToBarEventPool()
                 && market.factionId.lowercase() !in listOf("luddic_church", "luddic_path")
-                && market.starSystem != null // No prism freeport
-                && market.size > 4
+                && market.starSystem != null // No hyperspace markets.
+                && market.size >= 5 // Karengo is big-time now.
     }
 
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {
         super.create(createdAt, barEvent)
         state.seed = genRandom
 
-        state.depthsPlanet = findAndTagDepthsPlanet(createdAt?.starSystem) ?:  return false
+        state.depthsPlanet = findAndTagDepthsPlanet(createdAt?.starSystem) ?: return false
         val planet = state.depthsPlanet
         game.logger.i { "Set Depths quest destination to ${planet?.fullName} in ${planet?.starSystem?.baseName}" }
 

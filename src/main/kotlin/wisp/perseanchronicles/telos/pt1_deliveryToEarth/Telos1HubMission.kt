@@ -1,12 +1,12 @@
 package wisp.perseanchronicles.telos.pt1_deliveryToEarth
 
-import com.fs.starfarer.api.GameState
 import com.fs.starfarer.api.campaign.InteractionDialogAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.impl.campaign.ids.Conditions
+import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
 import com.fs.starfarer.api.ui.SectorMapAPI
@@ -16,7 +16,6 @@ import org.json.JSONObject
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
-import wisp.perseanchronicles.dangerousGames.pt2_depths.DepthsHubMission
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.InteractionDefinition
@@ -44,12 +43,6 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
          */
         val state = State(PersistentMapData<String, Any?>(key = "telosPt1State").withDefault { null })
         val tags = setOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
-
-        /**
-         * Add to bar event pool if we haven't started this one yet and we've completed Depths.
-         */
-        fun shouldAddToBarEventPool() = state.startDateMillis == null &&
-                (DepthsHubMission.state.completeDateInMillis != null)
     }
 
     /**
@@ -72,10 +65,13 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
 
     /**
      * Show if we haven't started this one yet.
-     * Show at any market, for now at least.
+     * Show at markets that are independent, size 5+, and not hyperspace.
      */
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
         return state.startDateMillis == null
+                && market?.starSystem != null // No hyperspace markets >.<
+                && market.factionId in listOf(Factions.INDEPENDENT)
+                && market.size >= 5
     }
 
     override fun onGameLoad() {

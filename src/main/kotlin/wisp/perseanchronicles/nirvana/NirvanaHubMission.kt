@@ -53,7 +53,7 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
     }
 
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
-        return state.startDateMillis == null
+        return NirvanaBarEventWiring().shouldBeAddedToBarEventPool()
                 && market != null
                 && market.factionId.lowercase() in listOf(Factions.INDEPENDENT.lowercase())
                 && market.starSystem != null // No prism freeport

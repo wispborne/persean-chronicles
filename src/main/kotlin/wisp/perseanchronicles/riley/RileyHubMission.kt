@@ -102,9 +102,8 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
         return market.size > 5 // Lives on a populous world
                 && market.starSystem != null // No hyperspace markets >.<
-                && market.factionId.lowercase() !in listOf(Factions.LUDDIC_CHURCH, Factions.LUDDIC_PATH, Factions.PIRATES)
+                && market.factionId !in listOf(Factions.LUDDIC_CHURCH, Factions.LUDDIC_PATH, Factions.PIRATES)
                 && market.connectedEntities.none { it?.id == state.destinationPlanet?.id }
-//                && state.destinationPlanet != null
                 && RileyBarEventWiring().shouldBeAddedToBarEventPool()
     }
 
@@ -193,6 +192,7 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
             interactionTarget.hasSameMarketAs(state.destinationPlanet)
                     && currentStage.equalsAny(
                 Stage.InitialTraveling,
+                Stage.TravellingToSystem,
                 Stage.LandingOnPlanet
             ) -> {
                 PluginPick(

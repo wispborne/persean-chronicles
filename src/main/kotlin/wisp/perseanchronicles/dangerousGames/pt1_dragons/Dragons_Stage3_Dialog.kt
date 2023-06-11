@@ -15,6 +15,7 @@ class Dragons_Stage3_Dialog(val dragons: DragonsHubMission = Global.getSector().
         pages = listOf(
             IInteractionLogic.Page(
                 id = 1,
+                people = { listOf(PerseanChroniclesNPCs.karengo) },
                 onPageShown = {
                     para {
                         if (dialog.interactionTarget.faction.isHostileTo(Factions.PLAYER)) {
@@ -102,6 +103,5 @@ class Dragons_Stage3_Dialog(val dragons: DragonsHubMission = Global.getSector().
                     )
                 )
             )
-        ),
-        people = { listOf(PerseanChroniclesNPCs.karengo) }
+        )
     )

@@ -138,5 +138,5 @@ class Dragons_Stage2_Dialog(val dragons: DragonsHubMission = Global.getSector().
         TakeOff
     }
 
-    private fun isPlanetColonized() = DragonsHubMission.state.dragonPlanet?.market?.size ?: 0 > 0
+    private fun isPlanetColonized() = (DragonsHubMission.state.dragonPlanet?.market?.size ?: 0) > 0
 }

@@ -78,6 +78,7 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
                 && market.starSystem != null // No hyperspace markets
                 && market.size > 2
                 && market.hasIndustry(Industries.MINING)
+                && LaborerBarEventWiring().shouldBeAddedToBarEventPool()
     }
 
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {
@@ -105,7 +106,7 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
         game.logger.i { "Laborer start location set to ${state.startLocation?.name} in ${state.startLocation?.starSystem?.baseName}" }
 
-        startingStage = Stage.NotStarted
+        startingStage = Stage.GoToPlanet
         setSuccessStage(Stage.Completed)
         setAbandonStage(Stage.Abandoned)
 
@@ -194,12 +195,6 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
      * Description on right side of intel.
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
-        info.addImage(
-            icon,
-            width,
-            128f,
-            Padding.DESCRIPTION_PANEL
-        )
         val textColor = textColorOrElseGrayIf {
             currentStage == Stage.Completed
         }

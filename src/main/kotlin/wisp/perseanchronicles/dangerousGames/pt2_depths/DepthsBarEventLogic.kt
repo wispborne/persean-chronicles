@@ -6,6 +6,7 @@ import wisp.perseanchronicles.game
 import wisp.questgiver.spriteName
 import wisp.questgiver.v2.BarEventLogic
 import wisp.questgiver.v2.IInteractionLogic
+import wisp.questgiver.v2.spriteName
 
 class DepthsBarEventLogic : BarEventLogic<DepthsHubMission>(
     createInteractionPrompt = {
