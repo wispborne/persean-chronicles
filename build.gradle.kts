@@ -11,7 +11,7 @@ val props = Properties().apply {
 }
 
 val starsectorDirectory = props.getProperty("gamePath") //"C:/Program Files (x86)/Fractal Softworks/Starsector"
-val modVersion = "3.0.1"
+val modVersion = "3.0.2"
 val jarFileName = "PerseanChronicles.jar"
 val questgiverVersion = "4.0.0"
 

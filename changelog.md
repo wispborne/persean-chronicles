@@ -1,5 +1,9 @@
 ## Changelog
 
+Version 3.0.2
+Fixed
+    - Crash after Riley dialog that shows after 2 days (thanks to AERO).
+
 Version 3.0.1
 Fixed
     - Fixed missing Karengo portrait in Dragons bar event.
