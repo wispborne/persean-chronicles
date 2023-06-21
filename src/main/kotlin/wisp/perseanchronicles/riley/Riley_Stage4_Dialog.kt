@@ -243,6 +243,7 @@ class Riley_Stage4_Dialog(
                     }
                 ),
                 IInteractionLogic.Option(
+                    // TODO sierra reaction?
                     // Draw your gun and destroy the Core
                     text = { game.text["riley_stg4_pg4_opt5"] },
                     onOptionSelected = { navigator ->

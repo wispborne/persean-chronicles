@@ -1,12 +1,12 @@
 # Persean Chronicles
 
-By Wispborne (Wisp#0302 on Discord)
+By Wispborne (@wispborne on Discord)
 
 ## Description
 
 Persean Chronicles is a mod for the game Starsector that adds a collection of one-off quests to bars around the Persean Sector.
 
-Requires LazyLib 2.5b or later.
+Requires LazyLib 2.8 or later.
 
 - Riley: A woman books a ride with your fleet to visit family.
 - Dragons: A expedition takes you up close and personal with some wildlife.

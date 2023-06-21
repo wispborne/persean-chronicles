@@ -140,7 +140,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         game.logger.i { "Abandoning ${this.name} quest." }
 
         state.map.clear()
-        setCurrentStage(null, null, null)
+        setCurrentStage(Stage.NotStarted, null, null)
     }
 
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {

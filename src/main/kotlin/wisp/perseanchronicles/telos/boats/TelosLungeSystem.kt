@@ -9,11 +9,15 @@ import com.fs.starfarer.api.impl.combat.BaseShipSystemScript
 import com.fs.starfarer.api.impl.combat.PhaseCloakStats
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript
 import wisp.perseanchronicles.game
+import wisp.questgiver.wispLib.Easing
 
 class TelosPhaseDashSystem : BaseShipSystemScript() {
-    private var previousTimestamp: Float? = null
-    private var timeSinceStart = 0f
-    var applied = false
+    companion object {
+        /**
+         * Elapsed time when the system was activated. Key is the id.
+         */
+        val dashStartTracker = mutableMapOf<String, Float>()
+    }
 
     override fun apply(
         stats: MutableShipStatsAPI,
@@ -41,13 +45,11 @@ class TelosPhaseDashSystem : BaseShipSystemScript() {
                 module.useSystem()
             }
 
-        if (state == ShipSystemStatsScript.State.IN) {
-            previousTimestamp = combatEngine.getTotalElapsedTime(false)
+        if (dashStartTracker[id] == null) {
+            dashStartTracker[id] = combatEngine.getTotalElapsedTime(false)
         }
 
-        // Calculate the time since the system was activated.
-        timeSinceStart += (combatEngine.getTotalElapsedTime(false) - previousTimestamp!!)
-        previousTimestamp = combatEngine.getTotalElapsedTime(false)
+        val timeElapsed = combatEngine.getTotalElapsedTime(false) - dashStartTracker[id]!!
 
         if (state == ShipSystemStatsScript.State.IN) {
             // Set deco weapon color (the fog) to the palette's initial phase color.
@@ -57,9 +59,8 @@ class TelosPhaseDashSystem : BaseShipSystemScript() {
                 .filterIsInstance<TelosEngineEffects>()
                 .forEach { it.baseNebulaColorOverride = palette.phaseInitial }
 
-            TelosPhaseDashModifier.apply(stats, id, state, effectLevel)
+            TelosPhaseDashModifier.apply(stats, id, state, effectLevel, timeElapsed)
         }
-
 
         if (state == ShipSystemStatsScript.State.ACTIVE) {
             stats.maxSpeed.unmodifyFlat(id)
@@ -71,11 +72,11 @@ class TelosPhaseDashSystem : BaseShipSystemScript() {
                 .filterIsInstance<TelosEngineEffects>()
                 .forEach { it.baseNebulaColorOverride = palette.phaseMain }
 
-            TelosPhaseDashModifier.apply(stats, id, state, effectLevel)
+            TelosPhaseDashModifier.apply(stats, id, state, effectLevel, timeElapsed)
         }
 
         if (state == ShipSystemStatsScript.State.OUT) {
-            TelosPhaseDashModifier.apply(stats, id, state, effectLevel)
+            TelosPhaseDashModifier.apply(stats, id, state, effectLevel, timeElapsed)
 
             // Unset phase engine color
             ship.allWeapons
@@ -87,39 +88,46 @@ class TelosPhaseDashSystem : BaseShipSystemScript() {
     }
 
     override fun unapply(stats: MutableShipStatsAPI, id: String) {
+        dashStartTracker.remove(id)
         TelosPhaseDashModifier.unapply(stats, id)
     }
 }
 
 internal object TelosPhaseDashModifier {
-    val speedBoost = 1000f
+    val initialSpeedBoost = 200f
 
     fun apply(
         stats: MutableShipStatsAPI,
         id: String,
         state: ShipSystemStatsScript.State,
-        effectLevel: Float
+        effectLevel: Float,
+        timeElapsed: Float
     ) {
         val ship = stats.entity as? ShipAPI ?: return
         val isPlayer = ship === Global.getCombatEngine().playerShip
 
-        if (state == ShipSystemStatsScript.State.IN) {
-            stats.maxSpeed.modifyFlat(id, speedBoost)
-            stats.acceleration.modifyFlat(id, speedBoost)
-        }
+        val currentSpeedBoost = initialSpeedBoost - Easing.Quadratic.easeOut(
+            time = timeElapsed,
+            valueAtStart = 0f,
+            valueAtEnd = initialSpeedBoost,
+            duration = (ship.system.specAPI.`in` + ship.system.specAPI.active)
+        )
+        stats.maxSpeed.modifyFlat(id, currentSpeedBoost)
+        stats.acceleration.modifyFlat(id, currentSpeedBoost)
+        stats.deceleration.modifyFlat(id, currentSpeedBoost)
 
         // Modified vanilla phase code (PhaseCloakStats)
-        val speedPercentMod = stats.dynamic.getMod(Stats.PHASE_CLOAK_SPEED_MOD).computeEffective(0f)
-        val accelPercentMod = stats.dynamic.getMod(Stats.PHASE_CLOAK_ACCEL_MOD).computeEffective(0f)
-        stats.maxSpeed.modifyPercent(id, speedPercentMod * effectLevel)
-        stats.acceleration.modifyPercent(id, accelPercentMod * effectLevel)
-        stats.deceleration.modifyPercent(id, accelPercentMod * effectLevel)
-
-        val speedMultMod = stats.dynamic.getMod(Stats.PHASE_CLOAK_SPEED_MOD).getMult()
-        val accelMultMod = stats.dynamic.getMod(Stats.PHASE_CLOAK_ACCEL_MOD).getMult()
-        stats.maxSpeed.modifyMult(id, speedMultMod * effectLevel)
-        stats.acceleration.modifyMult(id, accelMultMod * effectLevel)
-        stats.deceleration.modifyMult(id, accelMultMod * effectLevel)
+//        val speedPercentMod = stats.dynamic.getMod(Stats.PHASE_CLOAK_SPEED_MOD).computeEffective(0f)
+//        val accelPercentMod = stats.dynamic.getMod(Stats.PHASE_CLOAK_ACCEL_MOD).computeEffective(0f)
+//        stats.maxSpeed.modifyPercent(id, speedPercentMod * effectLevel)
+//        stats.acceleration.modifyPercent(id, accelPercentMod * effectLevel)
+//        stats.deceleration.modifyPercent(id, accelPercentMod * effectLevel)
+//
+//        val speedMultMod = stats.dynamic.getMod(Stats.PHASE_CLOAK_SPEED_MOD).getMult()
+//        val accelMultMod = stats.dynamic.getMod(Stats.PHASE_CLOAK_ACCEL_MOD).getMult()
+//        stats.maxSpeed.modifyMult(id, speedMultMod * effectLevel)
+//        stats.acceleration.modifyMult(id, accelMultMod * effectLevel)
+//        stats.deceleration.modifyMult(id, accelMultMod * effectLevel)
 
         val levelForAlpha = effectLevel
 

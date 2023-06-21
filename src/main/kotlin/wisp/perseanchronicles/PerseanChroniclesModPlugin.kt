@@ -25,6 +25,7 @@ import wisp.perseanchronicles.telos.pt3_arrow.MenriSystemCreator
 import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
 import wisp.questgiver.Configuration
 import wisp.questgiver.Questgiver
+import wisp.questgiver.wispLib.lastName
 import wisp.questgiver.wispLib.toStringList
 import wisp.questgiver.wispLib.tryGet
 import java.util.*
@@ -135,6 +136,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
             }
         }
         game.text.globalReplacementGetters["playerFlagshipName"] = { game.sector.playerFleet.flagship?.shipName }
+        game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
     }
 
     /**
