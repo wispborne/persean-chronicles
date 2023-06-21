@@ -1,24 +1,48 @@
 {
+  "plugins": {
+    "wisp_perseanchronicles_customrenderer": "wisp.perseanchronicles.common.fx.CombatCustomRenderer"
+  },
+  "ruleCommandPackages": [
+    "wisp.perseanchronicles.telos.pt1_deliveryToEarth"
+  ],
   "graphics": {
-    "wispStories_dragonriders": {
+    "wisp_perseanchronicles_dragonriders": {
+      "karengo": "graphics/dragons/portrait_karengo.png",
       "icon": "graphics/dragons/wispStories_dragon.png",
-      "planetIllustration": "graphics/dragons/dragonPlanet.png",
+      "planetIllustration": "graphics/dragons/dragonPlanet_mj5.png",
       "intelPicture": "graphics/illustrations/fly_away.jpg"
     },
-    "wispStories_depths": {
+    "wisp_perseanchronicles_depths": {
       "icon": "graphics/depths/kelp.png",
       "diveIllustration": "graphics/depths/diveIllustration.png",
-      "intelIllustration": "graphics/depths/intelIllustration.png"
+      "intelIllustration": "graphics/depths/intelIllustration.png",
+      "sub": "graphics/depths/sub_mj5.png"
     },
-    "wispStories_riley": {
-      "icon": "graphics/riley/riley.png"
+    "wisp_perseanchronicles_riley": {
+      "icon": "graphics/riley/riley.png",
+      "portraitDad": "graphics/riley/church.png",
+      "portraitDad2": "graphics/riley/church2.png",
+      "house": "graphics/riley/house1.png"
     },
     "wisp_perseanchronicles_nirvana": {
       "davidRengel": "graphics/portraits/portrait30.png",
-      "background": "graphics/nirvana/nirvanaStar.png"
+      "background": "graphics/nirvana/pulsar_MJ5.png"
     },
     "wisp_perseanchronicles_laborer": {
       "portrait": "graphics/portraits/portrait18.png"
-    }
+    },
+    "wisp_perseanchronicles_telos": {
+      "nocturneBlackout": "graphics/telos/nocturneBlackout.png",
+      "television": "graphics/telos/television.png",
+      "chapel": "graphics/telos/chapel.png",
+      "menri_ring": "graphics/telos/terrain/menri_dust.png",
+      "sleepers": "graphics/telos/sleepers.png",
+      "choices": "graphics/telos/choices.png",
+      "intel": "graphics/telos/telos_intel.png",
+    },
+  },
+
+  "designTypeColors": {
+    "Telos": [ 94,178,255,255 ],
   }
 }

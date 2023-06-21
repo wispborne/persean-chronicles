@@ -1,43 +1,51 @@
-## `#mod_updates` template
-
-**Persean Chronicles 2.0.2**
-Adds a small collection of one-off text-only quests to bars around the Persean Sector.
-Safe to add to saves and safe to update on the same save (save-compatible)
-```text
-Fixed
-    - Broken dialog if Nexerelin has the Freeport in hyperspace.
-    - Added quests to the Accepted intel tag.
-```
-
-download: https://github.com/davidwhitman/stories/releases/download/2.0.2-rc1/Persean-Chronicles-2.0.2-rc1.zip
-src: https://github.com/davidwhitman/stories
-forum: https://fractalsoftworks.com/forum/index.php?topic=19830
-license: CC BY-NC-SA 4.0
-
-------------
-
 ## Changelog
 
-```text
-2.0.2 (2021-04-04)
+Version 3.0.2
+Fixed
+    - Crash after Riley dialog that shows after 2 days (thanks to AERO).
+
+Version 3.0.1
+Fixed
+    - Fixed missing Karengo portrait in Dragons bar event.
+    - Typo in Riley quest (thanks to ruddygreat).
+    - Possible softlock in bar event (if you decided not to accept a quest, then relanded).
+    - Was not showing player name if player didn't have a last name.
+Changed
+    - Vara (frigate) system now has a linear speed falloff, rather than two stages of speed. 
+
+Version 3.0.0 (2023-06-11)
+Added
+    - Phase 1 of 3 of the new Telos (rhymes with Vell-os...) questline, which starts a month after finishing the first two Karengo quests.
+        - Adds a unique new ship.
+        - New music (turn up the sound!)
+        - More Karengo.
+
+Changed
+    - Improvements in the five existing quests.
+        - New art (mostly AI-gen).
+        - Many various dialog improvements and fixes (some thanks to the Endless Sky adaptation).
+        - A hidden ending is now slightly less hidden.
+        - Old bugs fixed, new bugs added.
+
+Version 2.0.2 (2021-04-04)
 Fixed
     - Broken dialog if Nexerelin has the Freeport in hyperspace.
     - Added quests to the Accepted intel tag.
 
-2.0.1 (2021-03-28)
+Version 2.0.1 (2021-03-28)
 Fixed
     - Crash in the bar when the Nirvana quest was offered (`sys.star must not be null`).
-    
-2.0.0 (2021-03-27)
+
+Version 2.0.0 (2021-03-27)
 Changed
     - 0.95a compatibility.
     - No other changes from 1.0.4
-    
-1.0.4 (2021-03-17)
+
+Version 1.0.4 (2021-03-17)
 Fixed
     - Don't kick player out of Depths if the music fails to play.
 
-1.0.3 (2021-03-08)
+Version 1.0.3 (2021-03-08)
 Added
     - Config file to disable quests from being offered (located at ./perseanChroniclesSettings.json).
 Changed
@@ -46,10 +54,10 @@ Changed
 Fixed
     - Crash on some computers when playing the music for Depths.
 
-1.0.2
+Version 1.0.2
     - Yanked due to issues and rolled into 1.0.3
 
-1.0.1 (2020-02-26)
+Version 1.0.1 (2020-02-26)
 Added 
     - More robust blacklisting and whitelisting. (see https://starsector.fandom.com/wiki/Category:Modding#Persean_Chronicles)
 Changed
@@ -57,6 +65,5 @@ Changed
 Fixed
     - Quests should no longer be offered from blacklisted locations. 
 
-1.0.0 (2020-02-20)
+Version 1.0.0 (2020-02-20)
 - Initial release
-```

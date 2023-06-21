@@ -158,3 +158,6 @@ starfarer-api-1.0-sources.jar
 .idea/
 !GitHub-Actions-Starsector.zip
 .idea_bak/
+
+*.disabled-by-SMOL
+local.properties

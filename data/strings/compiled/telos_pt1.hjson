@@ -1,0 +1,162 @@
+{
+  "wisp_perseanchronicles" : {
+    "telos" : {
+      "part1_deliveryToEarth" : {
+        "strings" : {
+          "title" : "Delivery to Earth"
+        },
+        "stages" : {
+          "deliveryToEarth" : {
+            "barEvent" : {
+              "prompt" : "A local job notification, \"Delivery to Earth\", chimes softly on your TriPad.",
+              "optionText" : "==Delivery to Earth=="
+            },
+            "intel" : {
+              "subtitle" : "Drop off near ==${telosPt1Stg1DestSystem}==",
+              "desc" : "Take the container of drones to the designated location in the direction of old Earth, near ${telosPt1Stg1DestSystem}."
+            },
+            "pages" : [ {
+              "id" : "1",
+              "image" : null,
+              "paras" : [ "After a brief wait, a woman answers, dressed in the ubiquitous grease-marked weave of a shop engineer. A breast patch reads 'Nirvana Stellar Engineering'." ],
+              "freetext1-worked-with-nirvana" : [ "\"Ah,\" she says, glancing up from her TriPad. \"You've done work for us before.\" It's not phrased as a question, but you nod all the same." ],
+              "freetext2-nirvanaquest-in-progress" : [ "\"Actually it looks like \" - she glances down again - \"...the contract is still open. But that's not what I'm here about today. Let's talk business." ],
+              "freetext2-nirvanaquest-in-progress-over-1-cycle" : [ "\"Actually it looks like the contract is still open. And has been for,\" she blows some air out of her mouth, \"quite a while.\"", "\"But that's not what I'm here about, although I know my colleagues would appreciate that delivery. Let's talk about today's business." ],
+              "onPageShown" : {
+                "goToPage" : "1.1"
+              }
+            }, {
+              "id" : "1.1",
+              "paras" : [ "\"We have a container of ASPIRARDs that need to be dropped off near the ==edge of the Sector==.\" she explains, \"They’ll make their way toward old Earth, sending data back the whole way. You will be paid ==${telosCredits}== upon dropoff confirmation.\"" ],
+              "options" : [ {
+                "id" : "ASPIRARDs?",
+                "text" : "\"ASPIRARDs?\"",
+                "goToPage" : "2"
+              }, {
+                "id" : "accept",
+                "text" : "Accept",
+                "goToPage" : "3"
+              }, {
+                "id" : "decline",
+                "text" : "Not now",
+                "shortcut" : "Escape"
+              } ]
+            }, {
+              "id" : "2",
+              "paras" : [ "She releases a tired sigh. \"Sorry - that’s Autonomous Self-Propelled Interstellar Research and …something… Drones. Reconnaissance, maybe. Our boss came up with it, and-\" she cuts herself off. \"Do you think you can make this dropoff?\"" ],
+              "options" : [ {
+                "id" : "accept",
+                "text" : "Accept",
+                "goToPage" : "3"
+              }, {
+                "id" : "decline",
+                "text" : "Not now",
+                "shortcut" : "Escape"
+              } ]
+            }, {
+              "id" : "3",
+              "paras" : [ "\"Excellent!\" she taps her TriPad and, a moment later, you forward the pickup information to your crew. \"Once you’re in place, release the containers into hyperspace and they’ll do the rest.\"" ],
+              "options" : [ {
+                "id" : "done",
+                "text" : "Done"
+              } ]
+            } ]
+          },
+          "deliveryDropoff" : {
+            "intel" : {
+              "desc" : "The drones have been loosed and are making the long, long journey to Sol."
+            },
+            "pages" : [ {
+              "id" : "1.1",
+              "paras" : [ "Your navigation officer waves a hand to get your attention. \"Captain, we’re in the right area for dropoff of the,\" they glance at their screen, \"uh, ASPIRARDs. I’ll have the cargo guys push it outside.\"", "The container drifts away from the hull, then splits apart with a simulated ‘whoosh’. Sensors detect a coded hyperwave burst and, moments later, ==${telosCredits}== appears in your account.", "Scores of drones rush out and stream in what must be the direction of old Earth. Details on the project were scarce. How long will they take to reach their destination? What are they expecting to find? Why send drones looking now?" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "1"
+              } ]
+            }, {
+              "id" : "1",
+              "paras" : [ "Your reverie is broken by a deferent cough. \"Captain?\" asks your comms chief. \"I know how we feel about distress signals…but you've worked with a 'Mr. Karengo' before, right?" ],
+              "options" : [ {
+                "text" : "\"Yes...\"",
+                "goToPage" : "2"
+              }, {
+                "text" : "Sigh, but nod",
+                "goToPage" : "2"
+              }, {
+                "text" : "\"No\" (lie)",
+                "goToPage" : "1.5-lie"
+              } ]
+            }, {
+              "id" : "1.5-lie",
+              "paras" : [ "The officer's eyebrow twitches, but their face remains composed." ],
+              "onPageShown" : {
+                "goToPage" : "2"
+              }
+            }, {
+              "id" : "2",
+              "paras" : [ "They continue, \"We’ve got a ping from a nearby system. Playing the audio now.\"", "The bridge echoes with Karengo’s booming voice, confident despite his words.", "\"Spacers, this is Karengo of Karengo's Galactic Adventures offering a quick and easy cleanup job. Go on an’ send the boys in orbit around ==${telosPt1Stg1DestPlanet}== in ==${telosPt1Stg1DestSystem}== home, and we’ll talk recompense - see, I’ve found something hidden here, and I’m willing to share. Just take care of the unfriendly folks in my sky and we’ll have a talk worth all the trouble.\"" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "3"
+              } ]
+            }, {
+              "id" : "3",
+              "paras" : [ "The Intel holodisplay shimmers, displaying the location of a $f:pirates{pirate} fleet." ],
+              "options" : [ {
+                "id" : "close",
+                "text" : "Close"
+              } ]
+            } ]
+          },
+          "pirateComms" : {
+            "pages" : [ {
+              "id" : "0",
+              "paras" : [ "Before the holo even stabilizes, the pirate captain has spit out a warning. \"I don’t know who you are or why you’re here, but you don't want to be involved in this. Turn around, now, or we will open fire.\"" ],
+              "options" : [ {
+                "text" : "Try to talk the pirate down.",
+                "goToPage" : "1"
+              }, {
+                "id" : "closeComms",
+                "text" : "Cut the comm link"
+              } ]
+            }, {
+              "id" : "1",
+              "paras" : [ "Every ship has its oddballs, and one of yours is a junior officer who, despite good-natured grumbling from the rest of the bridge, insists on playing self-improvement recordings \"because a good crew is self-edifying.\"", "The latest recording they’ve commandeered the intercom for has been a selection of chapters on the Art of Negotiation. With a meaningful glance at the junior, you press Transmit.", "\"How can I simply turn around? A man needs our help.\"", "The pirate’s face freezes as they confront the unexpected question. \"You have a point. I, uh...\" They seem to be struggling to regain their bravado. “But that’s for you to figure out! I didn't mutiny this ship just to solve your problems!” Their video feed clicks off." ],
+              "options" : [ {
+                "text" : "Continue negotiating.",
+                "goToPage" : "2"
+              }, {
+                "id" : "closeComms",
+                "text" : "Cut the comm link"
+              } ]
+            }, {
+              "id" : "2",
+              "paras" : [ "You persist. \"How can I do that, though, with your fleet blocking my way?\"", "Their video clicks back on, the man’s face creased in consternation." ],
+              "options" : [ {
+                "text" : "Wait",
+                "goToPage" : "3"
+              } ]
+            }, {
+              "id" : "3",
+              "paras" : [ "At last, their eyes light up and land on something off-screen. \"Jeff! Jeff’s your man, he does this all the time. Jeff, sit here.\" Jeff’s face appears nervously on the display. \"Jeff’s the nav guy, he can walk you through the maneuver.\"" ],
+              "options" : [ {
+                "text" : "Continue ",
+                "goToPage" : "4"
+              } ]
+            }, {
+              "id" : "4",
+              "paras" : [ "You mute your holo’s audio to prevent the pirate and his pilot, Jeff, from overhearing the sound of laughter on deck as the pirate fleet executes a u-turn, narrating the techniques and coordination involved in this bog-standard maneuver.", "The opportunity presented as the fleet powers down its weapons ‘for safety, of course’ and turns its engines toward your ships’ hardpoints is clear. Your tactical officer watches you expectantly, waiting for the signal." ],
+              "options" : [ {
+                "id" : "startPirateBattleWithAdvantage",
+                "text" : "Engage the unprepared pirates"
+              }, {
+                "id" : "closeComms",
+                "text" : "Cut the comm link"
+              } ]
+            } ]
+          }
+        }
+      }
+    }
+  }
+}

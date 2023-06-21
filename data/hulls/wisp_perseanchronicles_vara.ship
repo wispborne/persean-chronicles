@@ -1,0 +1,170 @@
+{
+  "hullName": "Vara",
+  "hullId": "wisp_perseanchronicles_vara",
+  "hullSize": "FRIGATE",
+  "spriteName": "graphics/telos/ships/telos_vara.png",
+  "style": "PERSEAN_CHRONICLES_TELOS",
+  "height": 86,
+  "width": 74,
+  "center": [37, 45.5],
+  "collisionRadius": 56,
+  "shieldCenter": [0, -0],
+  "shieldRadius": 51,
+  "viewOffset": 0,
+  "builtInWeapons": {
+    "INNER_GLOW": "wisp_perseanchronicles_vara_innerglow",
+    "OUTER_GLOW": "wisp_perseanchronicles_vara_outerglow",
+    "TELOS_ENGINES": "wisp_perseanchronicles_telosengines"
+  },
+  "builtInMods": [ "wisp_perseanchronicles_catv" ],
+  "weaponSlots": [
+    {
+      "id": "OUTER_GLOW",
+      "size": "LARGE",
+      "type": "DECORATIVE",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-25, -0.5]
+    },
+    {
+      "id": "INNER_GLOW",
+      "size": "LARGE",
+      "type": "DECORATIVE",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-25, 0.5]
+    },
+    {
+      "id": "TELOS_ENGINES",
+      "size": "LARGE",
+      "type": "DECORATIVE",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-7, -0]
+    },
+    {
+      "id": "WS0001",
+      "size": "MEDIUM",
+      "type": "ENERGY",
+      "mount": "TURRET",
+      "arc": 32,
+      "angle": 0,
+      "locations": [21.5, 23]
+    },
+    {
+      "id": "WS0002",
+      "size": "MEDIUM",
+      "type": "ENERGY",
+      "mount": "TURRET",
+      "arc": 32,
+      "angle": -0,
+      "locations": [21.5, -23]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-9, 0]
+    },
+    {
+      "id": "WS0006",
+      "size": "MEDIUM",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [15.5, 28.5]
+    },
+    {
+      "id": "WS0007",
+      "size": "MEDIUM",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -0,
+      "locations": [15.5, -28.5]
+    },
+    {
+      "id": "WS0005",
+      "size": "MEDIUM",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -2.5,
+      "locations": [30, 22.5]
+    },
+    {
+      "id": "WS0008",
+      "size": "MEDIUM",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 2.5,
+      "locations": [30, -22.5]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-24, 20]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-24, -20]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-4, -24]
+    },
+    {
+      "id": "WS0012",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-4, 24]
+    }
+  ],
+  "engineSlots": [],
+  "bounds": [
+    -12, 4.5,
+    -38, 16,
+    -32.5, 29,
+    -9.5, 31,
+    5, 36,
+    18, 36,
+    34.5, 30.5,
+    39.5, 20.5,
+    30, 8.5,
+    30, -8.5,
+    39.5, -20.5,
+    34.5, -30.5,
+    18, -36,
+    5, -36,
+    -9.5, -31,
+    -32.5, -29,
+    -38, -16,
+    -12, -4.5,
+    -14.5, -0
+  ]
+}

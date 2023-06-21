@@ -1,0 +1,40 @@
+{
+  "id": "perseanchronicles_phasedash",
+  "type":"PHASE_CLOAK",
+  "aiType":"PHASE_CLOAK",
+  #"aiScript":"data.scripts.shipsystems.ai",
+
+  "statsScript": "wisp.perseanchronicles.telos.boats.TelosPhaseDashSystem",
+  "runScriptWhilePaused":true, # only for the player's ship
+
+  "canNotCauseOverload":true,
+  "phaseHighlight":"_glow1",
+  "phaseDiffuse":"_glow2",
+
+  "effectColor1": [ 255,175,255,255 ],
+  "effectColor2": [ 255,0,255,150 ],
+
+  "engineGlowLengthMult": 1,
+  "engineGlowWidthMult": 1,
+  "engineGlowGlowMult": 1,
+
+  "flameoutOnImpactChance": 0,
+
+  "clampTurnRateAfter": false,
+  "clampMaxSpeedAfter": false,
+
+  "soundFilterType":"LOWPASS",
+  "soundFilterGain":0.8,
+  "soundFilterGainHF":0.25,
+
+  "useSound": "system_phase_cloak_activate",
+  "deactivateSound":"system_phase_cloak_deactivate",
+  "outOfUsesSound":"system_phase_cloak_collision",
+  #"loopSound": "system_maneuvering_jets_loop",
+
+  "aiHints": {
+    "activeSpeedIncrease": 200,
+    "burstMovementPotential": 200,
+    "averageSpeedIncrease": 200,
+  }
+}

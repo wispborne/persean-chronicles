@@ -1,0 +1,39 @@
+wisp_perseanchronicles:
+  telos:
+    intel_lore:
+      intel:
+        title: 'Telos Ether'
+        subtitle: 'Query the Ether-Net'
+        desc: 'Telos ships have integrated sub-sentient AI to assist their crew.'
+      pages:
+        - id: 'home'
+          paras: '$cv:pc_telos{welcome  how may i be of assistance}'
+          options:
+            - text: 'Ask about the history of the Telos'
+              goToPage: 'telos-history'
+
+        - id: 'telos-history'
+          paras:
+            - 'The timeline flashes through the surface of your thoughts as images laden with context.'
+            - '$cv:pc_telos{the telos were formed in c+85 by a scientist named krypta}'
+            - '$cv:pc_telos{her research lab created the nanite solution/ether before defecting from the tri-tachyon over their use of ai warships}'
+            - '$cv:pc_telos{the 163 telos formed a base on a remote system/planet yerpa to live quietly and focus on the exploration/connections of self/others through ether}'
+          options:
+            - text: "Continue"
+              goToPage: 'telos-history-2'
+        - id: 'text-history-2'
+          paras:
+            - '$cv:pc_telos{as the ai war broke out the decision was formed to expand to menri/secondary planet/system}'
+            - '$cv:pc_telos{a small number/30 telos settled/created it in c+91}'
+            - '$cv:pc_telos{at the same time  the settlement on yerpa was moved underground and the tri-tachyon ships remade for combat/survival}'
+            - '$cv:pc_telos{a knight of ludd/eugel brought a hegemony attack fleet to menri in c+105  the base was destroyed}'
+          options:
+            - text: 'Ask what happened to the Telos'
+              goToPage: 'text-history-2'
+            - text: "(ask something else)"
+              goToPage: 'home'
+        - id: 'text-history-2'
+          paras:
+            - '$cv:pc_telos{apologies  the database has no information on the current telos network}'
+          onPageShown:
+            goToPage: 'home'

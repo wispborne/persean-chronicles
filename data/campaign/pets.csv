@@ -1,0 +1,6 @@
+id,name,value,maxlife,tags,foodCommodities,rarity,foodPerMonth,desc,natural_death,icon,hullmod
+
+perschron_babyDragon,Gilead Drake,100000,3650,c_reptile,"IndEvo_pet_food, food, organs",0.1,4,"A hatchling dragon from Gilead. Though they are mostly true to old Earth mythology, their scales turn from silver to a light-bending translucence as they age, making them near invisible when fully grown. Ownership is considered highly unethical, as after around a year of rapid growth they become too dangerous to be kept aboard a ship and must be released - often out the airlock.","was dropped out a cargo bay after eating its favorite handler.",graphics/icons/misc/pet_icon.png,IndEvo_petHullmod
+
+# For reference
+# lizard,Thermochromic Lizard,22000,1095,c_reptile,"IndEvo_pet_food, food, organs",1,1,"A cute creature that spends most of its time on the hot surfaces of the engine room, changing color depending on the temperature. Some mechanics seem to trust these lizards more than the ship's monitoring systems. They are considered extremely friendly and easy to keep, owing mostly to the fact that they are too lazy to move when approached. They can apparently survive in active plasma chambers.",moved to a warmer spot in the engine fuel conduit.,graphics/icons/misc/pet_icon.png,IndEvo_petHullmod

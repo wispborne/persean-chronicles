@@ -1,0 +1,221 @@
+wisp_perseanchronicles:
+  telos:
+    part2_dart:
+      stages:
+        landOnPlanetSecondEther:
+          intel:
+            subtitle: 'Return to the planet'
+            desc: 'Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}==
+              in ==${telosPt1Stg1DestSystem}== to investigate the underground hanger with Karengo.'
+          pages:
+            - id: '1'
+              paras:
+                - "$cv:pc_player{<you can feel it too can’t you?>}"
+                - 'you send to Karengo, and he sends the mental map of the base by way
+                  of assent.'
+                - "$cv:pc_player{<and a ship deep below>}"
+                - 'The sensation of the ship grows as the shuttle speeds toward the base,
+                  landing legs extending until it settles again into the soil, just meters
+                  from the entrance to the Telos base.'
+                - "$cv:pc_player{<it is [waiting/eager] to fly; let us descend>}"
+              options:
+                - text: 'Six hours earlier...'
+                  goToPage: '2-previously'
+
+            - id: '2-previously'
+              paras:
+                - 'The chief medical officer’s clinical summary of your test
+                  results was cut short by an astonished “sir!” as Karengo stuck the syringe of
+                  Ether into his leg, depressed the plunger, and then sprawled onto a
+                  couch, grinning like a madman.'
+                - 'By the time orderlies arrived with a gurney, he was snoring, 
+                  and by the time they rolled him into the med
+                  bay, he was stirring again, his consciousness a wavering pressure on
+                  your head like a reactor flickering online.'
+              options:
+                - text: 'Intuition took over'
+                  goToPage: '3-end-flashback'
+
+            - id: '3-end-flashback'
+              paras:
+                - 'A wave of lethargy washed against the shore of your mind, and you reached
+                  out.'
+                - "$cv:pc_player{<karengo can you [hear/feel/sense] this?>}"
+                - 'The response came as a medley of emotion: shock, confusion, comprehension,
+              awe, curiosity, and finally'
+                - "$cv:pc_karengo{<yes>}"
+              options:
+                - text: 'Focus on the present'
+                  goToPage: '4-trapdoor'
+
+            - id: '4-trapdoor'
+              paras:
+                - 'The walk down the trapdoor steps feels like a dream coalescing into
+                  reality. At the bottom of the stairs [will be/is] a door to the communications
+                  room overlooking the hanger, empty but for the lonely [frigate/Vara]. No words
+                  are exchanged anymore - emotions and thoughts flow between you like
+                  the mixing of currents. Karengo focuses on a recording in the awakened
+                  comms data and pushes it to you.'
+                - "$cv:pc_karengo{<it's the hegemony [invasion] of this base; let's [relive/join] it>}"
+              options:
+                - text: 'Continue'
+                  goToPage: '5-battle'
+
+            - id: '5-battle'
+              paras:
+                - 'As you focus on the Telos machine, the base''s ==final stand== against the Hegemony comes alive within your mind.'
+              options:
+                - id: 'startBattle'
+                  text: "$cv:pc_player{<relive battle>}"
+
+            - id: '6-finished-battle'
+              non-cheater:
+                - 'With a start, you come back to yourself. The dreamlike memory of tearing metal, venting air, and dying Telos begins to drain away.'
+              options:
+                - text: 'Continue'
+                  goToPage: '6-finished-battle-2'
+
+            - id: '6-finished-battle-2'
+              paras:
+                - 'Karengo is already moving out of the comms room and to the hanger below.'
+              options:
+                - text: 'Ask about the Hegemony Commander'
+                  goToPage: '6-ask'
+                - text: 'Continue'
+                  goToPage: '7-vara'
+
+            - id: '6-ask'
+              paras:
+                - "$cv:pc_player{<who was [captain eugel/the leader of the hegemony fleet] he was taking enjoyment
+              from the [slaughter/destruction]>?} you ask."
+                - "$cv:pc_karengo{<there were lots of [crazies/zealots] in the first ai war now let us see this ship>}"
+              ludd-friendly: 'You linger for a moment, thinking. You know the Church of Ludd well, 
+              and recall an old firebrand named Eugel. Could it be the same man?'
+              ludd-friendly2: 'You shake your head and follow Karengo to the hanger.'
+              options:
+                - text: 'Continue'
+                  goToPage: '7-vara'
+
+            - id: '7-vara'
+              paras:
+                - 'The small craft - the ==Vara== - awakens at a mental touch. A ramp unfolds from its belly
+                  and you stare up from the first step, taking in the design.'
+                - 'Its shell seems to be crafted entirely from a translucent blue material, broad and sweeping,
+                  carving a hull unlike any you’ve seen in the sector. The shell coats athe ship''s standard high-tech interior like armor plating.'
+                - 'There are no visible engines and you reason that the semi-opaque plating may - somehow - serve the same purpose.'
+              options:
+                - text: 'Continue'
+                  goToPage: '8-vara-inside'
+
+            - id: '8-vara-inside'
+              paras:
+                - 'With Karengo in the lead, you step over the threshold. Hidden lighting
+                  softly illuminates a polished corridor leading into the depths.'
+              options:
+                - text: 'Explore the ship'
+                  goToPage: '8-explore'
+                - text: 'Head straight for the bridge'
+                  goToPage: '9-bridge'
+
+            - id: '8-explore'
+              paras:
+                - 'You split your exploration efforts between the mental and physical.'
+                - 'A brief scan of the specs reveals that the original, pre-Collapse Tri-Tachyon design
+                  integrated a full beta-level AI. The subsequent Telos overhaul replaced
+                  it with a non-sentient core and telepathic integration, resulting
+                  in a ship requiring no physical interaction and without any of the risk
+                  of sentience.'
+                - 'The mess and standard activity rooms are small, with the rest of the
+                  Vara given to high-tech crew compartments. Any one of them
+                  would meet the cool approval of a Tri-Tachyon aristocrat.'
+              options:
+                - text: 'Continue'
+                  goToPage: '8-explore2'
+
+            - id: '8-explore2'
+              paras:
+                - 'The Ether integration, however, is easily the craft’s most advanced
+                  feature. Focusing your mind, you can not only access every onboard system,
+                  but you can feel the tread of Karengo’s boots stomping into the dining area
+                  as he searches for long-store food.'
+              options:
+                - text: 'Head for the bridge'
+                  goToPage: '9-bridge'
+
+            - id: '9-bridge'
+              paras:
+                - 'The bridge has been partially converted to a sort of lounge, with a
+                  comfortable-looking couch - which you sit on - and pillows take up
+                  most of the space. Only a small area resembles a traditional bridge,
+                  containing recognizable, if basic, emergency manual controls.'
+              options:
+                - text: 'Check on Karengo'
+                  goToPage: '9-check-karengo'
+                - text: 'Query the system for more information on the Telos'
+                  goToPage: '10-query-history'
+
+            - id: '9-check-karengo'
+              paras:
+                - 'You turn your mind toward Karengo just as he sends a thought.'
+              shipSense1-female: '$cv:pc_karengo{<how do i turn off this ship [sense/feeling]? i can feel you sitting on the
+              couch not that i mind but it’s distracting>}'
+              shipSense1-notFemale: '$cv:pc_karengo{<how do i turn off this ship [sense/feeling]? i can feel you sitting 
+              on that couch and i’d rather not>}'
+              shipSense2: 'The ship shows you how to limit the integration and you can’t
+                help but wonder what it would have felt like to be aboard at the height
+                of the Telos, surrounded by the shared sensations and thoughts of a full crew.'
+              onPageShown:
+                goToPage: '10-query-or-leave'
+
+            - id: '10-query-or-leave'
+              options:
+                - id: 'check-karengo'
+                  text: 'Check on Karengo'
+                  goToPage: '9-check-karengo'
+                - id: 'query-system'
+                  text: 'Query the system for more information on the Telos'
+                  goToPage: '10-query-history'
+                - id: 'return-fleet'
+                  text: 'Return to your fleet'
+                  goToPage: '11-return-orbit'
+
+            - id: '10-query-history'
+              paras:
+                - 'The timeline flashes through the surface of your thoughts as images laden with context.'
+                - '$cv:pc_computer{<the telos were formed in c+85 by a scientist named krypta>}'
+                - '$cv:pc_computer{<her research lab created the nanite solution/ether before defecting from the tri-tachyon over their use of ai warships>}'
+                - '$cv:pc_computer{<the 163 telos formed a base on a remote system/planet yerpa to live quietly and focus on the exploration/connections of [self/others] through ether>}'
+              options:
+                - text: "Continue"
+                  goToPage: '10-query-history-2'
+
+            - id: '10-query-history-2'
+              paras:
+                - '$cv:pc_computer{<when the ai war broke out, they expanded to [menri/secondary planet/system]>}'
+                - '$cv:pc_computer{<30 telos settled/created it in c+91>}'
+                - '$cv:pc_computer{<at the same time, the settlement on yerpa was moved underground and their tri-tachyon ships remade for [combat/survival]>}'
+                - '$cv:pc_computer{<a knight of ludd/eugel brought a hegemony attack fleet to menri in c+105; the base was destroyed>}'
+                - ''
+                - '$cv:pc_computer{<primary base/yerpa; status unknown>}'
+              onPageShown:
+                goToPage: '10-query-or-leave'
+
+            - id: '11-return-orbit'
+              paras:
+                - 'Still enveloped by the couch, you dive into the ship’s systems and raise
+                  it into the air. The handling is intuitive, like an extension of your own body, and you revolve
+                  in place to face the hanger doors as they grind open. The tunnel to
+                  the surface is blocked in many places, but the onboard weapons easily
+                  bore a way through.'
+                - '$cv:pc_karengo{<the ship shows the primary telos planet - this was only a secondary. we should go there next>}'
+                - '$cv:pc_karengo{<the telos shipyard [was/may be] there and perhaps survivors>}'
+              options:
+                - text: 'Continue'
+                  goToPage: '12-leave'
+
+            - id: '12-leave'
+              paras:
+                - 'You receive a hyperspace coordinate and add it to your intel suite.'
+              options:
+                - id: 'leave'
+                  text: 'Leave'

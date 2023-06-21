@@ -1,0 +1,236 @@
+{
+  "hullName": "Itesh",
+  "hullId": "wisp_perseanchronicles_itesh",
+  "hullSize": "DESTROYER",
+  "spriteName": "graphics/telos/ships/telos_itesh.png",
+  "style": "PERSEAN_CHRONICLES_TELOS",
+  "height": 176,
+  "width": 154,
+  "center": [77.5, 92.5],
+  "collisionRadius": 103.5,
+  "shieldCenter": [0.5, -1],
+  "shieldRadius": 99.5,
+  "viewOffset": 0,
+  "builtInWeapons": {
+    "INNER_GLOW": "wisp_perseanchronicles_itesh_innerglow",
+    "OUTER_GLOW": "wisp_perseanchronicles_itesh_outerglow",
+    "TELOS_ENGINES": "wisp_perseanchronicles_telosengines"
+  },
+  "builtInMods": [ "wisp_perseanchronicles_catv" ],
+  "weaponSlots": [
+    {
+      "id": "OUTER_GLOW",
+      "size": "LARGE",
+      "type": "DECORATIVE",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-47.5, 0]
+    },
+    {
+      "id": "INNER_GLOW",
+      "size": "LARGE",
+      "type": "DECORATIVE",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-47.5, -0]
+    },
+    {
+      "id": "TELOS_ENGINES",
+      "size": "LARGE",
+      "type": "DECORATIVE",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-17.5, -0]
+    },
+    {
+      "id": "WS0001",
+      "size": "MEDIUM",
+      "type": "ENERGY",
+      "mount": "TURRET",
+      "arc": 32,
+      "angle": 0,
+      "locations": [30, 41]
+    },
+    {
+      "id": "WS0002",
+      "size": "MEDIUM",
+      "type": "ENERGY",
+      "mount": "TURRET",
+      "arc": 32,
+      "angle": -0,
+      "locations": [30, -41]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "TURRET",
+      "arc": 241,
+      "angle": 90,
+      "locations": [-18.5, 35]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "TURRET",
+      "arc": 241,
+      "angle": -90,
+      "locations": [-18.5, -35]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [9, -0]
+    },
+    {
+      "id": "WS0006",
+      "size": "MEDIUM",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [64.5, 31]
+    },
+    {
+      "id": "WS0007",
+      "size": "MEDIUM",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -0,
+      "locations": [64.5, -31]
+    },
+    {
+      "id": "WS0005",
+      "size": "MEDIUM",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -2.5,
+      "locations": [38.5, 65.5]
+    },
+    {
+      "id": "WS0008",
+      "size": "MEDIUM",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 2.5,
+      "locations": [38.5, -65.5]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-38, 37]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-38, -37]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -0,
+      "locations": [11.5, -52]
+    },
+    {
+      "id": "WS0012",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [11.5, 52]
+    },
+    {
+      "id": "WS0013",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -2.5,
+      "locations": [49.5, 54]
+    },
+    {
+      "id": "WS0014",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 2.5,
+      "locations": [49.5, -54]
+    },
+    {
+      "id": "WS0015",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [56.5, 32]
+    },
+    {
+      "id": "WS0016",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [56.5, -32]
+    },
+    {
+      "id": "WS0019",
+      "size": "LARGE",
+      "type": "STATION_MODULE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [0, 0]
+    }
+  ],
+  "engineSlots": [],
+  "bounds": [
+    -34, 14,
+    -66.5, 22,
+    -78.5, 33.5,
+    -71, 40,
+    -61, 39,
+    32.5, 74,
+    46.5, 74.5,
+    81.5, 36,
+    75.5, 20,
+    45.5, 20,
+    72, 1,
+    45.5, -20,
+    75.5, -20,
+    81.5, -36,
+    46.5, -74.5,
+    32.5, -74,
+    -61, -39,
+    -71, -40,
+    -78.5, -33.5,
+    -66.5, -22,
+    -34, -14,
+    -89, 0.5
+  ]
+}

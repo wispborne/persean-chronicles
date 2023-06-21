@@ -1,0 +1,513 @@
+{
+  "wisp_perseanchronicles" : {
+    "telos" : {
+      "part3_arrow" : {
+        "strings" : {
+          "title" : "Telos: Guarded World",
+          "iteshName" : "Arrow"
+        },
+        "stages" : {
+          "goToPlanet" : {
+            "intel" : {
+              "subtitle" : "Go to ${telosPt3RuinsSystem}",
+              "desc" : "Investigate the Telos's primary settlement on ==${telosPt3RuinsPlanet}== in ==${telosPt3RuinsSystem}== for working ships, supplies, or even sleepers."
+            },
+            "pages" : [ {
+              "id" : "4-choices",
+              "options" : [ {
+                "text" : "Investigate the laboratories",
+                "goToPage" : "4-labs"
+              }, {
+                "text" : "Search for survivors",
+                "goToPage" : "4-survivors"
+              }, {
+                "text" : "Look through the common areas",
+                "goToPage" : "4-common-areas"
+              }, {
+                "id" : "search-storage",
+                "text" : "Search the storage areas",
+                "goToPage" : "4-storage"
+              }, {
+                "id" : "return-to-orbit",
+                "text" : "Come back later",
+                "tooltip" : "You may return to your fleet and continue exploring another time."
+              }, {
+                "text" : "Head for the hanger",
+                "goToPage" : "5-shipyard-choice"
+              } ]
+            }, {
+              "id" : "4-labs",
+              "paras" : [ "There are two laboratories in the southern arm of the tunnel system. The instruments inside of one are smashed and broken as a result of sabotage, but you recognize enough to tell that this is where the unique drive system and uncommonly powerful shielding was developed. It is little wonder that they chose to destroy this lab rather than let it fall into the hands of their enemies." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "4-labs-2"
+              } ]
+            }, {
+              "id" : "4-labs-2",
+              "paras" : [ "The other lab is in disarray from the orbital bombardment as the rest of the base, but otherwise appears intact. Centrifuges and different types of fabricators dot the room while snakelike arms hang from the ceiling." ],
+              "vials" : "A single undamaged row of vials full of ==Ether== glisten neatly.",
+              "options" : [ {
+                "id" : "take-ether",
+                "text" : "Take the vials of Ether",
+                "goToPage" : "4-labs-take-ether"
+              }, {
+                "id" : "destroy-ether",
+                "text" : "Destroy the vials of Ether",
+                "goToPage" : "4-labs-destroy-ether"
+              }, {
+                "id" : "ignore-ether",
+                "text" : "Leave the lab",
+                "goToPage" : "4-choices"
+              } ]
+            }, {
+              "id" : "4-labs-take-ether",
+              "paras" : [ "You slip the swirling gray tubes into a pocket. It's always better to have something and not need it than the other way around." ],
+              "options" : [ {
+                "text" : "Leave the lab",
+                "goToPage" : "4-choices"
+              } ]
+            }, {
+              "id" : "4-labs-destroy-ether",
+              "paras" : [ "You push the rack of tubes off of the polished stone table. They slip from the holder and tumble in midair before shattering. The thick, grey liquid spreads slowly into a pool on the floor.", "$cv:pc_karengo<you just destroyed the remaining ether> Karengo's anger flares in your head. $cv:pc_karengo<i could have sold that>" ],
+              "options" : [ {
+                "text" : "$cv:pc_player{the sector could not handle this technology  nanites are too dangerous}",
+                "goToPage" : "4-labs-destroy-ether-leave"
+              }, {
+                "text" : "$cv:pc_player{then you would deal in the craft of demons}",
+                "goToPage" : "4-labs-destroy-ether-leave"
+              }, {
+                "text" : "$cv:pc_player{oops}",
+                "goToPage" : "4-labs-destroy-ether-leave"
+              }, {
+                "text" : "Say nothing",
+                "goToPage" : "4-labs-destroy-ether-leave"
+              } ]
+            }, {
+              "id" : "4-labs-destroy-ether-leave",
+              "paras" : [ "The anger emanating from Karengo cuts off like a bulkhead closing.", "$cv:pc_karengo{it is fine. there is still much here to see}" ],
+              "options" : [ {
+                "text" : "Leave the lab",
+                "goToPage" : "4-choices"
+              } ]
+            }, {
+              "id" : "4-survivors",
+              "paras" : [ "$cv:pc_player{computer} you query the base's system. $cv:pc_player{are there any surviving telos here}", "", "$cv:pc_computer{unknown}" ],
+              "options" : [ {
+                "text" : "$cv:pc_player{what do you mean  unknown}",
+                "goToPage" : "4-survivors-cryo"
+              } ]
+            }, {
+              "id" : "4-survivors-cryo",
+              "paras" : [ "You see visions of spaceships torn apart by explosions for a moment before the computer continues.", "$cv:pc_computer{before leaving  the adults put their children into cryosleep units  however the ether-net connection was disrupted during the bombardment}", "$cv:pc_computer{the sleeper room has been out of communication for ${cyclesSinceTelosDestroyed} cycles}" ],
+              "options" : [ {
+                "text" : "Investigate the cryosleep room",
+                "goToPage" : "4-survivors-investigate"
+              }, {
+                "text" : "Return",
+                "goToPage" : "4-choices"
+              } ]
+            }, {
+              "id" : "4-survivors-investigate",
+              "paras" : [ "The sleeper room interior is a blank spot in your mental map, but it doesn't take long to work your way through the tunnel system to the heavy analog door. Karengo adds his weight to yours before the latch slides and the door swings forward.", "The smell hits you like an e-burn and you reel, retching." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "4-survivors-investigate-2"
+              } ]
+            }, {
+              "id" : "4-survivors-investigate-2",
+              "paras" : [ "After fastening a breather firmly over your nose and mouth, you enter the cramped chamber. A dozen cryosleep units stand against the walls, bathed in arterial red by the glow of their error readouts.", "Karengo waits outside while you visit each unit in turn. Those that still have power catalogue the breakdown of the body inside; most are simply dark and dead. The floor is crusty with leakage.", "There is nothing to do here." ],
+              "options" : [ {
+                "text" : "Leave the chamber",
+                "goToPage" : "4-choices"
+              } ]
+            }, {
+              "id" : "4-common-areas",
+              "paras" : [ "The base was left tidy. Sheets are folded at the foot of beds, clothes are put away, and food is stored, although the cooling units have long since ceased operation. Decoration and adornment are not fully absent, but they are minimal and physical comforts are similarly restrained. Nowhere do you find anything approaching the plush cushioning in the Vara-class frigate.", "The largest communal space is a large, round chamber with a low, domed ceiling. Dust from long, jagged fractures coats the low benches and glossy stone floor. Crumbling illustrations of verdant Core worlds line the walls, some fallen." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "4-common-areas-2"
+              } ]
+            }, {
+              "id" : "4-common-areas-2",
+              "paras" : [ "A memory not your own brings the cavern to life like a daydream.", "The Telos wander in in small groups. Their faces are alive with contentment and you understand, sensing the web that connects them all. There are no barriers between them; no misunderstandings, no jealousies, no power dynamics. You wonder how much of that is from the Ether.", "Time skips forward." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "4-common-areas-3"
+              } ]
+            }, {
+              "id" : "4-common-areas-3",
+              "paras" : [ "The people are nervous now. Something everpresent is missing, and they do not know why.", "A woman at the far end of the chamber stands and you know her as ==Krypta==, the scientist that created the Ether.", "$cv:pc_krypta{telos  as you know the hyperwave emitter at menri is silent   i have confirmed our fears}", "$cv:pc_krypta{the hegemony have destroyed menri   they are on their way here  we must fight}", "The community feels fear, but also resolve, and, even knowing their odds, they walk to the hanger without hesitation." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "4-common-areas-4"
+              } ]
+            }, {
+              "id" : "4-common-areas-4",
+              "paras" : [ "The daydream dissolves. The room, now empty of people, seems more cavernous than before." ],
+              "options" : [ {
+                "text" : "Return",
+                "goToPage" : "4-choices"
+              } ]
+            }, {
+              "id" : "4-storage",
+              "paras" : [ "The storage areas are both well stocked with timeworn supplies and accessible from the surface. You direct your crew to bring them to orbit." ],
+              "onPageShown" : {
+                "goToPage" : "4-choices"
+              }
+            }, {
+              "id" : "5-shipyard-choice",
+              "paras" : [ "$cv:pc_karengo{the hanger is quite a walk} Karengo asks $cv:pc_karengo{are you finished here}" ],
+              "options" : [ {
+                "text" : "$cv:pc_player{yes  time to go}",
+                "goToPage" : "6-shipyard"
+              }, {
+                "text" : "$cv:pc_player{not yet}",
+                "goToPage" : "4-choices"
+              } ]
+            }, {
+              "id" : "6-shipyard",
+              "paras" : [ "You've been able to feel the presence of the destroyer sitting in the hanger since making contact with the base Ether-net. When queried, the computer explains that the ship was unfinished when the Telos went to battle. Automated systems completed the final warship only after there were none left to fly it.", "Walking through the long tunnels to the hanger and shipyard gives you time to examine the ship from afar." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "7-shipyard-itesh"
+              } ]
+            }, {
+              "id" : "7-shipyard-itesh",
+              "paras" : [ "Like the smaller Vara, the Itesh destroyer is a lost pre-Collapse Tri-Tachyon design intended as a luxury vessel for the extremely wealthy. The Telos overhaul replaced much of the extravagance with weapons, shielding, agility, and Ether control.", "$cv:pc_karengo{look at this} An image from Karengo surfaces in your mind's eye of two drones nestled into a compartment of the Itesh. $cv:pc_karengo{now we are seeing some real firepower}", "Before you can respond, an incoming call from orbit grabs your attention." ],
+              "options" : [ {
+                "text" : "Answer",
+                "goToPage" : "8-shipyard-the-call"
+              } ]
+            }, {
+              "id" : "8-shipyard-the-call",
+              "paras" : [ "\"${playerSirOrMaamUcFirst}, one of my engineers did some tests on that 'dust' in orbit.\" Your ops chief sounds concerned, but not alarmed.", "\"It's actually a very old type of minefield - that's why we didn't recognize it. Won't scuttle a ship, but it'll sure do a lot of surface damage. Sensors, comms, anything on the outside.\"", "\"The good news is they aren't automatic. It probably dates back to when the hyperwave network was up. Whoever deployed these is probably long dead, and certainly not in-system.\"" ],
+              "options" : [ {
+                "text" : "Direct the fleet to change orbit",
+                "goToPage" : "9-enemy-arrival"
+              }, {
+                "text" : "Allow the fleet to stay locked overhead",
+                "goToPage" : "9-enemy-arrival"
+              } ]
+            }, {
+              "id" : "9-enemy-arrival",
+              "paras" : [ "As you open your mouth to speak, a higher priority call replaces their image.", "\"Captain, one of the in-system jump points just opened. You said you wanted to know if anything happens while you're down there. Might be nothing, might be pi-\"", "The comm link disconnects." ],
+              "options" : [ {
+                "text" : "Try to raise the fleet",
+                "goToPage" : "10-disconnected"
+              } ]
+            }, {
+              "id" : "10-disconnected",
+              "paras" : [ "The fleet doesn't respond.", "You and Karengo close rest of the distance to the hanger at a run, bulkheads springing open at your approach, as you try different comms options, trying to get a response. Nothing works.", "By the time you and Karengo climb aboard, breathing heavily, the destroyer is fueled. You send a signal to open the hanger doors, then extend your mind to encompass the ship." ],
+              "options" : [ {
+                "text" : "Blast off",
+                "goToPage" : "11-takeoff-fast"
+              }, {
+                "text" : "Ease out",
+                "goToPage" : "11-takeoff-slow"
+              } ]
+            }, {
+              "id" : "11-takeoff-fast",
+              "paras" : [ "The Itesh throws itself through the massive double doors and into the Yerpan sky. The exotic plating glows with azure radiance, adding fast-shrinking shadows to the landscape." ],
+              "onPageShown" : {
+                "goToPage" : "12-return-to-fleet"
+              }
+            }, {
+              "id" : "11-takeoff-slow",
+              "paras" : [ "You lift the Itesh through the massive double doors and into the Yerpan sky. The exotic plating glows, adding azure-tinged shadows to the landscape." ],
+              "onPageShown" : {
+                "goToPage" : "12-return-to-fleet"
+              }
+            }, {
+              "id" : "12-return-to-fleet",
+              "paras" : [ "Sensor data floods in and your tension eases. Slightly. The fleet still hangs overhead, but closer to the planet than before - and there are no signs of drive engines.", "$cv:pc_karengo{that is not good} says Karengo." ],
+              "options" : [ {
+                "text" : "Fly to your fleet",
+                "goToPage" : "13-getting-to-bridge"
+              } ]
+            }, {
+              "id" : "13-getting-to-bridge",
+              "paras" : [ "The fleet grows until you can make out details with the optical cams. The planetary ring is gone, self-destructed. Your fleet's hulls are blackened and cratered, but all are in one piece and interior lights shine through spiderwebbed windows." ],
+              "options" : [ {
+                "text" : "Approach",
+                "goToPage" : "13-bustlin"
+              } ]
+            }, {
+              "id" : "13-bustlin",
+              "paras" : [ "Despite the continued absence of communication, a docking bay door slides open and a shuttle races out.", "You find yourself bustled to your bridge officers with grim-faced efficiency." ],
+              "onPageShown" : {
+                "goToPage" : "14-question-bridge"
+              }
+            }, {
+              "id" : "14-question-bridge",
+              "paras" : null,
+              "options" : [ {
+                "id" : "debrief-who",
+                "text" : "Ask who arrived at the jump point",
+                "goToPage" : "14-debrief-who"
+              }, {
+                "id" : "debrief-what",
+                "text" : "Ask what happened",
+                "goToPage" : "14-debrief-what"
+              }, {
+                "id" : "debrief-when",
+                "text" : "Ask when repairs will be complete",
+                "goToPage" : "14-debrief-when"
+              }, {
+                "id" : "debrief-where",
+                "text" : "Ask what the nav options are",
+                "goToPage" : "14-debrief-where"
+              } ]
+            }, {
+              "id" : "14-debrief-who",
+              "paras" : [ "Your sensors officer takes the question.", "\"Frankly, we don't know for sure. But we had long-sensors trained on the jump points, just in case, and I can say that the fleet is our size. Larger, perhaps.\"", "\"And,\" they add, \"we received this just before we lost comms.\" A central holo lights up." ],
+              "options" : [ {
+                "text" : "View holo",
+                "goToPage" : "14-debrief-who-eugel1"
+              } ]
+            }, {
+              "id" : "14-debrief-who-eugel1",
+              "paras" : [ "\"My name is Knight-Captain Eugel.\" Entire worlds could be lost between the creases of the man's wizened face, but his eyes are shrewd and cold.", "\"Who you are does not matter. I had hoped that the past could stay the past without needing me to intervene, but it seems not. Digging through ${telosPt1Stg1DestSystem} was a mistake. Coming here was folly.\"" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "14-debrief-who-eugel2"
+              } ]
+            }, {
+              "id" : "14-debrief-who-eugel2",
+              "paras" : [ "\"If you survive the next few minutes, please stay where you are. It will make this much easier.\"", "The holo fades." ],
+              "options" : [ {
+                "text" : "\"Who was that?\"",
+                "goToPage" : "14-debrief-who-eugel3-who"
+              }, {
+                "text" : "\"I know that man.\"",
+                "goToPage" : "14-debrief-who-eugel3-remember"
+              } ]
+            }, {
+              "id" : "14-debrief-who-eugel3-who",
+              "paras" : [ "The officer is quick to query the archive.", "\"One of the Church of Ludd's Knight's,\" they read, scanning quickly, \"Old and reclusive, but known for his conservatism, even by Church standards.\"", "Their eyebrows shoot up. \"According to this, he's over 130.\"" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "14-debrief-who-eugel3-who2"
+              } ]
+            }, {
+              "id" : "14-debrief-who-eugel3-who2",
+              "paras" : [ "Karengo has evidently been listening in, as he forms a thought in your head.", "$cv:pc_karengo{i remember that guy  he was the hegemony commander of the fleet that destroyed the other telos base}" ],
+              "onPageShown" : {
+                "goToPage" : "14-question-bridge"
+              }
+            }, {
+              "id" : "14-debrief-who-eugel3-remember",
+              "paras" : [ "Quickly, you fill them in, explaining that he was the commander of the Hegemony fleet that destroyed the other Telos base back in c+105, making him over 130 cycles old.", "\"Hegemony commander?\" one officer asks dubiously, but you've already thought through this." ],
+              "options" : [ {
+                "text" : "Share your theory",
+                "goToPage" : "14-debrief-who-eugel3-remember2"
+              } ]
+            }, {
+              "id" : "14-debrief-who-eugel3-remember2",
+              "paras" : [ "\"When the Hegemony and Luddic Church allied during the First AI War,\" you explain to the bridge, \"Eugel may have already been a Church member, or have joined shortly afterwards. The could explain how he ended up leading a Hegemony fleet to destroy the technologically advanced Telos.\"", "\"Strange times make for strange bedfellows, after all.\"" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "14-debrief-who-eugel3-remember3"
+              } ]
+            }, {
+              "id" : "14-debrief-who-eugel3-remember3",
+              "paras" : [ "The bridge officers nod, accepting the idea that this Knight of Ludd used to work with the Hegemony, and you refocus on the issues at hand." ],
+              "onPageShown" : {
+                "goToPage" : "14-question-bridge"
+              }
+            }, {
+              "id" : "14-debrief-what",
+              "paras" : [ "The ops chief looks uncomfortable.", "\"Minefield was remotely detonated, ${playerSirOrMaam}. Seconds after that jump point opened. Think it's fair to assume a connection, but I'd prefer not to speculate. The codes to trigger the field would be dozens of cycles old.\"", "\"It took out engines, sensors, comms, anything the dust got into.\"" ],
+              "onPageShown" : {
+                "goToPage" : "14-question-bridge"
+              }
+            }, {
+              "id" : "14-debrief-when",
+              "paras" : [ "\"Two days, if we just focus on drives, and nobody sleeps,\" answers your ops chief, \"I've only got so many people qualified to work drives.\"", "\"And active sensors...three days. Maybe four. I could go quicker but it'd mean sitting here longer.\"" ],
+              "onPageShown" : {
+                "goToPage" : "14-question-bridge"
+              }
+            }, {
+              "id" : "14-debrief-where",
+              "paras" : [ "\"Well, that is a bit of problem, actually,\" replies your nav officer, \"We can't move, we don't know where the enemy is, and we don't know how fast they are. Even when the sensors are up, the nebula means we won't even see much.\"", "\"It's safe to say that our nav option,\" they stress the last word, \"is to get some sleep, or drink, or whatever you need to do, and hope that these repairs aren't delayed.\"" ],
+              "onPageShown" : {
+                "goToPage" : "14-question-bridge"
+              }
+            }, {
+              "id" : "15-powerup-choice",
+              "paras" : [ "The impromptu meeting breaks apart and you find yourself with time on your hands. Karengo has disappeared from sight, but you can sense him in the mess hall.", "You stand for a moment in a hallway, considering how to spend your time." ],
+              "options" : [ {
+                "text" : "Think though the problem in your study.",
+                "goToPage" : "16-powerup-thinky"
+              }, {
+                "text" : "Socialize with the crew.",
+                "goToPage" : "16-powerup-socialize"
+              }, {
+                "text" : "Visit Karengo.",
+                "goToPage" : "16-powerup-karengo"
+              }, {
+                "text" : "Head to the bar.",
+                "goToPage" : "16-powerup-bar"
+              } ]
+            }, {
+              "id" : "16-powerup-thinky",
+              "paras" : [ "Despite - finally - having some peace and quiet for contemplation, no answers seem forthcoming." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "16-powerup-main-1"
+              } ]
+            }, {
+              "id" : "16-powerup-socialize",
+              "paras" : [ "To take your mind off matters, you decide to spend some time with the crew you're closest to.", "Time passes quickly, as it always does in good company, although the laughter is perhaps more strained, the smiles too forced, the conversation too safe.", "The ceiling of your cabin stares down at you." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "16-powerup-main-1"
+              } ]
+            }, {
+              "id" : "16-powerup-karengo",
+              "paras" : [ "Rather than communicating mind-to-mind, you walk to the mess and sit next to Karengo. He pauses halfway through a strip of AstroBacon, then resumes chewing.", "$cv:pc_karengo{so what is the plan} he asks, with a surprising lack of concern.", "$cv:pc_player{we will be ok when the engines repairs are done} you reply, but you know your uncertainty slips through.", "$cv:pc_karengo{then we have more than enough time for a drink}" ],
+              "options" : [ {
+                "text" : "Go to the bar",
+                "goToPage" : "16-powerup-bar"
+              }, {
+                "id" : "karengo-cabin",
+                "text" : "Go to your cabin",
+                "goToPage" : "16-powerup-karengo-2"
+              } ]
+            }, {
+              "id" : "16-powerup-karengo-2",
+              "paras" : [ "The two of you retire to your own quarters and you unstopper a few 'special occasion' bottles.", "After that, time blurs. Karengo shares more stories from Ailmar and you recount close calls and near-disasters gathered over the years.", "All too soon, Karengo announces he has somewhere to be and leaves you alone with your thoughts - few of them pleasant." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "16-powerup-main-1"
+              } ]
+            }, {
+              "id" : "16-powerup-bar",
+              "paras" : [ "The ship's watering hole is emptier than usual, much of the crew working overtime on repairs, but you note a higher than usual number of senior officers." ],
+              "order-vanilla" : "You order a round for everybody, and an extra few for yourself.",
+              "order-alcoholism" : "You order a round for everybody, and a few Absynths for yourself.",
+              "order-alcoholism-pagsm" : "You order a round of Askonia Sunshines for everybody, plus a few more just for yourself, which you line up on your table. Five little Volturn-y the Volturnian Lobster stickers stare at you with crustacean concern.",
+              "options" : [ {
+                "text" : "Drink",
+                "goToPage" : "16-powerup-bar-2"
+              } ]
+            }, {
+              "id" : "16-powerup-bar-2",
+              "paras" : [ "You are finishing your fourth drink when Karengo arrives, interrupting a junior officer's dubious story of the time she witnessed High Hegemon Daud entering the notorious 'Oldest Profession' on Port Tse. He grabs an untouched glass.", "\"To beating the odds!\" he proclaims, raising his drink." ],
+              "options" : [ {
+                "id" : "cheers-karengo",
+                "text" : "Cheers",
+                "goToPage" : "16-powerup-bar-3"
+              }, {
+                "text" : "Do nothing",
+                "goToPage" : "16-powerup-bar-3"
+              } ]
+            }, {
+              "id" : "16-powerup-bar-3",
+              "paras" : [ "Others clink their glasses politely, but the reminder of 'the odds' effectively douses the mood. Oblivious, Karengo launches into a story of when he wrestled one of the dragons of ${dragonPlanet} to the ground." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "16-powerup-bar-4"
+              } ]
+            }, {
+              "id" : "16-powerup-bar-4",
+              "paras" : [ "Before long, people start to make excuses and leave, looking downcast.", "$cv:pc_player{<they came here to forget what is coming>} you send reprovingly.", "$cv:pc_karengo{<then they are fools>} he replies, $cv:pc_karengo{<worrying over something you cannot control is a waste of energy>}" ],
+              "options" : [ {
+                "id" : "worry-agree",
+                "text" : "$cv:pc_player{<well said>}",
+                "goToPage" : "16-powerup-bar-4-ISTJ"
+              }, {
+                "text" : "$cv:pc_player{<feeling is just part of being human>}",
+                "goToPage" : "16-powerup-bar-4-ESFP"
+              } ]
+            }, {
+              "id" : "16-powerup-bar-4-ISTJ",
+              "paras" : [ "$cv:pc_karengo{<you do not survive on your own in this sector with self-inflicted pain>}" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "16-powerup-bar-5"
+              } ]
+            }, {
+              "id" : "16-powerup-bar-4-ESFP",
+              "paras" : [ "$cv:pc_karengo{<and controlling our feelings is what makes us strong>}" ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "16-powerup-bar-5"
+              } ]
+            }, {
+              "id" : "16-powerup-bar-5",
+              "paras" : [ "Karengo pushes himself back from the table.", "$cv:pc_karengo{<anyway, i have a date or something like that>} He somehow manages to wink telepathically on his way out and you realize you've been sitting silently for the last few minutes. The few remaining patrons seem not to notice." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "16-powerup-bar-6"
+              } ]
+            }, {
+              "id" : "16-powerup-bar-6",
+              "paras" : [ "Head heavy with drink and dread, you return the captain's cabin. Inevitably, your mind wanders while you pour a glass of water and settle into a reclining chair." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "16-powerup-main-1"
+              } ]
+            }, {
+              "id" : "16-powerup-main-1",
+              "paras" : [ "Your fleet is crippled and at least one fleet of unknown makeup is on its way to eliminate witnesses." ],
+              "withVara" : "You find yourself withdrawing, examining your own state of mind, and you notice the other presences. Karengo, walking the corridors. The Vara, hull crawling with repair crew. The Itesh, drifting peacefully.",
+              "withoutVara" : "You find yourself withdrawing, examining your own state of mind, and you notice the other presences. Karengo, walking the corridors. The Itesh, drifting peacefully.",
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "16-powerup-main-2"
+              } ]
+            }, {
+              "id" : "16-powerup-main-2",
+              "paras" : [ "At the edge of the now-familiar, though, you feel other things not easily explained." ],
+              "options" : [ {
+                "text" : "Focus",
+                "goToPage" : "16-powerup-main-3"
+              } ]
+            }, {
+              "id" : "16-powerup-main-3",
+              "paras" : [ "You close your eyes and reach out. The strongest sensation dwarfs the rest, radiant, hot; the yellow star at the center of the system.", "The rest are dimmer, but you focus past the star, reaching across light minutes and zeroing in on pinpricks, bright against the void. It's a fleet, burning bright as it crawls toward you.", "It seems to pulse with hostility." ],
+              "options" : [ {
+                "text" : "Explore further",
+                "goToPage" : "16-powerup-main-4"
+              } ]
+            }, {
+              "id" : "16-powerup-main-4",
+              "paras" : [ "You release your focus on the fleet and dive into other dimples in your awareness. Nebulae. Asteroids. The planet spinning below. The other jump point. And there; another fleet moving toward yours, angry with intent.", "You open your eyes, mind spinning. There are two fleets out there stalking you, but a few days off still. You can still sense them; still sense everything in the system.", "With some effort, you block it out and refocus on the ship around you." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "16-powerup-main-5"
+              } ]
+            }, {
+              "id" : "16-powerup-main-5",
+              "paras" : [ "Without going into specifics, you update your bridge crew on the location of the enemy fleets. It changes nothing about the situation, but they trust you implicitly and the intel visibly calms them.", "The rest of the time passes uneventfully, but the fleets bearing down on yours are never quite out of mind." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "16-powerup-main-6"
+              } ]
+            }, {
+              "id" : "16-powerup-main-6",
+              "paras" : [ "At long last, the drive engines are repaired, but the fleet is still far from fighting capacity, and ==sensors are still offline==.", "Every one of your officers agrees; ==running to fight another day is the best course of action==." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "16-powerup-main-7"
+              } ]
+            }, {
+              "id" : "16-powerup-main-7",
+              "paras" : [ "" ],
+              "options" : [ {
+                "id" : "flee",
+                "text" : "Take the helm"
+              } ]
+            } ]
+          },
+          "escape" : {
+            "intel" : {
+              "subtitle" : "ESCAPE",
+              "desc" : "Sensors are jammed. GET TO THE JUMP POINT!"
+            }
+          }
+        }
+      }
+    }
+  }
+}

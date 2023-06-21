@@ -1,0 +1,22 @@
+{
+  "hullName": "",
+  "hullId": "wisp_perseanchronicles_avalok_module",
+  "hullSize": "CRUISER",
+  "spriteName": "graphics/telos/ships/telos_blank.png",
+  "style": "PERSEAN_CHRONICLES_TELOS",
+  "height": 6,
+  "width": 6,
+  "center": [98, 138.5],
+  "collisionRadius": 0,
+  "shieldCenter": [0, 0],
+  "shieldRadius": 0,
+  "viewOffset": 0,
+  "weaponSlots": [],
+  "engineSlots": [],
+  "bounds": [
+    21.5, 5,
+    15.5, 5.5,
+    15.5, -5.5,
+    21.5, -5
+  ]
+}

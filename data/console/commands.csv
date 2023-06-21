@@ -1,9 +1,12 @@
 command,class,tags,syntax,help
-PerseanChronicles_ViewDebugInfo,org.wisp.stories.ViewDebugInfoCommand,"PerseanChronicles,campaign",PerseanChronicles_ViewDebugInfo,Show debug info for Persean Chronicles.
-PerseanChronicles_ResetDragonQuest,org.wisp.stories.dangerousGames.pt1_dragons.ResetDragonsQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetDragonQuest,Reset the Dragonriders quest in Persean Chronicles.
-PerseanChronicles_ResetDepthsQuest,org.wisp.stories.dangerousGames.pt2_depths.ResetDepthsQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetDepthsQuest,Reset the Depths quest in Persean Chronicles.
-PerseanChronicles_ResetRileyQuest,org.wisp.stories.riley.ResetRileyQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetRileyQuest,Reset the Riley quest in Persean Chronicles.
-PerseanChronicles_ResetNirvanaQuest,org.wisp.stories.nirvana.ResetNirvanaQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetNirvanaQuest,Reset the Nirvana quest in Persean Chronicles.
-PerseanChronicles_SpawnNirvanaSystem,org.wisp.stories.nirvana.SpawnNirvanaSystemCommand,"PerseanChronicles,campaign",PerseanChronicles_SpawnNirvanaSystem,Spawns a system that can be used as a target for the Nirvana quest in Persean Chronicles.
-PerseanChronicles_ResetLaborerQuest,org.wisp.stories.laborer.ResetLaborerQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetLaborerQuest,Reset the Laborer quest in Persean Chronicles.
-SpawnGate,org.wisp.stories.commands.SpawnGate,"gates,campaign",SpawnGate,Spawns a Gate at your current location (from Persean Chronicles).
+PerseanChronicles_ViewDebugInfo,wisp.perseanchronicles.commands.ViewDebugInfoCommand,"PerseanChronicles,campaign",PerseanChronicles_ViewDebugInfo,Show debug info for Persean Chronicles.
+PerseanChronicles_ResetDragonQuest,wisp.perseanchronicles.dangerousGames.pt1_dragons.ResetDragonsQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetDragonQuest,Reset the Dragonriders quest in Persean Chronicles.
+PerseanChronicles_ResetDepthsQuest,wisp.perseanchronicles.dangerousGames.pt2_depths.ResetDepthsQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetDepthsQuest,Reset the Depths quest in Persean Chronicles.
+PerseanChronicles_ResetRileyQuest,wisp.perseanchronicles.riley.ResetRileyQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetRileyQuest,Reset the Riley quest in Persean Chronicles.
+PerseanChronicles_ResetNirvanaQuest,wisp.perseanchronicles.nirvana.ResetNirvanaQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetNirvanaQuest,Reset the Nirvana quest in Persean Chronicles.
+PerseanChronicles_SpawnNirvanaSystem,wisp.perseanchronicles.nirvana.SpawnNirvanaSystemCommand,"PerseanChronicles,campaign",PerseanChronicles_SpawnNirvanaSystem,Spawns a system that can be used as a target for the Nirvana quest in Persean Chronicles.
+PerseanChronicles_ResetLaborerQuest,wisp.perseanchronicles.laborer.ResetLaborerQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetLaborerQuest,Reset the Laborer quest in Persean Chronicles.
+SpawnGate,wisp.perseanchronicles.commands.SpawnGate,"gates,campaign",SpawnGate,Spawns a Gate at your current location (from Persean Chronicles).
+#PerseanChronicles_TestBattle,wisp.perseanchronicles.telos.pt2_dart.battle.Telos2TestBattleCommand,PerseanChronicles_TestBattle,"For debugging, starts a battle. Ought to remove this before going live..."
+#PerseanChronicles_BlindMe,wisp.perseanchronicles.telos.pt3_arrow.BlindMeCommand,PerseanChronicles_BlindMe,"For debugging, blinds the player. Ought to remove this before going live..."
+PerseanChronicles_StartTelosQuest,wisp.perseanchronicles.telos.StartTelosQuestCommand,PerseanChronicles_StartTelosQuest,"Start Persean Chronicles's Telos quest immediately."

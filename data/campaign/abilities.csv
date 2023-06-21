@@ -1,0 +1,2 @@
+name,id,type,tags,activationDays,activationCooldown,durationDays,deactivationDays,deactivationCooldown,unlockedAtStart,defaultForAIFleet,musicSuppression,uiOn,uiOff,uiLoop,worldOn,worldOff,worldLoop,icon,plugin,ai,desc,sortOrder
+Ethersight,wisp_perseanchronicles_ethersight,TOGGLE,,0.1,,,0.1,,false,,,ui_neutrino_detector_on,ui_neutrino_detector_off,,,,,graphics/icons/skills/gunnery_implants.png,wisp.perseanchronicles.telos.pt3_arrow.nocturne.TelevisionScript,,,700

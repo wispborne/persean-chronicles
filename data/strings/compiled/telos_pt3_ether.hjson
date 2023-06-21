@@ -1,0 +1,50 @@
+{
+  "wisp_perseanchronicles" : {
+    "telos" : {
+      "part3_arrow" : {
+        "stages" : {
+          "goToPlanet" : {
+            "pages" : [ {
+              "id" : "1-ether-start",
+              "paras" : [ "The ships of your fleet settle into orbit above the Telos shipyard coordinates. Iron-rich dust from the asteroid belt streaks past your shuttle in a perpetual fall toward the planet.", "A few engineers had voiced concerns about the dust, but in the end, most decided that it was inert, likely the leftovers of battles hundreds of cycles old.", "$cv:pc_player{what will we find} you ask Karengo.", "$cv:pc_karengo{if we are lucky  some destroyers/itesh} he responds $cv:pc_karengo{if we are very lucky  a cruiser/avalok}" ],
+              "options" : [ {
+                "text" : "$cv:pc_player{and what if we are unlucky}",
+                "goToPage" : "1-ether-lucky"
+              }, {
+                "text" : "say nothing",
+                "goToPage" : "2-ether-land"
+              } ]
+            }, {
+              "id" : "1-ether-lucky",
+              "paras" : [ "$cv:pc_karengo{karengo is not unlucky} It's a statement of fact, as though he is describing the color of a sky." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "2-ether-land"
+              } ]
+            }, {
+              "id" : "2-ether-land",
+              "paras" : [ "The shuttle drops onto its landing gear and, immediately, alarms and damage reports slam into your mind. Entire sections of the shipyard have been destroyed.", "$cv:pc_player{the base's ether network is still online} You and Karengo reach the conclusion at the same time." ],
+              "options" : [ {
+                "text" : "$cv:pc_player{query: what happened here}",
+                "goToPage" : "3-ether-ask-system"
+              } ]
+            }, {
+              "id" : "3-ether-ask-system",
+              "paras" : [ "The system's response is immediate. Your mind is filled with scenes of orbital bombardment; gouts of flame scream toward the ground and erupt in conflagration. Buildings are flattened and air vents doused in liquid fire. With the certainty of a dream, you identify the ships overhead as Hegemony under the command of Captain Eugel.", "They'd arrived in-system after their attack on the other Telos base, Menri. No demands were made and, despite the potent defences circling in orbit, the settlement had been dealt blow after unyielding blow.", "It fell in hours." ],
+              "options" : [ {
+                "text" : "Go inside",
+                "goToPage" : "4-ether-go-inside"
+              } ]
+            }, {
+              "id" : "4-ether-go-inside",
+              "paras" : [ "Blueprints blossom in your memory. You make your way to a staircase - the cover is missing, torn away by an explosion - but you clear the passage itself of detritus and descend.", "Traps react to the Ether in your blood, disarming as you enter a large hallway. Doorways between deeply fissured decorative facades reveal tunnels, smoothly bored by some unknown mechanical means.", "They lead to laboratories, domiciles, kitchens, storage rooms, places of communion, a medical facility; everything needed for a large group of spiritual scientists to live." ],
+              "onPageShown" : {
+                "goToPage" : "4-choices"
+              }
+            } ]
+          }
+        }
+      }
+    }
+  }
+}

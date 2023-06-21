@@ -1,0 +1,4 @@
+id,trigger,conditions,script,text,options,notes,,
+#wisp_perseanchronicles_telosPt1_addevent,AddBarEvents,ShouldOfferTelos1,Telos1OfferQuest,,,,,
+#wisp_perseanchronicles_telosPt1_selected,DialogOptionSelected,$option == wisp_perseanchronicles_telosPt1_selected,Telos1OfferSelected,,,,,
+wisp_perseanchronicles_telosPt2_badfleetdefeated,wisp_perseanchronicles_telosPt2_badfleetdefeated,,Call $global.wisp_perseanchronicles_telosPt2 wisp_perseanchronicles_telosPt2_badfleetdefeated,,,,,

@@ -1,0 +1,23 @@
+{
+  "displayName": "Summer Bloom",
+  "variantId": "wisp_perseanchronicles_vara_Standard",
+  "hullId": "wisp_perseanchronicles_vara",
+  "goalVariant": true,
+  "fluxCapacitors": 8,
+  "fluxVents": 10,
+  "quality": 1,
+  "permaMods": [],
+  "hullMods": [],
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "phasebeam",
+        "WS0002": "phasebeam"
+      }
+    },
+  ],
+  "modules": [],
+  "wings": []
+}

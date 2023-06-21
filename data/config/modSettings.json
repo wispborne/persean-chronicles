@@ -1,5 +1,11 @@
 {
-  "PerseanChronicles": {
+  "wisp_perseanchronicles": {
+    "isDragonsQuestEnabled":  true,
+    "isDepthsQuestEnabled": true,
+    "isRileyQuestEnabled":  true,
+    "isNirvanaQuestEnabled": true,
+    "isLaborerQuestEnabled":  true,
+    "isTelosQuestEnabled": true,
     "entity_tags_to_blacklist": [
       "theme_remnant_main",
       "theme_remnant_resurgent",

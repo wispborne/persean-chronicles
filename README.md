@@ -1,37 +1,59 @@
 # Persean Chronicles
 
-By Wispborne (Wisp#0302 on Discord)
+By Wispborne (@wispborne on Discord)
 
 ## Description
 
-Persean Chronicles is a mod for the game Starsector that adds a small collection of one-off text-only quests to bars around the Persean Sector.
+Persean Chronicles is a mod for the game Starsector that adds a collection of one-off quests to bars around the Persean Sector.
 
-Requires LazyLib 2.5b or later.
+Requires LazyLib 2.8 or later.
 
-Written in [Kotlin](https://kotlinlang.org/docs/reference/faq.html). Relies on [Questgiver](https://github.com/davidwhitman/questgiver) to simplify quest code (packaged with the mod).
+- Riley: A woman books a ride with your fleet to visit family.
+- Dragons: A expedition takes you up close and personal with some wildlife.
+- Depths: Following 'Dragons', an expedition takes you deep underwater.
+- Telos: Following 'Depths', you investigate a lost mini-faction.
+    - Nexerelin's random systems (Corvus Mode) is not supported for 'Telos' and the quest will not appear.
+- Nirvana: Some scientists need you to perform a cargo delivery.
+- Laborer: A down-on-his-luck worker wants off-world.
+
+## Cross-Mod interactions
+
+- Substance Abuse: changes ordered drinks at bar during The Telos.
+- PAGSM: changes description of drinks at bar during The Telos.
+- Industrial Evolution: adds a dragon pet.
 
 ## Blacklisting systems from being used
 
-This mod uses modSettings.json. See usage here: <https://starsector.fandom.com/wiki/Category:Modding#Cross-mod_integration_via_the_modSettings.json_file_and_data.2Fconfig.2FmodFiles_folder>
+This mod uses modSettings.json. See usage
+here: <https://starsector.fandom.com/wiki/Category:Modding#Cross-mod_integration_via_the_modSettings.json_file_and_data.2Fconfig.2FmodFiles_folder>
 
 ## Credits
 
-Avanitia for proof-reading literally _everything_ and providing an incredible amount of feedback. 
+Avanitia for proof-reading and providing an incredible amount of feedback.
 
-Market condition code inspired by Tartiflette's [Unknown Skies](https://fractalsoftworks.com/forum/index.php?topic=12041.0).
+Selkie for Telos sprites (creator of many boats).
 
-MesoTroniK for music.
+Nia for Telos effects and sprites (master of effects).
 
-Vayra for art.
+SleepyFish for Telos sprites (transparency consultant).
 
-NTNU (https://www.ntnu.edu/oceans/deep-sea-mining) for art.
+Haplogynae for Telos music.
 
+MesoTroniK for Depths music.
+
+Inventor Raccoon for Secrets of the Frontier, which was a light in the darkness of 0.95a questbuilding.
+
+Market condition code in Depths inspired by Tartiflette's [Unknown Skies](https://fractalsoftworks.com/forum/index.php?topic=12041.0).
+
+President Matt Damon for code help.
 
 ## License
 
-[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+Everything except music and images: GPLv3
 
-https://tldrlegal.com/license/creative-commons-attribution-noncommercial-sharealike-4.0-international-(cc-by-nc-sa-4.0)
+Music & Images, including ships: Do not use any part of without permission, do not redistribute without permission.
+
+Music may be used with the permission of the artist, without needing my permission.
 
 ## Quest Starting Conditions (SPOILERS)
 
@@ -41,7 +63,7 @@ SPOILERS!
 
 .
 
-This will reveal how many quests there are and their names.
+This will reveal quest start conditions.
 
 Do not read ahead if you would prefer to be surprised.
 
@@ -62,7 +84,9 @@ Do not read ahead if you would prefer to be surprised.
 .
 
 - Riley: Starts from a planet with pop 6 or greater.
-- Dragons: Starts from a planet with pop 4 or greater.
+- Dragons: Starts from a planet with pop 5 or greater.
 - Depths: Starts from a planet with pop 5 or greater and 30 days after successfully completing Dragons.
-- Nirvana: Starts from an Independent planet with pop 4 or greater.
+- Telos: Starts from an Independent planet with pop 5 or greater and 30 days after successfully completing Depths.
+  - Nexerelin's Random Mode (Corvus Mode) is not supported and the quest will not show up.
+- Nirvana: Starts from an Independent planet with pop 4 or greater once you are at least level 8 (ie not a nobody).
 - Laborer: Starts from a planet with pop 3 or greater and the Mining industry.

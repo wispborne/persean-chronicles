@@ -1,0 +1,14 @@
+{
+  "displayName": "",
+  "variantId": "wisp_perseanchronicles_avalok_module_Standard",
+  "hullId": "wisp_perseanchronicles_avalok_module",
+  "fluxCapacitors": 0,
+  "fluxVents": 0,
+  "goalVariant": true,
+  "hullMods": [ "vastbulk" ],
+  "permaMods": [ ],
+  "sMods": [ ],
+  "weaponGroups": [
+  ],
+  "wings": [ ]
+}
