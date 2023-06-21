@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.core.PrettyPrinter
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -12,7 +11,7 @@ val props = Properties().apply {
 }
 
 val starsectorDirectory = props.getProperty("gamePath") //"C:/Program Files (x86)/Fractal Softworks/Starsector"
-val modVersion = "3.0.0-beta02"
+val modVersion = "3.0.1"
 val jarFileName = "PerseanChronicles.jar"
 val questgiverVersion = "4.0.0"
 
@@ -147,6 +146,8 @@ tasks {
     register("create-metadata-files") {
         val versionObject = modVersion.split(".").let { javaslang.Tuple3(it[0], it[1], it[2]) }
 
+        val modVersionString = listOf(versionObject._1, versionObject._2, versionObject._3)
+            .joinToString(separator = ".")
         File(projectDir, "mod_info.json")
             .writeText(
                 """
@@ -156,11 +157,7 @@ tasks {
                         "name": "${modName}",
                         "author": "${author}",
                         "utility": "${isUtilityMod}",
-                        "version": "${
-                    listOf(versionObject._1, versionObject._2, versionObject._3).joinToString(
-                        separator = "."
-                    )
-                }",
+                        "version": "$modVersionString",
                         "description": "${modDescription}",
                         "gameVersion": "${gameVersion}",
                         "jars":[${jars.joinToString() { "\"$it\"" }}],
@@ -189,6 +186,8 @@ tasks {
                         "masterVersionFile":"${masterVersionFile}",
                         "modName":"${modName}",
                         "modThreadId":${modThreadId},
+                        "directDownloadURL":"https://github.com/wispborne/stories/releases/download/$modVersionString/Persean-Chronicles-$modVersionString.zip",
+                        "changelogURL":"https://raw.githubusercontent.com/wispborne/stories/$modVersionString/changelog.md",
                         "modVersion":
                         {
                             "major":${versionObject._1},
