@@ -1,5 +1,13 @@
 ## Changelog
 
+Version 3.0.3
+Fixed
+    - Depths was offered multiple times (thanks to Thaumaturge).
+    - Riley never paid you! (thanks to sadday)
+        - If you already completed the quest, you'll get paid shortly after loading your save.
+Added
+    - Cameo from Sierra during Riley quest (has no gameplay effects, only dialog).
+
 Version 3.0.2
 Fixed
     - Crash after Riley dialog that shows after 2 days (thanks to AERO).

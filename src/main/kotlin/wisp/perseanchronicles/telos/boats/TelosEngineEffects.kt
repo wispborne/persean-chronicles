@@ -19,7 +19,7 @@ import kotlin.random.Random
  */
 class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
 
-    var currentPalette = ShipPalette.DEFAULT
+    var currentPalette = defaultShipPalette
 
     var baseNebulaColorOverride: Color? = null
     var baseSwirlyNebulaColorOverride: Color? = null
@@ -37,7 +37,7 @@ class TelosEngineEffects : EveryFrameWeaponEffectPlugin {
         if (!hasSetPalette) {
             currentPalette =
                 weapon.ship.captain?.tags?.firstNotNullOfOrNull { kotlin.runCatching { ShipPalette.valueOf(it) }.getOrNull() }
-                    ?: ShipPalette.DEFAULT
+                    ?: defaultShipPalette
             hasSetPalette = true
         }
 

@@ -53,6 +53,9 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         var completeDateInMillis: Long? by map
         var startLocation: SectorEntityToken? by map
         var destinationPlanet: SectorEntityToken? by map
+
+        // In 3.0.2, Riley never pays player.
+        var isPostV302save: Boolean? by map
     }
 
     val choices: Choices =
@@ -63,18 +66,19 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
      * Leave `map` public and accessible so it can be cleared if the quest is restarted.
      */
     class Choices(val map: MutableMap<String, Any?>) {
-        var askedWhyNotBuyOwnShip by map
-        var refusedPayment by map
-        var askedAboutDJingPay by map
-        var visitedFather by map
-        var complimentedRiley by map
-        var heldRiley by map
-        var askedIfLegal by map
-        var askedWhatRileyThinks by map
-        var triedToConvinceToJoinYou by map
-        var leftRileyWithFather by map
-        var destroyedTheCore by map
-        var turnedInForABounty by map
+        var askedWhyNotBuyOwnShip: Boolean? by map
+        var refusedPayment: Boolean? by map
+        var askedAboutDJingPay: Boolean? by map
+        var visitedFather: Boolean? by map
+        var complimentedRiley: Boolean? by map
+        var heldRiley: Boolean? by map
+        var askedIfLegal: Boolean? by map
+        var askedWhatRileyThinks: Boolean? by map
+        var askedWhatSierraThinks: Boolean? by map
+        var triedToConvinceToJoinYou: Boolean? by map
+        var leftRileyWithFather: Boolean? by map
+        var destroyedTheCore: Boolean? by map
+        var turnedInForABounty: Boolean? by map
     }
 
     override fun updateTextReplacements(text: Text) {
@@ -120,7 +124,6 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         setSuccessStage(Stage.Completed)
         setAbandonStage(Stage.Abandoned)
         addFailureStages(Stage.FailedTimeout)
-
         name = game.text["riley_intel_title"]
         setCreditReward(CreditReward.HIGH)
         setGiverFaction(riley.faction?.id) // Rep reward.

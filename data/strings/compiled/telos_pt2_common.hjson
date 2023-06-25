@@ -94,7 +94,7 @@
               }
             }, {
               "id" : "7",
-              "paras" : [ "You sink the plunger deep into your right leg. The gray liquid drains from the barrel and you can feel a wave of cold spreading from the site. Karengo watches intently, uncharacteristically quiet, as you take a seat on a stair and wait.", "You black out." ],
+              "paras" : [ "You sink the plunger deep into your right leg. The gray liquid drains from the barrel and you feel a wave of cold spreading from the site. Karengo watches intently, uncharacteristically quiet, as you take a seat on a stair and wait.", "You black out." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "8"

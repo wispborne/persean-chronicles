@@ -1,6 +1,7 @@
 package wisp.perseanchronicles
 
 import com.fs.starfarer.api.BaseModPlugin
+import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.impl.campaign.CoreRuleTokenReplacementGeneratorImpl
 import com.fs.starfarer.api.impl.campaign.ids.Tags
@@ -89,6 +90,8 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
             }
                 .onFailure { game.logger.e(it) }
         }
+
+        fixV302RileyBug()
     }
 
     /**
@@ -268,6 +271,38 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
             ShaderLib.init()
 //            LightData.readLightDataCSV("data/lights/perseanchronicles_light_data.csv")
             TextureData.readTextureDataCSV("data/lights/perseanchronicles_texture_data.csv")
+        }
+    }
+
+    /**
+     * Fix for bug in 3.0.0 - 3.0.2, Riley never pays player.
+     */
+    private fun fixV302RileyBug() {
+        if (RileyHubMission.state.isPostV302save != true) {
+            RileyHubMission.state.isPostV302save = true
+
+            // If quest was completed and player didn't refuse payment, give them the money.
+//            if (RileyHubMission.state.completeDateInMillis != null && RileyHubMission.choices.refusedPayment != true) {
+                game.sector.addTransientScript(object : EveryFrameScript {
+                    var done = false
+                    var timePassed = 0f
+                    override fun isDone(): Boolean = done
+                    override fun runWhilePaused(): Boolean = false
+                    override fun advance(amount: Float) {
+                        timePassed += amount
+
+                        if (timePassed > 2f) {
+                            game.sector.playerFleet.cargo.credits.add(70000f)
+                            game.sector.campaignUI.addMessage(
+                                "80,000 credits appear in your account. \n\"Sorry, forgot to pay you!\" - Riley",
+                                Misc.getHighlightColor()
+                            )
+                            done = true
+                            game.sector.removeTransientScript(this)
+                        }
+                    }
+                })
+//            }
         }
     }
 }

@@ -8,11 +8,12 @@ Persean Chronicles is a mod for the game Starsector that adds a collection of on
 
 Requires LazyLib 2.8 or later.
 
+- Karengo questline
+  - Dragons: A expedition takes you up close and personal with some wildlife.
+  - Depths: Following 'Dragons', an expedition takes you deep underwater.
+  - Telos: Following 'Depths', you investigate an extinct mini-faction - and their ships.
+      - Nexerelin's random systems (Corvus Mode) is not supported for 'Telos' and the quest will not appear.
 - Riley: A woman books a ride with your fleet to visit family.
-- Dragons: A expedition takes you up close and personal with some wildlife.
-- Depths: Following 'Dragons', an expedition takes you deep underwater.
-- Telos: Following 'Depths', you investigate a lost mini-faction.
-    - Nexerelin's random systems (Corvus Mode) is not supported for 'Telos' and the quest will not appear.
 - Nirvana: Some scientists need you to perform a cargo delivery.
 - Laborer: A down-on-his-luck worker wants off-world.
 
@@ -83,10 +84,14 @@ Do not read ahead if you would prefer to be surprised.
 
 .
 
-- Riley: Starts from a planet with pop 6 or greater.
+#### Karengo questline
 - Dragons: Starts from a planet with pop 5 or greater.
 - Depths: Starts from a planet with pop 5 or greater and 30 days after successfully completing Dragons.
 - Telos: Starts from an Independent planet with pop 5 or greater and 30 days after successfully completing Depths.
-  - Nexerelin's Random Mode (Corvus Mode) is not supported and the quest will not show up.
-- Nirvana: Starts from an Independent planet with pop 4 or greater once you are at least level 8 (ie not a nobody).
-- Laborer: Starts from a planet with pop 3 or greater and the Mining industry.
+  - Nexerelin's Random Mode (Corvus Mode) is not supported for Telos and the quest will not show up.
+#### Riley quest
+Starts from a planet with pop 6 or greater.
+#### Nirvana quest
+Starts from an Independent planet with pop 4 or greater once you are at least level 8 (ie not a nobody).
+#### Laborer quest
+Starts from a planet with pop 3 or greater and the Mining industry.
