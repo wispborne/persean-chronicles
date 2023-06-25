@@ -1,6 +1,12 @@
 package wisp.perseanchronicles.telos.boats
 
+import wisp.perseanchronicles.game
 import java.awt.Color
+
+val defaultShipPalette: ShipPalette
+    get() = if (game.sector?.playerPerson?.nameString?.contains("wisp", ignoreCase = true) == true)
+        ShipPalette.RED
+    else ShipPalette.PLAYER
 
 enum class ShipPalette(
     val baseNebula: Color,
@@ -12,7 +18,7 @@ enum class ShipPalette(
     val phaseInitial: Color,
     val phaseMain: Color,
 ) {
-    DEFAULT(
+    PLAYER(
         baseNebula = Color.decode("#1972DB"),
         baseSwirlyNebula = Color.decode("#3498DB"),
         baseNegative = Color.decode("#18FE6D"),
@@ -71,5 +77,15 @@ enum class ShipPalette(
         fluxGlow = Color(255, 64, 105),
         phaseInitial = Color(240, 101, 255),
         phaseMain = Color(150, 72, 255),
-    )
+    ),
+    RED(
+        baseNebula = Color(255, 64, 105),
+        baseSwirlyNebula = Color(255, 107, 139),
+        baseNegative = Color(64, 255, 197),
+        glowBase = Color.decode("#A00020"),
+        speedGlow = Color.decode("#FE0037"),
+        fluxGlow = Color(255, 64, 105),
+        phaseInitial = Color.decode("#FF6B8B"),
+        phaseMain = Color.decode("#FE0037"),
+    ),
 }

@@ -4,7 +4,6 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.combat.MutableShipStatsAPI
 import com.fs.starfarer.api.combat.PhaseCloakSystemAPI
 import com.fs.starfarer.api.combat.ShipAPI
-import com.fs.starfarer.api.impl.campaign.ids.Stats
 import com.fs.starfarer.api.impl.combat.BaseShipSystemScript
 import com.fs.starfarer.api.impl.combat.PhaseCloakStats
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript
@@ -36,7 +35,7 @@ class TelosPhaseDashSystem : BaseShipSystemScript() {
                 .mapNotNull { it.effectPlugin }
                 .filterIsInstance<TelosEngineEffects>()
                 .firstOrNull()
-                ?.currentPalette ?: ShipPalette.DEFAULT
+                ?.currentPalette ?: defaultShipPalette
 
         // Make Avalok modules lunge too.
         ship.childModulesCopy.orEmpty()

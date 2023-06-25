@@ -54,11 +54,11 @@ class TelosGlowPlugin(
                 .mapNotNull { it.effectPlugin }
                 .filterIsInstance<TelosEngineEffects>()
                 .firstOrNull()
-                ?.currentPalette ?: ShipPalette.DEFAULT
+                ?.currentPalette ?: defaultShipPalette
         val baseColor = palette.glowBase
 
         // Set shield color too, why not.
-        if (palette != ShipPalette.DEFAULT) {
+        if (palette != ShipPalette.PLAYER) {
             ship.shield.innerColor = palette.baseSwirlyNebula
             ship.shield.ringColor = palette.baseNebula
         }

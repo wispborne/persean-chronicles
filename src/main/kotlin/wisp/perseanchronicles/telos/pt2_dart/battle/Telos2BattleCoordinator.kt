@@ -19,6 +19,7 @@ import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.boats.ShipPalette
+import wisp.perseanchronicles.telos.boats.defaultShipPalette
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.wispLib.addShipVariant
 import wisp.questgiver.wispLib.findFirst
@@ -41,7 +42,7 @@ object Telos2BattleCoordinator {
             .setFirstName("Titania").setLastName("Leblanc").setGender(FullName.Gender.FEMALE).setPersonality(Personalities.AGGRESSIVE).setLevel(4)
             .create()
             .apply {
-                addTag(ShipPalette.DEFAULT.name)
+                addTag(defaultShipPalette.name)
             },
         MagicCampaign.createCaptainBuilder(TelosCommon.FACTION_TELOS_ID)
             .setFirstName("Kemi").setLastName("Qadri").setGender(FullName.Gender.FEMALE).setPersonality(Personalities.AGGRESSIVE).setLevel(5)

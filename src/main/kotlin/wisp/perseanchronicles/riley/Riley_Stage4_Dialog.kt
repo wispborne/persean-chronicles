@@ -1,14 +1,15 @@
 package wisp.perseanchronicles.riley
 
 import com.fs.starfarer.api.Global
+import com.fs.starfarer.api.util.Misc
+import data.scripts.utils.SotfMisc
+import org.magiclib.kotlin.addCreditsGainText
 import org.magiclib.kotlin.adjustReputationWithPlayer
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.wispLib.findFirst
-import com.fs.starfarer.api.util.Misc
-import org.magiclib.kotlin.addCreditsGainText
 
 class Riley_Stage4_Dialog(
     val mission: RileyHubMission = Global.getSector().intelManager.findFirst()!!
@@ -39,9 +40,11 @@ class Riley_Stage4_Dialog(
                     onOptionSelected = { navigator ->
                         if (RileyHubMission.choices.refusedPayment != true) {
                             dialog.textPanel.addCreditsGainText(mission.creditsReward)
+                            game.sector.playerFleet.cargo.credits.add(mission.creditsReward.toFloat())
                             mission.setCreditReward(0)
                         }
-                        navigator.goToPage(2) }
+                        navigator.goToPage(2)
+                    }
                 ),
                 IInteractionLogic.Option(
                     // Ask if DJing pays well
@@ -203,7 +206,7 @@ class Riley_Stage4_Dialog(
                     }
                 ),
                 IInteractionLogic.Option(
-                    // Try to convince her to come with you
+                    // Try to convince her to come with you, after you've seen Riley talking to dad
                     showIf = {
                         RileyHubMission.choices.askedWhatRileyThinks == true
                                 && RileyHubMission.choices.triedToConvinceToJoinYou == null
@@ -213,6 +216,26 @@ class Riley_Stage4_Dialog(
                     onOptionSelected = { navigator ->
                         RileyHubMission.choices.triedToConvinceToJoinYou = true
                         para { game.text["riley_stg4_pg4_opt3_onSelected"] }
+                        navigator.refreshOptions()
+                    }
+                ),
+                IInteractionLogic.Option(
+                    // Ask Sierra, after you've seen Riley talking to dad
+                    showIf = {
+                        runCatching {
+                            game.settings.modManager.isModEnabled("secretsofthefrontier")
+                                    && SotfMisc.playerHasSierra()
+                                    && RileyHubMission.choices.askedWhatRileyThinks == true
+                                    && RileyHubMission.choices.askedWhatSierraThinks == null
+                        }.onFailure { game.logger.w(it) { "Not a crash. Error when checking if Sierra exists." } }
+                            .getOrDefault(false)
+                    },
+                    // "Sierra, your thoughts?"
+                    text = { game.text["riley_stg4_pg4_opt7_sierra"] },
+                    onOptionSelected = { navigator ->
+                        RileyHubMission.choices.askedWhatSierraThinks = true
+                        para { game.text["riley_stg4_pg4_opt7_sierra_onSelected_para1"] }
+                        para { game.text["riley_stg4_pg4_opt7_sierra_onSelected_para2"] }
                         navigator.refreshOptions()
                     }
                 ),
@@ -243,7 +266,6 @@ class Riley_Stage4_Dialog(
                     }
                 ),
                 IInteractionLogic.Option(
-                    // TODO sierra reaction?
                     // Draw your gun and destroy the Core
                     text = { game.text["riley_stg4_pg4_opt5"] },
                     onOptionSelected = { navigator ->
@@ -269,7 +291,6 @@ class Riley_Stage4_Dialog(
                     text = { game.text["riley_stg4_pg4_opt6"] },
                     onOptionSelected = { navigator ->
                         RileyHubMission.choices.turnedInForABounty = true
-                        game.sector.playerFleet.cargo.credits.add(RileyHubMission.BOUNTY_CREDITS.toFloat())
                         para {
                             game.text.getf(
                                 "riley_stg4_pg4_opt6_onSelected_para1",
@@ -287,6 +308,7 @@ class Riley_Stage4_Dialog(
                             dialog.textPanel.adjustReputationWithPlayer(RileyHubMission.state.destinationPlanet?.market?.factionId!!, .05f)
                         }
 
+                        game.sector.playerFleet.cargo.credits.add(RileyHubMission.BOUNTY_CREDITS.toFloat())
                         dialog.textPanel.addCreditsGainText(RileyHubMission.BOUNTY_CREDITS)
                         mission.setCurrentStage(RileyHubMission.Stage.Completed, dialog, null)
                         navigator.promptToContinue(game.text["leave"]) {
