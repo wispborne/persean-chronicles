@@ -10,14 +10,17 @@ import org.magiclib.util.MagicCampaign
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.nirvana.NirvanaHubMission
 import wisp.perseanchronicles.riley.RileyHubMission
-import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.spriteName
 import wisp.questgiver.v2.IInteractionLogic
-import wisp.questgiver.v2.InteractionDialog
 import wisp.questgiver.v2.spriteName
+import wisp.questgiver.wispLib.Memory
 import wisp.questgiver.wispLib.empty
 
 object PerseanChroniclesNPCs {
+    // The $ is automatically added. These are set to sector Memory.
+    var isKarengoInFleet: Boolean by Memory("wisp_perseanchronicles_isKarengoInFleet") { false }
+    var isLaborerInFleet: Boolean by Memory("wisp_perseanchronicles_isLaborerInFleet") { false }
+    var isRileyInFleet: Boolean by Memory("wisp_perseanchronicles_isRileyInFleet") { false }
+
     val karengo: PersonAPI
         get() {
             val key = "karengo"

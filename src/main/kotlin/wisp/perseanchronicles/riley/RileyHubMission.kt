@@ -150,6 +150,7 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         state.startLocation = startLocation
         game.logger.i { "${this.name} start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
         state.startDateMillis = game.sector.clock.timestamp
+        PerseanChroniclesNPCs.isRileyInFleet = true
 
 
         game.logger.i { "Riley start planet set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
@@ -177,6 +178,7 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     override fun endSuccessImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
         super.endSuccessImpl(dialog, memoryMap)
         state.completeDateInMillis = game.sector.clock.timestamp
+        PerseanChroniclesNPCs.isRileyInFleet = false
         // Credit reward is automatically given and shown.
     }
 
@@ -184,9 +186,15 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         super.endAbandonImpl()
         game.logger.i { "Abandoning ${this.name} quest." }
 
+        PerseanChroniclesNPCs.isRileyInFleet = false
         state.map.clear()
         choices.map.clear()
         setCurrentStage(null, null, null)
+    }
+
+    override fun endFailureImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
+        super.endFailureImpl(dialog, memoryMap)
+        PerseanChroniclesNPCs.isRileyInFleet = false
     }
 
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {

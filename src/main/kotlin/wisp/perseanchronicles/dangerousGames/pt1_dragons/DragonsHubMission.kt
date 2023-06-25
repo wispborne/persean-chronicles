@@ -117,6 +117,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         state.startingPlanet = startLocation
         game.logger.i { "${this.name} start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
         state.startDateMillis = game.sector.clock.timestamp
+        PerseanChroniclesNPCs.isKarengoInFleet = true
 
         // Sets the system as the map objective.
         makeImportant(state.dragonPlanet, null, Stage.GoToPlanet)
@@ -132,7 +133,13 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     override fun endSuccessImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
         super.endSuccessImpl(dialog, memoryMap)
         state.completeDateInMillis = game.sector.clock.timestamp
+        PerseanChroniclesNPCs.isKarengoInFleet = false
         // Credit reward is automatically given and shown.
+    }
+
+    override fun endFailureImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
+        super.endFailureImpl(dialog, memoryMap)
+        PerseanChroniclesNPCs.isKarengoInFleet = false
     }
 
     override fun endAbandonImpl() {
@@ -140,6 +147,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         game.logger.i { "Abandoning ${this.name} quest." }
 
         state.map.clear()
+        PerseanChroniclesNPCs.isKarengoInFleet = false
         setCurrentStage(Stage.NotStarted, null, null)
     }
 

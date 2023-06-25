@@ -3,12 +3,12 @@
     "masterVersionFile":"https://raw.githubusercontent.com/davidwhitman/stories/master/wisp_perseanchronicles.version",
     "modName":"Persean Chronicles",
     "modThreadId":19830,
-    "directDownloadURL":"https://github.com/wispborne/stories/releases/download/3.0.3/Persean-Chronicles-3.0.3.zip",
-    "changelogURL":"https://raw.githubusercontent.com/wispborne/stories/3.0.3/changelog.md",
+    "directDownloadURL":"https://github.com/wispborne/stories/releases/download/3.0.4/Persean-Chronicles-3.0.4.zip",
+    "changelogURL":"https://raw.githubusercontent.com/wispborne/stories/3.0.4/changelog.md",
     "modVersion":
     {
         "major":3,
         "minor":0,
-        "patch":3
+        "patch":4
     }
 }

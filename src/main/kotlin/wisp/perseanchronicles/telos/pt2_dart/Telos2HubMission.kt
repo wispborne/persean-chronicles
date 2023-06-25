@@ -56,6 +56,7 @@ class Telos2HubMission : QGHubMission() {
     class State(val map: MutableMap<String, Any?>) {
         var startDateMillis: Long? by map
         var completeDateInMillis: Long? by map
+
         // If they won this, they cheated.
         var wonRecordedBattle: Boolean? by map
     }
@@ -134,6 +135,14 @@ class Telos2HubMission : QGHubMission() {
             triggerFleetAddTags(PIRATE_FLEET_TAG)
         }
 
+        // When you land on the planet, Karengo joins your fleet.
+        trigger {
+            beginStageTrigger(Stage.LandOnPlanetFirst)
+            triggerCustomAction {
+                PerseanChroniclesNPCs.isKarengoInFleet = true
+            }
+        }
+
         return true
     }
 
@@ -158,6 +167,16 @@ class Telos2HubMission : QGHubMission() {
 
         state.completeDateInMillis = game.sector.clock.timestamp
     }
+
+    override fun endAbandonImpl() {
+        super.endAbandonImpl()
+        game.logger.i { "Abandoning ${this.name} quest." }
+        PerseanChroniclesNPCs.isKarengoInFleet = false
+
+        state.map.clear()
+        currentStage = null
+    }
+
 
     override fun callAction(
         action: String?,
@@ -199,14 +218,6 @@ class Telos2HubMission : QGHubMission() {
 
             else -> null
         }
-    }
-
-    override fun endAbandonImpl() {
-        super.endAbandonImpl()
-        game.logger.i { "Abandoning ${this.name} quest." }
-
-        state.map.clear()
-        currentStage = null
     }
 
     /**
