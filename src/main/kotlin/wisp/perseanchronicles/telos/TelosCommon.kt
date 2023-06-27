@@ -43,7 +43,11 @@ object TelosCommon {
     const val ETHER_SIGHT_ID = "wisp_perseanchronicles_ethersight"
     const val ETHER_OFFICER_TAG = "wisp_perseanchronicles_etherNetworked"
 
-    const val isPhase1 = true
+    /**
+     * Don't let player progress past Phase 1 of the questline (unless playername includes wisp or test)
+     */
+    val isPhase1
+        get() = game.sector?.playerPerson?.nameString?.contains(Regex("""wisp|test""", RegexOption.IGNORE_CASE)) != true
 
     fun playThemeMusic(fadeOutSeconds: Int = 3, fadeInSeconds: Int = 3) {
         val musicSetId = "wisp_perseanchronicles_telosThemeMusic"

@@ -138,6 +138,7 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         state.startLocation = startLocation.market
         game.logger.i { "${this.name} start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
         state.startDateMillis = game.sector.clock.timestamp
+        PerseanChroniclesNPCs.isLaborerInFleet = true
 
         // Sets the system as the map objective.
         makeImportant(state.destPlanet, null, Stage.GoToPlanet)
@@ -147,6 +148,7 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     override fun endSuccessImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
         super.endSuccessImpl(dialog, memoryMap)
         state.completeDateInMillis = game.sector.clock.timestamp
+        PerseanChroniclesNPCs.isLaborerInFleet = false
 
         if (!game.sector.hasScript(PayoutScript::class.java)) {
             game.sector.addScript(PayoutScript(game.sector.clock))
@@ -156,6 +158,7 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     override fun endAbandonImpl() {
         super.endAbandonImpl()
         game.logger.i { "Abandoning ${this.name} quest." }
+        PerseanChroniclesNPCs.isLaborerInFleet = false
 
         state.map.clear()
         choices.map.clear()
