@@ -1,5 +1,14 @@
 ## Changelog
 
+Version 3.0.4
+Fixed
+    - Crash after the Telos battle if Nexerelin is enabled (thanks to papasan).
+Added
+    - For other modders: hooks for when Karengo/Riley/the laborer are in the fleet.
+        - `$wisp_perseanchronicles_isKarengoInFleet`
+        - `$wisp_perseanchronicles_isLaborerInFleet`
+        - `$wisp_perseanchronicles_isRileyInFleet`
+
 Version 3.0.3
 Fixed
     - Depths was offered multiple times (thanks to Thaumaturge).

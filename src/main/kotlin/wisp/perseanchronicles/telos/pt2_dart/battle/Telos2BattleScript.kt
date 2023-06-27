@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.telos.pt2_dart.battle
 
+import com.fs.starfarer.api.campaign.BattleAPI
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.input.InputEventAPI
@@ -45,7 +46,6 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
             return
 
         // Disable Combat Chatter.
-//        combatEngine.ships.orEmpty().forEach { it.captain?.memoryWithoutUpdate?.set("\$chatterChar", "none") }
         combatEngine.ships.orEmpty().forEach { it.captain?.memoryWithoutUpdate?.set("\$chatterChar", "none") }
 
         totalTimeElapsed += amount
@@ -160,7 +160,8 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
         if (secsSinceWave2Arrived != null && combatEngine.isCombatOver) {
             onTelosBattleEnded(
                 didPlayerWin = combatEngine.winningSideId == BattleSide.PLAYER,
-                originalPlayerFleet = playerRealFleetHolder
+                originalPlayerFleet = playerRealFleetHolder,
+                battle = game.factory.createBattle(game.sector.playerFleet, hegFleet)
             )
             combatEngine.removePlugin(this)
         }
@@ -171,7 +172,8 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
      */
     private fun onTelosBattleEnded(
         didPlayerWin: Boolean,
-        originalPlayerFleet: CampaignFleetAPI
+        originalPlayerFleet: CampaignFleetAPI,
+        battle: BattleAPI
     ) {
         game.logger.i { "Telos battle ended. Did player win? $didPlayerWin" }
         Telos2HubMission.state.wonRecordedBattle = didPlayerWin
@@ -184,6 +186,6 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
         game.sector.playerFleet.swapFleets(
             otherFleet = originalPlayerFleet
         )
-        game.sector.reportBattleFinished(if (didPlayerWin) game.sector.playerFleet else hegFleet, null)
+        game.sector.reportBattleFinished(if (didPlayerWin) game.sector.playerFleet else hegFleet, battle)
     }
 }
