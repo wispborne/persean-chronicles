@@ -38,7 +38,9 @@ class Depths_Stage2_EndDialog(val mission: DepthsHubMission = game.intelManager.
                                     game.text["dg_de_stg3_backToStart_pg1_para2_ifFailedNoRiddles"]
                                 }
 
-                                else -> error("Unexpected success count ${mission.riddleSuccessesCount}")
+                                else -> {
+                                    "Unexpected success count ${mission.riddleSuccessesCount}"
+                                }
                             }
                         } else
                             game.text["dg_de_stg3_backToStart_pg1_para2_ifGatesAwakenedMidQuestNotDone"]

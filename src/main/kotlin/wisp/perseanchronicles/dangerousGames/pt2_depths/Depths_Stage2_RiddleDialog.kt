@@ -530,6 +530,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
             ),
             IInteractionLogic.Page(
                 id = PageId.BackAtTheSurface,
+                image = DepthsHubMission.intelIllustration,
                 onPageShown = {
                     para { game.text["dg_de_stg2_backAtSurface_para1"] }
                     mission.stopMusic()

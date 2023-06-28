@@ -87,7 +87,7 @@ object Telos2BattleCoordinator {
         // Can't use FleetEventListener because we aren't using a FleetInteractionDialogPluginImpl,
         // which is what triggers onBattleOccurred.
         // Have to rely on the calling dialog notifying us that the battle ended, which it knows because
-        // of the player using the dialog (this is how FIDPI works).
+        // of the player using the dialog (this is how FleetInteractionDialogPluginImpl works).
 
         // Start battle
         game.sector.campaignUI.startBattle(object : BattleCreationContext(
