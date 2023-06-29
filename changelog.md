@@ -1,5 +1,11 @@
 ## Changelog
 
+Version 3.0.5
+Fixed
+    - Riley no longer pays you just for starting a new game (thanks to ganegrei).
+Added
+    - New boss-only (unobtainable) dreadnaught in Telos quest, the Firebrand.
+
 Version 3.0.4
 Fixed
     - Crash after the Telos battle if Nexerelin is enabled (thanks to papasan).

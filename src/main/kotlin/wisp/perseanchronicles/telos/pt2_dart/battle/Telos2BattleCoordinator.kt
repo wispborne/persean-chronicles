@@ -204,7 +204,7 @@ object Telos2BattleCoordinator {
             .setFleetFaction(Factions.HEGEMONY)
             .setFleetType(FleetTypes.TASK_FORCE)
             .setFlagshipName(telos2HubMission?.getEugelShipName())
-            .setFlagshipVariant("onslaught_xiv_Elite")
+            .setFlagshipVariant("wisp_perseanchronicles_firebrand")
             .setFlagshipAlwaysRecoverable(false)
             .setFlagshipAutofit(true)
             .setCaptain(PerseanChroniclesNPCs.captainEugel)

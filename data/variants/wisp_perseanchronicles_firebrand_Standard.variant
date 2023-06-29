@@ -1,0 +1,65 @@
+{
+  "variantId": "wisp_perseanchronicles_firebrand_Standard",
+  "hullId": "wisp_perseanchronicles_firebrand",
+  "displayName": "Standard",
+  "goalVariant": true,
+  "fluxCapacitors": 20,
+  "fluxVents": 40,
+  "quality": 1,
+  "permaMods": [],
+  "hullMods": [],
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "gauss",
+        "WS0002": "hellbore",
+        "WS0004": "gauss",
+        "WS0007": "heavymg",
+        "WS0008": "heavymg",
+        "WS0011": "sabotpod",
+        "WS0012": "sabotpod"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0005": "gauss",
+        "WS0006": "gauss"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0003": "hellbore"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {}
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0009": "typhoon",
+        "WS0010": "typhoon"
+      }
+    }
+  ],
+  "modules": [
+    {
+      "WS0015": "wisp_perseanchronicles_firebrand_tl_Standard"
+    },
+    {
+      "WS0016": "wisp_perseanchronicles_firebrand_tr_Standard"
+    }
+  ],
+  "wings": [
+    "broadsword_wing"
+  ]
+}
