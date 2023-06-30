@@ -31,9 +31,7 @@
               } ]
             }, {
               "id" : "3-noEther",
-              "paras" : {
-                "non-cheater" : [ "The simulated explosions echo briefly around the room before dying." ]
-              },
+              "non-cheater" : [ "The simulated explosions echo briefly around the room before dying." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "3-noEther-2"

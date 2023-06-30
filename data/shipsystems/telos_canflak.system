@@ -1,0 +1,8 @@
+{
+	"id":"telos_canflak",
+	"type":"WEAPON",
+	"aiType":"CANISTER_FLAK",
+	
+	"weaponDataId":"telos_canflak",
+	"outOfUsesSound":"gun_out_of_ammo",
+}

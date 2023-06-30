@@ -1,0 +1,77 @@
+{
+  "hullName": "Armor",
+  "hullId": "wisp_perseanchronicles_firebrand_tr",
+  "hullSize": "FRIGATE",
+  "spriteName": "graphics/telos/ships/telos_firebrand_tr.png",
+  "style": "LOW_TECH",
+  "height": 200,
+  "width": 118,
+  "center": [59, 100],
+  "collisionRadius": 133,
+  "shieldCenter": [0, 0],
+  "shieldRadius": 128,
+  "viewOffset": 0,
+  "builtInMods": [
+    "reduced_explosion",
+    "always_detaches"
+  ],
+  "builtInWeapons": {
+    "WS0001": "gauss",
+    "WS0002": "arbalest",
+    "WS0003": "lightdualmg"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "LARGE",
+      "type": "BUILT_IN",
+      "mount": "TURRET",
+      "arc": 120,
+      "angle": 0,
+      "locations": [-30, 35]
+    },
+    {
+      "id": "WS0002",
+      "size": "MEDIUM",
+      "type": "BUILT_IN",
+      "mount": "TURRET",
+      "arc": 120,
+      "angle": -45,
+      "locations": [12, 25]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "BUILT_IN",
+      "mount": "TURRET",
+      "arc": 210,
+      "angle": -45,
+      "locations": [-12, 11]
+    }
+  ],
+  "engineSlots": [],
+  "bounds": [
+    -97, 7,
+    -88.5, 9,
+    -78.5, 1,
+    -42, 22,
+    -50, 34,
+    -46, 45.5,
+    -35.5, 53,
+    30, 51,
+    35, 48,
+    94, 53,
+    99.5, 44.5,
+    77, 20.5,
+    28.5, -7.5,
+    -4.5, -17,
+    -30, -47.5,
+    -35, -44,
+    -33.5, -38.5,
+    -53.5, -57.5,
+    -56.5, -53,
+    -44.5, -35.5,
+    -70, -46.5,
+    -95.5, -8.5
+  ]
+}

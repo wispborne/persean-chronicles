@@ -93,7 +93,7 @@ object Telos2BattleCoordinator {
         game.sector.campaignUI.startBattle(object : BattleCreationContext(
             game.sector.playerFleet,
             FleetGoal.ATTACK,
-            createInitialHegemonyFleet(),
+            createInitialEnemyFleet(),
             FleetGoal.ATTACK
         ) {
             init {
@@ -147,10 +147,10 @@ object Telos2BattleCoordinator {
     /**
      * Create the initial, easy force for the player to defeat in their new Dart.
      */
-    fun createInitialHegemonyFleet(): CampaignFleetAPI {
-        return FleetFactoryV3.createEmptyFleet(Factions.HEGEMONY, FleetTypes.TASK_FORCE, null).apply {
-            this.addShipVariant(variantOrHullId = "hound_hegemony_Standard", count = 1)
-            this.addShipVariant(variantOrHullId = "kite_hegemony_Interceptor", count = 1)
+    fun createInitialEnemyFleet(): CampaignFleetAPI {
+        return FleetFactoryV3.createEmptyFleet(Factions.LUDDIC_CHURCH, FleetTypes.TASK_FORCE, null).apply {
+            this.addShipVariant(variantOrHullId = "hound_luddic_church_Standard", count = 1)
+            this.addShipVariant(variantOrHullId = "kite_Standard", count = 1)
             this.addShipVariant(variantOrHullId = "condor_Support", count = 1)
             this.addShipVariant(variantOrHullId = "eradicator_Overdriven", count = 1).single().apply {
                 this.isFlagship = true
@@ -161,7 +161,7 @@ object Telos2BattleCoordinator {
                 FleetParamsV3(
                     /* source = */ null,
                     /* locInHyper = */ null,
-                    /* factionId = */ Factions.HEGEMONY,
+                    /* factionId = */ Factions.LUDDIC_CHURCH,
                     /* qualityOverride = */ 1f,
                     /* fleetType = */ FleetTypes.TASK_FORCE,
                     /* combatPts = */ this.fleetPoints.toFloat(),
@@ -195,18 +195,18 @@ object Telos2BattleCoordinator {
     /**
      * Create the impossible reinforcement fleet to wipe out the Telos.
      */
-    fun createHegemonyFleetReinforcements(): CampaignFleetAPI {
+    fun createEugelFleetReinforcements(): CampaignFleetAPI {
         val telos2HubMission = game.intelManager.findFirst<Telos2HubMission>()
 
         // good luck, kid
         return MagicCampaign.createFleetBuilder()
-            .setFleetName("Hegemony Attack Fleet")
-            .setFleetFaction(Factions.HEGEMONY)
+            .setFleetName("Unknown Attack Fleet")
+            .setFleetFaction(Factions.LUDDIC_CHURCH)
             .setFleetType(FleetTypes.TASK_FORCE)
             .setFlagshipName(telos2HubMission?.getEugelShipName())
-            .setFlagshipVariant("onslaught_xiv_Elite")
+            .setFlagshipVariant("wisp_perseanchronicles_firebrand_Standard")
             .setFlagshipAlwaysRecoverable(false)
-            .setFlagshipAutofit(true)
+            .setFlagshipAutofit(false)
             .setCaptain(PerseanChroniclesNPCs.captainEugel)
             .setSupportFleet(
                 mapOf(
@@ -219,7 +219,7 @@ object Telos2BattleCoordinator {
                 )
             )
             .setSupportAutofit(true)
-            .setReinforcementFaction(Factions.HEGEMONY)
+            .setReinforcementFaction(Factions.LUDDIC_CHURCH)
             .setQualityOverride(1f)
             .create()
             .apply {

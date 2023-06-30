@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.telos.pt2_dart.battle
 
+import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.campaign.BattleAPI
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
@@ -25,7 +26,7 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
     private var secsSinceWave2Arrived: Float? = null
     private var secsSinceWave3Arrived: Float? = null
 
-    private val hegFleet = Telos2BattleCoordinator.createHegemonyFleetReinforcements()
+    private val hegFleet = Telos2BattleCoordinator.createEugelFleetReinforcements()
     private val captEugeneShip = hegFleet.flagship
     private val wave2 = hegFleet.fleetData.membersListCopy.filter { it.isFlagship }
     private val wave3 = hegFleet.fleetData.membersListCopy.filter { !it.isFlagship }
@@ -158,10 +159,19 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
 
         // Battle is over!
         if (secsSinceWave2Arrived != null && combatEngine.isCombatOver) {
+            // Nexerelin requires a BattleAPI to call reportBattleFinished or else there's a crash.
+            // Battle's constructor adds itself as an EFS to the location, and then its advance method adds an animation.
+            // When the battle ends, AnimationManager tries to finish the animation, which then crashes (dunno why, all of the line numbers are Unknown Source).
+            // So, we remove the battle EFS from the location immediately.
+            val battle = game.factory.createBattle(game.sector.playerFleet, hegFleet)
+            if (battle is EveryFrameScript) {
+                game.sector.playerFleet.containingLocation.removeScript(battle as EveryFrameScript)
+            }
+
             onTelosBattleEnded(
                 didPlayerWin = combatEngine.winningSideId == BattleSide.PLAYER,
                 originalPlayerFleet = playerRealFleetHolder,
-                battle = game.factory.createBattle(game.sector.playerFleet, hegFleet)
+                battle = battle
             )
             combatEngine.removePlugin(this)
         }
@@ -186,6 +196,8 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
         game.sector.playerFleet.swapFleets(
             otherFleet = originalPlayerFleet
         )
+        // Nexerelin crashes if `battle` is null (vanilla doesn't).
         game.sector.reportBattleFinished(if (didPlayerWin) game.sector.playerFleet else hegFleet, battle)
+        game.combatEngine?.endCombat(0f)
     }
 }

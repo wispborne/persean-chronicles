@@ -282,7 +282,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
             RileyHubMission.state.isPostV302save = true
 
             // If quest was completed and player didn't refuse payment, give them the money.
-//            if (RileyHubMission.state.completeDateInMillis != null && RileyHubMission.choices.refusedPayment != true) {
+            if (RileyHubMission.state.completeDateInMillis != null && RileyHubMission.choices.refusedPayment != true) {
                 game.sector.addTransientScript(object : EveryFrameScript {
                     var done = false
                     var timePassed = 0f
@@ -302,7 +302,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
                         }
                     }
                 })
-//            }
+            }
         }
     }
 }
