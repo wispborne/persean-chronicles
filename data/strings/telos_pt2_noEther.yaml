@@ -52,8 +52,7 @@ wisp_perseanchronicles:
                   text: 'Begin battle'
 
             - id: '3-noEther'
-              paras:
-                non-cheater:
+              non-cheater:
                   - 'The simulated explosions echo briefly around the room before dying.'
               options:
                 - text: 'Continue'

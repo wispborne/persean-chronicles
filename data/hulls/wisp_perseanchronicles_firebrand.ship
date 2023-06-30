@@ -240,7 +240,11 @@
       "mount": "HIDDEN",
       "arc": 360,
       "angle": 0,
-      "locations": [118.5, 10]
+      "locations": [
+        119, 10.5,
+        114, 5,
+        122.5, 18.5
+      ]
     },
     {
       "id": "LB 2",
@@ -249,7 +253,11 @@
       "mount": "HIDDEN",
       "arc": 360,
       "angle": 0,
-      "locations": [118.5, -8.5]
+      "locations": [
+        118.5, -8.5,
+        116, -0.5,
+        115, -16.5
+      ]
     }
   ],
   "engineSlots": [

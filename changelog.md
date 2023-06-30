@@ -3,8 +3,10 @@
 Version 3.0.5
 Fixed
     - Riley no longer pays you just for starting a new game (thanks to ganegrei).
+    - Possible crash after the Telos battle ends.
+    - Another crash after the Telos battle ends (if you did not take the <REDACTED>).
 Added
-    - New boss-only (unobtainable) dreadnaught in Telos quest, the Firebrand.
+    - New boss dreadnaught (unobtainable) in Telos quest, the Firebrand.
 
 Version 3.0.4
 Fixed

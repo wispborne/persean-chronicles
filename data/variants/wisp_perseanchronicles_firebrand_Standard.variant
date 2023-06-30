@@ -3,8 +3,8 @@
   "hullId": "wisp_perseanchronicles_firebrand",
   "displayName": "Standard",
   "goalVariant": true,
-  "fluxCapacitors": 20,
-  "fluxVents": 40,
+  "fluxCapacitors": 50,
+  "fluxVents": 50,
   "quality": 1,
   "permaMods": [],
   "hullMods": [],
@@ -16,8 +16,8 @@
         "WS0001": "gauss",
         "WS0002": "hellbore",
         "WS0004": "gauss",
-        "WS0007": "heavymg",
-        "WS0008": "heavymg",
+        "WS0007": "dualflak",
+        "WS0008": "dualflak",
         "WS0011": "sabotpod",
         "WS0012": "sabotpod"
       }
@@ -60,6 +60,7 @@
     }
   ],
   "wings": [
-    "broadsword_wing"
+    "sarissa_wing",
+    "sarissa_wing"
   ]
 }
