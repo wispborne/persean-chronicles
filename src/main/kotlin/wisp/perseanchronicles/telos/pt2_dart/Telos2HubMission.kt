@@ -270,6 +270,10 @@ class Telos2HubMission : QGHubMission() {
             Stage.PostBattle,
             Stage.Completed -> {
                 info.addPara { part2Json.query<String>("/stages/completed/intel/subtitle").qgFormat() }
+
+                if (TelosCommon.isPhase1) {
+                    info.addPara(textColor = Misc.getHighlightColor()) { "Karengo and the Telos will continue in Persean Chronicles v3.2." }
+                }
             }
         }
     }

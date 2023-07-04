@@ -72,6 +72,7 @@ object Telos2BattleCoordinator {
     fun startBattle() {
         game.sector.registerPlugin(CampaignPlugin())
 
+        // Holds the player's real fleet while we swap it out for the battle with the Telos ship fleet.
         val playerFleetHolder =
             game.factory.createEmptyFleet(game.sector.playerFaction.id, "[PersChron] Player Fleet Holder", true)
 

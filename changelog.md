@@ -1,51 +1,56 @@
 ## Changelog
 
+Version 3.0.6
+- Fixed
+  - (Another) crash after the Telos battle (thanks to bifur).
+
 Version 3.0.5
-Fixed
+- Fixed
     - Riley no longer pays you just for starting a new game (thanks to ganegrei).
     - Possible crash after the Telos battle ends.
-    - Another crash after the Telos battle ends (if you did not take the <REDACTED>).
-Added
+    - Another crash after the Telos battle ends (if you did not take the `[REDACTED]`).
+    - Crash on Linux due to case-sensitive file system (thanks to TameFroggy).
+- Added
     - New boss dreadnaught (unobtainable) in Telos quest, the Firebrand.
 
 Version 3.0.4
-Fixed
+- Fixed
     - Crash after the Telos battle if Nexerelin is enabled (thanks to papasan).
-Added
+- Added
     - For other modders: hooks for when Karengo/Riley/the laborer are in the fleet.
         - `$wisp_perseanchronicles_isKarengoInFleet`
         - `$wisp_perseanchronicles_isLaborerInFleet`
         - `$wisp_perseanchronicles_isRileyInFleet`
 
 Version 3.0.3
-Fixed
+- Fixed
     - Depths was offered multiple times (thanks to Thaumaturge).
     - Riley never paid you! (thanks to sadday)
         - If you already completed the quest, you'll get paid shortly after loading your save.
-Added
+- Added
     - Cameo from Sierra during Riley quest (has no gameplay effects, only dialog).
 
 Version 3.0.2
-Fixed
+- Fixed
     - Crash after Riley dialog that shows after 2 days (thanks to AERO).
 
 Version 3.0.1
-Fixed
+- Fixed
     - Fixed missing Karengo portrait in Dragons bar event.
     - Typo in Riley quest (thanks to ruddygreat).
     - Possible softlock in bar event (if you decided not to accept a quest, then relanded).
     - Was not showing player name if player didn't have a last name.
-Changed
+- Changed
     - Vara (frigate) system now has a linear speed falloff, rather than two stages of speed. 
 
 Version 3.0.0 (2023-06-11)
-Added
+- Added
     - Phase 1 of 3 of the new Telos (rhymes with Vell-os...) questline, which starts a month after finishing the first two Karengo quests.
         - Adds a unique new ship.
         - New music (turn up the sound!)
         - More Karengo.
 
-Changed
+- Changed
     - Improvements in the five existing quests.
         - New art (mostly AI-gen).
         - Many various dialog improvements and fixes (some thanks to the Endless Sky adaptation).
@@ -53,41 +58,41 @@ Changed
         - Old bugs fixed, new bugs added.
 
 Version 2.0.2 (2021-04-04)
-Fixed
+- Fixed
     - Broken dialog if Nexerelin has the Freeport in hyperspace.
     - Added quests to the Accepted intel tag.
 
 Version 2.0.1 (2021-03-28)
-Fixed
+- Fixed
     - Crash in the bar when the Nirvana quest was offered (`sys.star must not be null`).
 
 Version 2.0.0 (2021-03-27)
-Changed
+- Changed
     - 0.95a compatibility.
     - No other changes from 1.0.4
 
 Version 1.0.4 (2021-03-17)
-Fixed
+- Fixed
     - Don't kick player out of Depths if the music fails to play.
 
 Version 1.0.3 (2021-03-08)
-Added
+- Added
     - Config file to disable quests from being offered (located at ./perseanChroniclesSettings.json).
-Changed
+- Changed
     - Clarified rewards for Depths and minor wording cleanup.
     - Nirvana is now only offered at level 10 and above (due to the danger involved and time for player to grow some reputation).
-Fixed
+- Fixed
     - Crash on some computers when playing the music for Depths.
 
 Version 1.0.2
     - Yanked due to issues and rolled into 1.0.3
 
 Version 1.0.1 (2020-02-26)
-Added 
+- Added 
     - More robust blacklisting and whitelisting. (see https://starsector.fandom.com/wiki/Category:Modding#Persean_Chronicles)
-Changed
+- Changed
     - Slightly different text for Dragons if ending planet is hostile.
-Fixed
+- Fixed
     - Quests should no longer be offered from blacklisted locations. 
 
 Version 1.0.0 (2020-02-20)

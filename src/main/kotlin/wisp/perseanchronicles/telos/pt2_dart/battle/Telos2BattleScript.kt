@@ -157,8 +157,9 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
             secsSinceWave3Arrived = 0f
         }
 
-        // Battle is over!
-        if (secsSinceWave2Arrived != null && combatEngine.isCombatOver) {
+        // Battle is over if either the player lost (at any point) or if the player won *after* the reinforcements arrived.
+        // If the player won before the reinforcements arrived, the battle is not over yet ;)
+        if ((secsSinceWave2Arrived != null || combatEngine.winningSideId == BattleSide.ENEMY) && combatEngine.isCombatOver) {
             // Nexerelin requires a BattleAPI to call reportBattleFinished or else there's a crash.
             // Battle's constructor adds itself as an EFS to the location, and then its advance method adds an animation.
             // When the battle ends, AnimationManager tries to finish the animation, which then crashes (dunno why, all of the line numbers are Unknown Source).
@@ -192,12 +193,13 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
             game.logger.i { "Cheater cheater pumpkin eater!" }
         }
 
+        game.combatEngine?.endCombat(0f)
+
         // Give the player back their fleet.
         game.sector.playerFleet.swapFleets(
             otherFleet = originalPlayerFleet
         )
         // Nexerelin crashes if `battle` is null (vanilla doesn't).
         game.sector.reportBattleFinished(if (didPlayerWin) game.sector.playerFleet else hegFleet, battle)
-        game.combatEngine?.endCombat(0f)
     }
 }
