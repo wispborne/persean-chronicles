@@ -132,17 +132,22 @@ class Telos2SecondLandingDialog(
                             // It will serialize the whole dialog, which can't be deserialized.
                             game.sector.addTransientListener(object : BaseCampaignEventListener(false) {
                                 override fun reportBattleFinished(primaryWinner: CampaignFleetAPI?, battle: BattleAPI?) {
-                                    mission.setCurrentStage(Telos2HubMission.Stage.PostBattle, null, null)
-                                    if (Telos2HubMission.choices.injectedSelf == true) {
-                                        navigator.goToPage("6-finished-battle")
-                                    } else {
-                                        navigator.goToPage("3-noEther")
-                                    }
+                                    runCatching {
+                                        mission.setCurrentStage(Telos2HubMission.Stage.PostBattle, null, null)
+                                        if (Telos2HubMission.choices.injectedSelf == true) {
+                                            navigator.goToPage("6-finished-battle")
+                                        } else {
+                                            navigator.goToPage("3-noEther")
+                                        }
+                                    }.onFailure { game.logger.w(it) }
+
+                                    game.sector.removeListener(this)
                                 }
                             })
 
                         }
                     )
+
                     "check-karengo" -> option.copy(showIf = { Telos2HubMission.choices.checkedKarengo != true })
                     "query-system" -> option.copy(showIf = { Telos2HubMission.choices.queriedSystem != true })
                     "return-fleet" -> option.copy(showIf = { Telos2HubMission.choices.queriedSystem == true || Telos2HubMission.choices.checkedKarengo == true })
