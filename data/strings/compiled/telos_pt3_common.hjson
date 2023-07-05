@@ -37,7 +37,7 @@
               } ]
             }, {
               "id" : "4-labs",
-              "paras" : [ "There are two laboratories in the southern arm of the tunnel system. The instruments inside of one are smashed and broken as a result of sabotage, but you recognize enough to tell that this is where the unique drive system and uncommonly powerful shielding was developed. It is little wonder that they chose to destroy this lab rather than let it fall into the hands of their enemies." ],
+              "paras" : [ "There are two laboratories in the southern arm of the tunnel system. The instruments inside of one are smashed and broken as a result of sabotage, but you recognize enough to tell that this is where the unique drive system and uncommonly powerful shielding was developed. It's little wonder that they chose to destroy this lab rather than let it fall into the hands of their enemies." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "4-labs-2"

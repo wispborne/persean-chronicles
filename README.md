@@ -32,9 +32,9 @@ here: <https://starsector.fandom.com/wiki/Category:Modding#Cross-mod_integration
 
 Avanitia for proof-reading and providing an incredible amount of feedback.
 
-Selkie for Telos sprites (creator of many boats).
+Selkie for Telos ship sprites and so many ideas.
 
-Nia for Telos effects and sprites (master of effects).
+Nia for Telos vfx, weapon sprites, and polish.
 
 SleepyFish for Telos sprites (transparency consultant).
 

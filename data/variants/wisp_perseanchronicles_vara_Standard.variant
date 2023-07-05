@@ -1,5 +1,5 @@
 {
-  "displayName": "Summer Bloom",
+  "displayName": "Dart",
   "variantId": "wisp_perseanchronicles_vara_Standard",
   "hullId": "wisp_perseanchronicles_vara",
   "goalVariant": true,
@@ -13,8 +13,9 @@
       "autofire": false,
       "mode": "LINKED",
       "weapons": {
-        "WS0001": "wisp_perseanchronicles_summerbloom",
-        "WS0002": "wisp_perseanchronicles_summerbloom"
+        "WS0001": "wisp_perseanchronicles_flowerofspring",
+        "WS0002": "wisp_perseanchronicles_flowerofspring",
+        "WS0003": "wisp_perseanchronicles_summerbloom",
       }
     },
   ],

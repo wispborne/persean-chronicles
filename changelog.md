@@ -1,5 +1,10 @@
 ## Changelog
 
+- Added
+  - Two new Telos weapons, a small and a medium beam.
+- Changed
+  - Corrected Vara's slots to 2x small turrets and 1x medium hardpoint, from 2x medium turrets.
+
 Version 3.0.6
 - Fixed
   - (Another) crash after the Telos battle (thanks to bifur).
