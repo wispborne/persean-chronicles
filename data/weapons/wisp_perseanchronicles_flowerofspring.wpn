@@ -7,7 +7,7 @@
   "collisionClassByFighter": "RAY_FIGHTER",
   "turretSprite": "graphics/telos/weapons/wisp_perseanchronicles_flowerofspring_turret.png",
   "hardpointSprite": "graphics/telos/weapons/wisp_perseanchronicles_flowerofspring_turret.png",
-  "glowColor": [
+  "glowColor": [ #b1a617, should be blue for Energy according to Lightshow, but in EV Nova it's yellow
     177,
     166,
     23,
@@ -34,7 +34,7 @@
     23,
     255
   ],
-  "coreColor": [
+  "coreColor": [ #b1a617
     177,
     166,
     23,

@@ -79,8 +79,8 @@ enum class ShipPalette(
         phaseMain = Color(150, 72, 255),
     ),
     RED(
-        baseNebula = Color(255, 64, 105),
-        baseSwirlyNebula = Color(255, 107, 139),
+        baseNebula = Color.decode("#ff2846"),
+        baseSwirlyNebula = Color.decode("#D7264A"),
         baseNegative = Color(64, 255, 197),
         glowBase = Color.decode("#A00020"),
         speedGlow = Color.decode("#FE0037"),

@@ -1,16 +1,54 @@
 {
   "displayName": "Arrow",
-  "variantId": "wisp_perseanchronicles_itesh_Standard",
+  "fluxCapacitors": 20,
+  "fluxVents": 20,
+  "goalVariant": false,
   "hullId": "wisp_perseanchronicles_itesh",
-  "fluxCapacitors": 0,
-  "fluxVents": 0,
-  "goalVariant": true,
-  "hullMods": [ ],
-  "modules": [
-    { "WS0019": "wisp_perseanchronicles_itesh_module_Standard" }
+  "hullMods": [
+    "advancedshieldemitter",
+    "hardenedshieldemitter",
+    "targetingunit",
   ],
   "permaMods": [ ],
   "sMods": [ ],
-  "weaponGroups": [ ],
-  #"wings": ["tahlan_cord_fighter_wing"]
+  "suppressedMods": [ ],
+  "variantId": "wisp_perseanchronicles_itesh_Arrow",
+  "weaponGroups": [
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "wisp_perseanchronicles_summerbloom",
+        "WS0002": "wisp_perseanchronicles_summerbloom",
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0014": "wisp_perseanchronicles_flowerofspring",
+        "WS0013": "wisp_perseanchronicles_flowerofspring",
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0016": "wisp_perseanchronicles_flowerofspring",
+        "WS0015": "wisp_perseanchronicles_flowerofspring",
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0003": "pdlaser",
+        "WS0004": "pdlaser",
+      }
+    },
+  ],
+  "wings": [ ],
+  "modules": [
+    { "WS0019": "wisp_perseanchronicles_itesh_module_Arrow" },
+  ],
 }

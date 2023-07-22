@@ -7,7 +7,7 @@
   "collisionClassByFighter": "RAY_FIGHTER",
   "turretSprite": "graphics/telos/weapons/wisp_perseanchronicles_summerbloom_turret.png",
   "hardpointSprite": "graphics/telos/weapons/wisp_perseanchronicles_summerbloom_turret.png",
-  "glowColor": [
+  "glowColor": [ #e71817
     231,
     24,
     23,
@@ -28,13 +28,13 @@
   "hardpointAngleOffsets": [
     0
   ],
-  "fringeColor": [
+  "fringeColor": [ #470725
     71,
     7,
     37,
     220
   ],
-  "coreColor": [
+  "coreColor": [ #940f4c
     148,
     15,
     76,
