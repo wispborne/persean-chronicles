@@ -8,45 +8,45 @@
   "turretSprite": "graphics/telos/weapons/wisp_perseanchronicles_flowerofspring_turret.png",
   "hardpointSprite": "graphics/telos/weapons/wisp_perseanchronicles_flowerofspring_turret.png",
   "glowColor": [
-    84,
-    160,
-    229,
+    177,
+    166,
+    23,
     255
   ],
   "hitGlowRadius": 0,
   "turretOffsets": [
-    1,
+    2,
     0
   ],
   "turretAngleOffsets": [
     0
   ],
   "hardpointOffsets": [
-    4.5,
+    7,
     0
   ],
   "hardpointAngleOffsets": [
     0
   ],
   "fringeColor": [
-    94,
-    178,
-    255,
+    177,
+    166,
+    23,
     255
   ],
   "coreColor": [
-    84,
-    160,
-    229,
+    177,
+    166,
+    23,
     255
   ],
-  "width": 15,
+  "width": 12,
   "textureType": [
     "graphics/telos/weapons/wisp_perseanchronicles_trails_electric.png",
     "graphics/telos/weapons/wisp_perseanchronicles_trails_electric_soft.png"
   ],
   "textureScrollSpeed": 64,
-  "pixelsPerTexel": 5,
+  "pixelsPerTexel": 8,
   "pierceSet": [
     PROJECTILE_FF,
     PROJECTILE_NO_FF,

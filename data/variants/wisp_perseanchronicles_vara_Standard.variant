@@ -6,19 +6,25 @@
   "fluxCapacitors": 8,
   "fluxVents": 10,
   "quality": 1,
-  "permaMods": [],
-  "hullMods": [],
+  "permaMods": [ ],
+  "hullMods": [ ],
   "weaponGroups": [
     {
       "autofire": false,
       "mode": "LINKED",
       "weapons": {
-        "WS0001": "wisp_perseanchronicles_flowerofspring",
-        "WS0002": "wisp_perseanchronicles_flowerofspring",
         "WS0003": "wisp_perseanchronicles_summerbloom",
       }
     },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "wisp_perseanchronicles_flowerofspring",
+        "WS0002": "wisp_perseanchronicles_flowerofspring",
+      }
+    },
   ],
-  "modules": [],
-  "wings": []
+  "modules": [ ],
+  "wings": [ ]
 }

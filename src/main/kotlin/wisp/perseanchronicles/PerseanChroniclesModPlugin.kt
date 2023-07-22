@@ -91,7 +91,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
                 .onFailure { game.logger.e(it) }
         }
 
-        fixV302RileyBug()
+//        fixV302RileyBug()
     }
 
     /**
@@ -276,6 +276,8 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
 
     /**
      * Fix for bug in 3.0.0 - 3.0.2, Riley never pays player.
+     *
+     * Bug: if you clear the state from Abandon, you get paid again
      */
     private fun fixV302RileyBug() {
         if (RileyHubMission.state.isPostV302save != true) {
