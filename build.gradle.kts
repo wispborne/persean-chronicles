@@ -10,7 +10,7 @@ val props = Properties().apply {
     load(project.rootProject.file("local.properties").reader())
 }
 
-val modVersion = "3.0.7"
+val modVersion = "3.0.7-rc2"
 val starsectorDirectory = props.getProperty("gamePath") //"C:/Program Files (x86)/Fractal Softworks/Starsector"
 val jarFileName = "PerseanChronicles.jar"
 val questgiverVersion = "4.0.0"
@@ -23,7 +23,7 @@ val gameVersion = "0.96a-RC10"
 val jars = arrayOf("jars/PerseanChronicles.jar", "libs/wisp/questgiver/$questgiverVersion/Questgiver-$questgiverVersion.jar")
 val modPlugin = "wisp.perseanchronicles.PerseanChroniclesModPlugin"
 val isUtilityMod = false
-val masterVersionFile = "https://raw.githubusercontent.com/davidwhitman/stories/master/$modId.version"
+val masterVersionFile = "https://raw.githubusercontent.com/wispborne/stories/master/$modId.version"
 val modThreadId = "19830"
 /////////////////
 

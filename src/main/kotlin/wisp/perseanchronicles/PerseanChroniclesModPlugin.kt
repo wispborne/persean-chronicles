@@ -62,7 +62,11 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
 
         // Too lazy to add a compile-time dependency on Nexerelin.
         // FUN FACT Corvus Mode is non-random mode and I'm an idiot
-        val isNexCorvusModeEnabled = game.sector.memory.getBoolean("\$nex_corvusMode")
+        val isNexCorvusModeEnabled = if (game.sector.memory.keys.contains("\$nex_corvusMode")) {
+            game.sector.memory.getBoolean("\$nex_corvusMode")
+        } else {
+            true // Without Nex, map is non-random.
+        }
 
         Questgiver.loadQuests(
             creators = listOfNotNull(

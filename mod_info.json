@@ -4,7 +4,7 @@
     "name": "Persean Chronicles",
     "author": "Wisp",
     "utility": "false",
-    "version": "3.0.7",
+    "version": "3.0.7-rc2",
     "description": "Adds a small collection of quests to bars around the Persean Sector.",
     "gameVersion": "0.96a-RC10",
     "jars":["jars/PerseanChronicles.jar", "libs/wisp/questgiver/4.0.0/Questgiver-4.0.0.jar"],
