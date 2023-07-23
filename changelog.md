@@ -1,5 +1,8 @@
 ## Changelog
 
+Version 3.0.7
+- Fixed
+  - Telos quest _required_ Nex's random mode instead of the other way around.
 - Added
   - Two new Telos weapons, a small and a medium beam.
 - Changed
