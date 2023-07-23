@@ -14,7 +14,7 @@ wisp_perseanchronicles:
               paras:
                 - 'Knight-Captain Eugel''s ancient face stares at you from across the gulf.'
                 - '"Did I not instruct you to stay put? And yet here you are, flouncing about the system." 
-              He clasps the fingers of one hand around the other, then methodically unfurls one opposite pair at a time until he peers 
+              He clasps the fingers of one hand around the other, then methodically uncurls one opposite pair at a time until he peers 
               at you from over the steepled digits.'
               options:
                 - id: 'eugelBranch'

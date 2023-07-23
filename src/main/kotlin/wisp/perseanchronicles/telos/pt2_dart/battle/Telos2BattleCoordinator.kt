@@ -197,14 +197,13 @@ object Telos2BattleCoordinator {
      * Create the impossible reinforcement fleet to wipe out the Telos.
      */
     fun createEugelFleetReinforcements(): CampaignFleetAPI {
-        val telos2HubMission = game.intelManager.findFirst<Telos2HubMission>()
 
         // good luck, kid
         return MagicCampaign.createFleetBuilder()
             .setFleetName("Unknown Attack Fleet")
             .setFleetFaction(Factions.LUDDIC_CHURCH)
             .setFleetType(FleetTypes.TASK_FORCE)
-            .setFlagshipName(telos2HubMission?.getEugelShipName())
+            .setFlagshipName(Telos2HubMission.getEugelShipName())
             .setFlagshipVariant("wisp_perseanchronicles_firebrand_Standard")
             .setFlagshipAlwaysRecoverable(false)
             .setFlagshipAutofit(false)

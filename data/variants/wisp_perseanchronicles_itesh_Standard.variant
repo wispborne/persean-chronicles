@@ -9,10 +9,7 @@
     "hardenedshieldemitter",
     "targetingunit",
   ],
-  "permaMods": [ ],
-  "sMods": [ ],
-  "suppressedMods": [ ],
-  "variantId": "wisp_perseanchronicles_itesh_Arrow",
+  "variantId": "wisp_perseanchronicles_itesh_Standard",
   "weaponGroups": [
     {
       "autofire": true,
@@ -47,8 +44,7 @@
       }
     },
   ],
-  "wings": [ ],
   "modules": [
-    { "WS0019": "wisp_perseanchronicles_itesh_module_Arrow" },
-  ],
+    { "WS0019": "wisp_perseanchronicles_itesh_module_Standard" },
+  ]
 }

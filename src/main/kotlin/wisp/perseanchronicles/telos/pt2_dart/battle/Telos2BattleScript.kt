@@ -31,15 +31,15 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
     private val wave2 = hegFleet.fleetData.membersListCopy.filter { it.isFlagship }
     private val wave3 = hegFleet.fleetData.membersListCopy.filter { !it.isFlagship }
 
-    private val quotes = telos2HubMission?.getEugelBattleQuotes() ?: emptyList()
+    private val quotes = Telos2HubMission.getEugelBattleQuotes() ?: emptyList()
     private val quotesItr = quotes.iterator()
     private var secsSinceLastEugelQuote: Float? = null
     private var secsSinceLastAllyQuote: Float? = null
     private var saidLastQuote = false
     private var startedThemeMusic = false
     private var startedDoomedMusic = false
-    private val phase1AllyQuotes = telos2HubMission?.getAllyPhase1BattleQuotes()?.toMutableList() // Mutable, remove after using.
-    private val phase2AllyQuotes = telos2HubMission?.getAllyPhase2BattleQuotes()?.toMutableList() // Mutable, remove after using.
+    private val phase1AllyQuotes = Telos2HubMission.getAllyPhase1BattleQuotes().toMutableList() // Mutable, remove after using.
+    private val phase2AllyQuotes = Telos2HubMission.getAllyPhase2BattleQuotes().toMutableList() // Mutable, remove after using.
 
     override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
         val combatEngine = game.combatEngine!!
@@ -138,7 +138,7 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
             if (playerFleet.deployedCopy.isEmpty() && playerFleet.reservesCopy.isEmpty() && !saidLastQuote) {
                 // Speak final quote on victory.
                 eugelInBattle.say(
-                    text = telos2HubMission?.getBattleVictoryQuote().orEmpty(),
+                    text = Telos2HubMission.getBattleVictoryQuote(),
                     prependShipNameInCorner = true
                 )
                 saidLastQuote = true

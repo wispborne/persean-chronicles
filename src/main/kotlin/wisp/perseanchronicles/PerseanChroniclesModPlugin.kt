@@ -61,11 +61,12 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
             .getJSONObject(MOD_ID)
 
         // Too lazy to add a compile-time dependency on Nexerelin.
+        // FUN FACT Corvus Mode is non-random mode and I'm an idiot
         val isNexCorvusModeEnabled = game.sector.memory.getBoolean("\$nex_corvusMode")
 
         Questgiver.loadQuests(
             creators = listOfNotNull(
-                if (!isNexCorvusModeEnabled && settings.tryGet("isTelosQuestEnabled") { true })
+                if (isNexCorvusModeEnabled && settings.tryGet("isTelosQuestEnabled") { true })
                     Telos1BarEventWiring()
                 else null,
                 if (settings.tryGet("isLaborerQuestEnabled") { true }) LaborerBarEventWiring() else null,
