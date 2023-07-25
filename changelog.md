@@ -5,6 +5,9 @@ Version 3.0.8
   - Crash with Progressive Smods enabled after the Telos battle (thanks to Jimminy Crimbles). 
     - Found a different way to do what I was doing that won't bother other mods anymore. 
   - Crash when starting Telos if you've started Nirvana before (introduced in 3.0.7).
+- Added
+  - Console command `allall` (sibling to `allweapons`, `allhulls`, `allwings`, etc).
+    - Places all hulls, weapons, wings, and commodities into storage. Learns all blueprints and hullmods.
 
 Version 3.0.7
 - Fixed
