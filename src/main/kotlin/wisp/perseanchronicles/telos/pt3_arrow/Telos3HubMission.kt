@@ -164,12 +164,12 @@ class Telos3HubMission : QGHubMission() {
             triggerPickLocationAroundEntity(spawnLocation, 4000f, 3000f, 5000f)
             triggerSpawnFleetAtPickedLocation(chaseFleetFlag, null)
             triggerFleetAddTags(eugelChaseFleetTag)
-            triggerOrderFleetInterceptPlayer()
-            triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
+            triggerOrderFleetInterceptPlayer(true, true)
             triggerFleetSetFlagship("wisp_perseanchronicles_firebrand_Standard")
             triggerFleetSetCommander(PerseanChroniclesNPCs.captainEugel)
             triggerCustomAction { context ->
                 context.fleet?.flagship?.shipName = Telos2HubMission.getEugelShipName()
+                context.fleet.name = "Eugel's Fleet"
             }
         }
 
@@ -226,7 +226,7 @@ class Telos3HubMission : QGHubMission() {
             }
 
             triggerCustomAction {
-//                game.sector.addScript(TelosFightOrFlightScript())
+                game.sector.addScript(TelosFightOrFlightScript())
             }
         }
 

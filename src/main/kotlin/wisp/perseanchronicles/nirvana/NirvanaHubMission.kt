@@ -55,7 +55,7 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
         return NirvanaBarEventWiring().shouldBeAddedToBarEventPool()
                 && market != null
-                && market.factionId.lowercase() in listOf(Factions.INDEPENDENT.lowercase())
+                && market.factionId.lowercase() in listOf(Factions.INDEPENDENT.lowercase(), Factions.TRITACHYON.lowercase())
                 && market.starSystem != null // No prism freeport
                 && market.size > 3
     }

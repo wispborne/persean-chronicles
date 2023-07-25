@@ -48,7 +48,7 @@ class Telos2HubMission : QGHubMission() {
         val choices = Choices(PersistentMapData<String, Any?>(key = "telosPt2Choices").withDefault { null })
         const val badFleetDefeatTrigger = "wisp_perseanchronicles_telosPt2_badfleetdefeated"
 
-        fun startBattle() = Telos2BattleCoordinator.startBattle()
+//        fun startBattle() = Telos2BattleCoordinator.startBattle()
 
         private val PIRATE_FLEET_TAG = MISSION_ID + "_pirateFleet"
 

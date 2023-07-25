@@ -2,7 +2,9 @@ package wisp.perseanchronicles.telos.pt1_deliveryToEarth
 
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
+import org.json.JSONArray
 import org.json.JSONObject
+import org.magiclib.kotlin.forEach
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.nirvana.NirvanaHubMission
@@ -42,19 +44,19 @@ class Telos1BarEventLogic(
                     // If player has started Nirvana quest
                     if (NirvanaHubMission.state.startDateMillis != null) {
                         // "Ah," she says, glancing up from her TriPad. "You've done work for us before." It's not phrased as a question, but you nod all the same.
-                        para { page.extraData["freetext1-worked-with-nirvana"] as String }
+                        (page.extraData["freetext1-worked-with-nirvana"] as JSONArray).forEach<String> { para { it } }
 
                         // Started but not finished Nirvana yet.
                         if (NirvanaHubMission.state.completeDateInMillis == null) {
                             // If it has been less than 1 year since player took the Nirvana mission
                             if ((game.sector.clock.timestamp - NirvanaHubMission.state.startDateMillis!!) < 31556926000) {
                                 // "Actually it looks like...the contract is still open. But that's not what I'm here about today. To business.
-                                para { page.extraData["freetext2-nirvanaquest-in-progress"] as String }
+                                (page.extraData["freetext2-nirvanaquest-in-progress"] as JSONArray).forEach<String> { para { it } }
                             } else {
                                 // If it's been more than a year lol
                                 // "Actually it looks like...the contract is still open. And has been for," she blows out some air, "quite a while."
                                 // "But that's not what I'm here about, although I know my colleagues would appreciate that delivery. Let's talk about today's business.
-                                para { page.extraData["freetext2-nirvanaquest-in-progress-over-1-cycle"] as String }
+                                (page.extraData["freetext2-nirvanaquest-in-progress-over-1-cycle"] as JSONArray).forEach<String> { para { it } }
                             }
                         }
                     }

@@ -1,8 +1,14 @@
 ## Changelog
 
+Version 3.0.8
+- Fixed
+  - Crash with Progressive Smods enabled after the Telos battle (thanks to Jimminy Crimbles). 
+    - Found a different way to do what I was doing that won't bother other mods anymore. 
+  - Crash when starting Telos if you've started Nirvana before (introduced in 3.0.7).
+
 Version 3.0.7
 - Fixed
-  - Telos quest _required_ Nex's random mode instead of the other way around.
+  - Telos quest _required_ Nex's random mode instead of the other way around (thanks to Seamus Donohue).
 - Added
   - Two new Telos weapons, a small and a medium beam.
 - Changed

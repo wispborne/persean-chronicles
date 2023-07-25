@@ -126,23 +126,15 @@ class Telos2SecondLandingDialog(
                 when (option.id) {
                     "startBattle" -> option.copy(
                         onOptionSelected = {
-                            Telos2BattleCoordinator.startBattle()
-
-                            // DO NOT LET THIS GET ADDED TO THE SAVE FILE (ie keep it transient).
-                            // It will serialize the whole dialog, which can't be deserialized.
-                            game.sector.addTransientListener(object : BaseCampaignEventListener(false) {
-                                override fun reportBattleFinished(primaryWinner: CampaignFleetAPI?, battle: BattleAPI?) {
-                                    runCatching {
-                                        mission.setCurrentStage(Telos2HubMission.Stage.PostBattle, null, null)
-                                        if (Telos2HubMission.choices.injectedSelf == true) {
-                                            navigator.goToPage("6-finished-battle")
-                                        } else {
-                                            navigator.goToPage("3-noEther")
-                                        }
-                                    }.onFailure { game.logger.w(it) }
-
-                                    game.sector.removeListener(this)
-                                }
+                            Telos2BattleCoordinator.startBattle({
+                                runCatching {
+                                    mission.setCurrentStage(Telos2HubMission.Stage.PostBattle, null, null)
+                                    if (Telos2HubMission.choices.injectedSelf == true) {
+                                        navigator.goToPage("6-finished-battle")
+                                    } else {
+                                        navigator.goToPage("3-noEther")
+                                    }
+                                }.onFailure { game.logger.w(it) }
                             })
 
                         }

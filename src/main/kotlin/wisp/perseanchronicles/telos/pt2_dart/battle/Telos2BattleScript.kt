@@ -1,7 +1,5 @@
 package wisp.perseanchronicles.telos.pt2_dart.battle
 
-import com.fs.starfarer.api.EveryFrameScript
-import com.fs.starfarer.api.campaign.BattleAPI
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.input.InputEventAPI
@@ -16,7 +14,7 @@ import wisp.questgiver.wispLib.findFirst
 import wisp.questgiver.wispLib.say
 import wisp.questgiver.wispLib.swapFleets
 
-class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : BaseEveryFrameCombatPlugin() {
+class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI, val onBattleFinished: () -> Unit) : BaseEveryFrameCombatPlugin() {
     private val telos2HubMission = game.intelManager.findFirst<Telos2HubMission>()
 
     private var totalTimeElapsed = 0f
@@ -31,7 +29,7 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
     private val wave2 = hegFleet.fleetData.membersListCopy.filter { it.isFlagship }
     private val wave3 = hegFleet.fleetData.membersListCopy.filter { !it.isFlagship }
 
-    private val quotes = Telos2HubMission.getEugelBattleQuotes() ?: emptyList()
+    private val quotes = Telos2HubMission.getEugelBattleQuotes()
     private val quotesItr = quotes.iterator()
     private var secsSinceLastEugelQuote: Float? = null
     private var secsSinceLastAllyQuote: Float? = null
@@ -77,7 +75,7 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
         if (secsSinceWave1WasDefeated == null && (combatEngine.isEnemyInFullRetreat || hasDestroyedEnoughOfEnemy)
         ) {
             secsSinceWave1WasDefeated = 0f
-            combatEngine.combatNotOverFor = 10f // seconds. Prevents player from claiming victory after they think they've won.
+            combatEngine.combatNotOverFor = 30f // seconds. Prevents player from claiming victory after they think they've won.
         }
 
         if (secsSinceWave2Arrived == null
@@ -97,12 +95,12 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
                 (if (secsSinceWave3Arrived == null) phase1AllyQuotes
                 else phase2AllyQuotes)
             val quotesWithHighlights = quotesToUse
-                ?.map { TextExtensions.getTextHighlightData(it) }
-                ?.toMutableList()
+                .map { TextExtensions.getTextHighlightData(it) }
+                .toMutableList()
 
-            if (quotesToUse?.isNotEmpty() == true) {
+            if (quotesToUse.isNotEmpty()) {
                 if ((secsSinceLastAllyQuote ?: Float.MAX_VALUE) > (30..60).random()) {
-                    val quote = quotesWithHighlights!!.first()
+                    val quote = quotesWithHighlights.first()
                     // Pick a ship to say the quote, basing the ship on the number of quotes left so that there aren't repeats.
                     playerFleet.deployedCopy
                         .getOrElse(quotesToUse.size.coerceAtMost(playerFleet.deployedCopy.size)) { null }
@@ -160,19 +158,9 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
         // Battle is over if either the player lost (at any point) or if the player won *after* the reinforcements arrived.
         // If the player won before the reinforcements arrived, the battle is not over yet ;)
         if ((secsSinceWave2Arrived != null || combatEngine.winningSideId == BattleSide.ENEMY) && combatEngine.isCombatOver) {
-            // Nexerelin requires a BattleAPI to call reportBattleFinished or else there's a crash.
-            // Battle's constructor adds itself as an EFS to the location, and then its advance method adds an animation.
-            // When the battle ends, AnimationManager tries to finish the animation, which then crashes (dunno why, all of the line numbers are Unknown Source).
-            // So, we remove the battle EFS from the location immediately.
-            val battle = game.factory.createBattle(game.sector.playerFleet, hegFleet)
-            if (battle is EveryFrameScript) {
-                game.sector.playerFleet.containingLocation.removeScript(battle as EveryFrameScript)
-            }
-
             onTelosBattleEnded(
                 didPlayerWin = combatEngine.winningSideId == BattleSide.PLAYER,
-                originalPlayerFleet = playerRealFleetHolder,
-                battle = battle
+                originalPlayerFleet = playerRealFleetHolder
             )
             combatEngine.removePlugin(this)
         }
@@ -183,8 +171,7 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
      */
     private fun onTelosBattleEnded(
         didPlayerWin: Boolean,
-        originalPlayerFleet: CampaignFleetAPI,
-        battle: BattleAPI
+        originalPlayerFleet: CampaignFleetAPI
     ) {
         game.logger.i { "Telos battle ended. Did player win? $didPlayerWin" }
         Telos2HubMission.state.wonRecordedBattle = didPlayerWin
@@ -199,7 +186,7 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI) : 
         game.sector.playerFleet.swapFleets(
             otherFleet = originalPlayerFleet
         )
-        // Nexerelin crashes if `battle` is null (vanilla doesn't).
-        game.sector.reportBattleFinished(if (didPlayerWin) game.sector.playerFleet else hegFleet, battle)
+
+        onBattleFinished()
     }
 }

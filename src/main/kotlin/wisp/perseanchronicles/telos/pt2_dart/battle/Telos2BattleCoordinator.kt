@@ -69,7 +69,7 @@ object Telos2BattleCoordinator {
                 addTag(ShipPalette.WHITE.name)
             })
 
-    fun startBattle() {
+    fun startBattle(onBattleFinished: () -> Unit) {
         game.sector.registerPlugin(CampaignPlugin())
 
         // Holds the player's real fleet while we swap it out for the battle with the Telos ship fleet.
@@ -109,7 +109,7 @@ object Telos2BattleCoordinator {
         combatEngine.getFleetManager(FleetSide.PLAYER).isCanForceShipsToEngageWhenBattleClearlyLost = true
 
         // Script to call in reinforcements when player starts to win.
-        combatEngine.addPlugin(Telos2BattleScript(playerFleetHolder))
+        combatEngine.addPlugin(Telos2BattleScript(playerFleetHolder, onBattleFinished))
     }
 
     /**
