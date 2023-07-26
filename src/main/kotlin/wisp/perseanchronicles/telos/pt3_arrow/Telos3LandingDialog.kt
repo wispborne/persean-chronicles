@@ -167,7 +167,7 @@ class Telos3LandingDialog(
                 }
             },
             "16-powerup-main-7" to {
-                mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystem, dialog, null)
+                mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystemForDisplay, dialog, null)
 
                 // Damage fleet
                 game.sector.playerFleet.fleetData.membersListCopy
@@ -227,8 +227,8 @@ class Telos3LandingDialog(
 
                     "flee" -> {
                         option.copy(onOptionSelected = {
-                            game.sector.addScript(TelosFightOrFlightScript())
                             this.navigator.close(doNotOfferAgain = true)
+                            mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystem, null, null)
                         })
                     }
 

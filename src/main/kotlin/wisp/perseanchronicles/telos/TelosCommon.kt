@@ -17,6 +17,7 @@ object TelosCommon {
                 "data/strings/compiled/telos_pt3_ether.hjson",
                 "data/strings/compiled/telos_pt3_noEther.hjson",
                 "data/strings/compiled/telos_pt3_common.hjson",
+                "data/strings/compiled/telos_pt3_escape.hjson",
             ),
             masterMod = MOD_ID
         )
@@ -104,4 +105,6 @@ object TelosCommon {
         }
             .onFailure { game.logger.e(it) }
     }
+
+    fun isDevMode() = game.settings.isDevMode && game.sector?.playerPerson?.nameString?.contains(Regex("""wisp|test""", RegexOption.IGNORE_CASE)) == true
 }

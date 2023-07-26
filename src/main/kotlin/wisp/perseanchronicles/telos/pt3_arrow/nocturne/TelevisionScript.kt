@@ -278,6 +278,7 @@ class TelevisionScript : BaseToggleAbility() {
 
     private fun setMaxZoom(zoomMult: Float) {
         // Alex is adding this in 0.96, I think.
+        // TODO: campaign zoom
     }
 
     private fun getRingRadiusForCloudRendering(obj: SectorEntityToken): Float {
@@ -319,8 +320,8 @@ class TelevisionScript : BaseToggleAbility() {
                 game.sector.playerFleet.starSystem?.addEntity(nocturneEntity)
             }
 
-            // Then move it to the player's location.
-            nocturneEntity?.setLocation(game.sector.playerFleet.location.x, game.sector.playerFleet.location.y)
+            // Then move it to where they're looking.
+            nocturneEntity?.setLocation(game.sector.viewport.center.x, game.sector.viewport.center.y)
         } else {
             // Remove any existing nocturne entities from the sector.
             game.sector.getCustomEntitiesWithTag(nocturneTagAndId)

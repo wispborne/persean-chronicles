@@ -4,10 +4,9 @@ import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
-import com.fs.starfarer.api.impl.campaign.ids.Conditions
-import com.fs.starfarer.api.impl.campaign.ids.Factions
-import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
-import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.fleet.FleetMemberAPI
+import com.fs.starfarer.api.fleet.FleetMemberType
+import com.fs.starfarer.api.impl.campaign.ids.*
 import com.fs.starfarer.api.impl.campaign.missions.hub.HubMissionWithSearch.PlanetIsPopulatedReq
 import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
 import com.fs.starfarer.api.ui.SectorMapAPI
@@ -19,13 +18,13 @@ import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
-import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
-import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.spriteName
+import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.QGHubMission
 import wisp.questgiver.v2.json.query
+import wisp.questgiver.v2.spriteName
 import wisp.questgiver.wispLib.*
 import java.awt.Color
+
 
 class Telos3HubMission : QGHubMission() {
     companion object {
@@ -77,9 +76,16 @@ class Telos3HubMission : QGHubMission() {
         super.onGameLoad()
 
         // Reload json if devmode reload.
-        if (isDevMode())
+        if (isDevMode()) {
             part3Json = TelosCommon.readJson()
                 .query("/$MOD_ID/telos/part3_arrow") as JSONObject
+
+            if (TelosCommon.isDevMode()) {
+                game.logger.i { "Recreating Telos 3." }
+                triggers.clear()
+                create(postingLocation?.market, true)
+            }
+        }
     }
 
     override fun updateTextReplacements(text: Text) {
@@ -94,7 +100,7 @@ class Telos3HubMission : QGHubMission() {
 
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {
         // if already accepted by the player, abort
-        if (!setGlobalReference("$$MISSION_ID")) {
+        if (!setGlobalReference("$$MISSION_ID") && !TelosCommon.isDevMode()) {
             return false
         }
 
@@ -110,7 +116,7 @@ class Telos3HubMission : QGHubMission() {
         name = part3Json.query("/strings/title")
         personOverride = PerseanChroniclesNPCs.karengo // Shows on intel, needed for rep reward or else crash.
 
-        setIconName(InteractionDefinition.Portrait(category = "wisp_perseanchronicles_telos", id = "intel").spriteName(game))
+        setIconName(IInteractionLogic.Portrait(category = "wisp_perseanchronicles_telos", id = "intel").spriteName(game))
 
         val allRingFoci = game.sector.starSystems.asSequence()
             .flatMap { it.allEntities }
@@ -145,7 +151,6 @@ class Telos3HubMission : QGHubMission() {
                 return false
             }
 
-
         // Spawn Eugel's fleet near player
         trigger {
             beginStageTrigger(Stage.EscapeSystem)
@@ -157,20 +162,42 @@ class Telos3HubMission : QGHubMission() {
                 FleetTypes.TASK_FORCE,
                 spawnLocation
             )
-            triggerMakeHostile()
+            triggerSetFleetFaction(Factions.LUDDIC_CHURCH)
+            triggerMakeNoRepImpact()
             triggerAutoAdjustFleetStrengthModerate()
-            triggerMakeFleetIgnoredByOtherFleets()
 //            triggerFleetAddTags(chasingFleetTag)
             triggerPickLocationAroundEntity(spawnLocation, 4000f, 3000f, 5000f)
             triggerSpawnFleetAtPickedLocation(chaseFleetFlag, null)
-            triggerFleetAddTags(eugelChaseFleetTag)
-            triggerOrderFleetInterceptPlayer(true, true)
-            triggerFleetSetFlagship("wisp_perseanchronicles_firebrand_Standard")
-            triggerFleetSetCommander(PerseanChroniclesNPCs.captainEugel)
+            triggerFleetSetName("Eugel's Fleet")
+            triggerFleetNoJump()
+            triggerFleetSetNoFactionInName()
             triggerCustomAction { context ->
-                context.fleet?.flagship?.shipName = Telos2HubMission.getEugelShipName()
-                context.fleet.name = "Eugel's Fleet"
+                // thank you DR https://bitbucket.org/modmafia/underworld/commits/3cdb860a7222d40f2d0d94e5bca0eaf672f5ab6c
+                val firebrand = game.factory.createFleetMember(FleetMemberType.SHIP, "wisp_perseanchronicles_firebrand_Standard")
+                firebrand.status.repairFully()
+
+                val newFleet = context.fleet
+                val oldFlagship: FleetMemberAPI = newFleet.flagship
+                newFleet.fleetData.addFleetMember(firebrand)
+
+                firebrand.captain = PerseanChroniclesNPCs.captainEugel
+                oldFlagship.isFlagship = false
+                newFleet.fleetData.setFlagship(firebrand)
+                newFleet.fleetData.removeFleetMember(oldFlagship)
+
+                newFleet.fleetData.sort()
+                newFleet.updateCounts()
+                newFleet.forceSync()
+//                context.fleet?.flagship?.shipName = Telos2HubMission.getEugelShipName()
+                context.fleet.sensorStrength = Float.MAX_VALUE
             }
+//            triggerMakeFleetIgnoredByOtherFleets()
+//            triggerMakeFleetIgnoreOtherFleetsExceptPlayer()
+            triggerFleetAddTags(eugelChaseFleetTag)
+//            triggerSetFleetAlwaysPursue()
+//            triggerFleetSetCommander(PerseanChroniclesNPCs.captainEugel)
+            triggerSetFleetMemoryValue(MemFlags.MEMORY_KEY_SAW_PLAYER_WITH_TRANSPONDER_ON, true)
+            triggerOrderFleetInterceptPlayer(true, true)
         }
 
         // Spawn fleet jump point 1
@@ -185,9 +212,12 @@ class Telos3HubMission : QGHubMission() {
                 spawnLocation
             )
             triggerMakeHostile()
+            triggerMakeFleetIgnoreOtherFleetsExceptPlayer()
             triggerAutoAdjustFleetStrengthModerate()
             triggerMakeFleetIgnoredByOtherFleets()
+            triggerMakeNoRepImpact()
 //            triggerFleetAddTags(chasingFleetTag)
+            triggerFleetNoJump()
             triggerPickLocationAroundEntity(spawnLocation, 1f)
             triggerSpawnFleetAtPickedLocation(chaseFleetFlag, null)
             triggerOrderFleetPatrol(spawnLocation)
@@ -206,7 +236,10 @@ class Telos3HubMission : QGHubMission() {
                 spawnLocation
             )
             triggerMakeHostile()
+            triggerMakeFleetIgnoreOtherFleetsExceptPlayer()
             triggerAutoAdjustFleetStrengthModerate()
+            triggerMakeNoRepImpact()
+            triggerFleetNoJump()
             triggerMakeFleetIgnoredByOtherFleets()
 //            triggerFleetAddTags(chasingFleetTag)
             triggerPickLocationAroundEntity(spawnLocation, 1f)
@@ -281,11 +314,11 @@ class Telos3HubMission : QGHubMission() {
                         Telos3LandingDialog().build(),
                         CampaignPlugin.PickPriority.MOD_SPECIFIC
                     )
-    //                Stage.LandOnPlanetSecondEther,
-    //                Stage.LandOnPlanetSecondNoEther -> PluginPick(
-    //                    Telos2SecondLandingDialog().build(),
-    //                    CampaignPlugin.PickPriority.MOD_SPECIFIC
-    //                )
+                    //                Stage.LandOnPlanetSecondEther,
+                    //                Stage.LandOnPlanetSecondNoEther -> PluginPick(
+                    //                    Telos2SecondLandingDialog().build(),
+                    //                    CampaignPlugin.PickPriority.MOD_SPECIFIC
+                    //                )
                     else -> null
                 }
             }
@@ -295,6 +328,7 @@ class Telos3HubMission : QGHubMission() {
                 EugelFleetInteractionDialogPlugin(),
                 CampaignPlugin.PickPriority.MOD_SPECIFIC
             )
+
             else -> null
         }
     }
@@ -316,6 +350,7 @@ class Telos3HubMission : QGHubMission() {
                 true
             }
 
+            Stage.EscapeSystemForDisplay,
             Stage.EscapeSystem -> {
                 info.addPara(padding = pad, textColor = Misc.getGrayColor()) {
                     part3Json.query<String>("/stages/escape/intel/subtitle").qgFormat()
@@ -340,6 +375,7 @@ class Telos3HubMission : QGHubMission() {
                 info.addPara { part3Json.query<String>("/stages/goToPlanet/intel/desc").qgFormat() }
             }
 
+            Stage.EscapeSystemForDisplay,
             Stage.EscapeSystem -> {
                 info.addPara { part3Json.query<String>("/stages/escape/intel/desc").qgFormat() }
             }
@@ -355,6 +391,7 @@ class Telos3HubMission : QGHubMission() {
 
     enum class Stage {
         GoToPlanet,
+        EscapeSystemForDisplay,
         EscapeSystem,
         Completed,
         Abandoned,

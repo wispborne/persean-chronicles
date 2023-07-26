@@ -34,7 +34,7 @@ wisp_perseanchronicles:
                 - text: 'Enter'
                   goToPage: '3-noEther-go-inside'
 
-            - id: '4-noEther-go-inside'
+            - id: '3-noEther-go-inside'
               paras:
                 - 'This time, no emergency lighting illuminates the path down the tunnel. Activating your own lighting and overlays, you work 
                 your way forward.'

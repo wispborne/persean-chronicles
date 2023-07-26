@@ -65,7 +65,7 @@ wisp_perseanchronicles:
               paras:
                 - 'You push the rack of tubes off of the polished stone table. They slip from the holder and tumble in midair before shattering. 
                 The thick, grey liquid spreads slowly into a pool on the floor.'
-                - '$cv:pc_karengo<you just destroyed the remaining ether> Karengo''s anger flares in your head. $cv:pc_karengo<i could have sold that>'
+                - '$cv:pc_karengo{you just destroyed the remaining ether} Karengo''s anger flares in your head. $cv:pc_karengo{i could have sold that}'
               options:
                 - text: '$cv:pc_player{the sector could not handle this technology  nanites are too dangerous}'
                   goToPage: '4-labs-destroy-ether-leave'

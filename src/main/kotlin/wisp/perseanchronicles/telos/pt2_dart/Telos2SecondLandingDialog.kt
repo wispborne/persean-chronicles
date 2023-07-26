@@ -126,7 +126,7 @@ class Telos2SecondLandingDialog(
                 when (option.id) {
                     "startBattle" -> option.copy(
                         onOptionSelected = {
-                            Telos2BattleCoordinator.startBattle({
+                            Telos2BattleCoordinator.startBattle {
                                 runCatching {
                                     mission.setCurrentStage(Telos2HubMission.Stage.PostBattle, null, null)
                                     if (Telos2HubMission.choices.injectedSelf == true) {
@@ -135,7 +135,7 @@ class Telos2SecondLandingDialog(
                                         navigator.goToPage("3-noEther")
                                     }
                                 }.onFailure { game.logger.w(it) }
-                            })
+                            }
 
                         }
                     )

@@ -29,7 +29,7 @@
                 "goToPage" : "3-noEther-go-inside"
               } ]
             }, {
-              "id" : "4-noEther-go-inside",
+              "id" : "3-noEther-go-inside",
               "paras" : [ "This time, no emergency lighting illuminates the path down the tunnel. Activating your own lighting and overlays, you work your way forward.", "The level of destruction drops off after a few minutes of walking and your pace picks up when you hear twin bursts of gas escaping.", "Something stings your neck." ],
               "options" : [ {
                 "text" : "Continue",

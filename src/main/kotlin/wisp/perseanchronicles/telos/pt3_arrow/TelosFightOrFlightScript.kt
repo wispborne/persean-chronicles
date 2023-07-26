@@ -28,7 +28,7 @@ class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
         }
 
         if (!blindedPlayer&& !game.sector.hasTransientScript(NocturneScript::class.java)) {
-            game.sector.addTransientScript(NocturneScript())
+//            game.sector.addTransientScript(NocturneScript())
             blindedPlayer = true
         }
 
