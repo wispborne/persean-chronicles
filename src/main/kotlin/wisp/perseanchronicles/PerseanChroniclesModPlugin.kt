@@ -145,6 +145,9 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
         }
         game.text.globalReplacementGetters["playerFlagshipName"] = { game.sector.playerFleet.flagship?.shipName }
         game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
+
+        game.text.globalReplacementGetters["dragonPlanet"] = { DragonsHubMission.state.dragonPlanet?.name }
+        game.text.globalReplacementGetters["dragonSystem"] = { DragonsHubMission.state.dragonPlanet?.starSystem?.name }
     }
 
     /**

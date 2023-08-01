@@ -9,6 +9,7 @@ import com.fs.starfarer.api.fleet.FleetMemberType
 import com.fs.starfarer.api.impl.campaign.ids.*
 import com.fs.starfarer.api.impl.campaign.missions.hub.HubMissionWithSearch.PlanetIsPopulatedReq
 import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
+import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.special.TransmitterTrapSpecial
 import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
@@ -165,16 +166,13 @@ class Telos3HubMission : QGHubMission() {
             triggerSetFleetFaction(Factions.LUDDIC_CHURCH)
             triggerMakeNoRepImpact()
             triggerAutoAdjustFleetStrengthModerate()
-//            triggerFleetAddTags(chasingFleetTag)
-            triggerPickLocationAroundEntity(spawnLocation, 4000f, 3000f, 5000f)
-            triggerSpawnFleetAtPickedLocation(chaseFleetFlag, null)
+            triggerPickLocationAroundEntity(spawnLocation, 1000f, 1000f, 1000f)
             triggerFleetSetName("Eugel's Fleet")
             triggerFleetNoJump()
             triggerFleetSetNoFactionInName()
             triggerCustomAction { context ->
                 // thank you DR https://bitbucket.org/modmafia/underworld/commits/3cdb860a7222d40f2d0d94e5bca0eaf672f5ab6c
                 val firebrand = game.factory.createFleetMember(FleetMemberType.SHIP, "wisp_perseanchronicles_firebrand_Standard")
-                firebrand.status.repairFully()
 
                 val newFleet = context.fleet
                 val oldFlagship: FleetMemberAPI = newFleet.flagship
@@ -188,16 +186,28 @@ class Telos3HubMission : QGHubMission() {
                 newFleet.fleetData.sort()
                 newFleet.updateCounts()
                 newFleet.forceSync()
+                firebrand.status.repairFully()
 //                context.fleet?.flagship?.shipName = Telos2HubMission.getEugelShipName()
-                context.fleet.sensorStrength = Float.MAX_VALUE
+//                context.fleet.sensorStrength = Float.MAX_VALUE
+//                context.fleet.ai.clearAssignments()
+                TransmitterTrapSpecial.makeFleetInterceptPlayer(
+                    /* fleet = */ context.fleet,
+                    /* makeAggressive = */ false,
+                    /* makeLowRepImpact = */ false,
+                    /* makeHostile = */ true,
+                    /* interceptDays = */ 1000f
+                );
             }
-//            triggerMakeFleetIgnoredByOtherFleets()
+            triggerMakeFleetIgnoredByOtherFleets()
 //            triggerMakeFleetIgnoreOtherFleetsExceptPlayer()
             triggerFleetAddTags(eugelChaseFleetTag)
-//            triggerSetFleetAlwaysPursue()
+            triggerFleetMakeImportant(null, Stage.EscapeSystem)
+            triggerFleetMakeFaster(true, 2, false)
+            triggerSetFleetAlwaysPursue()
 //            triggerFleetSetCommander(PerseanChroniclesNPCs.captainEugel)
             triggerSetFleetMemoryValue(MemFlags.MEMORY_KEY_SAW_PLAYER_WITH_TRANSPONDER_ON, true)
-            triggerOrderFleetInterceptPlayer(true, true)
+//            triggerOrderFleetInterceptPlayer(true, true)
+            triggerSpawnFleetAtPickedLocation(null, null)
         }
 
         // Spawn fleet jump point 1
@@ -215,6 +225,7 @@ class Telos3HubMission : QGHubMission() {
             triggerMakeFleetIgnoreOtherFleetsExceptPlayer()
             triggerAutoAdjustFleetStrengthModerate()
             triggerMakeFleetIgnoredByOtherFleets()
+            triggerFleetMakeImportant(null, Stage.EscapeSystem)
             triggerMakeNoRepImpact()
 //            triggerFleetAddTags(chasingFleetTag)
             triggerFleetNoJump()
@@ -240,6 +251,7 @@ class Telos3HubMission : QGHubMission() {
             triggerAutoAdjustFleetStrengthModerate()
             triggerMakeNoRepImpact()
             triggerFleetNoJump()
+            triggerFleetMakeImportant(null, Stage.EscapeSystem)
             triggerMakeFleetIgnoredByOtherFleets()
 //            triggerFleetAddTags(chasingFleetTag)
             triggerPickLocationAroundEntity(spawnLocation, 1f)

@@ -63,6 +63,8 @@ class Telos2HubMission : QGHubMission() {
         var startDateMillis: Long? by map
         var completeDateInMillis: Long? by map
 
+        var talkedToPirateFleet: Boolean? by map
+
         // If they won this, they cheated.
         var wonRecordedBattle: Boolean? by map
     }

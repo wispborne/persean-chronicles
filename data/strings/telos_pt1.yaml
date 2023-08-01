@@ -131,8 +131,14 @@ wisp_perseanchronicles:
                   "I don’t know who you are or why you’re here, but you don''t want to
                   be involved in this. Turn around, now, or we will open fire."'
               options:
-                - text: 'Try to talk the pirate down.'
+                - text: 'Try to talk the pirate down'
                   goToPage: '1'
+                - id: 'closeComms'
+                  text: 'Cut the comm link'
+            - id: '0-already-talked'
+              paras:
+                - 'There is nothing but static.'
+              options:
                 - id: 'closeComms'
                   text: 'Cut the comm link'
             - id: '1'
@@ -149,7 +155,7 @@ wisp_perseanchronicles:
                   "You have a point. I, uh..." They seem to be struggling to regain their bravado. 
                   “But that’s for you to figure out! I didn''t mutiny this ship just to solve your problems!” Their video feed clicks off.'
               options:
-                - text: 'Continue negotiating.'
+                - text: 'Continue negotiating'
                   goToPage: '2'
                 - id: 'closeComms'
                   text: 'Cut the comm link'
@@ -168,7 +174,7 @@ wisp_perseanchronicles:
                   face appears nervously on the display. "Jeff’s the nav guy, he can walk
                   you through the maneuver."'
               options:
-                - text: 'Continue '
+                - text: 'Continue'
                   goToPage: '4'
             - id: '4'
               paras:

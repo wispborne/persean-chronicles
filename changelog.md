@@ -1,5 +1,9 @@
 ## Changelog
 
+Version 3.0.9
+- Fixed
+  - Able to talk the pirate down multiple times.
+
 Version 3.0.8
 - Fixed
   - Crash with Progressive Smods enabled after the Telos battle (thanks to Jimminy Crimbles). 

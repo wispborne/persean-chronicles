@@ -129,14 +129,14 @@
               } ]
             }, {
               "id" : "4-common-areas-2",
-              "paras" : [ "A memory not your own brings the cavern to life like a daydream.", "The Telos wander in in small groups. Their faces are alive with contentment and you understand, sensing the web that connects them all. There are no barriers between them; no misunderstandings, no jealousies, no power dynamics. You wonder how much of that is from the Ether.", "Time skips forward." ],
+              "paras" : [ "A memory not your own brings the cavern to life like a daydream.", "__The Telos wander in in small groups. Their faces are alive with contentment and you understand, sensing the web that connects them all. There are no barriers between them; no misunderstandings, no jealousies, no power dynamics. You wonder how much of that is from the Ether.__", "Time skips forward." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "4-common-areas-3"
               } ]
             }, {
               "id" : "4-common-areas-3",
-              "paras" : [ "The people are nervous now. Something everpresent is missing, and they do not know why.", "A woman at the far end of the chamber stands and you know her as ==Krypta==, the scientist that created the Ether.", "$cv:pc_krypta{telos  as you know the hyperwave emitter at menri is silent   i have confirmed our fears}", "$cv:pc_krypta{the hegemony have destroyed menri   they are on their way here  we must fight}", "The community feels fear, but also resolve, and, even knowing their odds, they walk to the hanger without hesitation." ],
+              "paras" : [ "__The people are nervous now. Something everpresent is missing, and they do not know why.__", "__A woman at the far end of the chamber stands and you know her as ==Krypta==, the scientist that created the Ether.__", "__$cv:pc_krypta{telos  as you know the hyperwave emitter at menri is silent   i have confirmed our fears}__", "__$cv:pc_krypta{the hegemony have destroyed menri   they are on their way here  we must fight}__", "__The community feels fear, but also resolve, and, even knowing their odds, they walk to the hanger without hesitation.__" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "4-common-areas-4"
@@ -392,7 +392,7 @@
               } ]
             }, {
               "id" : "16-powerup-bar-2",
-              "paras" : [ "You are finishing your fourth drink when Karengo arrives, interrupting a junior officer's dubious story of the time she witnessed High Hegemon Daud entering the notorious 'Oldest Profession' on Port Tse. He grabs an untouched glass.", "\"To beating the odds!\" he proclaims, raising his drink." ],
+              "paras" : [ "You are finishing your fourth drink when Karengo arrives, interrupting a junior officer's dubious story of the time she witnessed High Hegemon Daud entering the notorious 'Oldest Profession' on Port Tse. He grabs an untouched glass.", "\"To the next step in our adventure!\" he proclaims, raising his drink." ],
               "options" : [ {
                 "id" : "cheers-karengo",
                 "text" : "Cheers",
@@ -435,7 +435,7 @@
               } ]
             }, {
               "id" : "16-powerup-bar-5",
-              "paras" : [ "Karengo pushes himself back from the table.", "$cv:pc_karengo{<anyway, i have a date or something like that>} He somehow manages to wink telepathically on his way out and you realize you've been sitting silently for the last few minutes. The few remaining patrons seem not to notice." ],
+              "paras" : [ "Karengo pushes himself back from the table.", "$cv:pc_karengo{<anyway, some of your crew know how to have fun - gotta go>} He somehow manages to wink telepathically on his way out and you realize the two of you have been sitting silently for the last few minutes. The few remaining patrons seem not to notice." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "16-powerup-bar-6"
