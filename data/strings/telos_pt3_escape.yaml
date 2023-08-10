@@ -83,3 +83,11 @@ wisp_perseanchronicles:
               options:
                 - id: 'closeComms' # return to the vanilla battle dialog
                   text: 'Continue'
+
+        completedSacrificeShips:
+          intel:
+            subtitle: 'You have severed the thread of fate that Moloch crept upon'
+            desc: 'You have proven your loyalty to the Luddic Church by destroying the ships.'
+
+
+        # Defeated Eugel in battle. You go, gamer.

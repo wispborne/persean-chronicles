@@ -70,6 +70,12 @@
                 "text" : "Continue"
               } ]
             } ]
+          },
+          "completedSacrificeShips" : {
+            "intel" : {
+              "subtitle" : "You severed the thread that Moloch crept upon",
+              "desc" : "You have proven your loyalty to the Luddic Church by destroying the ships."
+            }
           }
         }
       }

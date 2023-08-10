@@ -1,8 +1,9 @@
 package wisp.perseanchronicles.telos.pt3_arrow
 
 import com.fs.starfarer.api.campaign.TextPanelAPI
+import com.fs.starfarer.api.fleet.FleetMemberAPI
+import com.fs.starfarer.api.fleet.FleetMemberType
 import com.fs.starfarer.api.impl.campaign.ids.Factions
-import com.fs.starfarer.api.util.Misc
 import org.json.JSONArray
 import org.magiclib.kotlin.addFleetMemberLossText
 import org.magiclib.kotlin.adjustReputationWithPlayer
@@ -14,13 +15,13 @@ import wisp.questgiver.v2.CustomFleetInteractionDialogPlugin
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.query
-import wisp.questgiver.wispLib.asList
 
-class EugelFleetInteractionDialogPlugin : CustomFleetInteractionDialogPlugin<EugelFleetInteractionDialogPlugin.BattleCommsInteractionDialog>() {
-    override fun createCustomDialogLogic() = BattleCommsInteractionDialog(this)
+class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) : CustomFleetInteractionDialogPlugin<EugelFleetInteractionDialogPlugin.BattleCommsInteractionDialog>() {
+    override fun createCustomDialogLogic() = BattleCommsInteractionDialog(this, mission)
 
     class BattleCommsInteractionDialog(
         parentDialog: EugelFleetInteractionDialogPlugin,
+        val mission: Telos3HubMission,
         val json: JSONArray = TelosCommon.readJson()
             .query("/wisp_perseanchronicles/telos/part3_arrow/stages/eugelDialog/pages")
     ) : InteractionDialogLogic<BattleCommsInteractionDialog>(
@@ -42,6 +43,9 @@ class EugelFleetInteractionDialogPlugin : CustomFleetInteractionDialogPlugin<Eug
                 },
                 "2-luddFriend-scuttlingConfirmed-2" to {
                     dialog.textPanel.adjustReputationWithPlayer(Factions.LUDDIC_CHURCH, 0.1f)
+                    dialog.textPanel.adjustReputationWithPlayer(PerseanChroniclesNPCs.karengo, -0.2f)
+                    mission.setNoRepChanges()
+                    mission.setCurrentStage(Telos3HubMission.Stage.CompletedSacrificeShips, dialog, emptyMap())
                 },
             ),
             optionConfigurator = { options ->
@@ -86,6 +90,18 @@ class EugelFleetInteractionDialogPlugin : CustomFleetInteractionDialogPlugin<Eug
     // TODO unlock an achievement for winning the battle.
 }
 
+// function to check if a ship is a Telos ship
+fun isTelosShip(ship: FleetMemberAPI): Boolean {
+    return ship.hullId == TelosCommon.VARA_ID || ship.hullId == TelosCommon.ITESH_ID || ship.hullId == TelosCommon.AVALOK_ID
+}
+
+/**
+ * Removes all Telos ships from the player's fleet and storage.
+ * If the player's flagship is a Telos ship, moves the player to a different ship.
+ * If the player has no non-Telos ships, gives them a Kite.
+ *
+ * @param textPanelAPI The text panel to add the loss text to.
+ */
 fun removeAllPlayerTelosShipsInSector(textPanelAPI: TextPanelAPI) {
     game.sector.allLocations
         .asSequence()
@@ -100,10 +116,30 @@ fun removeAllPlayerTelosShipsInSector(textPanelAPI: TextPanelAPI) {
                 .flatMap { it.submarketsCopy.orEmpty() }
                 .flatMap { it.cargo?.fleetData?.membersListCopy.orEmpty() }
         )
-        .filter { it.hullId == TelosCommon.VARA_ID || it.hullId == TelosCommon.ITESH_ID || it.hullId == TelosCommon.AVALOK_ID }
-        .forEach {
-            game.logger.i { "Removing ${it.id} from fleet ${it.fleetData?.fleet?.nameWithFaction}." }
-            textPanelAPI.addFleetMemberLossText(it)
-            it.fleetData?.removeFleetMember(it)
+        .filter { isTelosShip(it) }
+        .forEach { ship ->
+            // If the Telos ship to destroy is the player's flagship, move the player to a different ship.
+            if (ship.captain.isPlayer) {
+                val nonTelosShips = game.sector.playerFleet.fleetData.membersListCopy.filter { !isTelosShip(it) }
+
+                if (nonTelosShips.isEmpty()) {
+                    // If the player only has Telos ships, give them a Kite. Don't spend it all in one place.
+                    game.sector.playerFleet.fleetData.addFleetMember(game.factory.createFleetMember(FleetMemberType.SHIP, "kite_original_Stock"))
+                    game.sector.playerFleet.forceSync()
+                }
+
+                val yourNewShip = game.sector.playerFleet.fleetData.membersListCopy.first { !isTelosShip(it) }
+                yourNewShip.captain = game.sector.playerPerson
+                game.sector.playerFleet.fleetData.setFlagship(yourNewShip)
+                game.sector.playerFleet.forceSync()
+            }
+
+            // Then, remove the Telos ship.
+            game.logger.i { "Removing ${ship.id} from fleet ${ship.fleetData?.fleet?.nameWithFaction}." }
+            textPanelAPI.addFleetMemberLossText(ship)
+            val fleet = ship.fleetData.fleet
+            ship.fleetData?.removeFleetMember(ship)
+            // todo this isn't removing from the player fleet for some reason
+            fleet?.forceSync()
         }
 }

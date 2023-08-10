@@ -9,7 +9,6 @@ import com.fs.starfarer.api.fleet.FleetMemberType
 import com.fs.starfarer.api.impl.campaign.ids.*
 import com.fs.starfarer.api.impl.campaign.missions.hub.HubMissionWithSearch.PlanetIsPopulatedReq
 import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
-import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.special.TransmitterTrapSpecial
 import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
@@ -102,10 +101,12 @@ class Telos3HubMission : QGHubMission() {
         // Ignore warning, there are two overrides and it's complaining about just one of them.
         @Suppress("ABSTRACT_SUPER_CALL_WARNING")
         super.create(createdAt, barEvent)
+        // Set his sprite in case he was created during Phase 1, before the new sprite was set.
+        PerseanChroniclesNPCs.captainEugel.portraitSprite = IInteractionLogic.Portrait(category = "wisp_perseanchronicles_telos", id = "eugel_portrait").spriteName(game)
         setGenRandom(Telos1HubMission.state.seed ?: Misc.random)
 
         setStartingStage(Stage.GoToPlanet)
-        setSuccessStage(Stage.Completed)
+        addSuccessStages(Stage.Completed, Stage.CompletedSacrificeShips)
         setAbandonStage(Stage.Abandoned)
 
         name = part3Json.query("/strings/title")
@@ -327,7 +328,7 @@ class Telos3HubMission : QGHubMission() {
             // Interacting with Eugel's chasing fleet.
             interactionTarget is CampaignFleetAPI && interactionTarget.commander.id == PerseanChroniclesNPCs.captainEugel.id ->
                 PluginPick(
-                    EugelFleetInteractionDialogPlugin(),
+                    EugelFleetInteractionDialogPlugin(this),
                     CampaignPlugin.PickPriority.MOD_SPECIFIC
                 )
 
@@ -360,6 +361,13 @@ class Telos3HubMission : QGHubMission() {
                 true
             }
 
+            Stage.CompletedSacrificeShips -> {
+                info.addPara(padding = pad, textColor = Misc.getGrayColor()) {
+                    part3Json.query<String>("/stages/completedSacrificeShips/intel/subtitle").qgFormat()
+                }
+                true
+            }
+
             Stage.Completed -> {
                 info.addPara(padding = pad, textColor = Misc.getGrayColor()) {
                     part3Json.query<String>("/stages/escape/intel/subtitle").qgFormat()
@@ -382,6 +390,10 @@ class Telos3HubMission : QGHubMission() {
                 info.addPara { part3Json.query<String>("/stages/escape/intel/desc").qgFormat() }
             }
 
+            Stage.CompletedSacrificeShips -> {
+                info.addPara { part3Json.query<String>("/stages/completedSacrificeShips/intel/desc").qgFormat() }
+            }
+
             Stage.Completed -> {
                 info.addPara { part3Json.query<String>("/stages/escape/intel/desc").qgFormat() }
             }
@@ -396,6 +408,7 @@ class Telos3HubMission : QGHubMission() {
         EscapeSystemForDisplay,
         EscapeSystem,
         Completed,
+        CompletedSacrificeShips,
         Abandoned,
     }
 }

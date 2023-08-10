@@ -9,7 +9,7 @@
         "stages" : {
           "destroyFleet" : {
             "intel" : {
-              "subtitle" : "Destroy the $f:pirates{pirate} fleet.",
+              "subtitle" : "Destroy the $f:pirates{pirate} fleet",
               "desc" : "Karengo's distress signal claims that he has discovered something hidden, but he is stranded on-world.\nDestroy the $f:pirates{pirate} fleet around ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}."
             }
           },
