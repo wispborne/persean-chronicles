@@ -39,7 +39,7 @@ import kotlin.random.Random
 class TelevisionScript : BaseToggleAbility() {
     private val HYPERSPACE_RANGE = 20000f
 
-    private val originalMaxZoom = game.settings.getFloat("maxCampaignZoom")
+    private val originalMaxZoom = game.sector.campaignUI.maxZoomFactor
 
     override fun runWhilePaused() = true
 
@@ -277,8 +277,7 @@ class TelevisionScript : BaseToggleAbility() {
     }
 
     private fun setMaxZoom(zoomMult: Float) {
-        // Alex is adding this in 0.96, I think.
-        // TODO: campaign zoom
+        game.sector.campaignUI.maxZoomFactor = zoomMult
     }
 
     private fun getRingRadiusForCloudRendering(obj: SectorEntityToken): Float {

@@ -35,7 +35,7 @@ class Telos3LandingDialog(
         // Resume from where player left off.
         if (Telos3HubMission.state.visitedPrimaryPlanet == true) {
             if (Telos2HubMission.choices.injectedSelf == true)
-                pages.single { it.id == "4-noEther-go-inside" }
+                pages.single { it.id == "4-ether-go-inside" }
             else
                 pages.single { it.id == "14-noEther" }
         } else if (Telos2HubMission.choices.injectedSelf == true)

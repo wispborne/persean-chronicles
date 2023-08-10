@@ -39,6 +39,7 @@
       "sleepers": "graphics/telos/sleepers.png",
       "choices": "graphics/telos/choices.png",
       "intel": "graphics/telos/telos_intel.png",
+      "eugel_portrait": "graphics/telos/eugel.png"
     },
   },
 

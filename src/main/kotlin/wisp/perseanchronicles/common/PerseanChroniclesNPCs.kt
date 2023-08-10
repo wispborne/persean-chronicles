@@ -131,13 +131,16 @@ object PerseanChroniclesNPCs {
             .setFirstName("Captain")
             .setLastName("Eugel")
             .setGender(FullName.Gender.MALE)
-            .setPortraitId("graphics/portraits/portrait_hegemony05.png")
             .setRankId(Ranks.SPACE_COMMANDER)
             .setPostId(Ranks.POST_FLEET_COMMANDER)
             .setPersonality(Personalities.STEADY)
             .setLevel(10)
             .create()
-            .also { game.memory["capEugel"] = it }
+            .apply {
+                game.memory["capEugel"] = this
+                this.portraitSprite =
+                    IInteractionLogic.Portrait(category = "wisp_perseanchronicles_telos", id = "eugel_portrait").spriteName(game)
+            }
     }
 
 

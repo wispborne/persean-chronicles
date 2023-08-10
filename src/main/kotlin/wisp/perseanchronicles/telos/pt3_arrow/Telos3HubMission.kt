@@ -40,7 +40,7 @@ class Telos3HubMission : QGHubMission() {
 
         val state = State(PersistentMapData<String, Any?>(key = "telosPt3State").withDefault { null })
 
-        val chaseFleetFlag = "$${MISSION_ID}chaseFleet"
+//        val chaseFleetFlag = "$${MISSION_ID}chaseFleet"
         val eugelChaseFleetTag = "${MISSION_ID}eugelChaseFleet"
     }
 
@@ -80,12 +80,6 @@ class Telos3HubMission : QGHubMission() {
         if (isDevMode()) {
             part3Json = TelosCommon.readJson()
                 .query("/$MOD_ID/telos/part3_arrow") as JSONObject
-
-            if (TelosCommon.isDevMode()) {
-                game.logger.i { "Recreating Telos 3." }
-                triggers.clear()
-                create(postingLocation?.market, true)
-            }
         }
     }
 
@@ -167,6 +161,7 @@ class Telos3HubMission : QGHubMission() {
             triggerMakeNoRepImpact()
             triggerAutoAdjustFleetStrengthModerate()
             triggerPickLocationAroundEntity(spawnLocation, 1000f, 1000f, 1000f)
+            triggerSpawnFleetAtPickedLocation(null, null)
             triggerFleetSetName("Eugel's Fleet")
             triggerFleetNoJump()
             triggerFleetSetNoFactionInName()
@@ -174,40 +169,34 @@ class Telos3HubMission : QGHubMission() {
                 // thank you DR https://bitbucket.org/modmafia/underworld/commits/3cdb860a7222d40f2d0d94e5bca0eaf672f5ab6c
                 val firebrand = game.factory.createFleetMember(FleetMemberType.SHIP, "wisp_perseanchronicles_firebrand_Standard")
 
-                val newFleet = context.fleet
-                val oldFlagship: FleetMemberAPI = newFleet.flagship
-                newFleet.fleetData.addFleetMember(firebrand)
+                val fleet = context.fleet
+                val oldFlagship: FleetMemberAPI = fleet.flagship
+                fleet.fleetData.addFleetMember(firebrand)
 
                 firebrand.captain = PerseanChroniclesNPCs.captainEugel
                 oldFlagship.isFlagship = false
-                newFleet.fleetData.setFlagship(firebrand)
-                newFleet.fleetData.removeFleetMember(oldFlagship)
+                fleet.fleetData.setFlagship(firebrand)
+                fleet.fleetData.removeFleetMember(oldFlagship)
 
-                newFleet.fleetData.sort()
-                newFleet.updateCounts()
-                newFleet.forceSync()
+                fleet.fleetData.sort()
+                fleet.updateCounts()
+                fleet.fleetData.syncIfNeeded()
                 firebrand.status.repairFully()
 //                context.fleet?.flagship?.shipName = Telos2HubMission.getEugelShipName()
-//                context.fleet.sensorStrength = Float.MAX_VALUE
-//                context.fleet.ai.clearAssignments()
-                TransmitterTrapSpecial.makeFleetInterceptPlayer(
-                    /* fleet = */ context.fleet,
-                    /* makeAggressive = */ false,
-                    /* makeLowRepImpact = */ false,
-                    /* makeHostile = */ true,
-                    /* interceptDays = */ 1000f
-                );
+                context.fleet.sensorStrength = Float.MAX_VALUE
+                val mem = context.fleet.memoryWithoutUpdate
+                mem.set(MemFlags.MEMORY_KEY_STICK_WITH_PLAYER_IF_ALREADY_TARGET, true)
+                mem.set(MemFlags.MEMORY_KEY_ALLOW_LONG_PURSUIT, true)
             }
             triggerMakeFleetIgnoredByOtherFleets()
-//            triggerMakeFleetIgnoreOtherFleetsExceptPlayer()
-            triggerFleetAddTags(eugelChaseFleetTag)
+            triggerMakeFleetIgnoreOtherFleetsExceptPlayer()
+//            triggerFleetAddTags(eugelChaseFleetTag)
             triggerFleetMakeImportant(null, Stage.EscapeSystem)
-            triggerFleetMakeFaster(true, 2, false)
             triggerSetFleetAlwaysPursue()
-//            triggerFleetSetCommander(PerseanChroniclesNPCs.captainEugel)
+            triggerFleetMakeFaster(true, 2, true)
+            triggerFleetSetCommander(PerseanChroniclesNPCs.captainEugel)
             triggerSetFleetMemoryValue(MemFlags.MEMORY_KEY_SAW_PLAYER_WITH_TRANSPONDER_ON, true)
-//            triggerOrderFleetInterceptPlayer(true, true)
-            triggerSpawnFleetAtPickedLocation(null, null)
+            triggerOrderFleetInterceptPlayer(true, true)
         }
 
         // Spawn fleet jump point 1
@@ -225,12 +214,12 @@ class Telos3HubMission : QGHubMission() {
             triggerMakeFleetIgnoreOtherFleetsExceptPlayer()
             triggerAutoAdjustFleetStrengthModerate()
             triggerMakeFleetIgnoredByOtherFleets()
-            triggerFleetMakeImportant(null, Stage.EscapeSystem)
             triggerMakeNoRepImpact()
+            triggerFleetMakeImportant(null, Stage.EscapeSystem)
 //            triggerFleetAddTags(chasingFleetTag)
             triggerFleetNoJump()
             triggerPickLocationAroundEntity(spawnLocation, 1f)
-            triggerSpawnFleetAtPickedLocation(chaseFleetFlag, null)
+            triggerSpawnFleetAtPickedLocation(null, null)
             triggerOrderFleetPatrol(spawnLocation)
             triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
         }
@@ -255,7 +244,7 @@ class Telos3HubMission : QGHubMission() {
             triggerMakeFleetIgnoredByOtherFleets()
 //            triggerFleetAddTags(chasingFleetTag)
             triggerPickLocationAroundEntity(spawnLocation, 1f)
-            triggerSpawnFleetAtPickedLocation(chaseFleetFlag, null)
+            triggerSpawnFleetAtPickedLocation(null, null)
             triggerOrderFleetPatrol(spawnLocation)
             triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
         }
@@ -336,10 +325,11 @@ class Telos3HubMission : QGHubMission() {
             }
 
             // Interacting with Eugel's chasing fleet.
-            interactionTarget.hasTag(eugelChaseFleetTag) -> PluginPick(
-                EugelFleetInteractionDialogPlugin(),
-                CampaignPlugin.PickPriority.MOD_SPECIFIC
-            )
+            interactionTarget is CampaignFleetAPI && interactionTarget.commander.id == PerseanChroniclesNPCs.captainEugel.id ->
+                PluginPick(
+                    EugelFleetInteractionDialogPlugin(),
+                    CampaignPlugin.PickPriority.MOD_SPECIFIC
+                )
 
             else -> null
         }

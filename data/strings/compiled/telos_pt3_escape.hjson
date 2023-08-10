@@ -5,7 +5,7 @@
         "stages" : {
           "eugelDialog" : {
             "pages" : [ {
-              "id" : "0-already-talked",
+              "id" : "already-talked",
               "paras" : [ "There is no answer." ]
             }, {
               "id" : "0",
@@ -23,7 +23,7 @@
               } ]
             }, {
               "id" : "2-luddFriend",
-              "paras" : [ "\"However.\" He draws out the word. \"You are known as a ${playerManOrWoman} of the cloth. Lapses in faith are more common than you might think.\"", "\"Rid your congregation of the foul vessels, leave alone the fire of Olympus, and we will welcome you, ${PlayerBrotherOrSister}.\"" ],
+              "paras" : [ "\"However.\" He draws out the word, considering you. \"You are known as a ${playerManOrWoman} of the cloth. Lapses in faith are more common than you may think.\"", "\"Rid your congregation of those foul vessels, leave alone the fire of Olympus, and we will overlook this mistake, ${PlayerBrotherOrSister}.\"" ],
               "onPageShown" : {
                 "goToPage" : "2-luddFriend-options"
               }
@@ -50,7 +50,7 @@
               } ]
             }, {
               "id" : "2-luddFriend-scuttlingConfirmed",
-              "paras" : [ "You send the necessary commands and wait. You can see the exact moment Knight-Captain Eugel receives confirmation of the ships' fate.", "\"Well then, ${playerBrotherOrSister},\" he looks more disappointed than reconciliatory. \"It appears that your crisis of faith is over, and, with it, our audience.\"", "The comms link cuts off abruptly." ],
+              "paras" : [ "You send the necessary commands and wait. You can see the exact moment Knight-Captain Eugel receives confirmation of the ships' fate. His brows twitch into a deep, well-worn furrow for an instant before returning to a more neutral posture.", "\"Well then, ${playerBrotherOrSister}.\" He looks more disappointed than reconciliatory. \"It appears that your crisis of faith is over, and, with it, our audience.\"", "The comms link cuts off." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "2-luddFriend-scuttlingConfirmed-2"
@@ -59,21 +59,15 @@
               "id" : "2-luddFriend-scuttlingConfirmed-2",
               "paras" : [ "After a moment, their fleet breaks its escort formation and turns toward the nearest jump point." ],
               "options" : [ {
-                "text" : "Leave",
-                "goToPage" : "otherPageId"
+                "id" : "leave",
+                "text" : "Leave"
               } ]
             }, {
               "id" : "2-luddFriend-keepShips",
-              "paras" : [ "Knight-Captain Eugel makes a half-hearted attempt to look regretful.", "\"Then I am sorry, Captain, but I have no choice. Evil must be contained.\"", "The comms link cuts off." ],
+              "paras" : [ "Knight-Captain Eugel makes a half-hearted attempt to look regretful, but his eyes glitter.", "\"Then I am sorry, Captain, but I have no choice. Evil must be contained.\"", "The comms link cuts off." ],
               "options" : [ {
                 "id" : "closeComms",
                 "text" : "Continue"
-              } ]
-            }, {
-              "id" : "battle-menu",
-              "options" : [ {
-                "text" : "Start battle",
-                "goToPage" : "otherPageId"
               } ]
             } ]
           }
