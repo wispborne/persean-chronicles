@@ -173,8 +173,9 @@ class Telos3LandingDialog(
                 game.sector.playerFleet.fleetData.membersListCopy
                     .filter { !it.isMothballed }
                     .forEach {
-                        // Lower to 20% CR
+                        // Lower to max 20% CR and stop repairing so we don't eat all their supplies
                         it.repairTracker.cr = it.repairTracker.cr.coerceAtMost(0.2f)
+                        it.repairTracker.isSuspendRepairs = true
                     }
             },
         ),
@@ -228,7 +229,7 @@ class Telos3LandingDialog(
                     "flee" -> {
                         option.copy(onOptionSelected = {
                             this.navigator.close(doNotOfferAgain = true)
-                            mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystem, null, null)
+                            mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystem, dialog, null)
                         })
                     }
 

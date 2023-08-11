@@ -502,9 +502,15 @@
           },
           "escape" : {
             "intel" : {
-              "subtitle" : "ESCAPE",
-              "desc" : "Sensors are jammed. GET TO THE JUMP POINT!"
+              "subtitle" : "Escape the system",
+              "desc" : "Sensors are down. Navigation is inhibited. The fleet is damaged. Escape to a jump point."
             }
+          },
+          "escaped" : {
+            "paras" : [ {
+              "id" : "0-escaped",
+              "paras" : null
+            } ]
           }
         }
       }

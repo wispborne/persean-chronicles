@@ -159,13 +159,14 @@ class Telos3HubMission : QGHubMission() {
                 spawnLocation
             )
             triggerSetFleetFaction(Factions.LUDDIC_CHURCH)
-            triggerMakeNoRepImpact()
-            triggerAutoAdjustFleetStrengthModerate()
+//            triggerMakeNoRepImpact()
+//            triggerAutoAdjustFleetStrengthModerate()
             triggerPickLocationAroundEntity(spawnLocation, 1000f, 1000f, 1000f)
             triggerSpawnFleetAtPickedLocation(null, null)
             triggerFleetSetName("Eugel's Fleet")
-            triggerFleetNoJump()
-            triggerFleetSetNoFactionInName()
+//            triggerFleetNoJump()
+//            triggerFleetSetNoFactionInName()
+            triggerSpawnFleetAtPickedLocation(null, null)
             triggerCustomAction { context ->
                 // thank you DR https://bitbucket.org/modmafia/underworld/commits/3cdb860a7222d40f2d0d94e5bca0eaf672f5ab6c
                 val firebrand = game.factory.createFleetMember(FleetMemberType.SHIP, "wisp_perseanchronicles_firebrand_Standard")
@@ -182,7 +183,7 @@ class Telos3HubMission : QGHubMission() {
                 fleet.fleetData.sort()
                 fleet.updateCounts()
                 fleet.fleetData.syncIfNeeded()
-                firebrand.status.repairFully()
+                firebrand.repairTracker.cr = firebrand.repairTracker.maxCR
 //                context.fleet?.flagship?.shipName = Telos2HubMission.getEugelShipName()
                 context.fleet.sensorStrength = Float.MAX_VALUE
                 val mem = context.fleet.memoryWithoutUpdate
@@ -265,10 +266,15 @@ class Telos3HubMission : QGHubMission() {
             }
         }
 
-//        trigger {
-//            beginEnteredLocationTrigger(game.sector.hyperspace, Stage.GoToPlanet)
-//
-//        }
+        trigger {
+            beginStageTrigger(Stage.Completed, Stage.CompletedSacrificeShips)
+            triggerCustomAction {
+                game.sector.playerFleet.fleetData.membersListCopy.forEach { ship ->
+                    ship.repairTracker.cr = ship.repairTracker.maxCR
+                    ship.repairTracker.isSuspendRepairs = false
+                }
+            }
+        }
 
         return true
     }

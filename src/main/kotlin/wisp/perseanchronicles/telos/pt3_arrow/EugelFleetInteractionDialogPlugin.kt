@@ -63,11 +63,11 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) : CustomF
                             }
                         )
 
-                        "continueToBattleOpt" -> option.copy(
-                            disableAutomaticHandling = true,
-                            onOptionSelected = {
-                                parentDialog.optionSelected(null, OptionId.CONTINUE)
-                            })
+//                        "continueToBattleOpt" -> option.copy(
+//                            disableAutomaticHandling = true,
+//                            onOptionSelected = {
+//                                parentDialog.optionSelected(null, OptionId.CONTINUE)
+//                            })
 
                         "closeComms" -> option.copy(
                             disableAutomaticHandling = true,
@@ -138,8 +138,16 @@ fun removeAllPlayerTelosShipsInSector(textPanelAPI: TextPanelAPI) {
             game.logger.i { "Removing ${ship.id} from fleet ${ship.fleetData?.fleet?.nameWithFaction}." }
             textPanelAPI.addFleetMemberLossText(ship)
             val fleet = ship.fleetData.fleet
-            ship.fleetData?.removeFleetMember(ship)
-            // todo this isn't removing from the player fleet for some reason
-            fleet?.forceSync()
+
+            if (fleet.isPlayerFleet) {
+                game.sector.playerFleet.fleetData.removeFleetMember(ship)
+            } else {
+                // Does this actually work? It doesn't when used on the player fleet.
+                // TODO check that it works on stored ships
+                ship.fleetData?.removeFleetMember(ship)
+            }
+q
+            fleet.forceSync()
+            fleet.fleetData?.syncMemberLists()
         }
 }

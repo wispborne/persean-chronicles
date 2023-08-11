@@ -91,3 +91,7 @@ wisp_perseanchronicles:
 
 
         # Defeated Eugel in battle. You go, gamer.
+        defeatedEugel:
+          pages:
+            - id: '1-beatEugel'
+              paras: ''
