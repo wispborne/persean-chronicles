@@ -146,7 +146,7 @@ fun removeAllPlayerTelosShipsInSector(textPanelAPI: TextPanelAPI) {
                 // TODO check that it works on stored ships
                 ship.fleetData?.removeFleetMember(ship)
             }
-q
+
             fleet.forceSync()
             fleet.fleetData?.syncMemberLists()
         }
