@@ -106,7 +106,7 @@ fun removeAllPlayerTelosShipsInSector(textPanelAPI: TextPanelAPI) {
     game.sector.allLocations
         .asSequence()
         .flatMap { it.fleets }
-        .filter { it.faction == game.sector.playerFaction }
+        .filter { it.faction.id == game.sector.playerFaction.id }
         .flatMap { it.fleetData?.membersListCopy.orEmpty() }
         .plus(
             // Ships in storage
@@ -115,6 +115,7 @@ fun removeAllPlayerTelosShipsInSector(textPanelAPI: TextPanelAPI) {
                 .flatMap { it.getMarketsInLocation().orEmpty() }
                 .flatMap { it.submarketsCopy.orEmpty() }
                 .flatMap { it.cargo?.fleetData?.membersListCopy.orEmpty() }
+                .filter { it.fleetData.fleet.faction.id == game.sector.playerFaction.id }
         )
         .filter { isTelosShip(it) }
         .forEach { ship ->

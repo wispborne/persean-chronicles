@@ -21,20 +21,25 @@ import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.boats.ShipPalette
 import wisp.perseanchronicles.telos.boats.defaultShipPalette
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
-import wisp.questgiver.wispLib.addShipVariant
-import wisp.questgiver.wispLib.findFirst
-import wisp.questgiver.wispLib.refit
-import wisp.questgiver.wispLib.swapFleets
+import wisp.questgiver.wispLib.*
 import java.util.*
 
 
 object Telos2BattleCoordinator {
     class CampaignPlugin : BaseCampaignPlugin() {
-        override fun pickBattleCreationPlugin(opponent: SectorEntityToken?): PluginPick<com.fs.starfarer.api.campaign.BattleCreationPlugin> =
-            PluginPick(
-                Telos2BattleCreationPlugin(),
-                com.fs.starfarer.api.campaign.CampaignPlugin.PickPriority.MOD_SPECIFIC
+        override fun pickBattleCreationPlugin(opponent: SectorEntityToken?): PluginPick<com.fs.starfarer.api.campaign.BattleCreationPlugin>? =
+            if (game.intelManager.findFirst<Telos2HubMission>()
+                    ?.currentStage
+                    ?.equalsAny(
+                        Telos2HubMission.Stage.LandOnPlanetSecondEther,
+                        Telos2HubMission.Stage.LandOnPlanetSecondNoEther
+                    ) == true
             )
+                PluginPick(
+                    Telos2BattleCreationPlugin(),
+                    com.fs.starfarer.api.campaign.CampaignPlugin.PickPriority.MOD_SPECIFIC
+                )
+            else null
     }
 
     val telosCommanders = listOf(
