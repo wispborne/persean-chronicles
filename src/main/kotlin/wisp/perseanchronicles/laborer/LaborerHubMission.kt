@@ -16,6 +16,7 @@ import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.isOkForQuest
 import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
 import wisp.questgiver.wispLib.*
@@ -75,7 +76,7 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         market ?: return false
 
         return market.factionId in listOf(Factions.INDEPENDENT)
-                && market.starSystem != null // No hyperspace markets
+                && market.isOkForQuest()
                 && market.size > 2
                 && market.hasIndustry(Industries.MINING)
                 && LaborerBarEventWiring().shouldBeAddedToBarEventPool()

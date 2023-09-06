@@ -14,6 +14,7 @@ import com.fs.starfarer.api.util.WeightedRandomPicker
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.isOkForQuest
 import wisp.questgiver.spriteName
 import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.v2.IInteractionLogic
@@ -103,8 +104,8 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         market ?: return false
 
         return DepthsBarEventWiring().shouldBeAddedToBarEventPool()
+                && market.isOkForQuest()
                 && market.factionId.lowercase() !in listOf("luddic_church", "luddic_path")
-                && market.starSystem != null // No hyperspace markets.
                 && market.size >= 5 // Karengo is big-time now.
     }
 

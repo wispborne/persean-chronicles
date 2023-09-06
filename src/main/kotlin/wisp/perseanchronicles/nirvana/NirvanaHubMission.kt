@@ -12,6 +12,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.isOkForQuest
 import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
@@ -55,8 +56,8 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
         return NirvanaBarEventWiring().shouldBeAddedToBarEventPool()
                 && market != null
+                && market.isOkForQuest()
                 && market.factionId.lowercase() in listOf(Factions.INDEPENDENT.lowercase(), Factions.TRITACHYON.lowercase())
-                && market.starSystem != null // No prism freeport
                 && market.size > 3
     }
 

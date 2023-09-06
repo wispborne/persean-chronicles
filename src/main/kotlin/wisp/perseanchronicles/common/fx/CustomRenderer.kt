@@ -276,5 +276,4 @@ class CampaignCustomRenderer : CustomRenderer, BaseCustomEntityPlugin() {
         CampaignEngineLayers.ABOVE
 
     override fun getRenderRange(): Float = 1.0E25f
-
 }

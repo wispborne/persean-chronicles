@@ -17,6 +17,7 @@ import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.isOkForQuest
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.spriteName
@@ -69,7 +70,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
      */
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
         return state.startDateMillis == null
-                && market?.starSystem != null // No hyperspace markets >.<
+                && market?.isOkForQuest() == true
                 && market.factionId in listOf(Factions.INDEPENDENT)
                 && market.size >= 5
     }

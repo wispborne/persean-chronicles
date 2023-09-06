@@ -11,6 +11,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.isOkForQuest
 import wisp.questgiver.spriteName
 import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.v2.IInteractionLogic
@@ -63,6 +64,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         market ?: return false
 
         return DragonsBarEventWiring().shouldBeAddedToBarEventPool()
+                && market.isOkForQuest()
                 && market.factionId.lowercase() !in listOf(Factions.LUDDIC_CHURCH, Factions.LUDDIC_PATH)
                 && market.starSystem != null
                 // and not near gilead

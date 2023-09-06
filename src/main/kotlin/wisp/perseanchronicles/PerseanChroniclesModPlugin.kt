@@ -228,7 +228,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
                 .toStringList()
                 .distinct()
         }
-            .onFailure { game.logger.e(it) { it.message } }
+            .onFailure { game.logger.i(it) { it.message } }
             .getOrElse { emptyList() }
             // Don't let quests go to TTBlacksite or hidden mod systems.
             .plus(Tags.THEME_HIDDEN)
@@ -238,7 +238,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
                 .toStringList()
                 .distinct()
         }
-            .onFailure { game.logger.e(it) { it.message } }
+            .onFailure { game.logger.i(it) { it.message } }
             .getOrElse { emptyList() }
 
         val blacklistedSystemIds = kotlin.runCatching {
@@ -246,7 +246,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
                 .toStringList()
                 .distinct()
         }
-            .onFailure { game.logger.e(it) { it.message } }
+            .onFailure { game.logger.i(it) { it.message } }
             .getOrElse { emptyList() }
 
         val whitelistedFactions = kotlin.runCatching {
@@ -254,7 +254,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
                 .toStringList()
                 .distinct()
         }
-            .onFailure { game.logger.e(it) { it.message } }
+            .onFailure { game.logger.i(it) { it.message } }
             .getOrElse { emptyList() }
 
 
