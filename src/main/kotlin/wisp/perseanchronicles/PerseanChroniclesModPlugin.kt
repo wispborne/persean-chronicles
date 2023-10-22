@@ -61,11 +61,16 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
             .getJSONObject(MOD_ID)
 
         // Too lazy to add a compile-time dependency on Nexerelin.
-        val isNexCorvusModeEnabled = game.sector.memory.getBoolean("\$nex_corvusMode")
+        // FUN FACT Corvus Mode is non-random mode and I'm an idiot
+        val isNexCorvusModeEnabled = if (game.sector.memory.keys.contains("\$nex_corvusMode")) {
+            game.sector.memory.getBoolean("\$nex_corvusMode")
+        } else {
+            true // Without Nex, map is non-random.
+        }
 
         Questgiver.loadQuests(
             creators = listOfNotNull(
-                if (!isNexCorvusModeEnabled && settings.tryGet("isTelosQuestEnabled") { true })
+                if (isNexCorvusModeEnabled && settings.tryGet("isTelosQuestEnabled") { true })
                     Telos1BarEventWiring()
                 else null,
                 if (settings.tryGet("isLaborerQuestEnabled") { true }) LaborerBarEventWiring() else null,
@@ -91,7 +96,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
                 .onFailure { game.logger.e(it) }
         }
 
-        fixV302RileyBug()
+//        fixV302RileyBug()
     }
 
     /**
@@ -276,6 +281,8 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
 
     /**
      * Fix for bug in 3.0.0 - 3.0.2, Riley never pays player.
+     *
+     * Bug: if you clear the state from Abandon, you get paid again
      */
     private fun fixV302RileyBug() {
         if (RileyHubMission.state.isPostV302save != true) {

@@ -17,9 +17,9 @@ import wisp.questgiver.wispLib.empty
 
 object PerseanChroniclesNPCs {
     // The $ is automatically added. These are set to sector Memory.
-    var isKarengoInFleet: Boolean by Memory("wisp_perseanchronicles_isKarengoInFleet") { false }
-    var isLaborerInFleet: Boolean by Memory("wisp_perseanchronicles_isLaborerInFleet") { false }
-    var isRileyInFleet: Boolean by Memory("wisp_perseanchronicles_isRileyInFleet") { false }
+    var isKarengoInFleet: Boolean by Memory("isKarengoInFleet") { false }
+    var isLaborerInFleet: Boolean by Memory("isLaborerInFleet") { false }
+    var isRileyInFleet: Boolean by Memory("isRileyInFleet") { false }
 
     val karengo: PersonAPI
         get() {

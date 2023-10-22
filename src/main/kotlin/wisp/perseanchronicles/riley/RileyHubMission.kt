@@ -55,9 +55,11 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         var destinationPlanet: SectorEntityToken? by map
 
         // In 3.0.2, Riley never pays player.
+        @Deprecated("Ok the fix was out long enough, time to stop using this (if you clear the state from Abandon, you get paid again).")
         var isPostV302save: Boolean? by map
     }
 
+    @Deprecated("Use the static one.")
     val choices: Choices =
         Choices(PersistentMapData<String, Any?>(key = "rileyChoices").withDefault { null })
 
@@ -189,7 +191,7 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         PerseanChroniclesNPCs.isRileyInFleet = false
         state.map.clear()
         choices.map.clear()
-        setCurrentStage(null, null, null)
+        runCatching { setCurrentStage(null, null, null) }.onFailure { game.logger.w(it) }
     }
 
     override fun endFailureImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
@@ -245,10 +247,12 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
      * Description on right side of intel.
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
-        info.addPara(
-            padding = Padding.DESCRIPTION_PANEL,
-            textColor = textColorOrElseGrayIf { currentStage == Stage.Completed }) {
-            game.text["riley_intel_description"]
+        if (currentStage != Stage.Abandoned && currentStage != null) {
+            info.addPara(
+                padding = Padding.DESCRIPTION_PANEL,
+                textColor = textColorOrElseGrayIf { currentStage == Stage.Completed }) {
+                game.text["riley_intel_description"]
+            }
         }
 
         if (currentStage != Stage.Completed) {
@@ -264,19 +268,19 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
         if (currentStage == Stage.Completed) {
             when {
-                choices.destroyedTheCore == true -> {
+                RileyHubMission.choices.destroyedTheCore == true -> {
                     info.addPara(padding = Padding.DESCRIPTION_PANEL) {
                         game.text["riley_intel_description_done_destroyed"]
                     }
                 }
 
-                choices.turnedInForABounty == true -> {
+                RileyHubMission.choices.turnedInForABounty == true -> {
                     info.addPara(padding = Padding.DESCRIPTION_PANEL) {
                         game.text["riley_intel_description_done_bounty"]
                     }
                 }
 
-                choices.leftRileyWithFather == true -> {
+                RileyHubMission.choices.leftRileyWithFather == true -> {
                     info.addPara(padding = Padding.DESCRIPTION_PANEL) {
                         game.text["riley_intel_description_done_leftAlone"]
                     }

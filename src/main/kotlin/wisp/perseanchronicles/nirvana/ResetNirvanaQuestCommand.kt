@@ -11,8 +11,13 @@ class ResetNirvanaQuestCommand : BaseCommand {
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }
 
-        val nirv = game.intelManager.findFirst<NirvanaHubMission>()
-        nirv?.setCurrentStage(NirvanaHubMission.Stage.NotStarted, null, null)
+        runCatching { NirvanaHubMission.state.map.clear() }.onFailure { game.logger.w(it) }
+
+        runCatching {
+            val nirv = game.intelManager.findFirst<NirvanaHubMission>()
+            nirv?.setCurrentStage(NirvanaHubMission.Stage.NotStarted, null, null)
+        }.onFailure { game.logger.w(it) }
+
         Console.showMessage("Quest reset.")
         return BaseCommand.CommandResult.SUCCESS
     }

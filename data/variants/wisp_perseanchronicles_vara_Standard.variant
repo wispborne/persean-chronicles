@@ -1,23 +1,30 @@
 {
-  "displayName": "Summer Bloom",
+  "displayName": "Dart",
   "variantId": "wisp_perseanchronicles_vara_Standard",
   "hullId": "wisp_perseanchronicles_vara",
   "goalVariant": true,
   "fluxCapacitors": 8,
   "fluxVents": 10,
   "quality": 1,
-  "permaMods": [],
-  "hullMods": [],
+  "permaMods": [ ],
+  "hullMods": [ ],
   "weaponGroups": [
     {
       "autofire": false,
       "mode": "LINKED",
       "weapons": {
-        "WS0001": "phasebeam",
-        "WS0002": "phasebeam"
+        "WS0003": "wisp_perseanchronicles_summerbloom",
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "wisp_perseanchronicles_flowerofspring",
+        "WS0002": "wisp_perseanchronicles_flowerofspring",
       }
     },
   ],
-  "modules": [],
-  "wings": []
+  "modules": [ ],
+  "wings": [ ]
 }

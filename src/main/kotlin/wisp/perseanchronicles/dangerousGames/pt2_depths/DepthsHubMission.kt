@@ -123,6 +123,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         name = game.text["dg_de_intel_title"]
         setCreditReward(CreditReward.HIGH)
         rewardCredits = this.creditsReward
+        updateTextReplacements(game.text)
         setGiverFaction(karengo.faction?.id) // Rep reward.
         personOverride = karengo // Shows on intel, needed for rep reward or else crash.
 

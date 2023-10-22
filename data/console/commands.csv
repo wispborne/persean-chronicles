@@ -8,4 +8,5 @@ PerseanChronicles_SpawnNirvanaSystem,wisp.perseanchronicles.nirvana.SpawnNirvana
 PerseanChronicles_ResetLaborerQuest,wisp.perseanchronicles.laborer.ResetLaborerQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_ResetLaborerQuest,Reset the Laborer quest in Persean Chronicles.
 SpawnGate,wisp.perseanchronicles.commands.SpawnGate,"gates,campaign",SpawnGate,Spawns a Gate at your current location (from Persean Chronicles).
 #PerseanChronicles_BlindMe,wisp.perseanchronicles.telos.pt3_arrow.BlindMeCommand,PerseanChronicles_BlindMe,"For debugging, blinds the player. Ought to remove this before going live..."
-PerseanChronicles_StartTelosQuest,wisp.perseanchronicles.telos.StartTelosQuestCommand,PerseanChronicles_StartTelosQuest,"Start Persean Chronicles's Telos quest immediately."
+PerseanChronicles_StartTelosQuest,wisp.perseanchronicles.telos.StartTelosQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_StartTelosQuest,"Start Persean Chronicles's Telos quest immediately."
+allall,wisp.perseanchronicles.commands.AllAllCommand, "campaign", "allall", "[Persean Chronicles] Places all hulls, weapons, wings, and commodities into storage. Learns all blueprints and hullmods."

@@ -17,7 +17,7 @@ class EugelFleetInteractionDialogPlugin : CustomFleetInteractionDialogPlugin<Eug
     class BattleCommsInteractionDialog(
         parentDialog: EugelFleetInteractionDialogPlugin,
         val json: JSONArray = TelosCommon.readJson()
-            .query("/wisp_perseanchronicles/telos/part1_deliveryToEarth/stages/pirateComms/pages")
+            .query("/wisp_perseanchronicles/telos/part3_arrow/stages/eugelDialog/pages")
     ) : InteractionDialogLogic<BattleCommsInteractionDialog>(
         firstPageSelector = {
             if (Telos3HubMission.state.talkedWithEugel == true)

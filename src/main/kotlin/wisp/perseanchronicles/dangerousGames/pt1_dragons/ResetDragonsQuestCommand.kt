@@ -3,6 +3,7 @@ package wisp.perseanchronicles.dangerousGames.pt1_dragons
 import com.fs.starfarer.api.Global
 import org.lazywizard.console.BaseCommand
 import org.lazywizard.console.Console
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.questgiver.wispLib.findFirst
 
 class ResetDragonsQuestCommand : BaseCommand {
@@ -11,6 +12,7 @@ class ResetDragonsQuestCommand : BaseCommand {
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }
 
+        PerseanChroniclesNPCs.isKarengoInFleet = false
         val dragons: DragonsHubMission? = Global.getSector().intelManager.findFirst()
         dragons?.setCurrentStage(DragonsHubMission.Stage.Abandoned, null, null)
         dragons?.setCurrentStage(DragonsHubMission.Stage.NotStarted, null, null)

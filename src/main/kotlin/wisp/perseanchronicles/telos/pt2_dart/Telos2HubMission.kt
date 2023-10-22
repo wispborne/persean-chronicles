@@ -48,9 +48,18 @@ class Telos2HubMission : QGHubMission() {
         val choices = Choices(PersistentMapData<String, Any?>(key = "telosPt2Choices").withDefault { null })
         const val badFleetDefeatTrigger = "wisp_perseanchronicles_telosPt2_badfleetdefeated"
 
-        fun startBattle() = Telos2BattleCoordinator.startBattle()
+//        fun startBattle() = Telos2BattleCoordinator.startBattle()
 
         private val PIRATE_FLEET_TAG = MISSION_ID + "_pirateFleet"
+
+        /**
+         * Quotes from Captain Eugel in battle. In chronological order.
+         */
+        fun getEugelBattleQuotes(): List<String> = part2Json.query<JSONArray>("/stages/battle/quotes").toStringList()
+        fun getAllyPhase1BattleQuotes(): List<String> = part2Json.query<JSONArray>("/stages/battle/telosQuotesPhase1").toStringList()
+        fun getAllyPhase2BattleQuotes(): List<String> = part2Json.query<JSONArray>("/stages/battle/telosQuotesPhase2").toStringList()
+        fun getBattleVictoryQuote(): String = part2Json.query("/stages/battle/victoryQuote")
+        fun getEugelShipName(): String = part2Json.query("/stages/battle/flagshipName")
     }
 
     class State(val map: MutableMap<String, Any?>) {
@@ -281,14 +290,6 @@ class Telos2HubMission : QGHubMission() {
     override fun getIntelTags(map: SectorMapAPI?) =
         (super.getIntelTags(map) + tags)
 
-    /**
-     * Quotes from Captain Eugel in battle. In chronological order.
-     */
-    fun getEugelBattleQuotes(): List<String> = part2Json.query<JSONArray>("/stages/battle/quotes").toStringList()
-    fun getAllyPhase1BattleQuotes(): List<String> = part2Json.query<JSONArray>("/stages/battle/telosQuotesPhase1").toStringList()
-    fun getAllyPhase2BattleQuotes(): List<String> = part2Json.query<JSONArray>("/stages/battle/telosQuotesPhase2").toStringList()
-    fun getBattleVictoryQuote(): String = part2Json.query("/stages/battle/victoryQuote")
-    fun getEugelShipName(): String = part2Json.query("/stages/battle/flagshipName")
 
     fun giveShipOrPutInOrbit(dialog: InteractionDialogAPI) {
         val ship = game.factory.createFleetMember(FleetMemberType.SHIP, TelosCommon.AVALOK_ID)

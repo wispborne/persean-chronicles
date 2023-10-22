@@ -1,9 +1,11 @@
-name,id,tier,rarity,base value,range,damage/second,damage/shot,emp,impact,turn rate,OPs,ammo,ammo/sec,reload size,type,energy/shot,energy/second,chargeup,chargedown,burst size,burst delay,min spread,max spread,spread/shot,spread decay/sec,beam speed,proj speed,launch speed,flight time,proj hitpoints,hints,tags,groupTag,tech/manufacturer,for weapon tooltip>>,primaryRoleStr,speedStr,trackingStr,turnRateStr,accuracyStr,customPrimary,customPrimaryHL,customAncillary,customAncillaryHL,noDPSInTooltip,number
-Avalok Outer Glow,wisp_perseanchronicles_avalok_outerglow,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco
-Avalok Inner Glow,wisp_perseanchronicles_avalok_innerglow,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco
-Itesh Outer Glow,wisp_perseanchronicles_itesh_outerglow,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco
-Itesh Inner Glow,wisp_perseanchronicles_itesh_innerglow,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco
-Vara Outer Glow,wisp_perseanchronicles_vara_outerglow,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco
-Vara Inner Glow,wisp_perseanchronicles_vara_innerglow,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco
-Telos Engines,wisp_perseanchronicles_telosengines,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco
-Firestorm,telos_canflak,,,,200,,200,,,,,,0,,HIGH_EXPLOSIVE,0,0,0,0.1,5,0.5,150,150,0,0,,50,200,2,100,SYSTEM,,,,,,,,,,,,,,,
+name,id,tier,rarity,base value,range,damage/second,damage/shot,emp,impact,turn rate,OPs,ammo,ammo/sec,reload size,type,energy/shot,energy/second,chargeup,chargedown,burst size,burst delay,min spread,max spread,spread/shot,spread decay/sec,beam speed,proj speed,launch speed,flight time,proj hitpoints,hints,tags,groupTag,tech/manufacturer,for weapon tooltip>>,primaryRoleStr,speedStr,trackingStr,turnRateStr,accuracyStr,customPrimary,customPrimaryHL,customAncillary,customAncillaryHL,noDPSInTooltip,number,,
+Avalok Outer Glow,wisp_perseanchronicles_avalok_outerglow,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco,,
+Avalok Inner Glow,wisp_perseanchronicles_avalok_innerglow,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco,,
+Itesh Outer Glow,wisp_perseanchronicles_itesh_outerglow,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco,,
+Itesh Inner Glow,wisp_perseanchronicles_itesh_innerglow,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco,,
+Vara Outer Glow,wisp_perseanchronicles_vara_outerglow,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco,,
+Vara Inner Glow,wisp_perseanchronicles_vara_innerglow,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco,,
+Telos Engines,wisp_perseanchronicles_telosengines,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,YY Deco,,
+Firestorm,telos_canflak,,,,200,,200,,,,,,0,,HIGH_EXPLOSIVE,0,0,0,0.1,5,0.5,150,150,0,0,,50,200,2,100,SYSTEM,,,,,,,,,,,,,,,,,
+Flower of Spring,wisp_perseanchronicles_flowerofspring,1,,1000,500,600,,,0,25,6,,,,ENERGY,,500,0.1,0.2,1,0.5,,,,,3700,,,,,,"energy14, beam10, no_dealer, restricted",,Telos,,General,,,,,,,,,,400,,
+Summer Bloom,wisp_perseanchronicles_summerbloom,1,,1500,450,850,,,0,20,14,,,,HIGH_EXPLOSIVE,,1200,0.25,0.5,1,1,,,,,3200,,,,,,"energy14, beam10, no_dealer, restricted",,Telos,,General,,,,,,,,,,401,,

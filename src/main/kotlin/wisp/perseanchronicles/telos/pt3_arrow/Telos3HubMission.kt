@@ -19,6 +19,7 @@ import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
+import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.spriteName
 import wisp.questgiver.v2.QGHubMission
@@ -157,16 +158,19 @@ class Telos3HubMission : QGHubMission() {
                 spawnLocation
             )
             triggerMakeHostile()
-            triggerAutoAdjustFleetStrengthExtreme()
+            triggerAutoAdjustFleetStrengthModerate()
             triggerMakeFleetIgnoredByOtherFleets()
 //            triggerFleetAddTags(chasingFleetTag)
             triggerPickLocationAroundEntity(spawnLocation, 4000f, 3000f, 5000f)
             triggerSpawnFleetAtPickedLocation(chaseFleetFlag, null)
             triggerFleetAddTags(eugelChaseFleetTag)
-            triggerOrderFleetInterceptPlayer()
-            triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
-            triggerFleetSetFlagship("onslaught_xiv_Elite")
+            triggerOrderFleetInterceptPlayer(true, true)
+            triggerFleetSetFlagship("wisp_perseanchronicles_firebrand_Standard")
             triggerFleetSetCommander(PerseanChroniclesNPCs.captainEugel)
+            triggerCustomAction { context ->
+                context.fleet?.flagship?.shipName = Telos2HubMission.getEugelShipName()
+                context.fleet.name = "Eugel's Fleet"
+            }
         }
 
         // Spawn fleet jump point 1
@@ -181,6 +185,7 @@ class Telos3HubMission : QGHubMission() {
                 spawnLocation
             )
             triggerMakeHostile()
+            triggerAutoAdjustFleetStrengthModerate()
             triggerMakeFleetIgnoredByOtherFleets()
 //            triggerFleetAddTags(chasingFleetTag)
             triggerPickLocationAroundEntity(spawnLocation, 1f)
@@ -201,6 +206,7 @@ class Telos3HubMission : QGHubMission() {
                 spawnLocation
             )
             triggerMakeHostile()
+            triggerAutoAdjustFleetStrengthModerate()
             triggerMakeFleetIgnoredByOtherFleets()
 //            triggerFleetAddTags(chasingFleetTag)
             triggerPickLocationAroundEntity(spawnLocation, 1f)
@@ -220,7 +226,7 @@ class Telos3HubMission : QGHubMission() {
             }
 
             triggerCustomAction {
-//                game.sector.addScript(TelosFightOrFlightScript())
+                game.sector.addScript(TelosFightOrFlightScript())
             }
         }
 

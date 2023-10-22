@@ -1,0 +1,58 @@
+{
+  "id": "wisp_perseanchronicles_summerbloom",
+  "specClass": "beam",
+  "type": "ENERGY",
+  "size": "MEDIUM",
+  "collisionClass": "RAY",
+  "collisionClassByFighter": "RAY_FIGHTER",
+  "turretSprite": "graphics/telos/weapons/wisp_perseanchronicles_summerbloom_turret.png",
+  "hardpointSprite": "graphics/telos/weapons/wisp_perseanchronicles_summerbloom_turret.png",
+  "glowColor": [ #e71817
+    231,
+    24,
+    23,
+    255
+  ],
+  "hitGlowRadius": 0,
+  "turretOffsets": [
+    3.5,
+    0
+  ],
+  "turretAngleOffsets": [
+    0
+  ],
+  "hardpointOffsets": [
+    9.5,
+    0
+  ],
+  "hardpointAngleOffsets": [
+    0
+  ],
+  "fringeColor": [ #470725
+    71,
+    7,
+    37,
+    220
+  ],
+  "coreColor": [ #940f4c
+    148,
+    15,
+    76,
+    255
+  ],
+  "width": 30,
+  "textureType": [
+    "graphics/telos/weapons/wisp_perseanchronicles_trails_electric.png",
+    "graphics/telos/weapons/wisp_perseanchronicles_trails_electric_soft.png"
+  ],
+  "textureScrollSpeed": 64,
+  "pixelsPerTexel": 4,
+  "pierceSet": [
+    PROJECTILE_FF,
+    PROJECTILE_NO_FF,
+    PROJECTILE_FIGHTER,
+    MISSILE_FF,
+    MISSILE_NO_FF
+  ],
+  "fireSoundTwo": "phase_beam_loop"
+}
