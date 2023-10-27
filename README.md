@@ -85,9 +85,9 @@ Do not read ahead if you would prefer to be surprised.
 .
 
 #### Karengo questline
-- Dragons: Starts from a planet with pop 5 or greater.
-- Depths: Starts from a planet with pop 5 or greater and 30 days after successfully completing Dragons.
-- Telos: Starts from an Independent planet with pop 5 or greater and 30 days after successfully completing Depths.
+- Dragons: Starts from a planet with pop 3 or greater.
+- Depths: Starts from a planet with pop 4 or greater and 30 days after successfully completing Dragons.
+- Telos: Starts from an Independent planet with pop 4 or greater and 30 days after successfully completing Depths.
   - Nexerelin's Random Mode (Corvus Mode) is not supported for Telos and the quest will not show up.
 #### Riley quest
 Starts from a planet with pop 6 or greater.

@@ -173,7 +173,7 @@
             }
           },
           "battle" : {
-            "flagshipName" : "Eugel’s Blade",
+            "flagshipName" : "Eugel's Blade",
             "telosQuotesPhase1" : [ "$c:#00CED1{<it is easier to open comms than pick up a sword...and yet>}", "$c:#00BFFF{<they are compelled to destroy what they cannot control>}", "$c:#00CDCD{<hatred is human. we had hoped they would be better>}", "$c:#ADD8E6{<violence begets violence>}", "$c:#00CED1{<we only wanted to live in peace>}" ],
             "telosQuotesPhase2" : [ "$c:#00CED1{<oh my>}", "$c:#00BFFF{<they have walked much too far down the path of war>}", "$c:#ADD8E6{<the more we fell, the fewer yerpa must face>}", "$c:#00CDCD{<how can there be so many?>}" ],
             "telosDeathQuotes" : [ "$c:#00CED1{<it's ok>}", "$c:#00BFFF{<death is but the next step>}", "$c:#ADD8E6{<i hold with those who favor fire>}", "$c:#00CDCD{<the telos live on through krypta>}" ],

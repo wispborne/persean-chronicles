@@ -10,7 +10,7 @@ val props = Properties().apply {
     load(project.rootProject.file("local.properties").reader())
 }
 
-val modVersion = "3.0.8"
+val modVersion = "3.1.0"
 val starsectorDirectory = props.getProperty("gamePath") //"C:/Program Files (x86)/Fractal Softworks/Starsector"
 val jarFileName = "PerseanChronicles.jar"
 val questgiverVersion = "4.0.0"
@@ -70,6 +70,7 @@ dependencies {
     compileOnly(fileTree("$starsectorModDirectory/Console Commands/jars") { include("*.jar") })
     compileOnly(fileTree("$starsectorModDirectory/GraphicsLib/jars") { include("*.jar") })
     compileOnly(fileTree("$starsectorModDirectory/Secrets of the Frontier/jars") { include("*.jar") })
+    compileOnly(fileTree("$starsectorModDirectory/Nexerelin-0.11.0b/jars") { include("*.jar") })
 
     // This grabs local files from the /libs folder, see `repositories` block.
     compileOnly("starfarer:starfarer-api:1.0.0")

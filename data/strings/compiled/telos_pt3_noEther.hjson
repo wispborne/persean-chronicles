@@ -6,7 +6,7 @@
           "goToPlanet" : {
             "pages" : [ {
               "id" : "1-noEther-start",
-              "paras" : [ "The ships of your fleet settle into orbit above the Telos shipyard coordinates. Iron-rich dust from the asteroid belt streaks past your shuttle in a perpetual fall toward the planet.", "A few engineers had voiced concerns about the dust, but in the end, most decided that it was inert, likely the leftovers of battles hundreds of cycles old.", "\"What will we find?\" you ask Karengo.", "\"If we're lucky, a destroyer\", he responds, \"and if we are very lucky, a cruiser.\"" ],
+              "paras" : [ "The ships of your fleet settle into orbit above the Telos shipyard coordinates. Iron-rich dust from the asteroid belt streaks past your shuttle in a perpetual fall toward the planet.", "A few engineers had voiced concerns about the dust, but in the end, most decided that it was inert, likely the leftovers of battles hundreds of cycles old.", "\"What's down there?\" you ask Karengo.", "\"If we're lucky, a destroyer\", he responds, \"and if we are very lucky, a cruiser.\"" ],
               "options" : [ {
                 "text" : "\"What if we are unlucky?\"",
                 "goToPage" : "1-noEther-lucky"

@@ -1,6 +1,8 @@
 package wisp.perseanchronicles.dangerousGames.pt1_dragons
 
 import com.fs.starfarer.api.Global
+import org.magiclib.achievements.MagicAchievementManager
+import wisp.perseanchronicles.achievements.Achievements
 import wisp.perseanchronicles.game
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.InteractionDialogLogic
@@ -98,6 +100,11 @@ class Dragons_Stage2_Dialog(val dragons: DragonsHubMission = Global.getSector().
                         text = { game.text["dg_dr_stg2_pg4_opt2"] },
                         onOptionSelected = {
                             para { game.text["dg_dr_stg2_pg4_opt2_para1"] }
+                            MagicAchievementManager.getInstance().getAchievement(Achievements.PignutsAchievementSpec().id)
+                                ?.run {
+                                    completeAchievement()
+                                    saveChanges()
+                                }
                             it.goToPage(Pages.TakeOff)
                         })
                 )

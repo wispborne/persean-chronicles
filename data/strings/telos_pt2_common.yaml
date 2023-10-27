@@ -242,7 +242,7 @@ wisp_perseanchronicles:
 
           # Not a real Stage but the strings are the same on both forks so I didn't want to put them in one or the other.
         battle:
-          flagshipName: 'Eugel’s Blade'
+          flagshipName: 'Eugel''s Blade'
           telosQuotesPhase1:
             - '$c:#00CED1{<it is easier to open comms than pick up a sword...and yet>}'
             - '$c:#00BFFF{<they are compelled to destroy what they cannot control>}'

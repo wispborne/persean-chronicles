@@ -11,6 +11,8 @@ import org.apache.log4j.Level
 import org.dark.shaders.util.ShaderLib
 import org.dark.shaders.util.TextureData
 import org.json.JSONObject
+import org.magiclib.achievements.MagicAchievementManager
+import wisp.perseanchronicles.achievements.Achievements
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsBarEventWiring
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
@@ -96,7 +98,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
                 .onFailure { game.logger.e(it) }
         }
 
-//        fixV302RileyBug()
+        MagicAchievementManager.getInstance().addAchievementSpecs(Achievements.PignutsAchievementSpec())
     }
 
     /**

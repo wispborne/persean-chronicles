@@ -66,13 +66,13 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
 
     /**
      * Show if we haven't started this one yet.
-     * Show at markets that are independent, size 5+, and not hyperspace.
+     * Show at markets that are independent, size 4+, and not hyperspace.
      */
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
         return state.startDateMillis == null
                 && market?.isOkForQuest() == true
                 && market.factionId in listOf(Factions.INDEPENDENT)
-                && market.size >= 5
+                && market.size >= 4
     }
 
     override fun onGameLoad() {

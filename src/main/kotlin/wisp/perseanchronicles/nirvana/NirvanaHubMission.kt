@@ -107,12 +107,9 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
                 return
             }
 
+        state.startLocation = startLocation
         game.logger.i { "Nirvana start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
         game.sector.playerFleet.cargo.addCommodity(CARGO_TYPE, CARGO_WEIGHT.toFloat())
-        state.startDateMillis = game.sector.clock.timestamp
-
-        state.startLocation = startLocation
-        game.logger.i { "${this.name} start location set to ${startLocation.fullName} in ${startLocation.starSystem.baseName}" }
         state.startDateMillis = game.sector.clock.timestamp
 
         // Sets the system as the map objective.

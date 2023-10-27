@@ -16,6 +16,23 @@ import wisp.questgiver.wispLib.Memory
 import wisp.questgiver.wispLib.empty
 
 object PerseanChroniclesNPCs {
+
+    // ==Mod integration notes==
+    // =Global memory (sector memory)=
+    //
+    // $wisp_perseanchronicles_rileyState
+    // $wisp_perseanchronicles_dragonState
+    // $wisp_perseanchronicles_depthsState
+    // $wisp_perseanchronicles_telosPt1State
+    //
+    // are Map<String, Object>
+    // and they all have
+    //
+    // startDateMillis (Long)
+    // completeDateInMillis (Long)
+    //
+    // if both are null, hasn't been started, if just completeDateInMillis is null, has been started but not finished
+
     // The $ is automatically added. These are set to sector Memory.
     var isKarengoInFleet: Boolean by Memory("isKarengoInFleet") { false }
     var isLaborerInFleet: Boolean by Memory("isLaborerInFleet") { false }
