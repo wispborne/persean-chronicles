@@ -32,7 +32,7 @@
                 "text" : "Come back later",
                 "tooltip" : "You may return to your fleet and continue exploring another time."
               }, {
-                "text" : "Head for the hanger",
+                "text" : "Head for the hangar",
                 "goToPage" : "5-shipyard-choice"
               } ]
             }, {
@@ -136,7 +136,7 @@
               } ]
             }, {
               "id" : "4-common-areas-3",
-              "paras" : [ "__The people are nervous now. Something everpresent is missing, and they do not know why.__", "__A woman at the far end of the chamber stands and you know her as ==Krypta==, the scientist that created the Ether.__", "__$cv:pc_krypta{telos  as you know the hyperwave emitter at menri is silent   i have confirmed our fears}__", "__$cv:pc_krypta{the hegemony have destroyed menri   they are on their way here  we must fight}__", "__The community feels fear, but also resolve, and, even knowing their odds, they walk to the hanger without hesitation.__" ],
+              "paras" : [ "__The people are nervous now. Something everpresent is missing, and they do not know why.__", "__A woman at the far end of the chamber stands and you know her as ==Krypta==, the scientist that created the Ether.__", "__$cv:pc_krypta{telos  as you know the hyperwave emitter at menri is silent   i have confirmed our fears}__", "__$cv:pc_krypta{the hegemony have destroyed menri   they are on their way here  we must fight}__", "__The community feels fear, but also resolve, and, even knowing their odds, they walk to the hangar without hesitation.__" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "4-common-areas-4"
@@ -156,7 +156,7 @@
               }
             }, {
               "id" : "5-shipyard-choice",
-              "paras" : [ "$cv:pc_karengo{the hanger is quite a walk} Karengo asks $cv:pc_karengo{are you finished here}" ],
+              "paras" : [ "$cv:pc_karengo{the hangar is quite a walk} Karengo asks $cv:pc_karengo{are you finished here}" ],
               "options" : [ {
                 "text" : "$cv:pc_player{yes  time to go}",
                 "goToPage" : "6-shipyard"
@@ -166,7 +166,7 @@
               } ]
             }, {
               "id" : "6-shipyard",
-              "paras" : [ "You've been able to feel the presence of the destroyer sitting in the hanger since making contact with the base Ether-net. When queried, the computer explains that the ship was unfinished when the Telos went to battle. Automated systems completed the final warship only after there were none left to fly it.", "Walking through the long tunnels to the hanger and shipyard gives you time to examine the ship from afar." ],
+              "paras" : [ "You've been able to feel the presence of the destroyer sitting in the hangar since making contact with the base Ether-net. When queried, the computer explains that the ship was unfinished when the Telos went to battle. Automated systems completed the final warship only after there were none left to fly it.", "Walking through the long tunnels to the hangar and shipyard gives you time to examine the ship from afar." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "7-shipyard-itesh"
@@ -197,7 +197,7 @@
               } ]
             }, {
               "id" : "10-disconnected",
-              "paras" : [ "The fleet doesn't respond.", "You and Karengo close rest of the distance to the hanger at a run, bulkheads springing open at your approach, as you try different comms options, trying to get a response. Nothing works.", "By the time you and Karengo climb aboard, breathing heavily, the destroyer is fueled. You send a signal to open the hanger doors, then extend your mind to encompass the ship." ],
+              "paras" : [ "The fleet doesn't respond.", "You and Karengo close rest of the distance to the hangar at a run, bulkheads springing open at your approach, as you try different comms options, trying to get a response. Nothing works.", "By the time you and Karengo climb aboard, breathing heavily, the destroyer is fueled. You send a signal to open the hangar doors, then extend your mind to encompass the ship." ],
               "options" : [ {
                 "text" : "Blast off",
                 "goToPage" : "11-takeoff-fast"

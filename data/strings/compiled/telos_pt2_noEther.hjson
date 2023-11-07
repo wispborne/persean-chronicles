@@ -17,7 +17,7 @@
               } ]
             }, {
               "id" : "1.1-noEther",
-              "paras" : [ "The opening was left unexplored per your request and Karengo steps down the polished staircase, led far below the surface by more blue safety lighting. Just as you start to wonder how far below ground you are, the stairs end at an unlocked door marked “COMMS”, and Karengo presses through.", "The spacious room, immediately recognizable as traffic control, is filled with unpowered holodisplays and blank readouts.The glass wall at the far side of the room overlooks a hanger and, after a moment of searching, you spot a single ship in a corner, clearly unlike anything else still produced in the sector." ],
+              "paras" : [ "The opening was left unexplored per your request and Karengo steps down the polished staircase, led far below the surface by more blue safety lighting. Just as you start to wonder how far below ground you are, the stairs end at an unlocked door marked “COMMS”, and Karengo presses through.", "The spacious room, immediately recognizable as traffic control, is filled with unpowered holodisplays and blank readouts.The glass wall at the far side of the room overlooks a hangar and, after a moment of searching, you spot a single ship in a corner, clearly unlike anything else still produced in the sector." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "2-noEther"
@@ -38,7 +38,7 @@
               } ]
             }, {
               "id" : "3-noEther-2",
-              "paras" : [ "Karengo glances over and shrugs. “And that’s why you don’t take the Hegemony in a fair fight, eh?”", "He turns away, towards the hanger door and the lone ship in the bay." ],
+              "paras" : [ "Karengo glances over and shrugs. “And that’s why you don’t take the Hegemony in a fair fight, eh?”", "He turns away, towards the hangar door and the lone ship in the bay." ],
               "options" : [ {
                 "text" : "Go investigate the ship",
                 "goToPage" : "5-noEther"
@@ -48,16 +48,16 @@
               } ]
             }, {
               "id" : "4-noEther",
-              "paras" : [ "“That Eugel guy? No idea. Seemed to take the nanites personally, though.” He starts walking to the hanger." ],
+              "paras" : [ "“That Eugel guy? No idea. Seemed to take the nanites personally, though.” He starts walking to the hangar." ],
               "ludd-friendly" : "You linger for a moment, thinking. You know the Church of Ludd well, and recall an old firebrand named Eugel. Could it be the same man?",
-              "ludd-friendly2" : "You shake your head and follow Karengo to the hanger.",
+              "ludd-friendly2" : "You shake your head and follow Karengo to the hangar.",
               "options" : [ {
                 "text" : "Investigate the ship",
                 "goToPage" : "5-noEther"
               } ]
             }, {
               "id" : "5-noEther",
-              "paras" : [ "You search for a word to describe the frigate sitting in the hanger and finally settle on one: svelte.", "The high-tech hull is almost entirely coated with a sleek, semi-opaque shell, some parts a glowing blue and others nearly translucent. It looks small, fast, and dangerous.", "There are no visible engines and you reason that the plating may somehow serve the same purpose.", "A ramp unfolds from the belly of the ship, all smooth elegance, and Karengo climbs inside. You follow, soft lighting illuminating a polished corridor." ],
+              "paras" : [ "You search for a word to describe the frigate sitting in the hangar and finally settle on one: svelte.", "The high-tech hull is almost entirely coated with a sleek, semi-opaque shell, some parts a glowing blue and others nearly translucent. It looks small, fast, and dangerous.", "There are no visible engines and you reason that the plating may somehow serve the same purpose.", "A ramp unfolds from the belly of the ship, all smooth elegance, and Karengo climbs inside. You follow, soft lighting illuminating a polished corridor." ],
               "options" : [ {
                 "text" : "Explore the ship",
                 "goToPage" : "5.1-noEther"
@@ -88,7 +88,7 @@
               } ]
             }, {
               "id" : "7-noEther",
-              "paras" : [ "The controls, at least, are familiar, and you coax the ==Vara== into the air, ordering the ship to open the hanger doors.", "“Yes, captain,” acknowledges the fluid voice, and the massive metal slabs grate apart. A few collapses block the tunnel to the surface, but short weapon bursts easily bore a passage through.", "As soon as you rendezvous, techs swarm the ship. Karengo pulls you aside." ],
+              "paras" : [ "The controls, at least, are familiar, and you coax the ==Vara== into the air, ordering the ship to open the hangar doors.", "“Yes, captain,” acknowledges the fluid voice, and the massive metal slabs grate apart. A few collapses block the tunnel to the surface, but short weapon bursts easily bore a passage through.", "As soon as you rendezvous, techs swarm the ship. Karengo pulls you aside." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "7.1-noEther"

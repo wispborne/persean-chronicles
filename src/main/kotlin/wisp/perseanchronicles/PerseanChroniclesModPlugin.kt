@@ -45,7 +45,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
 
     override fun onGameLoad(newGame: Boolean) {
         super.onGameLoad(newGame)
-        Questgiver.onGameLoad()
+        Questgiver.onGameLoad(newGame)
         TelosCommon.onGameLoad()
 
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
@@ -99,6 +99,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
         }
 
         MagicAchievementManager.getInstance().addAchievementSpecs(Achievements.PignutsAchievementSpec())
+        Questgiver.onGameLoadEnd(newGame)
     }
 
     /**
@@ -317,4 +318,12 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
             }
         }
     }
+
+
+    override fun beforeGameSave() = Questgiver.beforeGameSave()
+    override fun afterGameSave() = Questgiver.afterGameSave()
+    override fun onGameSaveFailed() = Questgiver.onGameSaveFailed()
+    override fun onNewGameAfterProcGen() = Questgiver.onNewGameAfterProcGen()
+    override fun onNewGameAfterEconomyLoad() = Questgiver.onNewGameAfterEconomyLoad()
+    override fun onNewGameAfterTimePass() = Questgiver.onNewGameAfterTimePass()
 }

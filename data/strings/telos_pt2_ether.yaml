@@ -6,7 +6,7 @@ wisp_perseanchronicles:
           intel:
             subtitle: 'Return to the planet'
             desc: 'Return to the ruined Telos base on ==${telosPt1Stg1DestPlanet}==
-              in ==${telosPt1Stg1DestSystem}== to investigate the underground hanger with Karengo.'
+              in ==${telosPt1Stg1DestSystem}== to investigate the underground hangar with Karengo.'
           pages:
             - id: '1'
               paras:
@@ -52,7 +52,7 @@ wisp_perseanchronicles:
               paras:
                 - 'The walk down the trapdoor steps feels like a dream coalescing into
                   reality. At the bottom of the stairs [will be/is] a door to the communications
-                  room overlooking the hanger, empty but for the lonely [frigate/Vara]. No words
+                  room overlooking the hangar, empty but for the lonely [frigate/Vara]. No words
                   are exchanged anymore - emotions and thoughts flow between you like
                   the mixing of currents. Karengo focuses on a recording in the awakened
                   comms data and pushes it to you.'
@@ -77,7 +77,7 @@ wisp_perseanchronicles:
 
             - id: '6-finished-battle-2'
               paras:
-                - 'Karengo is already moving out of the comms room and to the hanger below.'
+                - 'Karengo is already moving out of the comms room and to the hangar below.'
               options:
                 - text: 'Ask about the Hegemony Commander'
                   goToPage: '6-ask'
@@ -91,7 +91,7 @@ wisp_perseanchronicles:
                 - "$cv:pc_karengo{<there were lots of [crazies/zealots] in the first ai war now let us see this ship>}"
               ludd-friendly: 'You linger for a moment, thinking. You know the Church of Ludd well, 
               and recall an old firebrand named Eugel. Could it be the same man?'
-              ludd-friendly2: 'You shake your head and follow Karengo to the hanger.'
+              ludd-friendly2: 'You shake your head and follow Karengo to the hangar.'
               options:
                 - text: 'Continue'
                   goToPage: '7-vara'
@@ -204,7 +204,7 @@ wisp_perseanchronicles:
               paras:
                 - 'Still enveloped by the couch, you dive into the ship’s systems and raise
                   it into the air. The handling is intuitive, like an extension of your own body, and you revolve
-                  in place to face the hanger doors as they grind open. The tunnel to
+                  in place to face the hangar doors as they grind open. The tunnel to
                   the surface is blocked in many places, but the onboard weapons easily
                   bore a way through.'
                 - '$cv:pc_karengo{<the ship shows the primary telos planet - this was only a secondary. we should go there next>}'

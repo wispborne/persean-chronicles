@@ -101,7 +101,7 @@
               } ]
             }, {
               "id" : "8",
-              "paras" : [ "Consciousness returns unwillingly. Your head reverberates with unfamiliar awareness; just as you always know, without looking, where your bridge crew is while in flight, you are inexplicably aware that you’re in the chapel. The power station is offline, but the backup battery supplying power to the hanger tunnel door is- " ],
+              "paras" : [ "Consciousness returns unwillingly. Your head reverberates with unfamiliar awareness; just as you always know, without looking, where your bridge crew is while in flight, you are inexplicably aware that you’re in the chapel. The power station is offline, but the backup battery supplying power to the hangar tunnel door is- " ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "8.1"
@@ -132,7 +132,7 @@
               } ]
             }, {
               "id" : "11",
-              "paras" : [ "“That was you,” he says finally. “I didn’t think- I mean, it actually worked.”", "This is the first time he has expressed anything but confidence in the safety of the nanite injection, but it’s difficult to feel betrayed with the stairs down to the hanger wide open, the lone ship there sleeping, waiting to be woken again. Even after so many cycles, it hums with stored energy, and you slip into it. Fractured silicates coat your-its hull, knocked loose by the bombardment, pebbles and dust gathering in divots along the sleek, smooth exterior like vernal pools. You could effortlessly bring the entire system online, shaking free the rubble to soar again. A thought reaches out to-" ],
+              "paras" : [ "“That was you,” he says finally. “I didn’t think- I mean, it actually worked.”", "This is the first time he has expressed anything but confidence in the safety of the nanite injection, but it’s difficult to feel betrayed with the stairs down to the hangar wide open, the lone ship there sleeping, waiting to be woken again. Even after so many cycles, it hums with stored energy, and you slip into it. Fractured silicates coat your-its hull, knocked loose by the bombardment, pebbles and dust gathering in divots along the sleek, smooth exterior like vernal pools. You could effortlessly bring the entire system online, shaking free the rubble to soar again. A thought reaches out to-" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "11.1"
@@ -146,7 +146,7 @@
               } ]
             }, {
               "id" : "12",
-              "paras" : [ "Karengo tucks his syringe of Ether into one of the endless pockets in his tactical jacket and you follow suit, the cylinder pressing against your ribs. “According to my contact,” he says, glancing around, “there is tunnel access to a hanger from this room.” At your raised eyebrows, he adds, “Somewhere.”" ],
+              "paras" : [ "Karengo tucks his syringe of Ether into one of the endless pockets in his tactical jacket and you follow suit, the cylinder pressing against your ribs. “According to my contact,” he says, glancing around, “there is tunnel access to a hangar from this room.” At your raised eyebrows, he adds, “Somewhere.”" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "12.1"

@@ -81,8 +81,8 @@ class Telos2HubMission : QGHubMission() {
         missionId = MISSION_ID
     }
 
-    override fun onGameLoad() {
-        super.onGameLoad()
+    override fun onGameLoad(isNewGame: Boolean) {
+        super.onGameLoad(isNewGame)
 
         // Reload json if devmode reload.
         if (isDevMode())

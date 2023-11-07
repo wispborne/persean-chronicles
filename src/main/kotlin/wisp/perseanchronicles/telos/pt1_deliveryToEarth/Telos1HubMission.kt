@@ -75,8 +75,8 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
                 && market.size >= 4
     }
 
-    override fun onGameLoad() {
-        super.onGameLoad()
+    override fun onGameLoad(isNewGame: Boolean) {
+        super.onGameLoad(isNewGame)
 
         if (isDevMode())
             part1Json = TelosCommon.readJson()

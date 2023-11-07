@@ -32,7 +32,7 @@ wisp_perseanchronicles:
                   through.'
                 - 'The spacious room, immediately recognizable as traffic control, is filled
                   with unpowered holodisplays and blank readouts.The glass wall at the
-                  far side of the room overlooks a hanger and, after a moment of searching,
+                  far side of the room overlooks a hangar and, after a moment of searching,
                   you spot a single ship in a corner, clearly unlike anything else still
                   produced in the sector.'
               options:
@@ -61,7 +61,7 @@ wisp_perseanchronicles:
             - id: '3-noEther-2'
               paras:
                 - 'Karengo glances over and shrugs. “And that’s why you don’t take the Hegemony in a fair fight, eh?”'
-                - 'He turns away, towards the hanger door and the lone ship in the bay.'
+                - 'He turns away, towards the hangar door and the lone ship in the bay.'
               options:
                 - text: 'Go investigate the ship'
                   goToPage: '5-noEther'
@@ -71,10 +71,10 @@ wisp_perseanchronicles:
             - id: '4-noEther'
               paras:
                 - "“That Eugel guy? No idea. Seemed to take the nanites personally,
-              though.” He starts walking to the hanger."
+              though.” He starts walking to the hangar."
               ludd-friendly: 'You linger for a moment, thinking. You know the Church of Ludd well, 
               and recall an old firebrand named Eugel. Could it be the same man?'
-              ludd-friendly2: 'You shake your head and follow Karengo to the hanger.'
+              ludd-friendly2: 'You shake your head and follow Karengo to the hangar.'
               options:
                 - text: 'Investigate the ship'
                   goToPage: '5-noEther'
@@ -82,7 +82,7 @@ wisp_perseanchronicles:
             - id: '5-noEther'
               paras:
                 - 'You search for a word to describe the frigate sitting in the
-              hanger and finally settle on one: svelte.'
+              hangar and finally settle on one: svelte.'
                 - 'The high-tech hull is almost entirely coated with a sleek, semi-opaque shell, some parts
                   a glowing blue and others nearly translucent. It looks small, fast, and dangerous.'
                 - 'There are no visible engines and you reason that the plating may somehow serve the same purpose.'
@@ -141,7 +141,7 @@ wisp_perseanchronicles:
             - id: '7-noEther'
               paras:
                 - 'The controls, at least, are familiar, and you coax the ==Vara==
-                  into the air, ordering the ship to open the hanger doors.'
+                  into the air, ordering the ship to open the hangar doors.'
                 - "“Yes, captain,” acknowledges the fluid voice, and the massive metal
               slabs grate apart. A few collapses block the tunnel to the surface,
               but short weapon bursts easily bore a passage through."

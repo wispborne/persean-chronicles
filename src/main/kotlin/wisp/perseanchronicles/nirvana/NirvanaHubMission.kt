@@ -61,10 +61,6 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
                 && market.size > 3
     }
 
-    override fun onGameLoad() {
-        super.onGameLoad()
-    }
-
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["nirvanaCredits"] = { Misc.getDGSCredits(creditsReward.toFloat()) }
         text.globalReplacementGetters["nirvanaDestPlanet"] = { state.destPlanet?.name }

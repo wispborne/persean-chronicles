@@ -53,7 +53,7 @@ class Telos2SecondLandingDialog(
             "4-noEther" to {
                 // You linger for a moment, thinking. You know the Church of Ludd well,
                 //              and recall an old firebrand named Eugel. Could it be the same man?\n\nYou shake your head and
-                //              follow Karengo to the hanger.
+                //              follow Karengo to the hangar.
                 val page = navigator.currentPage()?.extraData!!
                 if (game.sector.playerFaction.isAtWorst(Factions.LUDDIC_CHURCH, RepLevel.COOPERATIVE)) {
                     para { page["ludd-friendly"] as String }
@@ -73,7 +73,7 @@ class Telos2SecondLandingDialog(
             "6-ask" to {
                 // You linger for a moment, thinking. You know the Church of Ludd well,
                 //              and recall an old firebrand named Eugel. Could it be the same man?\n\nYou shake your head and
-                //              follow Karengo to the hanger.
+                //              follow Karengo to the hangar.
                 val page = navigator.currentPage()?.extraData!!
                 if (game.sector.playerFaction.isAtWorst(Factions.LUDDIC_CHURCH, RepLevel.COOPERATIVE)) {
                     para { page["ludd-friendly"] as String }
