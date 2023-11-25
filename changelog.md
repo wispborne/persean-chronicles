@@ -4,10 +4,12 @@ Version 3.1.0
 - Fixed
   - Missing text in quest intel after they'd been completed (thanks to toopok4k3).
   - "Hanger" -> "hangar" in lots of places (thanks Histidine).
-
-Version 3.0.9
-- Fixed
-  - Able to talk the pirate down multiple times.
+  - Karengo lying about how many credits he gives you for Depths.
+  - Able to talk the pirate down multiple times so they start with 1% CR.
+- Added
+  - Next quest in the Telos questline.
+- Changed
+  - Firebrand sprite coloration improvements.
 
 Version 3.0.8
 - Fixed
