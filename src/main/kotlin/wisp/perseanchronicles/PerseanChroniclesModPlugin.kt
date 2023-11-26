@@ -13,6 +13,7 @@ import org.dark.shaders.util.TextureData
 import org.json.JSONObject
 import org.magiclib.achievements.MagicAchievementManager
 import wisp.perseanchronicles.achievements.Achievements
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsBarEventWiring
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
@@ -87,6 +88,10 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
         applyTextVariableSubstitutions()
 
         initGraphicsLib()
+
+        game.sector.importantPeople.addPerson(PerseanChroniclesNPCs.karengo)
+        game.sector.importantPeople.addPerson(PerseanChroniclesNPCs.captainEugel)
+        game.sector.importantPeople.addPerson(PerseanChroniclesNPCs.riley)
 
         if (game.sector.playerPerson.nameString == "test") {
             kotlin.runCatching {
