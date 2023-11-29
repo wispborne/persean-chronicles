@@ -5,7 +5,7 @@ wisp_perseanchronicles_telosPt2_badfleetdefeated,wisp_perseanchronicles_telosPt2
 ,,,,,,,,
 # Karengo/Louia interaction,,,,,,,,
 legiobareventencounter_introexit_perschron,DialogOptionSelected,"$option == legiobareventencounter_exit
-$global.wisp_perseanchronicles_isKarengoInFleet","ShowSecondPerson wisp_perseanchronicles_karengo","""Suit yourself.""
+$global.wisp_perseanchronicles_isKarengoInFleet",ShowSecondPerson wisp_perseanchronicles_karengo,"""Suit yourself.""
 
 As you are about to leave, she tosses you a data chip.
 
@@ -20,3 +20,12 @@ legiobareventencounter_introexit2_perschron,DialogOptionSelected,$option == legi
 ""Karengo, professional adventurer. $PlayerHeOrShe's one of mine."" He looks her up and down, lingering on her crimson eyes. ""Those all that's augmented, then?""
 
 Realization clicks and she stands, shimmying smoothly into the narrow corridor. ""You people aren't my type,"" she explains acidly to the air, and is gone.",backToBar:Return to the bar,,,
+,,,,,,,,
+# Drop bear,,,,,,,,
+wisp_perseanchronicles_dropbear,DialogOptionSelected,"$option == marketVisitBar
+$market.id == gilead
+RollProbability 0.03 score:1000",AddCredits -5000,"You are casually wandering toward a bar when you are surprised by a heavy weight crashing onto your shoulders and pain across your head, chest and arms.  Mercifully, you quickly fall unconscious.
+
+You wake up some time later in a hospital where you are informed that you are merely the latest victim of the devastating Gilead Drop Bear. You spend twelve hours recuperating before discharging yourself and paying your medical bills, vowing to keep a better eye out above you whenever in a Gilead port from now on.",wisp_perseanchronicles_dropbear2:Continue to the bar,,,
+wisp_perseanchronicles_dropbear2,DialogOptionSelected,$option == wisp_perseanchronicles_dropbear2,"FireBest BarPrintDesc
+BarCMD showOptions",,,,,
