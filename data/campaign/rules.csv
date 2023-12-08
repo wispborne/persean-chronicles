@@ -24,7 +24,9 @@ Realization clicks and she stands, shimmying smoothly into the narrow corridor. 
 # Drop bear,,,,,,,,
 wisp_perseanchronicles_dropbear,DialogOptionSelected,"$option == marketVisitBar
 $market.id == gilead
-RollProbability 0.03 score:1000",AddCredits -5000,"You are casually wandering toward a bar when you are surprised by a heavy weight crashing onto your shoulders and pain across your head, chest and arms.  Mercifully, you quickly fall unconscious.
+!$gotDropBeared
+RollProbability 0.03 score:1000","AddCredits -5000
+$gotDropBeared = true 90","You are casually wandering toward a bar when you are surprised by a heavy weight crashing onto your shoulders and pain across your head, chest and arms.  Mercifully, you quickly fall unconscious.
 
 You wake up some time later in a hospital where you are informed that you are merely the latest victim of the devastating Gilead Drop Bear. You spend twelve hours recuperating before discharging yourself and paying your medical bills, vowing to keep a better eye out above you whenever in a Gilead port from now on.",wisp_perseanchronicles_dropbear2:Continue to the bar,,,
 wisp_perseanchronicles_dropbear2,DialogOptionSelected,$option == wisp_perseanchronicles_dropbear2,"FireBest BarPrintDesc
