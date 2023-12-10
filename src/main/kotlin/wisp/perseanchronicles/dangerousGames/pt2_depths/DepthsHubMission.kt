@@ -15,7 +15,6 @@ import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.isOkForQuest
-import wisp.questgiver.spriteName
 import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
@@ -88,6 +87,8 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
     val didAllCrewDie: Boolean
         get() = riddleAnswers.all { it?.wasSuccessful() == false }
+
+    fun isPlanetColonized() = (state.depthsPlanet?.market?.size ?: 0) > 0
 
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["dragonPlanet"] = { DragonsHubMission.state.dragonPlanet?.name }

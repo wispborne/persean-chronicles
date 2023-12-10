@@ -6,6 +6,7 @@ Version 3.1.0
   - "Hanger" -> "hangar" in lots of places (thanks Histidine).
   - Karengo lying about how many credits he gives you for Depths.
   - Able to talk the pirate down multiple times so they start with 1% CR.
+  - Karengo avoiding non-existent local government during Depths.
 - Added
   - Next quest in the Telos questline.
 - Changed

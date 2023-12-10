@@ -17,11 +17,18 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                         para {
                             game.text.getf(
                                 "dg_de_stg2_pg1_para1",
-                                "ifPlayerOwnedWorld" to
-                                        if (DepthsHubMission.state.depthsPlanet?.market?.isPlayerOwned == true)
-                                            game.text["dg_de_stg2_pg1_para1_ifPlayerOwnedWorld"]
+                                "ifColonized" to
+                                        if (mission.isPlanetColonized())
+                                            game.text.getf(
+                                                "dg_de_stg2_pg1_para1_ifColonized",
+                                                "ifPlayerOwnedWorld" to
+                                                        if (DepthsHubMission.state.depthsPlanet?.market?.isPlayerOwned == true)
+                                                            game.text["dg_de_stg2_pg1_para1_ifPlayerOwnedWorld"]
+                                                        else
+                                                            String.empty
+                                            )
                                         else
-                                            String.empty
+                                            String.empty,
                             )
                         }
                     }
