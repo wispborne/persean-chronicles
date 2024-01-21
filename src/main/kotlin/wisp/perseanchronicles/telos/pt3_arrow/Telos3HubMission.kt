@@ -269,7 +269,9 @@ class Telos3HubMission : QGHubMission() {
         trigger {
             beginStageTrigger(Stage.Completed, Stage.CompletedSacrificeShips)
             triggerCustomAction {
-                game.sector.playerFleet.fleetData.membersListCopy.forEach { ship ->
+                game.sector.playerFleet.fleetData.membersListCopy
+                    .filter { it.hullId != TelosCommon.ITESH_ID }
+                    .forEach { ship ->
                     ship.repairTracker.cr = ship.repairTracker.maxCR
                     ship.repairTracker.isSuspendRepairs = false
                 }
