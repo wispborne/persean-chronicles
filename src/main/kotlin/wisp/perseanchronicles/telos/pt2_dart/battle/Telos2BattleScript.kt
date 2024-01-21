@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.telos.pt2_dart.battle
 
+import com.fs.starfarer.api.campaign.BattleAPI
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.input.InputEventAPI
@@ -181,6 +182,10 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI, va
         }
 
         game.combatEngine?.endCombat(0f)
+        if (game.sector.playerFleet.battle != null) {
+            game.sector.playerFleet.battle.finish(BattleAPI.BattleSide.NO_JOIN)
+            game.sector.playerFleet.battle = null
+        }
 
         // Give the player back their fleet.
         game.sector.playerFleet.swapFleets(

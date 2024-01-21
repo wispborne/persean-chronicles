@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.telos.pt3_arrow.nocturne
 
+import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.combat.ViewportAPI
@@ -25,24 +26,24 @@ import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.common.fx.CampaignCustomRenderer
 import wisp.perseanchronicles.common.fx.CustomRenderer
 import wisp.perseanchronicles.game
-import wisp.questgiver.wispLib.distanceFromPlayerInHyperspace
-import wisp.questgiver.wispLib.equalsAny
-import wisp.questgiver.wispLib.modify
-import wisp.questgiver.wispLib.random
+import wisp.questgiver.wispLib.*
 import java.awt.Color
 import java.util.*
 import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
-class TelevisionScript : BaseToggleAbility() {
+class EthersightAbility : BaseToggleAbility() {
+    companion object {
+        const val BOOSTED_MAX_ZOOM = 10f
+    }
+
+    @Transient
     private val HYPERSPACE_RANGE = 20000f
 
-    private val originalMaxZoom = game.sector.campaignUI.maxZoomFactor
-
-    override fun runWhilePaused() = true
-
+    @Transient
     protected var phaseAngle = 0f
 
     @Transient
@@ -56,14 +57,25 @@ class TelevisionScript : BaseToggleAbility() {
 
     @Transient
     private var nebulaDensityInterval: IntervalUtil? = IntervalUtil(0.03f, 0.04f)
+
+    @Transient
     private var nocturneEntity: SectorEntityToken? = null
 
+    @Transient
+    private var vanillaMaxZoom: Float? = null
+
+    override fun runWhilePaused() = true
     override fun getActiveLayers(): EnumSet<CampaignEngineLayers?>? = EnumSet.of(CampaignEngineLayers.ABOVE)
 
     override fun advance(amount: Float) {
         super.advance(amount)
 
         if (!turnedOn) return
+
+        if (!isUsable) {
+            deactivate()
+            return
+        }
 
         val days = Global.getSector().clock.convertToDays(if (game.sector.isPaused) 0f else amount)
         phaseAngle += days * 360f * 10f
@@ -89,7 +101,7 @@ class TelevisionScript : BaseToggleAbility() {
     }
 
     override fun activateImpl() {
-        CampaignEngine.getInstance().uiData.campaignMapZoom = 5f
+        CampaignEngine.getInstance().uiData.campaignZoom = 5f
     }
 
     /**
@@ -98,14 +110,46 @@ class TelevisionScript : BaseToggleAbility() {
      */
     override fun applyEffect(amount: Float, level: Float) {
         if (turnedOn) {
-            setMaxZoom(10f)
+            setMaxZoom(BOOSTED_MAX_ZOOM)
             setDimmedScreen(true)
         }
     }
 
     override fun deactivateImpl() {
-        setMaxZoom(originalMaxZoom)
+        turnedOn = false
         setDimmedScreen(false)
+        val vanillaMaxZoomLocal = vanillaMaxZoom ?: 3f
+
+        if (CampaignEngine.getInstance().uiData.campaignZoom > vanillaMaxZoomLocal) {
+            game.sector.addTransientScript(object : EveryFrameScript {
+                var runningTime = 0f
+                val duration = 0.5f
+                val maxZoomWhenAbilityToggledOff = BOOSTED_MAX_ZOOM
+
+                override fun isDone() = maxZoomWhenAbilityToggledOff <= vanillaMaxZoomLocal || runningTime >= duration
+                override fun runWhilePaused() = true
+
+                override fun advance(amount: Float) {
+                    runningTime += amount
+                    val newZoom = Easing.Quadratic.easeOut(
+                        time = duration - runningTime,
+                        valueAtStart = maxZoomWhenAbilityToggledOff,
+                        valueAtEnd = vanillaMaxZoomLocal,
+                        duration = duration
+                    )
+                        .absoluteValue
+                        .coerceAtLeast(vanillaMaxZoomLocal)
+                    game.sector.campaignUI.maxZoomFactor = newZoom
+                }
+            })
+        }
+    }
+
+    private fun setMaxZoom(zoomMult: Float) {
+        // TODO: `maxZoomFactor` doesn't return the correct value (returns min instead of max, I think).
+        // If vanilla fixes it, use that instead of getting it from settings.
+        vanillaMaxZoom = Global.getSettings().getFloat("maxCampaignZoom") ?: game.sector.campaignUI.maxZoomFactor
+        game.sector.campaignUI.maxZoomFactor = zoomMult
     }
 
     override fun cleanupImpl() {
@@ -113,6 +157,8 @@ class TelevisionScript : BaseToggleAbility() {
     }
 
     override fun hasTooltip() = true
+    override fun isTooltipExpandable() = false
+    override fun isUsable() = game.sector?.playerFleet?.isInHyperspace == false && !isSystemHidden()
 
     override fun createTooltip(tooltip: TooltipMakerAPI?, expanded: Boolean) {
         var status = " (off)"
@@ -120,23 +166,104 @@ class TelevisionScript : BaseToggleAbility() {
             status = " (on)"
         }
 
+        val systemHidden = isSystemHidden()
         val title = tooltip!!.addTitle(spec.name + status)
         title.highlightLast(status)
         title.setHighlightColor(Misc.getGrayColor())
 
-        val pad = 10f
+        val pad = 3f
+        val opad = 10f
 
         tooltip.addPara(
-            "By focusing, you are able to observe stellar objects and fleets from afar.", pad
+            "By focusing, you are able to observe stellar objects and fleets from afar.", opad
         )
-        tooltip.addPara(
-            "Hostile fleets show in red.", pad
-        )
+//        tooltip.addPara("Hostile fleets are red.", pad, Color.RED, "red")
+
+        // Ethersense
+        if (game.sector.currentLocation.isHyperspace) {
+            return
+        }
+
+        val entities = if (systemHidden) emptyList() else getEntitiesInSystem()
+        tooltip.addSpacer(pad)
+
+        if (entities.isEmpty()) {
+            if (systemHidden)
+                tooltip.addPara(
+                    "This system is void of information. You feel somehow more blind than before you first tasted Ether.",
+                    Misc.getNegativeHighlightColor(),
+                    pad
+                )
+            else {
+                tooltip.addPara(
+                    "This system has no objects of note.",
+                    Misc.getTextColor(),
+                    pad
+                )
+            }
+        } else {
+//            tooltip.addPara(
+//                "You sense entities within the sector, each one a pattern, and something within you catalogues them all.", opad
+//            )
+
+            tooltip.setBulletedListMode("  - ")
+            for ((name, group) in entities
+                .filter { it !is CampaignFleetAPI }
+                .groupBy { token ->
+                    if (systemHidden || token.hasTag(Tags.THEME_HIDDEN)) "<unknown pattern>"
+                    else
+                        (token as? CustomCampaignEntity)?.spec?.defaultName
+                            ?: token.name
+                }
+                .entries
+                .sortedWith(compareBy<Map.Entry<String, List<SectorEntityToken>>> { it.value.first() is CampaignFleetAPI }
+                    .thenBy { it.value.first().fullName }
+                )) {
+                tooltip.addPara(
+                    "%s",
+                    pad,
+                    Misc.getTextColor(), //group.first().indicatorColor,
+                    name + if (group.size > 1) " x${group.size}" else ""
+                )
+            }
+
+            val fleetsCount = entities.count { it is CampaignFleetAPI }
+            if (fleetsCount > 0) {
+                tooltip.addPara(
+                    "Fleet x${fleetsCount}",
+                    pad,
+                )
+            }
+//            val nonHostileFleetCount = entities.count { it is CampaignFleetAPI && !it.isHostileTo(game.sector.playerFleet) }
+//            if (nonHostileFleetCount > 0) {
+//                tooltip.addPara(
+//                    "Fleet x${nonHostileFleetCount}",
+//                    pad
+//                )
+//            }
+//            val hostileFleetCount = entities.count { it is CampaignFleetAPI && it.isHostileTo(game.sector.playerFleet) }
+//            if (hostileFleetCount > 0) {
+//                tooltip.addPara(
+//                    "%s",
+//                    pad,
+//                    Color.RED,
+//                    "Hostile fleet x${hostileFleetCount}"
+//                )
+//            }
+            tooltip.setBulletedListMode(null)
+
+//            tooltip.addPara("*2000 units = 1 map grid cell", Misc.getGrayColor(), opad)
+        }
     }
 
+    private fun isSystemHidden() = game.sector.playerFleet.starSystem?.hasTag(Tags.THEME_HIDDEN) ?: false
+
     override fun render(layer: CampaignEngineLayers, viewport: ViewportAPI) {
-        CampaignEngine.getInstance().uiData.campaignZoom = 30f
-        CampaignEngine.getInstance().uiData.campaignMapZoom = 30f
+        if (!turnedOn) return
+
+        val fleet = game.sector.playerFleet
+        if (fleet.isInHyperspace) return
+//        CampaignEngine.getInstance().uiData.campaignMapZoom = 30f
 //        game.sector.playerFleet.starSystem.backgroundTextureFilename = "graphics/backgrounds/empty.png"
         val ignoreIds = setOf("PerseanChronicles_CustomRenderer_Nebula")
 
@@ -274,10 +401,6 @@ class TelevisionScript : BaseToggleAbility() {
                 }
             }
         }
-    }
-
-    private fun setMaxZoom(zoomMult: Float) {
-        game.sector.campaignUI.maxZoomFactor = zoomMult
     }
 
     private fun getRingRadiusForCloudRendering(obj: SectorEntityToken): Float {
@@ -585,4 +708,24 @@ class TelevisionScript : BaseToggleAbility() {
             is CampaignFleetAPI -> (Misc.getDangerLevel(obj) / 5f) * 750f
             else -> 0f
         }
+
+    private fun getEntitiesInSystem(): List<SectorEntityToken> {
+        val fleet = fleet
+        val location = fleet.containingLocation
+        if (fleet.isInHyperspace) return emptyList()
+        val result = mutableSetOf<SectorEntityToken>()
+
+        val tags = listOf("neutrino", "neutrino_low", "station")
+
+        val neutrinoSources = location.getEntities(CustomCampaignEntityAPI::class.java)
+            .filterIsInstance<SectorEntityToken>()
+            .filter { entity -> entity.tags.any { it in tags } }
+        result.addAll(neutrinoSources)
+
+        val fleets = location.fleets
+            .filterNot { sysFleet -> sysFleet.isPlayerFleet || sysFleet.isStationMode || sysFleet.isHidden || sysFleet.isEmpty }
+        result.addAll(fleets)
+
+        return result.toList()
+    }
 }

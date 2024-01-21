@@ -27,6 +27,7 @@ import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.perseanchronicles.telos.pt3_arrow.MenriSystemCreator
 import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
+import wisp.perseanchronicles.telos.pt3_arrow.nocturne.EthersightAbility
 import wisp.questgiver.Configuration
 import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.lastName
@@ -105,6 +106,12 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
 
         MagicAchievementManager.getInstance().addAchievementSpecs(Achievements.PignutsAchievementSpec())
         Questgiver.onGameLoadEnd(newGame)
+
+        // TODO DON'T FORGET THIS
+        if (true) {
+            game.sector.characterData.addAbility(TelosCommon.ETHER_SIGHT_ID)
+            game.sector.playerFleet.addAbility(TelosCommon.ETHER_SIGHT_ID)
+        }
     }
 
     /**
@@ -210,6 +217,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
             Telos1HubMission::class to "Telos1HubMission",
             Telos2HubMission::class to "Telos2HubMission",
             Telos3HubMission::class to "Telos3HubMission",
+            EthersightAbility::class to "EthersightAbility",
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized
