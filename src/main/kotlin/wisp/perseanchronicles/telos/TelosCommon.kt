@@ -42,6 +42,7 @@ object TelosCommon {
     const val AVALOK_ID = "wisp_perseanchronicles_avalok"
     const val DART_NAME = "Vara"
     const val ETHER_SIGHT_ID = "wisp_perseanchronicles_ethersight"
+    const val ETHERNETWORKED_HULLMOD_ID = "wisp_perseanchronicles_catv"
     const val ETHER_OFFICER_TAG = "wisp_perseanchronicles_etherNetworked"
 
     /**
@@ -106,5 +107,6 @@ object TelosCommon {
             .onFailure { game.logger.e(it) }
     }
 
-    fun isDevMode() = game.settings.isDevMode && game.sector?.playerPerson?.nameString?.contains(Regex("""wisp|test""", RegexOption.IGNORE_CASE)) == true
+    fun isDevMode() =
+        game.settings.isDevMode && game.sector?.playerPerson?.nameString?.contains(Regex("""wisp|test""", RegexOption.IGNORE_CASE)) == true
 }

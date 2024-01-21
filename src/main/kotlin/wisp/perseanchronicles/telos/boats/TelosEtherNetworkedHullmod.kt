@@ -5,9 +5,11 @@ import com.fs.starfarer.api.combat.BaseHullMod
 import com.fs.starfarer.api.combat.MutableShipStatsAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.combat.ShipAPI.HullSize
+import com.fs.starfarer.api.combat.listeners.HullDamageAboutToBeTakenListener
 import com.fs.starfarer.api.ui.Alignment
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.wispLib.addPara
 import wisp.questgiver.wispLib.equalsAny
@@ -18,6 +20,11 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
         const val MANUV_PERCENT = -50
         const val SPEED_PERCENT = -50
         const val PPT_PERCENT = -20
+        const val HULLSHIELD_FLUX_PERCENT = 80f
+
+        fun hasEtherOfficer(ship: ShipAPI?): Boolean {
+            return ship?.captain?.hasTag(TelosCommon.ETHER_OFFICER_TAG) ?: false
+        }
     }
 
     override fun applyEffectsBeforeShipCreation(hullSize: HullSize?, stats: MutableShipStatsAPI?, id: String?) {
@@ -43,6 +50,10 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
         }
     }
 
+    override fun applyEffectsAfterShipCreation(ship: ShipAPI, id: String?) {
+        ship.addListener(TelosEtherNetworkedHullmodScript(ship))
+    }
+
     @Transient
     private var rotation: Float? = null
 
@@ -51,10 +62,11 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
 
         val engine = Global.getCombatEngine() ?: return
 
-        // I really think waiting for the rest of the questline to be finished
-        // will be more rewarding than cheating in access to these unfinished ships early,
-        // but if you absolutely can't wait, comment this out or change it to `if (false)`.
-        if (TelosCommon.isPhase1) {
+        if (false && TelosCommon.isPhase1) {
+            // Wisp:
+            // I really think waiting for the rest of the questline to be finished
+            // will be more rewarding than cheating in access to these unfinished ships early,
+            // but if you absolutely can't wait, comment this out or change it to `if (false)`.
             if (ship?.hullSpec?.hullId?.equalsAny(TelosCommon.AVALOK_ID, TelosCommon.ITESH_ID) == true) {
                 rotation = if (rotation == null || engine.getTotalElapsedTime(false) < 5f) {
                     0f
@@ -96,8 +108,29 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
             return
         }
 
-        val isDebuffed = ship?.captain?.hasTag(TelosCommon.ETHER_OFFICER_TAG) != true
+        val isDebuffed = !hasEtherOfficer(ship)
         val tc = if (isDebuffed) Misc.getTextColor() else Misc.getGrayColor()
+
+
+        tooltip.addSectionHeading(
+            /* str = */ "Hullshield",
+            /* textColor = */
+            if (isDebuffed) Misc.getNegativeHighlightColor() else Misc.getGrayColor(),
+            /* bgColor = */
+            if (isDebuffed) Misc.setAlpha(Misc.scaleColorOnly(Misc.getNegativeHighlightColor(), 0.4f), 175) else Misc.setAlpha(
+                Misc.scaleColorOnly(
+                    Misc.getGrayColor(),
+                    0.4f
+                ), 175
+            ),
+            /* align = */
+            Alignment.MID,
+            /* pad = */
+            10f
+        )
+        tooltip.addPara(textColor = tc, highlightColor = if (!isDebuffed) Misc.getHighlightColor() else tc) {
+            "If flux is below $HULLSHIELD_FLUX_PERCENT%, hull damage will be absorbed at a high flux cost.\n"
+        }
 
         tooltip.addSectionHeading(
             /* str = */ "Penalty",
@@ -121,4 +154,19 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
     }
 
     override fun getUnapplicableReason(ship: ShipAPI?) = "Requires a Telos ship."
+
+    class TelosEtherNetworkedHullmodScript(val networkedShip: ShipAPI) : HullDamageAboutToBeTakenListener {
+
+        override fun notifyAboutToTakeHullDamage(param: Any?, ship: ShipAPI?, point: Vector2f?, damageAmount: Float): Boolean {
+            ship ?: return false
+            if (!hasEtherOfficer(ship)) return false
+            if (!ship.isAlive) return false
+            if (!ship.variant.hasHullMod(TelosCommon.ETHERNETWORKED_HULLMOD_ID)) return false // need Ether-networked hullmod
+            if (ship.fluxLevel > (HULLSHIELD_FLUX_PERCENT / 100f)) return false // don't activate if flux is high
+
+            ship.fluxTracker.increaseFlux(damageAmount * 3f, true)
+
+            return true
+        }
+    }
 }
