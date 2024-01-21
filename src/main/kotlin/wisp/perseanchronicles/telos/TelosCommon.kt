@@ -48,8 +48,9 @@ object TelosCommon {
     /**
      * Don't let player progress past Phase 1 of the questline (unless playername includes wisp or test)
      */
+    @Deprecated("Let's goooo")
     val isPhase1
-        get() = game.sector?.playerPerson?.nameString?.contains(Regex("""wisp|test""", RegexOption.IGNORE_CASE)) != true
+        get() = false
 
     fun playThemeMusic(fadeOutSeconds: Int = 3, fadeInSeconds: Int = 3) {
         val musicSetId = "wisp_perseanchronicles_telosThemeMusic"

@@ -40,7 +40,8 @@
       "choices": "graphics/telos/choices.png",
       "intel": "graphics/telos/telos_intel.png",
       "eugel_portrait": "graphics/telos/eugel.png",
-      "icon_ethersight": "graphics/telos/icons/ethersight.png",
+      "telos_ethernet": "graphics/telos/icons/telos_ethernet.png",
+      "telos_ethernet_disabled": "graphics/telos/icons/telos_ethernet_disabled.png",
     },
   },
 
