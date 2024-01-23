@@ -26,6 +26,7 @@ import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.common.fx.CampaignCustomRenderer
 import wisp.perseanchronicles.common.fx.CustomRenderer
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.telos.pt3_arrow.MenriSystemCreator
 import wisp.questgiver.wispLib.*
 import java.awt.Color
 import java.util.*
@@ -244,7 +245,12 @@ class EthersightAbility : BaseToggleAbility() {
         }
     }
 
-    private fun isSystemHidden() = game.sector.playerFleet.starSystem?.hasTag(Tags.THEME_HIDDEN) ?: false
+    /**
+     * Disable Ethersight in systems with the "hidden" tag (except for Menri).
+     */
+    private fun isSystemHidden() =
+        game.sector.playerFleet.starSystem?.hasTag(Tags.THEME_HIDDEN) ?: false
+                && game.sector.playerFleet.starSystem.baseName != MenriSystemCreator.systemBaseName
 
     override fun render(layer: CampaignEngineLayers, viewport: ViewportAPI) {
         if (!turnedOn) return

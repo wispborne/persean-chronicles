@@ -122,7 +122,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         setAbandonStage(Stage.Abandoned)
 
         name = game.text["dg_de_intel_title"]
-        setRewardMult((planet.distanceFromPlayerInHyperspace / 15f).coerceAtLeast(1f))
+        setRewardMult((planet.distanceFromPlayerInHyperspace / 20f).coerceAtLeast(1f))
         setCreditReward(CreditReward.HIGH)
         updateTextReplacements(game.text)
         setGiverFaction(karengo.faction?.id) // Rep reward.

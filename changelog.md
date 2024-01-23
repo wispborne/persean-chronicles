@@ -8,8 +8,9 @@ Version 3.1.0
     - Console command: `allall`. Places all hulls, weapons, wings, and commodities into storage. Learns all blueprints and hullmods.
 - Fixed
   - Missing text in quest intel after they'd been completed (thanks to toopok4k3).
-  - Telos: "Hanger" -> "hangar" in lots of places (thanks Histidine).
+  - Telos: "hanger" -> "hangar" in lots of places (thanks Histidine).
   - Telos: Able to talk the pirate down multiple times so they start with 1% CR.
+  - Telos: Credit reward now scales based on distance.
   - Depths: Karengo lying about how many credits he gives you for Depths.
   - Depths: Karengo avoiding non-existent local government during Depths.
   - Depths: Item reward now generates cargo pods if you don't immediately take everything.

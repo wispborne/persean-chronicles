@@ -101,7 +101,6 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         setAbandonStage(Stage.Abandoned)
 
         name = part1Json.optQuery("/strings/title")
-        setCreditReward(CreditReward.VERY_HIGH) // 95k ish, we want the player to take this.
         setGiverFaction(PerseanChroniclesNPCs.kellyMcDonald.faction.id) // Rep reward.
         personOverride = PerseanChroniclesNPCs.kellyMcDonald // Shows on intel, needed for rep reward or else crash.
 
@@ -123,7 +122,10 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
             .preferSystemTags(ReqMode.NOT_ANY, Tags.THEME_REMNANT, Tags.THEME_UNSAFE)
             .pickPlanet()
             ?: kotlin.run { game.logger.w { "Unable to find a planet for ${this.name}." }; return false }
+        val planet = state.karengoPlanet ?: return false
 
+        setRewardMult((planet.distanceFromPlayerInHyperspace / 20f).coerceAtLeast(1f))
+        setCreditReward(CreditReward.VERY_HIGH) // 95k ish + distance bonus, we want the player to take this.
 
         return true
     }

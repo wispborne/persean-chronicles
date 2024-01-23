@@ -32,7 +32,7 @@ class NocturneScript : EveryFrameScript {
     private val initialGameDifficulty = game.sector.difficulty
     private val initialEasySensorBonus = game.settings.getFloat("easySensorBonus")
 
-    val abilitiesAllowedUnderNocturne =
+    private val abilitiesAllowedUnderNocturne =
         listOf(Abilities.EMERGENCY_BURN, Abilities.GO_DARK, Abilities.SUSTAINED_BURN, "wisp_perseanchronicles_ethersight")
 
     private var isDone = false

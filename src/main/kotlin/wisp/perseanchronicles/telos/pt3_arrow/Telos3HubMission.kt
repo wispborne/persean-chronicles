@@ -309,7 +309,7 @@ class Telos3HubMission : QGHubMission() {
         super.advanceImpl(amount)
 
         if (currentStage == Stage.EscapeSystem) {
-            if (game.sector.playerFleet.containingLocation != game.sector.getStarSystem(MenriSystemCreator.systemName)) {
+            if (game.sector.playerFleet.containingLocation != game.sector.getStarSystem(MenriSystemCreator.systemBaseName)) {
                 if (Misc.getNearbyFleets(game.sector.playerFleet, 1000f).none()) {
                     game.sector.campaignUI.showInteractionDialog(Telos3EscapedDialog().build(), game.sector.playerFleet)
                 }

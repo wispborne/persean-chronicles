@@ -54,6 +54,7 @@ class Telos2PirateFleetInteractionDialogPluginImpl :
             if (Telos2HubMission.state.talkedToPirateFleet == true) {
                 single { it.id == "0-already-talked" }
             } else {
+                Telos2HubMission.state.talkedToPirateFleet = true
                 first()
             }
         }
