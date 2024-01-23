@@ -114,14 +114,15 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         state.seed = genRandom
 
         state.depthsPlanet = findAndTagDepthsPlanet(createdAt?.starSystem) ?: return false
-        val planet = state.depthsPlanet
-        game.logger.i { "Set Depths quest destination to ${planet?.fullName} in ${planet?.starSystem?.baseName}" }
+        val planet = state.depthsPlanet ?: return false
+        game.logger.i { "Set Depths quest destination to ${planet.fullName} in ${planet.starSystem?.baseName}" }
 
         startingStage = Stage.GoToPlanet
         setSuccessStage(Stage.Done)
         setAbandonStage(Stage.Abandoned)
 
         name = game.text["dg_de_intel_title"]
+        setRewardMult((planet.distanceFromPlayerInHyperspace / 15f).coerceAtLeast(1f))
         setCreditReward(CreditReward.HIGH)
         updateTextReplacements(game.text)
         setGiverFaction(karengo.faction?.id) // Rep reward.

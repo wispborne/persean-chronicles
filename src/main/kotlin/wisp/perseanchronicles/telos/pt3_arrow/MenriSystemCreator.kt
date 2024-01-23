@@ -11,6 +11,7 @@ import wisp.questgiver.wispLib.placeInSector
 import java.awt.Color
 
 object MenriSystemCreator {
+    val systemName = "Lama"
 
     fun createMenriSystem(): PlanetAPI? {
         // gate
@@ -19,7 +20,6 @@ object MenriSystemCreator {
         // some hidey points
         val systemOrbitDays = 180f
         val planetName = "Menri"
-        val systemName = "Lama"
 
         if (game.sector.getStarSystem(systemName) != null) {
             game.logger.w { "Lama system already exists!" }

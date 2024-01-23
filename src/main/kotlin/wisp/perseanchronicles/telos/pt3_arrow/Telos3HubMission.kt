@@ -39,7 +39,7 @@ class Telos3HubMission : QGHubMission() {
 
         val state = State(PersistentMapData<String, Any?>(key = "telosPt3State").withDefault { null })
 
-//        val chaseFleetFlag = "$${MISSION_ID}chaseFleet"
+        //        val chaseFleetFlag = "$${MISSION_ID}chaseFleet"
         val eugelChaseFleetTag = "${MISSION_ID}eugelChaseFleet"
     }
 
@@ -102,7 +102,8 @@ class Telos3HubMission : QGHubMission() {
         @Suppress("ABSTRACT_SUPER_CALL_WARNING")
         super.create(createdAt, barEvent)
         // Set his sprite in case he was created during Phase 1, before the new sprite was set.
-        PerseanChroniclesNPCs.captainEugel.portraitSprite = IInteractionLogic.Portrait(category = "wisp_perseanchronicles_telos", id = "eugel_portrait").spriteName(game)
+        PerseanChroniclesNPCs.captainEugel.portraitSprite =
+            IInteractionLogic.Portrait(category = "wisp_perseanchronicles_telos", id = "eugel_portrait").spriteName(game)
         setGenRandom(Telos1HubMission.state.seed ?: Misc.random)
 
         setStartingStage(Stage.GoToPlanet)
@@ -272,9 +273,13 @@ class Telos3HubMission : QGHubMission() {
                 game.sector.playerFleet.fleetData.membersListCopy
                     .filter { it.hullId != TelosCommon.ITESH_ID }
                     .forEach { ship ->
-                    ship.repairTracker.cr = ship.repairTracker.maxCR
-                    ship.repairTracker.isSuspendRepairs = false
-                }
+                        ship.repairTracker.cr = ship.repairTracker.maxCR
+                        ship.repairTracker.isSuspendRepairs = false
+
+                        kotlin.runCatching {
+                            TelosCommon.stopAllCustomMusic()
+                        }.onFailure { game.logger.w(it) }
+                    }
             }
         }
 
@@ -298,6 +303,18 @@ class Telos3HubMission : QGHubMission() {
         super.endSuccessImpl(dialog, memoryMap)
 
         state.completeDateInMillis = game.sector.clock.timestamp
+    }
+
+    override fun advanceImpl(amount: Float) {
+        super.advanceImpl(amount)
+
+        if (currentStage == Stage.EscapeSystem) {
+            if (game.sector.playerFleet.containingLocation != game.sector.getStarSystem(MenriSystemCreator.systemName)) {
+                if (Misc.getNearbyFleets(game.sector.playerFleet, 1000f).none()) {
+                    game.sector.campaignUI.showInteractionDialog(Telos3EscapedDialog().build(), game.sector.playerFleet)
+                }
+            }
+        }
     }
 
     override fun callAction(

@@ -1,14 +1,19 @@
 ## Changelog
 
 Version 3.1.0
+- Added
+    - Next quest in the Telos questline.
+        - If you have finished the first Telos quest, this one will automatically start.
+    - Console command: `infinite`. Runs both `infinitesupplies` and `infinitefuel`.
+    - Console command: `allall`. Places all hulls, weapons, wings, and commodities into storage. Learns all blueprints and hullmods.
 - Fixed
   - Missing text in quest intel after they'd been completed (thanks to toopok4k3).
-  - "Hanger" -> "hangar" in lots of places (thanks Histidine).
-  - Karengo lying about how many credits he gives you for Depths.
-  - Able to talk the pirate down multiple times so they start with 1% CR.
-  - Karengo avoiding non-existent local government during Depths.
-- Added
-  - Next quest in the Telos questline.
+  - Telos: "Hanger" -> "hangar" in lots of places (thanks Histidine).
+  - Telos: Able to talk the pirate down multiple times so they start with 1% CR.
+  - Depths: Karengo lying about how many credits he gives you for Depths.
+  - Depths: Karengo avoiding non-existent local government during Depths.
+  - Depths: Item reward now generates cargo pods if you don't immediately take everything.
+  - Depths: Credit reward now scales based on distance.
 - Changed
   - Firebrand sprite coloration improvements.
 

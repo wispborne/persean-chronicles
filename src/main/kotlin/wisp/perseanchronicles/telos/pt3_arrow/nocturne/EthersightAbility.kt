@@ -83,7 +83,7 @@ class EthersightAbility : BaseToggleAbility() {
 
         if (visionEntity == null || visionEntity?.containingLocation != Global.getSector().playerFleet.containingLocation) {
             visionEntity = Global.getSector().playerFleet.containingLocation.addCustomEntity(
-                "perseanchronicles_ethersight", "Devmode: Tell your friends about Persean Chronicles today!",
+                "perseanchronicles_ethersight", "Devmode is on. Tell your friends about Persean Chronicles today!",
                 "PerseanChronicles_CustomRenderer_Nebula", Factions.INDEPENDENT, this
             )
             visionEntity?.setFixedLocation(-100000f, -100000f);
@@ -331,8 +331,6 @@ class EthersightAbility : BaseToggleAbility() {
 
 
                     getNebulaeCoords(obj, view)
-                        .also {
-                            game.logger.i { "Add ${it.count()} nebulae." } }
                         .forEach { point ->
                             customRenderer?.addNebula(
                                 location = point,

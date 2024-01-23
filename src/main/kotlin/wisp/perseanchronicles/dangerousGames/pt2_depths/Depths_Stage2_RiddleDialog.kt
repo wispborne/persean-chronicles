@@ -573,7 +573,7 @@ class Depths_Stage2_RiddleDialog(val mission: DepthsHubMission = game.intelManag
                                 mission.generateRewardLoot(dialog.interactionTarget),
                                 false,
                                 true,
-                                false
+                                true
                             ) {
                                 it.close(doNotOfferAgain = true)
                             }
