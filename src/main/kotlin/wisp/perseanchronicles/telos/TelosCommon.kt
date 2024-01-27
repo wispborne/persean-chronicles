@@ -17,7 +17,7 @@ object TelosCommon {
                 "data/strings/compiled/telos_pt3_ether.hjson",
                 "data/strings/compiled/telos_pt3_noEther.hjson",
                 "data/strings/compiled/telos_pt3_common.hjson",
-                "data/strings/compiled/telos_pt3_escape.hjson",
+                // "data/strings/compiled/telos_pt3_escape.hjson", moved into common.
             ),
             masterMod = MOD_ID
         )
@@ -51,6 +51,9 @@ object TelosCommon {
     @Deprecated("Let's goooo")
     val isPhase1
         get() = false
+
+    val isPhase2
+        get() = true
 
     fun playThemeMusic(fadeOutSeconds: Int = 3, fadeInSeconds: Int = 3) {
         val musicSetId = "wisp_perseanchronicles_telosThemeMusic"

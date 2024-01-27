@@ -309,13 +309,22 @@ class Telos3HubMission : QGHubMission() {
         super.advanceImpl(amount)
 
         if (currentStage == Stage.EscapeSystem) {
-            if (game.sector.playerFleet.containingLocation != game.sector.getStarSystem(MenriSystemCreator.systemBaseName)) {
+            // Detect when player escapes
+            if (game.sector.playerFleet.containingLocation != getMenriSystem()) {
                 if (Misc.getNearbyFleets(game.sector.playerFleet, 1000f).none()) {
                     game.sector.campaignUI.showInteractionDialog(Telos3EscapedDialog().build(), game.sector.playerFleet)
                 }
             }
+
+            // Detect Eugel fleet destruction
+            val eugelFleet = getMenriSystem().fleets.firstOrNull { it.tags.contains(eugelChaseFleetTag) }
+            if (eugelFleet?.commander?.id != PerseanChroniclesNPCs.captainEugel.id) {
+                setCurrentStage(Stage.CompletedDefeatedEugel, null, null)
+            }
         }
     }
+
+    fun getMenriSystem() = game.sector.getStarSystem(MenriSystemCreator.systemBaseName)
 
     override fun callAction(
         action: String?,
@@ -370,7 +379,7 @@ class Telos3HubMission : QGHubMission() {
     }
 
     override fun addNextStepText(info: TooltipMakerAPI, tc: Color, pad: Float): Boolean {
-        return when (currentStage) {
+        return when (currentStage as Stage) {
             Stage.GoToPlanet -> {
                 info.addPara(padding = pad, textColor = Misc.getGrayColor()) {
                     part3Json.query<String>("/stages/goToPlanet/intel/subtitle").qgFormat()
@@ -400,12 +409,20 @@ class Telos3HubMission : QGHubMission() {
                 true
             }
 
-            else -> false
+            Stage.CompletedDefeatedEugel -> {
+                info.addPara(padding = pad, textColor = Misc.getGrayColor()) {
+                    part3Json.query<String>("/stages/defeatedEugel/intel/subtitle").qgFormat()
+                }
+                true
+            }
+            Stage.Abandoned -> {
+                true
+            }
         }
     }
 
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
-        when (currentStage) {
+        when (currentStage as Stage) {
             Stage.GoToPlanet -> {
                 info.addPara { part3Json.query<String>("/stages/goToPlanet/intel/desc").qgFormat() }
             }
@@ -422,7 +439,13 @@ class Telos3HubMission : QGHubMission() {
             Stage.Completed -> {
                 info.addPara { part3Json.query<String>("/stages/escape/intel/desc").qgFormat() }
             }
+
+            Stage.CompletedDefeatedEugel -> {
+                info.addPara { part3Json.query<String>("/stages/defeatedEugel/intel/desc").qgFormat() }
+            }
+            Stage.Abandoned -> {}
         }
+            .also {  } // force exhaustive when
     }
 
     override fun getIntelTags(map: SectorMapAPI?) =
@@ -434,6 +457,7 @@ class Telos3HubMission : QGHubMission() {
         EscapeSystem,
         Completed,
         CompletedSacrificeShips,
+        CompletedDefeatedEugel,
         Abandoned,
     }
 }

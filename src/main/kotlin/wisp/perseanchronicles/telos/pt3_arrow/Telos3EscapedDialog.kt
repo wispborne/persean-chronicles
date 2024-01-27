@@ -32,10 +32,26 @@ class Telos3EscapedDialog(
 //    },
     pages = PagesFromJson(
         pagesJson = stageJson.query("/pages"),
-        onPageShownHandlersByPageId = mapOf(),
+        onPageShownHandlersByPageId = mapOf(
+            "3-explanation" to {
+                val page = navigator.currentPage()!!
+                if (game.memory["\$gaPZ_scannedZiggurat"] == true) {
+                    para { page.extraData["response-zigg"] as String }
+                } else {
+                    para { page.extraData["response-noZigg"] as String }
+                }
+            }
+        ),
         optionConfigurator = { options ->
             options.map { option ->
                 when (option.id) {
+                    "endOfPhase2" -> {
+                        completeMission(mission)
+                        if (TelosCommon.isPhase2) {
+                            para { "==This concludes Phase 2 of the Telos storyline. More to come at a later date.==" }
+                        }
+                    }
+
                     else -> option
                 }
             }
