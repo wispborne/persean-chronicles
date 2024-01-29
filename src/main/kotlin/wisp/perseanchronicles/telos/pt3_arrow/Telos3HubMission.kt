@@ -61,6 +61,7 @@ class Telos3HubMission : QGHubMission() {
 
         var talkedWithEugel: Boolean? by map
         var scuttledTelosShips: Boolean? by map
+        var defeatedEugel: Boolean? by map
     }
 
     enum class EtherVialsChoice {
@@ -270,15 +271,10 @@ class Telos3HubMission : QGHubMission() {
         trigger {
             beginStageTrigger(Stage.Completed, Stage.CompletedSacrificeShips)
             triggerCustomAction {
-                game.sector.playerFleet.fleetData.membersListCopy
-                    .filter { it.hullId != TelosCommon.ITESH_ID }
-                    .forEach { ship ->
-                        ship.repairTracker.cr = ship.repairTracker.maxCR
-                        ship.repairTracker.isSuspendRepairs = false
-
-                        kotlin.runCatching {
-                            TelosCommon.stopAllCustomMusic()
-                        }.onFailure { game.logger.w(it) }
+                game.sector.scripts.filterIsInstance<TelosFightOrFlightScript>()
+                    .forEach {
+                        it.done = true
+                        game.sector.scripts.remove(it)
                     }
             }
         }
@@ -318,7 +314,8 @@ class Telos3HubMission : QGHubMission() {
 
             // Detect Eugel fleet destruction
             val eugelFleet = getMenriSystem().fleets.firstOrNull { it.tags.contains(eugelChaseFleetTag) }
-            if (eugelFleet?.commander?.id != PerseanChroniclesNPCs.captainEugel.id) {
+            if (eugelFleet != null && eugelFleet.commander?.id != PerseanChroniclesNPCs.captainEugel.id) {
+                state.defeatedEugel = true
                 setCurrentStage(Stage.CompletedDefeatedEugel, null, null)
             }
         }
@@ -415,6 +412,7 @@ class Telos3HubMission : QGHubMission() {
                 }
                 true
             }
+
             Stage.Abandoned -> {
                 true
             }
@@ -443,9 +441,10 @@ class Telos3HubMission : QGHubMission() {
             Stage.CompletedDefeatedEugel -> {
                 info.addPara { part3Json.query<String>("/stages/defeatedEugel/intel/desc").qgFormat() }
             }
+
             Stage.Abandoned -> {}
         }
-            .also {  } // force exhaustive when
+            .also { } // force exhaustive when
     }
 
     override fun getIntelTags(map: SectorMapAPI?) =

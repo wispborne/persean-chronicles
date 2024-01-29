@@ -40,18 +40,15 @@ class Telos3EscapedDialog(
                 } else {
                     para { page.extraData["response-noZigg"] as String }
                 }
+            },
+            "4-cliffhanger" to {
+                mission.setCurrentStage(Telos3HubMission.Stage.Completed, dialog, null)
+
             }
         ),
         optionConfigurator = { options ->
             options.map { option ->
                 when (option.id) {
-                    "endOfPhase2" -> {
-                        completeMission(mission)
-                        if (TelosCommon.isPhase2) {
-                            para { "==This concludes Phase 2 of the Telos storyline. More to come at a later date.==" }
-                        }
-                    }
-
                     else -> option
                 }
             }

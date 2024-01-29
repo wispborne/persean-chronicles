@@ -114,18 +114,18 @@ class Telos3LandingDialog(
                 // Give Itesh
                 val itesh = game.settings.getVariant("wisp_perseanchronicles_itesh_Standard")
                     .let { game.factory.createFleetMember(FleetMemberType.SHIP, it) }
-                    .apply {
-                        prepareShipForRecovery(
-                            retainAllHullmods = true,
-                            retainKnownHullmods = true,
-                            clearSMods = false,
-                            weaponRetainProb = 1f,
-                            wingRetainProb = 1f
-                        )
-                        repairTracker.cr = repairTracker.maxCR
-                        shipName = Telos3HubMission.part3Json.query("/strings/iteshName")
-                    }
                 game.sector.playerFleet.fleetData.addFleetMember(itesh)
+                itesh.apply {
+                    prepareShipForRecovery(
+                        retainAllHullmods = true,
+                        retainKnownHullmods = true,
+                        clearSMods = false,
+                        weaponRetainProb = 1f,
+                        wingRetainProb = 1f
+                    )
+                    shipName = Telos3HubMission.part3Json.query("/strings/iteshName")
+                    repairTracker.cr = .7f
+                }
                 dialog.textPanel.addFleetMemberGainText(itesh)
                 dialog.visualPanel.showFleetMemberInfo(itesh)
             },
@@ -168,15 +168,6 @@ class Telos3LandingDialog(
             },
             "16-powerup-main-7" to {
                 mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystemForDisplay, dialog, null)
-
-                // Damage fleet
-                game.sector.playerFleet.fleetData.membersListCopy
-                    .filter { !it.isMothballed }
-                    .forEach {
-                        // Lower to max 20% CR and stop repairing so we don't eat all their supplies
-                        it.repairTracker.cr = it.repairTracker.cr.coerceAtMost(0.2f)
-                        it.repairTracker.isSuspendRepairs = true
-                    }
             },
         ),
         optionConfigurator = { options ->

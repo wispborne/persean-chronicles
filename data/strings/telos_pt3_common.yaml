@@ -625,9 +625,8 @@ wisp_perseanchronicles:
             - id: '0'
               paras:
                 - 'Knight-Captain Eugel''s ancient face stares at you from across the gulf.'
-                - '"Did I not instruct you to stay put? And yet here you are, flouncing about the system." 
-              He clasps the fingers of one hand around the other, then methodically uncurls one opposite pair at a time until he peers 
-              at you from over the steepled digits.'
+                - '"Did I not instruct you to stay put? And yet here you are, flouncing about the system."'
+                - 'He clasps the fingers of one hand around the other, then methodically uncurls one opposite pair at a time until he is peering at you over steepled digits.'
               options:
                 - id: 'eugelBranch'
                   text: 'Continue'
@@ -654,10 +653,10 @@ wisp_perseanchronicles:
               paras:
                 - ''
               options:
-                - text: 'Scuttle your Telos ships'
-                  goToPage: '2-luddFriend-confirmScuttle'
                 - text: '"I will do nothing of the sort."'
                   goToPage: '2-luddFriend-keepShips'
+                - text: 'Scuttle your Telos ships'
+                  goToPage: '2-luddFriend-confirmScuttle'
 
             - id: '2-luddFriend-confirmScuttle'
               paras:
@@ -726,21 +725,19 @@ wisp_perseanchronicles:
                 - '"${PlayerSirOrMadam}, what was that?"'
               options:
                 - text: '"What was what?"'
+                  setFlag: 'askedForClarification'
+                  hideIfFlagTrue: 'askedForClarification'
                   goToPage: '2-clarification'
                 - text: '"You don''t need to know that. I am your Captain."'
                   goToPage: '3-fatherKnowsBest'
-                - text: '"I have nanites in my blood created by rogue Tri-Tachyon scientists that let me ''see'' across a system."'
+                - text: '"I have nanites in my blood created by rogue Tri-Tachyon scientists that let me see across a system."'
                   goToPage: '3-explanation'
 
             - id: '2-clarification'
               paras:
                 - 'He cocks his head. "Getting ambushed is nothing new, Captain. But we were blind. Dead in the water. And yet, somehow, you knew exactly where to go."'
                 - '"How is that possible?"'
-              options:
-                - text: '"You don''t need to know that. I am your Captain."'
-                  goToPage: '3-fatherKnowsBest'
-                - text: '"I have nanites in my blood created by rogue Tri-Tachyon scientists that let me see across a system."'
-                  goToPage: '3-explanation'
+              goToPage: '1-options'
 
             - id: '3-fatherKnowsBest'
               paras:
@@ -758,6 +755,7 @@ wisp_perseanchronicles:
               goToPage: '4-cliffhanger'
 
             - id: '4-cliffhanger'
+              text: '==This concludes Phase 2 of the Telos storyline. More to come at a later date.=='
               options:
-                - text: 'Continue'
+                - text: 'Close'
                   id: 'endOfPhase2'

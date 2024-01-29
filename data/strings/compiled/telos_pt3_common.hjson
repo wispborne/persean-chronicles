@@ -506,10 +506,134 @@
               "desc" : "Sensors are down. Navigation is inhibited. The fleet is damaged. Escape to a jump point."
             }
           },
+          "eugelDialog" : {
+            "pages" : [ {
+              "id" : "already-talked",
+              "paras" : [ "There is no answer." ]
+            }, {
+              "id" : "0",
+              "paras" : [ "Knight-Captain Eugel's ancient face stares at you from across the gulf.", "\"Did I not instruct you to stay put? And yet here you are, flouncing about the system.\"", "He clasps the fingers of one hand around the other, then methodically uncurls one opposite pair at a time until he is peering at you over steepled digits." ],
+              "options" : [ {
+                "id" : "eugelBranch",
+                "text" : "Continue"
+              } ]
+            }, {
+              "id" : "2-notLuddFriend",
+              "paras" : [ "\"This is goodbye.\"", "The comms link snaps off." ],
+              "options" : [ {
+                "id" : "closeComms",
+                "text" : "Continue"
+              } ]
+            }, {
+              "id" : "2-luddFriend",
+              "paras" : [ "\"However.\" He draws out the word, considering you. \"You are known as a ${playerManOrWoman} of the cloth. Lapses in faith are more common than you may think.\"", "\"Rid your congregation of those foul vessels, leave alone the fire of Olympus, and we will overlook this mistake, ${PlayerBrotherOrSister}.\"" ],
+              "onPageShown" : {
+                "goToPage" : "2-luddFriend-options"
+              }
+            }, {
+              "id" : "2-luddFriend-options",
+              "paras" : [ "" ],
+              "options" : [ {
+                "text" : "\"I will do nothing of the sort.\"",
+                "goToPage" : "2-luddFriend-keepShips"
+              }, {
+                "text" : "Scuttle your Telos ships",
+                "goToPage" : "2-luddFriend-confirmScuttle"
+              } ]
+            }, {
+              "id" : "2-luddFriend-confirmScuttle",
+              "paras" : [ "You turn away from the old Knight and face the bridge, preparing your orders." ],
+              "options" : [ {
+                "text" : "==Reconsider==",
+                "goToPage" : "2-luddFriend-options"
+              }, {
+                "id" : "scuttleTelosShipsOpt",
+                "text" : "==\"Scuttle our Telos ships\"==",
+                "goToPage" : "2-luddFriend-scuttlingConfirmed"
+              } ]
+            }, {
+              "id" : "2-luddFriend-scuttlingConfirmed",
+              "paras" : [ "You send the necessary commands and wait. You can see the exact moment Knight-Captain Eugel receives confirmation of the ships' fate. His brows twitch into a deep, well-worn furrow for an instant before returning to a more neutral posture.", "\"Well then, ${playerBrotherOrSister}.\" He looks more disappointed than reconciliatory. \"It appears that your crisis of faith is over, and, with it, our audience.\"", "The comms link cuts off." ],
+              "options" : [ {
+                "text" : "Continue",
+                "goToPage" : "2-luddFriend-scuttlingConfirmed-2"
+              } ]
+            }, {
+              "id" : "2-luddFriend-scuttlingConfirmed-2",
+              "paras" : [ "After a moment, their fleet breaks its escort formation and turns toward the nearest jump point." ],
+              "options" : [ {
+                "id" : "leave",
+                "text" : "Leave"
+              } ]
+            }, {
+              "id" : "2-luddFriend-keepShips",
+              "paras" : [ "Knight-Captain Eugel makes a half-hearted attempt to look regretful, but his eyes glitter.", "\"Then I am sorry, Captain, but I have no choice. Evil must be contained.\"", "The comms link cuts off." ],
+              "options" : [ {
+                "id" : "closeComms",
+                "text" : "Continue"
+              } ]
+            } ]
+          },
+          "completedSacrificeShips" : {
+            "intel" : {
+              "subtitle" : "You have severed the thread of fate that Moloch crept upon",
+              "desc" : "You have proven your loyalty to the Luddic Church by destroying the ships."
+            }
+          },
+          "defeatedEugel" : {
+            "intel" : {
+              "subtitle" : "Pursuers destroyed",
+              "desc" : "Captain Eugel has been defeated."
+            },
+            "pages" : [ {
+              "id" : "1-beatEugel",
+              "paras" : ""
+            } ]
+          },
           "escaped" : {
-            "paras" : [ {
-              "id" : "0-escaped",
-              "paras" : null
+            "intel" : {
+              "subtitle" : "Escaped Menri",
+              "desc" : "Knight-Captain Eugel ambushed you in the dead Telos home system, but you were able to escape using a powerful new Ether ability."
+            },
+            "pages" : [ {
+              "id" : "1-escaped",
+              "paras" : [ "With the threat of imminent peril lifted, fleet repairs proceed rapidly. An uncomfortable silence falls over the bridge and sticks. Officers look at each other, seeking answers none of them have.", "Finally, an officer speaks up. You recall selecting him specifically for his willingness to question your choices - outside of combat, of course.", "\"${PlayerSirOrMadam}, what was that?\"" ],
+              "options" : [ {
+                "text" : "\"What was what?\"",
+                "setFlag" : "askedForClarification",
+                "hideIfFlagTrue" : "askedForClarification",
+                "goToPage" : "2-clarification"
+              }, {
+                "text" : "\"You don't need to know that. I am your Captain.\"",
+                "goToPage" : "3-fatherKnowsBest"
+              }, {
+                "text" : "\"I have nanites in my blood created by rogue Tri-Tachyon scientists that let me see across a system.\"",
+                "goToPage" : "3-explanation"
+              } ]
+            }, {
+              "id" : "2-clarification",
+              "paras" : [ "He cocks his head. \"Getting ambushed is nothing new, Captain. But we were blind. Dead in the water. And yet, somehow, you knew exactly where to go.\"", "\"How is that possible?\"" ],
+              "goToPage" : "1-options"
+            }, {
+              "id" : "3-fatherKnowsBest",
+              "paras" : [ "After a moment, he nods, clearly deciding not to push his luck with more questions. The bridge resumes its usual calm, competent activity, the matter resolved." ],
+              "goToPage" : "4-cliffhanger"
+            }, {
+              "id" : "3-explanation",
+              "response-zigg" : "The man pales. \"First that phase ship, now this. We find strange and dangerous strays, ${PlayerSirOrMadam}.",
+              "response-noZigg" : "The man pales, then smiles grimly. \"Better you than me, ${PlayerSirOrMadam}. It's an honor to serve.",
+              "goToPage" : "3-explanation-finish"
+            }, {
+              "id" : "3-explanation-finish",
+              "paras" : [ "He returns to his console, pointedly not asking anything further. The rest of the bridge takes his lead and resumes its usual calm, competent activity, the matter resolved." ],
+              "goToPage" : "4-cliffhanger"
+            }, {
+              "id" : "4-cliffhanger",
+              "text" : "==This concludes Phase 2 of the Telos storyline. More to come at a later date.==",
+              "options" : [ {
+                "text" : "Close",
+                "id" : "endOfPhase2"
+              } ]
             } ]
           }
         }

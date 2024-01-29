@@ -1,6 +1,5 @@
 package wisp.perseanchronicles.telos.pt3_arrow.nocturne
 
-import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.combat.ViewportAPI
@@ -27,11 +26,14 @@ import wisp.perseanchronicles.common.fx.CampaignCustomRenderer
 import wisp.perseanchronicles.common.fx.CustomRenderer
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.pt3_arrow.MenriSystemCreator
-import wisp.questgiver.wispLib.*
+import wisp.perseanchronicles.telos.pt3_arrow.SmoothScrollPlayerCampaignZoomScript
+import wisp.questgiver.wispLib.distanceFromPlayerInHyperspace
+import wisp.questgiver.wispLib.equalsAny
+import wisp.questgiver.wispLib.modify
+import wisp.questgiver.wispLib.random
 import java.awt.Color
 import java.util.*
 import kotlin.math.abs
-import kotlin.math.absoluteValue
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -61,9 +63,6 @@ class EthersightAbility : BaseToggleAbility() {
 
     @Transient
     private var nocturneEntity: SectorEntityToken? = null
-
-    @Transient
-    private var vanillaMaxZoom: Float? = null
 
     override fun runWhilePaused() = true
     override fun getActiveLayers(): EnumSet<CampaignEngineLayers?>? = EnumSet.of(CampaignEngineLayers.ABOVE)
@@ -124,37 +123,16 @@ class EthersightAbility : BaseToggleAbility() {
         customRenderer?.clear()
 
         // Reset max zoom to vanilla value over time.
-        val vanillaMaxZoomLocal = vanillaMaxZoom ?: 3f
+        val vanillaMaxZoomLocal = SmoothScrollPlayerCampaignZoomScript.getVanillaMaxZoom()
 
         if (CampaignEngine.getInstance().uiData.campaignZoom > vanillaMaxZoomLocal) {
-            game.sector.addTransientScript(object : EveryFrameScript {
-                var runningTime = 0f
-                val duration = 0.5f
-                val maxZoomWhenAbilityToggledOff = BOOSTED_MAX_ZOOM
-
-                override fun isDone() = maxZoomWhenAbilityToggledOff <= vanillaMaxZoomLocal || runningTime >= duration
-                override fun runWhilePaused() = true
-
-                override fun advance(amount: Float) {
-                    runningTime += amount
-                    val newZoom = Easing.Quadratic.easeOut(
-                        time = duration - runningTime,
-                        valueAtStart = maxZoomWhenAbilityToggledOff,
-                        valueAtEnd = vanillaMaxZoomLocal,
-                        duration = duration
-                    )
-                        .absoluteValue
-                        .coerceAtLeast(vanillaMaxZoomLocal)
-                    game.sector.campaignUI.maxZoomFactor = newZoom
-                }
-            })
+            game.sector.addTransientScript(SmoothScrollPlayerCampaignZoomScript(endingZoom = vanillaMaxZoomLocal, endingMaxZoom = vanillaMaxZoomLocal))
+        } else {
+            setMaxZoom(vanillaMaxZoomLocal)
         }
     }
 
     private fun setMaxZoom(zoomMult: Float) {
-        // TODO: `maxZoomFactor` doesn't return the correct value (returns min instead of max, I think).
-        // If vanilla fixes it, use that instead of getting it from settings.
-        vanillaMaxZoom = Global.getSettings().getFloat("maxCampaignZoom") ?: game.sector.campaignUI.maxZoomFactor
         game.sector.campaignUI.maxZoomFactor = zoomMult
     }
 

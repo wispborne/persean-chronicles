@@ -28,7 +28,7 @@ object MenriSystemCreator {
 
         val system = game.sector.createStarSystem(systemBaseName)
 
-        system.backgroundTextureFilename = "graphics/backgrounds/background5.jpg"
+        system.backgroundTextureFilename = "graphics/telos/backgrounds/menri_background.jpg"
         system.addTag(Tags.THEME_HIDDEN)
 
         // Star

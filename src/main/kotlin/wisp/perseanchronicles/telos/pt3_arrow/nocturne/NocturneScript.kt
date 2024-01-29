@@ -21,7 +21,7 @@ import java.awt.Color
 
 
 class NocturneScript : EveryFrameScript {
-    var millisRemaining = -1f // by default, lasts forever, but add a cooldown for testing
+    var millisRemaining = Float.POSITIVE_INFINITY // by default, lasts forever, but add a cooldown for testing
     private val screenWidth = Display.getWidth() * Display.getPixelScaleFactor()
     private val screenHeight = Display.getHeight() * Display.getPixelScaleFactor()
     private var minimapWidth = 240f
@@ -302,7 +302,7 @@ class NocturneScript : EveryFrameScript {
 //        noise.renderAtCenter(minimapX.toFloat(), minimapY.toFloat())
     }
 
-    fun storeScreenTexture() {
+    private fun storeScreenTexture() {
         glGetError() // Clear existing error flag, if any
         val buffer = BufferUtils.createByteBuffer(screenWidth.toInt() * screenHeight.toInt() * 3)
         // Subtract 2 from the height to create a nightmare dimension.
@@ -344,7 +344,7 @@ class NocturneScript : EveryFrameScript {
         }
     }
 
-    fun startFlags() {
+    private fun startFlags() {
 //        glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT or GL_STENCIL_BUFFER_BIT)
 //        glClearColor(0f, 0f, 0f, 1f)
 
@@ -363,7 +363,7 @@ class NocturneScript : EveryFrameScript {
 //        glEnable(GL_TEXTURE_2D)
     }
 
-    fun endFlags() {
+    private fun endFlags() {
         glDisable(GL_TEXTURE_2D)
 
         // Clear OpenGL flags
@@ -373,7 +373,7 @@ class NocturneScript : EveryFrameScript {
         glPopAttrib()
     }
 
-    fun drawBackground() {
+    private fun drawBackground() {
         glEnable(GL_BLEND)
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
         GL13.glActiveTexture(GL13.GL_TEXTURE0)
