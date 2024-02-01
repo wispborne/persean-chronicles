@@ -9,6 +9,7 @@ import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import org.magiclib.kotlin.*
+import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -48,11 +49,11 @@ class Telos3LandingDialog(
         pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
             "1-ether-start" to {
-                TelosCommon.playThemeMusic()
+                Jukebox.playTelosThemeMusic()
                 Telos3HubMission.state.visitedPrimaryPlanet = true
             },
             "1-noEther-start" to {
-                TelosCommon.playThemeMusic()
+                Jukebox.playTelosThemeMusic()
                 Telos3HubMission.state.visitedPrimaryPlanet = true
                 // Injected with Ether
                 game.sector.playerPerson.addTag(TelosCommon.ETHER_OFFICER_TAG)

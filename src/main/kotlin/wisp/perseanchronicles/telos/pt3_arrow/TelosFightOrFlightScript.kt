@@ -2,6 +2,7 @@ package wisp.perseanchronicles.telos.pt3_arrow
 
 import com.fs.starfarer.api.EveryFrameScriptWithCleanup
 import com.fs.starfarer.api.Global
+import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt3_arrow.nocturne.EthersightAbility
@@ -11,8 +12,6 @@ import wisp.questgiver.wispLib.IntervalUtil
 class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
     var done = false
 
-    @Transient
-    private var didSoundPlayerFail = false
     private var enabledVisionAbility = false
     private var hasRun = false
     private var pauseTimer = IntervalUtil(.5f)
@@ -25,15 +24,6 @@ class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
     override fun runWhilePaused() = true
 
     override fun advance(amount: Float) {
-        // "nothing" if music is disabled/volume 0
-        if (!didSoundPlayerFail && listOf("TelosEvasion.ogg", "nothing").none { it == game.soundPlayer.currentMusicId }) {
-            kotlin.runCatching { TelosCommon.playEvasionMusic(fadeOutSecs = 0, fadeInSecs = 1, loop = true) }
-                .onFailure {
-                    game.logger.w(it)
-                    didSoundPlayerFail = true
-                }
-        }
-
         // Blind the player and prevent them from using most abilities
         if (!hasRun) {
             game.sector.addTransientScript(NocturneScript())
@@ -60,7 +50,7 @@ class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
                 hasPausedGame = true
                 Global.getSector().isPaused = true
 
-                game.sector.addTransientScript(SmoothScrollPlayerCampaignZoomScript(endingZoom = EthersightAbility.BOOSTED_MAX_ZOOM, duration = 5f))
+                game.sector.addTransientScript(SmoothScrollPlayerCampaignZoomScript(endingZoom = EthersightAbility.BOOSTED_MAX_ZOOM, duration = 2f))
             }
         }
 
@@ -99,7 +89,7 @@ class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
 
 
         kotlin.runCatching {
-            TelosCommon.stopAllCustomMusic()
+            Jukebox.stopAllCustomMusic()
         }.onFailure { game.logger.w(it) }
 
         game.sector.removeTransientScriptsOfClass(NocturneScript::class.java)

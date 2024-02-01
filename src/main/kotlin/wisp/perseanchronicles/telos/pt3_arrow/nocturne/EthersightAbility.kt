@@ -32,6 +32,7 @@ import wisp.questgiver.wispLib.equalsAny
 import wisp.questgiver.wispLib.modify
 import wisp.questgiver.wispLib.random
 import java.awt.Color
+import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.cos
@@ -64,13 +65,28 @@ class EthersightAbility : BaseToggleAbility() {
     @Transient
     private var nocturneEntity: SectorEntityToken? = null
 
+    @Transient
+    private var lastLoadedSector: WeakReference<SectorAPI>? = null
+
     override fun runWhilePaused() = true
     override fun getActiveLayers(): EnumSet<CampaignEngineLayers?>? = EnumSet.of(CampaignEngineLayers.ABOVE)
 
     override fun advance(amount: Float) {
         super.advance(amount)
 
-        if (!turnedOn) return
+        if (!turnedOn) {
+            // If player has the ability on, then loads a save where they don't, the max zoom will be wrong, so reset it.
+            // TODO check this for 0.97a
+            if (game.sector.campaignUI.maxZoomFactor != SmoothScrollPlayerCampaignZoomScript.getVanillaMaxZoom()
+                && game.sector != lastLoadedSector?.get()
+                && game.settings.gameVersion != "0.96a-RC10"
+            ) {
+                game.sector.campaignUI.maxZoomFactor = SmoothScrollPlayerCampaignZoomScript.getVanillaMaxZoom()
+                lastLoadedSector = WeakReference(game.sector)
+            }
+
+            return
+        }
 
         if (!isUsable) {
             deactivate()
@@ -86,8 +102,8 @@ class EthersightAbility : BaseToggleAbility() {
                 "perseanchronicles_ethersight", "Devmode is on. Tell your friends about Persean Chronicles today!",
                 "PerseanChronicles_CustomRenderer_Nebula", Factions.INDEPENDENT, this
             )
-            visionEntity?.setFixedLocation(-100000f, -100000f);
-            visionEntity?.radius = 5f;
+            visionEntity?.setFixedLocation(-100000f, -100000f)
+            visionEntity?.radius = 5f
             customRenderer = visionEntity?.customPlugin as? CampaignCustomRenderer
         }
 
@@ -126,7 +142,12 @@ class EthersightAbility : BaseToggleAbility() {
         val vanillaMaxZoomLocal = SmoothScrollPlayerCampaignZoomScript.getVanillaMaxZoom()
 
         if (CampaignEngine.getInstance().uiData.campaignZoom > vanillaMaxZoomLocal) {
-            game.sector.addTransientScript(SmoothScrollPlayerCampaignZoomScript(endingZoom = vanillaMaxZoomLocal, endingMaxZoom = vanillaMaxZoomLocal))
+            game.sector.addTransientScript(
+                SmoothScrollPlayerCampaignZoomScript(
+                    endingZoom = vanillaMaxZoomLocal,
+                    endingMaxZoom = vanillaMaxZoomLocal
+                )
+            )
         } else {
             setMaxZoom(vanillaMaxZoomLocal)
         }

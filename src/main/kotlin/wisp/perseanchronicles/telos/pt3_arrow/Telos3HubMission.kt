@@ -13,6 +13,7 @@ import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
+import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
@@ -161,7 +162,7 @@ class Telos3HubMission : QGHubMission() {
                 spawnLocation
             )
             triggerSetFleetFaction(Factions.LUDDIC_CHURCH)
-//            triggerMakeNoRepImpact()
+            triggerMakeNoRepImpact()
 //            triggerAutoAdjustFleetStrengthModerate()
             triggerPickLocationAroundEntity(spawnLocation, 1000f, 1000f, 1000f)
             triggerSpawnFleetAtPickedLocation(null, null)
@@ -226,6 +227,7 @@ class Telos3HubMission : QGHubMission() {
             triggerSpawnFleetAtPickedLocation(null, null)
             triggerOrderFleetPatrol(spawnLocation)
             triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
+            triggerSetFleetAlwaysPursue()
         }
 
         // Spawn fleet jump point 2
@@ -251,6 +253,7 @@ class Telos3HubMission : QGHubMission() {
             triggerSpawnFleetAtPickedLocation(null, null)
             triggerOrderFleetPatrol(spawnLocation)
             triggerFleetInterceptPlayerOnSight(false, Stage.EscapeSystem)
+            triggerSetFleetAlwaysPursue()
         }
 
         // Make jump points the targets and start the script
@@ -264,6 +267,14 @@ class Telos3HubMission : QGHubMission() {
             }
 
             triggerCustomAction {
+
+                // "nothing" if music is disabled/volume 0
+                if (listOf("TelosEvasion.ogg", "nothing").none { it == game.soundPlayer.currentMusicId }) {
+                    kotlin.runCatching { Jukebox.playSong(Jukebox.Song.EVASION) }
+                        .onFailure {
+                            game.logger.w(it)
+                        }
+                }
                 game.sector.addScript(TelosFightOrFlightScript())
             }
         }

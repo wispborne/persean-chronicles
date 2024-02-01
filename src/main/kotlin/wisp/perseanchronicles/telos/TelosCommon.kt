@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.telos
 
+import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.ColorVariables
@@ -54,62 +55,6 @@ object TelosCommon {
 
     val isPhase2
         get() = true
-
-    fun playThemeMusic(fadeOutSeconds: Int = 3, fadeInSeconds: Int = 3) {
-        val musicSetId = "wisp_perseanchronicles_telosThemeMusic"
-        game.logger.d { "Starting Telos - Theme/Exploration." }
-
-        kotlin.runCatching {
-            game.soundPlayer.playCustomMusic(
-                /* fadeOutIfAny = */ fadeOutSeconds,
-                /* fadeIn = */ fadeInSeconds,
-                /* musicSetId = */ musicSetId,
-                /* looping = */ true
-            )
-        }
-            .onFailure { game.logger.e(it) }
-    }
-
-    fun playDoomedMusic(fadeOutSecs: Int, fadeInSecs: Int, loop: Boolean = false) {
-        val musicSetId = "wisp_perseanchronicles_telosDoomedMusic"
-        game.logger.d { "Starting Telos - Doomed." }
-        kotlin.runCatching {
-            game.soundPlayer.playCustomMusic(
-                /* fadeOutIfAny = */ fadeOutSecs,
-                /* fadeIn = */ fadeInSecs,
-                /* musicSetId = */ musicSetId,
-                /* looping = */ loop
-            )
-        }
-            .onFailure { game.logger.e(it) }
-    }
-
-    fun playEvasionMusic(fadeOutSecs: Int, fadeInSecs: Int, loop: Boolean = false) {
-        val musicSetId = "wisp_perseanchronicles_telosEvasionMusic"
-        game.logger.d { "Starting Telos - Evasion." }
-        kotlin.runCatching {
-            game.soundPlayer.playCustomMusic(
-                /* fadeOutIfAny = */ fadeOutSecs,
-                /* fadeIn = */ fadeInSecs,
-                /* musicSetId = */ musicSetId,
-                /* looping = */ loop
-            )
-        }
-            .onFailure { game.logger.e(it) }
-    }
-
-    fun stopAllCustomMusic() {
-        game.logger.d { "Stopping custom music." }
-        kotlin.runCatching {
-            game.soundPlayer.playCustomMusic(
-                /* fadeOutIfAny = */ 0,
-                /* fadeIn = */ 5,
-                /* musicSetId = */ null,
-                /* looping = */ false
-            )
-        }
-            .onFailure { game.logger.e(it) }
-    }
 
     fun isDevMode() =
         game.settings.isDevMode && game.sector?.playerPerson?.nameString?.contains(Regex("""wisp|test""", RegexOption.IGNORE_CASE)) == true

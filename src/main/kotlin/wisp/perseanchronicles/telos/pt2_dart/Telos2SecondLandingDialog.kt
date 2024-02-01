@@ -1,8 +1,5 @@
 package wisp.perseanchronicles.telos.pt2_dart
 
-import com.fs.starfarer.api.campaign.BaseCampaignEventListener
-import com.fs.starfarer.api.campaign.BattleAPI
-import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.campaign.RepLevel
 import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.fleet.FleetMemberType
@@ -12,6 +9,7 @@ import org.json.JSONObject
 import org.magiclib.kotlin.addFleetMemberGainText
 import org.magiclib.kotlin.prepareShipForRecovery
 import org.magiclib.kotlin.toStringList
+import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -39,7 +37,7 @@ class Telos2SecondLandingDialog(
         pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
             "1" to {
-                TelosCommon.playThemeMusic()
+                Jukebox.playTelosThemeMusic()
             },
             "3-noEther" to {
                 // The simulated explosions echo briefly around the room before dying.
@@ -82,12 +80,12 @@ class Telos2SecondLandingDialog(
             },
             "5-noEther" to {
                 // Resume music
-                TelosCommon.playThemeMusic()
+                Jukebox.playTelosThemeMusic()
                 giveVara()
             },
             "7-vara" to {
                 // Resume music
-                TelosCommon.playThemeMusic()
+                Jukebox.playTelosThemeMusic()
                 giveVara()
             },
             // Manually show text based upon conditions.
@@ -146,7 +144,7 @@ class Telos2SecondLandingDialog(
                     "leave" -> option.copy(
                         onOptionSelected = {
                             game.soundPlayer.setSuspendDefaultMusicPlayback(false)
-                            TelosCommon.stopAllCustomMusic()
+                            Jukebox.stopAllCustomMusic()
                             navigator.close(doNotOfferAgain = true)
                         }
                     )

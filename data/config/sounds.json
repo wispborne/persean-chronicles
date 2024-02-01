@@ -27,6 +27,13 @@
         "source": "sounds/music",
         "volume": 0.8
       }
+    ],
+    "wisp_perseanchronicles_telosEscapeEugelDialogMusic": [
+      {
+        "file": "TelosMeeting.ogg",
+        "source": "sounds/music",
+        "volume": 0.8
+      }
     ]
   }
 }

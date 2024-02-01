@@ -737,7 +737,11 @@ wisp_perseanchronicles:
               paras:
                 - 'He cocks his head. "Getting ambushed is nothing new, Captain. But we were blind. Dead in the water. And yet, somehow, you knew exactly where to go."'
                 - '"How is that possible?"'
-              goToPage: '1-options'
+              options:
+                - text: '"You don''t need to know that. I am your Captain."'
+                  goToPage: '3-fatherKnowsBest'
+                - text: '"I have nanites in my blood created by rogue Tri-Tachyon scientists that let me see across a system."'
+                  goToPage: '3-explanation'
 
             - id: '3-fatherKnowsBest'
               paras:

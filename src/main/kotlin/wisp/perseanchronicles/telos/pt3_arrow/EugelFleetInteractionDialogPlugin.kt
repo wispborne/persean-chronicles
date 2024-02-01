@@ -8,6 +8,7 @@ import org.json.JSONArray
 import org.magiclib.kotlin.addFleetMemberLossText
 import org.magiclib.kotlin.adjustReputationWithPlayer
 import org.magiclib.kotlin.getMarketsInLocation
+import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -16,15 +17,18 @@ import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.query
 
-class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) : CustomFleetInteractionDialogPlugin<EugelFleetInteractionDialogPlugin.BattleCommsInteractionDialog>() {
+class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) :
+    CustomFleetInteractionDialogPlugin<EugelFleetInteractionDialogPlugin.BattleCommsInteractionDialog>() {
     override fun createCustomDialogLogic() = BattleCommsInteractionDialog(this, mission)
 
     class BattleCommsInteractionDialog(
         parentDialog: EugelFleetInteractionDialogPlugin,
         val mission: Telos3HubMission,
         val json: JSONArray = TelosCommon.readJson()
-            .query("/wisp_perseanchronicles/telos/part3_arrow/stages/eugelDialog/pages")
+            .query("/wisp_perseanchronicles/telos/part3_arrow/stages/eugelDialog/pages"),
+        val initialMusicId: String = game.soundPlayer.currentMusicId
     ) : InteractionDialogLogic<BattleCommsInteractionDialog>(
+        onInteractionStarted = { Jukebox.playSong(Jukebox.Song.EUGEL_MEETING) },
         firstPageSelector = {
             if (Telos3HubMission.state.talkedWithEugel == true)
                 single { it.id == "already-talked" }
@@ -36,6 +40,9 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) : CustomF
             onPageShownHandlersByPageId = mapOf(
                 "0" to {
                     dialog.visualPanel.showPersonInfo(PerseanChroniclesNPCs.captainEugel)
+                },
+                "already-talked" to {
+                    parentDialog.optionSelected(null, OptionId.CUT_COMM)
                 },
                 "2-luddFriend-scuttlingConfirmed" to {
                     removeAllPlayerTelosShipsInSector(dialog.textPanel)
@@ -77,6 +84,7 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) : CustomF
 
                         "leave" -> option.copy(
                             onOptionSelected = {
+                                Jukebox.playSong(initialMusicId)
                                 navigator.close(doNotOfferAgain = true)
                             }
                         )
@@ -84,7 +92,7 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) : CustomF
                         else -> option
                     }
                 }
-            }
+            },
         )
     )
     // TODO unlock an achievement for winning the battle.

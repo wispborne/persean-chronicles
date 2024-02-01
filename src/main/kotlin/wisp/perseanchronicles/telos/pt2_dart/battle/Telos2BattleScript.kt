@@ -6,9 +6,9 @@ import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.mission.FleetSide
 import com.fs.starfarer.api.util.Misc
+import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.common.BattleSide
 import wisp.perseanchronicles.game
-import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.wispLib.TextExtensions
 import wisp.questgiver.wispLib.findFirst
@@ -53,12 +53,12 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI, va
         // Wait a moment after start because otherwise there's a race condition starting music.
         if (!startedThemeMusic && totalTimeElapsed > 1f) {
             game.soundPlayer.setSuspendDefaultMusicPlayback(true)
-            TelosCommon.playThemeMusic(0, 0)
+            Jukebox.playTelosThemeMusic(0, 0)
             startedThemeMusic = true
         }
 
         if (secsSinceWave1WasDefeated != null && !startedDoomedMusic) {
-            TelosCommon.playDoomedMusic(fadeOutSecs = 3, fadeInSecs = 3)
+            Jukebox.playSong(Jukebox.Song.DOOMED, fadeOutSecs = 3, fadeInSecs = 3)
             startedDoomedMusic = true
         }
 
