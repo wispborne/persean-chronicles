@@ -29,7 +29,7 @@ class TelosFightOrFlightScript : EveryFrameScript {
 
     override fun advance(amount: Float) {
         // Blind the player and prevent them from using most abilities
-        if (!hasRun) {
+        if (!game.sector.hasTransientScript(NocturneScript::class.java)) {
             game.sector.addTransientScript(NocturneScript())
         }
 
@@ -96,6 +96,8 @@ class TelosFightOrFlightScript : EveryFrameScript {
             game.jukebox.stopAllCustomMusic()
         }.onFailure { game.logger.w(it) }
 
+        game.sector.transientScripts.filterIsInstance<NocturneScript>()
+            .forEach { it.done = true; it.advance(1f) }
         game.sector.removeTransientScriptsOfClass(NocturneScript::class.java)
     }
 }

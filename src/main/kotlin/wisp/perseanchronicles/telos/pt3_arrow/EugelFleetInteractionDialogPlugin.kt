@@ -4,6 +4,7 @@ import com.fs.starfarer.api.campaign.TextPanelAPI
 import com.fs.starfarer.api.fleet.FleetMemberAPI
 import com.fs.starfarer.api.fleet.FleetMemberType
 import com.fs.starfarer.api.impl.campaign.ids.Factions
+import com.fs.starfarer.api.impl.campaign.ids.MemFlags
 import org.json.JSONArray
 import org.magiclib.kotlin.addFleetMemberLossText
 import org.magiclib.kotlin.adjustReputationWithPlayer
@@ -76,12 +77,6 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) :
                             }
                         )
 
-//                        "continueToBattleOpt" -> option.copy(
-//                            disableAutomaticHandling = true,
-//                            onOptionSelected = {
-//                                parentDialog.optionSelected(null, OptionId.CONTINUE)
-//                            })
-
                         "closeComms" -> option.copy(
                             disableAutomaticHandling = true,
                             onOptionSelected = {
@@ -97,8 +92,11 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) :
                                 }
 
                                 // Needed to end the fleet encounter peaceably.
+                                parentDialog.otherFleet.memoryWithoutUpdate.unset(MemFlags.MEMORY_KEY_MAKE_HOSTILE)
+                                parentDialog.otherFleet.memoryWithoutUpdate[MemFlags.MEMORY_KEY_MAKE_ALLOW_DISENGAGE] = true
                                 parentDialog.optionSelected(null, OptionId.CLEAN_DISENGAGE)
-                                navigator.close(doNotOfferAgain = true)
+                                parentDialog.optionSelected(null, OptionId.LEAVE)
+//                                navigator.close(doNotOfferAgain = true)
                             }
                         )
 

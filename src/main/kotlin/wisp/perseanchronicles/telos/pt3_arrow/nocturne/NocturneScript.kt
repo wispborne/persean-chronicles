@@ -35,10 +35,10 @@ class NocturneScript : EveryFrameScript {
     private val abilitiesAllowedUnderNocturne =
         listOf(Abilities.EMERGENCY_BURN, Abilities.GO_DARK, Abilities.SUSTAINED_BURN, "wisp_perseanchronicles_ethersight")
 
-    private var isDone = false
+    var done = false
     private var secsElapsed = 0f
 
-    override fun isDone() = isDone
+    override fun isDone() = done
 
     override fun runWhilePaused() = true
 
@@ -46,15 +46,13 @@ class NocturneScript : EveryFrameScript {
         if (!game.sector.isPaused) {
             secsElapsed += amount
         }
-        var isEffectOver = false
 
         if (millisRemaining > 0f) {
             millisRemaining -= amount
         }
 
         if (millisRemaining <= 0f) {
-            isEffectOver = true
-            isDone = true
+            done = true
         }
 
         minimapWidth = 220f
@@ -64,25 +62,25 @@ class NocturneScript : EveryFrameScript {
 
 //        drawMinimapBlackout()
         setViewportVisibility(false)
-        setPlayerSensorStrength()
+        setPlayerSensorStrength(false)
         disableAbilities()
 //        darkenScreen()
 
-        if (isEffectOver) {
+        if (done) {
             setViewportVisibility(true)
+            setPlayerSensorStrength(true)
             enableAbilities()
 //            glDeleteTextures(bgTextureId)
             game.logger.i { "Ending Nocturne effect." }
-            isDone = true
         }
     }
 
-    private fun setPlayerSensorStrength() {
+    private fun setPlayerSensorStrength(canSee: Boolean) {
         val modIdMult = "nocturneMult"
         val modIdFlat = "nocturneFlat"
 //        val gameInternalEasySensorBonus = StarfarerSettings.ÕÓ0000()
 
-        if (secsElapsed < 10) {
+        if (!canSee) {
 //            if (game.sector.difficulty == Difficulties.EASY) {
 //                game.sector.difficulty = initialGameDifficulty
 //            }

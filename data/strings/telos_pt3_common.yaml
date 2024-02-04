@@ -698,8 +698,8 @@ wisp_perseanchronicles:
         # Player is a Luddic and agrees to sacrifice their ships to end the questline.
         completedSacrificeShips:
           intel:
-            subtitle: 'You have severed the thread of fate that Moloch crept upon'
-            desc: 'You have proven your loyalty to the Luddic Church by destroying the ships.'
+            subtitle: 'You have severed the thread of fate corrupted by Moloch''s influence'
+            desc: 'You have proven your loyalty to Knight-Captain Eugel by scuttling the Telos ships.'
 
 
         # Defeated Eugel in battle. You go, gamer.
