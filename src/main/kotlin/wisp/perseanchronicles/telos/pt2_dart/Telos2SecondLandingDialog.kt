@@ -37,7 +37,7 @@ class Telos2SecondLandingDialog(
         pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
             "1" to {
-                Jukebox.playTelosThemeMusic()
+                game.jukebox.playTelosThemeMusic()
             },
             "3-noEther" to {
                 // The simulated explosions echo briefly around the room before dying.
@@ -53,7 +53,12 @@ class Telos2SecondLandingDialog(
                 //              and recall an old firebrand named Eugel. Could it be the same man?\n\nYou shake your head and
                 //              follow Karengo to the hangar.
                 val page = navigator.currentPage()?.extraData!!
-                if (game.sector.playerFaction.isAtWorst(Factions.LUDDIC_CHURCH, RepLevel.COOPERATIVE)) {
+                if (game.sector.playerFaction.isAtWorst(Factions.LUDDIC_CHURCH, RepLevel.COOPERATIVE)
+                    || (if (TelosCommon.isKnightsOfLuddEnabled) game.sector.playerFaction.isAtWorst(
+                        TelosCommon.knightsOfLuddFactionId,
+                        RepLevel.COOPERATIVE
+                    ) else false)
+                ) {
                     para { page["ludd-friendly"] as String }
                     para { page["ludd-friendly2"] as String }
                 }
@@ -73,19 +78,24 @@ class Telos2SecondLandingDialog(
                 //              and recall an old firebrand named Eugel. Could it be the same man?\n\nYou shake your head and
                 //              follow Karengo to the hangar.
                 val page = navigator.currentPage()?.extraData!!
-                if (game.sector.playerFaction.isAtWorst(Factions.LUDDIC_CHURCH, RepLevel.COOPERATIVE)) {
+                if (game.sector.playerFaction.isAtWorst(Factions.LUDDIC_CHURCH, RepLevel.COOPERATIVE)
+                    || (if (TelosCommon.isKnightsOfLuddEnabled) game.sector.playerFaction.isAtWorst(
+                        TelosCommon.knightsOfLuddFactionId,
+                        RepLevel.COOPERATIVE
+                    ) else false)
+                ) {
                     para { page["ludd-friendly"] as String }
                     para { page["ludd-friendly2"] as String }
                 }
             },
             "5-noEther" to {
                 // Resume music
-                Jukebox.playTelosThemeMusic()
+                game.jukebox.playTelosThemeMusic()
                 giveVara()
             },
             "7-vara" to {
                 // Resume music
-                Jukebox.playTelosThemeMusic()
+                game.jukebox.playTelosThemeMusic()
                 giveVara()
             },
             // Manually show text based upon conditions.
@@ -144,7 +154,7 @@ class Telos2SecondLandingDialog(
                     "leave" -> option.copy(
                         onOptionSelected = {
                             game.soundPlayer.setSuspendDefaultMusicPlayback(false)
-                            Jukebox.stopAllCustomMusic()
+                            game.jukebox.stopAllCustomMusic()
                             navigator.close(doNotOfferAgain = true)
                         }
                     )

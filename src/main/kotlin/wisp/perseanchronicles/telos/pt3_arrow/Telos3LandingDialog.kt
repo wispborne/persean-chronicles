@@ -49,11 +49,11 @@ class Telos3LandingDialog(
         pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
             "1-ether-start" to {
-                Jukebox.playTelosThemeMusic()
+                game.jukebox.playTelosThemeMusic()
                 Telos3HubMission.state.visitedPrimaryPlanet = true
             },
             "1-noEther-start" to {
-                Jukebox.playTelosThemeMusic()
+                game.jukebox.playTelosThemeMusic()
                 Telos3HubMission.state.visitedPrimaryPlanet = true
                 // Injected with Ether
                 game.sector.playerPerson.addTag(TelosCommon.ETHER_OFFICER_TAG)

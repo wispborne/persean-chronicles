@@ -53,12 +53,12 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI, va
         // Wait a moment after start because otherwise there's a race condition starting music.
         if (!startedThemeMusic && totalTimeElapsed > 1f) {
             game.soundPlayer.setSuspendDefaultMusicPlayback(true)
-            Jukebox.playTelosThemeMusic(0, 0)
+            game.jukebox.playTelosThemeMusic(0, 0)
             startedThemeMusic = true
         }
 
         if (secsSinceWave1WasDefeated != null && !startedDoomedMusic) {
-            Jukebox.playSong(Jukebox.Song.DOOMED, fadeOutSecs = 3, fadeInSecs = 3)
+            game.jukebox.playSong(Jukebox.Song.DOOMED, fadeOutSecs = 3, fadeInSecs = 3)
             startedDoomedMusic = true
         }
 

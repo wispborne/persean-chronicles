@@ -22,5 +22,7 @@ class SpaceTalesServiceLocator(
     inline val soundPlayer: SoundPlayerAPI
         get() = Global.getSoundPlayer()
 
+    val jukebox: Jukebox = Jukebox()
+
 //    val jsonText: IText = JsonText(modId = MOD_ID, jsonPaths = listOf("data/strings/telos.hjson"))
 }

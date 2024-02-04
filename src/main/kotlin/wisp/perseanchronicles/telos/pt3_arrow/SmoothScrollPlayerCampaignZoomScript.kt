@@ -19,7 +19,6 @@ class SmoothScrollPlayerCampaignZoomScript(
     val startingMinZoom = game.sector.campaignUI.minZoomFactor
 
     @Transient
-    @Deprecated("doesn't work due to bug fixed in 0.97a")
     val startingMaxZoom = game.sector.campaignUI.maxZoomFactor
 
     @Transient
@@ -54,7 +53,6 @@ class SmoothScrollPlayerCampaignZoomScript(
         if (endingMaxZoom != null) {
             // If we're growing the zoom to a larger max, we need to grow the max first.
             // Otherwise, the smooth zoom will hit the current max and stop.
-            // TODO after 0.97, change to `game.sector.campaignUI.maxZoomFactor`
             if (startingZoom < endingMaxZoom && isFirstRun) {
                 game.sector.campaignUI.maxZoomFactor = endingMaxZoom
             }
@@ -67,18 +65,13 @@ class SmoothScrollPlayerCampaignZoomScript(
             valueAtEnd = endingZoom,
             duration = duration
         )
-//        CampaignEngine.getInstance().uiData.campaignZoom =
-//            newZoom // TODO does this work? Asked <https://fractalsoftworks.com/forum/index.php?topic=5061.msg423025#msg423025>
-//        game.sector.viewport.isExternalControl = true
-//        game.sector.viewport.viewMult = newZoom
+
         game.sector.campaignUI.maxZoomFactor = newZoom
         game.sector.campaignUI.minZoomFactor = newZoom
         isFirstRun = false
     }
 
     companion object {
-        // Note: `maxZoomFactor` doesn't return the correct value (returns min instead of max).
-        // Will be fixed in 0.97a.
         fun getVanillaMaxZoom() = game.settings.getFloat("maxCampaignZoom") ?: 3f
     }
 }

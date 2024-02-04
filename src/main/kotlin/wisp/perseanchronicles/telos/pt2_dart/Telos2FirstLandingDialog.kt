@@ -23,7 +23,7 @@ class Telos2FirstLandingDialog(
         stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
             "1" to {
-                Jukebox.playTelosThemeMusic()
+                game.jukebox.playTelosThemeMusic()
             },
             "1.6" to {
                 dialog.visualPanel.showImagePortion(

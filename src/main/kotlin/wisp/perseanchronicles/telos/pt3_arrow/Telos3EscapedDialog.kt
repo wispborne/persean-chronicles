@@ -14,7 +14,7 @@ class Telos3EscapedDialog(
     mission: Telos3HubMission = game.sector.intelManager.findFirst()!!
 ) : InteractionDialogLogic<Telos3EscapedDialog>(
     onInteractionStarted = {
-        Jukebox.stopAllCustomMusic()
+        game.jukebox.stopAllCustomMusic()
     },
 //    people = { listOfNotNull(PerseanChroniclesNPCs.karengo) },
 //    firstPageSelector = {

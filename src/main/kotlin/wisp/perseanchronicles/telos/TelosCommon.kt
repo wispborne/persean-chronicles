@@ -1,6 +1,6 @@
 package wisp.perseanchronicles.telos
 
-import wisp.perseanchronicles.Jukebox
+import com.fs.starfarer.api.impl.campaign.ids.Factions
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.ColorVariables
@@ -58,4 +58,13 @@ object TelosCommon {
 
     fun isDevMode() =
         game.settings.isDevMode && game.sector?.playerPerson?.nameString?.contains(Regex("""wisp|test""", RegexOption.IGNORE_CASE)) == true
+
+    val eugelFactionId: String
+        get() =
+            if (isKnightsOfLuddEnabled)
+                "knights_of_selkie"
+            else Factions.LUDDIC_CHURCH
+
+    val knightsOfLuddFactionId = "knights_of_selkie"
+    val isKnightsOfLuddEnabled = game.settings.modManager.isModEnabled("knights_of_ludd")
 }

@@ -48,14 +48,15 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
     override fun onGameLoad(newGame: Boolean) {
         super.onGameLoad(newGame)
         Questgiver.onGameLoad(newGame)
-        TelosCommon.onGameLoad()
 
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator(Questgiver.game)
         game.logger.level = Level.ALL // try to remember to change this for release
         game.text.shouldThrowExceptionOnMissingValue = game.settings.isDevMode
 
+        TelosCommon.onGameLoad()
         addTextToServiceLocator()
+        game.jukebox.onGameLoad()
 
         val settings = game.settings
             .getMergedJSONForMod(

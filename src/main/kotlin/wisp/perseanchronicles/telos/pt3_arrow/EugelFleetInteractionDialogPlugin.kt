@@ -19,16 +19,16 @@ import wisp.questgiver.v2.json.query
 
 class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) :
     CustomFleetInteractionDialogPlugin<EugelFleetInteractionDialogPlugin.BattleCommsInteractionDialog>() {
+
     override fun createCustomDialogLogic() = BattleCommsInteractionDialog(this, mission)
 
     class BattleCommsInteractionDialog(
-        parentDialog: EugelFleetInteractionDialogPlugin,
+        val parentDialog: EugelFleetInteractionDialogPlugin,
         val mission: Telos3HubMission,
         val json: JSONArray = TelosCommon.readJson()
             .query("/wisp_perseanchronicles/telos/part3_arrow/stages/eugelDialog/pages"),
-        val initialMusicId: String = game.soundPlayer.currentMusicId
     ) : InteractionDialogLogic<BattleCommsInteractionDialog>(
-        onInteractionStarted = { Jukebox.playSong(Jukebox.Song.EUGEL_MEETING) },
+        onInteractionStarted = { game.jukebox.playSong(Jukebox.Song.EUGEL_MEETING) },
         firstPageSelector = {
             if (Telos3HubMission.state.talkedWithEugel == true)
                 single { it.id == "already-talked" }
@@ -50,6 +50,9 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) :
                 },
                 "2-luddFriend-scuttlingConfirmed-2" to {
                     dialog.textPanel.adjustReputationWithPlayer(Factions.LUDDIC_CHURCH, 0.1f)
+                    if (TelosCommon.isKnightsOfLuddEnabled) {
+                        dialog.textPanel.adjustReputationWithPlayer(TelosCommon.knightsOfLuddFactionId, 0.1f)
+                    }
                     dialog.textPanel.adjustReputationWithPlayer(PerseanChroniclesNPCs.karengo, -0.2f)
                     mission.setNoRepChanges()
                     mission.setCurrentStage(Telos3HubMission.Stage.CompletedSacrificeShips, dialog, emptyMap())
@@ -61,7 +64,10 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) :
                         "eugelBranch" -> option.copy(
                             disableAutomaticHandling = true,
                             onOptionSelected = {
-                                if (game.sector.getFaction(Factions.LUDDIC_CHURCH).relToPlayer.rel >= 0.2f) {
+                                if (game.sector.getFaction(Factions.LUDDIC_CHURCH).relToPlayer.rel >= 0.2f
+                                    || (TelosCommon.isKnightsOfLuddEnabled
+                                            && game.sector.getFaction(TelosCommon.knightsOfLuddFactionId).relToPlayer.rel >= 0.2f)
+                                ) {
                                     navigator.goToPage("2-luddFriend")
                                 } else {
                                     navigator.goToPage("2-notLuddFriend")
@@ -84,7 +90,14 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) :
 
                         "leave" -> option.copy(
                             onOptionSelected = {
-                                Jukebox.playSong(initialMusicId)
+                                if (mission.currentStage == Telos3HubMission.Stage.EscapeSystem) {
+                                    game.jukebox.playSong(Jukebox.Song.EVASION)
+                                } else {
+                                    game.jukebox.stopAllCustomMusic()
+                                }
+
+                                // Needed to end the fleet encounter peaceably.
+                                parentDialog.optionSelected(null, OptionId.CLEAN_DISENGAGE)
                                 navigator.close(doNotOfferAgain = true)
                             }
                         )
@@ -99,9 +112,8 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) :
 }
 
 // function to check if a ship is a Telos ship
-fun isTelosShip(ship: FleetMemberAPI): Boolean {
-    return ship.hullId == TelosCommon.VARA_ID || ship.hullId == TelosCommon.ITESH_ID || ship.hullId == TelosCommon.AVALOK_ID
-}
+fun isTelosShip(ship: FleetMemberAPI): Boolean =
+    ship.hullId == TelosCommon.VARA_ID || ship.hullId == TelosCommon.ITESH_ID || ship.hullId == TelosCommon.AVALOK_ID
 
 /**
  * Removes all Telos ships from the player's fleet and storage.
@@ -148,7 +160,7 @@ fun removeAllPlayerTelosShipsInSector(textPanelAPI: TextPanelAPI) {
             textPanelAPI.addFleetMemberLossText(ship)
             val fleet = ship.fleetData.fleet
 
-            if (fleet.isPlayerFleet) {
+            if (fleet.commander.isPlayer) { // fleet.fleetData.fleet.isPlayerFleet returns false for some reason
                 game.sector.playerFleet.fleetData.removeFleetMember(ship)
             } else {
                 // Does this actually work? It doesn't when used on the player fleet.

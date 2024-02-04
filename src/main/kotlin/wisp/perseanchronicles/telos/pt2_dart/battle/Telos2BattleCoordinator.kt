@@ -154,7 +154,7 @@ object Telos2BattleCoordinator {
      * Create the initial, easy force for the player to defeat in their new Dart.
      */
     fun createInitialEnemyFleet(): CampaignFleetAPI {
-        return FleetFactoryV3.createEmptyFleet(Factions.LUDDIC_CHURCH, FleetTypes.TASK_FORCE, null).apply {
+        return FleetFactoryV3.createEmptyFleet(TelosCommon.eugelFactionId, FleetTypes.TASK_FORCE, null).apply {
             this.addShipVariant(variantOrHullId = "hound_luddic_church_Standard", count = 1)
             this.addShipVariant(variantOrHullId = "kite_Standard", count = 1)
             this.addShipVariant(variantOrHullId = "condor_Support", count = 1)
@@ -167,7 +167,7 @@ object Telos2BattleCoordinator {
                 FleetParamsV3(
                     /* source = */ null,
                     /* locInHyper = */ null,
-                    /* factionId = */ Factions.LUDDIC_CHURCH,
+                    /* factionId = */ TelosCommon.eugelFactionId,
                     /* qualityOverride = */ 1f,
                     /* fleetType = */ FleetTypes.TASK_FORCE,
                     /* combatPts = */ this.fleetPoints.toFloat(),
@@ -206,7 +206,7 @@ object Telos2BattleCoordinator {
         // good luck, kid
         return MagicCampaign.createFleetBuilder()
             .setFleetName("Unknown Attack Fleet")
-            .setFleetFaction(Factions.LUDDIC_CHURCH)
+            .setFleetFaction(TelosCommon.eugelFactionId)
             .setFleetType(FleetTypes.TASK_FORCE)
             .setFlagshipName(Telos2HubMission.getEugelShipName())
             .setFlagshipVariant("wisp_perseanchronicles_firebrand_Standard")
@@ -224,7 +224,7 @@ object Telos2BattleCoordinator {
                 )
             )
             .setSupportAutofit(true)
-            .setReinforcementFaction(Factions.LUDDIC_CHURCH)
+            .setReinforcementFaction(TelosCommon.eugelFactionId)
             .setQualityOverride(1f)
             .create()
             .apply {

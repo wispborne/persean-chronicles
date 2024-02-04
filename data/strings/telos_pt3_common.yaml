@@ -377,7 +377,7 @@ wisp_perseanchronicles:
               paras:
                 - '"Two days, if we just focus on drives, and nobody sleeps," answers your ops chief, "I''ve only got so many people qualified 
                 to work drives."'
-                - '"And active sensors...three days. Maybe four. I could go quicker but it''d mean sitting here longer."'
+                - '"And active sensors...three days. Maybe four."'
               onPageShown:
                 goToPage: '14-question-bridge'
 

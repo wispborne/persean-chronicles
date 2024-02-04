@@ -1,16 +1,20 @@
 package wisp.perseanchronicles.telos.pt3_arrow
 
-import com.fs.starfarer.api.EveryFrameScriptWithCleanup
+import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.Global
-import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt3_arrow.nocturne.EthersightAbility
 import wisp.perseanchronicles.telos.pt3_arrow.nocturne.NocturneScript
 import wisp.questgiver.wispLib.IntervalUtil
 
-class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
-    var done = false
+class TelosFightOrFlightScript : EveryFrameScript {
+    var done: Boolean = false
+        set(value) {
+            if (value)
+                cleanup()
+            field = value
+        }
 
     private var enabledVisionAbility = false
     private var hasRun = false
@@ -78,7 +82,7 @@ class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
         hasRun = true
     }
 
-    override fun cleanup() {
+    fun cleanup() {
         game.sector.playerFleet.fleetData.membersListCopy
             .forEach { ship ->
                 ship.repairTracker.cr = ship.repairTracker.maxCR
@@ -89,7 +93,7 @@ class TelosFightOrFlightScript : EveryFrameScriptWithCleanup {
 
 
         kotlin.runCatching {
-            Jukebox.stopAllCustomMusic()
+            game.jukebox.stopAllCustomMusic()
         }.onFailure { game.logger.w(it) }
 
         game.sector.removeTransientScriptsOfClass(NocturneScript::class.java)

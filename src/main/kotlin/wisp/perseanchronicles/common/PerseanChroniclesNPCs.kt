@@ -11,6 +11,7 @@ import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.nirvana.NirvanaHubMission
 import wisp.perseanchronicles.riley.RileyHubMission
+import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.spriteName
 import wisp.questgiver.wispLib.Memory
@@ -150,7 +151,7 @@ object PerseanChroniclesNPCs {
         get() {
             val key = "capEugel"
             return (game.memory[key] as? PersonAPI? ?: kotlin.run {
-                MagicCampaign.createCaptainBuilder(Factions.LUDDIC_CHURCH)
+                MagicCampaign.createCaptainBuilder(TelosCommon.eugelFactionId)
                     .setFirstName("Captain")
                     .setLastName("Eugel")
                     .setGender(FullName.Gender.MALE)

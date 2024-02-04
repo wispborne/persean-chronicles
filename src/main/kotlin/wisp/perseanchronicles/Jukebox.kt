@@ -1,14 +1,24 @@
 package wisp.perseanchronicles
 
-object Jukebox {
+class Jukebox {
     var isSoundPlayerBusted: Boolean = false
     var currentCustomMusicId: String? = null
+
+    companion object {
+        const val MEMKEY = "wisp_perseanchronicles_jukebox_currentSongId"
+    }
 
     enum class Song(val id: String) {
         TELOS_THEME("wisp_perseanchronicles_telosThemeMusic"),
         DOOMED("wisp_perseanchronicles_telosDoomedMusic"),
         EVASION("wisp_perseanchronicles_telosEvasionMusic"),
         EUGEL_MEETING("wisp_perseanchronicles_telosEscapeEugelDialogMusic")
+    }
+
+    fun onGameLoad() {
+        if (game.memory[MEMKEY] != null) {
+            playSong(game.memory[MEMKEY] as String)
+        }
     }
 
     fun playSong(song: Song, fadeOutSecs: Int = 0, fadeInSecs: Int = 1, loop: Boolean = true) {
@@ -19,7 +29,7 @@ object Jukebox {
         if (isSoundPlayerBusted) return
 
         // Note that `game.soundPlayer.currentMusicId` returns the .ogg file name, not the songId.
-        if (songId != null && currentCustomMusicId == songId && game.soundPlayer.currentMusicId != null) {
+        if (songId != null && currentCustomMusicId == songId) {
             return
         }
 
@@ -28,6 +38,7 @@ object Jukebox {
             game.soundPlayer.setSuspendDefaultMusicPlayback(true)
             game.soundPlayer.playCustomMusic(fadeOutSecs, fadeInSecs, songId, loop)
             currentCustomMusicId = songId
+            game.memory[MEMKEY] = songId
         }
             .onFailure {
                 isSoundPlayerBusted = true
@@ -41,6 +52,7 @@ object Jukebox {
             game.soundPlayer.pauseCustomMusic()
             game.soundPlayer.setSuspendDefaultMusicPlayback(false)
             currentCustomMusicId = null
+            game.memory[MEMKEY] = null
         }
             .onFailure {
                 game.logger.w(it)
@@ -62,5 +74,6 @@ object Jukebox {
             songId = null,
             fadeOutSecs = 3
         )
+        game.memory[MEMKEY] = null
     }
 }

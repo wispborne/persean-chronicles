@@ -6,7 +6,10 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.fleet.FleetMemberAPI
 import com.fs.starfarer.api.fleet.FleetMemberType
-import com.fs.starfarer.api.impl.campaign.ids.*
+import com.fs.starfarer.api.impl.campaign.ids.Conditions
+import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
+import com.fs.starfarer.api.impl.campaign.ids.MemFlags
+import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.missions.hub.HubMissionWithSearch.PlanetIsPopulatedReq
 import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
 import com.fs.starfarer.api.ui.SectorMapAPI
@@ -157,11 +160,11 @@ class Telos3HubMission : QGHubMission() {
             triggerCreateFleet(
                 FleetSize.LARGER,
                 FleetQuality.SMOD_1,
-                Factions.LUDDIC_CHURCH,
+                TelosCommon.eugelFactionId,
                 FleetTypes.TASK_FORCE,
                 spawnLocation
             )
-            triggerSetFleetFaction(Factions.LUDDIC_CHURCH)
+            triggerSetFleetFaction(TelosCommon.eugelFactionId)
             triggerMakeNoRepImpact()
 //            triggerAutoAdjustFleetStrengthModerate()
             triggerPickLocationAroundEntity(spawnLocation, 1000f, 1000f, 1000f)
@@ -211,7 +214,7 @@ class Telos3HubMission : QGHubMission() {
             triggerCreateFleet(
                 FleetSize.MEDIUM,
                 FleetQuality.SMOD_1,
-                Factions.LUDDIC_CHURCH,
+                TelosCommon.eugelFactionId,
                 FleetTypes.TASK_FORCE,
                 spawnLocation
             )
@@ -237,7 +240,7 @@ class Telos3HubMission : QGHubMission() {
             triggerCreateFleet(
                 FleetSize.MEDIUM,
                 FleetQuality.SMOD_1,
-                Factions.LUDDIC_CHURCH,
+                TelosCommon.eugelFactionId,
                 FleetTypes.TASK_FORCE,
                 spawnLocation
             )
@@ -270,7 +273,7 @@ class Telos3HubMission : QGHubMission() {
 
                 // "nothing" if music is disabled/volume 0
                 if (listOf("TelosEvasion.ogg", "nothing").none { it == game.soundPlayer.currentMusicId }) {
-                    kotlin.runCatching { Jukebox.playSong(Jukebox.Song.EVASION) }
+                    kotlin.runCatching { game.jukebox.playSong(Jukebox.Song.EVASION) }
                         .onFailure {
                             game.logger.w(it)
                         }
@@ -286,6 +289,14 @@ class Telos3HubMission : QGHubMission() {
                     .forEach {
                         it.done = true
                         game.sector.scripts.remove(it)
+                    }
+            }
+            triggerCustomAction {
+                game.sector.getStarSystem(MenriSystemCreator.systemBaseName)?.fleets.orEmpty()
+                    .filter { !it.isPlayerFleet }
+                    .forEach {
+                        Misc.clearFlag(it.memoryWithoutUpdate, MemFlags.MEMORY_KEY_MAKE_HOSTILE)
+                        Misc.makeNonHostileToFaction(it, game.sector.playerFaction.id, Float.POSITIVE_INFINITY)
                     }
             }
         }
