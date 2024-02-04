@@ -577,7 +577,7 @@
           "completedSacrificeShips" : {
             "intel" : {
               "subtitle" : "You have severed the thread of fate corrupted by Moloch's influence",
-              "desc" : "You have proven your loyalty to Knight-Captain Eugel and the Luddic Church by scuttling the Telos ships."
+              "desc" : "You have proven your loyalty to Knight-Captain Eugel by scuttling the Telos ships."
             }
           },
           "defeatedEugel" : {

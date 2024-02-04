@@ -106,6 +106,9 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
         }
 
         MagicAchievementManager.getInstance().addAchievementSpecs(Achievements.PignutsAchievementSpec())
+        MagicAchievementManager.getInstance().addAchievementSpecs(Achievements.CheatedFlashbackBattleAchievementSpec())
+        MagicAchievementManager.getInstance().addAchievementSpecs(Achievements.DefeatedEugelEarlyAchievementSpec())
+        MagicAchievementManager.getInstance().addAchievementSpecs(Achievements.DefeatedEugelAchievementSpec())
         Questgiver.onGameLoadEnd(newGame)
 
         // TODO DON'T FORGET THIS

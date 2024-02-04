@@ -6,7 +6,10 @@ import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.mission.FleetSide
 import com.fs.starfarer.api.util.Misc
+import org.magiclib.achievements.MagicAchievement
+import org.magiclib.achievements.MagicAchievementManager
 import wisp.perseanchronicles.Jukebox
+import wisp.perseanchronicles.achievements.Achievements
 import wisp.perseanchronicles.common.BattleSide
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
@@ -179,6 +182,7 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI, va
 
         if (didPlayerWin) {
             game.logger.i { "Cheater cheater pumpkin eater!" }
+            MagicAchievementManager.getInstance().completeAchievement(Achievements.CheatedFlashbackBattleAchievement::class.java)
         }
 
         game.combatEngine?.endCombat(0f)

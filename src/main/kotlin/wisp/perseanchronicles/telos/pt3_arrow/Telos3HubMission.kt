@@ -16,8 +16,10 @@ import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
+import org.magiclib.achievements.MagicAchievementManager
 import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.MOD_ID
+import wisp.perseanchronicles.achievements.Achievements
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -283,7 +285,7 @@ class Telos3HubMission : QGHubMission() {
         }
 
         trigger {
-            beginStageTrigger(Stage.Completed, Stage.CompletedSacrificeShips)
+            beginStageTrigger(Stage.Completed, Stage.CompletedSacrificeShips, Stage.CompletedDefeatedEugel)
             triggerCustomAction {
                 game.sector.scripts.filterIsInstance<TelosFightOrFlightScript>()
                     .forEach {
@@ -298,6 +300,14 @@ class Telos3HubMission : QGHubMission() {
                         Misc.clearFlag(it.memoryWithoutUpdate, MemFlags.MEMORY_KEY_MAKE_HOSTILE)
                         Misc.makeNonHostileToFaction(it, game.sector.playerFaction.id, Float.POSITIVE_INFINITY)
                     }
+            }
+        }
+
+        trigger {
+            beginStageTrigger(Stage.CompletedDefeatedEugel)
+            triggerCustomAction {
+                MagicAchievementManager.getInstance().completeAchievement(Achievements.DefeatedEugelEarlyAchievement::class.java)
+                MagicAchievementManager.getInstance().completeAchievement(Achievements.DefeatedEugelAchievement::class.java)
             }
         }
 
