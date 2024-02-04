@@ -2,10 +2,12 @@ package wisp.perseanchronicles.telos.pt3_arrow
 
 import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.Global
+import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt3_arrow.nocturne.EthersightAbility
 import wisp.perseanchronicles.telos.pt3_arrow.nocturne.NocturneScript
+import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.IntervalUtil
 
 class TelosFightOrFlightScript : EveryFrameScript {
@@ -42,6 +44,8 @@ class TelosFightOrFlightScript : EveryFrameScript {
             }
 
             game.sector.playerFleet.getAbility(TelosCommon.ETHER_SIGHT_ID)?.activate()
+
+            game.sector.campaignUI.showMessageDialog(TelosCommon.readJson().query("/$MOD_ID/telos/part3_arrow/strings/etherSight_helptext"))
         }
 
         // Wait a moment so that Ethersight has a moment to appear.

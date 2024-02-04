@@ -4,6 +4,13 @@ wisp_perseanchronicles:
       strings:
         title: 'Telos: Guarded World'
         iteshName: 'Arrow'
+        etherSight_helptext: 'You have gained the ability Ethersight!
+        
+        
+        When enabled, in-system objects will glow, even out of sensor range. Hostile fleets are red and friendly fleets are green.
+        
+        
+        Hover over the ability icon to view a list of all objects.'
       stages:
         goToPlanet:
           intel:
