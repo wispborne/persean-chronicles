@@ -5,7 +5,7 @@
         "strings" : {
           "title" : "Telos: Guarded World",
           "iteshName" : "Arrow",
-          "etherSight_helptext" : "You have gained the ability Ethersight!\n\nWhen enabled, in-system objects will glow, even out of sensor range. Hostile fleets are red and friendly are green.\n\nHover over the ability icon to view a list of all objects."
+          "etherSight_helptext" : "You have gained the ability Ethersight!\n\nWhen enabled, in-system objects will glow, even out of sensor range. Hostile fleets are red and friendly fleets are green.\n\nHover over the ability icon to view a list of all objects."
         },
         "stages" : {
           "goToPlanet" : {
@@ -351,14 +351,14 @@
               } ]
             }, {
               "id" : "16-powerup-thinky",
-              "paras" : [ "Despite - finally - having some peace and quiet for contemplation, no answers seem forthcoming." ],
+              "paras" : [ "You wind your way to the Captain's cabin and slip in. After clearing old logistics and fuel reports from the desk slate, you lean back and put your feet up. The background hum fades to silence at the twist of a control." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "16-powerup-main-1"
               } ]
             }, {
               "id" : "16-powerup-socialize",
-              "paras" : [ "To take your mind off matters, you decide to spend some time with the crew you're closest to.", "Time passes quickly, as it always does in good company, although the laughter is perhaps more strained, the smiles too forced, the conversation too safe.", "The ceiling of your cabin stares down at you." ],
+              "paras" : [ "To take your mind off matters, you decide to spend some time with the crew you're closest to.", "Time passes quickly, as it always does in good company, but the laughter is perhaps more strained, the smiles too forced, the conversation too safe.", "The ceiling of your cabin stares down at you." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "16-powerup-main-1"
@@ -545,12 +545,12 @@
               "id" : "2-luddFriend-confirmScuttle",
               "paras" : [ "You turn away from the old Knight and face the bridge, preparing your orders." ],
               "options" : [ {
-                "text" : "==Reconsider==",
-                "goToPage" : "2-luddFriend-options"
-              }, {
                 "id" : "scuttleTelosShipsOpt",
                 "text" : "==\"Scuttle our Telos ships\"==",
                 "goToPage" : "2-luddFriend-scuttlingConfirmed"
+              }, {
+                "text" : "==Reconsider==",
+                "goToPage" : "2-luddFriend-options"
               } ]
             }, {
               "id" : "2-luddFriend-scuttlingConfirmed",
@@ -577,14 +577,14 @@
           },
           "completedSacrificeShips" : {
             "intel" : {
-              "subtitle" : "You have severed the thread of fate corrupted by Moloch's influence",
-              "desc" : "You have proven your loyalty to Knight-Captain Eugel by scuttling the Telos ships."
+              "subtitle" : "Moloch's corrupt thread of fate has been severed",
+              "desc" : "You have proven your loyalty to Knight-Captain Eugel by scuttling the Telos ships. Any further secrets the Telos may have had will remain where they belong; lost to the annals of history."
             }
           },
           "defeatedEugel" : {
             "intel" : {
-              "subtitle" : "Pursuers destroyed",
-              "desc" : "Captain Eugel has been defeated."
+              "subtitle" : "Against all odds",
+              "desc" : "Knight-Captain Eugel found you at the dead Telos homeworld, Menri, and triggered a trap that crippled your fleet.\nRather than flee, you fought the Luddic Knight, defeating him once and for all. It's time to get out of this system."
             },
             "pages" : [ {
               "id" : "1-beatEugel",
@@ -594,15 +594,13 @@
           "escaped" : {
             "intel" : {
               "subtitle" : "Escaped Menri",
-              "desc" : "Knight-Captain Eugel ambushed you in the dead Telos home system, but you were able to escape using a powerful new Ether ability."
+              "desc" : "Knight-Captain Eugel ambushed you in the dead Telos home system, but you were able to escape using a powerful new ability."
             },
             "pages" : [ {
               "id" : "1-escaped",
               "paras" : [ "With the threat of imminent peril lifted, fleet repairs proceed rapidly. An uncomfortable silence falls over the bridge and sticks. Officers look at each other, seeking answers none of them have.", "Finally, an officer speaks up. You recall selecting him specifically for his willingness to question your choices - outside of combat, of course.", "\"${PlayerSirOrMadam}, what was that?\"" ],
               "options" : [ {
                 "text" : "\"What was what?\"",
-                "setFlag" : "askedForClarification",
-                "hideIfFlagTrue" : "askedForClarification",
                 "goToPage" : "2-clarification"
               }, {
                 "text" : "\"You don't need to know that. I am your Captain.\"",
@@ -627,7 +625,7 @@
               "goToPage" : "4-cliffhanger"
             }, {
               "id" : "3-explanation",
-              "response-zigg" : "The man pales. \"First that phase ship, now this. We find strange and dangerous strays, ${PlayerSirOrMadam}.",
+              "response-zigg" : "The man pales. \"First that phase ship, now this. We find strange and dangerous machinery, ${PlayerSirOrMadam}.",
               "response-noZigg" : "The man pales, then smiles grimly. \"Better you than me, ${PlayerSirOrMadam}. It's an honor to serve.",
               "goToPage" : "3-explanation-finish"
             }, {

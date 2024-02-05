@@ -3,6 +3,7 @@ package wisp.perseanchronicles.telos.pt3_arrow
 import com.fs.starfarer.api.PluginPick
 import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.campaign.listeners.FleetEventListener
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.fleet.FleetMemberAPI
 import com.fs.starfarer.api.fleet.FleetMemberType
@@ -24,6 +25,7 @@ import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
+import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.QGHubMission
 import wisp.questgiver.v2.json.query
@@ -32,7 +34,7 @@ import wisp.questgiver.wispLib.*
 import java.awt.Color
 
 
-class Telos3HubMission : QGHubMission() {
+class Telos3HubMission : QGHubMission(), FleetEventListener {
     companion object {
         // Hardcode because it's being used in rules.csv.
         val MISSION_ID = "wisp_perseanchronicles_telosPt3"
@@ -81,6 +83,8 @@ class Telos3HubMission : QGHubMission() {
 
     override fun onGameLoad(isNewGame: Boolean) {
         super.onGameLoad(isNewGame)
+
+        game.sector.listenerManager.addListener(this, true)
 
         // Reload json if devmode reload.
         if (isDevMode()) {
@@ -184,6 +188,7 @@ class Telos3HubMission : QGHubMission() {
                 fleet.fleetData.addFleetMember(firebrand)
 
                 firebrand.captain = PerseanChroniclesNPCs.captainEugel
+                firebrand.shipName = Telos2HubMission.getEugelShipName()
                 oldFlagship.isFlagship = false
                 fleet.fleetData.setFlagship(firebrand)
                 fleet.fleetData.removeFleetMember(oldFlagship)
@@ -343,13 +348,20 @@ class Telos3HubMission : QGHubMission() {
                     game.sector.campaignUI.showInteractionDialog(Telos3EscapedDialog().build(), game.sector.playerFleet)
                 }
             }
+        }
+    }
 
-            // Detect Eugel fleet destruction
-            val eugelFleet = getMenriSystem().fleets.firstOrNull { it.tags.contains(eugelChaseFleetTag) }
-            if (eugelFleet != null && eugelFleet.commander?.id != PerseanChroniclesNPCs.captainEugel.id) {
-                state.defeatedEugel = true
-                setCurrentStage(Stage.CompletedDefeatedEugel, null, null)
-            }
+    // Detect Eugel fleet destruction
+    override fun reportBattleOccurred(fleet: CampaignFleetAPI?, primaryWinner: CampaignFleetAPI?, battle: BattleAPI?) {
+        battle ?: return
+        val eugelFleetBefore = battle.nonPlayerSideSnapshot.firstOrNull { it.commander?.id == PerseanChroniclesNPCs.captainEugel.id }
+        val eugelFleetNow = battle.nonPlayerSide.firstOrNull { eugelFleetBefore?.id == it.id }
+
+        if (eugelFleetBefore == null) return
+
+        if (eugelFleetNow?.flagship == null) {
+            state.defeatedEugel = true
+            setCurrentStage(Stage.CompletedDefeatedEugel, null, null)
         }
     }
 
@@ -491,4 +503,6 @@ class Telos3HubMission : QGHubMission() {
         CompletedDefeatedEugel,
         Abandoned,
     }
+
+    override fun reportFleetDespawnedToListener(fleet: CampaignFleetAPI?, reason: CampaignEventListener.FleetDespawnReason?, param: Any?) = Unit
 }

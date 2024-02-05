@@ -132,8 +132,8 @@ object Telos2BattleCoordinator {
                         this.shipName = cmdr.nameString
                         try {
                             this.refit(
-                                shouldUpgrade = true,
-                                shouldStrip = true,
+                                shouldUpgrade = false,
+                                shouldStrip = false,
                                 averageSMods = 1
                             )
                         } catch (e: Exception) {
