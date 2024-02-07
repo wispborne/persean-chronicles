@@ -18,3 +18,6 @@ internal fun MarketAPI.isOkForQuest() =
             && containingLocation != null
             && !containingLocation.hasTag(PCTags.TAG_BLACKLISTED_SYSTEM)
             && primaryEntity?.hasTag(Tags.NOT_RANDOM_MISSION_TARGET) != true
+
+fun isDevMode() =
+    game.settings.isDevMode && game.sector?.playerPerson?.nameString?.contains(Regex("""wisp|test""", RegexOption.IGNORE_CASE)) == true

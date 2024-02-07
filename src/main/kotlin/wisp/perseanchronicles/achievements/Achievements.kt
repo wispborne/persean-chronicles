@@ -11,7 +11,7 @@ internal object Achievements {
     class PignutsAchievementSpec : MagicAchievementSpec(
         modId = MOD_ID,
         modName = MOD_NAME,
-        id = "pignuts",
+        id = "perseanchronicles_pignuts",
         name = "PG-13",
         description = "Uttered a curse word during Karengo's adventures.",
         tooltip = null,
@@ -29,7 +29,7 @@ internal object Achievements {
     class CheatedFlashbackBattleAchievementSpec : MagicAchievementSpec(
         modId = MOD_ID,
         modName = MOD_NAME,
-        id = "cheatedFlashbackBattle",
+        id = "perseanchronicles_cheatedFlashbackBattle",
         name = "Pumpkin Eater",
         description = "\"Won\" the Telos flashback battle.",
         tooltip = null,
@@ -44,9 +44,9 @@ internal object Achievements {
     class DefeatedEugelEarlyAchievementSpec : MagicAchievementSpec(
         modId = MOD_ID,
         modName = MOD_NAME,
-        id = "defeatedEugelEarly",
+        id = "perseanchronicles_defeatedEugelEarly",
         name = "Vengeance Incarnate",
-        description = "Turned around Eugel's hunt, destroying his fleet at its strongest.",
+        description = "Turned around Knight-Captain Eugel's hunt, destroying his fleet at its strongest.",
         tooltip = null,
         script = DefeatedEugelEarlyAchievement::class.java.name,
         image = null,
@@ -59,8 +59,8 @@ internal object Achievements {
     class DefeatedEugelAchievementSpec : MagicAchievementSpec(
         modId = MOD_ID,
         modName = MOD_NAME,
-        id = "defeatedEugel",
-        name = "Avenger of the Telos",
+        id = "perseanchronicles_defeatedEugel",
+        name = "Eugel's Eulogy",
         description = "Defeated Knight-Captain Eugel in battle.",
         tooltip = null,
         script = DefeatedEugelAchievement::class.java.name,
@@ -70,4 +70,19 @@ internal object Achievements {
     )
 
     class DefeatedEugelAchievement : MagicAchievement()
+
+    class EugelCapitulationAchievementSpec : MagicAchievementSpec(
+        modId = MOD_ID,
+        modName = MOD_NAME,
+        id = "perseanchronicles_eugelCapitulation",
+        name = "I Didn't Want Them Anyway",
+        description = "Scuttled your Telos ships to prove your loyalty to the Church.",
+        tooltip = null,
+        script = EugelCapitulationAchievement::class.java.name,
+        image = null,
+        spoilerLevel = MagicAchievementSpoilerLevel.Hidden,
+        rarity = MagicAchievementRarity.Rare
+    )
+
+    class EugelCapitulationAchievement : MagicAchievement()
 }

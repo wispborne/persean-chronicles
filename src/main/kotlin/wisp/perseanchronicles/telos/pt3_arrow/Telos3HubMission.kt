@@ -86,8 +86,8 @@ class Telos3HubMission : QGHubMission(), FleetEventListener {
 
         game.sector.listenerManager.addListener(this, true)
 
-        // Reload json if devmode reload.
         if (isDevMode()) {
+            // Reload json if devmode reload.
             part3Json = TelosCommon.readJson()
                 .query("/$MOD_ID/telos/part3_arrow") as JSONObject
         }
@@ -105,7 +105,7 @@ class Telos3HubMission : QGHubMission(), FleetEventListener {
 
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {
         // if already accepted by the player, abort
-        if (!setGlobalReference("$$MISSION_ID") && !TelosCommon.isDevMode()) {
+        if (!setGlobalReference("$$MISSION_ID") && !isDevMode()) {
             return false
         }
 
@@ -123,6 +123,7 @@ class Telos3HubMission : QGHubMission(), FleetEventListener {
 
         name = part3Json.query("/strings/title")
         personOverride = PerseanChroniclesNPCs.karengo // Shows on intel, needed for rep reward or else crash.
+        setRepFactionChangesLow()
 
         setIconName(IInteractionLogic.Portrait(category = "wisp_perseanchronicles_telos", id = "intel").spriteName(game))
 
@@ -176,7 +177,7 @@ class Telos3HubMission : QGHubMission(), FleetEventListener {
             triggerPickLocationAroundEntity(spawnLocation, 1000f, 1000f, 1000f)
             triggerSpawnFleetAtPickedLocation(null, null)
             triggerFleetSetName("Eugel's Fleet")
-//            triggerFleetNoJump()
+            triggerFleetNoJump()
 //            triggerFleetSetNoFactionInName()
             triggerSpawnFleetAtPickedLocation(null, null)
             triggerCustomAction { context ->
@@ -305,6 +306,13 @@ class Telos3HubMission : QGHubMission(), FleetEventListener {
                         Misc.clearFlag(it.memoryWithoutUpdate, MemFlags.MEMORY_KEY_MAKE_HOSTILE)
                         Misc.makeNonHostileToFaction(it, game.sector.playerFaction.id, Float.POSITIVE_INFINITY)
                     }
+            }
+        }
+
+        trigger {
+            beginStageTrigger(Stage.CompletedSacrificeShips)
+            triggerCustomAction {
+                MagicAchievementManager.getInstance().completeAchievement(Achievements.EugelCapitulationAchievement::class.java)
             }
         }
 

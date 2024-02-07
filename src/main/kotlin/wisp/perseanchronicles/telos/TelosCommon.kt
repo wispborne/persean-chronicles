@@ -56,9 +56,6 @@ object TelosCommon {
     val isPhase2
         get() = true
 
-    fun isDevMode() =
-        game.settings.isDevMode && game.sector?.playerPerson?.nameString?.contains(Regex("""wisp|test""", RegexOption.IGNORE_CASE)) == true
-
     val eugelFactionId: String
         get() =
             if (isKnightsOfLuddEnabled)

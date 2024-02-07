@@ -10,7 +10,9 @@ wisp_perseanchronicles:
         When enabled, in-system objects will glow, even out of sensor range. Hostile fleets are red and friendly fleets are green.
         
         
-        Hover over the ability icon to view a list of all objects.'
+        Hover over the ability icon to view a list of all objects.
+        
+        Now, run!'
       stages:
         goToPlanet:
           intel:
@@ -713,10 +715,11 @@ wisp_perseanchronicles:
         # Defeated Eugel in battle. You go, gamer.
         defeatedEugel:
           intel:
-            subtitle: 'Against all odds'
+            subtitle: 'Victory, against all odds'
             desc: 'Knight-Captain Eugel found you at the dead Telos homeworld, Menri, and triggered a trap that crippled your fleet.
             
-            Rather than flee, you fought the Luddic Knight, defeating him once and for all. It''s time to get out of this system.'
+            
+            Rather than flee, you fought the Luddic Knight, defeating him once and for all. It''s time to leave this system behind.'
           pages:
             - id: '1-beatEugel'
               paras: ''
