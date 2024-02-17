@@ -1,8 +1,8 @@
 {
   "id": "perseanchronicles_phasedash",
   "type":"PHASE_CLOAK",
-  "aiType":"PHASE_CLOAK",
-  #"aiScript":"data.scripts.shipsystems.ai",
+  "aiType":"CUSTOM",
+  "aiScript":"wisp.perseanchronicles.telos.boats.TelosPhasedashAI",
 
   "statsScript": "wisp.perseanchronicles.telos.boats.TelosPhaseDashSystem",
   "runScriptWhilePaused":true, # only for the player's ship

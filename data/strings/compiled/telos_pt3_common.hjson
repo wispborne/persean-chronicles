@@ -5,7 +5,7 @@
         "strings" : {
           "title" : "Telos: Guarded World",
           "iteshName" : "Arrow",
-          "etherSight_helptext" : "You have gained the ability Ethersight!\n\nWhen enabled, in-system objects will glow, even out of sensor range. Hostile fleets are red and friendly fleets are green.\n\nHover over the ability icon to view a list of all objects. You may need to add it to your hotbar.\nNow, run!"
+          "etherSight_helptext" : "You have gained the ability Ethersight!\n\nWhen enabled, in-system objects will glow, even out of sensor range. Hostile fleets are red and friendly fleets are green.\n\nHover over the ability icon to view a list of all objects. You may need to add it to your ability bar.\nNow, escape!"
         },
         "stages" : {
           "goToPlanet" : {
@@ -376,7 +376,7 @@
               } ]
             }, {
               "id" : "16-powerup-karengo-2",
-              "paras" : [ "The two of you retire to your own quarters and you unstopper a few 'special occasion' bottles.", "After that, time blurs. Karengo shares more stories from Ailmar and you recount close calls and near-disasters gathered over the years.", "All too soon, Karengo announces he has somewhere to be and leaves you alone with your thoughts - few of them pleasant." ],
+              "paras" : [ "The two of you retire to your own quarters and you unstopper a few 'special occasion' bottles.", "After that, time blurs. Karengo shares more stories from his home planet, Ailmar, and you recount close calls and near-disasters gathered over the years.", "All too soon, Karengo announces he has somewhere to be and leaves you alone with your thoughts - few of them pleasant." ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "16-powerup-main-1"

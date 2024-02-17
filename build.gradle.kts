@@ -222,9 +222,18 @@ tasks {
     }
 }
 
+sourceSets {
+    // Note that just declaring this sourceset creates two configurations.
+    main {
+        java {
+            srcDir("src/main/kotlin")
+        }
+    }
+}
+
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_6
-    targetCompatibility = JavaVersion.VERSION_1_6
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
 }
 
 // Compile to Java 6 bytecode so that Starsector can use it
