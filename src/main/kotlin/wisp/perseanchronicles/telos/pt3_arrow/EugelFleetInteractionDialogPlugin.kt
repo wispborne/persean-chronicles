@@ -9,7 +9,6 @@ import org.json.JSONArray
 import org.magiclib.kotlin.addFleetMemberLossText
 import org.magiclib.kotlin.adjustReputationWithPlayer
 import org.magiclib.kotlin.getMarketsInLocation
-import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -29,7 +28,6 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) :
         val json: JSONArray = TelosCommon.readJson()
             .query("/wisp_perseanchronicles/telos/part3_arrow/stages/eugelDialog/pages"),
     ) : InteractionDialogLogic<BattleCommsInteractionDialog>(
-        onInteractionStarted = { game.jukebox.playSong(Jukebox.Song.EUGEL_MEETING) },
         firstPageSelector = {
             if (Telos3HubMission.state.talkedWithEugel == true)
                 single { it.id == "already-talked" }
@@ -85,12 +83,6 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) :
 
                         "leave" -> option.copy(
                             onOptionSelected = {
-                                if (mission.currentStage == Telos3HubMission.Stage.EscapeSystem) {
-                                    game.jukebox.playSong(Jukebox.Song.EVASION)
-                                } else {
-                                    game.jukebox.stopAllCustomMusic()
-                                }
-
                                 // Needed to end the fleet encounter peaceably.
                                 parentDialog.otherFleet.memoryWithoutUpdate.unset(MemFlags.MEMORY_KEY_MAKE_HOSTILE)
                                 parentDialog.otherFleet.memoryWithoutUpdate[MemFlags.MEMORY_KEY_MAKE_ALLOW_DISENGAGE] = true
@@ -106,7 +98,6 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) :
             },
         )
     )
-    // TODO unlock an achievement for winning the battle.
 }
 
 // function to check if a ship is a Telos ship

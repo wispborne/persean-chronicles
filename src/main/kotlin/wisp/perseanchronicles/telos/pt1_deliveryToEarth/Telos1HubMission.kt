@@ -19,11 +19,11 @@ import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.isOkForQuest
 import wisp.perseanchronicles.telos.TelosCommon
-import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.spriteName
+import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
 import wisp.questgiver.v2.json.optQuery
 import wisp.questgiver.v2.json.query
+import wisp.questgiver.v2.spriteName
 import wisp.questgiver.wispLib.*
 import java.awt.Color
 import java.util.*
@@ -104,7 +104,7 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         setGiverFaction(PerseanChroniclesNPCs.kellyMcDonald.faction.id) // Rep reward.
         personOverride = PerseanChroniclesNPCs.kellyMcDonald // Shows on intel, needed for rep reward or else crash.
 
-        setIconName(InteractionDefinition.Portrait(category = "wisp_perseanchronicles_telos", id = "intel").spriteName(game))
+        setIconName(IInteractionLogic.Portrait(category = "wisp_perseanchronicles_telos", id = "intel").spriteName(game))
 
         state.startLocation = createdAt?.primaryEntity
 

@@ -28,8 +28,13 @@ class Jukebox {
     fun playSong(songId: String?, fadeOutSecs: Int = 1, fadeInSecs: Int = 1, loop: Boolean = true) {
         if (isSoundPlayerBusted) return
 
-        // Note that `game.soundPlayer.currentMusicId` returns the .ogg file name, not the songId.
-        if (songId != null && currentCustomMusicId == songId) {
+        // If already playing the current song, no need to go further.
+        if (songId != null && currentCustomMusicId == songId && game.soundPlayer.currentMusicId != "nothing") {
+            return
+        }
+
+        if (songId == null) {
+            stopSong()
             return
         }
 
@@ -47,6 +52,8 @@ class Jukebox {
     }
 
     fun stopSong() {
+        if (currentCustomMusicId == null) return
+
         game.logger.d { "Pausing song '${game.soundPlayer.currentMusicId}'." }
         kotlin.runCatching {
             game.soundPlayer.pauseCustomMusic()
@@ -67,13 +74,4 @@ class Jukebox {
             fadeInSecs = fadeInSeconds,
             loop = true
         )
-
-    fun stopAllCustomMusic() {
-        game.logger.d { "Stopping custom music." }
-        playSong(
-            songId = null,
-            fadeOutSecs = 3
-        )
-        game.memory[MEMKEY] = null
-    }
 }

@@ -97,7 +97,7 @@ class TelosFightOrFlightScript : EveryFrameScript {
 
 
         kotlin.runCatching {
-            game.jukebox.stopAllCustomMusic()
+            game.jukebox.stopSong()
         }.onFailure { game.logger.w(it) }
 
         game.sector.transientScripts.filterIsInstance<NocturneScript>()

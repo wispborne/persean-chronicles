@@ -9,7 +9,6 @@ import org.json.JSONObject
 import org.magiclib.kotlin.addFleetMemberGainText
 import org.magiclib.kotlin.prepareShipForRecovery
 import org.magiclib.kotlin.toStringList
-import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -153,8 +152,7 @@ class Telos2SecondLandingDialog(
                     "return-fleet" -> option.copy(showIf = { Telos2HubMission.choices.queriedSystem == true || Telos2HubMission.choices.checkedKarengo == true })
                     "leave" -> option.copy(
                         onOptionSelected = {
-                            game.soundPlayer.setSuspendDefaultMusicPlayback(false)
-                            game.jukebox.stopAllCustomMusic()
+                            game.jukebox.stopSong()
                             navigator.close(doNotOfferAgain = true)
                         }
                     )

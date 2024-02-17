@@ -1,9 +1,7 @@
 package wisp.perseanchronicles.telos.pt3_arrow
 
 import org.json.JSONObject
-import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.game
-import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.query
@@ -13,9 +11,6 @@ class Telos3EscapedDialog(
     stageJson: JSONObject = Telos3HubMission.part3Json.query("/stages/escaped"),
     mission: Telos3HubMission = game.sector.intelManager.findFirst()!!
 ) : InteractionDialogLogic<Telos3EscapedDialog>(
-    onInteractionStarted = {
-        game.jukebox.stopAllCustomMusic()
-    },
 //    people = { listOfNotNull(PerseanChroniclesNPCs.karengo) },
 //    firstPageSelector = {
 //        val pages = this

@@ -16,6 +16,7 @@ import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode
 import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import com.fs.starfarer.campaign.fleet.CampaignFleet
 import org.json.JSONObject
 import org.magiclib.achievements.MagicAchievementManager
 import wisp.perseanchronicles.Jukebox
@@ -278,14 +279,6 @@ class Telos3HubMission : QGHubMission(), FleetEventListener {
             }
 
             triggerCustomAction {
-
-                // "nothing" if music is disabled/volume 0
-                if (listOf("TelosEvasion.ogg", "nothing").none { it == game.soundPlayer.currentMusicId }) {
-                    kotlin.runCatching { game.jukebox.playSong(Jukebox.Song.EVASION) }
-                        .onFailure {
-                            game.logger.w(it)
-                        }
-                }
                 game.sector.addScript(TelosFightOrFlightScript())
             }
         }
@@ -346,6 +339,8 @@ class Telos3HubMission : QGHubMission(), FleetEventListener {
         state.completeDateInMillis = game.sector.clock.timestamp
     }
 
+    override fun runWhilePaused(): Boolean = true
+
     override fun advanceImpl(amount: Float) {
         super.advanceImpl(amount)
 
@@ -356,6 +351,23 @@ class Telos3HubMission : QGHubMission(), FleetEventListener {
                     game.sector.campaignUI.showInteractionDialog(Telos3EscapedDialog().build(), game.sector.playerFleet)
                 }
             }
+        }
+
+        // Music handling
+        if (currentStage.equalsAny(
+                Stage.EscapeSystemForDisplay,
+                Stage.EscapeSystem
+            ) && game.sector.playerFleet.containingLocation == getMenriSystem()
+        ) {
+            val isTalkingToEugel =
+                (game.sector.campaignUI.currentInteractionDialog?.interactionTarget as? CampaignFleet)?.commander?.id == PerseanChroniclesNPCs.captainEugel.id
+            if (isTalkingToEugel) {
+                game.jukebox.playSong(Jukebox.Song.EUGEL_MEETING)
+            } else {
+                game.jukebox.playSong(Jukebox.Song.EVASION)
+            }
+        } else {
+            game.jukebox.stopSong()
         }
     }
 

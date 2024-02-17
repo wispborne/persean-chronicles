@@ -5,7 +5,7 @@
         "strings" : {
           "title" : "Telos: Guarded World",
           "iteshName" : "Arrow",
-          "etherSight_helptext" : "You have gained the ability Ethersight!\n\nWhen enabled, in-system objects will glow, even out of sensor range. Hostile fleets are red and friendly fleets are green.\n\nHover over the ability icon to view a list of all objects."
+          "etherSight_helptext" : "You have gained the ability Ethersight!\n\nWhen enabled, in-system objects will glow, even out of sensor range. Hostile fleets are red and friendly fleets are green.\n\nHover over the ability icon to view a list of all objects. You may need to add it to your hotbar.\nNow, run!"
         },
         "stages" : {
           "goToPlanet" : {
@@ -583,8 +583,8 @@
           },
           "defeatedEugel" : {
             "intel" : {
-              "subtitle" : "Against all odds",
-              "desc" : "Knight-Captain Eugel found you at the dead Telos homeworld, Menri, and triggered a trap that crippled your fleet.\nRather than flee, you fought the Luddic Knight, defeating him once and for all. It's time to get out of this system."
+              "subtitle" : "Victory, against all odds",
+              "desc" : "Knight-Captain Eugel found you at the dead Telos homeworld, Menri, and triggered a trap that crippled your fleet.\n\nRather than flee, you fought the Luddic Knight, defeating him once and for all. It's time to leave this system behind."
             },
             "pages" : [ {
               "id" : "1-beatEugel",

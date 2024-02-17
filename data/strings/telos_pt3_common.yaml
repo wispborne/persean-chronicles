@@ -10,9 +10,9 @@ wisp_perseanchronicles:
         When enabled, in-system objects will glow, even out of sensor range. Hostile fleets are red and friendly fleets are green.
         
         
-        Hover over the ability icon to view a list of all objects.
+        Hover over the ability icon to view a list of all objects. You may need to add it to your ability bar.
         
-        Now, run!'
+        Now, escape!'
       stages:
         goToPlanet:
           intel:
@@ -455,7 +455,7 @@ wisp_perseanchronicles:
             - id: '16-powerup-karengo-2'
               paras:
                 - 'The two of you retire to your own quarters and you unstopper a few ''special occasion'' bottles.'
-                - 'After that, time blurs. Karengo shares more stories from Ailmar and you recount
+                - 'After that, time blurs. Karengo shares more stories from his home planet, Ailmar, and you recount
                             close calls and near-disasters gathered over the years.'
                 - 'All too soon, Karengo announces he has somewhere to be and leaves you alone with your thoughts -
                             few of them pleasant.'
