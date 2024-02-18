@@ -2,10 +2,10 @@ package wisp.perseanchronicles.telos.boats
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.combat.*
+import com.fs.starfarer.api.impl.campaign.ids.Personalities
 import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
 import org.lazywizard.lazylib.MathUtils
-import org.lazywizard.lazylib.VectorUtils
 import org.lazywizard.lazylib.combat.AIUtils
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.common.StarficzAIUtils
@@ -24,15 +24,11 @@ class TelosPhasedashAI : ShipSystemAIScript {
     var enemyTracker: IntervalUtil = IntervalUtil(0.8f, 1f)
     var damageTracker: IntervalUtil = IntervalUtil(0.2f, 0.3f)
 
-    //    var ship: ShipAPI? = null
     var target: ShipAPI? = null
     var nearbyEnemies: MutableMap<ShipAPI, Map<String, Float>> = mutableMapOf()
     var targetRange: Float = 0f
-    var shipTargetPoint: Vector2f? = null
-    var shipStrafeAngle: Float = 0f
     var ventingHardFlux: Boolean = false
     var ventingSoftFlux: Boolean = false
-    var rechargeCharges: Boolean = false
     var lastUpdatedTime: Float = 0f
     var incomingProjectiles: List<StarficzAIUtils.FutureHit> = mutableListOf()
     var predictedWeaponHits: List<StarficzAIUtils.FutureHit> = mutableListOf()
@@ -63,6 +59,10 @@ class TelosPhasedashAI : ShipSystemAIScript {
         val phaseDashCooldown = phaseDashSystem.getCooldown(ship.mutableStats)
         val phaseDashTimeElapsed = engine.getTotalElapsedTime(false) - (TelosPhaseDashSystem.dashStartTracker[ship.id] ?: 0f)
 
+        if (ship.captain?.personalityAPI?.id != Personalities.AGGRESSIVE) {
+            ship.captain?.setPersonality(Personalities.AGGRESSIVE)
+        }
+
         // Calculate Decision Flags
         enemyTracker.advance(amount)
         if (enemyTracker.intervalElapsed() || target == null || !target!!.isAlive) {
@@ -82,8 +82,6 @@ class TelosPhasedashAI : ShipSystemAIScript {
             combinedHits.addAll(predictedWeaponHits)
         }
 
-        targetRange = findMinShipWeaponRange(ship)
-
         // calculate how much damage the ship would take if unphased/vent/used system
         val currentTime = Global.getCombatEngine().getTotalElapsedTime(false)
         val timeElapsed = currentTime - lastUpdatedTime
@@ -94,7 +92,7 @@ class TelosPhasedashAI : ShipSystemAIScript {
         var armorUnphase = armorBase
         var armorSystem = armorBase
         var armorVent = armorBase
-        val phaseTime = if (ship.isPhased) (phaseDashLength - phaseDashTimeElapsed) ?: phaseDashCooldown else 0f
+        val phaseTime = if (ship.isPhased) (ship.system.cooldownRemaining) else 0f
 
         var hullDamageIfUnphased = 0f
         var empDamageIfUnphased = 0f
@@ -143,10 +141,7 @@ class TelosPhasedashAI : ShipSystemAIScript {
         val armorDamageLevelVent = (armorBase - armorVent) / armorMax
         val hullDamageLevelVent = hullDamageIfVent / (ship.hitpoints * ship.hullLevel)
 
-        var mountHP = 0f
-        for (weapon in ship.allWeapons) {
-            mountHP += weapon.currHealth
-        }
+        val mountHP = ship.allWeapons.sumOf { it.currHealth.toDouble() }.toFloat()
         val empDamageLevel = empDamageIfUnphased / mountHP
         val empDamageLevelSystem = empDamageIfSystem / mountHP
         val empDamageLevelVent = empDamageIfVent / mountHP
@@ -166,58 +161,37 @@ class TelosPhasedashAI : ShipSystemAIScript {
         val hardFlux = ship.fluxTracker.hardFlux
         val maxFlux = ship.maxFlux
         val softFluxLevel = (totalFlux - hardFlux) / (maxFlux - hardFlux)
-        if (!ventingSoftFlux && softFluxLevel > 0.8f) ventingSoftFlux = true
-        if (ventingSoftFlux && softFluxLevel < 0.1f) ventingSoftFlux = false
-
-        var targetVulnerability =
-            max(target!!.fluxLevel, (1 - target!!.hullLevel)).pow(3.0f)
-        targetVulnerability = if (target!!.fluxTracker.isOverloadedOrVenting) 1f else targetVulnerability
-        if (!ventingHardFlux && ship.hardFluxLevel > Misc.interpolate(0.5f, 0.85f, targetVulnerability)) ventingHardFlux = true
-        if (ventingHardFlux && ((ship.fluxTracker.isVenting && ship.hardFluxLevel < 0.5f) || ship.hardFluxLevel < 0.1f)) ventingHardFlux = false
-
-        if (!rechargeCharges && StarficzAIUtils.lowestWeaponAmmoLevel(this.ship) < 0.1f) rechargeCharges = true
-        if (rechargeCharges && StarficzAIUtils.lowestWeaponAmmoLevel(this.ship) > 0.5f) rechargeCharges = false
-
 
         // Phase Decision Tree starts here:
         var wantToPhase = false
-        if (ventingHardFlux) { // while retreating to vent, decide to phase based on flux and incoming damage
-            if (ship.fluxLevel < scaleValueBetweenRanges(minOut = 0.4f, maxOut = 1f, minIn = 0f, maxIn = 0.07f, input = armorDamageLevel)
-                || ship.fluxLevel < scaleValueBetweenRanges(minOut = 0.4f, maxOut = 1f, minIn = 0f, maxIn = 0.07f, input = hullDamageLevel)
-                || ship.fluxLevel < scaleValueBetweenRanges(minOut = 0.4f, maxOut = 1f, minIn = 0.5f, maxIn = 0.9f, input = empDamageLevel)
-            ) {
+        if (MathUtils.getDistance(ship.location, target!!.location) < targetRange + Misc.getTargetingRadius(ship.location, target, false)) {
+            // if ship is in weapon range decide to phase based on incoming damage, accounting for the reduction in damage if the system overloads an enemy
+            if (AIUtils.canUseSystemThisFrame(this.ship) || ship.system.isActive || target!!.fluxTracker.isOverloadedOrVenting) {
+                if ((armorDamageLevelSystem > 0.07f || hullDamageLevelSystem > 0.07f || empDamageLevelSystem > 0.7f))
+                    wantToPhase = true
+                else ship.useSystem()
+            } else {
+                if ((armorDamageLevel > 0.07f || hullDamageLevel > 0.07f || empDamageLevel > 0.7f)) wantToPhase = true
+            }
+
+            // if the ship is not in immense danger of damage, but needs to reload/vent soft flux, also phase. (unless the enemy is overloaded, to maximize dps in that window)
+            val maximiseDPS = target!!.fluxTracker.isOverloaded || ship.system.isActive
+            if ((ventingSoftFlux) && !maximiseDPS) wantToPhase = true
+
+            // phase to avoid getting nuked by enemy ship explosion
+            if (target!!.hullLevel < 0.15f && MathUtils.getDistanceSquared(
+                    ship.location,
+                    target!!.location
+                ) < (target!!.shipExplosionRadius + ship.collisionRadius).pow(2.0f)
+            )
                 wantToPhase = true
-            }
-        } else { // otherwise, ship is attacking
-            if (MathUtils.getDistance(ship.location, target!!.location) < targetRange + Misc.getTargetingRadius(ship.location, target, false)) {
-                // if ship is in weapon range decide to phase based on incoming damage, accounting for the reduction in damage if the system overloads an enemy
-                if (AIUtils.canUseSystemThisFrame(this.ship) || ship.system.isActive || target!!.fluxTracker.isOverloadedOrVenting) {
-                    if ((armorDamageLevelSystem > 0.07f || hullDamageLevelSystem > 0.07f || empDamageLevelSystem > 0.7f))
-                        wantToPhase = true
-                    else ship.useSystem()
-                } else {
-                    if ((armorDamageLevel > 0.07f || hullDamageLevel > 0.07f || empDamageLevel > 0.7f)) wantToPhase = true
-                }
-
-                // if the ship is not in immense danger of damage, but needs to reload/vent soft flux, also phase. (unless the enemy is overloaded, to maximize dps in that window)
-                val maximiseDPS = target!!.fluxTracker.isOverloaded || ship.system.isActive
-                if ((ventingSoftFlux || rechargeCharges) && !maximiseDPS) wantToPhase = true
-
-                // phase to avoid getting nuked by enemy ship explosion
-                if (target!!.hullLevel < 0.15f && MathUtils.getDistanceSquared(
-                        ship.location,
-                        target!!.location
-                    ) < (target!!.shipExplosionRadius + ship.collisionRadius).pow(2.0f)
-                )
-                    wantToPhase = true
-            } else { // if the ship is not in range, the acceptable damage threshold is much lower,
-                if ((armorDamageLevel > 0.03f || hullDamageLevel > 0.03f || empDamageLevel > 0.3f) || ventingSoftFlux || rechargeCharges || ship.engineController.isFlamedOut)
-                    wantToPhase = true
-                if (ship.isPhased && ship.hardFluxLevel < 0.1f)
-                    wantToPhase = true
-                if (!ship.isPhased && ship.hardFluxLevel < 0.01f)
-                    wantToPhase = true
-            }
+        } else { // if the ship is not in range, the acceptable damage threshold is much lower,
+            if ((armorDamageLevel > 0.03f || hullDamageLevel > 0.03f || empDamageLevel > 0.3f) || ventingSoftFlux || ship.engineController.isFlamedOut)
+                wantToPhase = true
+            if (ship.isPhased && ship.hardFluxLevel < 0.1f)
+                wantToPhase = true
+            if (!ship.isPhased && ship.hardFluxLevel < 0.01f)
+                wantToPhase = true
         }
 
         // execute commands
@@ -228,32 +202,24 @@ class TelosPhasedashAI : ShipSystemAIScript {
 
 
         // vent control
-        if (ventingHardFlux && armorDamageLevelVent < 0.03f && hullDamageLevelVent < 0.03f && empDamageLevelVent < 0.5f) {
-            ship.giveCommand(ShipCommand.VENT_FLUX, null, 0)
-        } else {
-            ship.blockCommandForOneFrame(ShipCommand.VENT_FLUX)
-        }
+//        if (ventingHardFlux && armorDamageLevelVent < 0.03f && hullDamageLevelVent < 0.03f && empDamageLevelVent < 0.5f) {
+//            ship.giveCommand(ShipCommand.VENT_FLUX, null, 0)
+//        } else {
+//            ship.blockCommandForOneFrame(ShipCommand.VENT_FLUX)
+//        }
 
         // movement control
-        val fleetManager = engine.getFleetManager(ship.owner)
-        val taskManager = if ((fleetManager != null)) fleetManager.getTaskManager(ship.isAlly) else null
-        val assignmentInfo = if ((taskManager != null)) taskManager.getAssignmentFor(this.ship) else null
-        val assignmentType = if ((assignmentInfo != null)) assignmentInfo.type else null
+//        val fleetManager = engine.getFleetManager(ship.owner)
+//        val taskManager = if ((fleetManager != null)) fleetManager.getTaskManager(ship.isAlly) else null
+//        val assignmentInfo = if ((taskManager != null)) taskManager.getAssignmentFor(this.ship) else null
+//        val assignmentType = if ((assignmentInfo != null)) assignmentInfo.type else null
 
-        if (shipTargetPoint != null && (assignmentType == CombatAssignmentType.SEARCH_AND_DESTROY || assignmentType == null)) {
-            val shipStrafePoint = MathUtils.getPointOnCircumference(ship.location, ship.collisionRadius, shipStrafeAngle)
-            StarficzAIUtils.strafeToPoint(this.ship, shipStrafePoint)
-            //turnToPoint(target.getLocation());
-            ship.shipTarget = target
-        }
-
-        if (StarficzAIUtils.DEBUG_ENABLED) {
-            if (shipTargetPoint != null) {
-                engine.addSmoothParticle(shipTargetPoint, ship.velocity, 50f, 5f, 0.1f, Color.blue)
-                val shipStrafePoint = MathUtils.getPointOnCircumference(ship.location, ship.collisionRadius, shipStrafeAngle)
-                engine.addSmoothParticle(shipStrafePoint, ship.velocity, 50f, 5f, 0.1f, Color.blue)
-            }
-        }
+//        if (shipTargetPoint != null && (assignmentType == CombatAssignmentType.SEARCH_AND_DESTROY || assignmentType == null)) {
+//            val shipStrafePoint = MathUtils.getPointOnCircumference(ship.location, ship.collisionRadius, shipStrafeAngle)
+//            StarficzAIUtils.strafeToPoint(this.ship, shipStrafePoint)
+//            //turnToPoint(target.getLocation());
+//            ship.shipTarget = target
+//        }
     }
 
     private fun findMinShipWeaponRange(ship: ShipAPI): Float {
@@ -294,19 +260,16 @@ class TelosPhasedashAI : ShipSystemAIScript {
         // Calculate ship strafe locations
         if (nearbyEnemies.isNotEmpty()) {
             if (ventingHardFlux) {
-                if (target == null || !target!!.isAlive) target = AIUtils.getNearestEnemy(ship)
-                shipTargetPoint = StarficzAIUtils.getBackingOffStrafePoint(ship)
+                if (target == null || !target!!.isAlive)
+                    target = AIUtils.getNearestEnemy(ship)
+//                shipTargetPoint = StarficzAIUtils.getBackingOffStrafePoint(ship)
             } else {
                 val targetReturn = StarficzAIUtils.getLowestDangerTargetInRange(ship, nearbyEnemies, 120f, targetRange, true)
                 val targetAttackPoint = targetReturn.one
                 target = targetReturn.two
 
-                shipTargetPoint = targetAttackPoint ?: StarficzAIUtils.getBackingOffStrafePoint(ship)
                 if (target == null || !target!!.isAlive)
                     target = AIUtils.getNearestEnemy(ship)
-            }
-            if (shipTargetPoint != null) {
-                shipStrafeAngle = VectorUtils.getAngle(ship!!.location, shipTargetPoint)
             }
         }
     }
