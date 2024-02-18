@@ -17,6 +17,7 @@ Version 3.1.0
   - Telos: "hanger" -> "hangar" in lots of places (thanks Histidine).
   - Telos: Able to talk the pirate down multiple times so they start with 1% CR.
   - Telos: Credit reward now scales based on distance.
+  - Telos: Fixed Varas sharing phase dash cooldown state.
 - Changed
   - Firebrand sprite coloration improvements.
 

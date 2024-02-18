@@ -16,7 +16,6 @@ import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.questgiver.wispLib.IntervalUtil
 import wisp.questgiver.wispLib.addPara
-import wisp.questgiver.wispLib.equalsAny
 import kotlin.math.absoluteValue
 
 class TelosEtherNetworkedHullmod : BaseHullMod() {
@@ -38,7 +37,11 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
         timer.advance(amount)
         if (!timer.intervalElapsed()) return
 
-        if (hasEtherOfficer(member?.captain)) {
+        setEnabledOrDisabled(member?.captain)
+    }
+
+    private fun setEnabledOrDisabled(captain: PersonAPI?) {
+        if (hasEtherOfficer(captain)) {
             spec.spriteName = game.settings.getSpriteName("wisp_perseanchronicles_telos", "telos_ethernet")
         } else {
             spec.spriteName = game.settings.getSpriteName("wisp_perseanchronicles_telos", "telos_ethernet_disabled")
@@ -66,12 +69,14 @@ class TelosEtherNetworkedHullmod : BaseHullMod() {
 
     override fun applyEffectsAfterShipCreation(ship: ShipAPI, id: String?) {
         ship.addListener(TelosEtherNetworkedHullmodScript(ship))
+        setEnabledOrDisabled(ship.captain)
     }
 
     override fun advanceInCombat(ship: ShipAPI?, amount: Float) {
         super.advanceInCombat(ship, amount)
 
         val engine = Global.getCombatEngine() ?: return
+        setEnabledOrDisabled(ship?.captain)
     }
 
     override fun addPostDescriptionSection(tooltip: TooltipMakerAPI?, hullSize: HullSize?, ship: ShipAPI?, width: Float, isForModSpec: Boolean) {

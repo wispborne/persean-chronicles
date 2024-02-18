@@ -9,8 +9,11 @@ import org.lazywizard.lazylib.VectorUtils
 import org.lazywizard.lazylib.combat.AIUtils
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.common.StarficzAIUtils
+import wisp.perseanchronicles.game
+import wisp.perseanchronicles.telos.TelosCommon.SYSTEM_PHASE_DASH_ID
 import java.awt.Color
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.pow
 
 class TelosPhasedashAI : ShipSystemAIScript {
@@ -20,7 +23,6 @@ class TelosPhasedashAI : ShipSystemAIScript {
     // from ninmah
     var enemyTracker: IntervalUtil = IntervalUtil(0.8f, 1f)
     var damageTracker: IntervalUtil = IntervalUtil(0.2f, 0.3f)
-    var engine: CombatEngineAPI? = null
 
     //    var ship: ShipAPI? = null
     var target: ShipAPI? = null
@@ -41,36 +43,25 @@ class TelosPhasedashAI : ShipSystemAIScript {
     }
 
     override fun advance(amount: Float, missileDangerDir: Vector2f?, collisionDangerDir: Vector2f?, target: ShipAPI?) {
-//        val shipNn = ship ?: return
-
         ninmahAiScriptMagic(amount)
-
-//        if (AIUtils.canUseSystemThisFrame(shipNn)) {
-//            var firingWeapons = 0
-//            var totalWeapons = 1
-//            for (weapon in shipNn.allWeapons) {
-//                if (!weapon.isDecorative && !weapon.hasAIHint(WeaponAPI.AIHints.PD) && weapon.refireDelay > 2f) {
-//                    if (weapon.isFiring) firingWeapons += if (weapon.size == WeaponAPI.WeaponSize.LARGE) 4 else 2
-//                    totalWeapons += 1
-//                }
-//            }
-//            if (shipNn.fluxLevel - shipNn.hardFluxLevel > 0.2f && firingWeapons / totalWeapons <= 2)
-//                shipNn.useSystem()
-//            if (shipNn.aiFlags.hasFlag(ShipwideAIFlags.AIFlags.PURSUING) || shipNn.aiFlags.hasFlag(ShipwideAIFlags.AIFlags.BACK_OFF))
-//                shipNn.useSystem()
-//        }
     }
 
     // from knights of ludd ninmah ai, gpl3
     private fun ninmahAiScriptMagic(amount: Float) {
         val ship = ship ?: return
-
-
         val engine = Global.getCombatEngine() ?: return
+        if (!ship.isAlive || ship.parentStation != null || !engine.isEntityInPlay(ship)) return
 
-        if (!ship.isAlive || ship.parentStation != null || engine == null || !engine!!.isEntityInPlay(ship)) {
+        // Vanilla bug, isUIAutopilotOn returns the opposite of what it says.
+        if (engine.playerShip == this.ship && engine.isUIAutopilotOn) {
             return
         }
+
+        val phaseSystemCommand = ShipCommand.USE_SYSTEM // Normally this is ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK
+        val phaseDashSystem = game.settings.getShipSystemSpec(SYSTEM_PHASE_DASH_ID)
+        val phaseDashLength = phaseDashSystem.active
+        val phaseDashCooldown = phaseDashSystem.getCooldown(ship.mutableStats)
+        val phaseDashTimeElapsed = engine.getTotalElapsedTime(false) - (TelosPhaseDashSystem.dashStartTracker[ship.id] ?: 0f)
 
         // Calculate Decision Flags
         enemyTracker.advance(amount)
@@ -80,15 +71,18 @@ class TelosPhasedashAI : ShipSystemAIScript {
         }
 
         damageTracker.advance(amount)
+
         if (damageTracker.intervalElapsed()) {
             lastUpdatedTime = Global.getCombatEngine().getTotalElapsedTime(false)
             incomingProjectiles = StarficzAIUtils.incomingProjectileHits(this.ship, ship.location)
-            val timeToPredict = max((ship.fluxTracker.timeToVent + damageTracker.maxInterval), 3.0f)
+            val timeToPredict = (phaseDashLength + damageTracker.maxInterval).coerceAtMost(3f)
             predictedWeaponHits = StarficzAIUtils.generatePredictedWeaponHits(this.ship, ship.location, timeToPredict)
             combinedHits = mutableListOf()
             combinedHits.addAll(incomingProjectiles)
             combinedHits.addAll(predictedWeaponHits)
         }
+
+        targetRange = findMinShipWeaponRange(ship)
 
         // calculate how much damage the ship would take if unphased/vent/used system
         val currentTime = Global.getCombatEngine().getTotalElapsedTime(false)
@@ -100,7 +94,7 @@ class TelosPhasedashAI : ShipSystemAIScript {
         var armorUnphase = armorBase
         var armorSystem = armorBase
         var armorVent = armorBase
-        val phaseTime = if (ship.isPhased) ship.phaseCloak.chargeDownDur else 0f
+        val phaseTime = if (ship.isPhased) (phaseDashLength - phaseDashTimeElapsed) ?: phaseDashCooldown else 0f
 
         var hullDamageIfUnphased = 0f
         var empDamageIfUnphased = 0f
@@ -188,13 +182,9 @@ class TelosPhasedashAI : ShipSystemAIScript {
         // Phase Decision Tree starts here:
         var wantToPhase = false
         if (ventingHardFlux) { // while retreating to vent, decide to phase based on flux and incoming damage
-            if (ship.fluxLevel < linMap(0.4f, 1f, 0f, 0.07f, armorDamageLevel) || ship.fluxLevel < linMap(
-                    0.4f,
-                    1f,
-                    0f,
-                    0.07f,
-                    hullDamageLevel
-                ) || ship.fluxLevel < linMap(0.4f, 1f, 0.5f, 0.9f, empDamageLevel)
+            if (ship.fluxLevel < scaleValueBetweenRanges(minOut = 0.4f, maxOut = 1f, minIn = 0f, maxIn = 0.07f, input = armorDamageLevel)
+                || ship.fluxLevel < scaleValueBetweenRanges(minOut = 0.4f, maxOut = 1f, minIn = 0f, maxIn = 0.07f, input = hullDamageLevel)
+                || ship.fluxLevel < scaleValueBetweenRanges(minOut = 0.4f, maxOut = 1f, minIn = 0.5f, maxIn = 0.9f, input = empDamageLevel)
             ) {
                 wantToPhase = true
             }
@@ -218,51 +208,69 @@ class TelosPhasedashAI : ShipSystemAIScript {
                         ship.location,
                         target!!.location
                     ) < (target!!.shipExplosionRadius + ship.collisionRadius).pow(2.0f)
-                ) wantToPhase = true
+                )
+                    wantToPhase = true
             } else { // if the ship is not in range, the acceptable damage threshold is much lower,
-                if ((armorDamageLevel > 0.03f || hullDamageLevel > 0.03f || empDamageLevel > 0.3f) || ventingSoftFlux || rechargeCharges || ship.engineController.isFlamedOut) wantToPhase =
-                    true
-                if (ship.isPhased && ship.hardFluxLevel < 0.1f) wantToPhase = true
-                if (!ship.isPhased && ship.hardFluxLevel < 0.01f) wantToPhase = true
+                if ((armorDamageLevel > 0.03f || hullDamageLevel > 0.03f || empDamageLevel > 0.3f) || ventingSoftFlux || rechargeCharges || ship.engineController.isFlamedOut)
+                    wantToPhase = true
+                if (ship.isPhased && ship.hardFluxLevel < 0.1f)
+                    wantToPhase = true
+                if (!ship.isPhased && ship.hardFluxLevel < 0.01f)
+                    wantToPhase = true
             }
         }
 
-        if (!engine.isUIAutopilotOn || engine.playerShip != this.ship) {
+        // execute commands
+        // phase control
+        if (ship.isPhased xor wantToPhase)
+            ship.giveCommand(phaseSystemCommand, null, 0)
+        else ship.blockCommandForOneFrame(phaseSystemCommand)
 
-            // phase control
-            if (ship.isPhased xor wantToPhase)
-                ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0)
-            else ship.blockCommandForOneFrame(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK)
 
+        // vent control
+        if (ventingHardFlux && armorDamageLevelVent < 0.03f && hullDamageLevelVent < 0.03f && empDamageLevelVent < 0.5f) {
+            ship.giveCommand(ShipCommand.VENT_FLUX, null, 0)
+        } else {
+            ship.blockCommandForOneFrame(ShipCommand.VENT_FLUX)
+        }
 
-            // vent control
-            if (ventingHardFlux && armorDamageLevelVent < 0.03f && hullDamageLevelVent < 0.03f && empDamageLevelVent < 0.5f) {
-                ship.giveCommand(ShipCommand.VENT_FLUX, null, 0)
-            } else {
-                ship.blockCommandForOneFrame(ShipCommand.VENT_FLUX)
-            }
+        // movement control
+        val fleetManager = engine.getFleetManager(ship.owner)
+        val taskManager = if ((fleetManager != null)) fleetManager.getTaskManager(ship.isAlly) else null
+        val assignmentInfo = if ((taskManager != null)) taskManager.getAssignmentFor(this.ship) else null
+        val assignmentType = if ((assignmentInfo != null)) assignmentInfo.type else null
 
-            // movement control
-            val fleetManager = engine.getFleetManager(ship.owner)
-            val taskManager = if ((fleetManager != null)) fleetManager.getTaskManager(ship.isAlly) else null
-            val assignmentInfo = if ((taskManager != null)) taskManager.getAssignmentFor(this.ship) else null
-            val assignmentType = if ((assignmentInfo != null)) assignmentInfo.type else null
+        if (shipTargetPoint != null && (assignmentType == CombatAssignmentType.SEARCH_AND_DESTROY || assignmentType == null)) {
+            val shipStrafePoint = MathUtils.getPointOnCircumference(ship.location, ship.collisionRadius, shipStrafeAngle)
+            StarficzAIUtils.strafeToPoint(this.ship, shipStrafePoint)
+            //turnToPoint(target.getLocation());
+            ship.shipTarget = target
+        }
 
-            if (shipTargetPoint != null && (assignmentType == CombatAssignmentType.SEARCH_AND_DESTROY || assignmentType == null)) {
+        if (StarficzAIUtils.DEBUG_ENABLED) {
+            if (shipTargetPoint != null) {
+                engine.addSmoothParticle(shipTargetPoint, ship.velocity, 50f, 5f, 0.1f, Color.blue)
                 val shipStrafePoint = MathUtils.getPointOnCircumference(ship.location, ship.collisionRadius, shipStrafeAngle)
-                StarficzAIUtils.strafeToPoint(this.ship, shipStrafePoint)
-                //turnToPoint(target.getLocation());
-                ship.shipTarget = target
+                engine.addSmoothParticle(shipStrafePoint, ship.velocity, 50f, 5f, 0.1f, Color.blue)
             }
+        }
+    }
 
-            if (StarficzAIUtils.DEBUG_ENABLED) {
-                if (shipTargetPoint != null) {
-                    engine.addSmoothParticle(shipTargetPoint, ship.velocity, 50f, 5f, 0.1f, Color.blue)
-                    val shipStrafePoint = MathUtils.getPointOnCircumference(ship.location, ship.collisionRadius, shipStrafeAngle)
-                    engine.addSmoothParticle(shipStrafePoint, ship.velocity, 50f, 5f, 0.1f, Color.blue)
+    private fun findMinShipWeaponRange(ship: ShipAPI): Float {
+        // update ranges and block firing if system is active
+        var minRange = Float.POSITIVE_INFINITY
+
+        for (weapon in ship.allWeapons) {
+            if (!weapon.isDecorative && !weapon.hasAIHint(WeaponAPI.AIHints.PD) && weapon.type != WeaponAPI.WeaponType.MISSILE) {
+                val currentRange = weapon.range
+                minRange = min(currentRange.toDouble(), minRange.toDouble()).toFloat()
+                if (ship.system.isChargeup) {
+                    weapon.setForceNoFireOneFrame(true)
                 }
             }
         }
+
+        return minRange
     }
 
 
@@ -303,7 +311,7 @@ class TelosPhasedashAI : ShipSystemAIScript {
         }
     }
 
-    private fun linMap(minOut: Float, maxOut: Float, minIn: Float, maxIn: Float, input: Float): Float {
+    private fun scaleValueBetweenRanges(minOut: Float, maxOut: Float, minIn: Float, maxIn: Float, input: Float): Float {
         if (input > maxIn) return maxOut
         if (input < minIn) return minOut
         return minOut + (input - minIn) * (maxOut - minOut) / (maxIn - minIn)

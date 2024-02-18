@@ -680,7 +680,8 @@ public class StarficzAIUtils {
 
         // remove the points that requires ship to fly through other ships
         for (ShipAPI enemy : Global.getCombatEngine().getShips()) {
-            if (enemy.isFighter() || enemy == ship || enemy.getParentStation() != null || !enemy.isAlive() || !MathUtils.isWithinRange(enemy, ship, 3000f))
+            // Ignore fighters, yourself, your own modules, dead ships, and ships that are too far away
+            if (enemy.isFighter() || enemy == ship || enemy.getParentStation() == ship || !enemy.isAlive() || !MathUtils.isWithinRange(enemy, ship, 3000f))
                 continue;
             for (Map.Entry<ShipAPI, List<Vector2f>> targetEnemy : targetEnemys.entrySet()) {
                 List<Vector2f> pointsToRemove = new ArrayList<>();
@@ -688,7 +689,10 @@ public class StarficzAIUtils {
                     if (!los && targetEnemy.getKey() == enemy) continue;
                     float optimalRange = targetRange + Misc.getTargetingRadius(ship.getLocation(), enemy, false);
                     float minKeepoutRadius = (enemy.getHullLevel() < 0.20f ? enemy.getShipExplosionRadius() + 25f : enemy.getCollisionRadius()) + ship.getCollisionRadius() + 25f;
-                    float keepoutRadius = MathUtils.getDistance(ship.getLocation(), enemy.getLocation()) > optimalRange ? (float) (optimalRange * 0.8) : minKeepoutRadius;
+                    float distToEnemy = MathUtils.getDistance(ship.getLocation(), enemy.getLocation());
+                    float keepoutRadius = (distToEnemy > optimalRange)// && distToEnemy > (minKeepoutRadius * 0.9))
+                            ? (float) (optimalRange * 0.8)
+                            : minKeepoutRadius;
                     if (CollisionUtils.getCollides(potentialPoint, ship.getLocation(), enemy.getLocation(), keepoutRadius)) {
                         pointsToRemove.add(potentialPoint);
                     }

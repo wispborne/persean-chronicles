@@ -45,6 +45,7 @@ object TelosCommon {
     const val ETHER_SIGHT_ID = "wisp_perseanchronicles_ethersight"
     const val ETHERNETWORKED_HULLMOD_ID = "wisp_perseanchronicles_catv"
     const val ETHER_OFFICER_TAG = "wisp_perseanchronicles_etherNetworked"
+    const val SYSTEM_PHASE_DASH_ID = "perseanchronicles_phasedash"
 
     /**
      * Don't let player progress past Phase 1 of the questline (unless playername includes wisp or test)

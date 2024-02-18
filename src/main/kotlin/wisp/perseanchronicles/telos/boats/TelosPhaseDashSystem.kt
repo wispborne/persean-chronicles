@@ -13,7 +13,7 @@ import wisp.questgiver.wispLib.Easing
 class TelosPhaseDashSystem : BaseShipSystemScript() {
     companion object {
         /**
-         * Elapsed time when the system was activated. Key is the id.
+         * Elapsed time when the system was activated. Key is the ship id.
          */
         val dashStartTracker = mutableMapOf<String, Float>()
     }
@@ -44,11 +44,11 @@ class TelosPhaseDashSystem : BaseShipSystemScript() {
                 module.useSystem()
             }
 
-        if (dashStartTracker[id] == null) {
-            dashStartTracker[id] = combatEngine.getTotalElapsedTime(false)
+        if (dashStartTracker[ship.id] == null) {
+            dashStartTracker[ship.id] = combatEngine.getTotalElapsedTime(false)
         }
 
-        val timeElapsed = combatEngine.getTotalElapsedTime(false) - dashStartTracker[id]!!
+        val timeElapsed = combatEngine.getTotalElapsedTime(false) - dashStartTracker[ship.id]!!
 
         if (state == ShipSystemStatsScript.State.IN) {
             // Set deco weapon color (the fog) to the palette's initial phase color.
@@ -87,7 +87,8 @@ class TelosPhaseDashSystem : BaseShipSystemScript() {
     }
 
     override fun unapply(stats: MutableShipStatsAPI, id: String) {
-        dashStartTracker.remove(id)
+        val ship = stats.entity as ShipAPI
+        dashStartTracker.remove(ship.id)
         TelosPhaseDashModifier.unapply(stats, id)
     }
 }
@@ -103,7 +104,7 @@ internal object TelosPhaseDashModifier {
         timeElapsed: Float
     ) {
         val ship = stats.entity as? ShipAPI ?: return
-        val isPlayer = ship === Global.getCombatEngine().playerShip
+        val isPlayer = ship.id == Global.getCombatEngine().playerShip.id
 
         val currentSpeedBoost = initialSpeedBoost - Easing.Quadratic.easeOut(
             time = timeElapsed,
