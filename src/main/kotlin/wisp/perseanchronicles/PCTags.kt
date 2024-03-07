@@ -1,5 +1,5 @@
 package wisp.perseanchronicles
 
-internal object Tags {
+internal object PCTags {
     val TAG_BLACKLISTED_SYSTEM = "${MOD_ID}_blacklisted_system"
 }

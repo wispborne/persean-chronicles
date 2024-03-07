@@ -9,6 +9,7 @@ import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.SalvageEntity
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import org.magiclib.kotlin.*
+import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -35,7 +36,7 @@ class Telos3LandingDialog(
         // Resume from where player left off.
         if (Telos3HubMission.state.visitedPrimaryPlanet == true) {
             if (Telos2HubMission.choices.injectedSelf == true)
-                pages.single { it.id == "4-noEther-go-inside" }
+                pages.single { it.id == "4-ether-go-inside" }
             else
                 pages.single { it.id == "14-noEther" }
         } else if (Telos2HubMission.choices.injectedSelf == true)
@@ -48,11 +49,11 @@ class Telos3LandingDialog(
         pagesJson = stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
             "1-ether-start" to {
-                TelosCommon.playThemeMusic()
+                game.jukebox.playTelosThemeMusic()
                 Telos3HubMission.state.visitedPrimaryPlanet = true
             },
             "1-noEther-start" to {
-                TelosCommon.playThemeMusic()
+                game.jukebox.playTelosThemeMusic()
                 Telos3HubMission.state.visitedPrimaryPlanet = true
                 // Injected with Ether
                 game.sector.playerPerson.addTag(TelosCommon.ETHER_OFFICER_TAG)
@@ -114,18 +115,18 @@ class Telos3LandingDialog(
                 // Give Itesh
                 val itesh = game.settings.getVariant("wisp_perseanchronicles_itesh_Standard")
                     .let { game.factory.createFleetMember(FleetMemberType.SHIP, it) }
-                    .apply {
-                        prepareShipForRecovery(
-                            retainAllHullmods = true,
-                            retainKnownHullmods = true,
-                            clearSMods = false,
-                            weaponRetainProb = 1f,
-                            wingRetainProb = 1f
-                        )
-                        repairTracker.cr = repairTracker.maxCR
-                        shipName = Telos3HubMission.part3Json.query("/strings/iteshName")
-                    }
                 game.sector.playerFleet.fleetData.addFleetMember(itesh)
+                itesh.apply {
+                    prepareShipForRecovery(
+                        retainAllHullmods = true,
+                        retainKnownHullmods = true,
+                        clearSMods = false,
+                        weaponRetainProb = 1f,
+                        wingRetainProb = 1f
+                    )
+                    shipName = Telos3HubMission.part3Json.query("/strings/iteshName")
+                    repairTracker.cr = .7f
+                }
                 dialog.textPanel.addFleetMemberGainText(itesh)
                 dialog.visualPanel.showFleetMemberInfo(itesh)
             },
@@ -167,15 +168,7 @@ class Telos3LandingDialog(
                 }
             },
             "16-powerup-main-7" to {
-                mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystem, dialog, null)
-
-                // Damage fleet
-                game.sector.playerFleet.fleetData.membersListCopy
-                    .filter { !it.isMothballed }
-                    .forEach {
-                        // Lower to 20% CR
-                        it.repairTracker.cr = it.repairTracker.cr.coerceAtMost(0.2f)
-                    }
+                mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystemForDisplay, dialog, null)
             },
         ),
         optionConfigurator = { options ->
@@ -227,8 +220,8 @@ class Telos3LandingDialog(
 
                     "flee" -> {
                         option.copy(onOptionSelected = {
-                            game.sector.addScript(TelosFightOrFlightScript())
                             this.navigator.close(doNotOfferAgain = true)
+                            mission.setCurrentStage(Telos3HubMission.Stage.EscapeSystem, dialog, null)
                         })
                     }
 

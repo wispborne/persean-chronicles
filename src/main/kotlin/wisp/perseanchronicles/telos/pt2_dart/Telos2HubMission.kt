@@ -24,7 +24,6 @@ import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
-import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2BattleCoordinator
 import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2PirateFleetInteractionDialogPluginImpl
 import wisp.questgiver.InteractionDefinition
 import wisp.questgiver.spriteName
@@ -48,8 +47,6 @@ class Telos2HubMission : QGHubMission() {
         val choices = Choices(PersistentMapData<String, Any?>(key = "telosPt2Choices").withDefault { null })
         const val badFleetDefeatTrigger = "wisp_perseanchronicles_telosPt2_badfleetdefeated"
 
-//        fun startBattle() = Telos2BattleCoordinator.startBattle()
-
         private val PIRATE_FLEET_TAG = MISSION_ID + "_pirateFleet"
 
         /**
@@ -65,6 +62,8 @@ class Telos2HubMission : QGHubMission() {
     class State(val map: MutableMap<String, Any?>) {
         var startDateMillis: Long? by map
         var completeDateInMillis: Long? by map
+
+        var talkedToPirateFleet: Boolean? by map
 
         // If they won this, they cheated.
         var wonRecordedBattle: Boolean? by map
@@ -82,8 +81,8 @@ class Telos2HubMission : QGHubMission() {
         missionId = MISSION_ID
     }
 
-    override fun onGameLoad() {
-        super.onGameLoad()
+    override fun onGameLoad(isNewGame: Boolean) {
+        super.onGameLoad(isNewGame)
 
         // Reload json if devmode reload.
         if (isDevMode())

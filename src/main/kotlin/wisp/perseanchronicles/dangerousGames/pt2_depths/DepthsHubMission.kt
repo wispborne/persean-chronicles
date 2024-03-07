@@ -14,7 +14,7 @@ import com.fs.starfarer.api.util.WeightedRandomPicker
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.game
-import wisp.questgiver.spriteName
+import wisp.perseanchronicles.isOkForQuest
 import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
@@ -46,7 +46,6 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         val intelIllustration =
             IInteractionLogic.Illustration(category = "wisp_perseanchronicles_depths", id = "intelIllustration")
 
-        var rewardCredits: Int = 100000 // Set by HubMission
         const val minimumDistanceFromPlayerInLightYearsToPlaceDepthsPlanet = 5
 
 
@@ -89,6 +88,8 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     val didAllCrewDie: Boolean
         get() = riddleAnswers.all { it?.wasSuccessful() == false }
 
+    fun isPlanetColonized() = (state.depthsPlanet?.market?.size ?: 0) > 0
+
     override fun updateTextReplacements(text: Text) {
         text.globalReplacementGetters["dragonPlanet"] = { DragonsHubMission.state.dragonPlanet?.name }
         text.globalReplacementGetters["dragonSystem"] = { DragonsHubMission.state.dragonPlanet?.starSystem?.name }
@@ -96,16 +97,16 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         text.globalReplacementGetters["depthsSourceSystem"] = { state.startingPlanet?.starSystem?.name }
         text.globalReplacementGetters["depthsPlanet"] = { state.depthsPlanet?.name }
         text.globalReplacementGetters["depthsSystem"] = { state.depthsPlanet?.starSystem?.name }
-        text.globalReplacementGetters["depthsCreditReward"] = { Misc.getDGSCredits(rewardCredits.toFloat()) }
+        text.globalReplacementGetters["depthsCreditReward"] = { Misc.getDGSCredits(creditsReward.toFloat()) }
     }
 
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
         market ?: return false
 
         return DepthsBarEventWiring().shouldBeAddedToBarEventPool()
+                && market.isOkForQuest()
                 && market.factionId.lowercase() !in listOf("luddic_church", "luddic_path")
-                && market.starSystem != null // No hyperspace markets.
-                && market.size >= 5 // Karengo is big-time now.
+                && market.size >= 4
     }
 
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {
@@ -113,16 +114,16 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         state.seed = genRandom
 
         state.depthsPlanet = findAndTagDepthsPlanet(createdAt?.starSystem) ?: return false
-        val planet = state.depthsPlanet
-        game.logger.i { "Set Depths quest destination to ${planet?.fullName} in ${planet?.starSystem?.baseName}" }
+        val planet = state.depthsPlanet ?: return false
+        game.logger.i { "Set Depths quest destination to ${planet.fullName} in ${planet.starSystem?.baseName}" }
 
         startingStage = Stage.GoToPlanet
         setSuccessStage(Stage.Done)
         setAbandonStage(Stage.Abandoned)
 
         name = game.text["dg_de_intel_title"]
+        setRewardMult((planet.distanceFromPlayerInHyperspace / 20f).coerceAtLeast(1f))
         setCreditReward(CreditReward.HIGH)
-        rewardCredits = this.creditsReward
         updateTextReplacements(game.text)
         setGiverFaction(karengo.faction?.id) // Rep reward.
         personOverride = karengo // Shows on intel, needed for rep reward or else crash.

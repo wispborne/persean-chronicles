@@ -11,6 +11,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.isOkForQuest
 import wisp.questgiver.spriteName
 import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.v2.IInteractionLogic
@@ -63,6 +64,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         market ?: return false
 
         return DragonsBarEventWiring().shouldBeAddedToBarEventPool()
+                && market.isOkForQuest()
                 && market.factionId.lowercase() !in listOf(Factions.LUDDIC_CHURCH, Factions.LUDDIC_PATH)
                 && market.starSystem != null
                 // and not near gilead
@@ -79,6 +81,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         text.globalReplacementGetters["dragonSystem"] = { state.dragonPlanet?.starSystem?.name }
         text.globalReplacementGetters["startPlanet"] = { state.startingPlanet?.name }
         text.globalReplacementGetters["startSystem"] = { state.startingPlanet?.starSystem?.name }
+        text.globalReplacementGetters["dragonsInitialCreditOffer"] = { Misc.getDGSCredits(creditsReward.toFloat()) }
     }
 
     override fun create(createdAt: MarketAPI?, barEvent: Boolean): Boolean {
@@ -127,6 +130,13 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         trigger {
             beginStageTrigger(Stage.ReturnToStart)
             makePrimaryObjective(state.startingPlanet)
+        }
+
+        trigger {
+            beginStageTrigger(Stage.ReturnedToStart)
+            triggerCustomAction {
+                setCreditReward(creditsReward + 5000) // Add 5000 credits to reward as other dragonriders' share.
+            }
         }
     }
 
@@ -276,6 +286,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         NotStarted,
         GoToPlanet,
         ReturnToStart,
+        ReturnedToStart,
         FailedByAbandoningDragonriders,
         Abandoned,
         Done,

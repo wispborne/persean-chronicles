@@ -32,7 +32,7 @@ here: <https://starsector.fandom.com/wiki/Category:Modding#Cross-mod_integration
 
 Avanitia for proof-reading and providing an incredible amount of feedback.
 
-Selkie for Telos ship sprites and so many ideas.
+Selkie for Telos ship sprites, Ethersight icon, and so many ideas.
 
 Nia for Telos vfx, weapon sprites, and polish.
 
@@ -85,9 +85,9 @@ Do not read ahead if you would prefer to be surprised.
 .
 
 #### Karengo questline
-- Dragons: Starts from a planet with pop 5 or greater.
-- Depths: Starts from a planet with pop 5 or greater and 30 days after successfully completing Dragons.
-- Telos: Starts from an Independent planet with pop 5 or greater and 30 days after successfully completing Depths.
+- Dragons: Starts from a planet with pop 3 or greater.
+- Depths: Starts from a planet with pop 4 or greater and 30 days after successfully completing Dragons.
+- Telos: Starts from an Independent planet with pop 4 or greater and 30 days after successfully completing Depths.
   - Nexerelin's Random Mode (Corvus Mode) is not supported for Telos and the quest will not show up.
 #### Riley quest
 Starts from a planet with pop 6 or greater.

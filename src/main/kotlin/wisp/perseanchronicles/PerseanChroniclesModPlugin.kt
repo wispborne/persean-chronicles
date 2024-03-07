@@ -11,6 +11,9 @@ import org.apache.log4j.Level
 import org.dark.shaders.util.ShaderLib
 import org.dark.shaders.util.TextureData
 import org.json.JSONObject
+import org.magiclib.achievements.MagicAchievementManager
+import wisp.perseanchronicles.achievements.Achievements
+import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsBarEventWiring
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.DragonsHubMission
 import wisp.perseanchronicles.dangerousGames.pt1_dragons.Dragons_Stage1_BarEvent
@@ -24,6 +27,7 @@ import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.perseanchronicles.telos.pt3_arrow.MenriSystemCreator
 import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
+import wisp.perseanchronicles.telos.pt3_arrow.nocturne.EthersightAbility
 import wisp.questgiver.Configuration
 import wisp.questgiver.Questgiver
 import wisp.questgiver.wispLib.lastName
@@ -43,15 +47,16 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
 
     override fun onGameLoad(newGame: Boolean) {
         super.onGameLoad(newGame)
-        Questgiver.onGameLoad()
-        TelosCommon.onGameLoad()
+        Questgiver.onGameLoad(newGame)
 
         // When the game (re)loads, we want to grab the new instances of everything, especially the new sector.
         game = SpaceTalesServiceLocator(Questgiver.game)
         game.logger.level = Level.ALL // try to remember to change this for release
         game.text.shouldThrowExceptionOnMissingValue = game.settings.isDevMode
 
+        TelosCommon.onGameLoad()
         addTextToServiceLocator()
+        game.jukebox.onGameLoad()
 
         val settings = game.settings
             .getMergedJSONForMod(
@@ -86,6 +91,10 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
 
         initGraphicsLib()
 
+        game.sector.importantPeople.addPerson(PerseanChroniclesNPCs.karengo)
+        game.sector.importantPeople.addPerson(PerseanChroniclesNPCs.captainEugel)
+        game.sector.importantPeople.addPerson(PerseanChroniclesNPCs.riley)
+
         if (game.sector.playerPerson.nameString == "test") {
             kotlin.runCatching {
                 if (MenriSystemCreator.createMenriSystem() != null) {
@@ -96,7 +105,17 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
                 .onFailure { game.logger.e(it) }
         }
 
-//        fixV302RileyBug()
+        MagicAchievementManager.getInstance().addAchievementSpecs(Achievements.PignutsAchievementSpec())
+        MagicAchievementManager.getInstance().addAchievementSpecs(Achievements.CheatedFlashbackBattleAchievementSpec())
+        MagicAchievementManager.getInstance().addAchievementSpecs(Achievements.DefeatedEugelEarlyAchievementSpec())
+        MagicAchievementManager.getInstance().addAchievementSpecs(Achievements.DefeatedEugelAchievementSpec())
+        Questgiver.onGameLoadEnd(newGame)
+
+        // TODO DON'T FORGET THIS
+        if (true) {
+            game.sector.characterData.addAbility(TelosCommon.ETHER_SIGHT_ID)
+            game.sector.playerFleet.addAbility(TelosCommon.ETHER_SIGHT_ID)
+        }
     }
 
     /**
@@ -145,6 +164,9 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
         }
         game.text.globalReplacementGetters["playerFlagshipName"] = { game.sector.playerFleet.flagship?.shipName }
         game.text.globalReplacementGetters["playerLastName"] = { game.sector.playerPerson.lastName }
+
+        game.text.globalReplacementGetters["dragonPlanet"] = { DragonsHubMission.state.dragonPlanet?.name }
+        game.text.globalReplacementGetters["dragonSystem"] = { DragonsHubMission.state.dragonPlanet?.starSystem?.name }
     }
 
     /**
@@ -199,6 +221,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
             Telos1HubMission::class to "Telos1HubMission",
             Telos2HubMission::class to "Telos2HubMission",
             Telos3HubMission::class to "Telos3HubMission",
+            EthersightAbility::class to "EthersightAbility",
         )
 
         // Prepend with mod prefix so the classes don't conflict with anything else getting serialized
@@ -225,7 +248,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
                 .toStringList()
                 .distinct()
         }
-            .onFailure { game.logger.e(it) { it.message } }
+            .onFailure { game.logger.i(it) { it.message } }
             .getOrElse { emptyList() }
             // Don't let quests go to TTBlacksite or hidden mod systems.
             .plus(Tags.THEME_HIDDEN)
@@ -235,7 +258,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
                 .toStringList()
                 .distinct()
         }
-            .onFailure { game.logger.e(it) { it.message } }
+            .onFailure { game.logger.i(it) { it.message } }
             .getOrElse { emptyList() }
 
         val blacklistedSystemIds = kotlin.runCatching {
@@ -243,7 +266,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
                 .toStringList()
                 .distinct()
         }
-            .onFailure { game.logger.e(it) { it.message } }
+            .onFailure { game.logger.i(it) { it.message } }
             .getOrElse { emptyList() }
 
         val whitelistedFactions = kotlin.runCatching {
@@ -251,7 +274,7 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
                 .toStringList()
                 .distinct()
         }
-            .onFailure { game.logger.e(it) { it.message } }
+            .onFailure { game.logger.i(it) { it.message } }
             .getOrElse { emptyList() }
 
 
@@ -312,4 +335,12 @@ class PerseanChroniclesModPlugin : BaseModPlugin() {
             }
         }
     }
+
+
+    override fun beforeGameSave() = Questgiver.beforeGameSave()
+    override fun afterGameSave() = Questgiver.afterGameSave()
+    override fun onGameSaveFailed() = Questgiver.onGameSaveFailed()
+    override fun onNewGameAfterProcGen() = Questgiver.onNewGameAfterProcGen()
+    override fun onNewGameAfterEconomyLoad() = Questgiver.onNewGameAfterEconomyLoad()
+    override fun onNewGameAfterTimePass() = Questgiver.onNewGameAfterTimePass()
 }

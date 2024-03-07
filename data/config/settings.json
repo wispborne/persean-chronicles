@@ -39,6 +39,9 @@
       "sleepers": "graphics/telos/sleepers.png",
       "choices": "graphics/telos/choices.png",
       "intel": "graphics/telos/telos_intel.png",
+      "eugel_portrait": "graphics/telos/eugel.png",
+      "telos_ethernet": "graphics/telos/icons/telos_ethernet.png",
+      "telos_ethernet_disabled": "graphics/telos/icons/telos_ethernet_disabled.png",
     },
   },
 

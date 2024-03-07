@@ -2,6 +2,7 @@ package wisp.perseanchronicles.telos.pt2_dart.battle
 
 import org.json.JSONArray
 import wisp.perseanchronicles.telos.TelosCommon
+import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.v2.CustomFleetInteractionDialogPlugin
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
@@ -39,6 +40,7 @@ class Telos2PirateFleetInteractionDialogPluginImpl :
                         "startPirateBattleWithAdvantage" -> option.copy(
                             disableAutomaticHandling = true,
                             onOptionSelected = {
+                                Telos2HubMission.state.talkedToPirateFleet = true
                                 parentDialog.crippleEnemyFleet()
                                 parentDialog.optionSelected(null, OptionId.ENGAGE)
                             })
@@ -47,6 +49,14 @@ class Telos2PirateFleetInteractionDialogPluginImpl :
                     }
                 }
             }
-        )
+        ),
+        firstPageSelector = {
+            if (Telos2HubMission.state.talkedToPirateFleet == true) {
+                single { it.id == "0-already-talked" }
+            } else {
+                Telos2HubMission.state.talkedToPirateFleet = true
+                first()
+            }
+        }
     )
 }

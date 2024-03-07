@@ -11,7 +11,9 @@ import wisp.questgiver.wispLib.findFirst
 
 class Dragons_Stage3_Dialog(val dragons: DragonsHubMission = Global.getSector().intelManager.findFirst()!!) :
     InteractionDialogLogic<Dragons_Stage3_Dialog>(
-        onInteractionStarted = {},
+        onInteractionStarted = {
+            dragons.setCurrentStage(DragonsHubMission.Stage.ReturnedToStart, null, null)
+        },
         pages = listOf(
             IInteractionLogic.Page(
                 id = 1,

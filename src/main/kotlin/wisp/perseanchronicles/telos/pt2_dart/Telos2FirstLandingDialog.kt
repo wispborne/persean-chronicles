@@ -3,6 +3,7 @@ package wisp.perseanchronicles.telos.pt2_dart
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import org.magiclib.kotlin.adjustReputationWithPlayer
+import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -22,7 +23,7 @@ class Telos2FirstLandingDialog(
         stageJson.query("/pages"),
         onPageShownHandlersByPageId = mapOf(
             "1" to {
-                TelosCommon.playThemeMusic()
+                game.jukebox.playTelosThemeMusic()
             },
             "1.6" to {
                 dialog.visualPanel.showImagePortion(

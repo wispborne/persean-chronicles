@@ -4,6 +4,8 @@ import com.fs.starfarer.api.util.Misc
 import org.lazywizard.console.BaseCommand
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.pt1_deliveryToEarth.Telos1HubMission
+import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
+import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
 import wisp.questgiver.v2.HubMissionBarEventWrapperWithoutRules
 
 class StartTelosQuestCommand : BaseCommand {
@@ -11,6 +13,10 @@ class StartTelosQuestCommand : BaseCommand {
         if (!context.isInCampaign) {
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }
+
+        Telos1HubMission.state.map.clear()
+        Telos2HubMission.state.map.clear()
+        Telos3HubMission.state.map.clear()
 
         val market = Misc.findNearestLocalMarket(game.sector.playerFleet, 10000f, null)
         val wrapper = object : HubMissionBarEventWrapperWithoutRules<Telos1HubMission>(Telos1HubMission.MISSION_ID) {

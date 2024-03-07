@@ -12,6 +12,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.isOkForQuest
 import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
@@ -107,7 +108,7 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         market ?: return false
 
         return market.size > 5 // Lives on a populous world
-                && market.starSystem != null // No hyperspace markets >.<
+                && market.isOkForQuest()
                 && market.factionId !in listOf(Factions.LUDDIC_CHURCH, Factions.LUDDIC_PATH, Factions.PIRATES)
                 && market.connectedEntities.none { it?.id == state.destinationPlanet?.id }
                 && RileyBarEventWiring().shouldBeAddedToBarEventPool()

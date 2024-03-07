@@ -113,9 +113,16 @@
               "id" : "0",
               "paras" : [ "Before the holo even stabilizes, the pirate captain has spit out a warning. \"I don’t know who you are or why you’re here, but you don't want to be involved in this. Turn around, now, or we will open fire.\"" ],
               "options" : [ {
-                "text" : "Try to talk the pirate down.",
+                "text" : "Try to talk the pirate down",
                 "goToPage" : "1"
               }, {
+                "id" : "closeComms",
+                "text" : "Cut the comm link"
+              } ]
+            }, {
+              "id" : "0-already-talked",
+              "paras" : [ "There is nothing but static." ],
+              "options" : [ {
                 "id" : "closeComms",
                 "text" : "Cut the comm link"
               } ]
@@ -123,7 +130,7 @@
               "id" : "1",
               "paras" : [ "Every ship has its oddballs, and one of yours is a junior officer who, despite good-natured grumbling from the rest of the bridge, insists on playing self-improvement recordings \"because a good crew is self-edifying.\"", "The latest recording they’ve commandeered the intercom for has been a selection of chapters on the Art of Negotiation. With a meaningful glance at the junior, you press Transmit.", "\"How can I simply turn around? A man needs our help.\"", "The pirate’s face freezes as they confront the unexpected question. \"You have a point. I, uh...\" They seem to be struggling to regain their bravado. “But that’s for you to figure out! I didn't mutiny this ship just to solve your problems!” Their video feed clicks off." ],
               "options" : [ {
-                "text" : "Continue negotiating.",
+                "text" : "Continue negotiating",
                 "goToPage" : "2"
               }, {
                 "id" : "closeComms",
@@ -140,7 +147,7 @@
               "id" : "3",
               "paras" : [ "At last, their eyes light up and land on something off-screen. \"Jeff! Jeff’s your man, he does this all the time. Jeff, sit here.\" Jeff’s face appears nervously on the display. \"Jeff’s the nav guy, he can walk you through the maneuver.\"" ],
               "options" : [ {
-                "text" : "Continue ",
+                "text" : "Continue",
                 "goToPage" : "4"
               } ]
             }, {

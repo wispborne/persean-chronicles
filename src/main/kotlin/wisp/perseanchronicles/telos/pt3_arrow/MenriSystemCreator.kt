@@ -11,6 +11,7 @@ import wisp.questgiver.wispLib.placeInSector
 import java.awt.Color
 
 object MenriSystemCreator {
+    val systemBaseName = "Lama"
 
     fun createMenriSystem(): PlanetAPI? {
         // gate
@@ -19,16 +20,15 @@ object MenriSystemCreator {
         // some hidey points
         val systemOrbitDays = 180f
         val planetName = "Menri"
-        val systemName = "Lama"
 
-        if (game.sector.getStarSystem(systemName) != null) {
+        if (game.sector.getStarSystem(systemBaseName) != null) {
             game.logger.w { "Lama system already exists!" }
-            return game.sector.getStarSystem(systemName).planets.firstOrNull { it.name == planetName }
+            return game.sector.getStarSystem(systemBaseName).planets.firstOrNull { it.name == planetName }
         }
 
-        val system = game.sector.createStarSystem(systemName)
+        val system = game.sector.createStarSystem(systemBaseName)
 
-        system.backgroundTextureFilename = "graphics/backgrounds/background5.jpg"
+        system.backgroundTextureFilename = "graphics/telos/backgrounds/menri_background.jpg"
         system.addTag(Tags.THEME_HIDDEN)
 
         // Star
@@ -40,7 +40,7 @@ object MenriSystemCreator {
         )
             .apply {
                 spec
-                name = systemName
+                name = systemBaseName
                 applySpecChanges()
             }
 

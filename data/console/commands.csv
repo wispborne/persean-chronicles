@@ -10,3 +10,4 @@ SpawnGate,wisp.perseanchronicles.commands.SpawnGate,"gates,campaign",SpawnGate,S
 #PerseanChronicles_BlindMe,wisp.perseanchronicles.telos.pt3_arrow.BlindMeCommand,PerseanChronicles_BlindMe,"For debugging, blinds the player. Ought to remove this before going live..."
 PerseanChronicles_StartTelosQuest,wisp.perseanchronicles.telos.StartTelosQuestCommand,"PerseanChronicles,campaign",PerseanChronicles_StartTelosQuest,"Start Persean Chronicles's Telos quest immediately."
 allall,wisp.perseanchronicles.commands.AllAllCommand, "campaign", "allall", "[Persean Chronicles] Places all hulls, weapons, wings, and commodities into storage. Learns all blueprints and hullmods."
+infinite,wisp.perseanchronicles.commands.InfiniteCommand, "campaign", "infinite", "[Persean Chronicles] Separately toggles infinite supplies and fuel for your fleet. Buying/selling and quest rewards still function normally."

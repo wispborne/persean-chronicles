@@ -7,10 +7,11 @@ wisp_perseanchronicles:
       stages:
         destroyFleet:
           intel:
-            subtitle: 'Destroy the $f:pirates{pirate} fleet.'
+            subtitle: 'Destroy the $f:pirates{pirate} fleet'
             desc: 'Karengo''s distress signal claims that he has discovered something hidden, but he is stranded on-world.
-
-              Destroy the $f:pirates{pirate} fleet around ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}.'
+            
+            
+            Destroy the $f:pirates{pirate} fleet around ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}.'
         landOnPlanetFirst:
           intel:
             subtitle: 'Rendezvous with Karengo'
@@ -20,7 +21,7 @@ wisp_perseanchronicles:
             - id: '1'
               paras:
                 - 'Your shuttle traces an arc down to the planet’s surface, following the
-                  pulse of the distress signal. Surface scans reveal the overgrown ruins
+                  pulse of the distress signal. Surface scans reveal the ruins
                   of a colony and evidence of orbital bombardment, though nothing is recorded
                   in the - admittedly unreliable - fleet datastore.'
                 - 'As you step outside, still pondering the ruins, your thoughts are interrupted
@@ -138,7 +139,7 @@ wisp_perseanchronicles:
               awareness; just as you always know, without looking, where your bridge crew
               is while in flight, you are inexplicably aware that you’re in the chapel.
               The power station is offline, but the backup battery supplying power
-              to the hanger tunnel door is- '
+              to the hangar tunnel door is- '
               options:
                 - text: 'Continue'
                   goToPage: '8.1'
@@ -182,7 +183,7 @@ wisp_perseanchronicles:
               worked.”"
                 - 'This is the first time he has expressed anything but confidence in the
                   safety of the nanite injection, but it’s difficult to feel betrayed
-                  with the stairs down to the hanger wide open, the lone ship there sleeping,
+                  with the stairs down to the hangar wide open, the lone ship there sleeping,
                   waiting to be woken again. Even after so many cycles, it hums with stored
                   energy, and you slip into it. Fractured silicates coat your-its hull,
                   knocked loose by the bombardment, pebbles and dust gathering in divots
@@ -209,7 +210,7 @@ wisp_perseanchronicles:
                 - 'Karengo tucks his syringe of Ether into one of the endless pockets
                   in his tactical jacket and you follow suit, the cylinder pressing against
                   your ribs. “According to my contact,” he says, glancing around, “there
-                  is tunnel access to a hanger from this room.” At your raised eyebrows,
+                  is tunnel access to a hangar from this room.” At your raised eyebrows,
                   he adds, “Somewhere.”'
               options:
                 - text: 'Continue'
@@ -242,7 +243,7 @@ wisp_perseanchronicles:
 
           # Not a real Stage but the strings are the same on both forks so I didn't want to put them in one or the other.
         battle:
-          flagshipName: 'Eugel’s Blade'
+          flagshipName: 'Eugel''s Blade'
           telosQuotesPhase1:
             - '$c:#00CED1{<it is easier to open comms than pick up a sword...and yet>}'
             - '$c:#00BFFF{<they are compelled to destroy what they cannot control>}'

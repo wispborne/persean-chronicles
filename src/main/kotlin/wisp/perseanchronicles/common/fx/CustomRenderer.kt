@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.common.fx
 
+import com.fs.starfarer.api.GameState
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.CampaignEngineLayers
 import com.fs.starfarer.api.campaign.SectorEntityToken
@@ -40,7 +41,7 @@ interface CustomRenderer {
         // clean up nebula list
         val nebulaToRemove: MutableList<Long> = ArrayList()
         nebulaData.forEach { (id, nebula) ->
-            val timePassed = if (game.combatEngine != null)
+            val timePassed = if (game.currentState == GameState.COMBAT)
                 game.combatEngine!!.elapsedInLastFrame
             else amount
             nebula.lifetime += (timePassed / (game.combatEngine?.timeMult?.modified ?: 1f))
@@ -192,6 +193,10 @@ interface CustomRenderer {
         outColor = outColor
     )
         .also { newNebula -> nebulaData[newNebula.id] = newNebula }
+
+    fun clear() {
+        nebulaData.clear()
+    }
 }
 
 class CombatCustomRenderer : CustomRenderer, BaseEveryFrameCombatPlugin() {
@@ -276,5 +281,4 @@ class CampaignCustomRenderer : CustomRenderer, BaseCustomEntityPlugin() {
         CampaignEngineLayers.ABOVE
 
     override fun getRenderRange(): Float = 1.0E25f
-
 }

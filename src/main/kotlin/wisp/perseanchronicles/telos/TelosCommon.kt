@@ -1,5 +1,6 @@
 package wisp.perseanchronicles.telos
 
+import com.fs.starfarer.api.impl.campaign.ids.Factions
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.ColorVariables
@@ -17,6 +18,7 @@ object TelosCommon {
                 "data/strings/compiled/telos_pt3_ether.hjson",
                 "data/strings/compiled/telos_pt3_noEther.hjson",
                 "data/strings/compiled/telos_pt3_common.hjson",
+                // "data/strings/compiled/telos_pt3_escape.hjson", moved into common.
             ),
             masterMod = MOD_ID
         )
@@ -41,67 +43,26 @@ object TelosCommon {
     const val AVALOK_ID = "wisp_perseanchronicles_avalok"
     const val DART_NAME = "Vara"
     const val ETHER_SIGHT_ID = "wisp_perseanchronicles_ethersight"
+    const val ETHERNETWORKED_HULLMOD_ID = "wisp_perseanchronicles_catv"
     const val ETHER_OFFICER_TAG = "wisp_perseanchronicles_etherNetworked"
+    const val SYSTEM_PHASE_DASH_ID = "perseanchronicles_phasedash"
 
     /**
      * Don't let player progress past Phase 1 of the questline (unless playername includes wisp or test)
      */
+    @Deprecated("Let's goooo")
     val isPhase1
-        get() = game.sector?.playerPerson?.nameString?.contains(Regex("""wisp|test""", RegexOption.IGNORE_CASE)) != true
+        get() = false
 
-    fun playThemeMusic(fadeOutSeconds: Int = 3, fadeInSeconds: Int = 3) {
-        val musicSetId = "wisp_perseanchronicles_telosThemeMusic"
-        game.logger.d { "Starting Telos - Theme/Exploration." }
+    val isPhase2
+        get() = true
 
-        kotlin.runCatching {
-            game.soundPlayer.playCustomMusic(
-                /* fadeOutIfAny = */ fadeOutSeconds,
-                /* fadeIn = */ fadeInSeconds,
-                /* musicSetId = */ musicSetId,
-                /* looping = */ true
-            )
-        }
-            .onFailure { game.logger.e(it) }
-    }
+    val eugelFactionId: String
+        get() =
+            if (isKnightsOfLuddEnabled)
+                "knights_of_selkie"
+            else Factions.LUDDIC_CHURCH
 
-    fun playDoomedMusic(fadeOutSecs: Int, fadeInSecs: Int, loop: Boolean = false) {
-        val musicSetId = "wisp_perseanchronicles_telosDoomedMusic"
-        game.logger.d { "Starting Telos - Doomed." }
-        kotlin.runCatching {
-            game.soundPlayer.playCustomMusic(
-                /* fadeOutIfAny = */ fadeOutSecs,
-                /* fadeIn = */ fadeInSecs,
-                /* musicSetId = */ musicSetId,
-                /* looping = */ loop
-            )
-        }
-            .onFailure { game.logger.e(it) }
-    }
-
-    fun playEvasionMusic(fadeOutSecs: Int, fadeInSecs: Int, loop: Boolean = false) {
-        val musicSetId = "wisp_perseanchronicles_telosEvasionMusic"
-        game.logger.d { "Starting Telos - Evasion." }
-        kotlin.runCatching {
-            game.soundPlayer.playCustomMusic(
-                /* fadeOutIfAny = */ fadeOutSecs,
-                /* fadeIn = */ fadeInSecs,
-                /* musicSetId = */ musicSetId,
-                /* looping = */ loop
-            )
-        }
-            .onFailure { game.logger.e(it) }
-    }
-
-    fun stopAllCustomMusic() {
-        game.logger.d { "Stopping custom music." }
-        kotlin.runCatching {
-            game.soundPlayer.playCustomMusic(
-                /* fadeOutIfAny = */ 0,
-                /* fadeIn = */ 5,
-                /* musicSetId = */ null,
-                /* looping = */ false
-            )
-        }
-            .onFailure { game.logger.e(it) }
-    }
+    val knightsOfLuddFactionId = "knights_of_selkie"
+    val isKnightsOfLuddEnabled = game.settings.modManager.isModEnabled("knights_of_ludd")
 }

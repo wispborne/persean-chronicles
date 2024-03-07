@@ -4,6 +4,15 @@ wisp_perseanchronicles:
       strings:
         title: 'Telos: Guarded World'
         iteshName: 'Arrow'
+        etherSight_helptext: 'You have gained the ability Ethersight!
+        
+        
+        When enabled, in-system objects will glow, even out of sensor range. Hostile fleets are red and friendly fleets are green.
+        
+        
+        Hover over the ability icon to view a list of all objects. You may need to add it to your ability bar.
+        
+        Now, escape!'
       stages:
         goToPlanet:
           intel:
@@ -26,7 +35,7 @@ wisp_perseanchronicles:
                 - id: 'return-to-orbit'
                   text: 'Come back later'
                   tooltip: 'You may return to your fleet and continue exploring another time.'
-                - text: 'Head for the hanger'
+                - text: 'Head for the hangar'
                   goToPage: '5-shipyard-choice'
 
             - id: '4-labs'
@@ -65,7 +74,7 @@ wisp_perseanchronicles:
               paras:
                 - 'You push the rack of tubes off of the polished stone table. They slip from the holder and tumble in midair before shattering. 
                 The thick, grey liquid spreads slowly into a pool on the floor.'
-                - '$cv:pc_karengo<you just destroyed the remaining ether> Karengo''s anger flares in your head. $cv:pc_karengo<i could have sold that>'
+                - '$cv:pc_karengo{you just destroyed the remaining ether} Karengo''s anger flares in your head. $cv:pc_karengo{i could have sold that}'
               options:
                 - text: '$cv:pc_player{the sector could not handle this technology  nanites are too dangerous}'
                   goToPage: '4-labs-destroy-ether-leave'
@@ -140,8 +149,8 @@ wisp_perseanchronicles:
             - id: '4-common-areas-2'
               paras:
                 - 'A memory not your own brings the cavern to life like a daydream.'
-                - 'The Telos wander in in small groups. Their faces are alive with contentment and you understand, sensing the web that connects them 
-                all. There are no barriers between them; no misunderstandings, no jealousies, no power dynamics. You wonder how much of that is from the Ether.'
+                - '__The Telos wander in in small groups. Their faces are alive with contentment and you understand, sensing the web that connects them 
+                all. There are no barriers between them; no misunderstandings, no jealousies, no power dynamics. You wonder how much of that is from the Ether.__'
                 - 'Time skips forward.'
               options:
                 - text: 'Continue'
@@ -149,11 +158,11 @@ wisp_perseanchronicles:
 
             - id: '4-common-areas-3'
               paras:
-                - 'The people are nervous now. Something everpresent is missing, and they do not know why.'
-                - 'A woman at the far end of the chamber stands and you know her as ==Krypta==, the scientist that created the Ether.'
-                - '$cv:pc_krypta{telos  as you know the hyperwave emitter at menri is silent   i have confirmed our fears}'
-                - '$cv:pc_krypta{the hegemony have destroyed menri   they are on their way here  we must fight}'
-                - 'The community feels fear, but also resolve, and, even knowing their odds, they walk to the hanger without hesitation.'
+                - '__The people are nervous now. Something everpresent is missing, and they do not know why.__'
+                - '__A woman at the far end of the chamber stands and you know her as ==Krypta==, the scientist that created the Ether.__'
+                - '__$cv:pc_krypta{telos  as you know the hyperwave emitter at menri is silent   i have confirmed our fears}__'
+                - '__$cv:pc_krypta{the hegemony have destroyed menri   they are on their way here  we must fight}__'
+                - '__The community feels fear, but also resolve, and, even knowing their odds, they walk to the hangar without hesitation.__'
               options:
                 - text: 'Continue'
                   goToPage: '4-common-areas-4'
@@ -173,7 +182,7 @@ wisp_perseanchronicles:
 
             - id: '5-shipyard-choice'
               paras:
-                - '$cv:pc_karengo{the hanger is quite a walk} Karengo asks $cv:pc_karengo{are you finished here}'
+                - '$cv:pc_karengo{the hangar is quite a walk} Karengo asks $cv:pc_karengo{are you finished here}'
               options:
                 - text: '$cv:pc_player{yes  time to go}'
                   goToPage: '6-shipyard'
@@ -182,10 +191,10 @@ wisp_perseanchronicles:
 
             - id: '6-shipyard'
               paras:
-                - 'You''ve been able to feel the presence of the destroyer sitting in the hanger since making contact with the base Ether-net. 
+                - 'You''ve been able to feel the presence of the destroyer sitting in the hangar since making contact with the base Ether-net. 
                 When queried, the computer explains that the ship was unfinished when the Telos went to battle. 
                 Automated systems completed the final warship only after there were none left to fly it.'
-                - 'Walking through the long tunnels to the hanger and shipyard gives you time to examine the ship from afar.'
+                - 'Walking through the long tunnels to the hangar and shipyard gives you time to examine the ship from afar.'
               options:
                 - text: 'Continue'
                   goToPage: '7-shipyard-itesh'
@@ -228,9 +237,9 @@ wisp_perseanchronicles:
             - id: '10-disconnected'
               paras:
                 - 'The fleet doesn''t respond.'
-                - 'You and Karengo close rest of the distance to the hanger at a run, bulkheads springing open at your approach, 
+                - 'You and Karengo close rest of the distance to the hangar at a run, bulkheads springing open at your approach, 
                 as you try different comms options, trying to get a response. Nothing works.'
-                - 'By the time you and Karengo climb aboard, breathing heavily, the destroyer is fueled. You send a signal to open the hanger doors, 
+                - 'By the time you and Karengo climb aboard, breathing heavily, the destroyer is fueled. You send a signal to open the hangar doors, 
                  then extend your mind to encompass the ship.'
               options:
                 - text: 'Blast off'
@@ -377,7 +386,7 @@ wisp_perseanchronicles:
               paras:
                 - '"Two days, if we just focus on drives, and nobody sleeps," answers your ops chief, "I''ve only got so many people qualified 
                 to work drives."'
-                - '"And active sensors...three days. Maybe four. I could go quicker but it''d mean sitting here longer."'
+                - '"And active sensors...three days. Maybe four."'
               onPageShown:
                 goToPage: '14-question-bridge'
 
@@ -407,12 +416,13 @@ wisp_perseanchronicles:
                 #   goToPage: '16-powerup-pray'
                 # - text: 'Practice a hobby.'
                 #   goToPage: '16-powerup-ddr'
-                - text: 'Head to the bar.' # add drinks from Substance Abuse if enabled.
+                - text: 'Head to the bar.'
                   goToPage: '16-powerup-bar'
 
             - id: '16-powerup-thinky'
               paras:
-                - 'Despite - finally - having some peace and quiet for contemplation, no answers seem forthcoming.'
+                - 'You wind your way to the Captain''s cabin and slip in. After clearing old logistics and fuel reports from the desk slate, you lean back and put your feet up. 
+                The background hum fades to silence at the twist of a control.'
               options:
                 - text: 'Continue'
                   goToPage: '16-powerup-main-1'
@@ -420,7 +430,7 @@ wisp_perseanchronicles:
             - id: '16-powerup-socialize'
               paras:
                 - 'To take your mind off matters, you decide to spend some time with the crew you''re closest to.'
-                - 'Time passes quickly, as it always does in good company, although the laughter is perhaps 
+                - 'Time passes quickly, as it always does in good company, but the laughter is perhaps 
                 more strained, the smiles too forced, the conversation too safe.'
                 - 'The ceiling of your cabin stares down at you.'
               options:
@@ -445,7 +455,7 @@ wisp_perseanchronicles:
             - id: '16-powerup-karengo-2'
               paras:
                 - 'The two of you retire to your own quarters and you unstopper a few ''special occasion'' bottles.'
-                - 'After that, time blurs. Karengo shares more stories from Ailmar and you recount
+                - 'After that, time blurs. Karengo shares more stories from his home planet, Ailmar, and you recount
                             close calls and near-disasters gathered over the years.'
                 - 'All too soon, Karengo announces he has somewhere to be and leaves you alone with your thoughts -
                             few of them pleasant.'
@@ -479,7 +489,7 @@ wisp_perseanchronicles:
                 - 'You are finishing your fourth drink when Karengo arrives, interrupting a junior officer''s dubious story of the time she 
                 witnessed High Hegemon Daud entering the notorious ''Oldest Profession'' on Port Tse. He grabs an 
                 untouched glass.'
-                - '"To beating the odds!" he proclaims, raising his drink.'
+                - '"To the next step in our adventure!" he proclaims, raising his drink.'
               options:
                 # +5 rep
                 - id: 'cheers-karengo'
@@ -526,8 +536,8 @@ wisp_perseanchronicles:
             - id: '16-powerup-bar-5'
               paras:
                 - 'Karengo pushes himself back from the table.'
-                - '$cv:pc_karengo{<anyway, i have a date or something like that>} He somehow manages to wink telepathically on his way out and 
-                you realize you''ve been sitting silently for the last few minutes. The few remaining patrons seem not to notice.'
+                - '$cv:pc_karengo{<anyway, some of your crew know how to have fun - gotta go>} He somehow manages to wink telepathically on his way out and 
+                you realize the two of you have been sitting silently for the last few minutes. The few remaining patrons seem not to notice.'
               options:
                 - text: 'Continue'
                   goToPage: '16-powerup-bar-6'
@@ -607,7 +617,160 @@ wisp_perseanchronicles:
                 - id: 'flee'
                   text: 'Take the helm'
 
+        # Run away!
         escape:
           intel:
-            subtitle: 'ESCAPE'
-            desc: 'Sensors are jammed. GET TO THE JUMP POINT!'
+            subtitle: 'Escape the system'
+            desc: 'Sensors are down. Navigation is inhibited. The fleet is damaged. Escape to a jump point.'
+
+        # If player talks to Eugel's fleet.
+        eugelDialog:
+          pages:
+            # After having already talked
+            - id: 'already-talked'
+              paras:
+                - 'There is no answer.'
+
+            # First time talking
+            - id: '0'
+              paras:
+                - 'Knight-Captain Eugel''s ancient face stares at you from across the gulf.'
+                - '"Did I not instruct you to stay put? And yet here you are, flouncing about the system."'
+                - 'He clasps the fingers of one hand around the other, then methodically uncurls one opposite pair at a time until he is peering at you over steepled digits.'
+              options:
+                - id: 'eugelBranch'
+                  text: 'Continue'
+
+            # Regular branch
+            - id: '2-notLuddFriend'
+              paras:
+                - '"This is goodbye."'
+                - 'The comms link snaps off.'
+              options:
+                - id: 'closeComms' # return to the vanilla battle dialog
+                  text: 'Continue'
+
+            # Ludd branch
+            - id: '2-luddFriend'
+              paras:
+                - '"However." He draws out the word, considering you. "You are known as a ${playerManOrWoman} of the cloth. 
+                Lapses in faith are more common than you may think."'
+                - '"Rid your congregation of those foul vessels, leave alone the fire of Olympus, and we will overlook this mistake, ${PlayerBrotherOrSister}."'
+              onPageShown:
+                goToPage: '2-luddFriend-options'
+
+            - id: '2-luddFriend-options'
+              paras:
+                - ''
+              options:
+                - text: '"I will do nothing of the sort."'
+                  goToPage: '2-luddFriend-keepShips'
+                - text: 'Scuttle your Telos ships'
+                  goToPage: '2-luddFriend-confirmScuttle'
+
+            - id: '2-luddFriend-confirmScuttle'
+              paras:
+                - 'You turn away from the old Knight and face the bridge, preparing your orders.'
+              options:
+                - id: 'scuttleTelosShipsOpt'
+                  text: '=="Scuttle our Telos ships"=='
+                  goToPage: '2-luddFriend-scuttlingConfirmed'
+                - text: '==Reconsider=='
+                  goToPage: '2-luddFriend-options'
+
+            - id: '2-luddFriend-scuttlingConfirmed'
+              paras:
+                - 'You send the necessary commands and wait. You can see the exact moment Knight-Captain Eugel 
+                receives confirmation of the ships'' fate. His brows twitch into a deep, well-worn furrow for an instant before returning to a more neutral posture.'
+                - '"Well then, ${playerBrotherOrSister}." He looks more disappointed than reconciliatory. "It appears that your crisis of faith is over, 
+                and, with it, our audience."'
+                - 'The comms link cuts off.'
+              options:
+                - text: 'Continue'
+                  goToPage: '2-luddFriend-scuttlingConfirmed-2'
+
+            - id: '2-luddFriend-scuttlingConfirmed-2'
+              paras:
+                - 'After a moment, their fleet breaks its escort formation and turns toward the nearest jump point.'
+              options:
+                - id: 'leave'
+                  text: 'Leave'
+
+            - id: '2-luddFriend-keepShips'
+              paras:
+                - 'Knight-Captain Eugel makes a half-hearted attempt to look regretful, but his eyes glitter.'
+                - '"Then I am sorry, Captain, but I have no choice. Evil must be contained."'
+                - 'The comms link cuts off.'
+              options:
+                - id: 'closeComms' # return to the vanilla battle dialog
+                  text: 'Continue'
+
+        # Player is a Luddic and agrees to sacrifice their ships to end the questline.
+        completedSacrificeShips:
+          intel:
+            subtitle: 'Moloch''s corrupt thread of fate has been severed'
+            desc: 'You have proven your loyalty to Knight-Captain Eugel by scuttling the Telos ships. Any further secrets the Telos may have had will remain where they belong; lost to the annals of history.'
+
+
+        # Defeated Eugel in battle. You go, gamer.
+        defeatedEugel:
+          intel:
+            subtitle: 'Victory, against all odds'
+            desc: 'Knight-Captain Eugel found you at the dead Telos homeworld, Menri, and triggered a trap that crippled your fleet.
+            
+            
+            Rather than flee, you fought the Luddic Knight, defeating him once and for all. It''s time to leave this system behind.'
+          pages:
+            - id: '1-beatEugel'
+              paras: ''
+
+        # Main branch, player escaped the system.
+        escaped:
+          intel:
+            subtitle: 'Escaped Menri'
+            desc: 'Knight-Captain Eugel ambushed you in the dead Telos home system, but you were able to escape using a powerful new ability.'
+          pages:
+            - id: '1-escaped'
+              paras:
+                - 'With the threat of imminent peril lifted, fleet repairs proceed rapidly. An uncomfortable silence falls over the bridge and sticks. 
+                Officers look at each other, seeking answers none of them have.'
+                - 'Finally, an officer speaks up. You recall selecting him specifically for his willingness to question your choices - outside of combat, of course.'
+                - '"${PlayerSirOrMadam}, what was that?"'
+              options:
+                - text: '"What was what?"'
+                  goToPage: '2-clarification'
+                - text: '"You don''t need to know that. I am your Captain."'
+                  goToPage: '3-fatherKnowsBest'
+                - text: '"I have nanites in my blood created by rogue Tri-Tachyon scientists that let me see across a system."'
+                  goToPage: '3-explanation'
+
+            - id: '2-clarification'
+              paras:
+                - 'He cocks his head. "Getting ambushed is nothing new, Captain. But we were blind. Dead in the water. And yet, somehow, you knew exactly where to go."'
+                - '"How is that possible?"'
+              options:
+                - text: '"You don''t need to know that. I am your Captain."'
+                  goToPage: '3-fatherKnowsBest'
+                - text: '"I have nanites in my blood created by rogue Tri-Tachyon scientists that let me see across a system."'
+                  goToPage: '3-explanation'
+
+            - id: '3-fatherKnowsBest'
+              paras:
+                - 'After a moment, he nods, clearly deciding not to push his luck with more questions. The bridge resumes its usual calm, competent activity, the matter resolved.'
+              goToPage: '4-cliffhanger'
+
+            - id: '3-explanation'
+              response-zigg: 'The man pales. "First that phase ship, now this. We find strange and dangerous machinery, ${PlayerSirOrMadam}.'
+              response-noZigg: 'The man pales, then smiles grimly. "Better you than me, ${PlayerSirOrMadam}. It''s an honor to serve.'
+              goToPage: '3-explanation-finish'
+
+            - id: '3-explanation-finish'
+              paras:
+                - 'He returns to his console, pointedly not asking anything further. The rest of the bridge takes his lead and resumes its usual calm, competent activity, the matter resolved.'
+              goToPage: '4-cliffhanger'
+
+            - id: '4-cliffhanger'
+              text: '==This concludes Phase 2 of the Telos storyline. More to come at a later date.=='
+              options:
+                - text: 'Close'
+                  id: 'endOfPhase2'

@@ -1,13 +1,17 @@
 package wisp.perseanchronicles.telos.pt2_dart.battle
 
+import com.fs.starfarer.api.campaign.BattleAPI
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.mission.FleetSide
 import com.fs.starfarer.api.util.Misc
+import org.magiclib.achievements.MagicAchievement
+import org.magiclib.achievements.MagicAchievementManager
+import wisp.perseanchronicles.Jukebox
+import wisp.perseanchronicles.achievements.Achievements
 import wisp.perseanchronicles.common.BattleSide
 import wisp.perseanchronicles.game
-import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.wispLib.TextExtensions
 import wisp.questgiver.wispLib.findFirst
@@ -52,12 +56,12 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI, va
         // Wait a moment after start because otherwise there's a race condition starting music.
         if (!startedThemeMusic && totalTimeElapsed > 1f) {
             game.soundPlayer.setSuspendDefaultMusicPlayback(true)
-            TelosCommon.playThemeMusic(0, 0)
+            game.jukebox.playTelosThemeMusic(0, 0)
             startedThemeMusic = true
         }
 
         if (secsSinceWave1WasDefeated != null && !startedDoomedMusic) {
-            TelosCommon.playDoomedMusic(fadeOutSecs = 3, fadeInSecs = 3)
+            game.jukebox.playSong(Jukebox.Song.DOOMED, fadeOutSecs = 3, fadeInSecs = 3)
             startedDoomedMusic = true
         }
 
@@ -178,9 +182,14 @@ class Telos2BattleScript(private val playerRealFleetHolder: CampaignFleetAPI, va
 
         if (didPlayerWin) {
             game.logger.i { "Cheater cheater pumpkin eater!" }
+            MagicAchievementManager.getInstance().completeAchievement(Achievements.CheatedFlashbackBattleAchievement::class.java)
         }
 
         game.combatEngine?.endCombat(0f)
+        if (game.sector.playerFleet.battle != null) {
+            game.sector.playerFleet.battle.finish(BattleAPI.BattleSide.NO_JOIN)
+            game.sector.playerFleet.battle = null
+        }
 
         // Give the player back their fleet.
         game.sector.playerFleet.swapFleets(

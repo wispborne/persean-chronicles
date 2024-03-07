@@ -10,7 +10,7 @@ wisp_perseanchronicles:
                 Iron-rich dust from the asteroid belt streaks past your shuttle in a perpetual fall toward the planet.'
                 - 'A few engineers had voiced concerns about the dust, but in the end, most decided that it was inert, 
                 likely the leftovers of battles hundreds of cycles old.'
-                - '"What will we find?" you ask Karengo.'
+                - '"What''s down there?" you ask Karengo.'
                 - '"If we''re lucky, a destroyer", he responds, "and if we are very lucky, a cruiser."'
               options:
                 - text: '"What if we are unlucky?"'
@@ -34,28 +34,28 @@ wisp_perseanchronicles:
                 - text: 'Enter'
                   goToPage: '3-noEther-go-inside'
 
-            - id: '4-noEther-go-inside'
+            - id: '3-noEther-go-inside'
               paras:
                 - 'This time, no emergency lighting illuminates the path down the tunnel. Activating your own lighting and overlays, you work 
                 your way forward.'
-                - 'The level of destruction drops off after a few minutes of walking and your pace picks up when you hear twin bursts of gas escaping.'
+                - 'The level of destruction drops off after a few minutes of walking and your pace picks up when you hear two short bursts of air.'
                 - 'Something stings your neck.'
               options:
-                - text: 'Continue'
+                - text: 'Reach up to feel'
                   goToPage: '5-noEther-trap'
 
             - id: '5-noEther-trap'
               paras:
                 - '...'
               options:
-                - text: 'Continue'
+                - text: '...'
                   goToPage: '6-noEther-dream'
 
             - id: '6-noEther-dream'
               paras:
                 - '...'
               options:
-                - text: 'Continue'
+                - text: '...'
                   goToPage: '7-noEther-dream'
 
             - id: '7-noEther-dream'
@@ -67,18 +67,26 @@ wisp_perseanchronicles:
 
             - id: '8-noEther-dream'
               paras:
-                - '_You see scenes of orbital bombardment; gouts of flame scream toward the ground and erupt in conflagration. 
+                - '__You see scenes of orbital bombardment; gouts of flame scream toward the ground and erupt in conflagration. 
                                    Buildings are flattened and air vents doused in liquid fire. With the certainty of a dream, 
-                                   you identify the ships overhead as Hegemony under the command of Captain Eugel._'
+                                   you identify the ships overhead as Hegemony under the command of Captain Eugel.__'
               options:
                 - text: 'Continue'
                   goToPage: '9-noEther-dream'
 
             - id: '9-noEther-dream'
               paras:
-                - '_They''d arrived in-system after their attack on the other Telos base, Menri. No demands were made and, 
-                                   despite the potent defences circling in orbit, the settlement had been dealt blow after unyielding blow._'
-                - '_It fell in hours._'
+                - '__They''d arrived in-system after their attack on the other Telos base, Menri. No demands were made and, 
+                                   despite the potent defences circling in orbit, the settlement had been dealt blow after unyielding blow.__'
+                - '__It fell in hours.__'
+              options:
+                - text: 'Continue'
+                  goToPage: '9.1-noEther-dream-krypta'
+
+            - id: '9.1-noEther-dream-krypta'
+              paras:
+                - '__A woman''s face appears, angular and handsome, eyes dark and sad.__'
+                - '__$cv:pc_krypta{now you have our story, ${playerFirstName}. you have our gift to the sector. use it, and remember us}__'
               options:
                 - text: 'Wake'
                   goToPage: '10-noEther-awake'
@@ -115,10 +123,9 @@ wisp_perseanchronicles:
 
             - id: '13-noEther'
               paras:
-                - '$cv:pc_player{<then...the trap was only meant to make us like them?>} you ask. You surprise yourself with how quickly 
+                - '$cv:pc_player{<then...the trap was meant to make us like them?>} you ask. You surprise yourself with how quickly 
                 this mode of communication has supplanted the traditional means.'
-                - '$cv:pc_karengo{<suppose so. my tripad''s showing me healthier than ever>}'
-                - '$cv:pc_karengo{<shall we get a move on?>} you are able to sense his impatience. Apparently, the link transfers more than just ideas.'
+                - '$cv:pc_karengo{<does it matter? we should get a move on>} You can sense his impatience, and something deeper and hotter, through the link.'
               options:
                 - text: '$cv:pc_player{<let''s go>}'
                   goToPage: '14-noEther'

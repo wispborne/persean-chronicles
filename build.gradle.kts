@@ -10,7 +10,7 @@ val props = Properties().apply {
     load(project.rootProject.file("local.properties").reader())
 }
 
-val modVersion = "3.0.8"
+val modVersion = "3.1.0"
 val starsectorDirectory = props.getProperty("gamePath") //"C:/Program Files (x86)/Fractal Softworks/Starsector"
 val jarFileName = "PerseanChronicles.jar"
 val questgiverVersion = "4.0.0"
@@ -19,7 +19,7 @@ val modId = "wisp_perseanchronicles"
 val modName = "Persean Chronicles"
 val author = "Wisp"
 val modDescription = "Adds a small collection of quests to bars around the Persean Sector."
-val gameVersion = "0.96a-RC10"
+val gameVersion = "0.97a-RC7"
 val jars = arrayOf("jars/PerseanChronicles.jar", "libs/wisp/questgiver/$questgiverVersion/Questgiver-$questgiverVersion.jar")
 val modPlugin = "wisp.perseanchronicles.PerseanChroniclesModPlugin"
 val isUtilityMod = false
@@ -70,6 +70,7 @@ dependencies {
     compileOnly(fileTree("$starsectorModDirectory/Console Commands/jars") { include("*.jar") })
     compileOnly(fileTree("$starsectorModDirectory/GraphicsLib/jars") { include("*.jar") })
     compileOnly(fileTree("$starsectorModDirectory/Secrets of the Frontier/jars") { include("*.jar") })
+    compileOnly(fileTree("$starsectorModDirectory/Nexerelin-0.11.0b/jars") { include("*.jar") })
 
     // This grabs local files from the /libs folder, see `repositories` block.
     compileOnly("starfarer:starfarer-api:1.0.0")
@@ -221,9 +222,18 @@ tasks {
     }
 }
 
+sourceSets {
+    // Note that just declaring this sourceset creates two configurations.
+    main {
+        java {
+            srcDir("src/main/kotlin")
+        }
+    }
+}
+
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_6
-    targetCompatibility = JavaVersion.VERSION_1_6
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
 }
 
 // Compile to Java 6 bytecode so that Starsector can use it

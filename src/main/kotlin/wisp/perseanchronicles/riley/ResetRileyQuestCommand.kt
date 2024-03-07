@@ -1,5 +1,10 @@
 package wisp.perseanchronicles.riley
 
+import com.fs.starfarer.api.Global
+import com.fs.starfarer.api.characters.PersonAPI
+import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager
+import com.fs.starfarer.api.impl.campaign.intel.bar.events.ScientistAICoreBarEvent
+import com.fs.starfarer.api.impl.campaign.intel.bar.events.ScientistAICoreIntel
 import org.lazywizard.console.BaseCommand
 import org.lazywizard.console.Console
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
@@ -22,6 +27,11 @@ class ResetRileyQuestCommand : BaseCommand {
         }.onFailure { game.logger.w(it) }
 
         Console.showMessage("Quest reset.")
-        return BaseCommand.CommandResult.SUCCESS
+
+        val event: ScientistAICoreIntel =  Global.getSector().getIntelManager().getFirstIntel(
+            ScientistAICoreIntel::class.java) as ScientistAICoreIntel
+        BarEventManager.getInstance().active.items.filterIsInstance<ScientistAICoreBarEvent>().firstOrNull()?.person
+
+            return BaseCommand.CommandResult.SUCCESS
     }
 }

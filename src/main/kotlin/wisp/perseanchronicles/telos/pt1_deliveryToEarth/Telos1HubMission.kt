@@ -17,12 +17,13 @@ import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.isOkForQuest
 import wisp.perseanchronicles.telos.TelosCommon
-import wisp.questgiver.InteractionDefinition
-import wisp.questgiver.spriteName
+import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
 import wisp.questgiver.v2.json.optQuery
 import wisp.questgiver.v2.json.query
+import wisp.questgiver.v2.spriteName
 import wisp.questgiver.wispLib.*
 import java.awt.Color
 import java.util.*
@@ -65,17 +66,17 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
 
     /**
      * Show if we haven't started this one yet.
-     * Show at markets that are independent, size 5+, and not hyperspace.
+     * Show at markets that are independent, size 4+, and not hyperspace.
      */
     override fun shouldShowAtMarket(market: MarketAPI?): Boolean {
         return state.startDateMillis == null
-                && market?.starSystem != null // No hyperspace markets >.<
+                && market?.isOkForQuest() == true
                 && market.factionId in listOf(Factions.INDEPENDENT)
-                && market.size >= 5
+                && market.size >= 4
     }
 
-    override fun onGameLoad() {
-        super.onGameLoad()
+    override fun onGameLoad(isNewGame: Boolean) {
+        super.onGameLoad(isNewGame)
 
         if (isDevMode())
             part1Json = TelosCommon.readJson()
@@ -100,11 +101,10 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         setAbandonStage(Stage.Abandoned)
 
         name = part1Json.optQuery("/strings/title")
-        setCreditReward(CreditReward.VERY_HIGH) // 95k ish, we want the player to take this.
         setGiverFaction(PerseanChroniclesNPCs.kellyMcDonald.faction.id) // Rep reward.
         personOverride = PerseanChroniclesNPCs.kellyMcDonald // Shows on intel, needed for rep reward or else crash.
 
-        setIconName(InteractionDefinition.Portrait(category = "wisp_perseanchronicles_telos", id = "intel").spriteName(game))
+        setIconName(IInteractionLogic.Portrait(category = "wisp_perseanchronicles_telos", id = "intel").spriteName(game))
 
         state.startLocation = createdAt?.primaryEntity
 
@@ -122,7 +122,10 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
             .preferSystemTags(ReqMode.NOT_ANY, Tags.THEME_REMNANT, Tags.THEME_UNSAFE)
             .pickPlanet()
             ?: kotlin.run { game.logger.w { "Unable to find a planet for ${this.name}." }; return false }
+        val planet = state.karengoPlanet ?: return false
 
+        setRewardMult((planet.distanceFromPlayerInHyperspace / 20f).coerceAtLeast(1f))
+        setCreditReward(CreditReward.VERY_HIGH) // 95k ish + distance bonus, we want the player to take this.
 
         return true
     }

@@ -9,8 +9,8 @@
         "stages" : {
           "destroyFleet" : {
             "intel" : {
-              "subtitle" : "Destroy the $f:pirates{pirate} fleet.",
-              "desc" : "Karengo's distress signal claims that he has discovered something hidden, but he is stranded on-world.\nDestroy the $f:pirates{pirate} fleet around ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}."
+              "subtitle" : "Destroy the $f:pirates{pirate} fleet",
+              "desc" : "Karengo's distress signal claims that he has discovered something hidden, but he is stranded on-world.\n\nDestroy the $f:pirates{pirate} fleet around ${telosPt1Stg1DestPlanet} in ${telosPt1Stg1DestSystem}."
             }
           },
           "landOnPlanetFirst" : {
@@ -20,7 +20,7 @@
             },
             "pages" : [ {
               "id" : "1",
-              "paras" : [ "Your shuttle traces an arc down to the planet’s surface, following the pulse of the distress signal. Surface scans reveal the overgrown ruins of a colony and evidence of orbital bombardment, though nothing is recorded in the - admittedly unreliable - fleet datastore.", "As you step outside, still pondering the ruins, your thoughts are interrupted by Karengo himself, striding purposefully toward the cooling shuttle in his weathered duster - confirming the ship instruments’ classification of the atmosphere as “env-suit optional.”" ],
+              "paras" : [ "Your shuttle traces an arc down to the planet’s surface, following the pulse of the distress signal. Surface scans reveal the ruins of a colony and evidence of orbital bombardment, though nothing is recorded in the - admittedly unreliable - fleet datastore.", "As you step outside, still pondering the ruins, your thoughts are interrupted by Karengo himself, striding purposefully toward the cooling shuttle in his weathered duster - confirming the ship instruments’ classification of the atmosphere as “env-suit optional.”" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "1.5"
@@ -101,7 +101,7 @@
               } ]
             }, {
               "id" : "8",
-              "paras" : [ "Consciousness returns unwillingly. Your head reverberates with unfamiliar awareness; just as you always know, without looking, where your bridge crew is while in flight, you are inexplicably aware that you’re in the chapel. The power station is offline, but the backup battery supplying power to the hanger tunnel door is- " ],
+              "paras" : [ "Consciousness returns unwillingly. Your head reverberates with unfamiliar awareness; just as you always know, without looking, where your bridge crew is while in flight, you are inexplicably aware that you’re in the chapel. The power station is offline, but the backup battery supplying power to the hangar tunnel door is- " ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "8.1"
@@ -132,7 +132,7 @@
               } ]
             }, {
               "id" : "11",
-              "paras" : [ "“That was you,” he says finally. “I didn’t think- I mean, it actually worked.”", "This is the first time he has expressed anything but confidence in the safety of the nanite injection, but it’s difficult to feel betrayed with the stairs down to the hanger wide open, the lone ship there sleeping, waiting to be woken again. Even after so many cycles, it hums with stored energy, and you slip into it. Fractured silicates coat your-its hull, knocked loose by the bombardment, pebbles and dust gathering in divots along the sleek, smooth exterior like vernal pools. You could effortlessly bring the entire system online, shaking free the rubble to soar again. A thought reaches out to-" ],
+              "paras" : [ "“That was you,” he says finally. “I didn’t think- I mean, it actually worked.”", "This is the first time he has expressed anything but confidence in the safety of the nanite injection, but it’s difficult to feel betrayed with the stairs down to the hangar wide open, the lone ship there sleeping, waiting to be woken again. Even after so many cycles, it hums with stored energy, and you slip into it. Fractured silicates coat your-its hull, knocked loose by the bombardment, pebbles and dust gathering in divots along the sleek, smooth exterior like vernal pools. You could effortlessly bring the entire system online, shaking free the rubble to soar again. A thought reaches out to-" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "11.1"
@@ -146,7 +146,7 @@
               } ]
             }, {
               "id" : "12",
-              "paras" : [ "Karengo tucks his syringe of Ether into one of the endless pockets in his tactical jacket and you follow suit, the cylinder pressing against your ribs. “According to my contact,” he says, glancing around, “there is tunnel access to a hanger from this room.” At your raised eyebrows, he adds, “Somewhere.”" ],
+              "paras" : [ "Karengo tucks his syringe of Ether into one of the endless pockets in his tactical jacket and you follow suit, the cylinder pressing against your ribs. “According to my contact,” he says, glancing around, “there is tunnel access to a hangar from this room.” At your raised eyebrows, he adds, “Somewhere.”" ],
               "options" : [ {
                 "text" : "Continue",
                 "goToPage" : "12.1"
@@ -173,7 +173,7 @@
             }
           },
           "battle" : {
-            "flagshipName" : "Eugel’s Blade",
+            "flagshipName" : "Eugel's Blade",
             "telosQuotesPhase1" : [ "$c:#00CED1{<it is easier to open comms than pick up a sword...and yet>}", "$c:#00BFFF{<they are compelled to destroy what they cannot control>}", "$c:#00CDCD{<hatred is human. we had hoped they would be better>}", "$c:#ADD8E6{<violence begets violence>}", "$c:#00CED1{<we only wanted to live in peace>}" ],
             "telosQuotesPhase2" : [ "$c:#00CED1{<oh my>}", "$c:#00BFFF{<they have walked much too far down the path of war>}", "$c:#ADD8E6{<the more we fell, the fewer yerpa must face>}", "$c:#00CDCD{<how can there be so many?>}" ],
             "telosDeathQuotes" : [ "$c:#00CED1{<it's ok>}", "$c:#00BFFF{<death is but the next step>}", "$c:#ADD8E6{<i hold with those who favor fire>}", "$c:#00CDCD{<the telos live on through krypta>}" ],

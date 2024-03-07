@@ -20,9 +20,7 @@ class NocturneCustomEntity : BaseCustomEntityPlugin() {
         super.render(layer, viewport)
 
         game.settings.getSprite("wisp_perseanchronicles_telos", "nocturneBlackout").apply {
-//                width = size
-//                height = size
-            setSize(viewport.visibleWidth, viewport.visibleHeight)
+            setSize(viewport.visibleWidth * 1.5f, viewport.visibleHeight * 1.5f)
             alphaMult = 0.65f
             renderAtCenter(entity.location.x, entity.location.y)
         }

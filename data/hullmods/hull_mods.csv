@@ -1,6 +1,5 @@
 name,id,tier,rarity,tech/manufacturer,tags,uiTags,base value,unlocked,hidden,hiddenEverywhere,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,desc,short,sprite
 Reconsider Inertia,wisp_perseanchronicles_inertia,,,Telos,"no_drop, special, no_build_in",Special,,,TRUE,,0,0,0,0,wisp.perseanchronicles.telos.boats.ReconsiderInertiaHullmod,Move in the direction you face.,Move in the direction you face.,graphics/icons/skills/officer_training.png
-Ether-networked,wisp_perseanchronicles_catv,,,Telos,"no_drop, special, no_build_in",Special,,,TRUE,,0,0,0,0,wisp.perseanchronicles.telos.boats.TelosEtherNetworkedHullmod,"This ship requires an Ether-networked officer for full performance.
-
-The unparalleled responsiveness and maneuverability of Telos ships stems from a heavy reliance on a mind-ship connection. Manual controls are available, but are intended for emergencies, not combat.",Controlled telepathically.,graphics/telos/telos_ethernet.png,
+Ether-networked,wisp_perseanchronicles_catv,,,Telos,"no_drop, special, no_build_in",Special,,,TRUE,,0,0,0,0,wisp.perseanchronicles.telos.boats.TelosEtherNetworkedHullmod,"The unparalleled abilities of Telos ships stem from a heavy reliance on a mind-ship connection. Manual controls are available, but are intended for emergencies, not combat.",Controlled telepathically.,graphics/telos/icons/telos_ethernet.png,
+# Damaged,wisp_perseanchronicles_damaged,,,,"dmod",Special,,,TRUE,,0,0,0,0,wisp.perseanchronicles.telos.boats.DamagedHullMod,This ship has been damaged and there is no time to repair it.,,graphics/icons/skills/officer_training.png
 ,,,,,,,,,,,,,,,,,,,

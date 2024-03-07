@@ -25,24 +25,29 @@ import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.common.fx.CampaignCustomRenderer
 import wisp.perseanchronicles.common.fx.CustomRenderer
 import wisp.perseanchronicles.game
+import wisp.perseanchronicles.telos.pt3_arrow.MenriSystemCreator
+import wisp.perseanchronicles.telos.pt3_arrow.SmoothScrollPlayerCampaignZoomScript
 import wisp.questgiver.wispLib.distanceFromPlayerInHyperspace
 import wisp.questgiver.wispLib.equalsAny
 import wisp.questgiver.wispLib.modify
 import wisp.questgiver.wispLib.random
 import java.awt.Color
+import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
-class TelevisionScript : BaseToggleAbility() {
+class EthersightAbility : BaseToggleAbility() {
+    companion object {
+        const val BOOSTED_MAX_ZOOM = 10f
+    }
+
+    @Transient
     private val HYPERSPACE_RANGE = 20000f
 
-    private val originalMaxZoom = game.settings.getFloat("maxCampaignZoom")
-
-    override fun runWhilePaused() = true
-
+    @Transient
     protected var phaseAngle = 0f
 
     @Transient
@@ -56,14 +61,37 @@ class TelevisionScript : BaseToggleAbility() {
 
     @Transient
     private var nebulaDensityInterval: IntervalUtil? = IntervalUtil(0.03f, 0.04f)
+
+    @Transient
     private var nocturneEntity: SectorEntityToken? = null
 
+    @Transient
+    private var lastLoadedSector: WeakReference<SectorAPI>? = null
+
+    override fun runWhilePaused() = true
     override fun getActiveLayers(): EnumSet<CampaignEngineLayers?>? = EnumSet.of(CampaignEngineLayers.ABOVE)
 
     override fun advance(amount: Float) {
         super.advance(amount)
 
-        if (!turnedOn) return
+        if (!turnedOn) {
+            // If player has the ability on, then loads a save where they don't, the max zoom will be wrong, so reset it.
+            // TODO check this for 0.97a
+            if (game.sector.campaignUI.maxZoomFactor != SmoothScrollPlayerCampaignZoomScript.getVanillaMaxZoom()
+                && game.sector != lastLoadedSector?.get()
+                && game.settings.gameVersion != "0.96a-RC10"
+            ) {
+                game.sector.campaignUI.maxZoomFactor = SmoothScrollPlayerCampaignZoomScript.getVanillaMaxZoom()
+                lastLoadedSector = WeakReference(game.sector)
+            }
+
+            return
+        }
+
+        if (!isUsable) {
+            deactivate()
+            return
+        }
 
         val days = Global.getSector().clock.convertToDays(if (game.sector.isPaused) 0f else amount)
         phaseAngle += days * 360f * 10f
@@ -71,25 +99,27 @@ class TelevisionScript : BaseToggleAbility() {
 
         if (visionEntity == null || visionEntity?.containingLocation != Global.getSector().playerFleet.containingLocation) {
             visionEntity = Global.getSector().playerFleet.containingLocation.addCustomEntity(
-                "perseanchronicles_ethersight", "Devmode: Tell your friends about Persean Chronicles today!",
+                "perseanchronicles_ethersight", "Devmode is on. Tell your friends about Persean Chronicles today!",
                 "PerseanChronicles_CustomRenderer_Nebula", Factions.INDEPENDENT, this
-            );
-            visionEntity?.setFixedLocation(-100000f, -100000f);
-            visionEntity?.radius = 5f;
+            )
+            visionEntity?.setFixedLocation(-100000f, -100000f)
+            visionEntity?.radius = 5f
             customRenderer = visionEntity?.customPlugin as? CampaignCustomRenderer
         }
 
-        if (objDensityInternal == null)
-            objDensityInternal = IntervalUtil(0.03f, 0.04f)
-        objDensityInternal?.advance(amount)
+        if (!game.sector.isPaused) {
+            if (objDensityInternal == null)
+                objDensityInternal = IntervalUtil(0.03f, 0.04f)
+            objDensityInternal?.advance(amount)
 
-        if (nebulaDensityInterval == null)
-            nebulaDensityInterval = IntervalUtil(0.03f, 0.04f)
-        nebulaDensityInterval?.advance(amount)
+            if (nebulaDensityInterval == null)
+                nebulaDensityInterval = IntervalUtil(0.03f, 0.04f)
+            nebulaDensityInterval?.advance(amount)
+        }
     }
 
     override fun activateImpl() {
-        CampaignEngine.getInstance().uiData.campaignMapZoom = 5f
+        CampaignEngine.getInstance().uiData.campaignZoom = 5f
     }
 
     /**
@@ -98,21 +128,43 @@ class TelevisionScript : BaseToggleAbility() {
      */
     override fun applyEffect(amount: Float, level: Float) {
         if (turnedOn) {
-            setMaxZoom(10f)
+            setMaxZoom(BOOSTED_MAX_ZOOM)
             setDimmedScreen(true)
         }
     }
 
     override fun deactivateImpl() {
-        setMaxZoom(originalMaxZoom)
+        turnedOn = false
         setDimmedScreen(false)
+        customRenderer?.clear()
+
+        // Reset max zoom to vanilla value over time.
+        val vanillaMaxZoomLocal = SmoothScrollPlayerCampaignZoomScript.getVanillaMaxZoom()
+
+        if (CampaignEngine.getInstance().uiData.campaignZoom > vanillaMaxZoomLocal) {
+            game.sector.addTransientScript(
+                SmoothScrollPlayerCampaignZoomScript(
+                    endingZoom = vanillaMaxZoomLocal,
+                    endingMaxZoom = vanillaMaxZoomLocal
+                )
+            )
+        } else {
+            setMaxZoom(vanillaMaxZoomLocal)
+        }
+    }
+
+    private fun setMaxZoom(zoomMult: Float) {
+        game.sector.campaignUI.maxZoomFactor = zoomMult
     }
 
     override fun cleanupImpl() {
         setDimmedScreen(false)
+        customRenderer?.clear()
     }
 
     override fun hasTooltip() = true
+    override fun isTooltipExpandable() = false
+    override fun isUsable() = game.sector?.playerFleet?.isInHyperspace == false && !isSystemHidden()
 
     override fun createTooltip(tooltip: TooltipMakerAPI?, expanded: Boolean) {
         var status = " (off)"
@@ -120,24 +172,91 @@ class TelevisionScript : BaseToggleAbility() {
             status = " (on)"
         }
 
+        val systemHidden = isSystemHidden()
         val title = tooltip!!.addTitle(spec.name + status)
         title.highlightLast(status)
         title.setHighlightColor(Misc.getGrayColor())
 
-        val pad = 10f
+        val pad = 3f
+        val opad = 10f
 
         tooltip.addPara(
-            "By focusing, you are able to observe stellar objects and fleets from afar.", pad
+            "By focusing, you are able to observe stellar objects and fleets from afar.", opad
         )
-        tooltip.addPara(
-            "Hostile fleets show in red.", pad
-        )
+//        tooltip.addPara("Hostile fleets are red.", pad, Color.RED, "red")
+
+        // Ethersense
+        if (game.sector.currentLocation.isHyperspace) {
+            return
+        }
+
+        val entities = if (systemHidden) emptyList() else getEntitiesInSystem()
+        tooltip.addSpacer(pad)
+
+        if (entities.isEmpty()) {
+            if (systemHidden)
+                tooltip.addPara(
+                    "This system is void of information. You feel somehow more blind than before you first tasted Ether.",
+                    Misc.getNegativeHighlightColor(),
+                    pad
+                )
+            else {
+                tooltip.addPara(
+                    "This system has no objects of note.",
+                    Misc.getTextColor(),
+                    pad
+                )
+            }
+        } else {
+//            tooltip.addPara(
+//                "You sense entities within the sector, each one a pattern, and something within you catalogues them all.", opad
+//            )
+
+            tooltip.setBulletedListMode("  - ")
+            for ((name, group) in entities
+                .filter { it !is CampaignFleetAPI }
+                .groupBy { token ->
+                    if (systemHidden || token.hasTag(Tags.THEME_HIDDEN)) "<unknown pattern>"
+                    else
+                        (token as? CustomCampaignEntity)?.spec?.defaultName
+                            ?: token.name
+                }
+                .entries
+                .sortedWith(compareBy<Map.Entry<String, List<SectorEntityToken>>> { it.value.first() is CampaignFleetAPI }
+                    .thenBy { it.value.first().fullName }
+                )) {
+                tooltip.addPara(
+                    "%s",
+                    pad,
+                    Misc.getTextColor(), //group.first().indicatorColor,
+                    name + if (group.size > 1) " x${group.size}" else ""
+                )
+            }
+
+            val fleetsCount = entities.count { it is CampaignFleetAPI }
+            if (fleetsCount > 0) {
+                tooltip.addPara(
+                    "Fleet x${fleetsCount}",
+                    pad,
+                )
+            }
+            tooltip.setBulletedListMode(null)
+        }
     }
 
+    /**
+     * Disable Ethersight in systems with the "hidden" tag (except for Menri).
+     */
+    private fun isSystemHidden() =
+        game.sector.playerFleet.starSystem?.hasTag(Tags.THEME_HIDDEN) ?: false
+                && game.sector.playerFleet.starSystem.baseName != MenriSystemCreator.systemBaseName
+
     override fun render(layer: CampaignEngineLayers, viewport: ViewportAPI) {
-        CampaignEngine.getInstance().uiData.campaignZoom = 30f
-        CampaignEngine.getInstance().uiData.campaignMapZoom = 30f
-//        game.sector.playerFleet.starSystem.backgroundTextureFilename = "graphics/backgrounds/empty.png"
+        if (!turnedOn) return
+
+        val fleet = game.sector.playerFleet
+        // Changed my mind, it shouldn't work in hyperspace.
+        if (fleet.isInHyperspace) return
         val ignoreIds = setOf("PerseanChronicles_CustomRenderer_Nebula")
 
         if (fleet.isInHyperspace) {
@@ -167,6 +286,7 @@ class TelevisionScript : BaseToggleAbility() {
                 (obj is CampaignTerrain && obj.type.equalsAny(Terrain.RADIO_CHATTER, Terrain.ASTEROID_FIELD))
                         || obj.tags.any { it.equalsAny(Tags.ORBITAL_JUNK) }
                         || ignoreIds.contains(obj.customEntityType)
+                        || (obj is CampaignTerrain && obj.type == Terrain.NEBULA)
                 //                            || (obj is CustomCampaignEntity && obj.sprite == null) // This decides whether things like derelicts are shown.
             }
             .toList()
@@ -189,9 +309,6 @@ class TelevisionScript : BaseToggleAbility() {
 
     private fun renderUsingClouds(objs: List<SectorEntityToken>, view: ViewportAPI) {
         if (game.sector.isPaused) return
-        // return if interval hasn't elapsed yet.
-        val objDensityInternalRef = objDensityInternal
-        if (objDensityInternalRef?.intervalElapsed() != true) return
 
         val velocityScale = 0f
         val sizeScale = 1f
@@ -201,23 +318,22 @@ class TelevisionScript : BaseToggleAbility() {
         val densityScale = 0.08f // Lower is more dense
         val vel = Vector2f(100f * velocityScale, 100f * velocityScale)
             .rotate(Random.nextFloat() * 360f)
-
-        if (objDensityInternalRef.minInterval != densityScale) {
-            objDensityInternalRef.setInterval(densityScale, densityScale * 1.2f)
-        }
-
         objs.forEach { obj ->
             val radius = getRingRadiusForCloudRendering(obj)
             val size = getSizeForCloudRendering(obj)
             when {
                 // Nebula clouds
                 obj is CampaignTerrainAPI && obj.type == Terrain.NEBULA -> {
-                    if (!nebulaDensityInterval!!.intervalElapsed()) return@forEach
+                    // Don't add every frame, helps control density/performance.
+                    val nebulaDensityIntervalRef = nebulaDensityInterval
+                    if (nebulaDensityIntervalRef?.intervalElapsed() != true)
+                        return@forEach
 
-                    val nebulaDensityScale = 0.10f // Lower is more dense
-                    if (nebulaDensityInterval!!.minInterval != nebulaDensityScale) {
-                        nebulaDensityInterval!!.setInterval(nebulaDensityScale, nebulaDensityScale * 1.2f)
+                    val nebulaDensityScale = 0.90f // Lower is more dense
+                    if (nebulaDensityIntervalRef.minInterval != nebulaDensityScale) {
+                        nebulaDensityIntervalRef.setInterval(nebulaDensityScale, nebulaDensityScale * 1.2f)
                     }
+
 
                     getNebulaeCoords(obj, view)
                         .forEach { point ->
@@ -237,47 +353,59 @@ class TelevisionScript : BaseToggleAbility() {
                         }
                 }
 
-                // Rings, belts, any circles
-                obj is RingBandAPI || (obj is CampaignTerrainAPI && obj.type.equalsAny(
-                    Terrain.ASTEROID_BELT,
-                    Terrain.RING
-                )) -> {
-                    customRenderer?.addNebula(
-                        location = MathUtils.getRandomPointOnCircumference(obj.location, radius),
-                        anchorLocation = Vector2f(0f, 0f),
-                        velocity = vel,
-                        size = size * sizeScale,
-                        endSizeMult = endSizeScale,
-                        duration = (1.2f..1.5f).random() * durationScale,
-                        inFraction = 0.1f * rampUpScale,
-                        outFraction = 0.5f,
-                        color = getEntityColor(obj),
-                        type = CustomRenderer.NebulaType.NORMAL,
-                        negative = false
-                    )
-                }
-
                 else -> {
-                    customRenderer?.addNebula(
-                        location = MathUtils.getRandomPointInCircle(obj.location, radius / 1.5f),
-                        anchorLocation = Vector2f(0f, 0f),
-                        velocity = vel,
-                        size = size * sizeScale,
-                        endSizeMult = endSizeScale,
-                        duration = (1.2f..1.5f).random() * durationScale,
-                        inFraction = 0.1f * rampUpScale,
-                        outFraction = 0.5f,
-                        color = getEntityColor(obj),
-                        type = CustomRenderer.NebulaType.NORMAL,
-                        negative = false
-                    )
+                    // Don't add every frame, helps control density/performance.
+                    // For non-nebula objects, use the objDensityInternal interval.
+                    val objDensityInternalRef = objDensityInternal
+                    if (objDensityInternalRef?.intervalElapsed() != true) return
+
+                    if (objDensityInternalRef.minInterval != densityScale) {
+                        objDensityInternalRef.setInterval(densityScale, densityScale * 1.2f)
+                    }
+
+                    when {
+
+                        // Rings, belts, any circles
+                        obj is RingBandAPI || (obj is CampaignTerrainAPI && obj.type.equalsAny(
+                            Terrain.ASTEROID_BELT,
+                            Terrain.RING
+                        )) -> {
+
+                            customRenderer?.addNebula(
+                                location = MathUtils.getRandomPointOnCircumference(obj.location, radius),
+                                anchorLocation = Vector2f(0f, 0f),
+                                velocity = vel,
+                                size = size * sizeScale,
+                                endSizeMult = endSizeScale,
+                                duration = (1.2f..1.5f).random() * durationScale,
+                                inFraction = 0.1f * rampUpScale,
+                                outFraction = 0.5f,
+                                color = getEntityColor(obj),
+                                type = CustomRenderer.NebulaType.NORMAL,
+                                negative = false
+                            )
+                        }
+
+                        else -> {
+                            customRenderer?.addNebula(
+                                location = MathUtils.getRandomPointInCircle(obj.location, radius / 1.5f),
+                                anchorLocation = Vector2f(0f, 0f),
+                                velocity = vel,
+                                size = size * sizeScale,
+                                endSizeMult = endSizeScale,
+                                duration = (1.2f..1.5f).random() * durationScale,
+                                inFraction = 0.1f * rampUpScale,
+                                outFraction = 0.5f,
+                                color = getEntityColor(obj),
+                                type = CustomRenderer.NebulaType.NORMAL,
+                                negative = false
+                            )
+                        }
+
+                    }
                 }
             }
         }
-    }
-
-    private fun setMaxZoom(zoomMult: Float) {
-        // Alex is adding this in 0.96, I think.
     }
 
     private fun getRingRadiusForCloudRendering(obj: SectorEntityToken): Float {
@@ -319,8 +447,8 @@ class TelevisionScript : BaseToggleAbility() {
                 game.sector.playerFleet.starSystem?.addEntity(nocturneEntity)
             }
 
-            // Then move it to the player's location.
-            nocturneEntity?.setLocation(game.sector.playerFleet.location.x, game.sector.playerFleet.location.y)
+            // Then move it to where they're looking.
+            nocturneEntity?.setLocation(game.sector.viewport.center.x, game.sector.viewport.center.y)
         } else {
             // Remove any existing nocturne entities from the sector.
             game.sector.getCustomEntitiesWithTag(nocturneTagAndId)
@@ -353,10 +481,11 @@ class TelevisionScript : BaseToggleAbility() {
             obj.indicatorColor?.modify(alpha = 15) ?: Color.GRAY
     }
 
-
+    /**
+     * From [BaseTiledTerrain].
+     */
     private fun getNebulaeCoords(obj: CampaignTerrainAPI, v: ViewportAPI): List<Vector2f> {
         val plugin = obj.plugin as BaseTiledTerrain
-        val params = plugin.params
 
         // BaseTiledTerrain.render
         var x = 0f //entity.location.x
@@ -432,15 +561,27 @@ class TelevisionScript : BaseToggleAbility() {
         return ret
     }
 
-    @Deprecated("Use getRingRadiusForCloudRendering instead")
-    private fun getRingRadius(obj: SectorEntityToken): Float {
-        return obj.radius - 25f
-        //return obj.getRadius() + 25f;
+    private fun getEntitiesInSystem(): List<SectorEntityToken> {
+        val fleet = fleet
+        val location = fleet.containingLocation
+        if (fleet.isInHyperspace) return emptyList()
+        val result = mutableSetOf<SectorEntityToken>()
+
+        val tags = listOf("neutrino", "neutrino_low", "station")
+
+        val neutrinoSources = location.getEntities(CustomCampaignEntityAPI::class.java)
+            .filterIsInstance<SectorEntityToken>()
+            .filter { entity -> entity.tags.any { it in tags } }
+        result.addAll(neutrinoSources)
+
+        val fleets = location.fleets
+            .filterNot { sysFleet -> sysFleet.isPlayerFleet || sysFleet.isStationMode || sysFleet.isHidden || sysFleet.isEmpty }
+        result.addAll(fleets)
+
+        return result.toList()
     }
 
-    @Transient
-    @Deprecated("Using clouds now.")
-    private var texture: SpriteAPI? = null
+    // <editor-fold desc="Deprecated neutrino detector-like graphics">
 
     @Deprecated("Using clouds now.")
     private fun renderWithOpengl(objs: List<SectorEntityToken>, viewport: ViewportAPI) {
@@ -571,6 +712,17 @@ class TelevisionScript : BaseToggleAbility() {
         }
     }
 
+    @Deprecated("Use getRingRadiusForCloudRendering instead")
+    private fun getRingRadius(obj: SectorEntityToken): Float {
+        return obj.radius - 25f
+        //return obj.getRadius() + 25f;
+    }
+
+    @Transient
+    @Deprecated("Using clouds now.")
+    private var texture: SpriteAPI? = null
+
+    @Deprecated("Using clouds now.")
     private fun getSpikiness(obj: SectorEntityToken) =
         when (obj) {
             game.sector.playerFleet -> 0f
@@ -579,10 +731,13 @@ class TelevisionScript : BaseToggleAbility() {
             else -> .5f
         }
 
+    @Deprecated("Using clouds now.")
     private fun getSpikeSize(obj: SectorEntityToken): Float =
         when (obj) {
             game.sector.playerFleet -> 0f
             is CampaignFleetAPI -> (Misc.getDangerLevel(obj) / 5f) * 750f
             else -> 0f
         }
+
+    // </editor-fold>
 }

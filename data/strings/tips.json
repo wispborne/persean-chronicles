@@ -1,6 +1,7 @@
 {
   tips: [
     "[Persean Chronicles] A hyperwave network connected Hegemony space and allowed instant inter-system communication until c+189.",
-    "[Persean Chronicles] The Hegemony and the Knights of Ludd joined forces against <redacted> from C+95 to c+107."
-  ],
+    "[Persean Chronicles] The Hegemony and the Knights of Ludd joined forces against <redacted> from C+95 to c+107.",
+    #{"freq":50, "tip":"[VIC] There is fierce internal debate within the Church over whether cat ear grafts are technologically correct or not.\nOne side argues that any modification to the human form is blasphemous, anathema to Ludd's teachings.\nThe other side points out that Ludd himself had a deck of feline-augmented 'support staff' in his later years, before his arrest."}
+  ]
 }

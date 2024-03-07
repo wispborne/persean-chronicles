@@ -21,7 +21,7 @@ import java.awt.Color
 
 
 class NocturneScript : EveryFrameScript {
-    var millisRemaining = -1f // by default, lasts forever, but add a cooldown for testing
+    var millisRemaining = Float.POSITIVE_INFINITY // by default, lasts forever, but add a cooldown for testing
     private val screenWidth = Display.getWidth() * Display.getPixelScaleFactor()
     private val screenHeight = Display.getHeight() * Display.getPixelScaleFactor()
     private var minimapWidth = 240f
@@ -32,13 +32,13 @@ class NocturneScript : EveryFrameScript {
     private val initialGameDifficulty = game.sector.difficulty
     private val initialEasySensorBonus = game.settings.getFloat("easySensorBonus")
 
-    val abilitiesAllowedUnderNocturne =
+    private val abilitiesAllowedUnderNocturne =
         listOf(Abilities.EMERGENCY_BURN, Abilities.GO_DARK, Abilities.SUSTAINED_BURN, "wisp_perseanchronicles_ethersight")
 
-    private var isDone = false
+    var done = false
     private var secsElapsed = 0f
 
-    override fun isDone() = isDone
+    override fun isDone() = done
 
     override fun runWhilePaused() = true
 
@@ -46,15 +46,13 @@ class NocturneScript : EveryFrameScript {
         if (!game.sector.isPaused) {
             secsElapsed += amount
         }
-        var isEffectOver = false
 
         if (millisRemaining > 0f) {
             millisRemaining -= amount
         }
 
         if (millisRemaining <= 0f) {
-            isEffectOver = true
-            isDone = true
+            done = true
         }
 
         minimapWidth = 220f
@@ -64,25 +62,25 @@ class NocturneScript : EveryFrameScript {
 
 //        drawMinimapBlackout()
         setViewportVisibility(false)
-        setPlayerSensorStrength()
+        setPlayerSensorStrength(false)
         disableAbilities()
 //        darkenScreen()
 
-        if (isEffectOver) {
+        if (done) {
             setViewportVisibility(true)
+            setPlayerSensorStrength(true)
             enableAbilities()
 //            glDeleteTextures(bgTextureId)
             game.logger.i { "Ending Nocturne effect." }
-            isDone = true
         }
     }
 
-    private fun setPlayerSensorStrength() {
+    private fun setPlayerSensorStrength(canSee: Boolean) {
         val modIdMult = "nocturneMult"
         val modIdFlat = "nocturneFlat"
 //        val gameInternalEasySensorBonus = StarfarerSettings.ÕÓ0000()
 
-        if (secsElapsed < 10) {
+        if (!canSee) {
 //            if (game.sector.difficulty == Difficulties.EASY) {
 //                game.sector.difficulty = initialGameDifficulty
 //            }
@@ -302,7 +300,7 @@ class NocturneScript : EveryFrameScript {
 //        noise.renderAtCenter(minimapX.toFloat(), minimapY.toFloat())
     }
 
-    fun storeScreenTexture() {
+    private fun storeScreenTexture() {
         glGetError() // Clear existing error flag, if any
         val buffer = BufferUtils.createByteBuffer(screenWidth.toInt() * screenHeight.toInt() * 3)
         // Subtract 2 from the height to create a nightmare dimension.
@@ -344,7 +342,7 @@ class NocturneScript : EveryFrameScript {
         }
     }
 
-    fun startFlags() {
+    private fun startFlags() {
 //        glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT or GL_STENCIL_BUFFER_BIT)
 //        glClearColor(0f, 0f, 0f, 1f)
 
@@ -363,7 +361,7 @@ class NocturneScript : EveryFrameScript {
 //        glEnable(GL_TEXTURE_2D)
     }
 
-    fun endFlags() {
+    private fun endFlags() {
         glDisable(GL_TEXTURE_2D)
 
         // Clear OpenGL flags
@@ -373,7 +371,7 @@ class NocturneScript : EveryFrameScript {
         glPopAttrib()
     }
 
-    fun drawBackground() {
+    private fun drawBackground() {
         glEnable(GL_BLEND)
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
         GL13.glActiveTexture(GL13.GL_TEXTURE0)

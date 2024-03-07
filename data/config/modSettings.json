@@ -17,6 +17,7 @@
     "market_ids_to_blacklist": [
 
     ],
+    "system_tags_to_blacklist": [],
     "faction_ids_to_whitelist": [
       "neutral",
       "player",
