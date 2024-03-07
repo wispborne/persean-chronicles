@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.*;
 
 public class StarficzAIUtils {
-    public static final boolean DEBUG_ENABLED = true;
+    public static boolean DEBUG_ENABLED() {
+        return Global.getSettings().isDevMode();
+    }
 
     public static class FutureHit {
         public float timeToHit;
@@ -710,7 +712,7 @@ public class StarficzAIUtils {
             for (Vector2f potentialPoint : targetEnemy.getValue()) {
                 float pointDanger = getPointDanger(nearbyEnemies, potentialPoint);
 
-                if (DEBUG_ENABLED) {
+                if (DEBUG_ENABLED()) {
                     Global.getCombatEngine().addFloatingText(potentialPoint, String.valueOf(pointDanger), 10, Color.white, null, 0, 0);
                 }
 
@@ -904,7 +906,7 @@ public class StarficzAIUtils {
 
         if (rotAngle < 67.5f && rotAngle > -67.5f) {
             ship.giveCommand(ShipCommand.ACCELERATE, null, 0);
-            if (DEBUG_ENABLED) {
+            if (DEBUG_ENABLED()) {
                 Vector2f point = MathUtils.getPointOnCircumference(ship.getLocation(), 100f, ship.getFacing());
                 Global.getCombatEngine().addSmoothParticle(point, ship.getVelocity(), 30f, 1f, 0.1f, Color.green);
             }
@@ -914,7 +916,7 @@ public class StarficzAIUtils {
 
         if (rotAngle > 112.5f || rotAngle < -112.5f) {
             ship.giveCommand(ShipCommand.ACCELERATE_BACKWARDS, null, 0);
-            if (DEBUG_ENABLED) {
+            if (DEBUG_ENABLED()) {
                 Vector2f point = MathUtils.getPointOnCircumference(ship.getLocation(), 100f, ship.getFacing() + 180f);
                 Global.getCombatEngine().addSmoothParticle(point, ship.getVelocity(), 30f, 1f, 0.1f, Color.green);
             }
@@ -924,7 +926,7 @@ public class StarficzAIUtils {
 
         if (rotAngle > 22.5f && rotAngle < 157.5f) {
             ship.giveCommand(ShipCommand.STRAFE_LEFT, null, 0);
-            if (DEBUG_ENABLED) {
+            if (DEBUG_ENABLED()) {
                 Vector2f point = MathUtils.getPointOnCircumference(ship.getLocation(), 100f, ship.getFacing() + 90f);
                 Global.getCombatEngine().addSmoothParticle(point, ship.getVelocity(), 30f, 1f, 0.1f, Color.green);
             }
@@ -934,7 +936,7 @@ public class StarficzAIUtils {
 
         if (rotAngle < -22.5f && rotAngle > -157.5f) {
             ship.giveCommand(ShipCommand.STRAFE_RIGHT, null, 0);
-            if (DEBUG_ENABLED) {
+            if (DEBUG_ENABLED()) {
                 Vector2f point = MathUtils.getPointOnCircumference(ship.getLocation(), 100f, ship.getFacing() - 90f);
                 Global.getCombatEngine().addSmoothParticle(point, ship.getVelocity(), 30f, 1f, 0.1f, Color.green);
             }

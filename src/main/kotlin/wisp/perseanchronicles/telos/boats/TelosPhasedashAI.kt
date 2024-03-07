@@ -20,7 +20,6 @@ class TelosPhasedashAI : ShipSystemAIScript {
     var ship: ShipAPI? = null
     var regenSystem: Boolean = false
 
-    // from ninmah
     var enemyTracker: IntervalUtil = IntervalUtil(0.8f, 1f)
     var damageTracker: IntervalUtil = IntervalUtil(0.2f, 0.3f)
 
@@ -30,20 +29,16 @@ class TelosPhasedashAI : ShipSystemAIScript {
     var ventingHardFlux: Boolean = false
     var ventingSoftFlux: Boolean = false
     var lastUpdatedTime: Float = 0f
-    var incomingProjectiles: List<StarficzAIUtils.FutureHit> = mutableListOf()
-    var predictedWeaponHits: List<StarficzAIUtils.FutureHit> = mutableListOf()
-    var combinedHits: MutableList<StarficzAIUtils.FutureHit> = mutableListOf()
+    var incomingProjectiles = mutableListOf<StarficzAIUtils.FutureHit>()
+    var predictedWeaponHits = mutableListOf<StarficzAIUtils.FutureHit>()
+    var combinedHits = mutableListOf<StarficzAIUtils.FutureHit>()
 
     override fun init(ship: ShipAPI, system: ShipSystemAPI, flags: ShipwideAIFlags, engine: CombatEngineAPI) {
         this.ship = ship
     }
 
     override fun advance(amount: Float, missileDangerDir: Vector2f?, collisionDangerDir: Vector2f?, target: ShipAPI?) {
-        ninmahAiScriptMagic(amount)
-    }
-
-    // from knights of ludd ninmah ai, gpl3
-    private fun ninmahAiScriptMagic(amount: Float) {
+        // from knights of ludd ninmah ai, gpl3
         val ship = ship ?: return
         val engine = Global.getCombatEngine() ?: return
         if (!ship.isAlive || ship.parentStation != null || !engine.isEntityInPlay(ship)) return
@@ -148,7 +143,7 @@ class TelosPhasedashAI : ShipSystemAIScript {
 
         var test = Color.blue
 
-        if (StarficzAIUtils.DEBUG_ENABLED) {
+        if (StarficzAIUtils.DEBUG_ENABLED()) {
             test = if ((armorDamageLevel > 0.03f || hullDamageLevel > 0.03f || empDamageLevel > 0.3f)) Color.green else test
             test = if ((armorDamageLevel > 0.05f || hullDamageLevel > 0.05f || empDamageLevel > 0.5f)) Color.yellow else test
             test = if ((armorDamageLevel > 0.07f || hullDamageLevel > 0.07f || empDamageLevel > 0.7f)) Color.red else test
