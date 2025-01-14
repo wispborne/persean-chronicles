@@ -174,7 +174,7 @@
               } ]
             }, {
               "id" : "7-shipyard-itesh",
-              "paras" : [ "Like the smaller Vara, the Itesh destroyer is a lost pre-Collapse Tri-Tachyon design intended as a luxury vessel for the extremely wealthy. The Telos overhaul replaced much of the extravagance with weapons, shielding, agility, and Ether control.", "$cv:pc_karengo{look at this} An image from Karengo surfaces in your mind's eye of two drones nestled into a compartment of the Itesh. $cv:pc_karengo{now we are seeing some real firepower}", "Before you can respond, an incoming call from orbit grabs your attention." ],
+              "paras" : [ "Like the smaller Vara, the Itesh destroyer is a lost pre-Collapse Tri-Tachyon design intended as a luxury vessel for the extremely wealthy. The Telos overhaul replaced much of the extravagance with weapons, shielding, agility, and Ether control.", "$cv:pc_karengo{look at this} An image from Karengo surfaces in your mind's eye of a battery of hardpoints. $cv:pc_karengo{now we are seeing some real firepower}", "Before you can respond, an incoming call from orbit grabs your attention." ],
               "options" : [ {
                 "text" : "Answer",
                 "goToPage" : "8-shipyard-the-call"

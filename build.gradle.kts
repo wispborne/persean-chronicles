@@ -1,5 +1,6 @@
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
+import org.jetbrains.kotlin.config.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.*
 
@@ -24,7 +25,7 @@ val gameVersion = "0.97a-RC11"
 val jars = arrayOf("jars/PerseanChronicles.jar")
 val modPlugin = "wisp.perseanchronicles.PerseanChroniclesModPlugin"
 val isUtilityMod = false
-val masterVersionFile = "https://raw.githubusercontent.com/wispborne/stories/master/$modId.version"
+val masterVersionFile = "https://raw.githubusercontent.com/wispborne/persean-chronicles/master/$modId.version"
 val modThreadId = "19830"
 /////////////////
 
@@ -32,7 +33,7 @@ val starsectorCoreDirectory = props["gameCorePath"] ?: "${starsectorDirectory}/s
 val starsectorModDirectory = props["modsPath"] ?: "${starsectorDirectory}/mods"
 
 plugins {
-    kotlin("jvm") version "1.9.23"
+    kotlin("jvm") version "2.0.20"
     java
 }
 
@@ -54,7 +55,7 @@ repositories {
 
 dependencies {
     println("Mod folder: $starsectorModDirectory")
-    val kotlinVersionInLazyLib = "1.6.21"
+    val kotlinVersionInLazyLib = "2.0.10"
 
 //    // Questgiver lib
 //    implementation(fileTree("libs")
