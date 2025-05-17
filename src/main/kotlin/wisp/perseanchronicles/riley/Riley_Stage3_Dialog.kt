@@ -8,9 +8,9 @@ import wisp.questgiver.wispLib.findFirst
 
 class Riley_Stage3_Dialog(
     val mission: RileyHubMission = Global.getSector().intelManager.findFirst()!!
-) : InteractionDialogLogic<Riley_Stage3_Dialog>(
-    onInteractionStarted = { },
-    pages = listOf(
+) : InteractionDialogLogic() {
+    override fun onInteractionStarted() {}
+    override fun pages() = listOf(
         IInteractionLogic.Page(
             id = 1,
             image = RileyHubMission.icon,
@@ -29,4 +29,4 @@ class Riley_Stage3_Dialog(
             )
         )
     )
-)
+}

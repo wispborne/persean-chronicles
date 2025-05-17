@@ -3,7 +3,7 @@ package wisp.questgiver.v2
 import com.fs.starfarer.api.campaign.InteractionDialogAPI
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEvent
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventWithPerson
-import wisp.questgiver.OnInteractionStarted
+import wisp.questgiver.v2.IInteractionLogic.IPageNavigator
 import java.awt.Color
 
 typealias CreateInteractionPrompt<S> = S.() -> Unit
@@ -18,15 +18,21 @@ typealias TextToStartInteraction<S> = S.() -> BarEventLogic.Option
  * @param onInteractionStarted Called when the player chooses to start the bar event.
  * @param pages A list of [wisp.questgiver.InteractionDefinition.Page]s that define the structure of the conversation.
  */
-open class BarEventLogic<H : QGHubMissionWithBarEvent>(
-    @Transient internal var createInteractionPrompt: CreateInteractionPrompt<BarEventLogic<H>>,
-    @Transient internal var textToStartInteraction: TextToStartInteraction<BarEventLogic<H>>,
-    override var people: PeopleSelector<BarEventLogic<H>>? = null,
-    override var firstPageSelector: FirstPageSelector<BarEventLogic<H>>? = null,
-    override var onInteractionStarted: OnInteractionStarted<BarEventLogic<H>>?,
-    override var pages: List<IInteractionLogic.Page<BarEventLogic<H>>>,
-) : IInteractionLogic<BarEventLogic<H>>//(
-{
+abstract class BarEventLogic<H : QGHubMissionWithBarEvent>() : IInteractionLogic {
+    abstract fun createInteractionPrompt()
+    abstract fun textToStartInteraction(): Option
+    override fun firstPageSelector(): FirstPageSelector? = null
+    override fun people(): PeopleSelector? = null
+
+    @Transient
+    override val pages: List<IInteractionLogic.Page<IInteractionLogic>> = pages()
+
+    @Transient
+    override val people = people()
+
+    @Transient
+    override val firstPageSelector = firstPageSelector()
+
     override lateinit var dialog: InteractionDialogAPI
 
     internal lateinit var missionGetter: () -> H
@@ -42,11 +48,12 @@ open class BarEventLogic<H : QGHubMissionWithBarEvent>(
 
     internal lateinit var closeBarEvent: (doNotOfferAgain: Boolean) -> Unit
 
-    final override var navigator = object : InteractionDialogLogic.PageNavigator<BarEventLogic<H>>(this) {
-        override fun close(doNotOfferAgain: Boolean) {
-            closeBarEvent.invoke(doNotOfferAgain)
+    final override var navigator: IPageNavigator<BarEventLogic<H>> =
+        object : InteractionDialogLogic.PageNavigator<BarEventLogic<H>>(this) {
+            override fun close(doNotOfferAgain: Boolean) {
+                closeBarEvent.invoke(doNotOfferAgain)
+            }
         }
-    }
         internal set
 
 

@@ -8,9 +8,9 @@ import wisp.questgiver.wispLib.findFirst
 
 class Laborer_Stage2_Dialog(
     val mission: LaborerHubMission = Global.getSector().intelManager.findFirst()!!
-) : InteractionDialogLogic<Laborer_Stage2_Dialog>(
-    onInteractionStarted = { },
-    pages = listOf(
+) : InteractionDialogLogic() {
+    override fun onInteractionStarted() {}
+    override fun pages() = listOf(
         IInteractionLogic.Page(
             id = 1,
             people = { listOf(LaborerHubMission.dale) },
@@ -62,4 +62,4 @@ class Laborer_Stage2_Dialog(
             )
         )
     )
-)
+}

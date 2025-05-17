@@ -14,27 +14,28 @@ import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt2_dart.battle.Telos2BattleCoordinator
 import wisp.perseanchronicles.telos.pt3_arrow.Telos3HubMission
+import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.findFirst
 
 class Telos2SecondLandingDialog(
-    stageJson: JSONObject =
+    val stageJson: JSONObject =
         if (Telos2HubMission.choices.injectedSelf == true) {
             Telos2HubMission.part2Json.query("/stages/landOnPlanetSecondEther")
         } else {
             Telos2HubMission.part2Json.query("/stages/landOnPlanetSecondNoEther")
         },
-    mission: Telos2HubMission = game.sector.intelManager.findFirst()!!
-) : InteractionDialogLogic<Telos2SecondLandingDialog>(
-    onInteractionStarted = {
+    val mission: Telos2HubMission = game.sector.intelManager.findFirst()!!
+) : InteractionDialogLogic() {
 
-    },
-    people = { listOfNotNull(PerseanChroniclesNPCs.karengo) },
-    pages = PagesFromJson(
-        pagesJson = stageJson.query("/pages"),
-        onPageShownHandlersByPageId = mapOf(
+    override fun people() = { listOfNotNull(PerseanChroniclesNPCs.karengo) }
+    override fun pages() = object : PagesFromJson<Telos2SecondLandingDialog>() {
+
+        override fun pagesJson() = stageJson.getJSONArray("pages") //stageJson.query("/pages")
+
+        override fun onPageShownHandlersByPageId() = mapOf(
             "1" to {
                 game.jukebox.playTelosThemeMusic()
             },
@@ -127,8 +128,9 @@ class Telos2SecondLandingDialog(
                     para { "==This concludes Phase 1 of the Telos storyline.==" }
                 }
             },
-        ),
-        optionConfigurator = { options ->
+        )
+
+        override fun optionConfigurator() = { options: List<IInteractionLogic.Option<Telos2SecondLandingDialog>> ->
             options.map { option ->
                 when (option.id) {
                     "startBattle" -> option.copy(
@@ -162,8 +164,8 @@ class Telos2SecondLandingDialog(
             }
             // TODO check out FronSecWSEidolonOpen.java
         }
-    )
-) {
+    }
+
     private fun completeMission(mission: Telos2HubMission) {
         mission.setCurrentStage(Telos2HubMission.Stage.Completed, dialog, null)
 

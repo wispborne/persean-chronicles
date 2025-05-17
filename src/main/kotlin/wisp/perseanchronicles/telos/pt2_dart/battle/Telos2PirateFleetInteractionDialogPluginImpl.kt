@@ -4,6 +4,7 @@ import org.json.JSONArray
 import wisp.perseanchronicles.telos.TelosCommon
 import wisp.perseanchronicles.telos.pt2_dart.Telos2HubMission
 import wisp.questgiver.v2.CustomFleetInteractionDialogPlugin
+import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.InteractionDialogLogic
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.query
@@ -21,14 +22,15 @@ class Telos2PirateFleetInteractionDialogPluginImpl :
     }
 
     class BattleCommsInteractionDialog(
-        parentDialog: Telos2PirateFleetInteractionDialogPluginImpl,
+        private val parentDialog: Telos2PirateFleetInteractionDialogPluginImpl,
         val json: JSONArray = TelosCommon.readJson()
             .query("/wisp_perseanchronicles/telos/part1_deliveryToEarth/stages/pirateComms/pages")
-    ) : InteractionDialogLogic<BattleCommsInteractionDialog>(
-        pages = PagesFromJson(
-            pagesJson = json,
-            onPageShownHandlersByPageId = emptyMap(),
-            optionConfigurator = { options ->
+    ) : InteractionDialogLogic() {
+
+        override fun pages() = object : PagesFromJson<BattleCommsInteractionDialog>() {
+            override fun pagesJson() = json
+            override fun onPageShownHandlersByPageId() = emptyMap<String, () -> Unit>()
+            override fun optionConfigurator() = { options: List<IInteractionLogic.Option<BattleCommsInteractionDialog>> ->
                 options.map { option ->
                     when (option.id) {
                         "closeComms" -> option.copy(
@@ -49,14 +51,14 @@ class Telos2PirateFleetInteractionDialogPluginImpl :
                     }
                 }
             }
-        ),
-        firstPageSelector = {
+        }
+
+        override fun firstPageSelector() =
             if (Telos2HubMission.state.talkedToPirateFleet == true) {
-                single { it.id == "0-already-talked" }
+                pages.single { it.id == "0-already-talked" }
             } else {
                 Telos2HubMission.state.talkedToPirateFleet = true
-                first()
+                pages.first()
             }
-        }
-    )
+    }
 }

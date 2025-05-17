@@ -47,9 +47,9 @@ abstract class BarEvent<H : QGHubMissionWithBarEvent>(barEventSpecId: String) :
 
         barEventLogic.dialog = dialog
         barEventLogic.event = this
-        barEventLogic.createInteractionPrompt.invoke(barEventLogic)
+        barEventLogic.createInteractionPrompt()
 
-        val option = barEventLogic.textToStartInteraction.invoke(barEventLogic)
+        val option = barEventLogic.textToStartInteraction()
         game.logger.i { "Adding prompt and option '${option.text}'." }
 
         dialog.optionPanel.addOption(
@@ -69,7 +69,7 @@ abstract class BarEvent<H : QGHubMissionWithBarEvent>(barEventSpecId: String) :
         barEventLogic.event = this
         game.logger.i { "Init dialog '${this.barEventId}'." }
 
-        barEventLogic.people?.invoke(barEventLogic)
+        barEventLogic.people?.invoke()
             ?.also { people -> dialog.visualPanel.showPeople(people) }
 
         // Set bar event close logic.
@@ -86,13 +86,13 @@ abstract class BarEvent<H : QGHubMissionWithBarEvent>(barEventSpecId: String) :
         this.done = false
         this.noContinue = false
 
-        barEventLogic.onInteractionStarted?.invoke(barEventLogic)
+        barEventLogic.onInteractionStarted()
 
         if (barEventLogic.pages.any()) {
             // If `firstPageSelector` is defined, show that page, otherwise show the first page.
             barEventLogic.navigator.showPage(
-                barEventLogic.firstPageSelector?.invoke(barEventLogic.pages)
-                    ?: barEventLogic.pages.first()
+                (barEventLogic.firstPageSelector()
+                    ?: barEventLogic.pages.first()) as IInteractionLogic.Page<BarEventLogic<H>>
             )
         }
     }

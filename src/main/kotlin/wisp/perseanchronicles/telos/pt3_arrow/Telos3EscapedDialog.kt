@@ -10,9 +10,9 @@ import wisp.questgiver.wispLib.findFirst
 import wisp.questgiver.wispLib.qgFormat
 
 class Telos3EscapedDialog(
-    stageJson: JSONObject = Telos3HubMission.part3Json.query("/stages/escaped"),
-    mission: Telos3HubMission = game.sector.intelManager.findFirst()!!
-) : InteractionDialogLogic<Telos3EscapedDialog>(
+    val stageJson: JSONObject = Telos3HubMission.part3Json.query("/stages/escaped"),
+    val mission: Telos3HubMission = game.sector.intelManager.findFirst()!!
+) : InteractionDialogLogic() {
 //    people = { listOfNotNull(PerseanChroniclesNPCs.karengo) },
 //    firstPageSelector = {
 //        val pages = this
@@ -29,11 +29,12 @@ class Telos3EscapedDialog(
 //            pages.single { it.id == "1-noEther-start" }
 //        }
 //    },
-    pages = PagesFromJson(
-        pagesJson = stageJson.query("/pages"),
-        onPageShownHandlersByPageId = mapOf(
+
+    override fun pages() = object : PagesFromJson<Telos3EscapedDialog>() {
+        override fun pagesJson() = stageJson.getJSONArray("pages") //stageJson.query("/pages")
+        override fun onPageShownHandlersByPageId() = mapOf(
             "1-escaped" to {
-              dialog.visualPanel.showImagePortion(IInteractionLogic.Illustration("illustrations", "jump_point_hyper"))
+                dialog.visualPanel.showImagePortion(IInteractionLogic.Illustration("illustrations", "jump_point_hyper"))
             },
             "3-explanation" to {
                 val page = navigator.currentPage()!!
@@ -46,8 +47,9 @@ class Telos3EscapedDialog(
             "4-cliffhanger" to {
                 mission.setCurrentStage(Telos3HubMission.Stage.Completed, dialog, null)
             }
-        ),
-        optionConfigurator = { options ->
+        )
+
+        override fun optionConfigurator() = { options: List<IInteractionLogic.Option<Telos3EscapedDialog>> ->
             options.map { option ->
                 when (option.id) {
                     "endOfPhase2" -> option.copy(onOptionSelected = {
@@ -58,5 +60,5 @@ class Telos3EscapedDialog(
                 }
             }
         }
-    )
-)
+    }
+}

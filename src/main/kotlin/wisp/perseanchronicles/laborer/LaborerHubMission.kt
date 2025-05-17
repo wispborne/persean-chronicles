@@ -21,6 +21,8 @@ import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
 import wisp.questgiver.wispLib.*
 import java.awt.Color
+import java.util.Locale
+import java.util.Locale.getDefault
 
 class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
     companion object {
@@ -94,7 +96,7 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
             .flatMap { it.solidPlanets }
             .filter { planet ->
                 (planet.faction?.isHostileTo(game.sector.playerFaction) != true)
-                        && planet.market?.factionId?.toLowerCase() !in listOf("luddic_church", "luddic_path")
+                        && planet.market?.factionId?.lowercase(getDefault()) !in listOf("luddic_church", "luddic_path")
                         && planet.market?.hasIndustry(Industries.MINING) == true
                         && planet.market.size > 2
             }

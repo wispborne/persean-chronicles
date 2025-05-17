@@ -3,7 +3,7 @@ id,trigger,conditions,script,text,options,notes,,
 #wisp_perseanchronicles_telosPt1_selected,DialogOptionSelected,$option == wisp_perseanchronicles_telosPt1_selected,Telos1OfferSelected,,,,,
 wisp_perseanchronicles_telosPt2_badfleetdefeated,wisp_perseanchronicles_telosPt2_badfleetdefeated,,Call $global.wisp_perseanchronicles_telosPt2 wisp_perseanchronicles_telosPt2_badfleetdefeated,,,,,
 ,,,,,,,,
-# Karengo/Louia interaction,,,,,,,,
+# Karengo/Louisa interaction,,,,,,,,
 legiobareventencounter_introexit_perschron,DialogOptionSelected,"$option == legiobareventencounter_exit
 $global.wisp_perseanchronicles_isKarengoInFleet",ShowSecondPerson wisp_perseanchronicles_karengo,"""Suit yourself.""
 

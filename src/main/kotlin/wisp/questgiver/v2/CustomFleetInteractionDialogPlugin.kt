@@ -8,11 +8,11 @@ import wisp.questgiver.wispLib.showPeople
  * Allows custom dialog options to be added to the vanilla fleet interaction dialog.
  * Usage: `Telos2PirateFleetInteractionDialogPluginImpl` in Persean Chronicles.
  */
-abstract class CustomFleetInteractionDialogPlugin<S : InteractionDialogLogic<S>> : FleetInteractionDialogPluginImpl() {
+abstract class CustomFleetInteractionDialogPlugin<S : InteractionDialogLogic> : FleetInteractionDialogPluginImpl() {
     protected val dialogLogic by lazy { createCustomDialogLogic() }
     protected val dialogPlugin by lazy { dialogLogic.build() }
 
-    abstract fun createCustomDialogLogic(): InteractionDialogLogic<S>
+    abstract fun createCustomDialogLogic(): InteractionDialogLogic
 
     override fun init(dialog: InteractionDialogAPI) {
         super.init(dialog)
@@ -20,10 +20,10 @@ abstract class CustomFleetInteractionDialogPlugin<S : InteractionDialogLogic<S>>
         // Copy InteractionDialogLogic's init code, minus the first page selection (use the FleetInteractionDialogPluginImpl's for that).
         // We'll show our first page if the player selects to open comms.
         dialogLogic.dialog = dialog
-        dialogLogic.people?.invoke(dialogLogic as S)
+        dialogLogic.people?.invoke()
             ?.also { people -> dialog.visualPanel.showPeople(people) }
 
-        dialogLogic.onInteractionStarted?.invoke(dialogLogic as S)
+        dialogLogic.onInteractionStarted()
     }
 
     override fun optionSelected(text: String?, optionData: Any?) {

@@ -19,8 +19,8 @@ typealias OnOptionSelected<S> = S.(InteractionDefinition<*>.PageNavigator) -> Un
 typealias OnInteractionStarted<S> = S.() -> Unit
 
 @Deprecated(
-    "Use wisp.questgiver.v2.InteractionDialogLogic instead.",
-    replaceWith = ReplaceWith("InteractionDialogLogic<S>", "wisp.questgiver.v2.InteractionDialogLogic")
+    "Use wisp.wisp.questgiver.v2.InteractionDialogLogic instead.",
+    replaceWith = ReplaceWith("InteractionDialogLogic<S>", "wisp.wisp.questgiver.v2.InteractionDialogLogic")
 )
 abstract class InteractionDefinition<S : InteractionDefinition<S>>(
     @Transient internal var onInteractionStarted: OnInteractionStarted<S> = {},
@@ -28,8 +28,8 @@ abstract class InteractionDefinition<S : InteractionDefinition<S>>(
     @Transient internal var pages: List<Page<S>>,
     @Transient private var shouldValidateOnDialogStart: Boolean = true
 ) {
-    @Deprecated("Use wisp.questgiver.v2.IInteractionLogic.Page instead.",
-        replaceWith = ReplaceWith("Page<S>", "wisp.questgiver.v2.Page"))
+    @Deprecated("Use wisp.wisp.questgiver.v2.IInteractionLogic.Page instead.",
+        replaceWith = ReplaceWith("Page<S>", "wisp.wisp.questgiver.v2.Page"))
     class Page<S>(
         val id: Any,
         val image: Image? = null,
@@ -37,8 +37,8 @@ abstract class InteractionDefinition<S : InteractionDefinition<S>>(
         val options: List<Option<S>>
     )
 
-    @Deprecated("Use wisp.questgiver.v2.IInteractionLogic.Option instead.",
-        replaceWith = ReplaceWith("Option<S>", "wisp.questgiver.v2.Option"))
+    @Deprecated("Use wisp.wisp.questgiver.v2.IInteractionLogic.Option instead.",
+        replaceWith = ReplaceWith("Option<S>", "wisp.wisp.questgiver.v2.Option"))
     open class Option<S>(
         val text: S.() -> String,
         val shortcut: Shortcut? = null,
@@ -244,8 +244,8 @@ abstract class InteractionDefinition<S : InteractionDefinition<S>>(
         val holdShift: Boolean = false
     )
 
-    @Deprecated("Use wisp.questgiver.v2.IInteractionLogic.Image instead.",
-        replaceWith = ReplaceWith("Image", "wisp.questgiver.v2.IInteractionLogic.Image"))
+    @Deprecated("Use wisp.wisp.questgiver.v2.IInteractionLogic.Image instead.",
+        replaceWith = ReplaceWith("Image", "wisp.wisp.questgiver.v2.IInteractionLogic.Image"))
     open class Image(
         val category: String,
         val id: String,
@@ -257,8 +257,8 @@ abstract class InteractionDefinition<S : InteractionDefinition<S>>(
         val displayHeight: Float
     )
 
-    @Deprecated("Use wisp.questgiver.v2.IInteractionLogic.Portrait instead.",
-        replaceWith = ReplaceWith("Portrait", "wisp.questgiver.v2.IInteractionLogic.Portrait"))
+    @Deprecated("Use wisp.wisp.questgiver.v2.IInteractionLogic.Portrait instead.",
+        replaceWith = ReplaceWith("Portrait", "wisp.wisp.questgiver.v2.IInteractionLogic.Portrait"))
     class Portrait(
         category: String,
         id: String
@@ -273,8 +273,8 @@ abstract class InteractionDefinition<S : InteractionDefinition<S>>(
         displayHeight = 128f
     )
 
-    @Deprecated("Use wisp.questgiver.v2.IInteractionLogic.Illustration instead.",
-        replaceWith = ReplaceWith("Illustration", "wisp.questgiver.v2.IInteractionLogic.Illustration"))
+    @Deprecated("Use wisp.wisp.questgiver.v2.IInteractionLogic.Illustration instead.",
+        replaceWith = ReplaceWith("Illustration", "wisp.wisp.questgiver.v2.IInteractionLogic.Illustration"))
     class Illustration(
         category: String,
         id: String

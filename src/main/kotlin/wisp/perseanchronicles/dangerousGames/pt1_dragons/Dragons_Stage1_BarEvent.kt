@@ -5,26 +5,29 @@ import com.fs.starfarer.api.util.Misc
 import org.lwjgl.input.Keyboard
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
-import wisp.questgiver.v2.BarEventWiring
-import wisp.questgiver.v2.QGBarEventCreator
 import wisp.questgiver.v2.BarEventLogic
+import wisp.questgiver.v2.BarEventWiring
+import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.IInteractionLogic.*
+import wisp.questgiver.v2.QGBarEventCreator
 import wisp.questgiver.v2.spriteName
 
-class Dragons_Stage1_BarEvent : BarEventLogic<DragonsHubMission>(
-    createInteractionPrompt = {
+class Dragons_Stage1_BarEvent : BarEventLogic<DragonsHubMission>() {
+    override fun createInteractionPrompt() {
         para { game.text["dg_dr_stg1_prompt"] }
-    },
-    onInteractionStarted = {
-    },
-    textToStartInteraction = {
+    }
+
+    override fun onInteractionStarted() {
+    }
+
+    override fun textToStartInteraction() =
         Option(
             // Head over to "Mr. Karengo"
             text = game.text["dg_dr_stg1_startBarEvent"],
             textColor = Misc.getHighlightColor()
         )
-    },
-    pages = listOf(
+
+    override fun pages() = listOf(
         Page(
             id = 1,
             onPageShown = {
@@ -101,9 +104,10 @@ class Dragons_Stage1_BarEvent : BarEventLogic<DragonsHubMission>(
                 )
             )
         )
-    ),
-    people = { listOf(mission.karengo) }
-)
+    )
+
+    override fun people() = { listOf(mission.karengo) }
+}
 
 class DragonsBarEventWiring :
     BarEventWiring<DragonsHubMission>(missionId = DragonsHubMission.MISSION_ID, isPriority = false) {

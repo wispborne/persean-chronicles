@@ -1,6 +1,5 @@
 package wisp.perseanchronicles.nirvana
 
-import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity
 import com.fs.starfarer.api.util.Misc
 import org.magiclib.kotlin.addCommodityGainText
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
@@ -8,18 +7,20 @@ import wisp.perseanchronicles.game
 import wisp.questgiver.v2.BarEventLogic
 import wisp.questgiver.v2.IInteractionLogic
 
-class Nirvana_Stage1_BarEvent : BarEventLogic<NirvanaHubMission>(
-    createInteractionPrompt = {
+class Nirvana_Stage1_BarEvent : BarEventLogic<NirvanaHubMission>() {
+    override fun createInteractionPrompt() {
         para { game.text["nirv_stg1_prompt"] }
-    },
-    onInteractionStarted = { },
-    textToStartInteraction = {
+    }
+
+    override fun onInteractionStarted() {}
+
+    override fun textToStartInteraction() =
         Option(
             text = game.text["nirv_stg1_startBarEvent"],
             textColor = Misc.getHighlightColor()
         )
-    },
-    pages = listOf(
+
+    override fun pages() = listOf(
         IInteractionLogic.Page(
             id = 1,
             people = { listOf(PerseanChroniclesNPCs.davidRengal) },
@@ -62,7 +63,8 @@ class Nirvana_Stage1_BarEvent : BarEventLogic<NirvanaHubMission>(
                         para { game.text["nirv_stg1_pg2_opt1_onSelected"] }
                         dialog.textPanel.addCommodityGainText(
                             NirvanaHubMission.CARGO_TYPE,
-                            NirvanaHubMission.CARGO_WEIGHT)
+                            NirvanaHubMission.CARGO_WEIGHT
+                        )
                         mission.accept(dialog, emptyMap())
 
                         navigator.promptToContinue(game.text["continue"]) {
@@ -88,4 +90,5 @@ class Nirvana_Stage1_BarEvent : BarEventLogic<NirvanaHubMission>(
                 )
             )
         )
-    ))
+    )
+}

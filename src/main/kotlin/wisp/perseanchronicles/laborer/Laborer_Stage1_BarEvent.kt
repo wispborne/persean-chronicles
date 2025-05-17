@@ -1,26 +1,26 @@
 package wisp.perseanchronicles.laborer
 
 import com.fs.starfarer.api.util.Misc
-import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.questgiver.v2.BarEventLogic
 import wisp.questgiver.v2.IInteractionLogic
 
-class Laborer_Stage1_BarEvent : BarEventLogic<LaborerHubMission>(
-    createInteractionPrompt = {
+class Laborer_Stage1_BarEvent : BarEventLogic<LaborerHubMission>() {
+    override fun createInteractionPrompt() {
         para { game.text["lab_stg1_prompt"] }
-    },
-    onInteractionStarted = {},
-    textToStartInteraction = {
+    }
+
+    override fun onInteractionStarted() {}
+    override fun textToStartInteraction() =
         Option(
             text = game.text["lab_stg1_startBarEvent"],
             textColor = Misc.getButtonTextColor()
         )
-    },
-    pages = listOf(
+
+    override fun pages() = listOf(
         IInteractionLogic.Page(
             id = 1,
-            people = { listOf(LaborerHubMission.dale)},
+            people = { listOf(LaborerHubMission.dale) },
             onPageShown = {
                 para { game.text["lab_stg1_pg1_para1"] }
                 para { game.text["lab_stg1_pg1_para2"] }
@@ -101,4 +101,4 @@ class Laborer_Stage1_BarEvent : BarEventLogic<LaborerHubMission>(
             )
         )
     )
-)
+}

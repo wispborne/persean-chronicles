@@ -14,12 +14,14 @@ import wisp.perseanchronicles.MOD_ID
 import wisp.perseanchronicles.game
 import wisp.questgiver.wispLib.placeInSector
 import wisp.questgiver.wispLib.random
+import java.util.Locale
+import java.util.Locale.getDefault
 import kotlin.random.Random
 
 object NirvanaQuest {
 
     fun isValidPlanetForDestination(planet: PlanetAPI): Boolean =
-        planet.market?.factionId?.toLowerCase() !in listOf("luddic_church", "luddic_path")
+        planet.market?.factionId?.lowercase(getDefault()) !in listOf("luddic_church", "luddic_path")
                 && !planet.isGasGiant
                 && !planet.isStar
 

@@ -3,6 +3,7 @@ package wisp.questgiver.v2
 import com.fs.starfarer.api.campaign.InteractionDialogAPI
 import wisp.questgiver.Questgiver.game
 import wisp.questgiver.v2.IInteractionLogic.Companion.CONTINUE_BUTTON_ID
+import wisp.questgiver.v2.IInteractionLogic.IPageNavigator
 import wisp.questgiver.wispLib.ServiceLocator
 import wisp.questgiver.wispLib.showPeople
 
@@ -14,18 +15,47 @@ import wisp.questgiver.wispLib.showPeople
  * To use a HubMission in the dialog logic, you can create a default constructor param
  * such as `mission: Telos1HubMission = game.sector.intelManager.findFirst()!!`.
  */
-abstract class InteractionDialogLogic<S : InteractionDialogLogic<S>>(
-    @Transient override var onInteractionStarted: OnInteractionStarted<S>? = null,
-    @Transient override var people: PeopleSelector<S>? = null,
-    @Transient override var firstPageSelector: FirstPageSelector<S>? = null,
-    @Transient final override var pages: List<IInteractionLogic.Page<S>>
-) : IInteractionLogic<S> {
+abstract class InteractionDialogLogic(
+) : IInteractionLogic {
+    override fun people(): PeopleSelector? = null
+    override fun firstPageSelector(): FirstPageSelector? = null
+    override fun onInteractionStarted() = Unit
+
+    @Transient
+    override val pages: List<IInteractionLogic.Page<IInteractionLogic>> = pages()
+
+    @Transient
+    override val people = people()
+
+    @Transient
+    override val firstPageSelector = firstPageSelector()
+
+//    @Transient override var onInteractionStarted: OnInteractionStarted<S>? = null,
+//    @Transient override var people: PeopleSelector<S>? = null,
+//    @Transient override var firstPageSelector: FirstPageSelector<S>? = null,
+//    @Transient final override var pages: List<IInteractionLogic.Page<S>>
 
     init {
         if (pages.distinctBy { it.id }.count() != pages.count())
             error("All page ids must have a unique id. Page ids: ${pages.joinToString { it.id.toString() }} Dialog: $this")
     }
 
+    /**
+     * Access to the dialog to assume direct control.
+     */
+    @Transient
+    override lateinit var dialog: InteractionDialogAPI
+    final override var navigator = PageNavigator<IInteractionLogic>(this)
+        internal set
+
+    fun build(): InteractionDialog<InteractionDialogLogic> =
+        object : InteractionDialog<InteractionDialogLogic>() {
+            override fun createInteractionDialogLogic(): InteractionDialogLogic = this@InteractionDialogLogic
+        }
+
+    fun destroy() {
+        navigator.destroy()
+    }
 
     /**
      * Coordinator for dialog page navigation.
@@ -33,11 +63,11 @@ abstract class InteractionDialogLogic<S : InteractionDialogLogic<S>>(
      *
      * Not serialized.
      */
-    open class PageNavigator<S : IInteractionLogic<S>>(
-        internal var interactionDefinition: IInteractionLogic<S>?
-    ) : IInteractionLogic.IPageNavigator<S> {
-        private val pages
-            get() = interactionDefinition!!.pages
+    open class PageNavigator<T : IInteractionLogic>(
+        internal var interactionDefinition: T?
+    ) : IPageNavigator<T> {
+        private val pages: List<IInteractionLogic.Page<T>>
+            get() = interactionDefinition!!.pages as List<IInteractionLogic.Page<T>>
         private val dialog
             get() = interactionDefinition!!.dialog
         val doOnCloseActions = mutableListOf<() -> Unit>()
@@ -46,29 +76,29 @@ abstract class InteractionDialogLogic<S : InteractionDialogLogic<S>>(
          * Function to execute after user presses "Continue" to resume a page.
          */
         private var continuationOfPausedPage: (() -> Unit)? = null
-        private var currentPage: IInteractionLogic.Page<S>? = null
+        private var currentPage: IInteractionLogic.Page<T>? = null
         internal val isWaitingOnUserToPressContinue: Boolean
             get() = continuationOfPausedPage != null
 
-        override fun currentPage(): IInteractionLogic.Page<S>? = currentPage
+        override fun currentPage(): IInteractionLogic.Page<T>? = currentPage
 
         /**
          * Navigates to the specified dialogue page.
          */
         override fun goToPage(pageId: Any) {
             showPage(
-                pages.firstOrNull { (it.id == pageId) || (it.id.toString() == pageId.toString()) }
+                (pages.firstOrNull { (it.id == pageId) || (it.id.toString() == pageId.toString()) }
                     ?: throw NoSuchElementException(
                         "No page with id '$pageId'." +
                                 "\nPages: ${pages.joinToString { "'${it.id}'" }}."
-                    )
+                    ))
             )
         }
 
         /**
          * Navigates to the specified dialogue page.
          */
-        override fun goToPage(page: IInteractionLogic.Page<S>) {
+        override fun goToPage(page: IInteractionLogic.Page<T>) {
             showPage(page)
         }
 
@@ -102,7 +132,7 @@ abstract class InteractionDialogLogic<S : InteractionDialogLogic<S>>(
         /**
          * Displays a new page of the dialogue.
          */
-        override fun showPage(page: IInteractionLogic.Page<S>) {
+        override fun showPage(page: IInteractionLogic.Page<T>) {
             game.logger.d { "Clearing options." }
             dialog.optionPanel.clearOptions()
 
@@ -120,12 +150,12 @@ abstract class InteractionDialogLogic<S : InteractionDialogLogic<S>>(
             }
 
             // Call onPageTurned on the previous page.
-            page.onPageTurned?.invoke(interactionDefinition as S)
+            page.onPageTurned?.invoke(interactionDefinition!!)
 
             currentPage = page
-            page.onPageShown(interactionDefinition as S)
+            page.onPageShown(interactionDefinition!!)
 
-            page.people?.invoke(interactionDefinition as S)
+            page.people?.invoke()
                 ?.also { people -> dialog.visualPanel.showPeople(people) }
 
             if (!isWaitingOnUserToPressContinue) {
@@ -163,14 +193,14 @@ abstract class InteractionDialogLogic<S : InteractionDialogLogic<S>>(
             continuation?.invoke()
         }
 
-        override fun showOptions(options: List<IInteractionLogic.Option<S>>) {
+        override fun showOptions(options: List<IInteractionLogic.Option<T>>) {
             options
                 .filter { option ->
                     (option.hideOptionIfFlagTrue == null) || (game.memory[option.hideOptionIfFlagTrue] != true)
                 }
-                .filter { it.showIf(interactionDefinition as S) }
+                .filter { it.showIf(interactionDefinition as T) }
                 .forEach { option ->
-                    val text = option.text(interactionDefinition as S)
+                    val text = option.text(interactionDefinition as T)
                     game.logger.d { "Adding option ${option.id} with text '$text' and shortcut ${option.shortcut}." }
 
                     if (option.textColor != null) {
@@ -178,13 +208,13 @@ abstract class InteractionDialogLogic<S : InteractionDialogLogic<S>>(
                             /* text = */ text,
                             /* data = */ option.id,
                             /* color = */ option.textColor,
-                            /* tooltip = */ option.tooltip?.invoke(interactionDefinition as S)
+                            /* tooltip = */ option.tooltip?.invoke(interactionDefinition as T)
                         )
                     } else {
                         dialog.optionPanel.addOption(
                             /* text = */ text,
                             /* data = */ option.id,
-                            /* tooltip = */ option.tooltip?.invoke(interactionDefinition as S)
+                            /* tooltip = */ option.tooltip?.invoke(interactionDefinition as T)
                         )
                     }
 
@@ -217,7 +247,7 @@ abstract class InteractionDialogLogic<S : InteractionDialogLogic<S>>(
                     }.firstOrNull()
                     ?: return
 
-                optionSelected.onOptionSelected(interactionDefinition as S, this)
+                optionSelected.onOptionSelected(this as IPageNavigator<IInteractionLogic>)
             }
         }
 
@@ -226,23 +256,6 @@ abstract class InteractionDialogLogic<S : InteractionDialogLogic<S>>(
             interactionDefinition = null
         }
     }
-
-    fun destroy() {
-        navigator.destroy()
-    }
-
-    /**
-     * Access to the dialog to assume direct control.
-     */
-    @Transient
-    override lateinit var dialog: InteractionDialogAPI
-    final override var navigator = PageNavigator(this)
-        internal set
-
-    fun build(): InteractionDialog<S> =
-        object : InteractionDialog<S>() {
-            override fun createInteractionDialogLogic(): S = this@InteractionDialogLogic as S
-        }
 }
 
 fun IInteractionLogic.Image.spriteName(game: ServiceLocator) = game.settings.getSpriteName(this.category, this.id)

@@ -13,14 +13,15 @@ import wisp.questgiver.wispLib.findFirst
 
 class Riley_Stage4_Dialog(
     val mission: RileyHubMission = Global.getSector().intelManager.findFirst()!!
-) : InteractionDialogLogic<Riley_Stage4_Dialog>(
-    onInteractionStarted = {
+) : InteractionDialogLogic() {
+    override fun onInteractionStarted() {
         // Increase rep since you've been traveling together
         Misc.adjustRep(PerseanChroniclesNPCs.riley, 0.2f, null)
         // Manually handle rep changes from here on out
         mission.setNoRepChanges()
-    },
-    pages = listOf(
+    }
+
+    override fun pages() = listOf(
         IInteractionLogic.Page(
             id = 1,
             people = { listOf(PerseanChroniclesNPCs.riley) },
@@ -319,4 +320,4 @@ class Riley_Stage4_Dialog(
             )
         )
     )
-)
+}

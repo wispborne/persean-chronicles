@@ -8,7 +8,7 @@ import com.fs.starfarer.api.util.Misc
 import wisp.questgiver.Questgiver.game
 import wisp.questgiver.wispLib.showPeople
 
-abstract class InteractionDialog<S : InteractionDialogLogic<S>> : InteractionDialogPlugin {
+abstract class InteractionDialog<S : InteractionDialogLogic> : InteractionDialogPlugin {
     abstract fun createInteractionDialogLogic(): S
 
     @Transient
@@ -21,14 +21,14 @@ abstract class InteractionDialog<S : InteractionDialogLogic<S>> : InteractionDia
      */
     override fun init(dialog: InteractionDialogAPI) {
         logic.dialog = dialog
-        logic.people?.invoke(logic)
+        logic.people?.invoke()
             ?.also { people -> dialog.visualPanel.showPeople(people) }
 
-        logic.onInteractionStarted?.invoke(logic)
+        logic.onInteractionStarted()
 
         if (logic.pages.any()) {
             logic.navigator.showPage(
-                logic.firstPageSelector?.invoke(logic.pages)
+                logic.firstPageSelector()
                     ?: logic.pages.first()
             )
         }

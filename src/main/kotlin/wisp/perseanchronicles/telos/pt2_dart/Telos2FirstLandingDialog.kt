@@ -3,7 +3,6 @@ package wisp.perseanchronicles.telos.pt2_dart
 import com.fs.starfarer.api.util.Misc
 import org.json.JSONObject
 import org.magiclib.kotlin.adjustReputationWithPlayer
-import wisp.perseanchronicles.Jukebox
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.TelosCommon
@@ -14,14 +13,15 @@ import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.findFirst
 
 class Telos2FirstLandingDialog(
-    stageJson: JSONObject = Telos2HubMission.part2Json.query("/stages/landOnPlanetFirst"),
-    mission: Telos2HubMission = game.sector.intelManager.findFirst()!!
-) : InteractionDialogLogic<Telos2FirstLandingDialog>(
-    onInteractionStarted = null,
-    people = { listOfNotNull(PerseanChroniclesNPCs.karengo) },
-    pages = PagesFromJson(
-        stageJson.query("/pages"),
-        onPageShownHandlersByPageId = mapOf(
+    val stageJson: JSONObject = Telos2HubMission.part2Json.query("/stages/landOnPlanetFirst"),
+    val mission: Telos2HubMission = game.sector.intelManager.findFirst()!!
+) : InteractionDialogLogic() {
+    override fun people() = { listOfNotNull(PerseanChroniclesNPCs.karengo) }
+
+    override fun pages() = object : PagesFromJson<Telos2FirstLandingDialog>() {
+        override fun pagesJson() = stageJson.getJSONArray("pages") //stageJson.query("/pages")
+
+        override fun onPageShownHandlersByPageId() = mapOf(
             "1" to {
                 game.jukebox.playTelosThemeMusic()
             },
@@ -34,13 +34,14 @@ class Telos2FirstLandingDialog(
                 )
             },
             "11.1" to {
-                mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondEther, this.dialog, null)
+                mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondEther, dialog, null)
             },
             "12.2" to {
-                mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondNoEther, this.dialog, null)
+                mission.setCurrentStage(Telos2HubMission.Stage.LandOnPlanetSecondNoEther, dialog, null)
             }
-        ),
-        optionConfigurator = { options ->
+        )
+
+        override fun optionConfigurator() = { options: List<IInteractionLogic.Option<Telos2FirstLandingDialog>> ->
             options.map { option ->
                 when (option.id) {
                     "requestMoreInfo" -> option.copy(
@@ -86,5 +87,5 @@ class Telos2FirstLandingDialog(
                 }
             }
         }
-    )
-)
+    }
+}

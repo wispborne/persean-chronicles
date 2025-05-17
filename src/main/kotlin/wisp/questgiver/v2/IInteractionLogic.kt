@@ -10,24 +10,29 @@ import wisp.questgiver.wispLib.addPara
 import java.awt.Color
 
 typealias OnPageShown<S> = S.() -> Unit
-typealias OnOptionSelected<S> = S.(IInteractionLogic.IPageNavigator<S>) -> Unit
-typealias OnInteractionStarted<S> = S.() -> Unit
-typealias PeopleSelector<S> = S.() -> List<PersonAPI>
-typealias FirstPageSelector<S> = List<IInteractionLogic.Page<S>>.() -> IInteractionLogic.Page<S>
+typealias OnOptionSelected = (IInteractionLogic.IPageNavigator<IInteractionLogic>) -> Unit
+typealias PeopleSelector = () -> List<PersonAPI>
+typealias FirstPageSelector = IInteractionLogic.Page<IInteractionLogic>
 
-interface IInteractionLogic<S : IInteractionLogic<S>> {
-    val onInteractionStarted: OnInteractionStarted<S>?
-    val people: PeopleSelector<S>?
-    val firstPageSelector: FirstPageSelector<S>?
-    val pages: List<Page<S>>
+interface IInteractionLogic {
+    /// Implemented by quests
+    fun onInteractionStarted()
+    fun people(): PeopleSelector?
+    fun firstPageSelector(): FirstPageSelector?
+    fun pages(): List<Page<IInteractionLogic>>
+
+    /// Implemented by [InteractionDialogLogic]
+    val pages: List<Page<IInteractionLogic>>
+    val people: PeopleSelector?
+    val firstPageSelector: FirstPageSelector?
 
     /**
      * Access to the dialog to assume direct control.
      */
     val dialog: InteractionDialogAPI
-    val navigator: IPageNavigator<S>
+    val navigator: IPageNavigator<IInteractionLogic>
 
-    data class Page<S : IInteractionLogic<S>>(
+    data class Page<S : IInteractionLogic>(
         val id: Any,
         val image: Image? = null,
         /**
@@ -43,7 +48,7 @@ interface IInteractionLogic<S : IInteractionLogic<S>> {
          * Show people on the side. Persists across pages.
          * Set to `emptyList` to remove people.
          */
-        val people: PeopleSelector<S>? = null,
+        val people: PeopleSelector? = null,
         /**
          * Can put anything in here.
          * [PagesFromJson] adds the json representation of the page.
@@ -55,7 +60,7 @@ interface IInteractionLogic<S : IInteractionLogic<S>> {
      * @param disableAutomaticHandling If true, page navigation and options clear/display will not happen.
      *   You will need to do this manually after this option is selected.
      */
-    data class Option<S : IInteractionLogic<S>>(
+    data class Option<S : IInteractionLogic>(
         val id: String = Misc.random.nextInt().toString(),
         val text: S.() -> String,
         val textColor: Color? = null,
@@ -65,7 +70,7 @@ interface IInteractionLogic<S : IInteractionLogic<S>> {
         val disableAutomaticHandling: Boolean = false,
         val flagToSet: String? = null,
         val hideOptionIfFlagTrue: String? = null,
-        val onOptionSelected: OnOptionSelected<S>,
+        val onOptionSelected: OnOptionSelected,
     )
 
     /**
@@ -129,11 +134,11 @@ interface IInteractionLogic<S : IInteractionLogic<S>> {
             image.displayHeight
         )
 
-    interface IPageNavigator<S : IInteractionLogic<S>> {
+    interface IPageNavigator<out T : IInteractionLogic> {
         /**
          * Returns the current page.
          */
-        fun currentPage(): Page<S>?
+        fun currentPage(): Page<out T>?
 
         /**
          * Navigates to the specified dialogue page.
@@ -143,7 +148,7 @@ interface IInteractionLogic<S : IInteractionLogic<S>> {
         /**
          * Navigates to the specified dialogue page.
          */
-        fun goToPage(page: Page<S>)
+        fun goToPage(page: Page<@UnsafeVariance T>)
 
         /**
          * Closes the dialog.
@@ -161,14 +166,14 @@ interface IInteractionLogic<S : IInteractionLogic<S>> {
         /**
          * Displays a new page of the dialogue.
          */
-        fun showPage(page: Page<S>)
+        fun showPage(page: Page<@UnsafeVariance T>)
 
         /**
          * Show the player a "Continue" button to break up dialog without creating a new Page object.
          */
         fun promptToContinue(continueText: String, continuation: () -> Unit)
         fun onUserPressedContinue()
-        fun showOptions(options: List<Option<S>>)
+        fun showOptions(options: List<Option<@UnsafeVariance T>>)
         fun onOptionSelected(optionText: String?, optionData: Any?)
     }
 

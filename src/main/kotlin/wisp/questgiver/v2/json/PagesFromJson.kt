@@ -5,7 +5,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.lwjgl.input.Keyboard
 import wisp.questgiver.v2.IInteractionLogic
-import wisp.questgiver.v2.OnPageShown
 import wisp.questgiver.wispLib.*
 import java.awt.Color
 import kotlin.random.Random
@@ -31,17 +30,18 @@ import kotlin.random.Random
  * )
  * ```
  */
-class PagesFromJson<S : IInteractionLogic<S>>(
-    pagesJson: JSONArray,
-    onPageShownHandlersByPageId: Map<String, OnPageShown<S>>,
-    optionConfigurator: (options: List<IInteractionLogic.Option<S>>) -> List<IInteractionLogic.Option<S>>,
-    private val pages: MutableList<IInteractionLogic.Page<S>> = mutableListOf()
-) : List<IInteractionLogic.Page<S>> by pages {
+abstract class PagesFromJson<S : IInteractionLogic>(
+    private val pages: MutableList<IInteractionLogic.Page<IInteractionLogic>> = mutableListOf()
+) : List<IInteractionLogic.Page<IInteractionLogic>> by pages {
+    abstract fun pagesJson(): JSONArray
+    abstract fun onPageShownHandlersByPageId(): Map<String, () -> Any?>
+    abstract fun optionConfigurator(): (options: List<IInteractionLogic.Option<S>>) -> List<IInteractionLogic.Option<S>>
+
     init {
-        pagesJson.forEach<JSONObject> { page ->
+        pagesJson().forEach<JSONObject> { page ->
             val pageId = page.optional<String>("id")
             pages.add(
-                IInteractionLogic.Page(
+                IInteractionLogic.Page<S>(
                     id = pageId ?: Random.nextInt().toString(),
                     image = page.optJSONObject("image")?.let {
                         IInteractionLogic.Image(
@@ -60,8 +60,8 @@ class PagesFromJson<S : IInteractionLogic<S>>(
                             para { text.qgFormat() }
                         }
 
-                        onPageShownHandlersByPageId[pageId]?.invoke(this)
-                        page.optional<JSONObject>("onPageShown")?.run { goToPageIfPresent(this, navigator) }
+                        onPageShownHandlersByPageId()[pageId]?.invoke()
+                        page.optional<JSONObject>("onPageShown")?.run { goToPageIfPresent(this, navigator as IInteractionLogic.IPageNavigator<S>) }
                     },
                     options = page.optional<JSONArray>("options")
                         ?.map<JSONObject, IInteractionLogic.Option<S>> { optionJson ->
@@ -73,11 +73,11 @@ class PagesFromJson<S : IInteractionLogic<S>>(
                                 id = optionId,
                                 text = { highlightData.newString },
                                 textColor = optionJson.optional<String>("textColor")
-                                    .let { kotlin.runCatching { Color.getColor(it) }.getOrNull() }
+                                    .let { runCatching { Color.getColor(it) }.getOrNull() }
                                     ?: highlightData.replacements.firstOrNull()?.highlightColor,
                                 tooltip = optionJson.optional<String>("tooltip")?.qgFormat()?.let { { it } },
                                 shortcut = optionJson.optional<String>("shortcut")?.let { shortcut ->
-                                    kotlin.runCatching {
+                                    runCatching {
                                         IInteractionLogic.Shortcut(
                                             code = Keyboard.getKeyIndex(shortcut.uppercase()).takeIf { it > 0 }!!,
                                             holdCtrl = false,
@@ -95,7 +95,7 @@ class PagesFromJson<S : IInteractionLogic<S>>(
                                 },
                                 showIf = { optionJson.optBoolean("showIf", true) },
                                 onOptionSelected = { navigator ->
-                                    goToPageIfPresent(optionJson, navigator)
+                                    goToPageIfPresent(optionJson, navigator as IInteractionLogic.IPageNavigator<S>)
                                     navigator.refreshOptions()
                                 },
                                 flagToSet = optionJson.optional<String>("setFlag"),
@@ -110,18 +110,18 @@ class PagesFromJson<S : IInteractionLogic<S>>(
                             // which we want to keep.
                             // So, check to see if that was changed and, if so, call the original `onOptionSelected` after
                             // calling the modified one.
-                            optionConfigurator.invoke(originalOptions)
+                            optionConfigurator().invoke(originalOptions)
                                 .map { modifiedOption ->
                                     val originalOption =
                                         originalOptions.single { origOpt -> origOpt.id == modifiedOption.id }
 
                                     modifiedOption.copy(
                                         onOptionSelected = {
-                                            modifiedOption.onOptionSelected.invoke(this, it)
+                                            modifiedOption.onOptionSelected.invoke(it)
 
                                             if (modifiedOption.onOptionSelected !== originalOption.onOptionSelected) {
                                                 if (!modifiedOption.disableAutomaticHandling) {
-                                                    originalOption.onOptionSelected.invoke(this, it)
+                                                    originalOption.onOptionSelected.invoke(it)
                                                 }
                                             }
                                         }
@@ -132,7 +132,7 @@ class PagesFromJson<S : IInteractionLogic<S>>(
                     extraData = page.names()
                         .map<String, Pair<String, Any>> { it to page[it] }
                         .toMap()
-                )
+                ) as IInteractionLogic.Page<IInteractionLogic>
             )
         }
     }

@@ -5,19 +5,20 @@ import wisp.perseanchronicles.game
 import wisp.questgiver.v2.BarEventLogic
 import wisp.questgiver.v2.IInteractionLogic
 
-class Riley_Stage1_BarEvent : BarEventLogic<RileyHubMission>(
-    createInteractionPrompt = {
+class Riley_Stage1_BarEvent : BarEventLogic<RileyHubMission>() {
+    override fun createInteractionPrompt() {
         para { game.text["riley_stg1_prompt"] }
-    },
-    textToStartInteraction = {
+    }
+
+    override fun textToStartInteraction() =
         Option(
             text = game.text["riley_stg1_startBarEvent"],
             textColor = Misc.getHighlightColor()
         )
-    },
-    onInteractionStarted = {},
-    people = { listOf(RileyHubMission.riley) },
-    pages = listOf(
+
+    override fun onInteractionStarted() {}
+    override fun people() = { listOf(RileyHubMission.riley) }
+    override fun pages() = listOf(
         IInteractionLogic.Page(
             id = 1,
             onPageShown = {
@@ -61,4 +62,4 @@ class Riley_Stage1_BarEvent : BarEventLogic<RileyHubMission>(
             )
         )
     )
-)
+}

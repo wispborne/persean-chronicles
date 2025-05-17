@@ -10,12 +10,13 @@ import wisp.questgiver.wispLib.findFirst
  */
 class Riley_Stage2_Dialog(
     val mission: RileyHubMission = game.intelManager.findFirst()!!
-) : InteractionDialogLogic<Riley_Stage2_Dialog>(
-    onInteractionStarted = {
+) : InteractionDialogLogic() {
+    override fun onInteractionStarted() {
         mission.setCurrentStage(RileyHubMission.Stage.TravellingToSystem, null, emptyMap())
-    },
-    people = { listOf(RileyHubMission.riley) },
-    pages = listOf(
+    }
+
+    override fun people() = { listOf(RileyHubMission.riley) }
+    override fun pages() = listOf(
         IInteractionLogic.Page(
             id = 1,
             image = RileyHubMission.icon,
@@ -37,4 +38,4 @@ class Riley_Stage2_Dialog(
             )
         )
     )
-)
+}

@@ -9,16 +9,19 @@ import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.nirvana.NirvanaHubMission
 import wisp.questgiver.v2.BarEventLogic
+import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.json.InteractionPromptFromJson
 import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.TextToStartInteractionFromJson
 import wisp.questgiver.v2.json.query
 
 class Telos1BarEventLogic(
-    stageJson: JSONObject = Telos1HubMission.part1Json.query("/stages/deliveryToEarth")
-) : BarEventLogic<Telos1HubMission>(
-    createInteractionPrompt = InteractionPromptFromJson(barEventJson = stageJson.getJSONObject("barEvent")),
-    onInteractionStarted = {
+    val stageJson: JSONObject = Telos1HubMission.part1Json.query("/stages/deliveryToEarth")
+) : BarEventLogic<Telos1HubMission>() {
+    override fun createInteractionPrompt() =
+        InteractionPromptFromJson<Telos1BarEventLogic>(barEventJson = stageJson.getJSONObject("barEvent"))()
+
+    override fun onInteractionStarted() {
         dialog.visualPanel.showMapMarker(
             Telos1HubMission.state.karengoSystem?.hyperspaceAnchor,
             TextToStartInteractionFromJson<BarEventLogic<Telos1HubMission>>(
@@ -32,11 +35,13 @@ class Telos1BarEventLogic(
             null,
             Telos1HubMission.tags.minus(Tags.INTEL_ACCEPTED).toSet()
         )
-    },
-    textToStartInteraction = TextToStartInteractionFromJson(barEventJson = stageJson.getJSONObject("barEvent")),
-    pages = PagesFromJson(
-        pagesJson = stageJson.getJSONArray("pages"),
-        onPageShownHandlersByPageId = mapOf(
+    }
+
+    override fun textToStartInteraction() = TextToStartInteractionFromJson<Telos1BarEventLogic>(barEventJson = stageJson.getJSONObject("barEvent"))()
+
+    override fun pages() = object : PagesFromJson<Telos1BarEventLogic>() {
+        override fun pagesJson() = stageJson.getJSONArray("pages")
+        override fun onPageShownHandlersByPageId() = mapOf(
             "1" to {
                 val page = navigator.currentPage()
 
@@ -62,13 +67,14 @@ class Telos1BarEventLogic(
                     }
                 }
             }
-        ),
-        optionConfigurator = { options ->
+        )
+
+        override fun optionConfigurator() = { options: List<IInteractionLogic.Option<Telos1BarEventLogic>> ->
             options.map { option ->
                 when (option.id) {
                     "done" -> option.copy(
                         onOptionSelected = {
-                            mission.accept(this.dialog, null)
+                            mission.accept(dialog, null)
                             it.close(doNotOfferAgain = true)
                         })
 
@@ -81,6 +87,8 @@ class Telos1BarEventLogic(
                 }
             }
         }
-    ),
-    people = { listOf(PerseanChroniclesNPCs.kellyMcDonald) }
-)
+    }
+
+    override fun people() =
+        { listOf(PerseanChroniclesNPCs.kellyMcDonald) }
+}

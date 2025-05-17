@@ -3,23 +3,23 @@ package wisp.perseanchronicles.dangerousGames.pt2_depths
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.game
-import wisp.questgiver.spriteName
 import wisp.questgiver.v2.BarEventLogic
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.spriteName
 
-class DepthsBarEventLogic : BarEventLogic<DepthsHubMission>(
-    createInteractionPrompt = {
+class DepthsBarEventLogic : BarEventLogic<DepthsHubMission>() {
+    override fun createInteractionPrompt() {
         para { game.text["dg_de_stg1_prompt"] }
-    },
-    textToStartInteraction = {
+    }
+
+    override fun textToStartInteraction() =
         Option(
             text = game.text["dg_de_stg1_startBarEvent"],
             textColor = Misc.getHighlightColor()
         )
-    },
-    onInteractionStarted = {},
-    pages = listOf(
+
+    override fun onInteractionStarted() {}
+    override fun pages() = listOf(
         IInteractionLogic.Page(
             id = 1,
             onPageShown = {
@@ -77,6 +77,7 @@ class DepthsBarEventLogic : BarEventLogic<DepthsHubMission>(
                 )
             )
         )
-    ),
-    people = { listOfNotNull(DepthsHubMission.karengo) }
-)
+    )
+
+    override fun people() = { listOfNotNull(DepthsHubMission.karengo) }
+}

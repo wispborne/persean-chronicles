@@ -11,17 +11,19 @@ import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.findFirst
 
 class Telo1CompleteDialog(
-    stageJson: JSONObject = Telos1HubMission.part1Json.query("/stages/deliveryDropoff"),
-    mission: Telos1HubMission = game.sector.intelManager.findFirst()!!
-) : InteractionDialogLogic<Telo1CompleteDialog>(
-    onInteractionStarted = {
+    private val stageJson: JSONObject = Telos1HubMission.part1Json.query("/stages/deliveryDropoff"),
+    private val mission: Telos1HubMission = game.sector.intelManager.findFirst()!!
+) : InteractionDialogLogic() {
+    override fun onInteractionStarted() {
         this.dialog.visualPanel.showImagePortion(IInteractionLogic.Illustration("wisp_perseanchronicles_telos", "shipInSpace"))
-    },
-    pages = PagesFromJson(
-        pagesJson = stageJson.query("/pages"),
-        onPageShownHandlersByPageId = mapOf(
+    }
+
+    override fun pages() = object : PagesFromJson<Telo1CompleteDialog>() {
+        override fun pagesJson() = stageJson.getJSONArray("pages") //stageJson.query("/pages")
+
+        override fun onPageShownHandlersByPageId() = mapOf(
             "2" to {
-                this.dialog.visualPanel.showPersonInfo(PerseanChroniclesNPCs.karengo)
+                dialog.visualPanel.showPersonInfo(PerseanChroniclesNPCs.karengo)
             },
             "3" to {
                 mission.setCurrentStage(Telos1HubMission.Stage.Completed, dialog, null)
@@ -32,8 +34,9 @@ class Telo1CompleteDialog(
                         accept(dialog, null)
                 }
             }
-        ),
-        optionConfigurator = { options ->
+        )
+
+        override fun optionConfigurator() = { options: List<IInteractionLogic.Option<Telo1CompleteDialog>> ->
             options.map { option ->
                 when (option.id) {
                     "close" -> option.copy(
@@ -45,5 +48,5 @@ class Telo1CompleteDialog(
                 }
             }
         }
-    ),
-)
+    }
+}

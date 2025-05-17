@@ -4,11 +4,12 @@ import wisp.perseanchronicles.game
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.InteractionDialogLogic
 
-class Nirvana_Stage3_Dialog : InteractionDialogLogic<Nirvana_Stage3_Dialog>(
-    onInteractionStarted = {
+class Nirvana_Stage3_Dialog : InteractionDialogLogic() {
+    override fun onInteractionStarted() {
         NirvanaQuest.completeSecret()
-    },
-    pages = listOf(
+    }
+
+    override fun pages() = listOf(
         IInteractionLogic.Page(
             id = 1,
             onPageShown = {
@@ -45,4 +46,4 @@ class Nirvana_Stage3_Dialog : InteractionDialogLogic<Nirvana_Stage3_Dialog>(
             )
         )
     )
-)
+}
