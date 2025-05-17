@@ -94,6 +94,27 @@ fun TooltipMakerAPI.addPara(
         }
 }
 
+fun TooltipMakerAPI.addStagePara(
+    padding: Float = 10f,
+    isStageDone: Boolean,
+    stringMaker: ParagraphText.() -> String
+): LabelAPI? {
+    val string = stringMaker(ParagraphText)
+    val hlDatas = TextExtensions.getTextHighlightData(string, if (isStageDone) Misc.getGrayColor() else Misc.getHighlightColor())
+    val isItalics = TextExtensionsConstants.italicsRegexAlt.containsMatchIn(string)
+
+    return this.addPara(
+        hlDatas.newString,
+        if (isStageDone) Misc.getGrayColor() else Misc.getTextColor(),
+        padding,
+    )
+        .also {
+            it.setHighlightColors(*hlDatas.replacements.map { it.highlightColor }.toTypedArray())
+            it.setHighlight(*hlDatas.replacements.map { it.replacement }.toTypedArray())
+            if (isItalics) it.italicize()
+        }
+}
+
 object TextExtensions {
     /**
      * Extracts any highlighting, faction colors, and custom colors from the string and returns a [TextHighlightData] object.

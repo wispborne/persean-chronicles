@@ -243,23 +243,15 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
      * Description on right side of intel.
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
-        val stg1TextColor = if (currentStage.equalsAny(
-                Stage.ReturnToStart,
-                Stage.Done
-            )
-        ) Misc.getGrayColor()
-        else Misc.getTextColor()
+        val isStage1Done = currentStage.equalsAny(
+            Stage.ReturnToStart,
+            Stage.Done
+        )
 
-        info.addPara(textColor = stg1TextColor) { game.text["dg_de_intel_desc_stg1"] }
+        info.addStagePara(isStageDone = isStage1Done) { game.text["dg_de_intel_desc_stg1"] }
 
         if (currentStage.equalsAny(Stage.ReturnToStart, Stage.Done)) {
-            val stg2TextColor =
-                if (isSucceeded)
-                    Misc.getGrayColor()
-                else
-                    Misc.getTextColor()
-
-            info.addPara(textColor = stg2TextColor) { game.text["dg_de_intel_desc_stg2"] }
+            info.addStagePara(isStageDone = isSucceeded) { game.text["dg_de_intel_desc_stg2"] }
         }
 
         if (currentStage == Stage.Done) {

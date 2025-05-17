@@ -15,7 +15,6 @@ import com.fs.starfarer.api.util.Misc
 import wisp.perseanchronicles.common.PerseanChroniclesNPCs
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.isOkForQuest
-import wisp.questgiver.spriteName
 import wisp.questgiver.starSystemsAllowedForQuests
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.v2.QGHubMissionWithBarEvent
@@ -39,8 +38,6 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
             "US_jungle" // Unknown Skies
         )
         val icon = IInteractionLogic.Portrait("wisp_perseanchronicles_dragonriders", "icon")
-        val intelDetailHeaderImage =
-            IInteractionLogic.Illustration("wisp_perseanchronicles_dragonriders", "intelPicture")
         val dragonPlanetImage =
             IInteractionLogic.Illustration("wisp_perseanchronicles_dragonriders", "planetIllustration")
 
@@ -224,18 +221,12 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
             if (currentStage != Stage.GoToPlanet) Misc.getGrayColor()
             else Misc.getTextColor()
 
-        info.addImage(intelDetailHeaderImage.spriteName(game), width, Padding.DESCRIPTION_PANEL)
-        info.addPara(textColor = part1Color) {
+        info.addStagePara(isStageDone = currentStage != Stage.GoToPlanet) {
             game.text["dg_dr_intel_desc_para1"]
         }
-        val part2Color =
-            if (currentStage == Stage.Done)
-                Misc.getGrayColor()
-            else
-                Misc.getTextColor()
 
         if (currentStage == Stage.ReturnToStart || currentStage == Stage.Done) {
-            info.addPara(textColor = part2Color) {
+            info.addStagePara(isStageDone = currentStage == Stage.Done) {
                 game.text["dg_dr_intel_desc_stg2"]
             }
         }
@@ -245,7 +236,7 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         }
 
         if (currentStage == Stage.FailedByAbandoningDragonriders) {
-            info.addPara(textColor = part2Color) {
+            info.addStagePara(isStageDone = currentStage == Stage.Done) {
                 game.text["dg_dr_intel_desc_stg-failedByAbandon"]
             }
         }

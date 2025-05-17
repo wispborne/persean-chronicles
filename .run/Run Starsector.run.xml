@@ -8,11 +8,6 @@
     <option name="WORKING_DIRECTORY" value="$STARSECTOR_INSTALL_DIR$/starsector-core" />
     <method v="2">
       <option name="MakeProject" enabled="true" />
-      <option name="BuildArtifacts" enabled="true">
-        <artifact name="MagicLib" />
-        <artifact name="MagicLib-Kotlin" />
-      </option>
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Dokka for MagicLib" run_configuration_type="JarApplication" />
     </method>
   </configuration>
 </component>

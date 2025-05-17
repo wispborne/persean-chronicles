@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ### Edit
-# Your mod name. The version number will be attached to this to form "My-Mod-1.0.0"
+# Your mod name. The version number will be attached to this to form "My-Mod"
 MOD_FOLDER_NAME=Persean-Chronicles
 ###
 
