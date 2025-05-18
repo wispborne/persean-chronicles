@@ -9,12 +9,7 @@ class DepthsBarEventWiring :
     BarEventWiring<DepthsHubMission>(missionId = DepthsHubMission.MISSION_ID, isPriority = false) {
     override fun createBarEventLogic() = DepthsBarEventLogic()
     override fun createMission() = DepthsHubMission()
-    override fun shouldBeAddedToBarEventPool(): Boolean {
-        return DragonsHubMission.state.completeDateInMillis != null
-                && (game.sector.clock.getElapsedDaysSince(DragonsHubMission.state.completeDateInMillis!!) >= 30 || game.settings.isDevMode)
-                && DepthsHubMission.state.startDateMillis == null
-                && DepthsHubMission.state.completeDateInMillis == null
-    }
+    override fun shouldBeAddedToBarEventPool() = DepthsHubMission.shouldBeAddedToBarEventPool()
 
     override fun createBarEventCreator() = DepthsBarEventCreator(this)
 }

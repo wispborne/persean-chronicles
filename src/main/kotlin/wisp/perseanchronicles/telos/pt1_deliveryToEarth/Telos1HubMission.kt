@@ -175,7 +175,6 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         game.logger.i { "Abandoning ${this.name} quest." }
 
         state.map.clear()
-        setCurrentStage(null, null, null)
     }
 
     /**
@@ -201,6 +200,11 @@ class Telos1HubMission : QGHubMissionWithBarEvent(MISSION_ID) {
      * Description on right side of intel.
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
+        if (currentStage == Stage.Abandoned) {
+            info.addPara { game.text["abandoned"] }
+            return
+        }
+
         when (currentStage) {
             Stage.GoToSectorEdge -> {
                 info.addPara { part1Json.query<String>("/stages/deliveryToEarth/intel/desc").qgFormat() }

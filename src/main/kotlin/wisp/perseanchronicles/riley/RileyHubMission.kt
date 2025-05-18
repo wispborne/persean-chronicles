@@ -192,7 +192,6 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         PerseanChroniclesNPCs.isRileyInFleet = false
         state.map.clear()
         choices.map.clear()
-        runCatching { setCurrentStage(null, null, null) }.onFailure { game.logger.w(it) }
     }
 
     override fun endFailureImpl(dialog: InteractionDialogAPI?, memoryMap: MutableMap<String, MemoryAPI>?) {
@@ -248,6 +247,11 @@ class RileyHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
      * Description on right side of intel.
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
+        if (currentStage == Stage.Abandoned) {
+            info.addPara { game.text["abandoned"] }
+            return
+        }
+
         if (currentStage != Stage.Abandoned && currentStage != null) {
             info.addPara(
                 padding = Padding.DESCRIPTION_PANEL,

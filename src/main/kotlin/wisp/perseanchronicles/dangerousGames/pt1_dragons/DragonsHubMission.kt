@@ -163,7 +163,6 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
         state.map.clear()
         PerseanChroniclesNPCs.isKarengoInFleet = false
-        setCurrentStage(Stage.NotStarted, null, null)
     }
 
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
@@ -217,9 +216,10 @@ class DragonsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
      * Description on right side of intel.
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
-        val part1Color =
-            if (currentStage != Stage.GoToPlanet) Misc.getGrayColor()
-            else Misc.getTextColor()
+        if (currentStage == Stage.Abandoned) {
+            info.addPara { game.text["abandoned"] }
+            return
+        }
 
         info.addStagePara(isStageDone = currentStage != Stage.GoToPlanet) {
             game.text["dg_dr_intel_desc_para1"]

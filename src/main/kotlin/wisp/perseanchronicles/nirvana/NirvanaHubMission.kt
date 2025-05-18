@@ -127,7 +127,6 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
         game.logger.i { "Abandoning ${this.name} quest." }
 
         state.map.clear()
-        setCurrentStage(null, null, null)
     }
 
     fun shouldShowStage2Dialog() =
@@ -243,10 +242,15 @@ class NirvanaHubMission : QGHubMissionWithBarEvent(MISSION_ID) {
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
         info.addImage(
-            NirvanaHubMission.background.spriteName(game),
+            background.spriteName(game),
             width,
             10f
         )
+
+        if (currentStage == Stage.Abandoned) {
+            info.addPara { game.text["abandoned"] }
+            return
+        }
 
         when (currentStage) {
             Stage.GoToPlanet -> {

@@ -165,7 +165,6 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
         state.map.clear()
         choices.map.clear()
-        setCurrentStage(null, null, null)
     }
 
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
@@ -201,6 +200,11 @@ class LaborerHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
      * Description on right side of intel.
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
+        if (currentStage == Stage.Abandoned) {
+            info.addPara { game.text["abandoned"] }
+            return
+        }
+
         val textColor = textColorOrElseGrayIf {
             currentStage == Stage.Completed
         }

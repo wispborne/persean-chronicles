@@ -474,7 +474,6 @@ class Telos3HubMission : QGHubMission(), FleetEventListener, IQGHubMission {
         game.logger.i { "Abandoning ${this.name} quest." }
 
         state.map.clear()
-        currentStage = null
     }
 
     override fun addNextStepText(info: TooltipMakerAPI, tc: Color, pad: Float): Boolean {
@@ -522,6 +521,11 @@ class Telos3HubMission : QGHubMission(), FleetEventListener, IQGHubMission {
     }
 
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
+        if (currentStage == Stage.Abandoned) {
+            info.addPara { game.text["abandoned"] }
+            return
+        }
+
         when (currentStage as Stage) {
             GoToPlanet -> {
                 info.addPara { part3Json.query<String>("/stages/goToPlanet/intel/desc").qgFormat() }

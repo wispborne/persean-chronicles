@@ -112,6 +112,7 @@ class Telos2HubMission : QGHubMission(), IQGHubMission {
 
         setStartingStage(Stage.DestroyFleet)
         setSuccessStage(Stage.Completed)
+        setAbandonStage(Stage.Abandoned)
 
         name = part2Json.query("/strings/title")
         personOverride = PerseanChroniclesNPCs.karengo // Shows on intel, needed for rep reward or else crash.
@@ -188,7 +189,6 @@ class Telos2HubMission : QGHubMission(), IQGHubMission {
         PerseanChroniclesNPCs.isKarengoInFleet = false
 
         state.map.clear()
-        currentStage = null
     }
 
 
@@ -268,6 +268,11 @@ class Telos2HubMission : QGHubMission(), IQGHubMission {
      * Description on right side of intel.
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
+        if (currentStage == Stage.Abandoned) {
+            info.addPara { game.text["abandoned"] }
+            return
+        }
+
         when (currentStage) {
             Stage.DestroyFleet -> {
                 info.addPara { part2Json.query<String>("/stages/destroyFleet/intel/desc").qgFormat() }
@@ -316,6 +321,7 @@ class Telos2HubMission : QGHubMission(), IQGHubMission {
     }
 
     enum class Stage {
+        Abandoned,
         DestroyFleet,
         LandOnPlanetFirst,
         LandOnPlanetSecondEther,

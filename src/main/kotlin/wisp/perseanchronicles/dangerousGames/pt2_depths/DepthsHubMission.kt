@@ -31,12 +31,14 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
         val state = State(PersistentMapData<String, Any?>(key = "depthsState").withDefault { null })
         val tags = setOf(Tags.INTEL_STORY, Tags.INTEL_ACCEPTED)
 
-        private val DEPTHS_PLANET_TYPES = listOf(
-            "terran",
-            "terran-eccentric",
+        private val DEPTHS_PREFERRED_PLANET_TYPES = listOf(
             "water",
             "US_water", // Unknown Skies
             "US_waterB", // Unknown Skies
+        )
+        private val DEPTHS_PLANET_TYPES = DEPTHS_PREFERRED_PLANET_TYPES + listOf(
+            "terran",
+            "terran-eccentric",
             "US_continent" // Unknown Skies
         )
 
@@ -52,6 +54,15 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
         val karengo: PersonAPI
             get() = PerseanChroniclesNPCs.karengo
+
+        /**
+         * - Dragons mission was finished at least 30 days ago (or in developer mode).
+         * - The mission has not yet started or finished.
+         */
+        fun shouldBeAddedToBarEventPool() = DragonsHubMission.state.completeDateInMillis != null
+                && (game.sector.clock.getElapsedDaysSince(DragonsHubMission.state.completeDateInMillis!!) >= 30 || game.settings.isDevMode)
+                && state.startDateMillis == null
+                && state.completeDateInMillis == null
     }
 
     class State(val map: MutableMap<String, Any?>) {
@@ -182,7 +193,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
 
         PerseanChroniclesNPCs.isKarengoInFleet = false
         state.map.clear()
-        setCurrentStage(null, null, null)
+//        setCurrentStage(null, null, null)
     }
 
     override fun pickInteractionDialogPlugin(interactionTarget: SectorEntityToken): PluginPick<InteractionDialogPlugin>? {
@@ -243,6 +254,11 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
      * Description on right side of intel.
      */
     override fun addDescriptionForCurrentStage(info: TooltipMakerAPI, width: Float, height: Float) {
+        if (currentStage == Stage.Abandoned) {
+            info.addPara { game.text["abandoned"] }
+            return
+        }
+
         val isStage1Done = currentStage.equalsAny(
             Stage.ReturnToStart,
             Stage.Done
@@ -349,6 +365,7 @@ class DepthsHubMission : QGHubMissionWithBarEvent(missionId = MISSION_ID) {
                 .sortedBy { it.distanceFromCenterOfSector }
                 .flatMap { it.solidPlanets }
                 .prefer { it.faction.id == Factions.NEUTRAL } // Uncolonized planets
+                .prefer { planet -> planet.typeId in DEPTHS_PREFERRED_PLANET_TYPES }
                 .filter { planet -> planet.typeId in DEPTHS_PLANET_TYPES }
                 .toList()
                 .run {
