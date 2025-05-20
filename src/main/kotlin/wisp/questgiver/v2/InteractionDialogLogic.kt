@@ -21,14 +21,14 @@ abstract class InteractionDialogLogic(
     override fun firstPageSelector(): FirstPageSelector? = null
     override fun onInteractionStarted() = Unit
 
-    @Transient
-    override val pages: List<IInteractionLogic.Page<IInteractionLogic>> = pages()
+    @delegate:Transient
+    override val pages: List<IInteractionLogic.Page<IInteractionLogic>> by lazy { pages() }
 
-    @Transient
-    override val people = people()
+    @delegate:Transient
+    override val people by lazy { people() }
 
-    @Transient
-    override val firstPageSelector = firstPageSelector()
+    @delegate:Transient
+    override val firstPageSelector by lazy { firstPageSelector() }
 
 //    @Transient override var onInteractionStarted: OnInteractionStarted<S>? = null,
 //    @Transient override var people: PeopleSelector<S>? = null,

@@ -26,9 +26,10 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) :
     class BattleCommsInteractionDialog(
         val parentDialog: EugelFleetInteractionDialogPlugin,
         val mission: Telos3HubMission,
-        val json: JSONArray = TelosCommon.readJson()
-            .query("/wisp_perseanchronicles/telos/part3_arrow/stages/eugelDialog/pages"),
     ) : InteractionDialogLogic() {
+        fun json(): JSONArray = TelosCommon.readJson()
+            .query("/wisp_perseanchronicles/telos/part3_arrow/stages/eugelDialog/pages")
+
         override fun firstPageSelector() =
             if (Telos3HubMission.state.talkedWithEugel == true)
                 pages.single { it.id == "already-talked" }
@@ -36,7 +37,7 @@ class EugelFleetInteractionDialogPlugin(val mission: Telos3HubMission) :
                 pages.single { it.id == "0" }
 
         override fun pages() = object : PagesFromJson<BattleCommsInteractionDialog>() {
-            override fun pagesJson() = json
+            override fun pagesJson() = json()
             override fun onPageShownHandlersByPageId() = mapOf(
                 "0" to
                         {

@@ -19,6 +19,10 @@ interface IInteractionLogic {
     fun onInteractionStarted()
     fun people(): PeopleSelector?
     fun firstPageSelector(): FirstPageSelector?
+
+    /**
+     * Caution: may be called before your implementation's constructor is called.
+     */
     fun pages(): List<Page<IInteractionLogic>>
 
     /// Implemented by [InteractionDialogLogic]

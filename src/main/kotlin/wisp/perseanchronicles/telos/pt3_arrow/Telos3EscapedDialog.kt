@@ -10,10 +10,8 @@ import wisp.questgiver.wispLib.findFirst
 import wisp.questgiver.wispLib.qgFormat
 
 class Telos3EscapedDialog(
-    val stageJson: JSONObject = Telos3HubMission.part3Json.query("/stages/escaped"),
-    val mission: Telos3HubMission = game.sector.intelManager.findFirst()!!
 ) : InteractionDialogLogic() {
-//    people = { listOfNotNull(PerseanChroniclesNPCs.karengo) },
+    //    people = { listOfNotNull(PerseanChroniclesNPCs.karengo) },
 //    firstPageSelector = {
 //        val pages = this
 //
@@ -29,9 +27,11 @@ class Telos3EscapedDialog(
 //            pages.single { it.id == "1-noEther-start" }
 //        }
 //    },
+    fun stageJson(): JSONObject = Telos3HubMission.part3Json.query("/stages/escaped")
+    val mission: Telos3HubMission by lazy { game.sector.intelManager.findFirst()!! }
 
     override fun pages() = object : PagesFromJson<Telos3EscapedDialog>() {
-        override fun pagesJson() = stageJson.getJSONArray("pages") //stageJson.query("/pages")
+        override fun pagesJson() = stageJson().getJSONArray("pages") //stageJson.query("/pages")
         override fun onPageShownHandlersByPageId() = mapOf(
             "1-escaped" to {
                 dialog.visualPanel.showImagePortion(IInteractionLogic.Illustration("illustrations", "jump_point_hyper"))

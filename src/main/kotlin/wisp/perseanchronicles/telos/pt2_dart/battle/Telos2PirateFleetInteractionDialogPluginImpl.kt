@@ -23,12 +23,12 @@ class Telos2PirateFleetInteractionDialogPluginImpl :
 
     class BattleCommsInteractionDialog(
         private val parentDialog: Telos2PirateFleetInteractionDialogPluginImpl,
-        val json: JSONArray = TelosCommon.readJson()
-            .query("/wisp_perseanchronicles/telos/part1_deliveryToEarth/stages/pirateComms/pages")
     ) : InteractionDialogLogic() {
+        fun json(): JSONArray = TelosCommon.readJson()
+            .query("/wisp_perseanchronicles/telos/part1_deliveryToEarth/stages/pirateComms/pages")
 
         override fun pages() = object : PagesFromJson<BattleCommsInteractionDialog>() {
-            override fun pagesJson() = json
+            override fun pagesJson() = json()
             override fun onPageShownHandlersByPageId() = emptyMap<String, () -> Unit>()
             override fun optionConfigurator() = { options: List<IInteractionLogic.Option<BattleCommsInteractionDialog>> ->
                 options.map { option ->

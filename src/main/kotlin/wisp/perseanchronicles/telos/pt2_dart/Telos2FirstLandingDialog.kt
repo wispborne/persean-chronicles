@@ -13,13 +13,13 @@ import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.findFirst
 
 class Telos2FirstLandingDialog(
-    val stageJson: JSONObject = Telos2HubMission.part2Json.query("/stages/landOnPlanetFirst"),
     val mission: Telos2HubMission = game.sector.intelManager.findFirst()!!
 ) : InteractionDialogLogic() {
+    fun stageJson(): JSONObject = Telos2HubMission.part2Json.query("/stages/landOnPlanetFirst")
     override fun people() = { listOfNotNull(PerseanChroniclesNPCs.karengo) }
 
     override fun pages() = object : PagesFromJson<Telos2FirstLandingDialog>() {
-        override fun pagesJson() = stageJson.getJSONArray("pages") //stageJson.query("/pages")
+        override fun pagesJson() = stageJson().getJSONArray("pages") //stageJson.query("/pages")
 
         override fun onPageShownHandlersByPageId() = mapOf(
             "1" to {

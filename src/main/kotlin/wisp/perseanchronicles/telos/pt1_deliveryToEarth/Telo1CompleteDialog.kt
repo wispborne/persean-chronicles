@@ -11,23 +11,26 @@ import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.findFirst
 
 class Telo1CompleteDialog(
-    private val stageJson: JSONObject = Telos1HubMission.part1Json.query("/stages/deliveryDropoff"),
     private val mission: Telos1HubMission = game.sector.intelManager.findFirst()!!
 ) : InteractionDialogLogic() {
+    private fun stageJson(): JSONObject = Telos1HubMission.part1Json.query("/stages/deliveryDropoff")
+
     override fun onInteractionStarted() {
         this.dialog.visualPanel.showImagePortion(IInteractionLogic.Illustration("wisp_perseanchronicles_telos", "shipInSpace"))
     }
 
     override fun pages() = object : PagesFromJson<Telo1CompleteDialog>() {
-        override fun pagesJson() = stageJson.getJSONArray("pages") //stageJson.query("/pages")
+        override fun pagesJson() = stageJson().getJSONArray("pages") //stageJson.query("/pages")
 
         override fun onPageShownHandlersByPageId() = mapOf(
+            "1.1" to {
+                mission.setCurrentStage(Telos1HubMission.Stage.Completed, dialog, null)
+            },
             "2" to {
+                // "Hello"
                 dialog.visualPanel.showPersonInfo(PerseanChroniclesNPCs.karengo)
             },
             "3" to {
-                mission.setCurrentStage(Telos1HubMission.Stage.Completed, dialog, null)
-
                 // Start Part 2 on finishing dialog.
                 Telos2HubMission().apply {
                     if (create(null, false))

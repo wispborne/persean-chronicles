@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard
 import wisp.questgiver.v2.IInteractionLogic
 import wisp.questgiver.wispLib.*
 import java.awt.Color
+import java.util.function.IntFunction
 import kotlin.random.Random
 
 /**

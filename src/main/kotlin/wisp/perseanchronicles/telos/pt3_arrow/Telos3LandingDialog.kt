@@ -19,12 +19,13 @@ import wisp.questgiver.v2.json.PagesFromJson
 import wisp.questgiver.v2.json.getPageById
 import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.findFirst
+import wisp.questgiver.wispLib.showPeople
 import kotlin.math.roundToInt
 
 class Telos3LandingDialog(
-    val stageJson: JSONObject = Telos3HubMission.part3Json.query("/stages/goToPlanet"),
-    val mission: Telos3HubMission = game.sector.intelManager.findFirst()!!
 ) : InteractionDialogLogic() {
+    fun stageJson(): JSONObject = Telos3HubMission.part3Json.query("/stages/goToPlanet")
+    val mission: Telos3HubMission by lazy { game.sector.intelManager.findFirst()!! }
     override fun people() = { listOfNotNull(PerseanChroniclesNPCs.karengo) }
 
     override fun firstPageSelector() =
@@ -41,7 +42,7 @@ class Telos3LandingDialog(
         }
 
     override fun pages() = object : PagesFromJson<Telos3LandingDialog>() {
-        override fun pagesJson() = stageJson.getJSONArray("pages") //stageJson.query("/pages")
+        override fun pagesJson() = stageJson().getJSONArray("pages") //stageJson.query("/pages")
         override fun onPageShownHandlersByPageId() = mapOf(
             "1-ether-start" to
                     {
@@ -75,7 +76,7 @@ class Telos3LandingDialog(
             "4-labs-2" to
                     {
                         if (Telos3HubMission.state.etherVialChoice == null)
-                            para { getPageById(stageJson.query("/pages"), "4-labs-2")?.optString("vials") ?: "" }
+                            para { getPageById(stageJson().query("/pages"), "4-labs-2")?.optString("vials") ?: "" }
                     },
             "4-labs-destroy-ether" to
                     {
@@ -156,6 +157,15 @@ class Telos3LandingDialog(
                             navigator.goToPage("15-powerup-choice")
                         }
                     },
+            "14-debrief-who-eugel1" to {
+                dialog.visualPanel.showPeople(listOf(PerseanChroniclesNPCs.captainEugel))
+            },
+            "14-debrief-who-eugel3-who" to {
+                dialog.visualPanel.showPeople(emptyList())
+            },
+            "14-debrief-who-eugel3-remember" to {
+                dialog.visualPanel.showPeople(emptyList())
+            },
             "16-powerup-bar" to
                     {
                         val page = navigator.currentPage()!!

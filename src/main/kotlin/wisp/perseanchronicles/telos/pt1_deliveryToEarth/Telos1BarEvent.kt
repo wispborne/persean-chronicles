@@ -16,8 +16,8 @@ import wisp.questgiver.v2.json.TextToStartInteractionFromJson
 import wisp.questgiver.v2.json.query
 
 class Telos1BarEventLogic(
-    val stageJson: JSONObject = Telos1HubMission.part1Json.query("/stages/deliveryToEarth")
 ) : BarEventLogic<Telos1HubMission>() {
+    val stageJson: JSONObject by lazy { Telos1HubMission.part1Json.query("/stages/deliveryToEarth") }
     override fun createInteractionPrompt() =
         InteractionPromptFromJson<Telos1BarEventLogic>(barEventJson = stageJson.getJSONObject("barEvent"))()
 
@@ -40,7 +40,10 @@ class Telos1BarEventLogic(
     override fun textToStartInteraction() = TextToStartInteractionFromJson<Telos1BarEventLogic>(barEventJson = stageJson.getJSONObject("barEvent"))()
 
     override fun pages() = object : PagesFromJson<Telos1BarEventLogic>() {
-        override fun pagesJson() = stageJson.getJSONArray("pages")
+        override fun pagesJson(): JSONArray {
+            return stageJson.getJSONArray("pages")
+        }
+
         override fun onPageShownHandlersByPageId() = mapOf(
             "1" to {
                 val page = navigator.currentPage()

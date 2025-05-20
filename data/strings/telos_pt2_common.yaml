@@ -26,7 +26,7 @@ wisp_perseanchronicles:
                   in the - admittedly unreliable - fleet datastore.'
                 - 'As you step outside, still pondering the ruins, your thoughts are interrupted
                   by Karengo himself, striding purposefully toward the cooling shuttle
-                  in an orange high-vis vacsuit.'
+                  in a high-vis vacsuit.'
               options:
                 - text: 'Continue'
                   goToPage: '1.5'

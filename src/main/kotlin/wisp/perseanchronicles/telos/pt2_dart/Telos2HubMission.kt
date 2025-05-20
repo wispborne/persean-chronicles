@@ -1,12 +1,12 @@
 package wisp.perseanchronicles.telos.pt2_dart
 
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.PluginPick
-import com.fs.starfarer.api.campaign.CampaignPlugin
-import com.fs.starfarer.api.campaign.InteractionDialogAPI
-import com.fs.starfarer.api.campaign.InteractionDialogPlugin
-import com.fs.starfarer.api.campaign.SectorEntityToken
+import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
+import com.fs.starfarer.api.characters.FullName
+import com.fs.starfarer.api.fleet.FleetMemberAPI
 import com.fs.starfarer.api.fleet.FleetMemberType
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
@@ -33,6 +33,8 @@ import wisp.questgiver.v2.QGHubMission
 import wisp.questgiver.v2.json.query
 import wisp.questgiver.wispLib.*
 import java.awt.Color
+import java.util.*
+import kotlin.math.roundToInt
 
 class Telos2HubMission : QGHubMission(), IQGHubMission {
     companion object {
@@ -276,6 +278,10 @@ class Telos2HubMission : QGHubMission(), IQGHubMission {
         when (currentStage) {
             Stage.DestroyFleet -> {
                 info.addPara { part2Json.query<String>("/stages/destroyFleet/intel/desc").qgFormat() }
+                val fleet = Telos1HubMission.state.karengoPlanet?.starSystem?.getEntitiesWithTag(PIRATE_FLEET_TAG)?.firstOrNull()
+                if (fleet is CampaignFleetAPI) {
+                    appendFleetInfoToIntel(info, fleet, width)
+                }
             }
 
             Stage.LandOnPlanetFirst -> {
@@ -300,6 +306,86 @@ class Telos2HubMission : QGHubMission(), IQGHubMission {
     override fun getIntelTags(map: SectorMapAPI?) =
         (super.getIntelTags(map) + tags)
 
+
+    /**
+     * From [com.fs.starfarer.api.impl.campaign.intel.PersonBountyIntel.createSmallDescription].
+     */
+    fun appendFleetInfoToIntel(info: TooltipMakerAPI, fleet: CampaignFleetAPI, width: Float) {
+        val h = Misc.getHighlightColor()
+        val g = Misc.getGrayColor()
+        val pad = 3.0f
+        val opad = 10.0f
+        val cols = 7
+        val iconSize: Float = width / cols.toFloat()
+
+        var deflate = false
+        if (!fleet.isInflated) {
+            fleet.setFaction("pirates", true)
+            fleet.inflateIfNeeded()
+            deflate = true
+        }
+
+        val list: MutableList<FleetMemberAPI?> = mutableListOf()
+        val random = Random((person.nameString.hashCode() * 170000).toLong())
+        val members: MutableList<FleetMemberAPI> = fleet.fleetData.membersListCopy
+        val max = 7
+
+        for (member in members) {
+            if (list.size >= max) {
+                break
+            }
+
+            if (!member.isFighterWing) {
+                var prob = member.fleetPointCost.toFloat() / 20.0f
+                prob += max.toFloat() / members.size.toFloat()
+                if (member.isFlagship) {
+                    prob = 1.0f
+                }
+
+                if (!(random.nextFloat() > prob)) {
+                    val copy = Global.getFactory().createFleetMember(FleetMemberType.SHIP, member.variant)
+                    if (member.isFlagship) {
+                        copy.captain = person
+                    }
+
+                    list.add(copy)
+                }
+            }
+        }
+
+        if (!list.isEmpty()) {
+            var her = "her"
+            if (person.gender == FullName.Gender.MALE) {
+                her = "his"
+            }
+
+            info.addPara("The distress call also contains partial intel on some of the pirate ships.", opad)
+            info.addShipList(cols, 1, iconSize, factionForUIColors.baseUIColor, list, opad)
+            var num = members.size - list.size
+            num = (num.toFloat() * (1.0f + random.nextFloat() * 0.5f)).roundToInt()
+            num = when {
+                num < 5 -> 0
+                num < 10 -> 5
+                num < 20 -> 10
+                else -> 20
+            }
+
+            if (num > 1) {
+                info.addPara(
+                    "The fleet may contain upwards of %s other ships of lesser significance.",
+                    opad,
+                    h,
+                    *arrayOf("" + num)
+                )
+            } else {
+                info.addPara("The fleet may contain several other ships of lesser significance.", opad)
+            }
+        }
+
+        if (deflate) {
+            fleet.deflate()
+        }
+    }
 
     fun giveShipOrPutInOrbit(dialog: InteractionDialogAPI) {
         val ship = game.factory.createFleetMember(FleetMemberType.SHIP, TelosCommon.AVALOK_ID)

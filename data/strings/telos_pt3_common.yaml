@@ -9,7 +9,6 @@ wisp_perseanchronicles:
         
         When enabled, in-system objects will glow, even out of sensor range. Hostile fleets are red and friendly fleets are green.
         
-        
         Hover over the ability icon to view a list of all objects. You may need to add it to your ability bar.
         
         
@@ -193,9 +192,9 @@ wisp_perseanchronicles:
             - id: '6-shipyard'
               paras:
                 - 'You''ve been able to feel the presence of the destroyer sitting in the hangar since making contact with the base Ether-net. 
-                When queried, the computer explains that the ship was unfinished when the Telos went to battle. 
-                Automated systems completed the final warship only after there were none left to fly it.'
-                - 'Walking through the long tunnels to the hangar and shipyard gives you time to examine the ship from afar.'
+                When queried, the computer explains that this one was unfinished when the Telos went to battle. 
+                Automated systems completed it only after there were none left to fly it.'
+                - 'Walking through the long tunnels to the shipyard gives the machinery time to revive and you time to examine the specs from afar.'
               options:
                 - text: 'Continue'
                   goToPage: '7-shipyard-itesh'
@@ -238,8 +237,8 @@ wisp_perseanchronicles:
             - id: '10-disconnected'
               paras:
                 - 'The fleet doesn''t respond.'
-                - 'You and Karengo close rest of the distance to the hangar at a run, bulkheads springing open at your approach, 
-                as you try different comms options, trying to get a response. Nothing works.'
+                - 'You and Karengo close the rest of the distance to the hangar at a run, bulkheads springing open at your approach. 
+                As the seconds pound by, you try different comms options, trying to get a response. Nothing works.'
                 - 'By the time you and Karengo climb aboard, breathing heavily, the destroyer is fueled. You send a signal to open the hangar doors, 
                  then extend your mind to encompass the ship.'
               options:
@@ -537,8 +536,8 @@ wisp_perseanchronicles:
             - id: '16-powerup-bar-5'
               paras:
                 - 'Karengo pushes himself back from the table.'
-                - '$cv:pc_karengo{<anyway, some of your crew know how to have fun - gotta go>} He somehow manages to wink telepathically on his way out and 
-                you realize the two of you have been sitting silently for the last few minutes. The few remaining patrons seem not to notice.'
+                - '$cv:pc_karengo{<anyway, some of your crew know how to have fun - gotta go>} He somehow manages to wink telepathically on his way out. 
+                You realize the two of you have been sitting silently for the last few minutes, staring at each other. The few remaining patrons seem not to notice.'
               options:
                 - text: 'Continue'
                   goToPage: '16-powerup-bar-6'
@@ -586,7 +585,7 @@ wisp_perseanchronicles:
                 The other jump point. And there; another fleet moving toward yours, angry with intent.'
                 - 'You open your eyes, mind spinning. There are three fleets stalking you, but a few days off still. You can still sense them; 
                 still sense everything in the system.'
-                - 'With some effort, you block it out and refocus on the ship around you.'
+                - 'With some effort, you block it out, returning to your more traditional senses.'
               options:
                 - text: 'Continue'
                   goToPage: '16-powerup-main-5'
