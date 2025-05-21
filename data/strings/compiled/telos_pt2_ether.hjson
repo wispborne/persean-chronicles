@@ -10,7 +10,7 @@
             },
             "pages" : [ {
               "id" : "1",
-              "paras" : [ "$cv:pc_player{<you can feel it too can’t you?>}", "you send to Karengo, and he sends the mental map of the base by way of assent.", "$cv:pc_player{<and a ship deep below>}", "The sensation of the ship grows as the shuttle speeds toward the base, landing legs extending until it settles again into the soil, just meters from the entrance to the Telos base.", "$cv:pc_player{<it is [waiting/eager] to fly; let us descend>}" ],
+              "paras" : [ "$cv:pc_player{<you can feel it too, can’t you?>}", "you send to Karengo, and he sends the mental map of the base by way of assent.", "$cv:pc_player{<and a ship deep below>}", "The sensation of the ship grows as the shuttle speeds toward the base, landing legs extending until it settles again into the soil, just meters from the entrance to the Telos base.", "$cv:pc_player{<it is [waiting/eager] to fly; let us descend>}" ],
               "options" : [ {
                 "text" : "Six hours earlier...",
                 "goToPage" : "2-previously"

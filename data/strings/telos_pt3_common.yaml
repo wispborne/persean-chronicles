@@ -4,7 +4,7 @@ wisp_perseanchronicles:
       strings:
         title: 'Telos: Guarded World'
         iteshName: 'Arrow'
-        etherSight_helptext: 'You have gained the ability Ethersight!
+        etherSight_helptext: 'You have gained the ability Ethersight.
         
         
         When enabled, in-system objects will glow, even out of sensor range. Hostile fleets are red and friendly fleets are green.
@@ -74,39 +74,40 @@ wisp_perseanchronicles:
               paras:
                 - 'You push the rack of tubes off of the polished stone table. They slip from the holder and tumble in midair before shattering. 
                 The thick, grey liquid spreads slowly into a pool on the floor.'
-                - '$cv:pc_karengo{you just destroyed the remaining ether} Karengo''s anger flares in your head. $cv:pc_karengo{i could have sold that}'
+                - '$cv:pc_karengo{<you just destroyed the remaining ether>} Karengo''s anger flares in your head. $cv:pc_karengo{<i could have sold that>}'
               options:
-                - text: '$cv:pc_player{the sector could not handle this technology  nanites are too dangerous}'
+                - text: '$cv:pc_player{<the sector could not handle this technology. nanites are too dangerous>}'
                   goToPage: '4-labs-destroy-ether-leave'
-                - text: '$cv:pc_player{then you would deal in the craft of demons}'
+                - text: '$cv:pc_player{<then you would deal in the craft of [moloch/evil]>}'
                   goToPage: '4-labs-destroy-ether-leave'
-                - text: '$cv:pc_player{oops}'
+                - text: '$cv:pc_player{<oops>}'
                   goToPage: '4-labs-destroy-ether-leave'
                 - text: 'Say nothing'
                   goToPage: '4-labs-destroy-ether-leave'
 
             - id: '4-labs-destroy-ether-leave'
               paras:
-                - 'The anger emanating from Karengo cuts off like a bulkhead closing.'
-                - '$cv:pc_karengo{it is fine. there is still much here to see}'
+                - 'The anger emanating from Karengo cuts off like a bulkhead snapping shut.'
+                - '$cv:pc_karengo{<it is fine. there is still much here to see>}'
               options:
                 - text: 'Leave the lab'
                   goToPage: '4-choices'
 
             - id: '4-survivors'
               paras:
-                - '$cv:pc_player{computer} you query the base''s system. $cv:pc_player{are there any surviving telos here}'
+                - '$cv:pc_player{<computer>} you query the base''s system. $cv:pc_player{<are there any surviving telos here?>}'
                 - ''
-                - '$cv:pc_computer{unknown}'
+                - '$cv:pc_computer{<unknown>} The associated feeling is tremulous.'
               options:
-                - text: '$cv:pc_player{what do you mean  unknown}'
+                - text: '$cv:pc_player{<what do you mean, unknown>}'
                   goToPage: '4-survivors-cryo'
 
             - id: '4-survivors-cryo'
               paras:
-                - 'You see visions of spaceships torn apart by explosions for a moment before the computer continues.'
-                - '$cv:pc_computer{before leaving  the adults put their children into cryosleep units  however the ether-net connection was disrupted during the bombardment}'
-                - '$cv:pc_computer{the sleeper room has been out of communication for ${cyclesSinceTelosDestroyed} cycles}'
+                - 'You see visions spaceships ripped apart over the planet for a moment before your perspective is shunted down below the cracked surface. 
+                Adults clamber into the final few crafts left in the hangar, while the faces of children watch sightlessly from behind the glass of cryosleep units.
+                A slug tears through the atmosphere, gouging the earth above the cryochamber.'
+                - '$cv:pc_computer{<the sleeper room has been out of communication for ${cyclesSinceTelosDestroyed} cycles>}'
               options:
                 - text: 'Investigate the cryosleep room'
                   goToPage: '4-survivors-investigate'
@@ -126,8 +127,8 @@ wisp_perseanchronicles:
               paras:
                 - 'After fastening a breather firmly over your nose and mouth, you enter the cramped chamber. 
                 A dozen cryosleep units stand against the walls, bathed in arterial red by the glow of their error readouts.'
-                - 'Karengo waits outside while you visit each unit in turn. Those that still have power catalogue the breakdown of the body inside; 
-                most are simply dark and dead. The floor is crusty with leakage.'
+                - 'Karengo waits outside, mind disgusted and impatient, while you visit each unit in turn. Those that still have power catalogue the breakdown of the body inside. 
+                Most are simply dark and dead. The floor is crusty with leakage.'
                 - 'There is nothing to do here.'
               options:
                 - text: 'Leave the chamber'
@@ -160,9 +161,9 @@ wisp_perseanchronicles:
               paras:
                 - '__The people are nervous now. Something everpresent is missing, and they do not know why.__'
                 - '__A woman at the far end of the chamber stands and you know her as ==Krypta==, the scientist that created the Ether.__'
-                - '__$cv:pc_krypta{telos  as you know the hyperwave emitter at menri is silent   i have confirmed our fears}__'
-                - '__$cv:pc_krypta{the hegemony have destroyed menri   they are on their way here  we must fight}__'
-                - '__The community feels fear, but also resolve, and, even knowing their odds, they walk to the hangar without hesitation.__'
+                - '__$cv:pc_krypta{<as you know, the hyperwave emitter at menri is silent. i have confirmed our fears>}__'
+                - '__$cv:pc_krypta{<the hegemony have destroyed menri. they are on their way here. we must fight>}__'
+                - '__The community shares fear, resolve, desperation, and anger, the emotions roiling, mixing, and settling on each member like gunpowder. The fleet in the faraway hangar starts to come alive.__'
               options:
                 - text: 'Continue'
                   goToPage: '4-common-areas-4'
@@ -182,11 +183,11 @@ wisp_perseanchronicles:
 
             - id: '5-shipyard-choice'
               paras:
-                - '$cv:pc_karengo{the hangar is quite a walk} Karengo asks $cv:pc_karengo{are you finished here}'
+                - '$cv:pc_karengo{<the hangar is quite a walk>} Karengo asks $cv:pc_karengo{<are you finished here?>}'
               options:
-                - text: '$cv:pc_player{yes  time to go}'
+                - text: '$cv:pc_player{<yes. time to go>}'
                   goToPage: '6-shipyard'
-                - text: '$cv:pc_player{not yet}'
+                - text: '$cv:pc_player{<not yet>}'
                   goToPage: '4-choices'
 
             - id: '6-shipyard'
@@ -203,8 +204,8 @@ wisp_perseanchronicles:
               paras:
                 - 'Like the smaller Vara, the Itesh destroyer is a lost pre-Collapse Tri-Tachyon design intended as a luxury vessel for the 
                 extremely wealthy. The Telos overhaul replaced much of the extravagance with weapons, shielding, agility, and Ether control.'
-                - '$cv:pc_karengo{look at this} An image from Karengo surfaces in your mind''s eye of a battery of hardpoints.
-                $cv:pc_karengo{now we are seeing some real firepower}'
+                - '$cv:pc_karengo{<look at this>} An image from Karengo surfaces in your mind''s eye of a battery of hardpoints.
+                $cv:pc_karengo{<now we are seeing some real firepower>}'
                 - 'Before you can respond, an incoming call from orbit grabs your attention.'
               options:
                 - text: 'Answer'
@@ -265,7 +266,7 @@ wisp_perseanchronicles:
               paras:
                 - 'Sensor data floods in and your tension eases. Slightly. The fleet still hangs overhead, 
                 but closer to the planet than before - and there are no signs of drive engines.'
-                - '$cv:pc_karengo{that is not good} says Karengo.'
+                - '$cv:pc_karengo{<that is not good>} says Karengo.'
               options:
                 - text: 'Fly to your fleet'
                   goToPage: '13-getting-to-bridge'
@@ -343,7 +344,7 @@ wisp_perseanchronicles:
             - id: '14-debrief-who-eugel3-who2'
               paras:
                 - 'Karengo has evidently been listening in, as he forms a thought in your head.'
-                - '$cv:pc_karengo{i remember that guy  he was the hegemony commander of the fleet that destroyed the other telos base}'
+                - '$cv:pc_karengo{<i remember that guy. he was the hegemony commander of the fleet that destroyed the other telos base>}'
               onPageShown:
                 goToPage: '14-question-bridge'
 
@@ -441,9 +442,9 @@ wisp_perseanchronicles:
               paras:
                 - 'Rather than communicating mind-to-mind, you walk to the mess and sit next to Karengo. He pauses halfway through a 
                 strip of AstroBacon, then resumes chewing.'
-                - '$cv:pc_karengo{so what is the plan} he asks, with a surprising lack of concern.'
-                - '$cv:pc_player{we will be ok when the engines repairs are done} you reply, but you know your uncertainty slips through.'
-                - '$cv:pc_karengo{then we have more than enough time for a drink}'
+                - '$cv:pc_karengo{<so what is the plan?>} he asks, with a surprising lack of concern.'
+                - '$cv:pc_player{<we will be ok when the engines repairs are done>} you reply, but you know your uncertainty slips through.'
+                - '$cv:pc_karengo{<then we have more than enough time for a drink>}'
               options:
                 - text: 'Go to the bar'
                   goToPage: '16-powerup-bar'
@@ -516,7 +517,7 @@ wisp_perseanchronicles:
                 - id: 'worry-agree'
                   text: '$cv:pc_player{<well said>}'
                   goToPage: '16-powerup-bar-4-ISTJ'
-                - text: '$cv:pc_player{<feeling is just part of being human>}'
+                - text: '$cv:pc_player{<those feelings are just part of being human>}'
                   goToPage: '16-powerup-bar-4-ESFP'
 
             - id: '16-powerup-bar-4-ISTJ'
@@ -536,7 +537,7 @@ wisp_perseanchronicles:
             - id: '16-powerup-bar-5'
               paras:
                 - 'Karengo pushes himself back from the table.'
-                - '$cv:pc_karengo{<anyway, some of your crew know how to have fun - gotta go>} He somehow manages to wink telepathically on his way out. 
+                - '$cv:pc_karengo{<anyway, some of your crew know how to have fun. gotta go>} He somehow manages to wink telepathically on his way out. 
                 You realize the two of you have been sitting silently for the last few minutes, staring at each other. The few remaining patrons seem not to notice.'
               options:
                 - text: 'Continue'
@@ -593,7 +594,7 @@ wisp_perseanchronicles:
             - id: '16-powerup-main-5'
               paras:
                 # - 'You show this ability to see into the space around you to Karengo. It takes him longer to learn, but when he does, he walls off his mind.
-                # $cv:pc_karengo{i'll be in my bunk} is all he says before disappearing.'
+                # $cv:pc_karengo{<i'll be in my bunk>} is all he says before disappearing.'
                 - 'Without going into specifics, you update your bridge crew on the location of the enemy fleets. It changes nothing about the situation, 
                 but they trust you implicitly and the intel visibly calms them.'
                 - 'The rest of the time passes uneventfully, but the fleets bearing down on yours are never quite out of mind.'

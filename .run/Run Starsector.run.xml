@@ -8,6 +8,7 @@
     <option name="WORKING_DIRECTORY" value="$STARSECTOR_INSTALL_DIR$/starsector-core" />
     <method v="2">
       <option name="MakeProject" enabled="true" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="YamlTranspilerKt" run_configuration_type="JetRunConfigurationType" />
     </method>
   </configuration>
 </component>

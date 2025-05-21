@@ -10,17 +10,17 @@ wisp_perseanchronicles:
                 Iron-rich dust from the asteroid belt streaks past your shuttles and atmospheric lifters in a perpetual fall toward the planet.'
                 - 'A few engineers had voiced concerns about the dust, but in the end, most decided that it was inert, 
                 likely the leftovers of battles hundreds of cycles old.'
-                - '$cv:pc_player{what is down there?} you ask Karengo.'
-                - '$cv:pc_karengo{if we are lucky  some destroyers/itesh} he responds $cv:pc_karengo{if we are very lucky  a cruiser/avalok}'
+                - '$cv:pc_player{<what is down there?>} you ask Karengo.'
+                - '$cv:pc_karengo{<if we are lucky, some destroyers/itesh>} he responds $cv:pc_karengo{<if we are very lucky, a cruiser/avalok>}'
               options:
-                - text: '$cv:pc_player{and what if we are unlucky}'
+                - text: '$cv:pc_player{<and what if we are unlucky>}'
                   goToPage: '1-ether-lucky'
                 - text: 'say nothing'
                   goToPage: '2-ether-land'
 
             - id: '1-ether-lucky'
               paras:
-                - '$cv:pc_karengo{karengo is not unlucky} It''s a statement of fact, as though he is describing the color of a sky.'
+                - '$cv:pc_karengo{<karengo is not unlucky>} It''s a statement of fact, as though he is describing the color of a sky.'
               options:
                 - text: 'Continue'
                   goToPage: '2-ether-land'
@@ -29,9 +29,9 @@ wisp_perseanchronicles:
               paras:
                 - 'The shuttle drops onto its landing gear and, immediately, alarms and damage reports slam into your mind. 
                 Entire sections of the shipyard have been destroyed.'
-                - '$cv:pc_player{the base''s ether network is still online} You and Karengo reach the conclusion at the same time.'
+                - '$cv:pc_player{<the base''s ether network is still online>} You and Karengo reach the conclusion at the same time.'
               options:
-                - text: '$cv:pc_player{query: what happened here}'
+                - text: '$cv:pc_player{<what happened here?>}'
                   goToPage: '3-ether-ask-system'
 
             - id: '3-ether-ask-system'
