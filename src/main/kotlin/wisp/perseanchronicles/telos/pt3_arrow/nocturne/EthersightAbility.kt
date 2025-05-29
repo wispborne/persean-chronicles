@@ -24,6 +24,7 @@ import org.lwjgl.opengl.GL11
 import org.lwjgl.util.vector.Vector2f
 import wisp.perseanchronicles.common.fx.CampaignCustomRenderer
 import wisp.perseanchronicles.common.fx.CustomRenderer
+import wisp.perseanchronicles.common.fx.ParticleCustomRenderer
 import wisp.perseanchronicles.game
 import wisp.perseanchronicles.telos.pt3_arrow.MenriSystemCreator
 import wisp.perseanchronicles.telos.pt3_arrow.SmoothScrollPlayerCampaignZoomScript
@@ -39,6 +40,12 @@ import kotlin.random.Random
 class EthersightAbility : BaseToggleAbility() {
     companion object {
         const val BOOSTED_MAX_ZOOM = 10f
+
+        /**
+         * Any star system or system entity with the `theme_hidden` tag automatically disables Ethersight.
+         * If you don't want to use that, then use you can add this tag instead.
+         */
+        const val DISABLE_ETHERSIGHT_TAG = "perseanchronicles_disable_ethersight"
     }
 
     @Transient
@@ -161,7 +168,19 @@ class EthersightAbility : BaseToggleAbility() {
 
     override fun hasTooltip() = true
     override fun isTooltipExpandable() = false
-    override fun isUsable() = game.sector?.playerFleet?.isInHyperspace == false && (!isSystemHidden() || game.settings.isDevMode)
+    override fun isUsable() = game.sector.playerFleet?.isInHyperspace == false && (!isSystemHidden() || game.settings.isDevMode)
+
+    private fun hasTagsToDisableEthersight(tags: Collection<String>): Boolean {
+        return tags.contains(Tags.THEME_HIDDEN) || tags.contains(DISABLE_ETHERSIGHT_TAG)
+    }
+
+    /**
+     * Disable Ethersight in systems with the "hidden" tag (except for Menri).
+     */
+    private fun isSystemHidden() = if (game.settings.isDevMode) false
+    else
+        hasTagsToDisableEthersight(game.sector.playerFleet.starSystem?.tags ?: emptySet())
+                && game.sector.playerFleet.starSystem.baseName != MenriSystemCreator.systemBaseName
 
     override fun createTooltip(tooltip: TooltipMakerAPI?, expanded: Boolean) {
         var status = " (off)"
@@ -178,37 +197,49 @@ class EthersightAbility : BaseToggleAbility() {
         val opad = 10f
 
         tooltip.addPara(
-            "By focusing, you are able to observe stellar objects and fleets from afar.", opad
-        )
+            padding = opad
+        ) {
+            "By focusing, you are able to observe stellar objects and fleets far beyond your sensor range."
+        }
 //        tooltip.addPara("Hostile fleets are red.", pad, Color.RED, "red")
 
         // Ethersense
         if (game.sector.currentLocation.isHyperspace) {
+            tooltip.addPara(
+                padding = opad,
+                textColor = Misc.getNegativeHighlightColor()
+            ) {
+                "Can not be used in hyperspace."
+            }
             return
         }
 
-        val entities = if (systemHidden) emptyList() else getEntitiesInSystem()
+        val entities = if (systemHidden) emptyList() else getOtherVisiblesEntitiesInSystem()
         tooltip.addSpacer(pad)
+
         if (game.settings.isDevMode)
             tooltip.addPara(
-                "Being a DEVELOPER, your clarity of mind cuts through any spoiler-tag-induced obstacles. Wow!",
-                Misc.getStoryOptionColor(),
-                pad
-            )
+                padding = opad,
+                textColor = Misc.getStoryOptionColor(),
+            ) {
+                "Being a DEVELOPER, your clarity of mind cuts through any spoiler-tag-induced obstacles. Wow!"
+            }
 
         if (entities.isEmpty()) {
             if (systemHidden) {
                 tooltip.addPara(
-                    "This system is void of information. You feel somehow more blind than before you first tasted Ether.",
-                    Misc.getNegativeHighlightColor(),
-                    pad
-                )
+                    padding = opad,
+                    textColor = Misc.getNegativeHighlightColor()
+                ) {
+                    "This system is void of information. You feel somehow more blind than before you first tasted Ether."
+                }
             } else {
                 tooltip.addPara(
-                    "This system has no objects of note.",
-                    Misc.getTextColor(),
-                    pad
-                )
+                    padding = opad,
+                    textColor = Misc.getTextColor(),
+                ) {
+                    "This system has no objects of note."
+                }
             }
         } else {
 //            tooltip.addPara(
@@ -219,7 +250,7 @@ class EthersightAbility : BaseToggleAbility() {
             for ((name, group) in entities
                 .filter { it !is CampaignFleetAPI }
                 .groupBy { token ->
-                    if (systemHidden || token.hasTag(Tags.THEME_HIDDEN)) "<unknown pattern>"
+                    if (hasTagsToDisableEthersight(token.tags)) "<unknown pattern>"
                     else
                         (token as? CustomCampaignEntity)?.spec?.defaultName
                             ?: token.name
@@ -228,32 +259,51 @@ class EthersightAbility : BaseToggleAbility() {
                 .sortedWith(compareBy<Map.Entry<String, List<SectorEntityToken>>> { it.value.first() is CampaignFleetAPI }
                     .thenBy { it.value.first().fullName }
                 )) {
-                tooltip.addPara(
-                    "%s",
-                    pad,
-                    Misc.getTextColor(), //group.first().indicatorColor,
+                tooltip.addPara {
                     name + if (group.size > 1) " x${group.size}" else ""
-                )
+                }
             }
 
-            val fleetsCount = entities.count { it is CampaignFleetAPI }
-            if (fleetsCount > 0) {
-                tooltip.addPara(
-                    "Fleet x${fleetsCount}",
-                    pad,
-                )
+            val fleets = entities.filter { it is CampaignFleetAPI }
+
+            if (fleets.isNotEmpty()) {
+                // Enemies
+                fleets.filter { it.faction?.isHostileTo(game.sector.playerFaction.id) == true }.also {
+
+                    if (it.isNotEmpty()) {
+                        tooltip.addPara(
+                            textColor = Misc.getNegativeHighlightColor(),
+                            padding = opad
+                        ) {
+                            "Fleet x${it.size}"
+                        }
+                    }
+                }
+                // Player faction fleets
+                fleets.filter { it.faction?.isPlayerFaction == true }.also {
+                    if (it.isNotEmpty()) {
+                        tooltip.addPara(
+                            textColor = Misc.getPositiveHighlightColor(),
+                            padding = opad
+                        ) {
+                            "Fleet x${it.size}"
+                        }
+                    }
+                }
+                // Neutral
+                fleets.filter { it.faction?.isHostileTo(game.sector.playerFaction.id) == false && it.faction?.isPlayerFaction == false }.also {
+                    if (it.isNotEmpty()) {
+                        tooltip.addPara(
+                            padding = opad
+                        ) {
+                            "Fleet x${it.size}"
+                        }
+                    }
+                }
             }
             tooltip.setBulletedListMode(null)
         }
     }
-
-    /**
-     * Disable Ethersight in systems with the "hidden" tag (except for Menri).
-     */
-    private fun isSystemHidden() = if (game.settings.isDevMode) false
-    else
-        (game.sector.playerFleet.starSystem?.hasTag(Tags.THEME_HIDDEN) ?: false
-                && game.sector.playerFleet.starSystem.baseName != MenriSystemCreator.systemBaseName)
 
     override fun render(layer: CampaignEngineLayers, viewport: ViewportAPI) {
         if (!turnedOn) return
@@ -265,13 +315,13 @@ class EthersightAbility : BaseToggleAbility() {
 
         if (fleet.isInHyperspace) {
             // Hyperspace
-            renderUsingClouds(getHyperspaceObjects(ignoreIds), viewport)
+            renderUsingParticleLib(getHyperspaceObjects(ignoreIds), viewport)
         } else {
             // In-system
-            renderUsingClouds(getSystemObjects(viewport, ignoreIds), viewport)
+            renderUsingParticleLib(getSystemObjects(viewport, ignoreIds), viewport)
 
             // Nebulae (don't limit by distance)
-            renderUsingClouds(getNebulaObjects(), viewport)
+            renderUsingParticleLib(getNebulaObjects(), viewport)
         }
     }
 
@@ -311,6 +361,152 @@ class EthersightAbility : BaseToggleAbility() {
             else -> viewport.isNearViewport(obj.location, obj.radius + 500)
         }
 
+    private fun renderUsingParticleLib(objs: List<SectorEntityToken>, view: ViewportAPI) {
+        if (game.sector.isPaused) return
+
+//        val nebulaSprite = NebulaSprite().sprite
+        val velocityScale = 0f
+        val sizeScale = 1f
+        val durationScale = 0.8f
+        val rampUpScale = 1.0f
+        val endSizeScale = 1.55f
+        val densityScale = 0.08f // Lower is more dense
+        val vel = Vector2f(100f * velocityScale, 100f * velocityScale)
+            .rotate(Random.nextFloat() * 360f)
+        objs.forEach { obj ->
+            val radius = getRingRadiusForCloudRendering(obj)
+            val size = getSizeForCloudRendering(obj)
+            when {
+                // Nebula clouds
+                obj is CampaignTerrainAPI && obj.type == Terrain.NEBULA -> {
+                    // Don't add every frame, helps control density/performance.
+                    val nebulaDensityIntervalRef = nebulaDensityInterval
+                    if (nebulaDensityIntervalRef?.intervalElapsed() != true)
+                        return@forEach
+
+                    val nebulaDensityScale = 0.90f // Lower is more dense
+                    if (nebulaDensityIntervalRef.minInterval != nebulaDensityScale) {
+                        nebulaDensityIntervalRef.setInterval(nebulaDensityScale, nebulaDensityScale * 1.2f)
+                    }
+
+
+                    getNebulaeCoords(obj, view, 99999f)
+                        .forEach { point ->
+//                            Particles.initialize(
+//                                point,
+//                                nebulaSprite,
+//                            ).apply {
+//                                this.setLocation(point)
+//                                this.velocity(vel, vel)
+//                                this.size(sizeScale * 50, endSizeScale * 50)
+//                                this.life(1.2f * durationScale * 2, 1.5f * durationScale * 2)
+//                                this.fadeTime(0.1f * rampUpScale, 0.1f * rampUpScale, .75f, 1.2f)
+//                                this.color(getEntityColor(obj))
+//                                Particles.burst(this, 1)
+//                            }
+                            ParticleCustomRenderer.addNebula(
+                                location = point,
+                                velocity = vel,
+                                size = size * sizeScale,
+                                endSizeMult = endSizeScale,
+                                duration = (1.2f..1.5f).random() * durationScale * 6,
+                                inFraction = 0.1f * rampUpScale,
+                                outFraction = 0.5f,
+                                color = getEntityColor(obj),
+                            )
+
+//                            customRenderer?.addNebula(
+//                                location = point,
+//                                anchorLocation = Vector2f(0f, 0f),
+//                                velocity = vel,
+//                                size = size * sizeScale,
+//                                endSizeMult = endSizeScale,
+//                                duration = (1.2f..1.5f).random() * durationScale * 6,
+//                                inFraction = 0.1f * rampUpScale,
+//                                outFraction = 0.5f,
+//                                color = getEntityColor(obj),
+//                                type = CustomRenderer.NebulaType.NORMAL,
+//                                negative = false
+//                            )
+                        }
+                }
+
+                else -> {
+                    // Don't add every frame, helps control density/performance.
+                    // For non-nebula objects, use the objDensityInternal interval.
+                    val objDensityInternalRef = objDensityInternal
+                    if (objDensityInternalRef?.intervalElapsed() != true) return
+
+                    if (objDensityInternalRef.minInterval != densityScale) {
+                        objDensityInternalRef.setInterval(densityScale, densityScale * 1.2f)
+                    }
+
+                    when {
+
+                        // Rings, belts, any circles
+                        obj is RingBandAPI || (obj is CampaignTerrainAPI && obj.type.equalsAny(
+                            Terrain.ASTEROID_BELT,
+                            Terrain.RING
+                        )) -> {
+
+                            ParticleCustomRenderer.addNebula(
+                                location = MathUtils.getRandomPointOnCircumference(obj.location, radius),
+                                velocity = vel,
+                                size = size * sizeScale,
+                                endSizeMult = endSizeScale,
+                                duration = (1.2f..1.5f).random() * durationScale,
+                                inFraction = 0.1f * rampUpScale,
+                                outFraction = 0.5f,
+                                color = getEntityColor(obj),
+                            )
+//                            customRenderer?.addNebula(
+//                                location = MathUtils.getRandomPointOnCircumference(obj.location, radius),
+//                                anchorLocation = Vector2f(0f, 0f),
+//                                velocity = vel,
+//                                size = size * sizeScale,
+//                                endSizeMult = endSizeScale,
+//                                duration = (1.2f..1.5f).random() * durationScale,
+//                                inFraction = 0.1f * rampUpScale,
+//                                outFraction = 0.5f,
+//                                color = getEntityColor(obj),
+//                                type = CustomRenderer.NebulaType.NORMAL,
+//                                negative = false
+//                            )
+                        }
+
+                        else -> {
+                            ParticleCustomRenderer.addNebula(
+                                location = MathUtils.getRandomPointInCircle(obj.location, radius / 1.5f),
+                                velocity = vel,
+                                size = size * sizeScale,
+                                endSizeMult = endSizeScale,
+                                duration = (1.2f..1.5f).random() * durationScale,
+                                inFraction = 0.1f * rampUpScale,
+                                outFraction = 0.5f,
+                                color = getEntityColor(obj),
+                            )
+//                            customRenderer?.addNebula(
+//                                location = MathUtils.getRandomPointInCircle(obj.location, radius / 1.5f),
+//                                anchorLocation = Vector2f(0f, 0f),
+//                                velocity = vel,
+//                                size = size * sizeScale,
+//                                endSizeMult = endSizeScale,
+//                                duration = (1.2f..1.5f).random() * durationScale,
+//                                inFraction = 0.1f * rampUpScale,
+//                                outFraction = 0.5f,
+//                                color = getEntityColor(obj),
+//                                type = CustomRenderer.NebulaType.NORMAL,
+//                                negative = false
+//                            )
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    @Deprecated("Using particlelib")
     private fun renderUsingClouds(objs: List<SectorEntityToken>, view: ViewportAPI) {
         if (game.sector.isPaused) return
 
@@ -339,7 +535,7 @@ class EthersightAbility : BaseToggleAbility() {
                     }
 
 
-                    getNebulaeCoords(obj, view)
+                    getNebulaeCoords(obj, view, 0f)
                         .forEach { point ->
                             customRenderer?.addNebula(
                                 location = point,
@@ -488,26 +684,26 @@ class EthersightAbility : BaseToggleAbility() {
     /**
      * From [BaseTiledTerrain].
      */
-    private fun getNebulaeCoords(obj: CampaignTerrainAPI, v: ViewportAPI): List<Vector2f> {
+    private fun getNebulaeCoords(obj: CampaignTerrainAPI, limitToViewport: ViewportAPI, viewportPaddingRadius: Float): List<Vector2f> {
         val plugin = obj.plugin as BaseTiledTerrain
 
         // BaseTiledTerrain.render
         var x = 0f //entity.location.x
         var y = 0f //entity.location.y
-        val size: Float = plugin.tileSize
-        val renderSize: Float = plugin.tileRenderSize
+        val size = plugin.tileSize
+        val renderSize = plugin.tileRenderSize
 
         val tiles = plugin.tiles
-        val w: Float = tiles.size * size
-        val h: Float = tiles[0].size * size
+        val w = tiles.size * size
+        val h = tiles[0].size * size
         x -= w / 2f
         y -= h / 2f
-        val extraViewportMarginToRender = (renderSize - size) / 2f + 400f
+        val extraViewportMarginToRender = (renderSize - size) / 2f + viewportPaddingRadius
 
-        val llx: Float = v.llx
-        val lly: Float = v.lly
-        val vw: Float = v.visibleWidth
-        val vh: Float = v.visibleHeight
+        val llx = -999999f//limitToViewport?.llx ?: 0f
+        val lly = -999999f//limitToViewport?.lly ?: 0f
+        val vw = 999999f //limitToViewport?.visibleWidth ?: 99999f
+        val vh = 999999f //limitToViewport?.visibleHeight ?: 99999f
 
         if (llx > x + w + extraViewportMarginToRender) return emptyList()
         if (lly > y + h + extraViewportMarginToRender) return emptyList()
@@ -543,8 +739,8 @@ class EthersightAbility : BaseToggleAbility() {
                 if (texIndex >= 0) {
                     val offRange = renderSize * 0.25f
                     val rand = Random((i + j * tiles.size).toLong() * 1000000)
-                    val xOff: Float = -offRange / 2f + offRange * rand.nextFloat()
-                    val yOff: Float = -offRange / 2f + offRange * rand.nextFloat()
+                    val xOff = -offRange / 2f + offRange * rand.nextFloat()
+                    val yOff = -offRange / 2f + offRange * rand.nextFloat()
                     val botLeftPoint = Vector2f(
                         newX + xOff - w / 2f + i * size + size / 2f - renderSize / 2f,
                         newY + yOff - h / 2f + j * size + size / 2f - renderSize / 2f
@@ -565,7 +761,7 @@ class EthersightAbility : BaseToggleAbility() {
         return ret
     }
 
-    private fun getEntitiesInSystem(): List<SectorEntityToken> {
+    private fun getOtherVisiblesEntitiesInSystem(): List<SectorEntityToken> {
         val fleet = fleet
         val location = fleet.containingLocation
         if (fleet.isInHyperspace) return emptyList()
@@ -581,6 +777,8 @@ class EthersightAbility : BaseToggleAbility() {
         val fleets = location.fleets
             .filterNot { sysFleet -> sysFleet.isPlayerFleet || sysFleet.isStationMode || sysFleet.isHidden || sysFleet.isEmpty }
         result.addAll(fleets)
+
+        result.removeIf { hasTagsToDisableEthersight(it.tags) }
 
         return result.toList()
     }

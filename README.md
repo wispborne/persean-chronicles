@@ -6,7 +6,7 @@ By Wispborne (@wispborne on Discord)
 
 Persean Chronicles is a mod for the game Starsector that adds a collection of one-off quests to bars around the Persean Sector.
 
-Requires LazyLib 2.8 or later.
+Requires LazyLib 3.0 or later.
 
 - Karengo questline
   - Dragons: A expedition takes you up close and personal with some wildlife.
@@ -22,11 +22,16 @@ Requires LazyLib 2.8 or later.
 - Substance Abuse: changes ordered drinks at bar during The Telos.
 - PAGSM: changes description of drinks at bar during The Telos.
 - Industrial Evolution: adds a dragon pet.
+- Tahlan: If Karengo is in the fleet when you meet Louisa, he'll hit on her.
 
 ## Blacklisting systems from being used
 
 This mod uses modSettings.json. See usage
-here: <https://starsector.fandom.com/wiki/Category:Modding#Cross-mod_integration_via_the_modSettings.json_file_and_data.2Fconfig.2FmodFiles_folder>
+here: <https://starsector.wiki.gg/wiki/Category:Modding#Cross-mod_integration_via_the_modSettings.json_file_and_data.2Fconfig.2FmodFiles_folder>
+
+## Blacklisting systems/entities from Ethersight
+Any star system or system entity with the `theme_hidden` tag automatically disables/hides Ethersight.
+If you don't want to use that, then use you can add the tag `perseanchronicles_disable_ethersight` instead.
 
 ## Credits
 

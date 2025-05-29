@@ -775,7 +775,7 @@ wisp_perseanchronicles:
 
             - id: '4-cliffhanger'
               paras:
-                - '==This concludes Phase 2 of the Telos storyline. More to come in a future patch. Hopefully.=='
+                - '==This concludes Phase 2 of the Telos storyline.=='
               options:
                 - text: 'Close'
                   id: 'endOfPhase2'
